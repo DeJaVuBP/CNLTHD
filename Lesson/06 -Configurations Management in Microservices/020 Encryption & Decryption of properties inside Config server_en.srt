@@ -1,0 +1,492 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we have all the configuration properties inside the GitHub repo and right now we are in
+
+2
+00:00:06,000 --> 00:00:11,000
+a good position because we are following the most recommended and production standard approach.
+
+3
+00:00:11,000 --> 00:00:17,000
+But sometimes we may want to store our properties in an encrypted format.
+
+4
+00:00:17,000 --> 00:00:21,000
+Currently inside our GitHub repo we stored all the properties in a plain text.
+
+5
+00:00:21,000 --> 00:00:27,000
+What if you have a scenario where you want to store the property value in an encrypted format so that
+
+6
+00:00:27,000 --> 00:00:34,000
+even if someone has access to your GitHub repo or if someone by accidentally open your GitHub repo,
+
+7
+00:00:34,000 --> 00:00:38,000
+they should not be able to see your sensitive property details.
+
+8
+00:00:38,000 --> 00:00:46,000
+That's why it is always advisable to encrypt sensitive properties like passwords or any URL details,
+
+9
+00:00:46,000 --> 00:00:50,000
+folder structures or any other sensitive information.
+
+10
+00:00:50,000 --> 00:00:55,000
+Inside this lecture, let's try to understand how spring cloud config server is going to help in this
+
+11
+00:00:55,000 --> 00:00:56,000
+scenario.
+
+12
+00:00:56,000 --> 00:00:57,000
+For the same,
+
+13
+00:00:57,000 --> 00:01:00,000
+first, we need to go to the application.yml of config server.
+
+14
+00:01:00,000 --> 00:01:07,000
+Here we need to create a property with the name encrypt. Post that encrypt,
+
+15
+00:01:07,000 --> 00:01:10,000
+we need to mention a child element with the name key.
+
+16
+00:01:10,000 --> 00:01:17,000
+So to this encrypt.key we need to provide what is the secret that my spring cloud config server can
+
+17
+00:01:17,000 --> 00:01:20,000
+use to encrypt the properties and to decrypt the properties?
+
+18
+00:01:20,000 --> 00:01:25,000
+Always remember whenever you are trying to provide a secret key, it has to be super complex so that
+
+19
+00:01:25,000 --> 00:01:28,000
+it is going to be very tough for the hackers to guess it.
+
+20
+00:01:28,000 --> 00:01:34,000
+If you just keep some simple keys like one, two, three, four, five or password or Abcdef.
+
+21
+00:01:34,000 --> 00:01:38,000
+So such keys are very dangerous to use inside any application.
+
+22
+00:01:38,000 --> 00:01:41,000
+We should use a key, which is very complex to guess.
+
+23
+00:01:41,000 --> 00:01:44,000
+That's why here I'm going to mention some complex key.
+
+24
+00:01:44,000 --> 00:01:50,000
+And the key like you can see it is a very complex key and it is really impossible for anyone to guess
+
+25
+00:01:50,000 --> 00:01:50,000
+this key.
+
+26
+00:01:50,000 --> 00:01:53,000
+And this is completely random key.
+
+27
+00:01:53,000 --> 00:01:54,000
+You can create your own key.
+
+28
+00:01:54,000 --> 00:02:00,000
+There are many websites also online which will help you to generate a complex key for your encryption
+
+29
+00:02:00,000 --> 00:02:01,000
+process.
+
+30
+00:02:01,000 --> 00:02:05,000
+So this key can be any value, but please make sure it is complex in nature.
+
+31
+00:02:05,000 --> 00:02:12,000
+Once we create this property inside our config server, it is going to expose, encrypt and decrypt
+
+32
+00:02:12,000 --> 00:02:17,000
+related APIs. Using which it is going to encrypt or decrypt all our properties.
+
+33
+00:02:17,000 --> 00:02:20,000
+So let's try to understand those properties. For the same,
+
+34
+00:02:20,000 --> 00:02:26,000
+I'm going to save these changes and do a build post that I'm going to stop all my applications and for
+
+35
+00:02:26,000 --> 00:02:30,000
+now I'm going to start only the config server application.
+
+36
+00:02:30,000 --> 00:02:32,000
+So here, let me start in debug mode.
+
+37
+00:02:32,000 --> 00:02:36,000
+Once our config server is started, we can go to the postman.
+
+38
+00:02:36,000 --> 00:02:40,000
+Here inside the postman you can see under the config server folder.
+
+39
+00:02:40,000 --> 00:02:46,000
+I have provided a new request with the name encrypt and this is going to support Http method post and
+
+40
+00:02:46,000 --> 00:02:54,000
+the URL has to be your config server port number which is 8071 and encrypt is the path. To this path
+
+41
+00:02:54,000 --> 00:03:00,000
+you can pass any kind of plain text value and it is going to give the encrypted value. And this encryption
+
+42
+00:03:00,000 --> 00:03:06,000
+process is going to use the secret key that you have defined inside the application.yml of config
+
+43
+00:03:06,000 --> 00:03:07,000
+server.
+
+44
+00:03:07,000 --> 00:03:14,000
+So here I'm trying to encrypt a property which is the email inside my accounts prod profile.
+
+45
+00:03:14,000 --> 00:03:18,000
+As of now you can see inside my accounts-prod.yml, under contact details,
+
+46
+00:03:18,000 --> 00:03:25,000
+the email value is mentioned in a plain text value, so anyone who has access to my GitHub repo they
+
+47
+00:03:25,000 --> 00:03:26,000
+can see the email value.
+
+48
+00:03:26,000 --> 00:03:31,000
+Think like I want to encrypt this value inside my GitHub repo. In such scenarios,
+
+49
+00:03:31,000 --> 00:03:37,000
+first you need to understand what is the encrypted value of your plaintext value.
+
+50
+00:03:37,000 --> 00:03:40,000
+That's why I'm trying to take this plain text value from here.
+
+51
+00:03:40,000 --> 00:03:46,000
+Now, inside the body of this post request, I need to select this raw option and please make sure you
+
+52
+00:03:46,000 --> 00:03:51,000
+are selecting this text option because I'm just trying to send a simple text value.
+
+53
+00:03:51,000 --> 00:03:54,000
+So here I have mentioned the email in a plain text.
+
+54
+00:03:54,000 --> 00:03:59,000
+Now if I try to click on the send button, I will get an encrypted value.
+
+55
+00:03:59,000 --> 00:04:03,000
+Now we have the encrypted value of the plain text value.
+
+56
+00:04:03,000 --> 00:04:08,000
+We can copy this, encrypt value and go to the GitHub repo. Inside my GitHub repo
+
+57
+00:04:08,000 --> 00:04:13,000
+like you can see as of now we have the email using the plain text value.
+
+58
+00:04:13,000 --> 00:04:19,000
+Since we have the requirement to encrypt this email value, what I can do is, I can click on this, edit
+
+59
+00:04:19,000 --> 00:04:25,000
+this file, and in the place of plain text value I'm going to mention the encrypted value.
+
+60
+00:04:25,000 --> 00:04:28,000
+Please make sure you also have this double quotes.
+
+61
+00:04:28,000 --> 00:04:32,000
+But here there is a challenge for my spring cloud config server.
+
+62
+00:04:32,000 --> 00:04:38,000
+How it is going to differentiate between a plain text value and a encrypted value. To help spring cloud
+
+63
+00:04:38,000 --> 00:04:39,000
+config server
+
+64
+00:04:39,000 --> 00:04:45,000
+around this scenario, I need to make sure for the encrypted values I'm mentioning a prefix which is
+
+65
+00:04:45,000 --> 00:04:47,000
+inside the curly braces,
+
+66
+00:04:47,000 --> 00:04:48,000
+I have to mention cipher.
+
+67
+00:04:48,000 --> 00:04:55,000
+So whenever my spring cloud config server sees this cipher which is a prefix to an value, then it assumes
+
+68
+00:04:55,000 --> 00:04:59,000
+whatever value of the cipher is an encrypted value.
+
+69
+00:04:59,000 --> 00:04:59,000
+So during the
+
+70
+00:05:00,000 --> 00:05:05,000
+when it is trying to send these properties to the actual microservice, it is going to decrypt and send
+
+71
+00:05:05,000 --> 00:05:07,000
+the values in a plain text value.
+
+72
+00:05:07,000 --> 00:05:13,000
+This way, even if someone is trying to see the properties inside my GitHub repo, I'm fine because
+
+73
+00:05:13,000 --> 00:05:15,000
+these are encrypted values.
+
+74
+00:05:15,000 --> 00:05:20,000
+They cannot know what is the encrypted value until unless they know the secret key that I have mentioned
+
+75
+00:05:20,000 --> 00:05:21,000
+inside the config server.
+
+76
+00:05:21,000 --> 00:05:26,000
+As of now, the secret key we have simply configured inside the application.yml of config server.
+
+77
+00:05:26,000 --> 00:05:32,000
+But in real production applications the secret key can be configured with the help of environment variables
+
+78
+00:05:32,000 --> 00:05:35,000
+or CLI arguments or any other approach.
+
+79
+00:05:35,000 --> 00:05:41,000
+So now let me commit these changes and commit directly into the master branch. As a next step,
+
+80
+00:05:41,000 --> 00:05:45,000
+let's try to restart our config server so that it reads these latest values.
+
+81
+00:05:45,000 --> 00:05:51,000
+So here I will stop my config server first post that I'm going to start my config server in a debug
+
+82
+00:05:51,000 --> 00:05:52,000
+mode.
+
+83
+00:05:52,000 --> 00:05:57,000
+Once my config server is started, we can validate if the config server is able to decrypt the value
+
+84
+00:05:57,000 --> 00:06:02,000
+or not by invoking the application slash prod API inside the config server.
+
+85
+00:06:02,000 --> 00:06:08,000
+So here I'm trying to invoke this API which is account slash prod available inside the config server.
+
+86
+00:06:08,000 --> 00:06:14,000
+You can see I'm getting a response and here the email is decrypted.
+
+87
+00:06:14,000 --> 00:06:17,000
+So this is the email which we initially encrypted.
+
+88
+00:06:17,000 --> 00:06:24,000
+By the time config server is returning to the clients, it is going to decrypt with the secret key that
+
+89
+00:06:24,000 --> 00:06:25,000
+we have mentioned.
+
+90
+00:06:25,000 --> 00:06:31,000
+Now as a next step, let's try to start our accounts microservice and validate if my accounts microservice
+
+91
+00:06:31,000 --> 00:06:36,000
+is receiving this email value in a plain text or in an encrypted value.
+
+92
+00:06:36,000 --> 00:06:41,000
+So I'm trying to start my accounts microservice in a debug mode and I'll go to the postman. Inside my
+
+93
+00:06:41,000 --> 00:06:42,000
+postman
+
+94
+00:06:42,000 --> 00:06:48,000
+you can see this is the API that we need to invoke to get the contact-info details from the accounts
+
+95
+00:06:48,000 --> 00:06:48,000
+microservice.
+
+96
+00:06:48,000 --> 00:06:54,000
+As soon as I click on the send button, you can see I'm getting the prod profile related properties
+
+97
+00:06:54,000 --> 00:07:00,000
+because by default the prod profile is activated. And the important check that we need to do here is,
+
+98
+00:07:00,000 --> 00:07:04,000
+this email is coming in a plain text value instead of encrypted value.
+
+99
+00:07:04,000 --> 00:07:11,000
+This way we can store any number of sensitive properties inside the GitHub repo using encrypted format.
+
+100
+00:07:11,000 --> 00:07:18,000
+Like I said before, just like encrypted API path, the config server is also going to expose decrypt
+
+101
+00:07:18,000 --> 00:07:19,000
+API as well.
+
+102
+00:07:19,000 --> 00:07:22,000
+Let's try to test that decrypt by taking this value.
+
+103
+00:07:22,000 --> 00:07:28,000
+So here I'm going to create a new request and the request will support post and the url is,
+
+104
+00:07:28,000 --> 00:07:30,000
+localhost:8071/decrypt.
+
+105
+00:07:30,000 --> 00:07:36,000
+Here for this API, we need to go to the body and make sure you are clicking on this raw and the format is
+
+106
+00:07:36,000 --> 00:07:39,000
+text and mention the encrypted value.
+
+107
+00:07:39,000 --> 00:07:44,000
+If I try to click on the send button you can see I'm getting a plain text value.
+
+108
+00:07:44,000 --> 00:07:50,000
+Here I don't have to mention the cipher before my encrypted value because since we are already invoking the
+
+109
+00:07:50,000 --> 00:07:56,000
+decrypt API, my config server knows that my developer or end user or the client application is going
+
+110
+00:07:56,000 --> 00:07:59,000
+to pass the encrypted value only.
+
+111
+00:07:59,000 --> 00:07:59,000
+Here
+
+112
+00:07:59,000 --> 00:08:05,000
+again, you may have a question like if someone can easily decrypt my encrypted properties then what
+
+113
+00:08:05,000 --> 00:08:06,000
+is the use of encrypting it?
+
+114
+00:08:06,000 --> 00:08:12,000
+Like you said, inside production applications, your config server will work in a very different manner.
+
+115
+00:08:12,000 --> 00:08:18,000
+Here we are able to invoke any API against config server very easily, but inside production applications,
+
+116
+00:08:18,000 --> 00:08:24,000
+your platform team, they are going to deploy your config server behind the firewalls of your organization.
+
+117
+00:08:24,000 --> 00:08:29,000
+That means no one can invoke the APIs of config server directly.
+
+118
+00:08:29,000 --> 00:08:34,000
+Only the applications which are deployed within the firewall of the organization
+
+119
+00:08:34,000 --> 00:08:37,000
+they can only communicate with your config server.
+
+120
+00:08:37,000 --> 00:08:42,000
+On top of that, if you want to secure your config server, you can secure it with the help of spring
+
+121
+00:08:42,000 --> 00:08:45,000
+security framework, just like any other spring boot application.
+
+122
+00:08:45,000 --> 00:08:49,000
+I hope you are clear like how to encrypt and decrypt the properties.
+
+123
+00:08:49,000 --> 00:08:52,000
+Thank you and I'll catch you in the next lecture bye.
+

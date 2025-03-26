@@ -1,0 +1,324 @@
+1
+00:00:00,000 --> 00:00:06,000
+I hope you are successful at integrating your cards and loans microservice with the config server.
+
+2
+00:00:06,000 --> 00:00:12,000
+If you encountered any issues, don't worry, I'm going to quickly show you the changes that we need
+
+3
+00:00:12,000 --> 00:00:14,000
+to do inside cards and loans microservice.
+
+4
+00:00:14,000 --> 00:00:20,000
+And in the process you can also observe which step you have missed and accordingly correct the code
+
+5
+00:00:20,000 --> 00:00:21,000
+inside your local setup as well.
+
+6
+00:00:21,000 --> 00:00:26,000
+First, let's go to the loans Microservice under the loans microservice,
+
+7
+00:00:26,000 --> 00:00:27,000
+inside this resource folder.
+
+8
+00:00:27,000 --> 00:00:31,000
+First, I have deleted the files related to the prod and qa profile.
+
+9
+00:00:31,000 --> 00:00:33,000
+Post that inside the application.yml.
+
+10
+00:00:33,000 --> 00:00:38,000
+I have deleted all the properties that we have mentioned previously and mentioned this new property
+
+11
+00:00:38,000 --> 00:00:40,000
+which is spring.config.import.
+
+12
+00:00:40,000 --> 00:00:47,000
+And to this I have mentioned the endpoint URL details of the config server by following the syntax
+
+13
+00:00:47,000 --> 00:00:53,000
+Like you can see here. After introducing this new property, I also created one more property which
+
+14
+00:00:53,000 --> 00:00:59,000
+is spring.application.name and the name has to be loans and this name has to match with the
+
+15
+00:00:59,000 --> 00:01:04,000
+file names that you have given inside the config server for loans microservice.
+
+16
+00:01:04,000 --> 00:01:08,000
+And by default I'm trying to activate a profile prod for loans microservice.
+
+17
+00:01:08,000 --> 00:01:13,000
+So these are the changes that I have done inside the application.yml files that we need to go to
+
+18
+00:01:13,000 --> 00:01:16,000
+the pom.xml. Inside the pom.xml,
+
+19
+00:01:16,000 --> 00:01:21,000
+we need to make sure we are adding this spring cloud version which is 2022 .0.3.
+
+20
+00:01:22,000 --> 00:01:27,000
+After mentioning this version, we need to make sure we are mentioning a starter project details inside
+
+21
+00:01:27,000 --> 00:01:32,000
+our pom.xml and this dependency is related to the spring-cloud-starter-config.
+
+22
+00:01:32,000 --> 00:01:37,000
+Once we have defined these details, we need to make sure we are adding these dependency management
+
+23
+00:01:37,000 --> 00:01:38,000
+details.
+
+24
+00:01:38,000 --> 00:01:44,000
+So with these configurations only the integration between Spring cloud and spring boot will work, otherwise
+
+25
+00:01:44,000 --> 00:01:45,000
+it is not going to work.
+
+26
+00:01:45,000 --> 00:01:51,000
+So once we make these changes inside the pom.xml, we need to make sure we are rebuilding our application
+
+27
+00:01:51,000 --> 00:01:53,000
+and starting the application at the port
+
+28
+00:01:53,000 --> 00:01:54,000
+8090.
+
+29
+00:01:54,000 --> 00:01:58,000
+So right now my loans application, it is already started.
+
+30
+00:01:58,000 --> 00:02:00,000
+You can see it's already in running status.
+
+31
+00:02:00,000 --> 00:02:07,000
+We can quickly go to the postman and try to validate if our changes are working fine and the integration
+
+32
+00:02:07,000 --> 00:02:10,000
+between the loans and config server is working or not.
+
+33
+00:02:10,000 --> 00:02:16,000
+Here under my Postman under this loans folder, I'm going to open the API related to the build-info.
+
+34
+00:02:16,000 --> 00:02:23,000
+So I'm trying to invoke this and you can see we are getting the output which is 1.0 from the production
+
+35
+00:02:23,000 --> 00:02:23,000
+profile.
+
+36
+00:02:23,000 --> 00:02:29,000
+Very similarly, if we try to invoke the contact-info it will return the contact details from the prod
+
+37
+00:02:29,000 --> 00:02:34,000
+profile which is so and so message so and so contact details and on call support.
+
+38
+00:02:34,000 --> 00:02:40,000
+So this confirms our integration is working by making the changes that we have discussed. Very similarly,
+
+39
+00:02:40,000 --> 00:02:43,000
+let's try to validate quickly for the cards microservice as well.
+
+40
+00:02:43,000 --> 00:02:47,000
+So for cards microservice also it is going to be the similar process.
+
+41
+00:02:47,000 --> 00:02:53,000
+First we need to go to the resource folder and we need to remove all the unnecessary Yaml files and
+
+42
+00:02:53,000 --> 00:02:54,000
+inside the application.yml.
+
+43
+00:02:54,000 --> 00:03:00,000
+After removing all the unnecessary properties, please make sure you are introducing a new property
+
+44
+00:03:00,000 --> 00:03:06,000
+with the name spring.application.name and the value has to be cards and this value should match
+
+45
+00:03:06,000 --> 00:03:10,000
+with whatever file name that you have mentioned inside the config server.
+
+46
+00:03:10,000 --> 00:03:16,000
+After this, by default we are trying to activate a profile of prod and at the end we should also mention
+
+47
+00:03:16,000 --> 00:03:20,000
+the spring.config.import with the config server details.
+
+48
+00:03:20,000 --> 00:03:22,000
+After making this application.yml changes.
+
+49
+00:03:22,000 --> 00:03:26,000
+The next change we have to do is inside the pom.xml.
+
+50
+00:03:26,000 --> 00:03:27,000
+Inside the pom.xml,
+
+51
+00:03:27,000 --> 00:03:33,000
+we need to make sure we are adding this new dependency which is spring-cloud-starter-config and post
+
+52
+00:03:33,000 --> 00:03:33,000
+that
+
+53
+00:03:33,000 --> 00:03:37,000
+we should also add the version related to spring cloud.
+
+54
+00:03:37,000 --> 00:03:42,000
+After adding all these details towards the end just above your plugin details, we need to add these
+
+55
+00:03:42,000 --> 00:03:44,000
+dependency management details.
+
+56
+00:03:44,000 --> 00:03:50,000
+Once we make all these changes we can start our loans microservice at the port 9000, but please make
+
+57
+00:03:50,000 --> 00:03:55,000
+sure you are rebuilding your cards microservice once you have made all these changes.
+
+58
+00:03:55,000 --> 00:04:00,000
+So as of now, inside my local system, the cards microservice is already running.
+
+59
+00:04:00,000 --> 00:04:06,000
+You can see it is right now in running state, we can quickly validate the integration between cards
+
+60
+00:04:06,000 --> 00:04:09,000
+and config server by testing few REST APIs.
+
+61
+00:04:09,000 --> 00:04:11,000
+So I'll go to my cards folder.
+
+62
+00:04:11,000 --> 00:04:15,000
+Here I'm going to click on this build-info and click on the send button.
+
+63
+00:04:15,000 --> 00:04:17,000
+You can see we are getting 1.2 as the response.
+
+64
+00:04:17,000 --> 00:04:20,000
+Similarly, I'll try to invoke the contact-info,
+
+65
+00:04:20,000 --> 00:04:24,000
+here also, we are getting all the property details from the prod profile.
+
+66
+00:04:24,000 --> 00:04:30,000
+This way we successfully integrated all our microservices with the spring-cloud-config-server.
+
+67
+00:04:30,000 --> 00:04:36,000
+Right now all the properties of my microservice are being maintained by my spring-cloud-server.
+
+68
+00:04:36,000 --> 00:04:42,000
+Regardless of how many microservices you have, like 3 or 100 microservices, the process is going to
+
+69
+00:04:42,000 --> 00:04:42,000
+be the same.
+
+70
+00:04:42,000 --> 00:04:48,000
+But as of now we are storing all our microservices inside the classpath of config server.
+
+71
+00:04:48,000 --> 00:04:52,000
+This approach may work for few projects and few other projects
+
+72
+00:04:52,000 --> 00:04:57,000
+they may not like this approach because you are trying to store all your configurations inside the config
+
+73
+00:04:57,000 --> 00:04:58,000
+server itself.
+
+74
+00:04:58,000 --> 00:04:59,000
+Like if someone have the
+
+75
+00:05:00,000 --> 00:05:02,000
+access to the code of config server.
+
+76
+00:05:02,000 --> 00:05:07,000
+Then definitely they can also see the properties present inside the config server classpath.
+
+77
+00:05:07,000 --> 00:05:14,000
+That's why inside the next lecture let's try to discuss on how to store all our configurations inside
+
+78
+00:05:14,000 --> 00:05:19,000
+a file system location, so that we can separate the configurations from the spring cloud config server.
+
+79
+00:05:19,000 --> 00:05:21,000
+I hope this is clear.
+
+80
+00:05:21,000 --> 00:05:21,000
+Thank you.
+
+81
+00:05:21,000 --> 00:05:24,000
+And I'll catch you in the next lecture bye.
+

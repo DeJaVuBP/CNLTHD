@@ -1,0 +1,808 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to use the Docker compose file to start all our containers and make
+
+2
+00:00:06,000 --> 00:00:12,000
+sure the configuration related changes are working even inside the Docker environment.
+
+3
+00:00:12,000 --> 00:00:17,000
+Before we try to run the Docker compose commands, please make sure there are no running containers.
+
+4
+00:00:17,000 --> 00:00:19,000
+Inside my Docker desktop,
+
+5
+00:00:19,000 --> 00:00:20,000
+I can go to my containers.
+
+6
+00:00:20,000 --> 00:00:22,000
+You can see there are no running containers.
+
+7
+00:00:22,000 --> 00:00:27,000
+If there are any running containers or stopped containers, please delete them because you need a lot
+
+8
+00:00:27,000 --> 00:00:34,000
+of space and memory inside your local system. To run the five different containers, including like rabbit,
+
+9
+00:00:34,000 --> 00:00:36,000
+config server, accounts, loans and cards.
+
+10
+00:00:36,000 --> 00:00:39,000
+So I came to my terminal.
+
+11
+00:00:39,000 --> 00:00:46,000
+Here I'll go back to location where my Docker compose folder is present, so I'll navigate to the Docker
+
+12
+00:00:46,000 --> 00:00:47,000
+compose folder.
+
+13
+00:00:47,000 --> 00:00:49,000
+So inside the Docker compose folder,
+
+14
+00:00:49,000 --> 00:00:54,000
+as of now we have created the Docker compose file only inside the default folder.
+
+15
+00:00:54,000 --> 00:00:56,000
+So let me go inside this folder.
+
+16
+00:00:56,000 --> 00:00:58,000
+Here I'm going to run the command, which is docker
+
+17
+00:00:58,000 --> 00:01:05,000
+compose up -d. So as soon as I try to execute this command, you can see the containers are trying
+
+18
+00:01:05,000 --> 00:01:07,000
+to get started. As of now,
+
+19
+00:01:07,000 --> 00:01:11,000
+so first my rabbitmq service will try to get started.
+
+20
+00:01:11,000 --> 00:01:17,000
+Post that my config server will try to get started once my config server is created, then only my accounts,
+
+21
+00:01:17,000 --> 00:01:20,000
+cards and loans related containers will get created.
+
+22
+00:01:20,000 --> 00:01:22,000
+So it will take some time.
+
+23
+00:01:22,000 --> 00:01:24,000
+So please wait for some time here.
+
+24
+00:01:24,000 --> 00:01:30,000
+Meanwhile, you can open a new terminal and try to run the command which is docker ps.
+
+25
+00:01:30,000 --> 00:01:33,000
+So this will show you the list of running containers.
+
+26
+00:01:33,000 --> 00:01:37,000
+So as of now you can see inside my local all my containers started.
+
+27
+00:01:37,000 --> 00:01:43,000
+Very first one is rabbitmq and the status is healthy because we have provided the health check very
+
+28
+00:01:43,000 --> 00:01:50,000
+similarly config server, it has started and the status is healthy because we have provided the health
+
+29
+00:01:50,000 --> 00:01:56,000
+check details. Whereas accounts, loans and cards, they simply started less than a second ago and
+
+30
+00:01:56,000 --> 00:02:02,000
+my docker is not sure about their health status, because we didn't provide any health instructions on
+
+31
+00:02:02,000 --> 00:02:03,000
+how to check that.
+
+32
+00:02:03,000 --> 00:02:04,000
+But that's fine.
+
+33
+00:02:04,000 --> 00:02:10,000
+Whenever the config server and rabbitmq started our accounts, loans and cards, microservice also should
+
+34
+00:02:10,000 --> 00:02:12,000
+get started automatically.
+
+35
+00:02:12,000 --> 00:02:15,000
+Now we can go to the postman and try to test the changes.
+
+36
+00:02:15,000 --> 00:02:18,000
+So inside my postman under the accounts,
+
+37
+00:02:18,000 --> 00:02:24,000
+first I'm going to invoke this build-info. So the URL is going to be the same like localhost:8080/api/build-info
+
+38
+00:02:25,000 --> 00:02:26,000
+.
+
+39
+00:02:26,000 --> 00:02:33,000
+You can see we are getting the 3.0 because we started the containers with a default profile. Where we
+
+40
+00:02:33,000 --> 00:02:35,000
+have mentioned that default profile instructions.
+
+41
+00:02:35,000 --> 00:02:38,000
+If you check inside the commonconfig.yml.
+
+42
+00:02:38,000 --> 00:02:44,000
+We have mentioned this property using environment variables. Since the environment variables has highest
+
+43
+00:02:44,000 --> 00:02:47,000
+priority compared to what we have mentioned inside the application.yml.
+
+44
+00:02:47,000 --> 00:02:50,000
+My containers will start with the default profile.
+
+45
+00:02:50,000 --> 00:02:53,000
+Now let me try to test Java version
+
+46
+00:02:53,000 --> 00:02:54,000
+also, the Java version
+
+47
+00:02:54,000 --> 00:02:59,000
+you can see this is the JAVA_HOME path that has set inside my container.
+
+48
+00:02:59,000 --> 00:03:04,000
+And very similarly if you click on this contact-info, you can see we are getting the properties from
+
+49
+00:03:04,000 --> 00:03:06,000
+the default profile.
+
+50
+00:03:06,000 --> 00:03:10,000
+Very similarly, you can also validate cards and loans microservice if you are interested.
+
+51
+00:03:10,000 --> 00:03:17,000
+Now as a next step, we need to test whether the automatic refresh of the properties is happening without
+
+52
+00:03:17,000 --> 00:03:18,000
+the restart of the containers.
+
+53
+00:03:18,000 --> 00:03:24,000
+To get started around this, we need to make sure we have the webhook running inside the GitHub repo
+
+54
+00:03:24,000 --> 00:03:25,000
+like we discussed previously.
+
+55
+00:03:25,000 --> 00:03:30,000
+And fortunately whatever webhook session that I have created previously, I closed that.
+
+56
+00:03:30,000 --> 00:03:34,000
+that's why I'm going to create one more webhook session. For the same,
+
+57
+00:03:34,000 --> 00:03:36,000
+first, I need to go to a website.
+
+58
+00:03:36,000 --> 00:03:38,000
+The website name is Hook Decom.
+
+59
+00:03:38,000 --> 00:03:44,000
+So here I'll open this and I'll click on this test webhook post that I'll click on this add destination,
+
+60
+00:03:44,000 --> 00:03:46,000
+which will create a new session.
+
+61
+00:03:46,000 --> 00:03:50,000
+So here I need to run this command brew install already completed.
+
+62
+00:03:50,000 --> 00:03:52,000
+I will go and try to run this login command.
+
+63
+00:03:52,000 --> 00:03:59,000
+So inside my terminal I'm trying to run this command so you can see I'm getting 401 unauthorized because
+
+64
+00:03:59,000 --> 00:04:05,000
+the previous session that I have used is still present inside my local system somewhere in the cache.
+
+65
+00:04:05,000 --> 00:04:12,000
+So what I need to do is, I need to run hook deck logout command. So that will log out me from the previous
+
+66
+00:04:12,000 --> 00:04:16,000
+session and will clear any credentials that I have inside my local system.
+
+67
+00:04:16,000 --> 00:04:18,000
+So now I'm going to run the login command again.
+
+68
+00:04:18,000 --> 00:04:20,000
+This time the login is successful.
+
+69
+00:04:20,000 --> 00:04:24,000
+As a next step, I'm going to take this third command, which is hookdeck listen.
+
+70
+00:04:24,000 --> 00:04:30,000
+So let me copy this and run the same inside my terminal but with a port 8071.
+
+71
+00:04:30,000 --> 00:04:33,000
+So let me run this command post that it will ask me what is the path?
+
+72
+00:04:33,000 --> 00:04:36,000
+The path, you know, slash monitor.
+
+73
+00:04:36,000 --> 00:04:42,000
+Once we mention this path, we need to mention the hostname, which is localhost. Post that will get
+
+74
+00:04:42,000 --> 00:04:44,000
+a webhook URL.
+
+75
+00:04:44,000 --> 00:04:51,000
+So let me take this webhook URL. Here I am into my GitHub repository under this eazybytes-config.
+
+76
+00:04:51,000 --> 00:04:55,000
+I need to click on the settings button and after this I need to click on this webhooks.
+
+77
+00:04:55,000 --> 00:04:59,000
+Now as of now we have some current webhook so we can edit that or 
+
+78
+00:05:00,000 --> 00:05:01,000
+we can create a new webhook.
+
+79
+00:05:01,000 --> 00:05:03,000
+So here I'll click on this edit.
+
+80
+00:05:03,000 --> 00:05:05,000
+It will ask me the password.
+
+81
+00:05:05,000 --> 00:05:06,000
+So let me enter the password.
+
+82
+00:05:06,000 --> 00:05:10,000
+Once I enter the password, I'm going to click on this confirm button.
+
+83
+00:05:10,000 --> 00:05:13,000
+As of now we have a different payload URL.
+
+84
+00:05:13,000 --> 00:05:17,000
+Instead of this, I'm going to mention the new webhook URL that we have copied.
+
+85
+00:05:17,000 --> 00:05:20,000
+Apart from this URL, everything else should be fine.
+
+86
+00:05:20,000 --> 00:05:22,000
+So let me click on this update webhook.
+
+87
+00:05:22,000 --> 00:05:23,000
+With that,
+
+88
+00:05:23,000 --> 00:05:25,000
+now I can try to change a property.
+
+89
+00:05:25,000 --> 00:05:31,000
+For example, I'll try to change this accounts.yml because right now our container started with
+
+90
+00:05:31,000 --> 00:05:33,000
+a default profile.
+
+91
+00:05:33,000 --> 00:05:33,000
+Here
+
+92
+00:05:33,000 --> 00:05:39,000
+let me click on this edit button post that I'm going to change one of the property under the accounts.
+
+93
+00:05:39,000 --> 00:05:40,000
+Instead of local,
+
+94
+00:05:40,000 --> 00:05:42,000
+I can keep it as docker.
+
+95
+00:05:42,000 --> 00:05:47,000
+So once I have mentioned these changes, let me commit the changes into the GitHub repo.
+
+96
+00:05:47,000 --> 00:05:50,000
+Now I'll go and check inside the terminal.
+
+97
+00:05:50,000 --> 00:05:53,000
+Inside the terminal we are getting the 500 status.
+
+98
+00:05:53,000 --> 00:05:56,000
+That means the refresh attempt fail.
+
+99
+00:05:56,000 --> 00:06:00,000
+So let's try to understand what is the issue here, to understand what is the issue?
+
+100
+00:06:00,000 --> 00:06:05,000
+First, let me test the log files of my config server container. for the same,
+
+101
+00:06:05,000 --> 00:06:11,000
+I came into my Docker dashboard, so inside my containers I can click on this config server ms to see the
+
+102
+00:06:11,000 --> 00:06:14,000
+logs of my config server container.
+
+103
+00:06:14,000 --> 00:06:20,000
+So here you can see it is trying to connect to my rabbitmq with the default connection details like
+
+104
+00:06:20,000 --> 00:06:22,000
+localhost 5672.
+
+105
+00:06:22,000 --> 00:06:30,000
+So this is not going to work because rabbitmq is not started within the same container of config server.
+
+106
+00:06:30,000 --> 00:06:34,000
+It has started as a separate container with a separate service name.
+
+107
+00:06:34,000 --> 00:06:41,000
+So we missed mentioning the rabbitmq connection details inside the Docker compose file, but here you
+
+108
+00:06:41,000 --> 00:06:44,000
+may have a question like how come other functionality is working
+
+109
+00:06:44,000 --> 00:06:49,000
+like we tested accounts microservice, APIs and we are getting a successful response, so let's try
+
+110
+00:06:49,000 --> 00:06:50,000
+to check the same.
+
+111
+00:06:50,000 --> 00:06:56,000
+So if I try to execute this actuator/health, you can see I'm getting the status as down, which
+
+112
+00:06:56,000 --> 00:06:58,000
+means the overall health is down.
+
+113
+00:06:58,000 --> 00:07:04,000
+Whereas if I try to check the readiness, I'm getting the status as up, because according to the config
+
+114
+00:07:04,000 --> 00:07:07,000
+server rabbitmq is an optional settings.
+
+115
+00:07:07,000 --> 00:07:12,000
+That's why it went ahead and started and it is trying to accept the request. With that reason,
+
+116
+00:07:12,000 --> 00:07:17,000
+our accounts, loans and cards microservice, all the containers they started since the readiness
+
+117
+00:07:17,000 --> 00:07:18,000
+health check is up.
+
+118
+00:07:18,000 --> 00:07:21,000
+So to fix this issue, it's very simple.
+
+119
+00:07:21,000 --> 00:07:25,000
+We need to provide the rabbitmq connection details for all our containers.
+
+120
+00:07:25,000 --> 00:07:28,000
+So let me go to that Docker compose file.
+
+121
+00:07:28,000 --> 00:07:33,000
+Inside the docker compose file, we can define the connection details under each container.
+
+122
+00:07:33,000 --> 00:07:39,000
+Instead of that, we can also define the connection details under the microservice based config, because
+
+123
+00:07:39,000 --> 00:07:46,000
+my config server accounts, loans and cards microservice, all of them needed the rabbitmq related configurations.
+
+124
+00:07:46,000 --> 00:07:52,000
+That's why I'm going to create a new element under the deploy with the name environment.
+
+125
+00:07:52,000 --> 00:07:57,000
+Under this environment I need to mention the properties related to the Rabbitmq.
+
+126
+00:07:57,000 --> 00:08:01,000
+So if you see here as of now inside the application.yml, we have mentioned these properties like
+
+127
+00:08:01,000 --> 00:08:06,000
+which is spring.rabbitmq host as localhost port and username and password.
+
+128
+00:08:06,000 --> 00:08:10,000
+So the port username and password we should be fine.
+
+129
+00:08:10,000 --> 00:08:15,000
+So these are the default values and my docker containers also they can use that, but this localhost
+
+130
+00:08:15,000 --> 00:08:16,000
+will not work.
+
+131
+00:08:16,000 --> 00:08:19,000
+Instead we need to mention the service name of Rabbitmq.
+
+132
+00:08:19,000 --> 00:08:26,000
+So that's why let's try to override only these host variable. For the same inside the commonconfig.yml.
+
+133
+00:08:26,000 --> 00:08:27,000
+.
+
+134
+00:08:27,000 --> 00:08:33,000
+I'm going to create a new environment variable with the name spring_rabbitmq_host.
+
+135
+00:08:33,000 --> 00:08:36,000
+The host name,
+
+136
+00:08:36,000 --> 00:08:38,000
+we should not mention localhost.
+
+137
+00:08:38,000 --> 00:08:41,000
+Instead we should mention the service name which is rabbit.
+
+138
+00:08:41,000 --> 00:08:47,000
+So all my containers they can connect with this service because they all started inside the same network.
+
+139
+00:08:47,000 --> 00:08:50,000
+So let me mention the host as rabbit here.
+
+140
+00:08:50,000 --> 00:08:52,000
+Maybe I can try to mention inside the double quotes.
+
+141
+00:08:52,000 --> 00:08:55,000
+So with this the issue should get resolved.
+
+142
+00:08:55,000 --> 00:08:57,000
+So let me save this changes.
+
+143
+00:08:57,000 --> 00:09:03,000
+And here inside my terminal where I have started my docker compose up command, I'm going to run the
+
+144
+00:09:03,000 --> 00:09:06,000
+new command which is Docker compose down.
+
+145
+00:09:06,000 --> 00:09:12,000
+So first I will try to delete all the existing containers that I have started previously.
+
+146
+00:09:12,000 --> 00:09:13,000
+So let this complete.
+
+147
+00:09:13,000 --> 00:09:19,000
+Once the deletion of all the containers is completed, I can try to run the command which is docker
+
+148
+00:09:19,000 --> 00:09:26,000
+compose up -d, so this will try to start all my containers again with the new Rabbitmq connection
+
+149
+00:09:26,000 --> 00:09:28,000
+details that we have provided.
+
+150
+00:09:28,000 --> 00:09:34,000
+I can also try to see the logs of config server if the connection is established successfully.
+
+151
+00:09:34,000 --> 00:09:36,000
+So let me click on this config server -ms.
+
+152
+00:09:36,000 --> 00:09:42,000
+As you can see it is trying to get started, so let's wait for a couple of seconds. Like we discussed
+
+153
+00:09:42,000 --> 00:09:45,000
+previously, you can also check the logs inside the logs.
+
+154
+00:09:45,000 --> 00:09:45,000
+Explorer.
+
+155
+00:09:45,000 --> 00:09:47,000
+It's up to you where you want to check.
+
+156
+00:09:47,000 --> 00:09:51,000
+Right now I'm trying to check this filter of config server ms.
+
+157
+00:09:51,000 --> 00:09:57,000
+And with that I will be able to see all the config server related logs, but for some reason I'm not
+
+158
+00:09:57,000 --> 00:09:59,000
+comfortable with this layout.
+
+159
+00:09:59,000 --> 00:09:59,000
+I'm always
+
+160
+00:09:59,000 --> 00:10:04,000
+comfortable by checking the logs directly inside the console.
+
+161
+00:10:04,000 --> 00:10:09,000
+So I'm used to this format because daily I'll check the logs in similar style inside my IDE,
+
+162
+00:10:10,000 --> 00:10:12,000
+that's why I'm comfortable with this process.
+
+163
+00:10:12,000 --> 00:10:16,000
+If you are comfortable with the logs Explorer, definitely you can follow the same.
+
+164
+00:10:16,000 --> 00:10:19,000
+So here you can see in the logs there is a connection
+
+165
+00:10:19,000 --> 00:10:24,000
+details like attempting to connect to the Rabbitmq 5672 and it successfully created
+
+166
+00:10:24,000 --> 00:10:25,000
+a new connection.
+
+167
+00:10:25,000 --> 00:10:28,000
+So now let's try to test the health of this config server.
+
+168
+00:10:28,000 --> 00:10:31,000
+So here I'm trying to refresh this page.
+
+169
+00:10:31,000 --> 00:10:34,000
+This time you can see the status is showing as up the same,
+
+170
+00:10:34,000 --> 00:10:36,000
+we can confirm for readiness as well here.
+
+171
+00:10:36,000 --> 00:10:38,000
+Also the up status is present.
+
+172
+00:10:38,000 --> 00:10:41,000
+So with that all our containers should get started.
+
+173
+00:10:41,000 --> 00:10:47,000
+So let me quickly confirm if my accounts microservice started successfully, you can see it started
+
+174
+00:10:47,000 --> 00:10:48,000
+successfully.
+
+175
+00:10:48,000 --> 00:10:50,000
+I can also confirm the same for cards.
+
+176
+00:10:50,000 --> 00:10:51,000
+It is also started.
+
+177
+00:10:51,000 --> 00:10:53,000
+Let me do the same for loans.
+
+178
+00:10:53,000 --> 00:10:54,000
+It is also started.
+
+179
+00:10:54,000 --> 00:10:57,000
+Now I'll try to invoke this contact-info.
+
+180
+00:10:57,000 --> 00:11:02,000
+As of now you can see we are getting local but we'll get the docker because all the services are restarted.
+
+181
+00:11:02,000 --> 00:11:04,000
+That's why we are getting the latest property.
+
+182
+00:11:04,000 --> 00:11:09,000
+So what we can do is, we can revert back to the local and see if it is working fine.
+
+183
+00:11:09,000 --> 00:11:13,000
+Meanwhile, please make sure the webhook related terminal is running.
+
+184
+00:11:13,000 --> 00:11:15,000
+The session is not yet closed.
+
+185
+00:11:15,000 --> 00:11:20,000
+I'm going to my repo and opening the file which is accounts.yml here inside this accounts.yml
+
+186
+00:11:20,000 --> 00:11:21,000
+file.
+
+187
+00:11:21,000 --> 00:11:25,000
+I'm going to revert this docker to the previous value which is local.
+
+188
+00:11:25,000 --> 00:11:31,000
+So let me click on this edit button and replace this docker with local and commit the changes to the
+
+189
+00:11:31,000 --> 00:11:37,000
+GitHub repo. Post this we can go to the terminal and confirm if we have received the 200 status.
+
+190
+00:11:37,000 --> 00:11:40,000
+You can see this time we received 200 status.
+
+191
+00:11:40,000 --> 00:11:41,000
+They're there in the down,
+
+192
+00:11:41,000 --> 00:11:43,000
+you can see I'm so happy this is working.
+
+193
+00:11:43,000 --> 00:11:45,000
+Now let's validate in the postman.
+
+194
+00:11:45,000 --> 00:11:46,000
+Now inside the postman.
+
+195
+00:11:46,000 --> 00:11:48,000
+I'm going to run this contact-info.
+
+196
+00:11:48,000 --> 00:11:50,000
+You can see previously we have the docker.
+
+197
+00:11:50,000 --> 00:11:55,000
+If I try to click on the send button, you can see right now we are getting the local API's, so the
+
+198
+00:11:55,000 --> 00:12:00,000
+refresh functionality is working automatically without invoking any URL manually.
+
+199
+00:12:00,000 --> 00:12:05,000
+So this confirms our docker compose setup is working for the default profile.
+
+200
+00:12:05,000 --> 00:12:11,000
+So let's try to quickly set up the same for prod and qa profile as well.
+
+201
+00:12:11,000 --> 00:12:14,000
+And we can also validate them if everything is working.
+
+202
+00:12:14,000 --> 00:12:17,000
+Thank you and I'll catch you in the next lecture bye.
+

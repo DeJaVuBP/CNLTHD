@@ -1,0 +1,748 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let's try to update our microservices by defining some properties inside
+
+2
+00:00:06,000 --> 00:00:12,000
+the application.yml file and try to read them with the help of the approaches that we have discussed
+
+3
+00:00:12,000 --> 00:00:13,000
+in the previous lecture.
+
+4
+00:00:13,000 --> 00:00:14,000
+For the same,
+
+5
+00:00:14,000 --> 00:00:19,000
+first, I'm going to create a new folder inside my workspace location and the folder name.
+
+6
+00:00:19,000 --> 00:00:25,000
+I'm going to keep it as section 6 because we are right now inside a section six.
+
+7
+00:00:25,000 --> 00:00:33,000
+So inside these Section 6, I'm going to create one more folder with the name v1-springboot.
+
+8
+00:00:33,000 --> 00:00:41,000
+So V1 indicates version one and inside this version one of my microservices inside my section 6,
+
+9
+00:00:41,000 --> 00:00:45,000
+I'm going to follow the basic approaches provided by the Spring Boot Framework.
+
+10
+00:00:45,000 --> 00:00:51,000
+Once we discuss all the basic approaches provided by the Spring Boot framework, then we'll look for
+
+11
+00:00:51,000 --> 00:00:54,000
+the advanced approaches inside the next version, which is V2.
+
+12
+00:00:54,000 --> 00:01:01,000
+So inside this v1-springboot folder, I'm going to copy all the microservices that I have from
+
+13
+00:01:01,000 --> 00:01:07,000
+the section four, so let me copy these three microservices and I'll paste them inside the 
+
+14
+00:01:07,000 --> 00:01:08,000
+v1-spring boot.
+
+15
+00:01:08,000 --> 00:01:12,000
+So now I have copied all the microservices. As a next step
+
+16
+00:01:12,000 --> 00:01:18,000
+I'll go to my IntelliJ idea and I'll try to open all these three microservices inside my IDE.
+
+17
+00:01:18,000 --> 00:01:22,000
+So here, inside my IntelliJ idea, I'm going to click on this open button.
+
+18
+00:01:22,000 --> 00:01:29,000
+I'll go to my workspace location, which is storage workspaces, microservices, section 6 and inside
+
+19
+00:01:29,000 --> 00:01:31,000
+this v1-springboot.
+
+20
+00:01:31,000 --> 00:01:36,000
+So I'll just select the parent folder which is v1-springboot and click on this open button.
+
+21
+00:01:36,000 --> 00:01:43,000
+And with that all the microservices projects will be loaded into my IntelliJ idea.
+
+22
+00:01:43,000 --> 00:01:49,000
+We need to make sure we are clicking on this load button to detect all our microservices as maven projects.
+
+23
+00:01:49,000 --> 00:01:53,000
+Post that you can open these v1-springboot project.
+
+24
+00:01:53,000 --> 00:01:59,000
+And inside this you can see we have three different maven based microservices with the name accounts,
+
+25
+00:01:59,000 --> 00:02:00,000
+cards and loans.
+
+26
+00:02:00,000 --> 00:02:05,000
+If you recall inside the section 4, we discussed three different approaches to generate the Docker
+
+27
+00:02:05,000 --> 00:02:13,000
+images from our microservices, and by the end of the same section, we also finalized to use the Google
+
+28
+00:02:13,000 --> 00:02:14,000
+throughout the course.
+
+29
+00:02:14,000 --> 00:02:20,000
+So for the same reason, I'm going to make some changes inside my accounts and loans microservice to
+
+30
+00:02:20,000 --> 00:02:24,000
+use a Google jib approach instead of buildpacks and Docker file.
+
+31
+00:02:24,000 --> 00:02:30,000
+So first I'll go to my cards microservice where I'm trying to use the Google jib approach.
+
+32
+00:02:30,000 --> 00:02:38,000
+So here I'll open the pom.xml and we'll go to the down of my pom.xml where I have Google jib maven plugin
+
+33
+00:02:38,000 --> 00:02:39,000
+details configure.
+
+34
+00:02:39,000 --> 00:02:46,000
+So here first I'll try to change this image name to S6 because right now we are into a new section.
+
+35
+00:02:46,000 --> 00:02:48,000
+Post that I'll try to load
+
+36
+00:02:48,000 --> 00:02:49,000
+the maven changes, after this 
+
+37
+00:02:49,000 --> 00:02:52,000
+I will try to copy these plugin details.
+
+38
+00:02:52,000 --> 00:02:58,000
+Once I copied these plugin details, I'll go to the accounts microservice.
+
+39
+00:02:58,000 --> 00:03:03,000
+First I'll try to delete the docker file because we no more needed this file as we are not following the docker
+
+40
+00:03:03,000 --> 00:03:04,000
+file approach.
+
+41
+00:03:04,000 --> 00:03:10,000
+Once I deleted this Docker file, I'm going to open the pom.xml of accounts microservice, and here under
+
+42
+00:03:10,000 --> 00:03:17,000
+the plugins configuration, I'm going to remove this Spring boot Maven plugin and replace it with the
+
+43
+00:03:17,000 --> 00:03:19,000
+Google Jib Maven plugin.
+
+44
+00:03:19,000 --> 00:03:23,000
+So once I make these changes I can load the maven changes.
+
+45
+00:03:23,000 --> 00:03:29,000
+Now, similarly, let's go to the loans microservice. Under this loans microservice
+
+46
+00:03:29,000 --> 00:03:35,000
+also I'm going to open the pom.xml and here also I'm going to look for the Spring Boot Maven plugin
+
+47
+00:03:35,000 --> 00:03:39,000
+and I'm going to replace it with the Google Jib Maven plugin.
+
+48
+00:03:39,000 --> 00:03:44,000
+So the image name, we don't have to change anything because the project.artifactId is going to
+
+49
+00:03:44,000 --> 00:03:51,000
+be present inside the same pom.xml and accordingly my different microservices will have different Docker
+
+50
+00:03:51,000 --> 00:03:52,000
+image name.
+
+51
+00:03:52,000 --> 00:03:54,000
+So let me load these maven changes.
+
+52
+00:03:54,000 --> 00:04:00,000
+So once we make all these changes now all our microservices are using same approach to generate the
+
+53
+00:04:00,000 --> 00:04:03,000
+Docker image, which is Google Jib. As a next step,
+
+54
+00:04:03,000 --> 00:04:08,000
+first, I'll try to make all the required changes inside the accounts microservice.
+
+55
+00:04:08,000 --> 00:04:14,000
+Post that, I'll give an activity for you to make similar set of changes inside the cards and loans microservice.
+
+56
+00:04:14,000 --> 00:04:21,000
+Here under the accounts microservice you can look for the file which is application.yml.
+
+57
+00:04:21,000 --> 00:04:28,000
+Inside this application.yml we can define any properties along with their values which we can read
+
+58
+00:04:28,000 --> 00:04:29,000
+inside our Java code.
+
+59
+00:04:29,000 --> 00:04:33,000
+First, let's try to start with a simple property name.
+
+60
+00:04:33,000 --> 00:04:39,000
+So the property that I want to create here is build: and I'll go to the next line and mention the
+
+61
+00:04:39,000 --> 00:04:42,000
+tab space and here I'm going to mention version.
+
+62
+00:04:42,000 --> 00:04:48,000
+So I'm trying to define a property with the key build.version and inside the yaml this is how
+
+63
+00:04:48,000 --> 00:04:50,000
+we need to mention the same.
+
+64
+00:04:50,000 --> 00:04:54,000
+And for this property I'm going to mention the value as 1.0.
+
+65
+00:04:54,000 --> 00:04:59,000
+So this is the simple property I'm trying to define inside my application.yaml,
+
+66
+00:04:59,000 --> 00:05:06,000
+now using this property only I'm going to read the value inside my Java code and I'll also build a small
+
+67
+00:05:06,000 --> 00:05:12,000
+REST API, which my client applications can invoke to understand what is the build version right now
+
+68
+00:05:12,000 --> 00:05:15,000
+my microservice is using. As a next step,
+
+69
+00:05:15,000 --> 00:05:20,000
+we need to go to the controller class inside AccountsMicroservice.
+
+70
+00:05:20,000 --> 00:05:23,000
+The controller class that we have here is AccountsController.
+
+71
+00:05:23,000 --> 00:05:30,000
+So here first I need to read the property defined inside my application.yml file. For the same,
+
+72
+00:05:30,000 --> 00:05:37,000
+I'm going to create a new Java field inside my controller class which is of data type string and the
+
+73
+00:05:37,000 --> 00:05:38,000
+field name
+
+74
+00:05:38,000 --> 00:05:40,000
+I can keep it as buildVersion.
+
+75
+00:05:40,000 --> 00:05:46,000
+Again, this name can be anything, but it will be a wise decision to follow the same name inside your
+
+76
+00:05:46,000 --> 00:05:50,000
+Java field so that you can easily identify from your Java fields itself.
+
+77
+00:05:50,000 --> 00:05:53,000
+So now this field will not have any value.
+
+78
+00:05:53,000 --> 00:05:59,000
+This will have only null value right now to inject the property value during the startup of the spring
+
+79
+00:05:59,000 --> 00:06:05,000
+boot application into this Java field, we need to mention an annotation which is @Value.
+
+80
+00:06:05,000 --> 00:06:07,000
+To this annotation,
+
+81
+00:06:07,000 --> 00:06:12,000
+we need to pass the property key name by following the spring expression language.
+
+82
+00:06:12,000 --> 00:06:17,000
+So the syntax that we need to follow here is, first we need to mention that double quotes post that
+
+83
+00:06:17,000 --> 00:06:21,000
+we need to mention dollar followed by curly braces.
+
+84
+00:06:21,000 --> 00:06:26,000
+And inside these curly braces we need to mention the key value of our property.
+
+85
+00:06:26,000 --> 00:06:29,000
+So the key value will be build.version.
+
+86
+00:06:29,000 --> 00:06:32,000
+So let me try to mention the same build.version.
+
+87
+00:06:32,000 --> 00:06:39,000
+So with these changes, the build version Java field will have the value that we have defined inside
+
+88
+00:06:39,000 --> 00:06:40,000
+the Yaml file.
+
+89
+00:06:40,000 --> 00:06:45,000
+Like I said before, I'm going to build a small REST API service to send these build version information
+
+90
+00:06:45,000 --> 00:06:47,000
+to my client. For the same,
+
+91
+00:06:47,000 --> 00:06:49,000
+let me go to the end of this controller class.
+
+92
+00:06:49,000 --> 00:06:58,000
+So first I'll create a Java method with the name public return type as response entity of String and
+
+93
+00:06:58,000 --> 00:07:05,000
+the method name is going to be getBuildInfo() and it is not going to accept any input parameters.
+
+94
+00:07:05,000 --> 00:07:11,000
+Post that inside the body of this method I can directly write return statement and inside this return statement
+
+95
+00:07:11,000 --> 00:07:16,000
+I'm going to use the ResponseEntity using this ResponseEntity class.
+
+96
+00:07:16,000 --> 00:07:20,000
+First, I'm going to send the status to this status().
+
+97
+00:07:20,000 --> 00:07:23,000
+I'm going to send HttpStatus.Ok,
+
+98
+00:07:23,000 --> 00:07:27,000
+which conveys the overall operation is successful.
+
+99
+00:07:27,000 --> 00:07:30,000
+And post this, I'm going to invoke the body().
+
+100
+00:07:30,000 --> 00:07:37,000
+So inside this body() only I'm going to pass the field name which holds the build version information.
+
+101
+00:07:37,000 --> 00:07:43,000
+Like we know we have a Java field name with the name build version, so I'm going to pass the same.
+
+102
+00:07:43,000 --> 00:07:46,000
+So let me try to format this code.
+
+103
+00:07:46,000 --> 00:07:47,000
+Now this looks good.
+
+104
+00:07:47,000 --> 00:07:52,000
+The next step that we need to follow is we need to mention @GetMapping on top of this method
+
+105
+00:07:52,000 --> 00:07:59,000
+post that the path that it is going to support is build-info along with the forward slash in
+
+106
+00:07:59,000 --> 00:08:00,000
+the starting of the path.
+
+107
+00:08:00,000 --> 00:08:05,000
+So with this we have defined the REST API, but we should also make sure we are documenting this
+
+108
+00:08:05,000 --> 00:08:06,000
+REST API properly.
+
+109
+00:08:06,000 --> 00:08:07,000
+For the same,
+
+110
+00:08:07,000 --> 00:08:12,000
+let me copy some spring doc related information from the get API.
+
+111
+00:08:12,000 --> 00:08:14,000
+So on the top we have a get api.
+
+112
+00:08:14,000 --> 00:08:23,000
+So here I'm going to take this entire operation along with the API responses and the same I'm going
+
+113
+00:08:23,000 --> 00:08:25,000
+to copy on top of this method.
+
+114
+00:08:25,000 --> 00:08:29,000
+Off course here we need to change the summary and description, so let me try to change that quickly.
+
+115
+00:08:29,000 --> 00:08:33,000
+So the summary is going to be get build information.
+
+116
+00:08:33,000 --> 00:08:34,000
+So that's a summary.
+
+117
+00:08:34,000 --> 00:08:39,000
+Similarly, I'm going to replace the description with a value saying that get the build information
+
+118
+00:08:39,000 --> 00:08:45,000
+that is deployed into accounts microservice. Post that this response description should be fine.
+
+119
+00:08:45,000 --> 00:08:50,000
+Like in the case of successful, the response code is going to be 200 along with the description as
+
+120
+00:08:50,000 --> 00:08:51,000
+HttpStatus.OK
+
+121
+00:08:51,000 --> 00:08:51,000
+.
+
+122
+00:08:51,000 --> 00:08:57,000
+And very similarly, in the case of RuntimeException, we are going to return the response code 500
+
+123
+00:08:57,000 --> 00:08:58,000
+along with this description.
+
+124
+00:08:58,000 --> 00:09:03,000
+And the schema that we are going to send is, by following this ErrorResponseDto.
+
+125
+00:09:03,000 --> 00:09:05,000
+So this you already familiar with.
+
+126
+00:09:05,000 --> 00:09:08,000
+So with this, our new REST API is ready.
+
+127
+00:09:08,000 --> 00:09:11,000
+Now let me try to start my accounts
+
+128
+00:09:11,000 --> 00:09:12,000
+microservice.
+
+129
+00:09:12,000 --> 00:09:17,000
+When you try to build very first time inside your workspace, this annotation will appear related to
+
+130
+00:09:17,000 --> 00:09:17,000
+Lombok.
+
+131
+00:09:17,000 --> 00:09:21,000
+Please make sure you are enabling this annotation processing.
+
+132
+00:09:21,000 --> 00:09:27,000
+So once we enable this and the build is completed, I can go to the accounts application and here I'll
+
+133
+00:09:27,000 --> 00:09:30,000
+try to start my application in the debug mode.
+
+134
+00:09:30,000 --> 00:09:36,000
+This will start my accounts microservice at the port 8080, but seems we are getting an errors.
+
+135
+00:09:36,000 --> 00:09:38,000
+Let's try to understand what is this error?
+
+136
+00:09:38,000 --> 00:09:43,000
+It is saying accounts controller is missing a bean of type String.
+
+137
+00:09:43,000 --> 00:09:44,000
+I know why this is happening.
+
+138
+00:09:44,000 --> 00:09:52,000
+Let's go to our accounts controller by default since we are using AllArgsConstructor here, my lombok
+
+139
+00:09:52,000 --> 00:09:58,000
+is going to generate a constructor with all the fields that I have defined inside my AccountsController.
+
+140
+00:09:58,000 --> 00:09:59,000
+So the fields right now I have is,
+
+141
+00:09:59,000 --> 00:10:01,000
+accountService and buildVersion.
+
+142
+00:10:01,000 --> 00:10:07,000
+So since it is trying to look for a bean of data type String which is nowhere exist inside my application,
+
+143
+00:10:07,000 --> 00:10:08,000
+it is failing.
+
+144
+00:10:08,000 --> 00:10:14,000
+So that's why to fix this first we need to make sure we are removing these AllArgsConstructor post
+
+145
+00:10:14,000 --> 00:10:18,000
+that I'm going to create a new constructor manually.
+
+146
+00:10:18,000 --> 00:10:24,000
+So the constructor is going to be public and I'm going to mention the class name and to this constructor
+
+147
+00:10:24,000 --> 00:10:31,000
+I'm going to pass the parameter of type IAccountService and inside this constructor I'm going to invoke
+
+148
+00:10:31,000 --> 00:10:37,000
+the logic, which is this. IAccountService =IAccountService.
+
+149
+00:10:37,000 --> 00:10:37,000
+This way,
+
+150
+00:10:37,000 --> 00:10:42,000
+with the help of this constructor, we are trying to autowire only one dependency been which is of
+
+151
+00:10:42,000 --> 00:10:44,000
+type IAccountService.
+
+152
+00:10:44,000 --> 00:10:51,000
+It is also a recommended approach to mention final before your field name of IAccountService.
+
+153
+00:10:51,000 --> 00:10:56,000
+So this is the most recommended approach while following the constructor autowiring.
+
+154
+00:10:56,000 --> 00:10:59,000
+This will make your application more secure. And if needed,
+
+155
+00:10:59,000 --> 00:11:03,000
+you can also mention @Autowired annotation here.
+
+156
+00:11:03,000 --> 00:11:08,000
+But like I said, this is completely optional when we have single constructor inside our class.
+
+157
+00:11:08,000 --> 00:11:11,000
+So let me remove these optional Autowired annotation.
+
+158
+00:11:11,000 --> 00:11:18,000
+Now I'll do the build post that I'll go to my accounts application and try to start the microservice
+
+159
+00:11:18,000 --> 00:11:19,000
+in the debug mode.
+
+160
+00:11:19,000 --> 00:11:23,000
+So this time you can see my application started at the port 8080.
+
+161
+00:11:23,000 --> 00:11:26,000
+Now I'll go to my postman.
+
+162
+00:11:26,000 --> 00:11:32,000
+Here inside my postman you can see under accounts I have a new API with the name build-info.
+
+163
+00:11:32,000 --> 00:11:39,000
+So this is going to accept http get method and the path is localhost://8080/api/build-info.
+
+164
+00:11:39,000 --> 00:11:46,000
+If I click on the send button you can see I'm getting a response 1.0, which is the value that we have
+
+165
+00:11:46,000 --> 00:11:49,000
+mentioned inside the application.yml file.
+
+166
+00:11:49,000 --> 00:11:54,000
+This way we can read the properties inside the application.properties file or application.yml
+
+167
+00:11:54,000 --> 00:12:00,000
+file or inside any other file with the help of other @Value annotation.
+
+168
+00:12:00,000 --> 00:12:05,000
+And this allows to read all your properties from your Java code itself.
+
+169
+00:12:05,000 --> 00:12:11,000
+Just a reminder I have uploaded these microservices related postman collection inside the GitHub repo.
+
+170
+00:12:11,000 --> 00:12:17,000
+You can simply import these inside your postman and with that you will be able to see all these APIs
+
+171
+00:12:17,000 --> 00:12:22,000
+that I'm showing here and you don't have to create these requests manually Inside the postman collection
+
+172
+00:12:22,000 --> 00:12:27,000
+that I have provided all these APIs information and the sample requests,
+
+173
+00:12:27,000 --> 00:12:28,000
+everything is already present.
+
+174
+00:12:28,000 --> 00:12:35,000
+I hope now you are clear with the approach one on how to read the properties with the help of 
+
+175
+00:12:35,000 --> 00:12:36,000
+@Value annotation.
+
+176
+00:12:36,000 --> 00:12:39,000
+Do you think this approach is sufficient for microservice?
+
+177
+00:12:39,000 --> 00:12:44,000
+Off course this is not going to work if you have hundreds of microservices and if they have 100 different
+
+178
+00:12:44,000 --> 00:12:49,000
+properties, are we going to create 100 different fields inside your microservices?
+
+179
+00:12:49,000 --> 00:12:51,000
+That's not a viable solution.
+
+180
+00:12:51,000 --> 00:12:56,000
+And at the same time, inside this approach, if you see inside the AccountsController while injecting
+
+181
+00:12:56,000 --> 00:13:01,000
+this Java field, we are hardcoding the property name like build.version.
+
+182
+00:13:01,000 --> 00:13:09,000
+So creating a Java field and mentioning the hardcoded property value for every microservice is not going
+
+183
+00:13:09,000 --> 00:13:10,000
+to be feasible option.
+
+184
+00:13:10,000 --> 00:13:16,000
+That's why this approach is only recommended if you have only 1 or 2 properties.
+
+185
+00:13:16,000 --> 00:13:19,000
+If you have many other properties, this approach is not going to work.
+
+186
+00:13:19,000 --> 00:13:23,000
+So let's try to continue with the second approach that we have in the next lecture.
+
+187
+00:13:23,000 --> 00:13:25,000
+Thank you and I'll catch you in the next lecture bye.
+

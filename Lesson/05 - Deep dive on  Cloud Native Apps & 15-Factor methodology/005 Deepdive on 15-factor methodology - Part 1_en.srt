@@ -1,0 +1,776 @@
+1
+00:00:00,000 --> 00:00:02,000
+Inside this lecture, I'm going to explain you
+
+2
+00:00:02,000 --> 00:00:09,000
+the first five principles are the guidelines from the 15 factor methodology and post that we can continue
+
+3
+00:00:09,000 --> 00:00:11,000
+the same inside the next lecture.
+
+4
+00:00:11,000 --> 00:00:16,000
+Like you can see here, the very first principle are guideline that we have from the 15 factor methodology
+
+5
+00:00:16,000 --> 00:00:20,000
+is one code base for one application.
+
+6
+00:00:20,000 --> 00:00:22,000
+So this is going to be super, super simple.
+
+7
+00:00:22,000 --> 00:00:25,000
+So let's try to understand details about it.
+
+8
+00:00:25,000 --> 00:00:30,000
+As per these guideline, we need to make sure there is one to one correspondence between an application
+
+9
+00:00:30,000 --> 00:00:37,000
+and its code base, which means each application are a microservice should have its own dedicated code
+
+10
+00:00:37,000 --> 00:00:37,000
+base.
+
+11
+00:00:37,000 --> 00:00:40,000
+Inside this course we build three different microservice.
+
+12
+00:00:40,000 --> 00:00:46,000
+Off course, I'm trying to upload all the code related to this microservice inside a single GitHub repos,
+
+13
+00:00:46,000 --> 00:00:49,000
+so that it is convenient to my students to access the same.
+
+14
+00:00:49,000 --> 00:00:57,000
+But in real world we need to make sure every microservice is having its own GitHub repo or its own code
+
+15
+00:00:57,000 --> 00:00:59,000
+base inside the versioning system.
+
+16
+00:00:59,000 --> 00:01:05,000
+If there is any code which is common for all the microservice, then such common code should be manage
+
+17
+00:01:05,000 --> 00:01:06,000
+separately.
+
+18
+00:01:06,000 --> 00:01:12,000
+As a library, we can also deploy all these common code as a separate standalone service which will
+
+19
+00:01:12,000 --> 00:01:15,000
+serve as a backing service for the other applications.
+
+20
+00:01:15,000 --> 00:01:21,000
+Since it is possible to track each code base in its own code repository, this is going to provide a
+
+21
+00:01:21,000 --> 00:01:27,000
+lot of flexibility and brings organization of your code in a cleaner manner.
+
+22
+00:01:27,000 --> 00:01:33,000
+Once you have separate code base for all your microservice, please make sure, regardless of how many
+
+23
+00:01:33,000 --> 00:01:39,000
+deployments you are doing in different, different environment, you should always make sure you are building
+
+24
+00:01:39,000 --> 00:01:45,000
+and converting your code base into your Docker container or a Docker package or any other artifact.
+
+25
+00:01:45,000 --> 00:01:46,000
+Only once.
+
+26
+00:01:46,000 --> 00:01:52,000
+As per these guidelines, it is unnecessary to rebuild the code base for each environment deployment
+
+27
+00:01:52,000 --> 00:01:53,000
+that you are going to make.
+
+28
+00:01:53,000 --> 00:01:53,000
+Here
+
+29
+00:01:53,000 --> 00:01:59,000
+you may have a question like you have some configurations that may vary from environment to environment,
+
+30
+00:01:59,000 --> 00:02:06,000
+like your database details or any other details which will vary from development to QA to production.
+
+31
+00:02:06,000 --> 00:02:12,000
+So all such configurations as per this guideline, we need to maintain outside of your code base so
+
+32
+00:02:12,000 --> 00:02:18,000
+that they can be injected externally during the deployments into your application code base.
+
+33
+00:02:18,000 --> 00:02:25,000
+So if you try to visualize this guideline, you can see there is a single code base for a single microservice
+
+34
+00:02:25,000 --> 00:02:31,000
+application and the same code base has to be packaged only once and once the packaging and the build
+
+35
+00:02:31,000 --> 00:02:38,000
+is completed, the same packaged artifact or the Docker container or the Docker image should be deployed
+
+36
+00:02:38,000 --> 00:02:41,000
+into the development testing and production.
+
+37
+00:02:41,000 --> 00:02:47,000
+It should not be like you are trying to generate a code base package for each environment by clubbing
+
+38
+00:02:47,000 --> 00:02:49,000
+all the related configurations.
+
+39
+00:02:49,000 --> 00:02:56,000
+That is not recommended because inside microservice like you know, you will have many hundreds of microservices
+
+40
+00:02:56,000 --> 00:03:00,000
+and doing this unnecessarily for each environment will make your life horrible.
+
+41
+00:03:00,000 --> 00:03:02,000
+That's why please follow this guideline.
+
+42
+00:03:02,000 --> 00:03:10,000
+Now moving on to the second guideline, which is always think like APIs first, like we saw inside microservices
+
+43
+00:03:10,000 --> 00:03:13,000
+everything we are going to develop as REST APIs.
+
+44
+00:03:13,000 --> 00:03:20,000
+So even these cloud native guideline, which is API first, it is also recommend you to always adopt
+
+45
+00:03:20,000 --> 00:03:26,000
+and have a mindset of API first, which means right from design of your cloud native applications.
+
+46
+00:03:26,000 --> 00:03:32,000
+You should always think like to write as much logic as possible with the help of APIs.
+
+47
+00:03:32,000 --> 00:03:36,000
+Only if you design and develop your business logic with the help of APIs.
+
+48
+00:03:36,000 --> 00:03:43,000
+This will give flexibility that most of your business logic can be invoked by the other APIs or by the
+
+49
+00:03:43,000 --> 00:03:50,000
+other microservices as a backing service, and this also provide you an advantage like different, different
+
+50
+00:03:50,000 --> 00:03:50,000
+teams.
+
+51
+00:03:50,000 --> 00:03:53,000
+They can work on different, different APIs.
+
+52
+00:03:53,000 --> 00:03:59,000
+Apart from these advantages, when you follow these API first approach, it is also going to give flexibility
+
+53
+00:03:59,000 --> 00:04:01,000
+like inside your deployment pipeline
+
+54
+00:04:01,000 --> 00:04:07,000
+you can write some testable integrations with other systems, and if the integration and testing is
+
+55
+00:04:07,000 --> 00:04:12,000
+working, then only you can do the deployment. On top of that, since you are going to separate all your
+
+56
+00:04:12,000 --> 00:04:20,000
+services with the help of APIs, you can always do some internal modifications behind your API implementation
+
+57
+00:04:20,000 --> 00:04:26,000
+without impacting other applications or teams that rely on your APIs.
+
+58
+00:04:26,000 --> 00:04:31,000
+That's why please, please, while you are developing cloud native services or applications, always
+
+59
+00:04:31,000 --> 00:04:34,000
+have a mindset that API first.
+
+60
+00:04:34,000 --> 00:04:37,000
+The next guideline that we have here is dependency management.
+
+61
+00:04:37,000 --> 00:04:44,000
+As per these guidelines, it is important or crucial to explicitly declare all your dependencies of
+
+62
+00:04:44,000 --> 00:04:52,000
+an application inside a single manifest file and post that we should also ensure that these dependencies
+
+63
+00:04:52,000 --> 00:04:58,000
+are accessible to a dependency manager which can download all of them from a central repository.
+
+64
+00:04:58,000 --> 00:04:59,000
+In case of java
+
+65
+00:04:59,000 --> 00:05:06,000
+applications like we know we have two robust tools like Maven and Gradle that follow the same standard.
+
+66
+00:05:06,000 --> 00:05:14,000
+We as a developers, we only provide our dependencies inside the pom.xml or build.gradle and behind
+
+67
+00:05:14,000 --> 00:05:17,000
+the scenes my build manager like maven and gradle.
+
+68
+00:05:17,000 --> 00:05:22,000
+It is going to pull all the dependencies from a centralized repository.
+
+69
+00:05:22,000 --> 00:05:28,000
+Once this download is completed during the packaging of our application as a Docker image or a Docker
+
+70
+00:05:28,000 --> 00:05:34,000
+container, all the dependency libraries are going to packaged as a single artifact.
+
+71
+00:05:34,000 --> 00:05:40,000
+By following this approach, we maintain a clear and controlled dependency management process for our
+
+72
+00:05:40,000 --> 00:05:41,000
+application.
+
+73
+00:05:41,000 --> 00:05:48,000
+If you don't follow these pom.xml or build.gradle and follow the very old approach like downloading
+
+74
+00:05:48,000 --> 00:05:54,000
+all the dependencies manually and adding them to the classpath of your web application, which we used
+
+75
+00:05:54,000 --> 00:05:55,000
+to do before Maven and Gradle.
+
+76
+00:05:55,000 --> 00:06:01,000
+That is going to make your process super, super complex because you are not going to have a single
+
+77
+00:06:01,000 --> 00:06:01,000
+application.
+
+78
+00:06:01,000 --> 00:06:03,000
+You are going to have 100 different microservice.
+
+79
+00:06:03,000 --> 00:06:09,000
+And doing all that manual setup every time inside a microservice is going to make the process complex.
+
+80
+00:06:09,000 --> 00:06:13,000
+That's why always follow these dependency management principle.
+
+81
+00:06:13,000 --> 00:06:16,000
+Let's try to visualize how this is going to work.
+
+82
+00:06:16,000 --> 00:06:21,000
+Like you can see here on the right hand side, in the top there is a pom.xml.
+
+83
+00:06:21,000 --> 00:06:26,000
+In the very first step, the developer define all his dependencies inside the pom.xml and the developer
+
+84
+00:06:26,000 --> 00:06:31,000
+is not going to do any manual work like downloading the dependencies from a location.
+
+85
+00:06:31,000 --> 00:06:33,000
+He's not responsible for that.
+
+86
+00:06:33,000 --> 00:06:38,000
+He's only responsible to mention the dependencies inside the pom.xml. And the build tool
+
+87
+00:06:38,000 --> 00:06:40,000
+like Maven is going to read this
+
+88
+00:06:40,000 --> 00:06:41,000
+pom.xml.
+
+89
+00:06:41,000 --> 00:06:48,000
+And inside the step two, like you can see it is going to check if the dependent jars or libraries are
+
+90
+00:06:48,000 --> 00:06:54,000
+present inside the local Maven repository. If they are not already downloaded and if they are not present
+
+91
+00:06:54,000 --> 00:07:00,000
+in the local repository, then it is going to check if the same dependency jar is present inside the
+
+92
+00:07:00,000 --> 00:07:02,000
+Maven central repository.
+
+93
+00:07:02,000 --> 00:07:04,000
+So it is going to search in that.
+
+94
+00:07:04,000 --> 00:07:10,000
+And if there is a library, the Maven is going to download the jar and put the same downloaded jar inside
+
+95
+00:07:10,000 --> 00:07:16,000
+the local repository like you can see in the step five. And at last during the build process or during
+
+96
+00:07:16,000 --> 00:07:23,000
+the Docker image generation process, all the dependent libraries will be clubbed as a single fat jar
+
+97
+00:07:23,000 --> 00:07:29,000
+or a single docker image by following the step, which is copying all the required jars into the target
+
+98
+00:07:29,000 --> 00:07:29,000
+folder.
+
+99
+00:07:29,000 --> 00:07:36,000
+In the case of spring boot, like we saw, all the required dependencies will be packaged into a single
+
+100
+00:07:36,000 --> 00:07:40,000
+jar and the same jar is going to be used to generate the docker image.
+
+101
+00:07:40,000 --> 00:07:43,000
+I hope you are clear why this is super important to follow this standard.
+
+102
+00:07:43,000 --> 00:07:48,000
+We are already following these dependency management guidelines inside our microservice.
+
+103
+00:07:48,000 --> 00:07:54,000
+Even the previous principle, which is first, we are already following that because we're trying to
+
+104
+00:07:54,000 --> 00:07:57,000
+build every operation inside the microservice as an  REST api.
+
+105
+00:07:58,000 --> 00:08:03,000
+Now let's move on to the next guideline that we have inside the 15 factor methodology.
+
+106
+00:08:03,000 --> 00:08:07,000
+This guideline name is design, build, release, run inside these guideline,
+
+107
+00:08:07,000 --> 00:08:14,000
+what is the recommendation is your code base has to progress from design to production by following
+
+108
+00:08:14,000 --> 00:08:15,000
+the following stages.
+
+109
+00:08:15,000 --> 00:08:18,000
+The very first stage is design stage.
+
+110
+00:08:18,000 --> 00:08:24,000
+Inside this design stage, we need to determine all the required technologies and dependencies and tools
+
+111
+00:08:24,000 --> 00:08:25,000
+for a specific application.
+
+112
+00:08:25,000 --> 00:08:31,000
+If you are building a microservice during the design stage itself, you need to determine all the technologies,
+
+113
+00:08:31,000 --> 00:08:34,000
+dependencies and tools needed for your microservice.
+
+114
+00:08:34,000 --> 00:08:39,000
+So here inside these design stage, it also includes the development and unit testing.
+
+115
+00:08:39,000 --> 00:08:46,000
+So once the design, development and testing is completed next, we need to move on to the build stage.
+
+116
+00:08:46,000 --> 00:08:52,000
+Inside this build stage, we need to compile and package the code base with the required dependencies.
+
+117
+00:08:52,000 --> 00:08:59,000
+By creating an immutable artifact, every build artifact should have its own unique identification number,
+
+118
+00:08:59,000 --> 00:09:04,000
+just like how we maintain versions like 1.02.03.0.
+
+119
+00:09:04,000 --> 00:09:09,000
+Very similarly, each of your build stage should have its own unique identification and at the same
+
+120
+00:09:09,000 --> 00:09:13,000
+time, whatever code base package you have generated, it should be immutable.
+
+121
+00:09:13,000 --> 00:09:19,000
+They should not be a scenario where someone is trying to change the content of the package code base
+
+122
+00:09:19,000 --> 00:09:21,000
+manually that is not recommended.
+
+123
+00:09:21,000 --> 00:09:27,000
+After this build stage, your code base package is going to be ready for the release stage.
+
+124
+00:09:27,000 --> 00:09:34,000
+Inside this release stage, we need to combine the code base package with the deployment configurations
+
+125
+00:09:34,000 --> 00:09:35,000
+based upon the environment.
+
+126
+00:09:35,000 --> 00:09:41,000
+Suppose if you're trying to release this build package into a production environment, definitely you
+
+127
+00:09:41,000 --> 00:09:46,000
+should combine your code base with the production related configurations like database credentials,
+
+128
+00:09:46,000 --> 00:09:52,000
+folder structure, any server related properties or microservice related properties.
+
+129
+00:09:52,000 --> 00:09:59,000
+So all those details you need to club and you need to prepare an immutable release component with
+
+130
+00:09:58,000 --> 00:10:04,000
+its own unique identifier, just like how we maintain inside versioning like 6.1.5
+
+131
+00:10:04,000 --> 00:10:09,000
+or you can also follow the date and timestamp as a unique identifier.
+
+132
+00:10:09,000 --> 00:10:15,000
+So inside a central repository you should store all your codebase artifacts along with the deployment
+
+133
+00:10:15,000 --> 00:10:21,000
+configurations so that in future, if you are looking for a rollback to a specific version, it is going
+
+134
+00:10:21,000 --> 00:10:23,000
+to make your life super, super easy.
+
+135
+00:10:23,000 --> 00:10:28,000
+And at last, once this release stage is completed, our application along with the configuration,
+
+136
+00:10:28,000 --> 00:10:34,000
+is ready to be deployed and run as an microservice or as an application.
+
+137
+00:10:34,000 --> 00:10:40,000
+So that's why inside the last stage, which is run stage, we need to run the application in the designated
+
+138
+00:10:40,000 --> 00:10:42,000
+environment using a specific release.
+
+139
+00:10:42,000 --> 00:10:48,000
+So whenever we are following these guidelines, we need to make sure that all these stages, they are
+
+140
+00:10:48,000 --> 00:10:49,000
+maintaining strict separation.
+
+141
+00:10:49,000 --> 00:10:53,000
+We should not try to club them and there is no runtime code
+
+142
+00:10:53,000 --> 00:10:57,000
+modifications are allowed to prevent mismatches with the build stage.
+
+143
+00:10:57,000 --> 00:11:03,000
+Like once the build stage is completed, you should not do any modifications inside the code, at the
+
+144
+00:11:03,000 --> 00:11:05,000
+runtime, inside your release stage or run stage.
+
+145
+00:11:05,000 --> 00:11:10,000
+That will bring some mismatches between your build stage and the next stages that you have.
+
+146
+00:11:10,000 --> 00:11:18,000
+In other words, if I use the same immutable build and release artifact, I should always get the same
+
+147
+00:11:18,000 --> 00:11:19,000
+kind of behavior.
+
+148
+00:11:19,000 --> 00:11:24,000
+So the reproducibility is going to be super, super easy if you follow these principle.
+
+149
+00:11:24,000 --> 00:11:31,000
+Now moving on to the next principle that we have, which is configuration credentials and code.
+
+150
+00:11:31,000 --> 00:11:35,000
+So what is a configuration according to the 15 factor methodology?
+
+151
+00:11:35,000 --> 00:11:40,000
+Configuration are the elements that are prone to change between the deployments.
+
+152
+00:11:40,000 --> 00:11:45,000
+If there is a property that is going to differ from one environment to environment, we call all these
+
+153
+00:11:45,000 --> 00:11:49,000
+kind of properties or elements as configurations.
+
+154
+00:11:49,000 --> 00:11:56,000
+So as per these 15 factor methodology, we should never club these configurations with our code base.
+
+155
+00:11:56,000 --> 00:12:03,000
+We should have an ability to modify application configurations independently or without the need
+
+156
+00:12:03,000 --> 00:12:06,000
+to rebuild the application for every environment.
+
+157
+00:12:06,000 --> 00:12:12,000
+The examples of these configurations are like your database properties or your message system properties,
+
+158
+00:12:12,000 --> 00:12:18,000
+credentials for accessing third party APIs are feature flags, so all these kind of configurations,
+
+159
+00:12:18,000 --> 00:12:24,000
+they are confidential in nature and at the same time they're going to be differ from one environment
+
+160
+00:12:24,000 --> 00:12:25,000
+to other environment.
+
+161
+00:12:25,000 --> 00:12:31,000
+So if you take your database username and password, it is a confidential and at the same time the database
+
+162
+00:12:31,000 --> 00:12:36,000
+credentials for dev, environment and QA environment and production environment is not going to be same.
+
+163
+00:12:36,000 --> 00:12:43,000
+So for all such type of configurations, we need to make sure we are maintaining all of them in a separate
+
+164
+00:12:43,000 --> 00:12:49,000
+codebase and at the same time we need to make sure we are not exposing any sensitive information while
+
+165
+00:12:49,000 --> 00:12:53,000
+maintaining all these configurations in a separate codebase. If needed,
+
+166
+00:12:53,000 --> 00:12:59,000
+we need to provide all the sensitive configurations by following some externalization standards which
+
+167
+00:12:59,000 --> 00:13:01,000
+we are going to discuss inside this course.
+
+168
+00:13:01,000 --> 00:13:08,000
+In simple words, In order to follow this principle, your configuration should not be embedded within
+
+169
+00:13:08,000 --> 00:13:13,000
+the code or tracked in the same code base except for the default configurations.
+
+170
+00:13:13,000 --> 00:13:17,000
+So always the default configurations can be bundled within the application.
+
+171
+00:13:17,000 --> 00:13:23,000
+But anything that is going to change from environment to environment, we should not embedded within
+
+172
+00:13:23,000 --> 00:13:24,000
+our code base.
+
+173
+00:13:24,000 --> 00:13:30,000
+If you try to embed it along with the code, then you need to generate the Docker image or the code
+
+174
+00:13:30,000 --> 00:13:36,000
+base package for every environment which is against this 15 factor methodologies. Like you can see here,
+
+175
+00:13:36,000 --> 00:13:42,000
+first there will be a single code base which is going to hold all the business logic, which is not
+
+176
+00:13:42,000 --> 00:13:45,000
+going to change from environment to environment.
+
+177
+00:13:45,000 --> 00:13:47,000
+Using this single code base,
+
+178
+00:13:47,000 --> 00:13:53,000
+during the build stage, we are going to generate a software package or a Docker image to this software
+
+179
+00:13:53,000 --> 00:13:59,000
+package and Docker image while deploying to a specific environment like development, testing and production.
+
+180
+00:13:59,000 --> 00:14:06,000
+We need to make sure at runtime we are injecting the configurations related to the specific environment.
+
+181
+00:14:06,000 --> 00:14:13,000
+Suppose if I am trying to deploy my microservice into a production environment at runtime or at deployment
+
+182
+00:14:13,000 --> 00:14:17,000
+stage, I need to provide the production related configurations.
+
+183
+00:14:17,000 --> 00:14:22,000
+This is one of the super important principle because since you are going to have hundreds of microservices
+
+184
+00:14:22,000 --> 00:14:28,000
+and cloud native applications, it is always recommend to maintain the configurations related to them,
+
+185
+00:14:28,000 --> 00:14:33,000
+which are going to change from environment to environment in a separate location.
+
+186
+00:14:33,000 --> 00:14:39,000
+Inside this course, we have a separate section focusing about this challenge and how to implement this
+
+187
+00:14:39,000 --> 00:14:41,000
+principle inside our microservice.
+
+188
+00:14:41,000 --> 00:14:46,000
+In the spring ecosystem, there is a separate project with the name Spring Cloud config Server, which
+
+189
+00:14:46,000 --> 00:14:51,000
+is going to help us in implementing this guideline inside our microservice.
+
+190
+00:14:51,000 --> 00:14:57,000
+With this, we discussed the very first five 15 factor methodologies. In the next lecture,
+
+191
+00:14:57,000 --> 00:14:58,000
+let's try to discuss the
+
+192
+00:14:58,000 --> 00:14:58,000
+next.
+
+193
+00:14:58,000 --> 00:15:01,000
+set of principles or guidelines.
+
+194
+00:15:01,000 --> 00:15:04,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,420 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now inside this lecture, let me show you the second approach that we have to read the properties,
+
+2
+00:00:06,000 --> 00:00:12,000
+and this second approach will help you to read the environment properties defined inside the environment
+
+3
+00:00:12,000 --> 00:00:14,000
+where you have deployed your microservices.
+
+4
+00:00:14,000 --> 00:00:21,000
+And here you may have a question like why do we need to define some properties as environment variables?
+
+5
+00:00:21,000 --> 00:00:24,000
+Why can't we directly define them inside the application Yaml file?
+
+6
+00:00:24,000 --> 00:00:26,000
+That's a very valid question.
+
+7
+00:00:26,000 --> 00:00:32,000
+Like I said before, some sensitive information like passwords or any other information.
+
+8
+00:00:32,000 --> 00:00:38,000
+We can't define them inside the application.yml file or inside any other place where it will expose
+
+9
+00:00:38,000 --> 00:00:40,000
+my sensitive information.
+
+10
+00:00:40,000 --> 00:00:46,000
+With that reason, it is always advisable to define the sensitive configuration details as the environment
+
+11
+00:00:46,000 --> 00:00:52,000
+variables only, so that no one can see those values because they will not have access to your production
+
+12
+00:00:52,000 --> 00:00:56,000
+server, only the server admins they will have access.
+
+13
+00:00:56,000 --> 00:01:01,000
+This way you're trying to secure your application whenever they are dealing with the sensitive configurations.
+
+14
+00:01:01,000 --> 00:01:02,000
+Like we discussed before,
+
+15
+00:01:03,000 --> 00:01:07,000
+this approach involves an interface with the name environment.
+
+16
+00:01:07,000 --> 00:01:12,000
+So first let's try to autowire the environment interface to this AccountsController.
+
+17
+00:01:12,000 --> 00:01:19,000
+So here I'm going to mention private post that environment interface and the variable name is going
+
+18
+00:01:19,000 --> 00:01:21,000
+to be environment on top of this field,
+
+19
+00:01:21,000 --> 00:01:25,000
+I'm going to mention Autowired annotation with this
+
+20
+00:01:25,000 --> 00:01:32,000
+now, all the environment details that I have defined inside my local system can be accessed with the
+
+21
+00:01:32,000 --> 00:01:34,000
+help of these environment variable.
+
+22
+00:01:34,000 --> 00:01:37,000
+To demo the same, I'm going to create a small REST API.
+
+23
+00:01:37,000 --> 00:01:40,000
+Let me go to the end of this file.
+
+24
+00:01:40,000 --> 00:01:47,000
+first, I'll try to copy the entire REST API related to the build info post that I'm going to paste
+
+25
+00:01:47,000 --> 00:01:49,000
+the same here inside this class.
+
+26
+00:01:49,000 --> 00:01:55,000
+Now I'm going to create a new REST API that will return the what is the Java version that my microservice
+
+27
+00:01:55,000 --> 00:01:57,000
+right now is using.
+
+28
+00:01:57,000 --> 00:02:03,000
+So inside my local system or in any Java developer system will always install the Java and will set
+
+29
+00:02:03,000 --> 00:02:06,000
+a environment variable with the name JAVA_HOME.
+
+30
+00:02:06,000 --> 00:02:11,000
+With the help of these environment interface, I'll try to read that environment property related to
+
+31
+00:02:11,000 --> 00:02:17,000
+Java version and the same I'll return to the client applications whoever is trying to invoke my REST
+
+32
+00:02:17,000 --> 00:02:17,000
+API.
+
+33
+00:02:17,000 --> 00:02:22,000
+So first I'll try to change the method name to get Java version.
+
+34
+00:02:22,000 --> 00:02:28,000
+And similarly I'm going to change the REST API path to java-version.
+
+35
+00:02:28,000 --> 00:02:35,000
+So with this I'm good from REST API perspective, but here after making these REST API changes inside
+
+36
+00:02:35,000 --> 00:02:39,000
+the body, as of now I'm sending the build version field information instead.
+
+37
+00:02:39,000 --> 00:02:45,000
+I'm going to use the environment variable that we have against this environment variable,
+
+38
+00:02:45,000 --> 00:02:53,000
+I'm going to invoke the method getProperty() since we have injected a wrong environment interface.
+
+39
+00:02:53,000 --> 00:02:57,000
+So let me go to the import statements here and the import statements.
+
+40
+00:02:57,000 --> 00:03:03,000
+If you see the environment right now we are importing is, from the hibernate, but we don't want that
+
+41
+00:03:03,000 --> 00:03:05,000
+hibernate related environment.
+
+42
+00:03:05,000 --> 00:03:09,000
+We want the environment present inside the spring core framework.
+
+43
+00:03:09,000 --> 00:03:16,000
+So let me try to press Ctrl space here so you can see we have the interface with the package
+
+44
+00:03:16,000 --> 00:03:18,000
+org.springframework.core.env.
+
+45
+00:03:18,000 --> 00:03:22,000
+So please make sure you are injecting the same into this controller class.
+
+46
+00:03:22,000 --> 00:03:29,000
+So once I define this and imported these into this class, I can go to the Java method and here now
+
+47
+00:03:29,000 --> 00:03:36,000
+I should be able to invoke the method which is getPproperty(). And to this getProperty() method I'm going
+
+48
+00:03:36,000 --> 00:03:40,000
+to pass the environment variable name regarding the Java version.
+
+49
+00:03:40,000 --> 00:03:46,000
+So these details we store inside a environment variable with the name JAVA_HOME.
+
+50
+00:03:46,000 --> 00:03:53,000
+So now my REST API is capable to read the Java home environment variable inside my local system and
+
+51
+00:03:53,000 --> 00:03:56,000
+send the same as a response to the client applications.
+
+52
+00:03:56,000 --> 00:04:00,000
+As a next step, I should also update the summary here.
+
+53
+00:04:00,000 --> 00:04:04,000
+Like first I'll change this to get Java version.
+
+54
+00:04:04,000 --> 00:04:04,000
+Post this
+
+55
+00:04:04,000 --> 00:04:11,000
+I'll also change the description details to get Java version details that is installed into accounts
+
+56
+00:04:11,000 --> 00:04:11,000
+microservice.
+
+57
+00:04:11,000 --> 00:04:13,000
+With this we should be good.
+
+58
+00:04:13,000 --> 00:04:16,000
+There is no need to change anything inside the API responses.
+
+59
+00:04:16,000 --> 00:04:20,000
+Let me do a build once the build is completed.
+
+60
+00:04:20,000 --> 00:04:22,000
+If needed, please restart your application.
+
+61
+00:04:22,000 --> 00:04:28,000
+I'm also restarting my application to be on safe side. So let me restart in debug mode and I'll go
+
+62
+00:04:28,000 --> 00:04:29,000
+to the postman.
+
+63
+00:04:29,000 --> 00:04:33,000
+Here inside the Postman I'm going to click on this java-version  API.
+
+64
+00:04:33,000 --> 00:04:39,000
+You can see here this is a complete path api/java-version and this is going to support
+
+65
+00:04:39,000 --> 00:04:40,000
+Http get method.
+
+66
+00:04:40,000 --> 00:04:47,000
+As soon as I click on the send button, I'm getting a response where my Java home is installed.
+
+67
+00:04:47,000 --> 00:04:52,000
+So inside the response, since I have used the SDK command to install the Java, it is simply giving
+
+68
+00:04:52,000 --> 00:04:57,000
+the Java home folder location, but ideally inside the production servers we will directly install the
+
+69
+00:04:57,000 --> 00:05:00,000
+JDK by downloading from the official website.
+
+70
+00:05:00,000 --> 00:05:00,000
+.
+
+71
+00:05:00,000 --> 00:05:06,000
+And in such scenarios it is going to give you the complete folder location along with the Java version
+
+72
+00:05:06,000 --> 00:05:07,000
+name.
+
+73
+00:05:07,000 --> 00:05:13,000
+So this output should be fine for me since I just want to show you the demo of how to use the environment
+
+74
+00:05:13,000 --> 00:05:16,000
+interface to read the properties of environment details.
+
+75
+00:05:16,000 --> 00:05:21,000
+I can also show you one more environment property demo. Inside my local system
+
+76
+00:05:21,000 --> 00:05:28,000
+I also have Maven installed, so whenever we have the Maven install, we are going to have the environment
+
+77
+00:05:28,000 --> 00:05:32,000
+property set with the name maven_home.
+
+78
+00:05:32,000 --> 00:05:38,000
+So after adding these property details, I'm trying to save the changes and do a build.
+
+79
+00:05:38,000 --> 00:05:41,000
+Once the build is completed, I'll go to my postman.
+
+80
+00:05:41,000 --> 00:05:43,000
+Here I am trying to click on the send button.
+
+81
+00:05:43,000 --> 00:05:47,000
+You can see it is giving me a location where my Apache maven is installed.
+
+82
+00:05:47,000 --> 00:05:51,000
+So from this folder location I can easily understand the version
+
+83
+00:05:51,000 --> 00:05:54,000
+right now we have installed is 3.8.6.
+
+84
+00:05:54,000 --> 00:06:01,000
+This way we can read any type of environment property inside your Java code with the help of environment
+
+85
+00:06:01,000 --> 00:06:02,000
+interface.
+
+86
+00:06:02,000 --> 00:06:06,000
+So let me revert these changes back to Java home and do a build.
+
+87
+00:06:06,000 --> 00:06:11,000
+Once the build is completed, I'm going to test again and here it is showing me the Java installation
+
+88
+00:06:11,000 --> 00:06:12,000
+folder location.
+
+89
+00:06:12,000 --> 00:06:14,000
+So this should be fine for me, though
+
+90
+00:06:14,000 --> 00:06:17,000
+it is not showing my Java version installed.
+
+91
+00:06:17,000 --> 00:06:20,000
+Like I said in production environment, it is going to work. With this,
+
+92
+00:06:20,000 --> 00:06:26,000
+I'm assuming your super clear about the second approach that we have used to read the properties, which
+
+93
+00:06:26,000 --> 00:06:28,000
+is with the help of environment interface.
+
+94
+00:06:28,000 --> 00:06:34,000
+Please note that when we are using this approach we can only read the environment properties but not
+
+95
+00:06:34,000 --> 00:06:38,000
+the properties that you have defined inside your application.yml.
+
+96
+00:06:38,000 --> 00:06:40,000
+So this approach also has disadvantages
+
+97
+00:06:40,000 --> 00:06:46,000
+like you can only read one property at a time and at the same time you need to hardcode the property
+
+98
+00:06:46,000 --> 00:06:48,000
+key name inside your Java code.
+
+99
+00:06:48,000 --> 00:06:52,000
+And this approach is also going to work only if you have 1 or 2 properties.
+
+100
+00:06:52,000 --> 00:06:57,000
+If you have higher number of environment properties that you want to read, then definitely this approach
+
+101
+00:06:57,000 --> 00:06:59,000
+is not recommended.
+
+102
+00:06:59,000 --> 00:07:04,000
+We'll see some advanced options that we have in the coming lectures, but now we should be good with
+
+103
+00:07:04,000 --> 00:07:06,000
+this approach 2. Inside the next lecture,
+
+104
+00:07:06,000 --> 00:07:09,000
+let's try to discuss the approach three that we have.
+
+105
+00:07:09,000 --> 00:07:12,000
+Thank you and I'll catch you in the next lecture bye.
+

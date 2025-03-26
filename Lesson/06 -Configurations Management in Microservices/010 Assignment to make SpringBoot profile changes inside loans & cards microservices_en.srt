@@ -1,0 +1,132 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we have updated the accounts microservice with the concepts like spring boot profiles and
+
+2
+00:00:06,000 --> 00:00:11,000
+we have introduced many properties inside the application.yml file and we read the same properties
+
+3
+00:00:11,000 --> 00:00:15,000
+by three different REST APIs inside accounts microservice.
+
+4
+00:00:15,000 --> 00:00:18,000
+Now I'm going to give you an assignment.
+
+5
+00:00:18,000 --> 00:00:20,000
+Are you ready for the assignment?
+
+6
+00:00:20,000 --> 00:00:25,000
+The assignment is you need to make very similar changes inside cards and loans microservice.
+
+7
+00:00:25,000 --> 00:00:28,000
+And this is going to be super, super easy.
+
+8
+00:00:28,000 --> 00:00:30,000
+If you have questions like what is the property name,
+
+9
+00:00:30,000 --> 00:00:35,000
+what is the property values that I have to use, please refer the code present inside the GitHub repo.
+
+10
+00:00:35,000 --> 00:00:39,000
+If you see inside the GitHub repo eazybytes/microservice project.
+
+11
+00:00:39,000 --> 00:00:46,000
+Under this repo there is a section six and inside this I have uploaded the folder which is
+
+12
+00:00:46,000 --> 00:00:47,000
+v1-springboot.
+
+13
+00:00:47,000 --> 00:00:52,000
+Under this version one spring boot folder, we have three different microservices accounts we already
+
+14
+00:00:52,000 --> 00:00:53,000
+completed.
+
+15
+00:00:53,000 --> 00:00:58,000
+If you have any questions around cards, what type of properties we have to use, like I said, please
+
+16
+00:00:58,000 --> 00:01:03,000
+use the same properties like we created for accounts microservice, but try to give different phone
+
+17
+00:01:03,000 --> 00:01:07,000
+numbers, different contact details and different message.
+
+18
+00:01:07,000 --> 00:01:13,000
+So you can also get those details by going into this GitHub repo and look at the application.yml file.
+
+19
+00:01:13,000 --> 00:01:17,000
+And if you have any questions you can always refer to the code present inside this GitHub repo
+
+20
+00:01:17,000 --> 00:01:19,000
+and complete the assignment.
+
+21
+00:01:19,000 --> 00:01:23,000
+My sincere request is to complete this assignment so that you are getting enough
+
+22
+00:01:23,000 --> 00:01:24,000
+hands-On.
+
+23
+00:01:24,000 --> 00:01:29,000
+I'm trying to explain with one microservice and if you do the similar changes inside the two microservice,
+
+24
+00:01:29,000 --> 00:01:35,000
+that is going to bring lot of practice for you and these concepts will be entered into your subconscious
+
+25
+00:01:35,000 --> 00:01:36,000
+memory.
+
+26
+00:01:36,000 --> 00:01:41,000
+So even if someone is trying to take an interview by waking you up in the midnight, you will be able
+
+27
+00:01:41,000 --> 00:01:45,000
+to answer all the questions because you are doing lot of practice inside this course.
+
+28
+00:01:45,000 --> 00:01:51,000
+So please put an effort here and try to implement the changes inside the other microservices.
+
+29
+00:01:51,000 --> 00:01:54,000
+If you faced with some issues, don't get demotivated.
+
+30
+00:01:54,000 --> 00:02:00,000
+Anyway, I'm going to cover the code changes inside the cards and loans microservice very quickly inside
+
+31
+00:02:00,000 --> 00:02:01,000
+the next lecture.
+
+32
+00:02:01,000 --> 00:02:03,000
+I hope you will be successful at this assignment.
+
+33
+00:02:03,000 --> 00:02:06,000
+Thank you and I'll catch you in the next lecture bye.
+

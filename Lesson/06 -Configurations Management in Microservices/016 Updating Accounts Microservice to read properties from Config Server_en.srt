@@ -1,0 +1,568 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:07,000
+let's try to connect our accounts microservice with the config server that we have created. For the same,
+
+3
+00:00:07,000 --> 00:00:15,000
+first I'll go to my accounts microservice and here first I can delete the prod and qa related yaml files.
+
+4
+00:00:15,000 --> 00:00:19,000
+We no more needed them because we are right now storing inside the config server.
+
+5
+00:00:19,000 --> 00:00:25,000
+So I can click on this do refactor and post that the deletion will complete after deleting the files
+
+6
+00:00:25,000 --> 00:00:27,000
+under the application.yml.
+
+7
+00:00:27,000 --> 00:00:33,000
+If there are any changes related to these config import we can delete them and post that
+
+8
+00:00:33,000 --> 00:00:38,000
+we can delete all the changes related to profiles activation and build version.
+
+9
+00:00:38,000 --> 00:00:42,000
+So I'm deleting all these properties here because we no more need them.
+
+10
+00:00:42,000 --> 00:00:45,000
+So now I have the properties related to the server port.
+
+11
+00:00:45,000 --> 00:00:51,000
+Spring data has to database only and there are no properties related to my spring boot profile files
+
+12
+00:00:51,000 --> 00:00:54,000
+and the spring boot profile activation. As a next step,
+
+13
+00:00:54,000 --> 00:01:00,000
+what I can do is, like I said, we should first give a name to our microservice. For the same,
+
+14
+00:01:00,000 --> 00:01:05,000
+I'm going to create a new child element after spring with the name application.
+
+15
+00:01:05,000 --> 00:01:09,000
+After this application, I'm going to create one more child, which is name.
+
+16
+00:01:09,000 --> 00:01:15,000
+And here we need to give the exact name, which is accounts because we are trying to follow the same
+
+17
+00:01:15,000 --> 00:01:20,000
+name inside the file name conventions that we have copied into the config server.
+
+18
+00:01:20,000 --> 00:01:26,000
+So under the resources config folder you can see I'm trying to give the name as accounts, accounts-prod
+
+19
+00:01:26,000 --> 00:01:28,000
+and accounts-qa.
+
+20
+00:01:28,000 --> 00:01:33,000
+So please make sure you are giving the same name inside the accounts microservice by following the spring
+
+21
+00:01:33,000 --> 00:01:34,000
+application name.
+
+22
+00:01:34,000 --> 00:01:36,000
+Using these application name only
+
+23
+00:01:36,000 --> 00:01:40,000
+your individual microservice is going to request config server,
+
+24
+00:01:40,000 --> 00:01:42,000
+my name is accounts,
+
+25
+00:01:42,000 --> 00:01:47,000
+please give me the properties related to me based upon the current activated profile.
+
+26
+00:01:47,000 --> 00:01:49,000
+So we have this spring.application name.
+
+27
+00:01:49,000 --> 00:01:54,000
+Maybe we can also create a property to activate a profile by default.
+
+28
+00:01:54,000 --> 00:01:56,000
+So for the same we need to mention spring.
+
+29
+00:01:56,000 --> 00:02:01,000
+Under spring we have to mention profiles, post profiles active.
+
+30
+00:02:01,000 --> 00:02:02,000
+After this active,
+
+31
+00:02:02,000 --> 00:02:08,000
+I'm going to mention the profile as prod, which means by default, whenever my accounts microservice
+
+32
+00:02:08,000 --> 00:02:11,000
+is being started, it will activate based upon the prod profile.
+
+33
+00:02:11,000 --> 00:02:17,000
+If you want to change this behavior from an external configuration, you can always pass this property
+
+34
+00:02:17,000 --> 00:02:22,000
+which is spring.profiles.active with the help of command line arguments or environment variables
+
+35
+00:02:22,000 --> 00:02:27,000
+or JVM system variables like we discussed in the previous lectures.
+
+36
+00:02:27,000 --> 00:02:33,000
+As a next step, we need to go to the pom.xml of accounts microservice inside the accounts microservice.
+
+37
+00:02:33,000 --> 00:02:38,000
+We need to add a dependency related to the spring cloud config client.
+
+38
+00:02:38,000 --> 00:02:45,000
+So here the start.spring.io you can delete these dependencies and search for config client.
+
+39
+00:02:45,000 --> 00:02:49,000
+So this is the dependency that we need to add for the client applications who are trying to connect
+
+40
+00:02:49,000 --> 00:02:51,000
+with your config server.
+
+41
+00:02:51,000 --> 00:02:56,000
+So after selecting these, if you can click on this explore you will get the dependency details.
+
+42
+00:02:56,000 --> 00:02:59,000
+So let's copy this starter project details.
+
+43
+00:02:59,000 --> 00:03:05,000
+And the same I'm going to mention inside my pom.xml of accounts microservice just after this spring
+
+44
+00:03:05,000 --> 00:03:06,000
+boot starter web.
+
+45
+00:03:06,000 --> 00:03:10,000
+So now I have mentioned this since very first time inside our accounts
+
+46
+00:03:10,000 --> 00:03:11,000
+microservice.
+
+47
+00:03:11,000 --> 00:03:14,000
+We are trying to add the dependencies related to spring cloud.
+
+48
+00:03:14,000 --> 00:03:19,000
+We should also create a property defining what is the version of Spring cloud we want to use.
+
+49
+00:03:19,000 --> 00:03:24,000
+If you go here, we already have this property, so let's copy this one and paste it just after the
+
+50
+00:03:24,000 --> 00:03:26,000
+Java version and post that,
+
+51
+00:03:26,000 --> 00:03:32,000
+we should also make sure we are copying these dependency management related configurations.
+
+52
+00:03:32,000 --> 00:03:36,000
+The same we need to mention just about the plugin related information.
+
+53
+00:03:36,000 --> 00:03:41,000
+So here I have mentioned this dependency management like this is the groupId of the spring cloud and
+
+54
+00:03:41,000 --> 00:03:45,000
+this is the artifactId and this is the spring cloud version that I want to use.
+
+55
+00:03:45,000 --> 00:03:50,000
+So once we make all these changes, we can click on this load Maven changes which will download all
+
+56
+00:03:50,000 --> 00:03:53,000
+the required dependencies into your accounts
+
+57
+00:03:53,000 --> 00:03:54,000
+Microservice.
+
+58
+00:03:54,000 --> 00:04:01,000
+As a next step, we need to communicate to accounts microservice about the endpoint details of config
+
+59
+00:04:01,000 --> 00:04:02,000
+server.
+
+60
+00:04:02,000 --> 00:04:06,000
+That's why we need to go to the application.yml of accounts microservice.
+
+61
+00:04:06,000 --> 00:04:06,000
+Here
+
+62
+00:04:06,000 --> 00:04:11,000
+we need to create an property which is spring.config.import.
+
+63
+00:04:11,000 --> 00:04:13,000
+So we already have spring element here.
+
+64
+00:04:13,000 --> 00:04:18,000
+So just after the spring I will create a child which is config.
+
+65
+00:04:18,000 --> 00:04:24,000
+And after this config I'm going to mention import and this import I'm going to pass the URL details
+
+66
+00:04:24,000 --> 00:04:32,000
+of config server and here the URL details that I want to mention is config server colon http localhost
+
+67
+00:04:32,000 --> 00:04:33,000
+8071.
+
+68
+00:04:33,000 --> 00:04:35,000
+So this is the port of our config server.
+
+69
+00:04:35,000 --> 00:04:37,000
+So there is no confusion here.
+
+70
+00:04:37,000 --> 00:04:41,000
+This is the localhost that we need to mention inside the local environment.
+
+71
+00:04:41,000 --> 00:04:44,000
+Now you may have a question like why do we need to mention this config server prefix?
+
+72
+00:04:44,000 --> 00:04:50,000
+So this is an indication to accounts microservice or any other spring boot application that, it is
+
+73
+00:04:50,000 --> 00:04:56,000
+going to connect with the config server and don't get confused with the name of the config server that
+
+74
+00:04:56,000 --> 00:04:56,000
+we have choose.
+
+75
+00:04:56,000 --> 00:05:00,000
+Like here, we also choose the name as config server.
+
+76
+00:05:00,000 --> 00:05:05,000
+Regardless of whatever is the application name of your config server, we should still use the same
+
+77
+00:05:05,000 --> 00:05:07,000
+exact word, which is config server.
+
+78
+00:05:07,000 --> 00:05:12,000
+And just before this config server we can also mention optional colon.
+
+79
+00:05:12,000 --> 00:05:17,000
+So with this optional what we are telling to the accounts microservice is, if it is not able to connect
+
+80
+00:05:17,000 --> 00:05:24,000
+with the config server for whatever reasons, it can still continue to start the microservice application.
+
+81
+00:05:24,000 --> 00:05:29,000
+If you have a scenario where your properties are super important for your microservice and without them
+
+82
+00:05:29,000 --> 00:05:33,000
+you can't perform any business logic, then you can remove this optional.
+
+83
+00:05:33,000 --> 00:05:39,000
+But in our case, since these are not going to be super critical, I have mentioned these optional with
+
+84
+00:05:39,000 --> 00:05:39,000
+this
+
+85
+00:05:39,000 --> 00:05:43,000
+even my config server is not started before the accounts microservice.
+
+86
+00:05:43,000 --> 00:05:48,000
+My account service is not going to throw any exception or error during the startup.
+
+87
+00:05:48,000 --> 00:05:52,000
+It will just throw a warning and it will continue to start the microservice application.
+
+88
+00:05:52,000 --> 00:05:55,000
+So once we have defined these properties, we should be good.
+
+89
+00:05:55,000 --> 00:06:01,000
+Now if I try to start my accounts microservice, it will go and connect with the config server during
+
+90
+00:06:01,000 --> 00:06:01,000
+the startup.
+
+91
+00:06:01,000 --> 00:06:07,000
+And since we are trying to activate a profile prod with this property here, it is going to fetch only
+
+92
+00:06:07,000 --> 00:06:11,000
+the properties related to the prod profile. And the properties
+
+93
+00:06:11,000 --> 00:06:14,000
+whatever we have defined inside the accounts-prod.yml
+
+94
+00:06:14,000 --> 00:06:18,000
+will be loaded by the accounts microservice.
+
+95
+00:06:18,000 --> 00:06:20,000
+So are you ready to see the magic?
+
+96
+00:06:20,000 --> 00:06:24,000
+So let me go to the accounts microservice and try to start this microservice.
+
+97
+00:06:24,000 --> 00:06:28,000
+So I'm right clicking on this and clicking on this debug option.
+
+98
+00:06:28,000 --> 00:06:33,000
+With this, my accounts microservice will try to start at the port 8080.
+
+99
+00:06:33,000 --> 00:06:35,000
+So let's try to understand the console here.
+
+100
+00:06:35,000 --> 00:06:40,000
+If you scroll up, you should be able to see some statements related to the config server.
+
+101
+00:06:40,000 --> 00:06:42,000
+You can see it has identified the profile
+
+102
+00:06:42,000 --> 00:06:44,000
+right now activated is prod.
+
+103
+00:06:44,000 --> 00:06:48,000
+That's why it is trying to connect with the config server and it is trying to load all the relevant
+
+104
+00:06:48,000 --> 00:06:50,000
+properties from the config server.
+
+105
+00:06:50,000 --> 00:06:55,000
+So now let's go to the postman and try to test these changes. inside my postman
+
+106
+00:06:55,000 --> 00:06:58,000
+I'm trying to invoke this contact-info.
+
+107
+00:06:58,000 --> 00:07:03,000
+You can see I'm getting the message related to the prod and the contact details as product owner and
+
+108
+00:07:03,000 --> 00:07:09,000
+the call support which are present inside the prod profile, we can also test the build-info API.
+
+109
+00:07:09,000 --> 00:07:16,000
+So let me click on this send button and we are getting 1.0 like we expect. And Java version is going
+
+110
+00:07:16,000 --> 00:07:17,000
+to work all the time
+
+111
+00:07:17,000 --> 00:07:23,000
+very similarly because we are not storing any environment variables inside the spring cloud config server.
+
+112
+00:07:23,000 --> 00:07:29,000
+These environment variables will work based upon the environment variables that you have created inside
+
+113
+00:07:29,000 --> 00:07:30,000
+your local system.
+
+114
+00:07:30,000 --> 00:07:34,000
+So whenever we try to test this, it will simply give the JAVA_HOME path location.
+
+115
+00:07:34,000 --> 00:07:40,000
+So that's why don't get confused why we are not testing Java version whenever we are trying to test
+
+116
+00:07:40,000 --> 00:07:42,000
+config server related changes.
+
+117
+00:07:42,000 --> 00:07:47,000
+As of now we are starting the accounts microservice with a default profile, which is prod, but let's
+
+118
+00:07:47,000 --> 00:07:54,000
+try to activate a different profile from an external configuration and see if our microservice is able
+
+119
+00:07:54,000 --> 00:07:58,000
+to fetch the relevant profile properties from the config server.
+
+120
+00:07:58,000 --> 00:08:04,000
+For the same, I'm going to right click on my accounts application and click on this Modify Run configurations
+
+121
+00:08:04,000 --> 00:08:09,000
+post that here under the program arguments, I'm going to pass the command line arguments.
+
+122
+00:08:09,000 --> 00:08:12,000
+So the prefix that we need to mention is two hyphens.
+
+123
+00:08:12,000 --> 00:08:20,000
+Post that spring.profiles.active = qa. So here I'm trying to activate a different
+
+124
+00:08:20,000 --> 00:08:22,000
+profile which is qa.
+
+125
+00:08:22,000 --> 00:08:25,000
+After mentioning these details, I can click on this apply
+
+126
+00:08:25,000 --> 00:08:25,000
+ok.
+
+127
+00:08:25,000 --> 00:08:31,000
+Now I'll try to stop my accounts microservice first post that I'll try to start the application again.
+
+128
+00:08:31,000 --> 00:08:34,000
+So I'm trying to start in a debug mode.
+
+129
+00:08:34,000 --> 00:08:40,000
+So this time it should load the qa related profile properties from the config server.
+
+130
+00:08:40,000 --> 00:08:43,000
+We can confirm the same by testing this build info API.
+
+131
+00:08:43,000 --> 00:08:50,000
+You can see we are getting 2.0 and at the same time if you go and test the contact-info, we are getting
+
+132
+00:08:50,000 --> 00:08:52,000
+the properties from the qa profile.
+
+133
+00:08:52,000 --> 00:08:59,000
+So this confirms that our accounts microservice is perfectly integrated with the config server and we
+
+134
+00:08:59,000 --> 00:09:01,000
+have moved all the properties of accounts
+
+135
+00:09:01,000 --> 00:09:05,000
+microservice to a different centralized repository, which is config server.
+
+136
+00:09:05,000 --> 00:09:09,000
+Now as a next step, my request is by the next lecture,
+
+137
+00:09:09,000 --> 00:09:14,000
+please make the similar changes inside the cards and loans microservice and make sure they are also
+
+138
+00:09:14,000 --> 00:09:16,000
+integrated with the config server.
+
+139
+00:09:16,000 --> 00:09:20,000
+You can also test their respective REST APIs if you face any issues.
+
+140
+00:09:20,000 --> 00:09:26,000
+Don't worry, I'm going to show the code changes inside the loans and cards microservice very quickly,
+
+141
+00:09:26,000 --> 00:09:28,000
+so that it is pretty clear for you.
+
+142
+00:09:28,000 --> 00:09:30,000
+Thank you and I'll catch you in the next lecture bye.
+

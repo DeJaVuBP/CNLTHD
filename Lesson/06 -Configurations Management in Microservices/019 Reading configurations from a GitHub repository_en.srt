@@ -1,0 +1,688 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, Let's try to understand how to store all our configuration properties inside a
+
+2
+00:00:06,000 --> 00:00:08,000
+GitHub repo. Using the same GitHub repo,
+
+3
+00:00:08,000 --> 00:00:15,000
+my config server can try to load and read all the properties during the startup. And this GitHub approach
+
+4
+00:00:15,000 --> 00:00:21,000
+is the most recommended approach because when you try to store your properties inside GitHub repo you
+
+5
+00:00:21,000 --> 00:00:23,000
+will get multiple advantages
+
+6
+00:00:23,000 --> 00:00:27,000
+like you can properly secure your GitHub repo. So that no one can access it.
+
+7
+00:00:27,000 --> 00:00:33,000
+And at the same time it is also going to support versioning, auditing, in future maybe down the line
+
+8
+00:00:33,000 --> 00:00:34,000
+after one two years
+
+9
+00:00:34,000 --> 00:00:39,000
+if you want to understand what is the property that we use to have two years back or one year back,
+
+10
+00:00:39,000 --> 00:00:45,000
+you can always see the history inside the GitHub repo, whereas other approaches like file system and
+
+11
+00:00:45,000 --> 00:00:50,000
+classpath it is nearly impossible to track such versioning changes.
+
+12
+00:00:50,000 --> 00:00:56,000
+So in order to get started with the GitHub approach, first we need to move all our properties into
+
+13
+00:00:56,000 --> 00:00:57,000
+a GitHub repo.
+
+14
+00:00:57,000 --> 00:01:00,000
+Behind the scenes I have created a GitHub repo.
+
+15
+00:01:00,000 --> 00:01:05,000
+You can see this is the GitHub repo with the name eazybytes-config. Inside this GitHub repo,
+
+16
+00:01:05,000 --> 00:01:13,000
+like you can see, I have uploaded all the properties related to the accounts, cards and loans microservice.
+
+17
+00:01:13,000 --> 00:01:18,000
+And apart from that you may also see other Yaml files like Eureka server, Gateway server.
+
+18
+00:01:18,000 --> 00:01:19,000
+So for now don't worry about them.
+
+19
+00:01:19,000 --> 00:01:22,000
+We are going to use them in the coming sections.
+
+20
+00:01:22,000 --> 00:01:27,000
+So please focus on only the accounts, loans and cards microservice Yaml files.
+
+21
+00:01:27,000 --> 00:01:32,000
+If you try to open any of them, the same content is present, whatever we have discussed previously.
+
+22
+00:01:32,000 --> 00:01:39,000
+So now you can see as of now I made these repository as public so that my students can access these
+
+23
+00:01:39,000 --> 00:01:43,000
+and they can also use inside their microservice while they are practicing.
+
+24
+00:01:43,000 --> 00:01:44,000
+In real world,
+
+25
+00:01:44,000 --> 00:01:47,000
+we can't make our GitHub repo as a public.
+
+26
+00:01:47,000 --> 00:01:53,000
+Instead, we are going to make it as private repo, which means our config server has to authenticate
+
+27
+00:01:53,000 --> 00:01:57,000
+with the GitHub repo whenever it is trying to connect during the startup.
+
+28
+00:01:57,000 --> 00:02:01,000
+I'll give some directions on how to provide security details,
+
+29
+00:02:01,000 --> 00:02:06,000
+whenever you are trying to interact with a private GitHub repo from your config server.
+
+30
+00:02:06,000 --> 00:02:12,000
+For now first let's try to connect with this public GitHub repo. For the same inside your public GitHub repo,
+
+31
+00:02:12,000 --> 00:02:16,000
+first, please copy the value of https URL.
+
+32
+00:02:16,000 --> 00:02:18,000
+So this is my https url value.
+
+33
+00:02:18,000 --> 00:02:24,000
+So I'm just copying this post that we'll go to the application.yml of config server.
+
+34
+00:02:24,000 --> 00:02:26,000
+Here inside the config server
+
+35
+00:02:26,000 --> 00:02:31,000
+as of now we have activated the profile native and this native profile
+
+36
+00:02:31,000 --> 00:02:36,000
+we should activate only when you are using the approaches like classpath, location and file system
+
+37
+00:02:36,000 --> 00:02:37,000
+location.
+
+38
+00:02:37,000 --> 00:02:44,000
+Whereas if we are using GitHub repo we need to activate the profile with the name git.
+
+39
+00:02:44,000 --> 00:02:47,000
+So that's why I'm going to mention active post that
+
+40
+00:02:47,000 --> 00:02:50,000
+I'm going to mention the profile name as Git.
+
+41
+00:02:50,000 --> 00:02:54,000
+So please make sure you are mentioning this active under the profiles only.
+
+42
+00:02:54,000 --> 00:02:56,000
+So I have mentioned this correctly.
+
+43
+00:02:56,000 --> 00:02:59,000
+Like you can see this is the child under profiles.
+
+44
+00:02:59,000 --> 00:03:02,000
+I just commented this so that it will be here for your reference.
+
+45
+00:03:02,000 --> 00:03:07,000
+Now under the spring.cloud.config.server.native.
+
+46
+00:03:07,000 --> 00:03:12,000
+We have provided the search locations, but right now we are not following the native approach or native
+
+47
+00:03:12,000 --> 00:03:12,000
+profile.
+
+48
+00:03:12,000 --> 00:03:13,000
+That's why.
+
+49
+00:03:13,000 --> 00:03:17,000
+Please comment all these native related configurations.
+
+50
+00:03:17,000 --> 00:03:19,000
+I'm trying to comment the search locations as well.
+
+51
+00:03:19,000 --> 00:03:25,000
+Now inside this server, let's create a new child element with the name Git.
+
+52
+00:03:25,000 --> 00:03:29,000
+You can see the same value we have to provide here.
+
+53
+00:03:29,000 --> 00:03:34,000
+Under the git we need to create one more child element, which is uri. To this Uri,
+
+54
+00:03:34,000 --> 00:03:38,000
+we need to pass the GitHub repository URL details.
+
+55
+00:03:38,000 --> 00:03:41,000
+So this is my GitHub repository URL details.
+
+56
+00:03:41,000 --> 00:03:47,000
+After mentioning these details, we should also mention one more child element under the gate which
+
+57
+00:03:47,000 --> 00:03:49,000
+is default-label.
+
+58
+00:03:49,000 --> 00:03:55,000
+Like you know, inside the GitHub repo we'll be having a label name for our branches.
+
+59
+00:03:55,000 --> 00:03:58,000
+Inside my GitHub repo you can see the default branch name
+
+60
+00:03:58,000 --> 00:04:00,000
+right now I'm using is main.
+
+61
+00:04:00,000 --> 00:04:02,000
+That's why I have to mention the same.
+
+62
+00:04:02,000 --> 00:04:09,000
+This default label element is going to helpful if you have multiple branches inside your GitHub repo.
+
+63
+00:04:09,000 --> 00:04:15,000
+To avoid such confusion we need to always mention what is the default label or what is the default branch
+
+64
+00:04:15,000 --> 00:04:19,000
+that your config server has to connect. After this property
+
+65
+00:04:19,000 --> 00:04:22,000
+I'm going to mention one more property which is timeout.
+
+66
+00:04:22,000 --> 00:04:25,000
+Under this timeout I'm going to give a value as five.
+
+67
+00:04:25,000 --> 00:04:32,000
+So this represent that my config server should wait only for maximum five seconds and after the five
+
+68
+00:04:32,000 --> 00:04:37,000
+seconds if it is not able to connect to my GitHub repo for whatever reasons, the config server should
+
+69
+00:04:37,000 --> 00:04:38,000
+immediately throw an exception.
+
+70
+00:04:38,000 --> 00:04:45,000
+So this will allow my config server to fail immediately and that will give an exception to the operations
+
+71
+00:04:45,000 --> 00:04:51,000
+team or the developers team to understand if the GitHub repository is down or if the configurations
+
+72
+00:04:51,000 --> 00:04:57,000
+that we have done related to the uri or any other properties is wrong or not, we can validate all such
+
+73
+00:04:57,000 --> 00:04:59,000
+details. After the timeout,
+
+74
+00:04:59,000 --> 00:05:03,000
+the next property that we need to mention is,
+
+75
+00:05:03,000 --> 00:05:04,000
+clone-on-start.
+
+76
+00:05:04,000 --> 00:05:06,000
+Start with the value
+
+77
+00:05:06,000 --> 00:05:06,000
+true.
+
+78
+00:05:06,000 --> 00:05:10,000
+With this property I'm telling to my config server.
+
+79
+00:05:10,000 --> 00:05:15,000
+Please try to clone the GitHub repo into local system during the startup itself.
+
+80
+00:05:15,000 --> 00:05:21,000
+If you don't mention these value as true, the cloning of the GitHub repo will happen only when the
+
+81
+00:05:21,000 --> 00:05:26,000
+very first request come to your config server and this may result into some issues like your config
+
+82
+00:05:26,000 --> 00:05:32,000
+server may get started properly, but when the very first request coming towards your config server
+
+83
+00:05:32,000 --> 00:05:36,000
+like in the form of accounts microservice or cards or loans microservice, then it cannot clone
+
+84
+00:05:36,000 --> 00:05:39,000
+and it cannot read the configurations.
+
+85
+00:05:39,000 --> 00:05:44,000
+And in such scenarios it is going to create some issues on the accounts microservice.
+
+86
+00:05:44,000 --> 00:05:50,000
+That's why we need to make sure we are cloning the GitHub repo during the startup of the config server
+
+87
+00:05:50,000 --> 00:05:50,000
+itself.
+
+88
+00:05:50,000 --> 00:05:55,000
+And the last property that I want to provide here is, force-pull.
+
+89
+00:05:55,000 --> 00:05:57,000
+So to this force-pull.
+
+90
+00:05:57,000 --> 00:06:03,000
+I'm going to mention the value as true. Sometimes you might have changed some local changes inside the
+
+91
+00:06:03,000 --> 00:06:09,000
+local repo that got cloned inside your config server. By mentioning this force-pull
+
+92
+00:06:09,000 --> 00:06:15,000
+as true. We are telling to override all the local changes whenever you are trying to start or restart
+
+93
+00:06:15,000 --> 00:06:16,000
+your config server.
+
+94
+00:06:16,000 --> 00:06:22,000
+This will make sure your config server always reading the properties from the master location which
+
+95
+00:06:22,000 --> 00:06:23,000
+is GitHub repo.
+
+96
+00:06:23,000 --> 00:06:28,000
+After making these changes we should be good from the code changes perspective.
+
+97
+00:06:28,000 --> 00:06:34,000
+Let me save this changes and do a build post that I'm going to stop all my microservices including
+
+98
+00:06:34,000 --> 00:06:38,000
+the config server. After all my services are stopped.
+
+99
+00:06:38,000 --> 00:06:42,000
+As a next step I can first try to start my config server application.
+
+100
+00:06:42,000 --> 00:06:50,000
+So let me start in debug mode and you can also check in the console that your config server will try
+
+101
+00:06:50,000 --> 00:06:53,000
+to use the git profile and that's what happened here.
+
+102
+00:06:53,000 --> 00:06:57,000
+Now as a next step, I'm going to start my AccountsApplication.
+
+103
+00:06:57,000 --> 00:07:03,000
+Once the AccountApplication is started, I'm going to start my LoansApplication and after the
+
+104
+00:07:03,000 --> 00:07:07,000
+LoansApplication I'm also going to start the CardsApplication.
+
+105
+00:07:07,000 --> 00:07:10,000
+With this we have started all our services.
+
+106
+00:07:10,000 --> 00:07:16,000
+First, let's try to understand if our config server is reading from the GitHub repo or not.
+
+107
+00:07:16,000 --> 00:07:16,000
+Here
+
+108
+00:07:16,000 --> 00:07:22,000
+I'm trying to load this URL, which is localhost:8071/accounts/prod.
+
+109
+00:07:22,000 --> 00:07:28,000
+Here you can see as soon as I refresh the page I'm able to get the properties from the GitHub repo,
+
+110
+00:07:28,000 --> 00:07:34,000
+the same you can confirm by looking at this GitHub url link that my config server is using to pull the
+
+111
+00:07:34,000 --> 00:07:35,000
+properties.
+
+112
+00:07:35,000 --> 00:07:38,000
+So these are the accounts prod related properties.
+
+113
+00:07:38,000 --> 00:07:45,000
+As a next step, let's try to test the integration between the individual microservices and config server.
+
+114
+00:07:45,000 --> 00:07:48,000
+Here I'm going to invoke the cards related contact-info.
+
+115
+00:07:49,000 --> 00:07:55,000
+You can see I'm getting a successful response from the cards microservice, which means my cards microservice
+
+116
+00:07:55,000 --> 00:08:01,000
+during the startup it might have connected to the config server and asked for the properties related
+
+117
+00:08:01,000 --> 00:08:02,000
+to the prod profile.
+
+118
+00:08:02,000 --> 00:08:08,000
+With this right now our config server is pointing to the GitHub repo and this is the most recommended
+
+119
+00:08:08,000 --> 00:08:14,000
+approach and this approach has many other advantages which we are going to discuss in the coming lectures.
+
+120
+00:08:14,000 --> 00:08:15,000
+Throughout this course,
+
+121
+00:08:15,000 --> 00:08:17,000
+we are going to use this GitHub approach.
+
+122
+00:08:17,000 --> 00:08:20,000
+Now you may have a question here.
+
+123
+00:08:20,000 --> 00:08:25,000
+Are there any other approaches that we can use because different projects may have different requirements.
+
+124
+00:08:25,000 --> 00:08:31,000
+So let's try to understand the same by looking at the official documentation of the spring cloud config
+
+125
+00:08:31,000 --> 00:08:31,000
+server.
+
+126
+00:08:31,000 --> 00:08:36,000
+Here inside the spring website, you can click on this spring cloud config.
+
+127
+00:08:36,000 --> 00:08:41,000
+So I'm just clicking on this which will open the spring cloud config related information.
+
+128
+00:08:41,000 --> 00:08:48,000
+Now in order to check the official documentation details, you can click on this learn and post that
+
+129
+00:08:48,000 --> 00:08:51,000
+you can click on this reference doc of the latest version.
+
+130
+00:08:51,000 --> 00:08:54,000
+With that, you will be redirected to the official documentation.
+
+131
+00:08:54,000 --> 00:08:58,000
+If you can click on this spring cloud config server and scroll down
+
+132
+00:08:58,000 --> 00:09:01,000
+there is a lot of information about the spring cloud config server.
+
+133
+00:09:01,000 --> 00:09:07,000
+If you ask me to talk about spring cloud config server, I can talk for ten more hours.
+
+134
+00:09:07,000 --> 00:09:08,000
+So this subject is very huge.
+
+135
+00:09:08,000 --> 00:09:14,000
+That's why if you have any questions, any time, I would always recommend you to come to this page
+
+136
+00:09:14,000 --> 00:09:18,000
+and check for the information available about the spring cloud config server.
+
+137
+00:09:18,000 --> 00:09:24,000
+Suppose if you are trying to look for the information on how to use a private GitHub repository, then
+
+138
+00:09:24,000 --> 00:09:31,000
+you can come to this git backend and here there'll be a section explaining about authentication.
+
+139
+00:09:31,000 --> 00:09:37,000
+You can see and this authentication we have the information on how to pass a username and password of your
+
+140
+00:09:37,000 --> 00:09:38,000
+GitHub repo.
+
+141
+00:09:38,000 --> 00:09:43,000
+But if you are not comfortable mentioning the username and password, you can also make this work by
+
+142
+00:09:43,000 --> 00:09:45,000
+following the SSH standards.
+
+143
+00:09:45,000 --> 00:09:48,000
+So please read this official documentation for more details.
+
+144
+00:09:48,000 --> 00:09:54,000
+Now, very similarly, if you are using AWS codecommit just like how we are using GitHub repo in such
+
+145
+00:09:54,000 --> 00:09:58,000
+cases you can refer to this section and similarly Google cloud source
+
+146
+00:09:58,000 --> 00:09:59,000
+if you are using you can
+
+147
+00:09:59,000 --> 00:10:05,000
+refer to this section and git SSH configurations you can achieve with the help of these properties.
+
+148
+00:10:05,000 --> 00:10:08,000
+Like what is your what is the host key?
+
+149
+00:10:08,000 --> 00:10:10,000
+What is the host key algorithm?
+
+150
+00:10:10,000 --> 00:10:15,000
+What is your private key. Post that if you can scroll down, we have various approaches explained like
+
+151
+00:10:15,000 --> 00:10:18,000
+file system backend, which we already discussed.
+
+152
+00:10:18,000 --> 00:10:22,000
+And if you are using some vault, you can refer to this vault backend.
+
+153
+00:10:22,000 --> 00:10:29,000
+And similarly, if you can scroll down, there is also information about CredHub server, AWS secret manager
+
+154
+00:10:29,000 --> 00:10:36,000
+and very similarly parameter store Jdbc backend in case if you have plans to use database to store all
+
+155
+00:10:36,000 --> 00:10:39,000
+your properties, you can refer to these Jdbc backend.
+
+156
+00:10:39,000 --> 00:10:42,000
+This way this official document has a lot of information.
+
+157
+00:10:42,000 --> 00:10:48,000
+My request is whenever you have some requirements which we have not discussed inside this course, this
+
+158
+00:10:48,000 --> 00:10:52,000
+documentation can be a great resource for you to get started.
+
+159
+00:10:52,000 --> 00:10:55,000
+I want you to be empowered always.
+
+160
+00:10:55,000 --> 00:10:57,000
+Like you don't have to depend on others.
+
+161
+00:10:57,000 --> 00:11:01,000
+You can always refer to the official documentation to get most of the information.
+
+162
+00:11:01,000 --> 00:11:07,000
+Whatever courses that you find inside Udemy or YouTube or any other place, they will only make you
+
+163
+00:11:07,000 --> 00:11:11,000
+the subject simple and they will try to explain the concept.
+
+164
+00:11:11,000 --> 00:11:16,000
+Once you are clear with the subject and concept, any complex scenario that you have, you can always
+
+165
+00:11:16,000 --> 00:11:20,000
+try to achieve by referring to the official documentation
+
+166
+00:11:20,000 --> 00:11:24,000
+most of the times. That's how you can try to get promoted yourself
+
+167
+00:11:24,000 --> 00:11:26,000
+from junior developer to senior developer.
+
+168
+00:11:26,000 --> 00:11:29,000
+Always remember your number of years of experience
+
+169
+00:11:29,000 --> 00:11:30,000
+doesn't matter.
+
+170
+00:11:30,000 --> 00:11:36,000
+The knowledge that you carry only is a matter. I hope you are clear with all the information that we
+
+171
+00:11:36,000 --> 00:11:38,000
+have discussed inside this lecture.
+
+172
+00:11:38,000 --> 00:11:41,000
+Thank you and I'll catch you in the next lecture bye.
+

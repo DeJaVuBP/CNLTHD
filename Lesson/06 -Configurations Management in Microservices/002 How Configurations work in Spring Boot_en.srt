@@ -1,0 +1,544 @@
+1
+00:00:00,000 --> 00:00:02,000
+Inside this lecture,
+
+2
+00:00:02,000 --> 00:00:08,000
+let me start with the very basics on how configurations work inside any spring boot application, because
+
+3
+00:00:08,000 --> 00:00:15,000
+we are developing our microservices with spring boot framework only inside Java ecosystem to develop
+
+4
+00:00:15,000 --> 00:00:16,000
+microservices
+
+5
+00:00:16,000 --> 00:00:20,000
+most of the developers and organizations, they are going to use spring boot framework.
+
+6
+00:00:20,000 --> 00:00:26,000
+That's why we are also using the spring boot inside this course since we are using spring boot framework.
+
+7
+00:00:26,000 --> 00:00:32,000
+First let's try to understand what are the options that Spring boot framework is providing to handle
+
+8
+00:00:32,000 --> 00:00:35,000
+the challenge of configuration management in microservices.
+
+9
+00:00:35,000 --> 00:00:41,000
+Once we discuss these basic approaches, then we'll go to the advanced approaches that we have with
+
+10
+00:00:41,000 --> 00:00:43,000
+the help of spring cloud config server.
+
+11
+00:00:43,000 --> 00:00:49,000
+The main problem that right now we have is, we want to externalize the properties for our microservices.
+
+12
+00:00:49,000 --> 00:00:55,000
+So that the same immutable code artifact can be used across different, different environments.
+
+13
+00:00:55,000 --> 00:01:01,000
+So to handle these kind of scenarios, we are trying to learn how to separate the configurations and
+
+14
+00:01:01,000 --> 00:01:06,000
+codebase and also how to externalize the configurations from the codebase.
+
+15
+00:01:06,000 --> 00:01:11,000
+So let's see if the Spring Boot is going to help us in externalizing our application properties.
+
+16
+00:01:11,000 --> 00:01:18,000
+Spring Boot lets you externalize your configuration so that you can work with the same application code
+
+17
+00:01:18,000 --> 00:01:19,000
+in different, different environments.
+
+18
+00:01:19,000 --> 00:01:23,000
+You don't have to rebuild your application again and again.
+
+19
+00:01:23,000 --> 00:01:28,000
+There are different approaches that Spring Boot lets you follow to externalize the configuration sources,
+
+20
+00:01:28,000 --> 00:01:34,000
+and these approaches include with the help of property files and Yaml files where you can define all
+
+21
+00:01:34,000 --> 00:01:41,000
+the required configurations and properties that your application or microservice need during the startup
+
+22
+00:01:41,000 --> 00:01:42,000
+of the service.
+
+23
+00:01:42,000 --> 00:01:48,000
+Apart from these property files and Yaml files, we can also inject the configurations or properties
+
+24
+00:01:48,000 --> 00:01:54,000
+during the startup of the service with the help of environment variables and command line arguments.
+
+25
+00:01:54,000 --> 00:01:58,000
+So there are many approaches, so let's try to understand in detail about them.
+
+26
+00:01:58,000 --> 00:02:04,000
+By default, your spring boot application is going to look for the configurations or the properties
+
+27
+00:02:04,000 --> 00:02:09,000
+that you have mentioned inside the application.properties or inside the application dot Yaml file.
+
+28
+00:02:09,000 --> 00:02:15,000
+We are already using these inside our accounts, loans and cards microservice where we have defined
+
+29
+00:02:15,000 --> 00:02:21,000
+various properties inside the application.yml file and we place that inside the classpath location.
+
+30
+00:02:21,000 --> 00:02:27,000
+Apart from these default name, we can also have other property file names and we can make our spring
+
+31
+00:02:27,000 --> 00:02:30,000
+boot to read from them during the startup of the application.
+
+32
+00:02:30,000 --> 00:02:37,000
+But if you try to mention the properties or configurations inside your property file, you are clubbing
+
+33
+00:02:37,000 --> 00:02:39,000
+everything along with the source code.
+
+34
+00:02:39,000 --> 00:02:41,000
+So this approach may not work to a great extent,
+
+35
+00:02:41,000 --> 00:02:48,000
+that's why Spring Boot also supports other ways to override the default values that you have defined
+
+36
+00:02:48,000 --> 00:02:50,000
+inside the Application.properties file.
+
+37
+00:02:50,000 --> 00:02:52,000
+Maybe for development environment.
+
+38
+00:02:52,000 --> 00:02:59,000
+You might have mentioned that default database credentials, but at runtime inside your QA deployment or
+
+39
+00:02:59,000 --> 00:03:05,000
+production deployment, we want to override the default values like username, password, url details
+
+40
+00:03:05,000 --> 00:03:08,000
+of database during the startup of the application.
+
+41
+00:03:08,000 --> 00:03:14,000
+That's why to overcome this challenge we can always override the properties with the other approaches
+
+42
+00:03:14,000 --> 00:03:17,000
+like command line arguments, environment variables.
+
+43
+00:03:17,000 --> 00:03:23,000
+So here you may have a question like if I mention the same property in multiple locations, will there
+
+44
+00:03:23,000 --> 00:03:26,000
+be any preference or the priority that Spring Boot follows?
+
+45
+00:03:26,000 --> 00:03:32,000
+You can see here these are all the most commonly used approaches to provide the configurations inside
+
+46
+00:03:32,000 --> 00:03:34,000
+your spring boot applications.
+
+47
+00:03:34,000 --> 00:03:39,000
+The very first one is you can mention your properties inside the files like application.properties or
+
+48
+00:03:39,000 --> 00:03:40,000
+application.yml.
+
+49
+00:03:40,000 --> 00:03:46,000
+So whatever you mentioned inside these files, they will have the lowest priority or the lowest preference
+
+50
+00:03:46,000 --> 00:03:53,000
+if the same property is mentioned with the help of operating system environmental variables, then the
+
+51
+00:03:53,000 --> 00:03:59,000
+previous value which is mentioned inside the application.properties will be overrided and whatever value
+
+52
+00:03:59,000 --> 00:04:04,000
+you have mentioned inside the environmental variables will be considered by the spring boot framework.
+
+53
+00:04:04,000 --> 00:04:09,000
+And very similarly, you can also mention the configurations or properties with the approaches like
+
+54
+00:04:09,000 --> 00:04:16,000
+Java System Properties, Jndi attributes servlet config, init parameters and command line arguments.
+
+55
+00:04:16,000 --> 00:04:22,000
+The way the priority works is, the lower items will be overriding the earlier ones, which means command
+
+56
+00:04:22,000 --> 00:04:25,000
+line arguments is going to have highest priority.
+
+57
+00:04:25,000 --> 00:04:31,000
+Whereas the properties that you have mentioned inside the application.properties is going to have the
+
+58
+00:04:31,000 --> 00:04:32,000
+lowest priority.
+
+59
+00:04:32,000 --> 00:04:37,000
+So please remember these priority and the order followed by the spring boot framework and this is going
+
+60
+00:04:37,000 --> 00:04:39,000
+to be helpful for you inside your real projects.
+
+61
+00:04:39,000 --> 00:04:47,000
+Now we understand Spring Boot allows us to externalize our configurations by following all these approaches
+
+62
+00:04:47,000 --> 00:04:53,000
+right from basic approach with the help of application.properties or Yaml file to command line arguments.
+
+63
+00:04:53,000 --> 00:04:58,000
+The next question that you may have here is, the properties are defined in some location or with some
+
+64
+00:04:58,000 --> 00:05:00,000
+approach how to read those
+
+65
+00:05:00,000 --> 00:05:02,000
+properties inside my business logic.
+
+66
+00:05:02,000 --> 00:05:05,000
+So let's try to understand the same here again in Spring Boot.
+
+67
+00:05:05,000 --> 00:05:09,000
+In order to read the properties, there are multiple approaches.
+
+68
+00:05:09,000 --> 00:05:13,000
+I will try to present three commonly used approaches inside this course.
+
+69
+00:05:13,000 --> 00:05:18,000
+The very first approach is with the help of @Value annotation.
+
+70
+00:05:18,000 --> 00:05:24,000
+So whenever you want to read a particular property, you can define a Java field inside your business
+
+71
+00:05:24,000 --> 00:05:25,000
+logic.
+
+72
+00:05:25,000 --> 00:05:31,000
+On top of that Java field, you can mention an annotation @Value along with the what is a
+
+73
+00:05:31,000 --> 00:05:33,000
+property key name.
+
+74
+00:05:33,000 --> 00:05:38,000
+Once you mention what is a property key name with the format like you can see on the screen, during the
+
+75
+00:05:38,000 --> 00:05:44,000
+startup of your application, Spring Boot is going to look for this property inside all the places like
+
+76
+00:05:44,000 --> 00:05:48,000
+application.properties environmental variables and command line arguments.
+
+77
+00:05:48,000 --> 00:05:53,000
+So if the same property is defined in multiple places, then definitely it will follow the order of
+
+78
+00:05:53,000 --> 00:05:59,000
+priority and accordingly it will populate the property value inside this field.
+
+79
+00:05:59,000 --> 00:06:05,000
+Once we have the property value populated inside this field, you can use that anywhere inside your
+
+80
+00:06:05,000 --> 00:06:07,000
+methods or inside your business logic.
+
+81
+00:06:08,000 --> 00:06:12,000
+The next approach that we have is with the help of environment interface.
+
+82
+00:06:12,000 --> 00:06:18,000
+Many times in real projects, many properties like sensitive information or sensitive credentials,
+
+83
+00:06:18,000 --> 00:06:23,000
+they will be configured with the help of environmental variables.
+
+84
+00:06:23,000 --> 00:06:30,000
+So the server admins, they will create these operating system environmental variables during the creation
+
+85
+00:06:30,000 --> 00:06:31,000
+of the server very first time.
+
+86
+00:06:31,000 --> 00:06:36,000
+Or they might have created some scripts which will create the environmental variables during the creation
+
+87
+00:06:36,000 --> 00:06:37,000
+of the server.
+
+88
+00:06:37,000 --> 00:06:40,000
+So the same scripts they will follow for all the servers.
+
+89
+00:06:40,000 --> 00:06:45,000
+This way any server that is coming inside your microservice network or the cloud native applications,
+
+90
+00:06:45,000 --> 00:06:51,000
+they will make sure all of them they have the same set of environmental variables along with the required
+
+91
+00:06:51,000 --> 00:06:52,000
+values.
+
+92
+00:06:52,000 --> 00:06:59,000
+So to read such environmental variables inside spring boots, there is an interface which is environment
+
+93
+00:06:59,000 --> 00:06:59,000
+interface.
+
+94
+00:06:59,000 --> 00:07:06,000
+So inside this environment interface it provides many methods to access properties from the applications
+
+95
+00:07:06,000 --> 00:07:09,000
+environment, where your application is running.
+
+96
+00:07:09,000 --> 00:07:14,000
+So wherever your application is running inside that server, if there are any environment properties
+
+97
+00:07:14,000 --> 00:07:19,000
+define those values you can access with the help of these environment interface.
+
+98
+00:07:19,000 --> 00:07:25,000
+So wherever you want to read these environment properties inside your code, first you need to
+
+99
+00:07:25,000 --> 00:07:29,000
+autowire this environment interface to your class.
+
+100
+00:07:29,000 --> 00:07:36,000
+Post that inside any method where you want to read the property you can use getProperty() method available
+
+101
+00:07:36,000 --> 00:07:39,000
+inside this interface and to this method you need to pass,
+
+102
+00:07:39,000 --> 00:07:42,000
+what is the environment variable property name.
+
+103
+00:07:42,000 --> 00:07:45,000
+I'll be showing all these in demo so don't worry.
+
+104
+00:07:45,000 --> 00:07:47,000
+For now please note about all these approaches.
+
+105
+00:07:47,000 --> 00:07:52,000
+The next approach that we have is, with the help of @Configuration properties.
+
+106
+00:07:52,000 --> 00:07:56,000
+So if you see the very first and second approach, there are two drawbacks.
+
+107
+00:07:56,000 --> 00:08:02,000
+The very first one is you are going to hardcode your property key name inside your Value annotation
+
+108
+00:08:02,000 --> 00:08:09,000
+or inside your Environment.getProperty() method and these methods there are only useful to read a
+
+109
+00:08:09,000 --> 00:08:11,000
+single property at a time.
+
+110
+00:08:11,000 --> 00:08:16,000
+If you have multiple properties, then you need to define multiple Java fields with the help
+
+111
+00:08:16,000 --> 00:08:16,000
+@Value.
+
+112
+00:08:16,000 --> 00:08:23,000
+And similarly you need to invoke this getProperty() methods inside environment interface multiple times.
+
+113
+00:08:23,000 --> 00:08:28,000
+So these one and two approaches we should use only if we have very few properties that we want to use.
+
+114
+00:08:28,000 --> 00:08:34,000
+But if you have many properties configured for your application, then using these third approach is
+
+115
+00:08:34,000 --> 00:08:36,000
+the most recommended approaches.
+
+116
+00:08:36,000 --> 00:08:40,000
+This way, using this approach, you can avoid hardcoding the property keys.
+
+117
+00:08:40,000 --> 00:08:45,000
+So this approach is, with the help of the annotation at @Configuration properties.
+
+118
+00:08:45,000 --> 00:08:52,000
+How this approach is going to work is you need to define all your properties inside your property file
+
+119
+00:08:52,000 --> 00:08:53,000
+with a prefix value.
+
+120
+00:08:53,000 --> 00:08:59,000
+So once we define all your properties with the same prefix value you need to use @Configuration
+
+121
+00:08:59,000 --> 00:09:05,000
+properties annotation on top of a Java class along with the what is a prefix value.
+
+122
+00:09:05,000 --> 00:09:12,000
+Once we mention this annotation on top of a class inside the class, you can create any number of fields
+
+123
+00:09:12,000 --> 00:09:18,000
+along with the getters and setters, but please note that the field names and their return type has
+
+124
+00:09:18,000 --> 00:09:24,000
+to be matched with what you have configured inside your application.property file or in any other location.
+
+125
+00:09:24,000 --> 00:09:29,000
+I know it may not be very clear right now, but when I show you the demo of this third approach, it
+
+126
+00:09:29,000 --> 00:09:31,000
+is going to be super, super clear for you.
+
+127
+00:09:31,000 --> 00:09:37,000
+So with this approach, by the time the server started successfully, all your property values will
+
+128
+00:09:37,000 --> 00:09:40,000
+be binded to the fields presence inside the class
+
+129
+00:09:40,000 --> 00:09:46,000
+my config and to access all these fields you just need to invoke the get method available for all these
+
+130
+00:09:46,000 --> 00:09:47,000
+fields.
+
+131
+00:09:47,000 --> 00:09:50,000
+I hope you are clear about all these three approaches. From the next lecture,
+
+132
+00:09:50,000 --> 00:09:56,000
+let's try to implement all these approaches inside our microservice. In the same process,
+
+133
+00:09:56,000 --> 00:10:00,000
+we can also try to understand what are the disadvantages that we have
+
+134
+00:10:00,000 --> 00:10:03,000
+with these basic approaches provided by the Spring boot framework.
+
+135
+00:10:03,000 --> 00:10:03,000
+Thank you.
+
+136
+00:10:03,000 --> 00:10:06,000
+And I'll catch you in the next lecture bye.
+

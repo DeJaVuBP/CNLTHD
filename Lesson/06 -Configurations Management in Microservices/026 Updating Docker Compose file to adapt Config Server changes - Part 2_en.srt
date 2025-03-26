@@ -1,0 +1,700 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now we have our config server exposing the liveness and readiness information with the help of actuator.
+
+2
+00:00:07,000 --> 00:00:12,000
+As a next step, we need to make some changes inside this docker compose file to communicate with Docker
+
+3
+00:00:12,000 --> 00:00:13,000
+or Docker
+
+4
+00:00:13,000 --> 00:00:18,000
+compose on how to evaluate whether my config server is in healthy status.
+
+5
+00:00:18,000 --> 00:00:24,000
+For the same, we need to create one more child element under the config server you can create after
+
+6
+00:00:24,000 --> 00:00:25,000
+any element.
+
+7
+00:00:25,000 --> 00:00:28,000
+For now I'm trying to create after ports.
+
+8
+00:00:28,000 --> 00:00:31,000
+So just in the same portion where the ports is there.
+
+9
+00:00:31,000 --> 00:00:34,000
+Here we need to create one more element which is health check.
+
+10
+00:00:34,000 --> 00:00:41,000
+Under this health check you can see automatically a child element is created which is test.
+
+11
+00:00:41,000 --> 00:00:47,000
+So to this test property, we need to give instructions on how to evaluate whether my config server
+
+12
+00:00:47,000 --> 00:00:51,000
+is started and it is ready to accept the request. For the same,
+
+13
+00:00:51,000 --> 00:00:52,000
+here
+
+14
+00:00:52,000 --> 00:00:55,000
+I'm going to paste a command. Like you can see here,
+
+15
+00:00:55,000 --> 00:00:59,000
+I have pasted a curl command. Using this curl command,
+
+16
+00:00:59,000 --> 00:01:07,000
+I'm trying to invoke the API path which is localhost:8071/ actuator/health/readiness.
+
+17
+00:01:07,000 --> 00:01:12,000
+So whenever my docker compose, try to start my service config server, it will try to check the health
+
+18
+00:01:12,000 --> 00:01:15,000
+check if it is started successfully or not,
+
+19
+00:01:15,000 --> 00:01:17,000
+by invoking this actuator URL.
+
+20
+00:01:17,000 --> 00:01:24,000
+Once we invoke this actuator URL, we can get the output as up or down since we want to consider only
+
+21
+00:01:24,000 --> 00:01:26,000
+the status up as success.
+
+22
+00:01:26,000 --> 00:01:28,000
+Otherwise we want to consider it as a failure.
+
+23
+00:01:28,000 --> 00:01:34,000
+You can see that's why using this grep command, I'm trying to search inside the response with the value
+
+24
+00:01:34,000 --> 00:01:34,000
+up.
+
+25
+00:01:34,000 --> 00:01:39,000
+If it is there, then it indicates my service is started and its health is perfect.
+
+26
+00:01:39,000 --> 00:01:45,000
+Otherwise I'm telling to simply the exit this health check command, which means my docker compose will
+
+27
+00:01:45,000 --> 00:01:47,000
+consider that as my config server 
+
+28
+00:01:47,000 --> 00:01:49,000
+health is not proper.
+
+29
+00:01:49,000 --> 00:01:53,000
+Now after this test command, we need to provide more configurations for this health check.
+
+30
+00:01:53,000 --> 00:01:55,000
+So let me try to mention the same.
+
+31
+00:01:55,000 --> 00:02:01,000
+If you leave with this test command alone, my docker compose will only try to run this command only
+
+32
+00:02:01,000 --> 00:02:07,000
+once, but maybe in the scenarios where my config server might have taken good amount of time, maybe
+
+33
+00:02:07,000 --> 00:02:13,000
+30s or 20s to get start the complete config server application in such scenarios will always get the
+
+34
+00:02:13,000 --> 00:02:14,000
+output as failure.
+
+35
+00:02:14,000 --> 00:02:19,000
+That's why we need to provide some metrics like you can see here just under the same test,
+
+36
+00:02:19,000 --> 00:02:25,000
+we need to mention the other elements like interval, timeout retries and start period.
+
+37
+00:02:25,000 --> 00:02:31,000
+I'm trying to tell with the start period, please try to execute these health check command only after
+
+38
+00:02:31,000 --> 00:02:38,000
+the 10s. And if there is a failure, I'm telling please do the retries for ten times with an interval
+
+39
+00:02:38,000 --> 00:02:45,000
+of 10s and inside the each check it has to wait for the maximum five seconds to get the response from
+
+40
+00:02:45,000 --> 00:02:46,000
+this URL.
+
+41
+00:02:46,000 --> 00:02:49,000
+So that is what we are trying to achieve with these commands.
+
+42
+00:02:49,000 --> 00:02:56,000
+So with this health check now my Docker or Docker compose is smart enough to identify if the service
+
+43
+00:02:56,000 --> 00:02:59,000
+config server is started completely or not.
+
+44
+00:02:59,000 --> 00:03:06,000
+Now, as a next step, we need to define the dependency details of this config server into my accounts,
+
+45
+00:03:06,000 --> 00:03:09,000
+loans and cards microservice. For the same under these accounts
+
+46
+00:03:09,000 --> 00:03:12,000
+microservice just after the ports
+
+47
+00:03:12,000 --> 00:03:18,000
+I'm going to create a new element which is depends_on, as soon as I click on the depends_on,
+
+48
+00:03:18,000 --> 00:03:24,000
+here i can try to mention on which service my accounts microservices depends on.
+
+49
+00:03:24,000 --> 00:03:30,000
+So you can see it is automatically trying to detect the available services inside the Docker compose.
+
+50
+00:03:30,000 --> 00:03:36,000
+But right now I have the dependency only on the config server but not on the loans and cards microservice.
+
+51
+00:03:36,000 --> 00:03:38,000
+So let me select this config server.
+
+52
+00:03:38,000 --> 00:03:45,000
+But if you mention only depends on config server, your accounts microservice will never wait for your
+
+53
+00:03:45,000 --> 00:03:50,000
+config server to get completely started and available with a healthy status.
+
+54
+00:03:50,000 --> 00:03:57,000
+Instead, it will only wait until your config server initiated the starting process and it will never
+
+55
+00:03:57,000 --> 00:03:57,000
+wait,
+
+56
+00:03:57,000 --> 00:04:02,000
+whether the starting process is completed successfully or it failed successfully, it will never wait
+
+57
+00:04:02,000 --> 00:04:04,000
+for such output.
+
+58
+00:04:04,000 --> 00:04:10,000
+Instead, as soon as the config server starting process is initiated immediately, my accounts microservice
+
+59
+00:04:10,000 --> 00:04:12,000
+also will try to start, but we don't want that.
+
+60
+00:04:12,000 --> 00:04:18,000
+We want our accounts microservice to wait till the config server is started completely with a good health.
+
+61
+00:04:18,000 --> 00:04:24,000
+That's why we need to bring these config server to the next line as a child under the depends_on.
+
+62
+00:04:24,000 --> 00:04:28,000
+After this I'm going to mention colon and press enter.
+
+63
+00:04:28,000 --> 00:04:33,000
+Now under this config server I need to mention an element which is condition.
+
+64
+00:04:33,000 --> 00:04:39,000
+There are multiple conditions that we have like service completed successfully or service healthy
+
+65
+00:04:39,000 --> 00:04:40,000
+or service started.
+
+66
+00:04:40,000 --> 00:04:46,000
+If you mention service started, it is going to wait till your service is started, but it will never
+
+67
+00:04:46,000 --> 00:04:50,000
+care for your healthy status which you have defined here.
+
+68
+00:04:50,000 --> 00:04:56,000
+If you want for these health check to be passed, then only your accounts microservice needs to be
+
+69
+00:04:56,000 --> 00:04:56,000
+started.
+
+70
+00:04:56,000 --> 00:05:00,000
+You need to mention the value which is service healthy.
+
+71
+00:05:00,000 --> 00:05:01,000
+Instead of service healthy
+
+72
+00:05:01,000 --> 00:05:07,000
+we can also use in some scenarios, which is service completed successfully in the latest versions of
+
+73
+00:05:07,000 --> 00:05:09,000
+docker-compose and Docker.
+
+74
+00:05:09,000 --> 00:05:15,000
+This is introduced, so this will wait for your service to get started completely, behind the scenes
+
+75
+00:05:15,000 --> 00:05:19,000
+it will try to do some checks to make sure that the service is started completely.
+
+76
+00:05:19,000 --> 00:05:25,000
+But if you don't provide this health check related information, it will never know how to perform the
+
+77
+00:05:25,000 --> 00:05:28,000
+health checks that are specific to our config server.
+
+78
+00:05:28,000 --> 00:05:35,000
+That's why it is recommended to define your own health check and mention the condition as service healthy.
+
+79
+00:05:35,000 --> 00:05:42,000
+So with this my accounts microservice is going to wait till my config server started with a status
+
+80
+00:05:42,000 --> 00:05:43,000
+as service healthy.
+
+81
+00:05:43,000 --> 00:05:49,000
+We need to define same dependency inside our loans and cards microservice also.
+
+82
+00:05:49,000 --> 00:05:53,000
+So let me try to define just after the ports we are going to mention the same here.
+
+83
+00:05:53,000 --> 00:05:55,000
+Like depends on config server.
+
+84
+00:05:55,000 --> 00:05:57,000
+The condition is service healthy.
+
+85
+00:05:57,000 --> 00:06:00,000
+So let me mention the same for cards as well.
+
+86
+00:06:00,000 --> 00:06:01,000
+Just after the ports.
+
+87
+00:06:01,000 --> 00:06:03,000
+I'm trying to mention this information.
+
+88
+00:06:03,000 --> 00:06:09,000
+So now we have the complete setup like config server is going to start first.
+
+89
+00:06:09,000 --> 00:06:15,000
+Once this health check is satisfied, then only it is going to start my accounts, loans and cards
+
+90
+00:06:15,000 --> 00:06:17,000
+Microservice parallely.
+
+91
+00:06:17,000 --> 00:06:22,000
+Since I don't have any interdependency between accounts, loans and cards, they can get started
+
+92
+00:06:22,000 --> 00:06:23,000
+parallelly.
+
+93
+00:06:23,000 --> 00:06:26,000
+As a next step, we need to add one more service inside our docker
+
+94
+00:06:26,000 --> 00:06:27,000
+compose.
+
+95
+00:06:27,000 --> 00:06:29,000
+The service is related to rabbitmq.
+
+96
+00:06:29,000 --> 00:06:33,000
+We know our config server and all other microservices,
+
+97
+00:06:33,000 --> 00:06:39,000
+they will depend on rabbitmq since we are using spring cloud bus inside the dependencies.
+
+98
+00:06:39,000 --> 00:06:43,000
+So to make this work we need to create a new service element.
+
+99
+00:06:43,000 --> 00:06:44,000
+Here to save some time.
+
+100
+00:06:44,000 --> 00:06:46,000
+I'm going to paste few lines of code.
+
+101
+00:06:46,000 --> 00:06:47,000
+Like you can see here,
+
+102
+00:06:47,000 --> 00:06:53,000
+I have created a new service with the name Rabbit and this is mentioned in the same position like config
+
+103
+00:06:53,000 --> 00:06:55,000
+server service and this rabbit service,
+
+104
+00:06:55,000 --> 00:06:58,000
+first I need to provide what is the image name?
+
+105
+00:06:58,000 --> 00:07:03,000
+So this is the image name like Rabbitmq and this is the tag name that we need to mention.
+
+106
+00:07:03,000 --> 00:07:04,000
+Post that,
+
+107
+00:07:04,000 --> 00:07:06,000
+we need to mention the host name which is Rabbitmq.
+
+108
+00:07:06,000 --> 00:07:10,000
+So this property is specific to Rabbitmq container.
+
+109
+00:07:10,000 --> 00:07:14,000
+That's why we don't have to mention this for other services that we have here.
+
+110
+00:07:14,000 --> 00:07:20,000
+Post that for Rabbit, we need to mention two ports mapping 5672 and 15672.
+
+111
+00:07:20,000 --> 00:07:24,000
+We have done the same when we tried to run the Docker run command for Rabbitmq.
+
+112
+00:07:24,000 --> 00:07:27,000
+Why two ports is, inside Rabbitmq
+
+113
+00:07:27,000 --> 00:07:28,000
+there are two components.
+
+114
+00:07:28,000 --> 00:07:33,000
+One is which will take care of the management of the Rabbitmq and the other one which will take care
+
+115
+00:07:33,000 --> 00:07:34,000
+of the core activities.
+
+116
+00:07:34,000 --> 00:07:39,000
+So since there are two components, they are going to start at two different port like 
+
+117
+00:07:39,000 --> 00:07:41,000
+5672 and 15672.
+
+118
+00:07:41,000 --> 00:07:44,000
+That's why we need to mention these two port mappings.
+
+119
+00:07:44,000 --> 00:07:50,000
+Now, after this port mapping, we should also define the health check for Rabbitmq. Because my config
+
+120
+00:07:50,000 --> 00:07:57,000
+server and other microservices, they are dependent on my rabbitmq. Until my rabbitmq starts completely
+
+121
+00:07:57,000 --> 00:07:58,000
+with a good health.
+
+122
+00:07:58,000 --> 00:08:02,000
+I cannot really start my config server or any other service.
+
+123
+00:08:02,000 --> 00:08:05,000
+That's why we need to mention this health check along with the test command.
+
+124
+00:08:05,000 --> 00:08:12,000
+And at this test command I have given these value and these value is mentioned by the rabbitmq inside
+
+125
+00:08:12,000 --> 00:08:14,000
+their official documentation.
+
+126
+00:08:14,000 --> 00:08:20,000
+So whenever we want to test whether the Rabbitmq health is fine or not, we need to run this test command
+
+127
+00:08:20,000 --> 00:08:27,000
+inside the container of Rabbitmq. After this, you know about this interval timer retries and start period.
+
+128
+00:08:27,000 --> 00:08:29,000
+Now we have the service with the name Rabbit.
+
+129
+00:08:29,000 --> 00:08:34,000
+As a next step, I need to define the dependency inside my config server.
+
+130
+00:08:34,000 --> 00:08:41,000
+For the same, I'm going to invoke the element which is depends_on and to this element
+
+131
+00:08:41,000 --> 00:08:43,000
+I'm going to mention the service name which is Rabbit.
+
+132
+00:08:43,000 --> 00:08:48,000
+Since we want to make sure the rabbit is completely started successfully with a good health, we need
+
+133
+00:08:48,000 --> 00:08:55,000
+to bring this to next line as an element under depends on and post that we need to mention colon followed
+
+134
+00:08:55,000 --> 00:08:58,000
+by we need to mention condition. Under the condition
+
+135
+00:08:58,000 --> 00:09:05,000
+we need to mention service healthy. With this now my config server will wait for my rabbitmq to get started
+
+136
+00:09:05,000 --> 00:09:10,000
+and once it is get started, the health check that we have defined here should be successful.
+
+137
+00:09:10,000 --> 00:09:14,000
+Then only the config server will try to start post that
+
+138
+00:09:14,000 --> 00:09:17,000
+only my accounts, loans and cards will try to get started.
+
+139
+00:09:17,000 --> 00:09:21,000
+And here you may have a question like our accounts, loans and cards microservice
+
+140
+00:09:21,000 --> 00:09:26,000
+they also depend on this rabbitmq. Then why you are not mentioning this rabbit under the
+
+141
+00:09:26,000 --> 00:09:29,000
+depends on of accounts, loans and cards.
+
+142
+00:09:29,000 --> 00:09:30,000
+It's very simple.
+
+143
+00:09:30,000 --> 00:09:36,000
+The reason why I'm not mentioning is, anyway we have mentioned the dependency on config server inside
+
+144
+00:09:36,000 --> 00:09:38,000
+the accounts, loans and cards.
+
+145
+00:09:38,000 --> 00:09:44,000
+When my config server is waiting for my rabbitmq to get started indirectly my accounts, loans and cards.
+
+146
+00:09:44,000 --> 00:09:47,000
+They will also wait for this rabbitmq to get started.
+
+147
+00:09:47,000 --> 00:09:54,000
+That's why I don't have to mention again the rabbitmq dependency inside the accounts, loans and cards.
+
+148
+00:09:54,000 --> 00:09:56,000
+But if you want you can mention there is no harm in that.
+
+149
+00:09:56,000 --> 00:09:59,000
+Now our docker compose file for the default
+
+150
+00:10:00,000 --> 00:10:01,000
+is ready.
+
+151
+00:10:01,000 --> 00:10:08,000
+I'm assuming it is completely in a working state before we try to test this Docker compose file.
+
+152
+00:10:08,000 --> 00:10:11,000
+First, we need to make sure we are following a standard here.
+
+153
+00:10:11,000 --> 00:10:17,000
+As of now, you can see there is a lot of repetitive information inside our docker-compose.yml
+
+154
+00:10:17,000 --> 00:10:18,000
+file.
+
+155
+00:10:18,000 --> 00:10:24,000
+Like you can see at many places I have mentioned these deploy instructions and our config server and
+
+156
+00:10:24,000 --> 00:10:25,000
+accounts, cards and loans.
+
+157
+00:10:25,000 --> 00:10:31,000
+And similarly we have mentioned the networks also under all of the services. We need to move all these
+
+158
+00:10:31,000 --> 00:10:35,000
+repetitive configurations into another common file.
+
+159
+00:10:35,000 --> 00:10:40,000
+From there we can try to import so that the content will not be duplicated multiple times.
+
+160
+00:10:40,000 --> 00:10:45,000
+And at the same time, if you have the content in a single place, changing to a different value is
+
+161
+00:10:45,000 --> 00:10:50,000
+going to be super, super easy because you have to do the changes in only single place, but not under
+
+162
+00:10:50,000 --> 00:10:51,000
+the all services.
+
+163
+00:10:51,000 --> 00:10:56,000
+That's why inside the next lecture, let's try to optimize this docker-compose.yml file further before
+
+164
+00:10:56,000 --> 00:10:58,000
+I try to close this lecture.
+
+165
+00:10:58,000 --> 00:11:00,000
+We forget to mention these networks.
+
+166
+00:11:00,000 --> 00:11:02,000
+EasyBank under the Rabbitmq.
+
+167
+00:11:02,000 --> 00:11:08,000
+If you don't mention that, then rabbit service is going to start in a different isolated network and
+
+168
+00:11:08,000 --> 00:11:12,000
+the connection between rabbit, config server and other microservices will not work.
+
+169
+00:11:12,000 --> 00:11:18,000
+So that's why please make sure you are mentioning networks as EasyBank and the same network we have
+
+170
+00:11:18,000 --> 00:11:20,000
+created towards the end.
+
+171
+00:11:20,000 --> 00:11:25,000
+Like you can see, we have created a network with the name EasyBank which supports a driver bridge.
+
+172
+00:11:25,000 --> 00:11:26,000
+The same,
+
+173
+00:11:26,000 --> 00:11:28,000
+we are trying to refer in all the services.
+
+174
+00:11:28,000 --> 00:11:29,000
+I hope you are clear.
+
+175
+00:11:29,000 --> 00:11:32,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,912 @@
+1
+00:00:00,000 --> 00:00:03,000
+I said previously Inside Microservices network,
+
+2
+00:00:03,000 --> 00:00:05,000
+the more responsibilities you take.
+
+3
+00:00:05,000 --> 00:00:09,000
+You get more power from your microservices applications.
+
+4
+00:00:09,000 --> 00:00:15,000
+Right now we set up our microservices with config server, but the problem that we are facing is,
+
+5
+00:00:15,000 --> 00:00:20,000
+we have to invoke the refresh API for each microservice instance.
+
+6
+00:00:20,000 --> 00:00:24,000
+Whenever we are trying to refresh the configurations at runtime without restart.
+
+7
+00:00:24,000 --> 00:00:31,000
+If you want to avoid this, then definitely your organization are you should be ready to accept more
+
+8
+00:00:31,000 --> 00:00:32,000
+responsibilities.
+
+9
+00:00:32,000 --> 00:00:38,000
+So to overcome this challenge we need to use a new project inside the spring cloud, which is spring
+
+10
+00:00:38,000 --> 00:00:39,000
+cloud bus.
+
+11
+00:00:39,000 --> 00:00:45,000
+Like you can see this spring cloud bus links all the nodes of a distributed system with a lightweight
+
+12
+00:00:45,000 --> 00:00:46,000
+message broker.
+
+13
+00:00:46,000 --> 00:00:54,000
+And this can be used to broadcast the state changes, for example, configuration changes or any other
+
+14
+00:00:54,000 --> 00:00:55,000
+management instructions.
+
+15
+00:00:55,000 --> 00:01:02,000
+So whenever you are using the spring cloud bus behind the scenes this spring cloud bus is going to interlink
+
+16
+00:01:02,000 --> 00:01:09,000
+all your microservices instances with a lightweight message broker like Rabbitmq or Kafka.
+
+17
+00:01:09,000 --> 00:01:17,000
+With this, the advantage is you need to invoke a bus refresh api path available against your actuator only
+
+18
+00:01:17,000 --> 00:01:19,000
+one time for one of the instance.
+
+19
+00:01:19,000 --> 00:01:25,000
+If there are 500 instances running inside your production, you don't have to invoke the actuator refresh api
+
+20
+00:01:25,000 --> 00:01:28,000
+for all your 500 instances.
+
+21
+00:01:28,000 --> 00:01:35,000
+Instead, you can simply invoke bus refresh API for any of the instance inside this total 500 instances.
+
+22
+00:01:35,000 --> 00:01:39,000
+With that, the spring cloud bus will take care of communicating
+
+23
+00:01:39,000 --> 00:01:43,000
+the changes happened on the spring cloud config server to all other nodes
+
+24
+00:01:43,000 --> 00:01:49,000
+are the instances connected to the same message broker like Rabbitmq?
+
+25
+00:01:49,000 --> 00:01:55,000
+So in order to get started with this approach, first we need to have a rabbitmq running inside our
+
+26
+00:01:55,000 --> 00:01:56,000
+local system.
+
+27
+00:01:56,000 --> 00:01:58,000
+So this is the Rabbitmq website.
+
+28
+00:01:58,000 --> 00:02:01,000
+I'm going to mention this inside the GitHub repo page as well.
+
+29
+00:02:01,000 --> 00:02:06,000
+Here to get started, you can click on this Get Started button and click on this download and installation
+
+30
+00:02:06,000 --> 00:02:07,000
+option.
+
+31
+00:02:07,000 --> 00:02:13,000
+The very first and the easiest option that we can follow is, if you run this Docker run command, this
+
+32
+00:02:13,000 --> 00:02:18,000
+Rabbitmq message broker is going to run inside your local as a Docker container.
+
+33
+00:02:18,000 --> 00:02:24,000
+We already have Docker installed inside your system, so this is going to be a easiest option to install
+
+34
+00:02:24,000 --> 00:02:24,000
+and set up
+
+35
+00:02:24,000 --> 00:02:27,000
+Rabbitmq. You can see the power of Docker here.
+
+36
+00:02:27,000 --> 00:02:32,000
+Without Docker, you need to download it, you need to install it, you need to start the Rabbitmq.
+
+37
+00:02:32,000 --> 00:02:37,000
+So with the help of Docker, we are going to and avoid all those installation steps.
+
+38
+00:02:37,000 --> 00:02:41,000
+So let me copy this command and I'll go to the terminal. Inside my terminal,
+
+39
+00:02:41,000 --> 00:02:43,000
+I'm going to run this command.
+
+40
+00:02:43,000 --> 00:02:49,000
+Whenever you are trying to set up Rabbitmq behind the scenes, it is going to install two components.
+
+41
+00:02:49,000 --> 00:02:56,000
+One is a management component which which is responsible to manage your rabbitmq and provide the UI
+
+42
+00:02:56,000 --> 00:02:57,000
+to the Rabbitmq.
+
+43
+00:02:57,000 --> 00:03:02,000
+And the second one is a core component which is going to handle all the message-q related functionality.
+
+44
+00:03:02,000 --> 00:03:03,000
+So we don't have to type these,
+
+45
+00:03:03,000 --> 00:03:07,000
+we can simply get this command from the Rabbitmq website.
+
+46
+00:03:07,000 --> 00:03:11,000
+Now I'm going to execute this command with that inside the same terminal.
+
+47
+00:03:11,000 --> 00:03:13,000
+The Rabbitmq will start as of now
+
+48
+00:03:13,000 --> 00:03:14,000
+It started, as a next step
+
+49
+00:03:14,000 --> 00:03:21,000
+let's go to our workspace inside the pom.xml of all the microservices, including the config server.
+
+50
+00:03:21,000 --> 00:03:26,000
+We need to add a dependency related to the spring cloud bus and rabbitmq.
+
+51
+00:03:26,000 --> 00:03:31,000
+So let me go to the pom.xml of accounts microservice first.
+
+52
+00:03:31,000 --> 00:03:38,000
+So inside this pom.xml here I'm going to add a new dependency just after my spring cloud starter config,
+
+53
+00:03:38,000 --> 00:03:40,000
+so you can see I'm pasting a new dependency.
+
+54
+00:03:40,000 --> 00:03:41,000
+This is the dependency.
+
+55
+00:03:41,000 --> 00:03:45,000
+The dependency name is spring-cloud-starter-bus-amqp.
+
+56
+00:03:45,000 --> 00:03:52,000
+With this we are trying to set up both spring cloud starter bus and message queue with Rabbitmq integration.
+
+57
+00:03:52,000 --> 00:04:00,000
+Now let me try to add the same dependency inside all other pom.xml. So I'll go to my cards pom.xml.
+
+58
+00:04:00,000 --> 00:04:04,000
+Here also just after my spring cloud starter config, I'm going to add the same.
+
+59
+00:04:04,000 --> 00:04:12,000
+Post this we can go to the config server inside the pom.xml just after this spring cloud config server.
+
+60
+00:04:12,000 --> 00:04:14,000
+I'm going to add this new dependency.
+
+61
+00:04:14,000 --> 00:04:22,000
+Now let me go to the loans pom.xml and here I will try to add the dependency just after the spring cloud
+
+62
+00:04:22,000 --> 00:04:23,000
+starter config.
+
+63
+00:04:23,000 --> 00:04:29,000
+After adding this dependency inside all the microservices instances along with the config server, we
+
+64
+00:04:29,000 --> 00:04:37,000
+need to make sure we are enabling the actuator API path which is bus refresh inside all our microservices
+
+65
+00:04:37,000 --> 00:04:38,000
+instances.
+
+66
+00:04:38,000 --> 00:04:45,000
+As of now, if you go and open the application.yml of accounts microservice or any other microservices,
+
+67
+00:04:45,000 --> 00:04:50,000
+we have mentioned a property to expose all type of management endpoints.
+
+68
+00:04:50,000 --> 00:04:56,000
+So that's why we don't have to make any more changes here because since we have mentioned this asterisk,
+
+69
+00:04:56,000 --> 00:04:59,000
+it is going to enable and expose refresh path, bus refresh path
+
+70
+00:04:59,000 --> 00:05:03,000
+and any other parts available inside the actuator.
+
+71
+00:05:03,000 --> 00:05:06,000
+The same property we have mentioned inside the cards and loans.
+
+72
+00:05:06,000 --> 00:05:08,000
+So we should be good with this property perspective.
+
+73
+00:05:08,000 --> 00:05:16,000
+Now, as a next step, we need to provide the connection details of rabbitmq inside the individual microservices
+
+74
+00:05:16,000 --> 00:05:17,000
+instances.
+
+75
+00:05:17,000 --> 00:05:20,000
+We have all the setup needed and we also started the rabbitmq.
+
+76
+00:05:20,000 --> 00:05:26,000
+But we need to establish a link between the microservices and the message queue by providing the connection
+
+77
+00:05:26,000 --> 00:05:33,000
+details of the rabbitmq. For the same, inside the application.yml under this spring element, you
+
+78
+00:05:33,000 --> 00:05:37,000
+can create a new child element with the name Rabbitmq.
+
+79
+00:05:37,000 --> 00:05:41,000
+Under this rabbitmq mention the host value.
+
+80
+00:05:41,000 --> 00:05:47,000
+The value of host inside our local will be localhost followed by what is a port number.
+
+81
+00:05:47,000 --> 00:05:52,000
+The port number where we have started the rabbitmq is 5672.
+
+82
+00:05:52,000 --> 00:05:58,000
+After the port we should pass what is a username by default the username is guessed after username
+
+83
+00:05:58,000 --> 00:06:00,000
+we should also mention what is the password.
+
+84
+00:06:00,000 --> 00:06:03,000
+The password also by default is guessed.
+
+85
+00:06:03,000 --> 00:06:05,000
+So with these properties we should be good.
+
+86
+00:06:05,000 --> 00:06:11,000
+The same set of properties we need to mention inside the cards and loans microservice as well.
+
+87
+00:06:11,000 --> 00:06:19,000
+So let me go to the cards application.yml and here I'm going to copy the same set of values which
+
+88
+00:06:19,000 --> 00:06:22,000
+is rabbitmq, host, port and username and password.
+
+89
+00:06:22,000 --> 00:06:28,000
+As a next step, I can do the same inside the loans microservice as well, so I'm opening the application.yml
+
+90
+00:06:28,000 --> 00:06:30,000
+just after this config.
+
+91
+00:06:30,000 --> 00:06:33,000
+I'm mentioning the rabbitmq connection details.
+
+92
+00:06:33,000 --> 00:06:35,000
+Even if you don't mention these properties
+
+93
+00:06:35,000 --> 00:06:41,000
+still the connection will be established because these are the default values where my rabbitmq is going
+
+94
+00:06:41,000 --> 00:06:42,000
+to be started.
+
+95
+00:06:42,000 --> 00:06:48,000
+My spring boot is smart enough to consider the default values to connect with the rabbitmq, but I just
+
+96
+00:06:48,000 --> 00:06:52,000
+mentioned here, for your information, in case inside your project, if you are using different port
+
+97
+00:06:52,000 --> 00:06:58,000
+number and different username and password, then we need to mention these connection details inside
+
+98
+00:06:58,000 --> 00:06:59,000
+the application.yml
+
+99
+00:06:59,000 --> 00:07:01,000
+like you can see on the screen.
+
+100
+00:07:01,000 --> 00:07:04,000
+Now, we made all the required changes as a next step
+
+101
+00:07:04,000 --> 00:07:10,000
+I can stop all my microservices instances and try to load all the Maven changes.
+
+102
+00:07:10,000 --> 00:07:14,000
+Since we have added the new dependencies like spring cloud bus amqp.
+
+103
+00:07:15,000 --> 00:07:20,000
+We need to make sure we are doing a clean build so that all the required dependencies will be downloaded.
+
+104
+00:07:20,000 --> 00:07:24,000
+Now the Maven clean build is completed inside my local system.
+
+105
+00:07:24,000 --> 00:07:29,000
+As a next step, I can first try to start my config server application.
+
+106
+00:07:29,000 --> 00:07:35,000
+Once the config server is started, I can try to start the remaining microservices that we have inside
+
+107
+00:07:35,000 --> 00:07:36,000
+our workspace.
+
+108
+00:07:36,000 --> 00:07:42,000
+So let me try to start my AccountsApplication followed by LoansApplication.
+
+109
+00:07:42,000 --> 00:07:47,000
+After the LoansApplication, I can also try to start CardsApplication with this,
+
+110
+00:07:47,000 --> 00:07:50,000
+All our microservices instances are started.
+
+111
+00:07:50,000 --> 00:07:56,000
+Now what I will do is, I will try to change the this production back to the prod APIs.
+
+112
+00:07:56,000 --> 00:08:01,000
+As of now, all our microservice instances started with the value of this production.
+
+113
+00:08:01,000 --> 00:08:06,000
+We can also confirm the same by randomly testing this contact-info like for accounts microservice
+
+114
+00:08:06,000 --> 00:08:08,000
+you can see we are getting production APIs.
+
+115
+00:08:08,000 --> 00:08:15,000
+So now I'm going to change this production to the prod inside all the microservice Yaml files which
+
+116
+00:08:15,000 --> 00:08:16,000
+are related to prod profile.
+
+117
+00:08:16,000 --> 00:08:18,000
+So I'm just bringing back to prod.
+
+118
+00:08:18,000 --> 00:08:25,000
+Let me commit this inside the lone-prod.yml post that I will go to the accounts-prod.yml
+
+119
+00:08:25,000 --> 00:08:32,000
+and here also I will bring back prod and commit these changes to the GitHub repo after the accounts.
+
+120
+00:08:32,000 --> 00:08:36,000
+I'm also going to do the same for cards-prod.yml.
+
+121
+00:08:36,000 --> 00:08:38,000
+So let me click on this edit button.
+
+122
+00:08:38,000 --> 00:08:43,000
+Change this value back to the prod and commit the changes to the GitHub repo. With this,
+
+123
+00:08:43,000 --> 00:08:45,000
+now we have changed the property values
+
+124
+00:08:45,000 --> 00:08:51,000
+once we start all the microservices. Now we can try to validate if the config server is able to read
+
+125
+00:08:51,000 --> 00:08:53,000
+these latest values.
+
+126
+00:08:53,000 --> 00:08:56,000
+So for cards prod you can see I'm trying to refresh the page.
+
+127
+00:08:56,000 --> 00:08:57,000
+As of now we have production.
+
+128
+00:08:57,000 --> 00:09:01,000
+As soon as I refresh the value will change to prod APIs.
+
+129
+00:09:01,000 --> 00:09:04,000
+Let me confirm the same for accounts. For accounts
+
+130
+00:09:04,000 --> 00:09:05,000
+also it is changed to prod.
+
+131
+00:09:05,000 --> 00:09:08,000
+Now let me test for loans.
+
+132
+00:09:08,000 --> 00:09:08,000
+For loans
+
+133
+00:09:08,000 --> 00:09:14,000
+also it is changed to prod so config server refresh the properties without any restarts.
+
+134
+00:09:14,000 --> 00:09:22,000
+Now as a next step, like I said, we need to invoke a bus refresh API endpoint inside any of the microservices
+
+135
+00:09:22,000 --> 00:09:24,000
+instances running.
+
+136
+00:09:24,000 --> 00:09:30,000
+You can see under the accounts folder we have a request with the name bus refresh, so please click
+
+137
+00:09:30,000 --> 00:09:31,000
+on that.
+
+138
+00:09:31,000 --> 00:09:37,000
+Here this API path also is going to support Http post and the path that we need to invoke is actuator slash
+
+139
+00:09:37,000 --> 00:09:38,000
+bus refresh.
+
+140
+00:09:38,000 --> 00:09:45,000
+So please observe here that right now the invocation is happening using my accounts microservice instance.
+
+141
+00:09:45,000 --> 00:09:51,000
+Before I try to invoke this, I will try to show you the contact-info under the cards.
+
+142
+00:09:51,000 --> 00:09:52,000
+Like if I try to invoke this API,
+
+143
+00:09:52,000 --> 00:09:54,000
+as of now you are getting production.
+
+144
+00:09:54,000 --> 00:09:57,000
+Post a bus refresh, you should be able to see the prod output.
+
+145
+00:09:57,000 --> 00:09:59,000
+Now I'll go to the bus refresh and
+
+146
+00:09:59,000 --> 00:09:59,000
+here,
+
+147
+00:09:59,000 --> 00:10:05,000
+I'm clicking on the send button and we are getting a successful response with the response code 204.
+
+148
+00:10:05,000 --> 00:10:10,000
+The server successfully processed the request, but it is not returning any content.
+
+149
+00:10:10,000 --> 00:10:12,000
+That's why we are getting 204 behind the scenes
+
+150
+00:10:12,000 --> 00:10:18,000
+my spring cloud bus since it detected a change happened on the config server version,
+
+151
+00:10:18,000 --> 00:10:25,000
+it will communicate the same to all the microservices instances that are registered with the rabbitmq.
+
+152
+00:10:25,000 --> 00:10:31,000
+Since the loans and cards microservices are also registered with the rabbitmq, the change might have
+
+153
+00:10:31,000 --> 00:10:36,000
+communicated to them and they might have refreshed the properties without the restart of the application
+
+154
+00:10:36,000 --> 00:10:40,000
+and without invoking these bus refresh or refresh endpoints.
+
+155
+00:10:40,000 --> 00:10:41,000
+So let's confirm the same.
+
+156
+00:10:41,000 --> 00:10:44,000
+First, I'll try to invoke the accounts API.
+
+157
+00:10:44,000 --> 00:10:46,000
+So here, as of now we have production.
+
+158
+00:10:46,000 --> 00:10:47,000
+Are you ready for the magic?
+
+159
+00:10:47,000 --> 00:10:49,000
+You can see we are getting prod APIs.
+
+160
+00:10:49,000 --> 00:10:51,000
+Now let me show you the super magic.
+
+161
+00:10:51,000 --> 00:10:53,000
+Let's go to the cards
+
+162
+00:10:53,000 --> 00:10:53,000
+microservice.
+
+163
+00:10:53,000 --> 00:10:58,000
+I have not invoked bus refresh or refresh API available inside the cards
+
+164
+00:10:58,000 --> 00:11:01,000
+microservice I'm trying to click on the send button.
+
+165
+00:11:01,000 --> 00:11:04,000
+You can see the magic we are getting the reflected changes.
+
+166
+00:11:04,000 --> 00:11:08,000
+We can also confirm the same for loans as well here, for loans
+
+167
+00:11:08,000 --> 00:11:10,000
+also, we are getting the prod as an output.
+
+168
+00:11:10,000 --> 00:11:16,000
+This way we are able to refresh the properties at runtime by invoking the bus refresh against only one
+
+169
+00:11:16,000 --> 00:11:19,000
+of the running microservice instance.
+
+170
+00:11:19,000 --> 00:11:26,000
+We don't have to invoke the bus refresh API path or refresh API path available against all your running
+
+171
+00:11:26,000 --> 00:11:26,000
+instances.
+
+172
+00:11:26,000 --> 00:11:32,000
+We simply need to invoke the bus refresh against only one of the running instance.
+
+173
+00:11:32,000 --> 00:11:35,000
+But the condition is all other remaining instances
+
+174
+00:11:35,000 --> 00:11:40,000
+they should be registered to the same message queue, which is rabbitmq in our scenario.
+
+175
+00:11:40,000 --> 00:11:45,000
+Now, before I try to close this lecture, let's quickly summarize the changes that we have done inside
+
+176
+00:11:45,000 --> 00:11:45,000
+this slide,
+
+177
+00:11:45,000 --> 00:11:49,000
+I have mentioned all the steps that we have followed for your reference.
+
+178
+00:11:49,000 --> 00:11:54,000
+In the very first step, we need to make sure we are adding the actuator dependency inside the pom.xml
+
+179
+00:11:54,000 --> 00:12:00,000
+of all the individual microservices and inside the second step, we need to make sure to enable the
+
+180
+00:12:00,000 --> 00:12:02,000
+bus refresh API of actuator.
+
+181
+00:12:02,000 --> 00:12:08,000
+And to enable this we can configure this property inside your application.yml of your microservices.
+
+182
+00:12:08,000 --> 00:12:15,000
+The property is management.endpoints.web.exposure.include the value can be asterisk
+
+183
+00:12:15,000 --> 00:12:16,000
+or bus refresh.
+
+184
+00:12:16,000 --> 00:12:23,000
+In the third step, we need to make sure we are adding the dependency of spring cloud starter bus amqp
+
+185
+00:12:23,000 --> 00:12:29,000
+inside the pom.xml of all the individual microservices along with the config server.
+
+186
+00:12:29,000 --> 00:12:34,000
+And in the last step we need to make sure we are setting up the rabbitmq inside your local system.
+
+187
+00:12:34,000 --> 00:12:40,000
+And once the rabbitmq is started we need to provide the rabbitmq connection details inside the application.yml
+
+188
+00:12:40,000 --> 00:12:45,000
+of all of your individual microservices and the config server inside the config server
+
+189
+00:12:45,000 --> 00:12:51,000
+I have not mentioned as of now because like I said, if you started with the default values of rabbitmq,
+
+190
+00:12:51,000 --> 00:12:56,000
+it is not mandatory, it is completely optional and spring boot is smart enough to connect with the
+
+191
+00:12:56,000 --> 00:12:59,000
+rabbitmq with the default values.
+
+192
+00:12:59,000 --> 00:13:03,000
+After making all these changes, everything is going to work like we saw in the demo.
+
+193
+00:13:03,000 --> 00:13:05,000
+So let's try to see how the flow is going to work,
+
+194
+00:13:05,000 --> 00:13:10,000
+whenever we are trying to use spring cloud bus, like you can see here, there will be a message broker
+
+195
+00:13:10,000 --> 00:13:16,000
+in the middle, which is rabbitmq and all your microservices instances, including the config server,
+
+196
+00:13:16,000 --> 00:13:20,000
+they will registered as a client with the message broker.
+
+197
+00:13:20,000 --> 00:13:25,000
+With that setup in the very first step, you are going to push the new changes inside your GitHub repo
+
+198
+00:13:25,000 --> 00:13:31,000
+post that you are going to invoke the actuator bus refresh on on any of the microservice instance.
+
+199
+00:13:31,000 --> 00:13:37,000
+After the second step, your config service is going to trigger a config change event to the message
+
+200
+00:13:37,000 --> 00:13:43,000
+broker and request the message broker to initiate the refresh on all the subscribed nodes.
+
+201
+00:13:43,000 --> 00:13:49,000
+So behind the scenes your message broker communicate the same to all the registered microservice instances
+
+202
+00:13:49,000 --> 00:13:51,000
+like accounts, loans and cards.
+
+203
+00:13:51,000 --> 00:13:56,000
+And once this communication received from the message broker, all your instances are going to connect
+
+204
+00:13:56,000 --> 00:14:02,000
+with the config service and they are going to reload the property without the restart like in the fourth
+
+205
+00:14:02,000 --> 00:14:02,000
+step.
+
+206
+00:14:02,000 --> 00:14:07,000
+So here you have taken the extra responsibility by setting up the Rabbitmq.
+
+207
+00:14:07,000 --> 00:14:12,000
+So to achieve this setup inside the production also you should have the message broker installed and
+
+208
+00:14:12,000 --> 00:14:17,000
+set up and the integration between your microservices and message broker always should work.
+
+209
+00:14:17,000 --> 00:14:23,000
+So since you are going to take the extra pain or extra responsibility to to setup these, you are going
+
+210
+00:14:23,000 --> 00:14:29,000
+to get the more power from your microservices in the form of an advantage, which is without restarting
+
+211
+00:14:29,000 --> 00:14:35,000
+all your microservice instances and without invoking the refresh API on all your microservice instances,
+
+212
+00:14:35,000 --> 00:14:38,000
+you are going to achieve the required results.
+
+213
+00:14:38,000 --> 00:14:40,000
+But there is a drawback here
+
+214
+00:14:40,000 --> 00:14:46,000
+also, someone has to invoke this bus refresh at least once without invocation of this bus refresh.
+
+215
+00:14:46,000 --> 00:14:53,000
+The properties will never get refreshed on the microservices, so there is a manual task is involved.
+
+216
+00:14:53,000 --> 00:14:58,000
+It can be a manual task or it can be some other setup you try to implement inside your system. regardless
+
+217
+00:14:58,000 --> 00:14:59,000
+Regardless of what
+
+218
+00:14:59,000 --> 00:15:01,000
+It is an approach that you follow.
+
+219
+00:15:01,000 --> 00:15:06,000
+There is an extra burden on the operations team that they need to follow. Inside your organization,
+
+220
+00:15:06,000 --> 00:15:13,000
+if they are fine to invoke this bus refresh manually or through some any other CI/CD job, we should
+
+221
+00:15:13,000 --> 00:15:18,000
+be fine because we may not be changing the properties daily inside the production and at the same time
+
+222
+00:15:18,000 --> 00:15:22,000
+we are not going to change the properties for all the microservices.
+
+223
+00:15:22,000 --> 00:15:27,000
+So if it is a rare scenario inside your organization and inside your project, you should be fine with
+
+224
+00:15:27,000 --> 00:15:28,000
+this approach.
+
+225
+00:15:28,000 --> 00:15:34,000
+But what if you are going to change the properties runtime on a daily basis or very frequently?
+
+226
+00:15:34,000 --> 00:15:38,000
+So is there any approach to avoid this manual work to invoke this bus refresh api.
+
+227
+00:15:39,000 --> 00:15:42,000
+So let's try to understand the same inside the next lecture.
+
+228
+00:15:42,000 --> 00:15:44,000
+Thank you and I'll catch you in the next lecture bye.
+

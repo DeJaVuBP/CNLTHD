@@ -1,0 +1,588 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+let's try to create a separate config server with the help of spring cloud config for the same as of
+
+3
+00:00:08,000 --> 00:00:08,000
+now
+
+4
+00:00:08,000 --> 00:00:13,000
+inside the section six folder we have a sub folder with the name v1-spring boot.
+
+5
+00:00:13,000 --> 00:00:18,000
+And inside this we have all the three microservices with the name accounts, cards and loans.
+
+6
+00:00:18,000 --> 00:00:24,000
+And inside these microservices we handle the configuration management with the help of spring boot alone.
+
+7
+00:00:24,000 --> 00:00:30,000
+Now we are trying to move to a more advanced option and in the process I have to delete a lot of code
+
+8
+00:00:30,000 --> 00:00:35,000
+inside these microservices, especially the configuration related files.
+
+9
+00:00:35,000 --> 00:00:40,000
+That's why I don't want to make the changes related to the spring cloud config inside these
+
+10
+00:00:40,000 --> 00:00:41,000
+v1-springboot.
+
+11
+00:00:41,000 --> 00:00:46,000
+Instead, I'm going to create a one more folder indicating the version2.
+
+12
+00:00:46,000 --> 00:00:52,000
+So let me try to copy this folder and paste it inside the same folder post that I will just rename this
+
+13
+00:00:52,000 --> 00:00:53,000
+to v2.
+
+14
+00:00:53,000 --> 00:00:59,000
+V2 indicates version 2-spring-cloud-config.
+
+15
+00:00:59,000 --> 00:01:03,000
+This way you will have references for both type of changes.
+
+16
+00:01:03,000 --> 00:01:08,000
+One is with the help of Spring boot and the other one is with the help of spring cloud config.
+
+17
+00:01:08,000 --> 00:01:13,000
+So inside this folder if you go and try to look for the hidden folders, you will see a folder with
+
+18
+00:01:13,000 --> 00:01:17,000
+the name .idea which is created and maintained by your IntelliJ idea.
+
+19
+00:01:17,000 --> 00:01:22,000
+I want to delete this because this is belongs to the previous workspace that we have opened.
+
+20
+00:01:22,000 --> 00:01:29,000
+So now we have created a new folder with the name v2-spring-cloud-config and
+
+21
+00:01:29,000 --> 00:01:34,000
+inside this folder we can start making all the changes related to the config server.
+
+22
+00:01:34,000 --> 00:01:37,000
+So first I want to create a new config server. For the same,
+
+23
+00:01:37,000 --> 00:01:40,000
+let me go to the start.spring.io website.
+
+24
+00:01:40,000 --> 00:01:40,000
+First
+
+25
+00:01:40,000 --> 00:01:46,000
+I'll make sure that the language is Java and the project type is Maven. Post that I'm fine with whatever
+
+26
+00:01:46,000 --> 00:01:49,000
+version right now we have, which is 3.1.2.
+
+27
+00:01:49,000 --> 00:01:53,000
+Like I said before, always go with the latest stable version.
+
+28
+00:01:53,000 --> 00:01:58,000
+I will be updating the code inside the GitHub repo every quarter to the most recent version.
+
+29
+00:01:58,000 --> 00:02:00,000
+Now I want to mention that group details.
+
+30
+00:02:00,000 --> 00:02:03,000
+The group details will be com.eazybytes.
+
+31
+00:02:04,000 --> 00:02:04,000
+Post that,
+
+32
+00:02:04,000 --> 00:02:08,000
+the artifact id that I want to mention is, config server.
+
+33
+00:02:08,000 --> 00:02:13,000
+Since we are trying to build a config server for our microservices network, I want to mention this
+
+34
+00:02:13,000 --> 00:02:15,000
+name which is config server.
+
+35
+00:02:15,000 --> 00:02:17,000
+The same I want to consider under the name as well.
+
+36
+00:02:17,000 --> 00:02:26,000
+Now coming to that description I'll just mention something like config server for EazyBankMicroservices.
+
+37
+00:02:26,000 --> 00:02:31,000
+So once we mention this description, I'm fine with these package names, so please make sure you are
+
+38
+00:02:31,000 --> 00:02:37,000
+giving the same details also so that your code and my code always look similar and that will help you
+
+39
+00:02:37,000 --> 00:02:39,000
+to identify any mismatches easily.
+
+40
+00:02:39,000 --> 00:02:42,000
+So the packaging should be jar, coming to the dependencies
+
+41
+00:02:42,000 --> 00:02:46,000
+the very first dependency that we want to add here is config server.
+
+42
+00:02:46,000 --> 00:02:48,000
+So just look for config.
+
+43
+00:02:48,000 --> 00:02:52,000
+If you try to see regarding configurations, we have two types of dependencies.
+
+44
+00:02:52,000 --> 00:02:55,000
+One is Config Server and the other one is Config Client.
+
+45
+00:02:55,000 --> 00:03:00,000
+Whenever we are trying to build a centralized configuration server, we need to make sure we are selecting
+
+46
+00:03:00,000 --> 00:03:02,000
+the dependency which is Config Server.
+
+47
+00:03:02,000 --> 00:03:09,000
+You can also see the description central management for configurations via Git, SVN or HashiCorp Vault
+
+48
+00:03:09,000 --> 00:03:16,000
+or any other approaches. Whereas config client you should use whenever you are trying to connect your
+
+49
+00:03:16,000 --> 00:03:18,000
+microservice with the Config Server.
+
+50
+00:03:18,000 --> 00:03:23,000
+So inside your individual microservices like accounts, loans and cards, you need to add this dependency
+
+51
+00:03:23,000 --> 00:03:25,000
+which is Config Client.
+
+52
+00:03:25,000 --> 00:03:30,000
+For now, I'm going to select this Config Server since we are trying to build the configuration server
+
+53
+00:03:30,000 --> 00:03:34,000
+post this, I want to add one more dependency which is Actuator.
+
+54
+00:03:34,000 --> 00:03:40,000
+So Spring Boot Actuator like we discussed, it is going to support to monitor and manage our applications,
+
+55
+00:03:40,000 --> 00:03:43,000
+such as application health, metrics, session etc.
+
+56
+00:03:43,000 --> 00:03:43,000
+.
+
+57
+00:03:43,000 --> 00:03:46,000
+So please add this dependency as well.
+
+58
+00:03:46,000 --> 00:03:51,000
+After adding these dependencies, you can try to click on this Explore button which will show you the
+
+59
+00:03:51,000 --> 00:03:57,000
+pom.xml. So you can see this is the spring boot version and this is the groupId, artifactId version
+
+60
+00:03:57,000 --> 00:03:57,000
+and the description.
+
+61
+00:03:57,000 --> 00:04:03,000
+Everything is matching with what we have given and the dependencies we have actuator config server and
+
+62
+00:04:03,000 --> 00:04:07,000
+by default we'll get spring-boot-starter-test for all kind of spring boot project.
+
+63
+00:04:07,000 --> 00:04:14,000
+Here the important information that I want you to observe is there is a spring cloud version mentioned and
+
+64
+00:04:14,000 --> 00:04:20,000
+this version is 2022 .0.3, whereas the spring boot version is 3.1.2.
+
+65
+00:04:20,000 --> 00:04:25,000
+Why we have complete different version numbers for Spring Boot and Spring Cloud.
+
+66
+00:04:25,000 --> 00:04:30,000
+The reason is Spring Boot and Spring Cloud are two different projects inside the spring ecosystem.
+
+67
+00:04:30,000 --> 00:04:32,000
+They will have their own version numbers.
+
+68
+00:04:32,000 --> 00:04:38,000
+So when you try to create a spring boot project from the start.spring.io, the automatic mapping of
+
+69
+00:04:38,000 --> 00:04:43,000
+the spring boot version to the spring cloud version will happen automatically inside this website.
+
+70
+00:04:43,000 --> 00:04:49,000
+And it is also going to add a dependency to add these spring cloud related dependencies along with the
+
+71
+00:04:49,000 --> 00:04:54,000
+version that we have defined inside the top, which is 2022 .0.3.
+
+72
+00:04:54,000 --> 00:04:59,000
+Here you may have a question like what if I'm not using the start.spring.io to create
+
+73
+00:05:00,000 --> 00:05:01,000
+springboot project.
+
+74
+00:05:01,000 --> 00:05:06,000
+Maybe you're trying to add the spring cloud related dependencies to an existing spring boot project.
+
+75
+00:05:06,000 --> 00:05:11,000
+In such scenarios, you can go to the spring cloud website. On this page,
+
+76
+00:05:11,000 --> 00:05:16,000
+they have mentioned the spring boot release train along with the spring boot compatibility versions.
+
+77
+00:05:16,000 --> 00:05:23,000
+So you can see for all the spring boot versions which are starting with 3.0 and 3.1, we should use
+
+78
+00:05:23,000 --> 00:05:30,000
+the 2022 .0.3, whereas for the older versions very similar way they have mentioned all the spring cloud
+
+79
+00:05:30,000 --> 00:05:31,000
+versions.
+
+80
+00:05:31,000 --> 00:05:38,000
+So using this release mapping between Spring cloud and spring boot, you should be able to easily identify
+
+81
+00:05:38,000 --> 00:05:39,000
+the spring cloud version.
+
+82
+00:05:39,000 --> 00:05:41,000
+And here I want to share you a fun fact.
+
+83
+00:05:41,000 --> 00:05:47,000
+If you see all this spring cloud versions, they have a name like Dalston, Edgware, Finchley, Greenwich,
+
+84
+00:05:47,000 --> 00:05:50,000
+Hoxton, Ilford, Jubilee and Kilburn.
+
+85
+00:05:50,000 --> 00:05:51,000
+Do you know how these names are derived?
+
+86
+00:05:51,000 --> 00:05:56,000
+If you are from London, you should be easily identify these names.
+
+87
+00:05:56,000 --> 00:06:03,000
+So all these names are derived from the substation or metro stations inside the London City.
+
+88
+00:06:03,000 --> 00:06:07,000
+You can see there are also following an order like d,e,
+
+89
+00:06:07,000 --> 00:06:10,000
+f, g, h, i, j, k.
+
+90
+00:06:10,000 --> 00:06:12,000
+So this is a fun fact that I came to know.
+
+91
+00:06:12,000 --> 00:06:15,000
+If you are from London, please enjoy this fun fact.
+
+92
+00:06:15,000 --> 00:06:19,000
+And for others it is still a good information to know about it.
+
+93
+00:06:19,000 --> 00:06:26,000
+Now we can go to the start.spring.io and click on this close button and I can click on this generate
+
+94
+00:06:26,000 --> 00:06:26,000
+button.
+
+95
+00:06:26,000 --> 00:06:32,000
+This will download a new project into your local with the name config server.
+
+96
+00:06:32,000 --> 00:06:36,000
+So let me copy the config server project into our workspace.
+
+97
+00:06:36,000 --> 00:06:43,000
+So I'm into the folder which is v2-spring-cloud-config and here we have only three microservices.
+
+98
+00:06:43,000 --> 00:06:48,000
+Now I'm going to paste the new project that we have generated with the name config server.
+
+99
+00:06:48,000 --> 00:06:53,000
+So let me double click on this and extract this folder so the extraction is completed.
+
+100
+00:06:53,000 --> 00:07:00,000
+Now I can remove this .zip package that I have now as a next step I'll go to my IntelliJ idea and open
+
+101
+00:07:00,000 --> 00:07:04,000
+this folder which is v2-spring-cloud-config.
+
+102
+00:07:04,000 --> 00:07:06,000
+So here I'm just clicking on this open.
+
+103
+00:07:06,000 --> 00:07:13,000
+I'll go to storage, workspaces, Microservices, section6 and inside this we have folder which is v2-spring-cloud-config
+
+104
+00:07:13,000 --> 00:07:14,000
+.
+
+105
+00:07:14,000 --> 00:07:17,000
+So this will create a new workspace inside this folder.
+
+106
+00:07:17,000 --> 00:07:21,000
+Make sure you are loading all the Maven projects by clicking on this load button.
+
+107
+00:07:21,000 --> 00:07:27,000
+So from now onwards you are going to have four different maven projects like accounts, cards, config
+
+108
+00:07:27,000 --> 00:07:28,000
+server and loans.
+
+109
+00:07:28,000 --> 00:07:35,000
+Now as a next step, let's go to the config server and open the main class that we have, which is config
+
+110
+00:07:35,000 --> 00:07:36,000
+server application.
+
+111
+00:07:36,000 --> 00:07:37,000
+Here
+
+112
+00:07:37,000 --> 00:07:44,000
+we need to mention an annotation to enable the config server functionality and the annotation is at
+
+113
+00:07:44,000 --> 00:07:46,000
+the @EnableConfigServer.
+
+114
+00:07:46,000 --> 00:07:48,000
+So this is the annotation.
+
+115
+00:07:48,000 --> 00:07:51,000
+Once we mention this annotation we should be good. As a next step
+
+116
+00:07:51,000 --> 00:07:57,000
+let's go to the application.properties inside this spring boot project which is ConfigServer.
+
+117
+00:07:57,000 --> 00:08:03,000
+So as of now you can see we have application.properties, but like you know we are following the Yaml
+
+118
+00:08:03,000 --> 00:08:05,000
+configuration inside this course.
+
+119
+00:08:05,000 --> 00:08:12,000
+That's why I'm going to rename this to applicatio.yml so that we can start using the Yaml configuration.
+
+120
+00:08:12,000 --> 00:08:14,000
+So let me open this application.yml.
+
+121
+00:08:14,000 --> 00:08:17,000
+As of now it is an empty file.
+
+122
+00:08:17,000 --> 00:08:21,000
+The very first configuration that I want to mention here is server port.
+
+123
+00:08:21,000 --> 00:08:25,000
+So I will mention the port value as 8071.
+
+124
+00:08:25,000 --> 00:08:32,000
+So throughout this course for config server we are going to use the port 8071 so please make sure you
+
+125
+00:08:32,000 --> 00:08:33,000
+are also following the same.
+
+126
+00:08:33,000 --> 00:08:38,000
+Otherwise you need to make lot many changes in lot many places throughout this course.
+
+127
+00:08:38,000 --> 00:08:45,000
+So once we make these changes we have the config server ready inside our microservices network.
+
+128
+00:08:45,000 --> 00:08:50,000
+But as of now there is no place for my config server to read the configurations.
+
+129
+00:08:50,000 --> 00:08:56,000
+That's why we need to move all the required configurations of our microservices to a centralized location
+
+130
+00:08:56,000 --> 00:09:02,000
+and we need to configure that centralized location inside this config server so that our config server
+
+131
+00:09:02,000 --> 00:09:05,000
+will start reading from the centralized location.
+
+132
+00:09:05,000 --> 00:09:11,000
+And there are multiple options that we have when we try to store all our configurations inside a centralized
+
+133
+00:09:11,000 --> 00:09:16,000
+location right from classpath to file system, GitHub repository, database
+
+134
+00:09:16,000 --> 00:09:21,000
+and at the same time we can also store inside the cloud like AWS S3.
+
+135
+00:09:21,000 --> 00:09:22,000
+So there are many options.
+
+136
+00:09:22,000 --> 00:09:28,000
+But inside this course I'm going to cover three different approaches which are like very common.
+
+137
+00:09:28,000 --> 00:09:33,000
+The very first one is we'll store all the configurations of the microservices inside the classpath of
+
+138
+00:09:33,000 --> 00:09:35,000
+the config server.
+
+139
+00:09:35,000 --> 00:09:38,000
+And the second approach is we can store inside a file system.
+
+140
+00:09:38,000 --> 00:09:43,000
+When I say file system, you can store anywhere inside your server or inside your local system and you
+
+141
+00:09:43,000 --> 00:09:48,000
+can read the configurations from the particular folder inside your file system.
+
+142
+00:09:48,000 --> 00:09:53,000
+And the third approach, which is the most commonly used, is with the help of GitHub.
+
+143
+00:09:53,000 --> 00:09:56,000
+So let's try to discuss all these approaches one by one.
+
+144
+00:09:56,000 --> 00:09:59,000
+I hope you are excited about these approaches.
+
+145
+00:09:59,000 --> 00:09:59,000
+Thank you
+
+146
+00:09:59,000 --> 00:09:59,000
+and
+
+147
+00:09:59,000 --> 00:10:01,000
+I'll catch you in the next lecture bye.
+

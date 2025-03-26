@@ -1,0 +1,736 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, with the help of config server and other microservices instances, we are able to test all
+
+2
+00:00:07,000 --> 00:00:11,000
+the configuration management related changes inside the local system.
+
+3
+00:00:11,000 --> 00:00:16,000
+But as a next step we need to containerize all our microservices applications, including the config
+
+4
+00:00:16,000 --> 00:00:22,000
+server and post that we should try to start all our microservices along with the config server with
+
+5
+00:00:22,000 --> 00:00:23,000
+the help of Docker compose.
+
+6
+00:00:23,000 --> 00:00:29,000
+That's why for the next few lectures we are going to put efforts to make this configuration related
+
+7
+00:00:29,000 --> 00:00:34,000
+changes work even inside the Docker environment. Because with the help of Docker containers only,
+
+8
+00:00:34,000 --> 00:00:39,000
+we are going to deploy into the production environments like into Kubernetes cluster.
+
+9
+00:00:39,000 --> 00:00:44,000
+So in order to get started with the continuation of my application, I can straight away generate the
+
+10
+00:00:44,000 --> 00:00:47,000
+Docker images of my microservices and the config server.
+
+11
+00:00:47,000 --> 00:00:51,000
+But before that I just wanted to write Docker compose files.
+
+12
+00:00:51,000 --> 00:00:57,000
+Once we are clear with the setup of the Docker compose files, then we can try to containerize our applications
+
+13
+00:00:57,000 --> 00:01:02,000
+because we may need to do few more changes inside the config server to make it work inside the docker
+
+14
+00:01:02,000 --> 00:01:03,000
+compose.
+
+15
+00:01:03,000 --> 00:01:07,000
+So that's why first, let's try to focus on preparing the Docker compose files.
+
+16
+00:01:07,000 --> 00:01:13,000
+I can prepare a single Docker compose file, but as of now we have three different environments or three
+
+17
+00:01:13,000 --> 00:01:19,000
+different profiles like default production and QA to support these three different profiles or three
+
+18
+00:01:19,000 --> 00:01:20,000
+different environments.
+
+19
+00:01:20,000 --> 00:01:27,000
+I want to create different Docker compose files for different environments, so that they will give flexibility
+
+20
+00:01:27,000 --> 00:01:30,000
+to make any changes specific to a particular environment.
+
+21
+00:01:30,000 --> 00:01:35,000
+So here I'm going to right click on this v2-spring cloud config and I'm going to create a new
+
+22
+00:01:35,000 --> 00:01:36,000
+directory.
+
+23
+00:01:36,000 --> 00:01:40,000
+The directory name is going to be docker-compose.
+
+24
+00:01:40,000 --> 00:01:45,000
+Inside this Docker compose directory, I'm going to create three more new directories.
+
+25
+00:01:45,000 --> 00:01:52,000
+The very first one is default and post that the next directory is QA followed by a new directory with
+
+26
+00:01:52,000 --> 00:01:53,000
+the name prod.
+
+27
+00:01:53,000 --> 00:01:59,000
+This way I have three different folders inside my docker compose folder and inside each of them I can
+
+28
+00:01:59,000 --> 00:02:03,000
+create Docker compose file specific to those profiles or environments.
+
+29
+00:02:03,000 --> 00:02:07,000
+As of now we have a docker compose file inside the accounts
+
+30
+00:02:07,000 --> 00:02:07,000
+microservice.
+
+31
+00:02:07,000 --> 00:02:13,000
+We have prepared this in the previous sections, so let me copy this Docker compose first into the default
+
+32
+00:02:13,000 --> 00:02:14,000
+profile.
+
+33
+00:02:14,000 --> 00:02:16,000
+So I'm trying to copy the same.
+
+34
+00:02:16,000 --> 00:02:21,000
+Once the Docker compose file is copied, I'm going to delete the file present under the accounts
+
+35
+00:02:21,000 --> 00:02:22,000
+microservice.
+
+36
+00:02:22,000 --> 00:02:23,000
+We no more needed that.
+
+37
+00:02:23,000 --> 00:02:24,000
+So let me delete the same.
+
+38
+00:02:24,000 --> 00:02:27,000
+Now I'm going to open the Docker-compose.yml file.
+
+39
+00:02:27,000 --> 00:02:34,000
+As of now you can see we have accounts, loans and cards microservice related changes inside the Docker
+
+40
+00:02:34,000 --> 00:02:35,000
+compose file.
+
+41
+00:02:35,000 --> 00:02:42,000
+So here we need to change the image name from accounts S4 to accounts S6. Because right now we are in
+
+42
+00:02:42,000 --> 00:02:43,000
+the section six.
+
+43
+00:02:43,000 --> 00:02:47,000
+That's why we are going to generate the Docker images which are specific to this section.
+
+44
+00:02:47,000 --> 00:02:51,000
+That's why we need to mention the tag name as S6.
+
+45
+00:02:51,000 --> 00:02:54,000
+So let me do the same for loans microservice as well.
+
+46
+00:02:54,000 --> 00:02:55,000
+Post that
+
+47
+00:02:55,000 --> 00:02:58,000
+I'll also do the same for cards microservice.
+
+48
+00:02:58,000 --> 00:03:03,000
+So apart from these three microservices, we also created a new service inside this section with the
+
+49
+00:03:03,000 --> 00:03:05,000
+name config server.
+
+50
+00:03:05,000 --> 00:03:11,000
+So that's why let's try to create the service related to config server inside the Docker compose file.
+
+51
+00:03:11,000 --> 00:03:16,000
+So for the same first I'm going to copy these loans related changes inside my Docker compose file and
+
+52
+00:03:16,000 --> 00:03:20,000
+post that I'm going to press, enter and paste the same details here.
+
+53
+00:03:20,000 --> 00:03:24,000
+So now I'm going to change this accounts to config server.
+
+54
+00:03:24,000 --> 00:03:29,000
+So under this config server service I'm going to mention all the details of my config server.
+
+55
+00:03:29,000 --> 00:03:33,000
+So the image name that we are going to generate will be config server itself.
+
+56
+00:03:33,000 --> 00:03:40,000
+That's why I have changed the image name to eazybytes/configserver:S6 and the container
+
+57
+00:03:40,000 --> 00:03:46,000
+name, we can keep it as configserver-ms. And the port where we have started the config server
+
+58
+00:03:46,000 --> 00:03:47,000
+is 8071.
+
+59
+00:03:47,000 --> 00:03:50,000
+The same I have to mention inside the port mapping.
+
+60
+00:03:50,000 --> 00:03:53,000
+Now the memory limits I want to follow the same for the config server
+
+61
+00:03:53,000 --> 00:04:00,000
+also. With 700 mb, I want to limit the memory utilization of config server to a maximum of 700 MB.
+
+62
+00:04:00,000 --> 00:04:01,000
+And this config server
+
+63
+00:04:01,000 --> 00:04:05,000
+also, I want to start under the same network with the name EazyBank.
+
+64
+00:04:05,000 --> 00:04:10,000
+This way all the microservices started inside the same network.
+
+65
+00:04:10,000 --> 00:04:13,000
+They can communicate with each other with the help of this service name.
+
+66
+00:04:13,000 --> 00:04:14,000
+With this,
+
+67
+00:04:14,000 --> 00:04:19,000
+now we have three different microservices along with the config server service inside our Docker compose
+
+68
+00:04:19,000 --> 00:04:19,000
+file.
+
+69
+00:04:19,000 --> 00:04:25,000
+Now, as a next step, we need to let our individual microservices and how to connect with these config
+
+70
+00:04:25,000 --> 00:04:28,000
+server inside a Docker environment. For the same,
+
+71
+00:04:28,000 --> 00:04:35,000
+if you go and observe inside the application.yml of any of the microservice, there is a property
+
+72
+00:04:35,000 --> 00:04:41,000
+that we are trying to use to establish the link between config server and individual microservices.
+
+73
+00:04:41,000 --> 00:04:48,000
+The link is spring.config.import and here we need to mention this endpoint URL, which is config
+
+74
+00:04:48,000 --> 00:04:55,000
+server http://localhost:8071 the similar set of configuration we need to provide inside the Docker compose
+
+75
+00:04:55,000 --> 00:04:55,000
+file.
+
+76
+00:04:55,000 --> 00:05:00,000
+And here you may have a question like why can't my accounts microservice or any other
+
+77
+00:05:00,000 --> 00:05:00,000
+microservice,
+
+78
+00:05:00,000 --> 00:05:03,000
+they can directly use what we have mentioned here.
+
+79
+00:05:03,000 --> 00:05:07,000
+They cannot use this property because we have mentioned this localhost here.
+
+80
+00:05:07,000 --> 00:05:12,000
+My accounts docker container tries to use the localhost to communicate with the config server.
+
+81
+00:05:12,000 --> 00:05:17,000
+It is not going to work because my accounts container will start in its own isolated network.
+
+82
+00:05:17,000 --> 00:05:24,000
+When I say localhost, it will try to connect with the config server within its own network, which
+
+83
+00:05:24,000 --> 00:05:25,000
+will never be successful.
+
+84
+00:05:25,000 --> 00:05:31,000
+That's why we need to externalize this property inside the Docker compose file and we need to override
+
+85
+00:05:31,000 --> 00:05:36,000
+the value present inside this application.yml with the help of environment variables.
+
+86
+00:05:36,000 --> 00:05:41,000
+For the same, we can go to the Docker compose file first under the accounts microservice,
+
+87
+00:05:42,000 --> 00:05:44,000
+I'm going to mention a new child element.
+
+88
+00:05:44,000 --> 00:05:47,000
+The element name will be environment.
+
+89
+00:05:47,000 --> 00:05:52,000
+Inside this environment we can define any number of environment variables.
+
+90
+00:05:52,000 --> 00:05:55,000
+So here what is the environment variable name that I have to give?
+
+91
+00:05:55,000 --> 00:06:00,000
+It should be very similar to what we have used here, like spring.config.import.
+
+92
+00:06:00,000 --> 00:06:05,000
+But whenever we are trying to provide an environment variable, we need to follow a syntax which is
+
+93
+00:06:05,000 --> 00:06:10,000
+converting all the letters to capital letters and replacing that dot with underscore.
+
+94
+00:06:10,000 --> 00:06:17,000
+That's why I'll try to create a new environment variable under this environment element with the name
+
+95
+00:06:17,000 --> 00:06:24,000
+spring_config_import. To this, I need to pass the value of my config server details,
+
+96
+00:06:24,000 --> 00:06:28,000
+so let me try to copy the value from application.yml.
+
+97
+00:06:28,000 --> 00:06:29,000
+So as of now we have this.
+
+98
+00:06:29,000 --> 00:06:30,000
+So let me copy this.
+
+99
+00:06:30,000 --> 00:06:37,000
+Once we copy this here we can remove this optional because we want our accounts microservice to be failed
+
+100
+00:06:37,000 --> 00:06:40,000
+in case if it is not able to connect with the config server.
+
+101
+00:06:40,000 --> 00:06:45,000
+So that's why please make sure you are removing these optional inside that docker compose file. 
+
+102
+00:06:45,000 --> 00:06:51,000
+In local it is fine to use optional but when you are trying to deploy into higher environments using Docker
+
+103
+00:06:51,000 --> 00:06:53,000
+or Docker Compose or Kubernetes.
+
+104
+00:06:53,000 --> 00:06:58,000
+It is a good standard to not mention optional because most of the time our applications will depend
+
+105
+00:06:58,000 --> 00:07:00,000
+on the config server.
+
+106
+00:07:00,000 --> 00:07:04,000
+So the config server, this is the prefix that we need to follow always.
+
+107
+00:07:04,000 --> 00:07:11,000
+Now instead of localhost, I should mention a host name as service name and how my accounts microservice
+
+108
+00:07:11,000 --> 00:07:16,000
+can connect with the config server. Inside this docker compose like you see, the config server has a
+
+109
+00:07:16,000 --> 00:07:19,000
+service name which is config server.
+
+110
+00:07:19,000 --> 00:07:25,000
+So let me copy this config server service name and mention the same in the place of localhost. And behind
+
+111
+00:07:25,000 --> 00:07:26,000
+the scenes,
+
+112
+00:07:26,000 --> 00:07:32,000
+my docker will make this work because we're trying to start all our containers inside the same network,
+
+113
+00:07:32,000 --> 00:07:39,000
+which is EasyBank and with that all my services and containers they can communicate by using the service
+
+114
+00:07:39,000 --> 00:07:39,000
+name.
+
+115
+00:07:39,000 --> 00:07:41,000
+So here the service name is config server.
+
+116
+00:07:41,000 --> 00:07:46,000
+If you choose some other service name you need to mention the same regardless of what is your service
+
+117
+00:07:46,000 --> 00:07:46,000
+name,
+
+118
+00:07:46,000 --> 00:07:49,000
+the prefix should be always config server.
+
+119
+00:07:49,000 --> 00:07:50,000
+Here
+
+120
+00:07:50,000 --> 00:07:55,000
+coincidentally, we have the prefix value and the service name value is same, but prefix always going
+
+121
+00:07:55,000 --> 00:07:58,000
+to be the same like config server and service name
+
+122
+00:07:58,000 --> 00:08:00,000
+you can change based upon your requirements.
+
+123
+00:08:00,000 --> 00:08:06,000
+Now, the next environment variable that I want to pass to my accounts microservice is, what is the
+
+124
+00:08:06,000 --> 00:08:10,000
+profile that it has to consider while starting the microservice application.
+
+125
+00:08:10,000 --> 00:08:16,000
+For the same, we need to mention one more environment property which is spring_profiles_active.
+
+126
+00:08:16,000 --> 00:08:18,000
+.
+
+127
+00:08:18,000 --> 00:08:24,000
+So to this we need to mention the profile that we want to activate whenever we are trying to run this
+
+128
+00:08:24,000 --> 00:08:25,000
+docker compose Yaml file.
+
+129
+00:08:25,000 --> 00:08:31,000
+Right now you can see this Docker compose file is present inside the default folder.
+
+130
+00:08:31,000 --> 00:08:36,000
+That means whenever someone is trying to run this docker compose, I want to start in a default profile
+
+131
+00:08:36,000 --> 00:08:37,000
+mode.
+
+132
+00:08:37,000 --> 00:08:39,000
+So that's why I'm trying to mention the same here.
+
+133
+00:08:39,000 --> 00:08:44,000
+The next environment variable that I want to provide here is, spring_application_name.
+
+134
+00:08:44,000 --> 00:08:45,000
+.
+
+135
+00:08:45,000 --> 00:08:51,000
+The name of the application name should match with whatever name that you have considered for the naming
+
+136
+00:08:51,000 --> 00:08:54,000
+convention of your files that you stored inside the config server.
+
+137
+00:08:54,000 --> 00:09:00,000
+So inside the config server we are storing accounts related microservices with the naming conventions
+
+138
+00:09:00,000 --> 00:09:02,000
+that has a prefix of accounts.
+
+139
+00:09:02,000 --> 00:09:07,000
+That's why I need to make sure that I'm mentioning the spring application name
+
+140
+00:09:07,000 --> 00:09:13,000
+also as accounts we followed the same inside the application.yml. Like spring application name
+
+141
+00:09:13,000 --> 00:09:14,000
+as accounts.
+
+142
+00:09:14,000 --> 00:09:19,000
+The reason why I'm trying to mention the same value again inside the docker compose is, there is a defect
+
+143
+00:09:19,000 --> 00:09:22,000
+inside the spring cloud config server.
+
+144
+00:09:22,000 --> 00:09:27,000
+As of now, while I'm trying to record this lecture due to that bug we need to mention the spring application
+
+145
+00:09:27,000 --> 00:09:31,000
+name inside your docker compose yaml file also.
+
+146
+00:09:31,000 --> 00:09:35,000
+Though it is the same name which you have defined inside the application.yml.
+
+147
+00:09:35,000 --> 00:09:38,000
+So we're not trying to override anything with a new value.
+
+148
+00:09:38,000 --> 00:09:43,000
+We need to mention this to overcome that bug as a workaround for the defect inside the spring cloud
+
+149
+00:09:43,000 --> 00:09:44,000
+config server.
+
+150
+00:09:44,000 --> 00:09:49,000
+Maybe in future when you are trying, please try without mentioning this and if it is working then that
+
+151
+00:09:49,000 --> 00:09:52,000
+means the bug is fixed in the future versions.
+
+152
+00:09:52,000 --> 00:09:56,000
+Otherwise you can continue to mention the same under the environment variables.
+
+153
+00:09:56,000 --> 00:09:59,000
+So now I have to mention the same kind of
+
+154
+00:09:59,000 --> 00:10:04,000
+environment variables and they're all microservices. Like under loans,
+
+155
+00:10:04,000 --> 00:10:06,000
+I'm going to mention the same environment.
+
+156
+00:10:06,000 --> 00:10:11,000
+So you can see here, spring config import is going to be the same spring profile
+
+157
+00:10:11,000 --> 00:10:13,000
+active also is going to be the same.
+
+158
+00:10:13,000 --> 00:10:16,000
+But coming to the application name, this should be loans.
+
+159
+00:10:16,000 --> 00:10:19,000
+Let me copy the same value again to
+
+160
+00:10:19,000 --> 00:10:23,000
+cards microservice under the network, here I'm pasting the values
+
+161
+00:10:23,000 --> 00:10:27,000
+the only value that we need to change is the application name to cards.
+
+162
+00:10:27,000 --> 00:10:33,000
+Now we have the Docker compose file almost ready, but there is a challenge here.
+
+163
+00:10:33,000 --> 00:10:39,000
+As of now, we have a condition inside our microservices which is before the individual microservice
+
+164
+00:10:39,000 --> 00:10:40,000
+try to start.
+
+165
+00:10:40,000 --> 00:10:45,000
+We need to make sure that config server is completely started and ready to accept the request.
+
+166
+00:10:45,000 --> 00:10:52,000
+But with this setup, if I try to run the Docker compose up command, my docker is going to create the
+
+167
+00:10:52,000 --> 00:10:56,000
+containers in the same order like config server, accounts, loans and cards.
+
+168
+00:10:56,000 --> 00:11:03,000
+But the problem with this setup is, my docker will not wait for this config server to start completely.
+
+169
+00:11:03,000 --> 00:11:10,000
+It will just initiate the process of the config server and it will immediately jump on to accounts and
+
+170
+00:11:10,000 --> 00:11:11,000
+loans and cards.
+
+171
+00:11:11,000 --> 00:11:16,000
+And that may create issues because if accounts microservice try to start before the config server is
+
+172
+00:11:16,000 --> 00:11:19,000
+readily available, then it will be an issue.
+
+173
+00:11:19,000 --> 00:11:26,000
+That's why we need to make certain changes inside this Docker compose file to communicate to the docker
+
+174
+00:11:26,000 --> 00:11:31,000
+and how to identify whether my config server is completely started or not.
+
+175
+00:11:31,000 --> 00:11:38,000
+Once we provided that information, we should also mention that dependency information of config server
+
+176
+00:11:38,000 --> 00:11:41,000
+under all our accounts, loans and cards micro service.
+
+177
+00:11:41,000 --> 00:11:47,000
+That way my docker has a complete information and during the Docker compose command first it will try
+
+178
+00:11:47,000 --> 00:11:53,000
+to start the config server and it will wait for the config server to get completely started and it has
+
+179
+00:11:53,000 --> 00:11:55,000
+good health to accept the request.
+
+180
+00:11:55,000 --> 00:12:01,000
+Once the config server is started then only it is going to start accounts, loans and cards microservice.
+
+181
+00:12:01,000 --> 00:12:06,000
+So to make these changes first we need to understand two important concepts.
+
+182
+00:12:06,000 --> 00:12:09,000
+The very first one is liveness and the second one is readiness.
+
+183
+00:12:09,000 --> 00:12:12,000
+So let's try to understand these concepts in the next lecture.
+
+184
+00:12:12,000 --> 00:12:15,000
+Thank you and I'll catch you in the next lecture bye.
+

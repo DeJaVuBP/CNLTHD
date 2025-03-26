@@ -1,0 +1,840 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, inside our local system, our microservices, they are able to connect with the MySQL database
+
+2
+00:00:07,000 --> 00:00:09,000
+containers that we have created.
+
+3
+00:00:09,000 --> 00:00:15,000
+But when you try to run your microservices in a container environment like Docker Compose or Kubernetes,
+
+4
+00:00:15,000 --> 00:00:20,000
+whatever properties we have mentioned inside the application.yml, they are not going to work.
+
+5
+00:00:20,000 --> 00:00:23,000
+Because we have hardcoded the hostname as localhost.
+
+6
+00:00:23,000 --> 00:00:29,000
+That's why whenever we are using Docker compose file or whenever we are trying to deploy our microservices
+
+7
+00:00:29,000 --> 00:00:35,000
+in a Kubernetes environment, we should provide these data source URL, username and password using
+
+8
+00:00:35,000 --> 00:00:37,000
+environment variables.
+
+9
+00:00:37,000 --> 00:00:43,000
+Inside this lecture I'm going to update our Docker compose files and using the Docker compose file,
+
+10
+00:00:43,000 --> 00:00:48,000
+we are going to start all our database containers along with the microservices and we'll establish a
+
+11
+00:00:48,000 --> 00:00:53,000
+communication link between them so that they can communicate with each other.
+
+12
+00:00:53,000 --> 00:00:57,000
+For the same, first, I'll try to stop all my running microservices instances.
+
+13
+00:00:57,000 --> 00:01:04,000
+Along with that, I'm also going to stop all my running containers and delete them because we need to
+
+14
+00:01:04,000 --> 00:01:09,000
+create these containers with the help of Docker compose, but not by running the Docker commands manually.
+
+15
+00:01:09,000 --> 00:01:10,000
+So let me delete them.
+
+16
+00:01:10,000 --> 00:01:15,000
+Now, I don't have any containers inside my system. As a next step before I try to change the Docker
+
+17
+00:01:15,000 --> 00:01:16,000
+compose file.
+
+18
+00:01:16,000 --> 00:01:23,000
+First, we need to regenerate the Docker images based upon the latest changes that we have done inside
+
+19
+00:01:23,000 --> 00:01:24,000
+our microservices.
+
+20
+00:01:24,000 --> 00:01:29,000
+We have removed the history dependencies and we have added the MySQL dependencies and the properties.
+
+21
+00:01:29,000 --> 00:01:34,000
+That's why we need to regenerate the images based upon the changes that we have done inside this section.
+
+22
+00:01:34,000 --> 00:01:42,000
+So first let me go to the pom.xml and here I'll change the tag name from S6 to S7 I'll do the same for
+
+23
+00:01:42,000 --> 00:01:45,000
+all type of applications that we have, like inside cards
+
+24
+00:01:45,000 --> 00:01:48,000
+also, I'm going to open the pom.xml.
+
+25
+00:01:48,000 --> 00:01:53,000
+I will rename the tag name from S6 to S7 and refresh the maven changes.
+
+26
+00:01:53,000 --> 00:01:56,000
+Now let me do the same for config server.
+
+27
+00:01:56,000 --> 00:02:01,000
+Technically we don't have to regenerate the docker image for config server, but to be consistent,
+
+28
+00:02:01,000 --> 00:02:04,000
+I'm trying to mention the same tag name even inside the config server.
+
+29
+00:02:04,000 --> 00:02:07,000
+So now let me do the same for loans as well.
+
+30
+00:02:07,000 --> 00:02:15,000
+Inside the loans I'm going to update the tag name from S6 to S7. So with this all our pom.xml are in
+
+31
+00:02:15,000 --> 00:02:16,000
+good shape.
+
+32
+00:02:16,000 --> 00:02:20,000
+As a next step, I need to go to the terminal and generate the Docker image.
+
+33
+00:02:20,000 --> 00:02:25,000
+I have opened a new terminal inside the section 7 folder.
+
+34
+00:02:25,000 --> 00:02:28,000
+Here I need to go inside the accounts microservice.
+
+35
+00:02:28,000 --> 00:02:34,000
+So to generate the docker image for accounts microservice I'm going to run the command docker compile jib:dockerBuild B
+
+36
+00:02:35,000 --> 00:02:38,000
+B capital letter.
+
+37
+00:02:38,000 --> 00:02:45,000
+So before I try to run this command, let me make sure to delete all the existing Docker images inside
+
+38
+00:02:45,000 --> 00:02:46,000
+my local system.
+
+39
+00:02:46,000 --> 00:02:53,000
+So inside my desktop, I'm going to the images and I look for all the section 6 related images.
+
+40
+00:02:53,000 --> 00:02:57,000
+So I'm trying to delete them just to get some space inside my local system.
+
+41
+00:02:57,000 --> 00:03:04,000
+So please regularly delete unused images, unused containers inside your local system also. So that you
+
+42
+00:03:04,000 --> 00:03:07,000
+get new storage and new memory inside your local system.
+
+43
+00:03:07,000 --> 00:03:12,000
+And with that, your system will work fine even if you try to start multiple containers with the Docker
+
+44
+00:03:12,000 --> 00:03:13,000
+compose command.
+
+45
+00:03:13,000 --> 00:03:19,000
+So I'm trying to run this command. So this will generate a new Docker image for accounts microservice.
+
+46
+00:03:19,000 --> 00:03:22,000
+So the Docker image is generated successfully.
+
+47
+00:03:22,000 --> 00:03:28,000
+Now let me go back to the parent folder and navigate to the Cards folder. Inside Cards folder
+
+48
+00:03:28,000 --> 00:03:32,000
+also, I'm going to run the same command using the pom.xml,
+
+49
+00:03:32,000 --> 00:03:35,000
+it is going to generate a new Docker image for cards microservice.
+
+50
+00:03:35,000 --> 00:03:39,000
+So the cards microservice docker generation also completed.
+
+51
+00:03:39,000 --> 00:03:45,000
+Now I'm going inside loans microservice. So from the loans microservice also I'm going to run the same
+
+52
+00:03:45,000 --> 00:03:47,000
+command maven compile jib dockerBuild.
+
+53
+00:03:47,000 --> 00:03:50,000
+And with this we have all the microservices Docker images.
+
+54
+00:03:50,000 --> 00:03:55,000
+As a last step, let me generate the Docker image for config server.
+
+55
+00:03:55,000 --> 00:04:02,000
+So let me go inside the config server and from the config server folder I'm going to run the Maven,
+
+56
+00:04:02,000 --> 00:04:04,000
+compile jib dockerBuild command.
+
+57
+00:04:04,000 --> 00:04:08,000
+With this, we should have all the Docker images inside our local system.
+
+58
+00:04:08,000 --> 00:04:14,000
+You can confirm the same by looking the images here inside the Docker desktop.
+
+59
+00:04:14,000 --> 00:04:17,000
+Later on I will push them into my Docker hub repository.
+
+60
+00:04:17,000 --> 00:04:23,000
+I would also recommend you to push your own Docker hub repository so that they are stored inside a centralized
+
+61
+00:04:23,000 --> 00:04:24,000
+repository.
+
+62
+00:04:24,000 --> 00:04:28,000
+So now we need to update the Docker compose file. For the same,
+
+63
+00:04:28,000 --> 00:04:30,000
+I'm opening this docker compose.
+
+64
+00:04:30,000 --> 00:04:34,000
+First, let's try to update the Docker compose file present inside the default folder.
+
+65
+00:04:34,000 --> 00:04:36,000
+So let me open this, here first
+
+66
+00:04:36,000 --> 00:04:43,000
+we no more needed these rabbit related service because right now we have reverted all the spring cloud
+
+67
+00:04:43,000 --> 00:04:44,000
+base related changes.
+
+68
+00:04:44,000 --> 00:04:49,000
+So let me remove this and instead of this service, I'm going to create three different services, one
+
+69
+00:04:49,000 --> 00:04:54,000
+for accounts database, and second one for loans database and third one for the cards database.
+
+70
+00:04:54,000 --> 00:04:59,000
+So the service name, I'm going to keep it as accounts DB. To this service,
+
+71
+00:04:59,000 --> 00:05:07,000
+we want to use the image which is MySQL itself and the container name we can use as accounts DB itself.
+
+72
+00:05:07,000 --> 00:05:11,000
+And after the container name, we need to mention the ports mapping for the same
+
+73
+00:05:11,000 --> 00:05:19,000
+I need to invoke the ports and here for the accounts database we need to mention that 3306 and 3306
+
+74
+00:05:19,000 --> 00:05:24,000
+after the port mapping, I'm going to mention the health check details and how to test the health of
+
+75
+00:05:24,000 --> 00:05:25,000
+these accounts database.
+
+76
+00:05:25,000 --> 00:05:30,000
+Once these accounts database is completely started, then only I should try to start my accounts
+
+77
+00:05:30,000 --> 00:05:31,000
+microservice.
+
+78
+00:05:31,000 --> 00:05:37,000
+Since we have that kind of dependency, we need to define health check details so that my docker compose
+
+79
+00:05:37,000 --> 00:05:39,000
+can try to start my accounts
+
+80
+00:05:39,000 --> 00:05:45,000
+microservice only after accounts database becomes healthy. And the test command that we need to mention
+
+81
+00:05:45,000 --> 00:05:47,000
+here is, inside the square brackets
+
+82
+00:05:47,000 --> 00:05:50,000
+I need to give these values with these command
+
+83
+00:05:50,000 --> 00:05:55,000
+I'm trying to tell to my docker, please run this ping command where it is trying to ping the host with
+
+84
+00:05:55,000 --> 00:05:59,000
+the value localhost. Whenever it gets a successful response.
+
+85
+00:05:59,000 --> 00:06:01,000
+That means the health of this container is healthy.
+
+86
+00:06:01,000 --> 00:06:06,000
+You can get all these health check commands from the official documentation.
+
+87
+00:06:06,000 --> 00:06:12,000
+You can always look inside the web like what is a health check command for the MySQL docker container?
+
+88
+00:06:12,000 --> 00:06:18,000
+Similarly, if you are using some other Docker image like for Oracle or Redis, you can always look
+
+89
+00:06:18,000 --> 00:06:22,000
+for these health check related commands inside the official documentation.
+
+90
+00:06:22,000 --> 00:06:27,000
+So after this test command, I'll try to mention timeout as 10s.
+
+91
+00:06:27,000 --> 00:06:30,000
+So it has to wait only 10s. Within the 10s,
+
+92
+00:06:30,000 --> 00:06:34,000
+if it is not getting the response for the ping, it will consider it as failure.
+
+93
+00:06:34,000 --> 00:06:37,000
+And I also want to mention retries.
+
+94
+00:06:37,000 --> 00:06:43,000
+So retries I will mention as 10 times and apart from this timeout and retries, we can also mention
+
+95
+00:06:43,000 --> 00:06:46,000
+this interval and start period.
+
+96
+00:06:46,000 --> 00:06:53,000
+I can say interval as 10s and similarly I can mention start period as 10s.
+
+97
+00:06:53,000 --> 00:06:55,000
+So with this we have defined the health check details.
+
+98
+00:06:55,000 --> 00:07:02,000
+After the health check details, I also want to provide some environment variables for my accounts database
+
+99
+00:07:02,000 --> 00:07:07,000
+container. And these environment variables are like MySQL root password and MySQL database.
+
+100
+00:07:07,000 --> 00:07:12,000
+We pass the similar set of environment variables when we are trying to create the container with the
+
+101
+00:07:12,000 --> 00:07:14,000
+help of Docker run command.
+
+102
+00:07:14,000 --> 00:07:19,000
+So the same I'm trying to mention. Now we are creating a container, as a next step
+
+103
+00:07:19,000 --> 00:07:25,000
+we need to make sure that this container is tagged to the same network where the other containers are
+
+104
+00:07:25,000 --> 00:07:26,000
+trying to start.
+
+105
+00:07:26,000 --> 00:07:30,000
+Then only they can communicate with each other with the help of service name.
+
+106
+00:07:30,000 --> 00:07:35,000
+Otherwise, the communication between our microservices and the database containers will not happen.
+
+107
+00:07:35,000 --> 00:07:36,000
+For the same,
+
+108
+00:07:36,000 --> 00:07:41,000
+what we can do is, we can take this extends configuration from the config and I'm going to mention the
+
+109
+00:07:41,000 --> 00:07:44,000
+same inside the accounts database.
+
+110
+00:07:44,000 --> 00:07:50,000
+So here instead of microservice based config, we need to mention network related config.
+
+111
+00:07:50,000 --> 00:07:53,000
+So let me open the common config for the microservice based config
+
+112
+00:07:53,000 --> 00:08:00,000
+we are going to pass the deploy resources limit and spring Rabbitmq host which is not needed for MySQL
+
+113
+00:08:00,000 --> 00:08:00,000
+database.
+
+114
+00:08:00,000 --> 00:08:05,000
+That's why we can simply extend this service which is network deploy service.
+
+115
+00:08:05,000 --> 00:08:07,000
+So let me copy this value post that,
+
+116
+00:08:07,000 --> 00:08:10,000
+I'll go to the Docker compose file and I'll mention the same here.
+
+117
+00:08:10,000 --> 00:08:13,000
+So with this now my accounts database is ready.
+
+118
+00:08:13,000 --> 00:08:18,000
+Very similarly, I need to create loans, database and cards database.
+
+119
+00:08:18,000 --> 00:08:25,000
+So let me copy this entire configurations and here I'm going to paste the accounts DB related configurations.
+
+120
+00:08:25,000 --> 00:08:27,000
+And since we have the duplicate service name, it is throwing an error.
+
+121
+00:08:27,000 --> 00:08:29,000
+So let's try to fix all these errors.
+
+122
+00:08:29,000 --> 00:08:33,000
+I'll change the service name as loans database and the container name
+
+123
+00:08:33,000 --> 00:08:38,000
+also, I'm going to keep it as loans database and health check can be same, but the port mapping
+
+124
+00:08:38,000 --> 00:08:47,000
+please make sure we are exposing using 3307 and post that MySQL database should be loans database and
+
+125
+00:08:47,000 --> 00:08:48,000
+everything else is going to be same.
+
+126
+00:08:48,000 --> 00:08:53,000
+So now let me do the same by taking these values and paste the same again here.
+
+127
+00:08:53,000 --> 00:09:00,000
+So here I'm going to rename this to Cards database and I'll also change the container name and the port
+
+128
+00:09:01,000 --> 00:09:06,000
+number to 3308 for cars database and the MySQL database should be cards database.
+
+129
+00:09:06,000 --> 00:09:13,000
+So with this we should be good, but we need to establish a link between our microservices and with
+
+130
+00:09:13,000 --> 00:09:15,000
+these database containers. For the same,
+
+131
+00:09:15,000 --> 00:09:22,000
+if you go to the common-config.yaml here already all the microservices like accounts, loans and cards,
+
+132
+00:09:22,000 --> 00:09:26,000
+they are already using these microservice-configserver-config.
+
+133
+00:09:26,000 --> 00:09:33,000
+That's why in the same place I'm going to create new environment variables,SPRING_DATASOURCE_USERNAME 
+
+134
+00:09:33,000 --> 00:09:37,000
+and similarly SPRING_DATASOURCE_PASSWORD.
+
+135
+00:09:37,000 --> 00:09:42,000
+So these credentials we set as of now the same values for all microservices.
+
+136
+00:09:42,000 --> 00:09:49,000
+That's why we don't have to repeat these environment variables again and again inside the docker-compose.yaml
+
+137
+00:09:49,000 --> 00:09:49,000
+file.
+
+138
+00:09:49,000 --> 00:09:54,000
+The other important environment variable that we need to mention inside our microservices is, we need
+
+139
+00:09:54,000 --> 00:09:57,000
+to mention the data source URL details.
+
+140
+00:09:57,000 --> 00:09:59,000
+So since that database URL is
+
+141
+00:09:59,000 --> 00:10:01,000
+going to different for different microservices.
+
+142
+00:10:01,000 --> 00:10:08,000
+We need to create a separate environment property variable inside each of the microservices.
+
+143
+00:10:08,000 --> 00:10:14,000
+So just after the spring application name environment variable, I'm going to create a new environment
+
+144
+00:10:14,000 --> 00:10:20,000
+variable which is, SPRING_DATASOURCE_URL to this environment variable,
+
+145
+00:10:20,000 --> 00:10:25,000
+I'm going to pass the complete endpoint details of my database.
+
+146
+00:10:25,000 --> 00:10:28,000
+You can get this value from the application.yml itself.
+
+147
+00:10:28,000 --> 00:10:33,000
+Like you can take this complete value and mention the same inside the docker compose file.
+
+148
+00:10:33,000 --> 00:10:38,000
+But here the communication will not happen with the help of localhost.
+
+149
+00:10:38,000 --> 00:10:43,000
+Instead, the communication between the containers will happen with the help of service name that we
+
+150
+00:10:43,000 --> 00:10:44,000
+have created.
+
+151
+00:10:44,000 --> 00:10:46,000
+Here what is the service name for accounts database?
+
+152
+00:10:46,000 --> 00:10:48,000
+It is the same as accounts database.
+
+153
+00:10:48,000 --> 00:10:51,000
+So let me replace the localhost with accounts database.
+
+154
+00:10:51,000 --> 00:10:58,000
+So with this now my accounts microservice should be able to connect with the database accounts database
+
+155
+00:10:58,000 --> 00:10:58,000
+container.
+
+156
+00:10:58,000 --> 00:11:04,000
+Now let me take the same environment variable and mention the same for loans.
+
+157
+00:11:04,000 --> 00:11:10,000
+But here instead of 3306 we need to mention 3307 and instead of accounts db, the service name should
+
+158
+00:11:10,000 --> 00:11:11,000
+be loans DB.
+
+159
+00:11:11,000 --> 00:11:14,000
+And the same applies for the database name.
+
+160
+00:11:14,000 --> 00:11:18,000
+So let me copy this value again and mention the same under the cards
+
+161
+00:11:18,000 --> 00:11:22,000
+and here 3308 is the correct port number.
+
+162
+00:11:22,000 --> 00:11:26,000
+After the port number we should change the service name also, which is cards database.
+
+163
+00:11:26,000 --> 00:11:30,000
+Now after the host name, I'm going to change the database name as well.
+
+164
+00:11:30,000 --> 00:11:36,000
+Now the link establishment between the microservice containers and database containers is completed.
+
+165
+00:11:36,000 --> 00:11:42,000
+The next configuration that we need to do here is, we need to communicate to the Docker compose that
+
+166
+00:11:42,000 --> 00:11:48,000
+my individual microservices are depend on the accounts database or loans database, our cards database
+
+167
+00:11:48,000 --> 00:11:49,000
+respectively.
+
+168
+00:11:49,000 --> 00:11:55,000
+So for the same just after our environment variables, we can create one more element which is depends_on
+
+169
+00:11:55,000 --> 00:11:56,000
+after depends_on,
+
+170
+00:11:56,000 --> 00:12:02,000
+I'm going to go to the next line and mention the service name as accounts database and the condition
+
+171
+00:12:02,000 --> 00:12:04,000
+is service healthy.
+
+172
+00:12:04,000 --> 00:12:09,000
+The Docker compose has to make sure the accounts database is started and its health is fine before it
+
+173
+00:12:09,000 --> 00:12:12,000
+is trying to attempt the accounts microservice.
+
+174
+00:12:12,000 --> 00:12:16,000
+So now let me do the same for loans, microservice also.
+
+175
+00:12:16,000 --> 00:12:21,000
+So just after the environment variables I'm going to mention that depends on details here, but here
+
+176
+00:12:21,000 --> 00:12:22,000
+instead of accounts DB
+
+177
+00:12:22,000 --> 00:12:25,000
+we need to mention what is the name of loans?
+
+178
+00:12:25,000 --> 00:12:30,000
+So loans DB is a service name on which my loans microservice is going to depend.
+
+179
+00:12:30,000 --> 00:12:34,000
+Let me take this value and mention the same inside the cards as well.
+
+180
+00:12:34,000 --> 00:12:38,000
+So here instead of loans DB we need to mention the service name as cards DB.
+
+181
+00:12:38,000 --> 00:12:42,000
+So with this all our docker compose file changes are completed.
+
+182
+00:12:42,000 --> 00:12:48,000
+But if you see here, there is a lot of repetitive information inside my accounts database like image
+
+183
+00:12:48,000 --> 00:12:51,000
+name, health check and MySQL root password.
+
+184
+00:12:51,000 --> 00:12:55,000
+So these information is repeated inside my Docker compose file.
+
+185
+00:12:55,000 --> 00:12:59,000
+So that's why I can try to move this to common-config.yml.
+
+186
+00:12:59,000 --> 00:13:06,000
+So here what I can do is, I can try to create a new service that extends network deploy service.
+
+187
+00:13:06,000 --> 00:13:13,000
+So let me create a new service and the service name I can keep it as microservice-db-config and this
+
+188
+00:13:13,000 --> 00:13:16,000
+is going to extend network deploy service.
+
+189
+00:13:16,000 --> 00:13:21,000
+And here I'm going to mention all the repetitive information like image.
+
+190
+00:13:21,000 --> 00:13:28,000
+It will be MySQL for all of my database containers. And very similarly I'll try to get the other values.
+
+191
+00:13:28,000 --> 00:13:32,000
+Like port mapping is unique and container name is unique.
+
+192
+00:13:32,000 --> 00:13:37,000
+We can take these health check details along with the MySQL root password.
+
+193
+00:13:37,000 --> 00:13:42,000
+So let me take all these values and mention inside the common_config.yml.
+
+194
+00:13:42,000 --> 00:13:45,000
+So here I'm just mentioning all those details.
+
+195
+00:13:45,000 --> 00:13:53,000
+Now we can try to extend these microservice DB config inside our docker-compose.yml file under accounts
+
+196
+00:13:53,000 --> 00:13:55,000
+db, loans db and cards db.
+
+197
+00:13:55,000 --> 00:14:02,000
+So before that I can try to remove all the duplicate information like health check details I can remove
+
+198
+00:14:02,000 --> 00:14:04,000
+and MySQL root password I can remove.
+
+199
+00:14:04,000 --> 00:14:09,000
+And here the service name should be microservice-db-config.
+
+200
+00:14:09,000 --> 00:14:11,000
+So let me do the same for loans microservice.
+
+201
+00:14:11,000 --> 00:14:17,000
+So I'm just removing the image followed by health check details followed by MySQL root password.
+
+202
+00:14:17,000 --> 00:14:19,000
+And I'm changing the service name.
+
+203
+00:14:19,000 --> 00:14:22,000
+Let me do the similar changes for cards database
+
+204
+00:14:22,000 --> 00:14:28,000
+also very quickly, I'm deleting the health check details here followed by MySQL root password and updating
+
+205
+00:14:28,000 --> 00:14:31,000
+these service name to microservice DB config.
+
+206
+00:14:31,000 --> 00:14:33,000
+So with these changes we should be good.
+
+207
+00:14:33,000 --> 00:14:39,000
+I'm going to make the very similar changes inside the qa and prod docker compose files also.
+
+208
+00:14:39,000 --> 00:14:45,000
+With this all the required changes we have done inside the Docker compose file in the next lecture,
+
+209
+00:14:45,000 --> 00:14:50,000
+let's try to validate this docker-compose file changes by issuing a docker compose command.
+
+210
+00:14:50,000 --> 00:14:53,000
+Thank you and I'll catch you in the next lecture bye.
+
