@@ -1,0 +1,704 @@
+1
+00:00:00,000 --> 00:00:01,000
+Welcome back
+
+2
+00:00:01,000 --> 00:00:07,000
+and we are into a new section where we are going to talk about a new challenge as of now, we discussed
+
+3
+00:00:07,000 --> 00:00:12,000
+about the challenge one, which is how to build microservices with the help of REST APIs.
+
+4
+00:00:12,000 --> 00:00:17,000
+And inside the previous section we built three different type of microservices with the name accounts,
+
+5
+00:00:17,000 --> 00:00:18,000
+loans and cards.
+
+6
+00:00:18,000 --> 00:00:23,000
+With that, we should not be super happy because there are many other challenges that we need to overcome
+
+7
+00:00:23,000 --> 00:00:25,000
+in order to build microservice.
+
+8
+00:00:25,000 --> 00:00:31,000
+And now is the time to understand the next challenge that we may face inside microservices architecture.
+
+9
+00:00:31,000 --> 00:00:37,000
+Before I try to reveal the details about these challenge two, let me talk about a real scenario that
+
+10
+00:00:37,000 --> 00:00:39,000
+we may face on day to day basis.
+
+11
+00:00:39,000 --> 00:00:45,000
+If you see here, there are five different types of t shirts available and every t shirt has their own
+
+12
+00:00:45,000 --> 00:00:51,000
+size like S indicates small, medium, large, extra large and double extra large.
+
+13
+00:00:51,000 --> 00:00:57,000
+Whenever you're trying to buy a new t shirt or whenever you are trying to wear a t shirt, you'll be
+
+14
+00:00:57,000 --> 00:01:00,000
+obviously choose the best size that fits for you.
+
+15
+00:01:00,000 --> 00:01:04,000
+For example, you will never be choosing a wrong size.
+
+16
+00:01:04,000 --> 00:01:10,000
+Suppose if you are a person who wears m size on a day to day basis, why would you wear double XL 
+
+17
+00:01:10,000 --> 00:01:13,000
+T shirt if you try to wear a double XL t shirt?
+
+18
+00:01:13,000 --> 00:01:16,000
+Definitely you will be having some problems.
+
+19
+00:01:16,000 --> 00:01:21,000
+Like you will be in a embarrassing position in front of others and the t shirt will be very loose and
+
+20
+00:01:21,000 --> 00:01:24,000
+the same applicable for vice versa scenario.
+
+21
+00:01:24,000 --> 00:01:31,000
+Also think like you are a person who delivers XL size t shirt and all of a sudden if you are using small
+
+22
+00:01:31,000 --> 00:01:35,000
+t shirt then definitely it is not going to fit for your body.
+
+23
+00:01:35,000 --> 00:01:40,000
+Even if you try to force that and wear it on your body, it is not going to look good and you will not
+
+24
+00:01:40,000 --> 00:01:41,000
+be able to walk properly.
+
+25
+00:01:41,000 --> 00:01:43,000
+You will not be able to sleep properly.
+
+26
+00:01:43,000 --> 00:01:46,000
+You will not be able to sit properly.
+
+27
+00:01:46,000 --> 00:01:51,000
+Here what I'm trying to say is sizing is very important whenever you are trying to choose a best t shirt
+
+28
+00:01:51,000 --> 00:01:52,000
+for you.
+
+29
+00:01:52,000 --> 00:01:58,000
+If you have experience working in Agile and Scrum teams, we will size our user stories based upon t
+
+30
+00:01:58,000 --> 00:02:01,000
+shirt sizing, based upon how complex the user story is,
+
+31
+00:02:01,000 --> 00:02:05,000
+we are going to assign one of the t shirt size for the user story.
+
+32
+00:02:05,000 --> 00:02:10,000
+The same applies for the microservices as well.
+
+33
+00:02:10,000 --> 00:02:13,000
+Are you ready to see what is this challenge 2 this challenge 2
+
+34
+00:02:13,000 --> 00:02:19,000
+is about how to right size and identify service boundaries of microservices.
+
+35
+00:02:19,000 --> 00:02:26,000
+So this is the most challenging aspect of building a successful microservice system inside any organization.
+
+36
+00:02:26,000 --> 00:02:33,000
+Because without proper sizing and identifying the boundaries of microservices, we can't build a good
+
+37
+00:02:33,000 --> 00:02:40,000
+microservice network inside any organization, for example any organization or any project who want
+
+38
+00:02:40,000 --> 00:02:47,000
+to migrate to microservice from monolithic or who want to develop microservices from scratch.
+
+39
+00:02:47,000 --> 00:02:55,000
+Frist they need to identify what is the right sizing or what are the service boundaries for their microservices.
+
+40
+00:02:55,000 --> 00:03:01,000
+When I say right sizing, I mean your microservices should not be so big where you are not able to grab
+
+41
+00:03:01,000 --> 00:03:07,000
+all the advantages that we have with the microservice and at the same time they should not be so small
+
+42
+00:03:07,000 --> 00:03:13,000
+and they should not have very less business logic due to which we will end up having more number of
+
+43
+00:03:13,000 --> 00:03:15,000
+microservices inside the organization.
+
+44
+00:03:15,000 --> 00:03:21,000
+If you onboard more number of microservices which are very small in nature, then definitely there will
+
+45
+00:03:21,000 --> 00:03:26,000
+be some operational overhead to make sure all these microservices are interconnected.
+
+46
+00:03:26,000 --> 00:03:28,000
+They are able to communicate with each other.
+
+47
+00:03:28,000 --> 00:03:31,000
+There's going to be lot of operational overhead.
+
+48
+00:03:31,000 --> 00:03:38,000
+That's why as an architect, as a developer or as a technical lead or as a manager, it's our responsibility
+
+49
+00:03:38,000 --> 00:03:44,000
+to make sure our microservices are following the right sizing based upon the business needs.
+
+50
+00:03:44,000 --> 00:03:50,000
+The very next question that you may have here is I understand what is right sizing, how to derive the
+
+51
+00:03:50,000 --> 00:03:54,000
+sizing for my own microservices inside my own project.
+
+52
+00:03:54,000 --> 00:04:00,000
+For the same, there are two most commonly followed approaches or standards in the industry.
+
+53
+00:04:00,000 --> 00:04:03,000
+The very first approach is Domain-Driven-Sizing.
+
+54
+00:04:03,000 --> 00:04:11,000
+Since most of our business logic are enhancements driven by the business needs, we can size our define
+
+55
+00:04:11,000 --> 00:04:17,000
+the boundaries for our microservice that are closely aligned with the domain driven and business capabilities.
+
+56
+00:04:17,000 --> 00:04:24,000
+When I say domain driven, for example, inside the EasyBankApplication, we have various domains
+
+57
+00:04:24,000 --> 00:04:31,000
+like Accounts, Cards, Loans, and very similarly, there can be other domains inside the easy bank.
+
+58
+00:04:31,000 --> 00:04:38,000
+In other words, we can call these domains as departments or different verticals inside an organization.
+
+59
+00:04:38,000 --> 00:04:42,000
+We can build microservices based upon these domains.
+
+60
+00:04:42,000 --> 00:04:48,000
+For example, we have built three different microservices by taking these domains as an input like accounts,
+
+61
+00:04:48,000 --> 00:04:49,000
+cards and loans.
+
+62
+00:04:49,000 --> 00:04:56,000
+But there might be scenarios where an organization can have a big domain and a single domain,
+
+63
+00:04:56,000 --> 00:04:59,000
+there might be a lot of products being handled or a lot of
+
+64
+00:05:00,000 --> 00:05:01,000
+business being handled.
+
+65
+00:05:01,000 --> 00:05:04,000
+And under that domain there will be hundreds of developers.
+
+66
+00:05:04,000 --> 00:05:11,000
+In such scenarios, it may not be a good idea to go strictly with Domain-Driven-Sizing.
+
+67
+00:05:11,000 --> 00:05:17,000
+That's why in such scenarios we should not blindly go based upon the domains or business capability
+
+68
+00:05:17,000 --> 00:05:20,000
+departments or verticals inside an organization.
+
+69
+00:05:20,000 --> 00:05:27,000
+We should discuss with all the business people, technical people, architects inside the organization
+
+70
+00:05:27,000 --> 00:05:30,000
+who has the domain knowledge.
+
+71
+00:05:30,000 --> 00:05:35,000
+There might be some people who might be working in the organization from many decades.
+
+72
+00:05:35,000 --> 00:05:42,000
+We should take inputs from all those leaders and experienced people to understand what a domain is doing
+
+73
+00:05:42,000 --> 00:05:48,000
+on day to day operations, because no single person will never know all the business happening inside
+
+74
+00:05:48,000 --> 00:05:50,000
+the organization.
+
+75
+00:05:50,000 --> 00:05:55,000
+That's why we need to talk with the domain experts and talking with these domain experts, business
+
+76
+00:05:55,000 --> 00:06:01,000
+leaders, along with the technical people, clients, business analysts, product owners.
+
+77
+00:06:01,000 --> 00:06:04,000
+So this is going to be a super time consuming process.
+
+78
+00:06:04,000 --> 00:06:04,000
+Definitely,
+
+79
+00:06:04,000 --> 00:06:08,000
+It is not going to happen in a 1 or 2 days. At least,
+
+80
+00:06:08,000 --> 00:06:14,000
+It will need 3 to 6 months of time where you will gather all the domain related information.
+
+81
+00:06:14,000 --> 00:06:17,000
+What are the operations that are being handled by each domain?
+
+82
+00:06:17,000 --> 00:06:18,000
+What is the team size?
+
+83
+00:06:18,000 --> 00:06:20,000
+What are the existing applications?
+
+84
+00:06:20,000 --> 00:06:26,000
+Once we have all this information, there will be a good brainstorming happen and inside these brainstorming
+
+85
+00:06:26,000 --> 00:06:31,000
+sessions you will involve all the business people, technical people, business people, client people,
+
+86
+00:06:31,000 --> 00:06:36,000
+and accordingly, a right sizing will be identified for the microservice.
+
+87
+00:06:36,000 --> 00:06:42,000
+When you start with a size for microservice, it is obviously not going to be a right size for many
+
+88
+00:06:42,000 --> 00:06:43,000
+organizations.
+
+89
+00:06:43,000 --> 00:06:48,000
+Initially, they will start with some assumptions and with some sizing of the microservice.
+
+90
+00:06:48,000 --> 00:06:54,000
+Once they get started with the microservice development and deployments, if they see a lot of operational
+
+91
+00:06:54,000 --> 00:07:01,000
+overhead is required, that means they might have identified a lot, many microservices, which is a
+
+92
+00:07:01,000 --> 00:07:06,000
+operational overhead in such scenarios, then definitely they will revisit their sizing and they will
+
+93
+00:07:06,000 --> 00:07:10,000
+try to club some microservices to a larger microservice.
+
+94
+00:07:10,000 --> 00:07:16,000
+This way this is going to be a continuous process where business will try to see if the current sizing
+
+95
+00:07:16,000 --> 00:07:18,000
+of the microservices is fine.
+
+96
+00:07:18,000 --> 00:07:24,000
+If not, they will try to fine tune it either by splitting the existing microservice or by clubbing
+
+97
+00:07:24,000 --> 00:07:25,000
+the microservices.
+
+98
+00:07:25,000 --> 00:07:31,000
+So this is one of the most common approach and this has its own advantages and disadvantages.
+
+99
+00:07:31,000 --> 00:07:39,000
+One of the primary disadvantage is it is time consuming and it also need a lot of people who has good
+
+100
+00:07:39,000 --> 00:07:42,000
+understanding on the business and domain to overcome these challenges,
+
+101
+00:07:42,000 --> 00:07:47,000
+we also have other approach, which is Event-Storming Sizing.
+
+102
+00:07:47,000 --> 00:07:54,000
+In this scenario, a facilitator is going to conduct an interactive session among various stakeholders
+
+103
+00:07:54,000 --> 00:07:59,000
+like product owners, developers, testers, clients, business owners, business leaders.
+
+104
+00:07:59,000 --> 00:08:05,000
+Inside these fun sessions, everyone will be provided with some sticky notes.
+
+105
+00:08:05,000 --> 00:08:11,000
+On top of those sticky notes, they will be asked to think about an event that is possible inside a
+
+106
+00:08:11,000 --> 00:08:12,000
+business.
+
+107
+00:08:12,000 --> 00:08:18,000
+If you take a bank application as an example, a customer can complete the payment or he can search
+
+108
+00:08:18,000 --> 00:08:19,000
+for a product.
+
+109
+00:08:19,000 --> 00:08:22,000
+So these are the sample events.
+
+110
+00:08:22,000 --> 00:08:28,000
+Once all the possible events are identified by the stakeholders as a next step, they are going to identify
+
+111
+00:08:28,000 --> 00:08:31,000
+what are the commands and reactions.
+
+112
+00:08:31,000 --> 00:08:34,000
+Command is a process which will initiate the event.
+
+113
+00:08:34,000 --> 00:08:41,000
+For example, for the completed payment event, the customer has to click on a button to initiate the
+
+114
+00:08:41,000 --> 00:08:41,000
+payment.
+
+115
+00:08:41,000 --> 00:08:48,000
+So that is going to be a command and the reaction can be the amount will be deducted from his account
+
+116
+00:08:48,000 --> 00:08:50,000
+post the completion of the payment.
+
+117
+00:08:50,000 --> 00:08:58,000
+So this way, once all the events commands reactions are identified, they will be separated and segregated
+
+118
+00:08:58,000 --> 00:09:00,000
+based upon the domain.
+
+119
+00:09:00,000 --> 00:09:05,000
+For example, all cards related events, commands and reactions.
+
+120
+00:09:05,000 --> 00:09:07,000
+I can move to the cards domain.
+
+121
+00:09:07,000 --> 00:09:09,000
+Similarly for Loans and Accounts.
+
+122
+00:09:09,000 --> 00:09:15,000
+The advantage with this approach is you don't need experts who knows the business from many days.
+
+123
+00:09:15,000 --> 00:09:21,000
+Anyone who is using your product on day to day basis, who is testing your product on day to day basis,
+
+124
+00:09:21,000 --> 00:09:23,000
+they can provide their inputs.
+
+125
+00:09:23,000 --> 00:09:27,000
+Like this is the event that I can perform inside the application.
+
+126
+00:09:27,000 --> 00:09:33,000
+And since this is going to be a super interactive and fun sessions with lot many stakeholders, you
+
+127
+00:09:33,000 --> 00:09:37,000
+can gather a lot of information with a very few meetings.
+
+128
+00:09:37,000 --> 00:09:44,000
+Maybe you can conduct 5 to 6 meetings in a month and within a month you will have all the events information
+
+129
+00:09:44,000 --> 00:09:46,000
+along with that domain mapping.
+
+130
+00:09:46,000 --> 00:09:52,000
+Once you have all these information, it is going to be super, super easy to rightsize your microservice.
+
+131
+00:09:52,000 --> 00:09:58,000
+You can see there is a blog from lucidchart how to perform these event storming sessions inside an any
+
+132
+00:09:58,000 --> 00:09:59,000
+organization. We can try
+
+133
+00:09:59,000 --> 00:10:01,000
+to refer the same for more details.
+
+134
+00:10:01,000 --> 00:10:03,000
+This is the blog.
+
+135
+00:10:03,000 --> 00:10:07,000
+It has all the details on how someone can facilitate these events.
+
+136
+00:10:07,000 --> 00:10:12,000
+You as a developer, you don't have to facilitate, but this is going to be a good information for you
+
+137
+00:10:12,000 --> 00:10:18,000
+because at some day you may end up attending these kind of events or in some interview people can ask
+
+138
+00:10:18,000 --> 00:10:22,000
+you how you have rightsized your microservice in such scenarios.
+
+139
+00:10:22,000 --> 00:10:26,000
+All this information is going to be super helpful if you can scroll down
+
+140
+00:10:26,000 --> 00:10:32,000
+first, we need to provide the sticky notes to the stakeholders or with the help of Lucidchart, you
+
+141
+00:10:32,000 --> 00:10:35,000
+can make all this process digital with their website.
+
+142
+00:10:35,000 --> 00:10:40,000
+Once the sticky notes is provided, all the stakeholders, they will provide their inputs like what
+
+143
+00:10:40,000 --> 00:10:44,000
+are the possible events that can happen inside an application?
+
+144
+00:10:44,000 --> 00:10:50,000
+The advantage of this process is it is going to be super fast and it is going to be straightforward
+
+145
+00:10:50,000 --> 00:10:56,000
+and it is going to be engaging with all the stakeholders and it is going to be more effective compared
+
+146
+00:10:56,000 --> 00:10:58,000
+to the Domain-Driven Sizing.
+
+147
+00:10:58,000 --> 00:11:03,000
+If you can further scroll down on this page, you'll be seeing all the steps that a facilitator will
+
+148
+00:11:03,000 --> 00:11:05,000
+follow to perform this event.
+
+149
+00:11:05,000 --> 00:11:06,000
+Storming.
+
+150
+00:11:06,000 --> 00:11:12,000
+First, the facilitator will try to invite all the right people, including the clients, developers,
+
+151
+00:11:12,000 --> 00:11:20,000
+testers, managers, architects, business leaders post that they are going to provide unlimited modeling
+
+152
+00:11:20,000 --> 00:11:24,000
+space, which means using sticky notes or any other approach.
+
+153
+00:11:24,000 --> 00:11:28,000
+You need to give a freedom to the stakeholders that they can mention
+
+154
+00:11:28,000 --> 00:11:30,000
+any number of events.
+
+155
+00:11:30,000 --> 00:11:32,000
+There can be duplicates like two different people
+
+156
+00:11:32,000 --> 00:11:34,000
+they can propose duplicate events.
+
+157
+00:11:34,000 --> 00:11:41,000
+That's fine because as a facilitator you should be removing all those duplicate events.
+
+158
+00:11:41,000 --> 00:11:47,000
+With this freedom, stakeholders will try to provide all the events that they are aware inside the application.
+
+159
+00:11:47,000 --> 00:11:53,000
+As a next step, we need to identify commands for each domain events.
+
+160
+00:11:53,000 --> 00:11:59,000
+Once the commands are identified, We should also identify the reactions that may happen because sometimes
+
+161
+00:11:59,000 --> 00:12:03,000
+a reaction can be act as a command for the next event.
+
+162
+00:12:03,000 --> 00:12:07,000
+That's why identifying the events commands reactions is very important.
+
+163
+00:12:07,000 --> 00:12:14,000
+Once all these events commands reactions are identified, you can try to segregate them based upon that
+
+164
+00:12:14,000 --> 00:12:18,000
+domains or based upon the business or based upon the departments.
+
+165
+00:12:18,000 --> 00:12:24,000
+So here you can see they have separated based upon business product creation, sales testing.
+
+166
+00:12:24,000 --> 00:12:27,000
+So very similarly, you can separate based upon the domains.
+
+167
+00:12:27,000 --> 00:12:34,000
+Once you have these domain specific events, this is going to be input for your right sizing of the
+
+168
+00:12:34,000 --> 00:12:35,000
+microservice.
+
+169
+00:12:35,000 --> 00:12:39,000
+If you are interested, please read all the details present inside this blog.
+
+170
+00:12:39,000 --> 00:12:41,000
+It is going to take ten minutes only.
+
+171
+00:12:41,000 --> 00:12:46,000
+I'm going to mention this link inside the GitHub Readme document.
+
+172
+00:12:46,000 --> 00:12:52,000
+With this I'm assuming your super super clear with the common approaches that we have to rightsize our
+
+173
+00:12:52,000 --> 00:12:58,000
+microservices. In the next lecture, let's try to take an example of easy bank and try to rightsize our
+
+174
+00:12:58,000 --> 00:12:59,000
+microservices.
+
+175
+00:12:59,000 --> 00:13:02,000
+That's where it is going to be super clear for you.
+
+176
+00:13:02,000 --> 00:13:04,000
+Thank you and I'll catch you in the next lecture bye.
+

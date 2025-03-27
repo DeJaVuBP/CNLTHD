@@ -1,0 +1,424 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to consider a migration use case where a e-commerce startup, they are
+
+2
+00:00:06,000 --> 00:00:11,000
+trying to migrate from monolithic architecture to the microservices architecture.
+
+3
+00:00:11,000 --> 00:00:17,000
+And as part of this migration use case, let's try to understand how the accurate right sizing of the
+
+4
+00:00:17,000 --> 00:00:22,000
+microservice is going to help any organization. Like you can see here
+
+5
+00:00:22,000 --> 00:00:25,000
+first, let's try to imagine a e-commerce startup
+
+6
+00:00:25,000 --> 00:00:29,000
+in the initial days, they used to have a monolithic server inside the monolithic server
+
+7
+00:00:29,000 --> 00:00:35,000
+they used to have APIs which can be consumed by client applications like mobile applications.
+
+8
+00:00:35,000 --> 00:00:41,000
+And very similarly, they also have MVC style web application expose to their website.
+
+9
+00:00:41,000 --> 00:00:49,000
+From their HTML website, a web app MVC path will be invoked and the same will be redirected to the
+
+10
+00:00:49,000 --> 00:00:50,000
+backend monolithic server.
+
+11
+00:00:50,000 --> 00:00:56,000
+And inside this monolithic server, like you can see, there are many modules that are clubbed and deployed
+
+12
+00:00:56,000 --> 00:00:58,000
+inside a single server.
+
+13
+00:00:58,000 --> 00:01:03,000
+And these modules like identity, which will handle the authentication and authorization.
+
+14
+00:01:03,000 --> 00:01:08,000
+There is a catalog module which will help searching for the products inside an application.
+
+15
+00:01:08,000 --> 00:01:09,000
+There is an orders,
+
+16
+00:01:09,000 --> 00:01:12,000
+there is an invoices, sales, marketing, module.
+
+17
+00:01:12,000 --> 00:01:18,000
+And very similarly there are other modules like orders, invoices, sales and marketing.
+
+18
+00:01:18,000 --> 00:01:24,000
+You can imagine any number of modules inside e-commerce application, but for now, for simplicity,
+
+19
+00:01:24,000 --> 00:01:29,000
+let's try to assume that these six modules are present inside this monolithic e-commerce server.
+
+20
+00:01:29,000 --> 00:01:35,000
+And like, you know, inside monolithic application, there is going to be a single supporting database.
+
+21
+00:01:35,000 --> 00:01:40,000
+That's why they have a single relational database inside their database layer.
+
+22
+00:01:40,000 --> 00:01:44,000
+I hope you are clear with this monolithic architecture of an e-commerce startup.
+
+23
+00:01:44,000 --> 00:01:48,000
+Now let's try to see what are the problems that they are facing with this setup.
+
+24
+00:01:48,000 --> 00:01:54,000
+In the initial days, everyone is happy because the team is very small, and the traffic and volume
+
+25
+00:01:54,000 --> 00:01:58,000
+that is coming towards a website and mobile application is very small.
+
+26
+00:01:58,000 --> 00:02:04,000
+So they are able to manage with the monolithic application because building, testing, deploying and
+
+27
+00:02:04,000 --> 00:02:09,000
+troubleshooting an issue is very easy with only a single server.
+
+28
+00:02:09,000 --> 00:02:16,000
+But later on, after a few years, this e-commerce application, it became super famous like Amazon,
+
+29
+00:02:16,000 --> 00:02:22,000
+and they started receiving a lot of traffic, lot of data, and at the same time they are also facing
+
+30
+00:02:22,000 --> 00:02:25,000
+lot of competition from the other competitor website.
+
+31
+00:02:25,000 --> 00:02:29,000
+So with all this setup, they are facing lot of challenges.
+
+32
+00:02:29,000 --> 00:02:31,000
+Let's try to understand what are those challenges.
+
+33
+00:02:31,000 --> 00:02:37,000
+The very first challenge is the application becomes super complicated and no single person understand
+
+34
+00:02:37,000 --> 00:02:44,000
+the entire application. Because over the years, lot of business logic added inside the same application.
+
+35
+00:02:44,000 --> 00:02:50,000
+And many people, they left the organization and at the same time, there is lot of tight coupling between
+
+36
+00:02:50,000 --> 00:02:53,000
+the multiple modules. With this
+
+37
+00:02:53,000 --> 00:02:59,000
+definitely that leaders at this e-commerce application, they are scared to make any changes, making
+
+38
+00:02:59,000 --> 00:03:06,000
+any change will attract a lot of bugs and regression issues, so they cannot really make any changes
+
+39
+00:03:06,000 --> 00:03:07,000
+within a short period of time.
+
+40
+00:03:07,000 --> 00:03:09,000
+Any change that they want to do,
+
+41
+00:03:09,000 --> 00:03:16,000
+it requires months of time because along with the development, you should do a lot of testing, regression
+
+42
+00:03:16,000 --> 00:03:17,000
+testing, performance testing.
+
+43
+00:03:18,000 --> 00:03:23,000
+Apart from these challenges, they are also going to face challenges during the deployment of the application.
+
+44
+00:03:23,000 --> 00:03:23,000
+For
+
+45
+00:03:23,000 --> 00:03:30,000
+suppose if they make a small change inside the invoice module, they need to redeploy their entire application,
+
+46
+00:03:30,000 --> 00:03:37,000
+which is unnecessary and time consuming, and any single unstable component can crash their entire system.
+
+47
+00:03:37,000 --> 00:03:44,000
+And off course, adapting to new technology and framework is not at all an option with these small,
+
+48
+00:03:44,000 --> 00:03:45,000
+thick application.
+
+49
+00:03:45,000 --> 00:03:51,000
+And since the application is not separated and loosely coupled based upon the business logic, definitely
+
+50
+00:03:51,000 --> 00:03:58,000
+the organization cannot build isolated small teams by following agile delivery Methodology.
+
+51
+00:03:58,000 --> 00:04:03,000
+They can't have different, different scrum teams focusing on different, different functionality because
+
+52
+00:04:03,000 --> 00:04:05,000
+everything is tightly coupled.
+
+53
+00:04:05,000 --> 00:04:11,000
+So with all these challenges, e-commerce team, they decided to migrate their monolithic application
+
+54
+00:04:11,000 --> 00:04:13,000
+to microservices network.
+
+55
+00:04:13,000 --> 00:04:19,000
+They have issued lot of budget, and they also provided six months time to their technical team to convert
+
+56
+00:04:19,000 --> 00:04:22,000
+this monolithic application into a microservices application.
+
+57
+00:04:22,000 --> 00:04:25,000
+So let's see what the team has done.
+
+58
+00:04:25,000 --> 00:04:29,000
+Like you can see here, the technical team, they have built this architecture.
+
+59
+00:04:29,000 --> 00:04:34,000
+On the client side there will be a mobile application and a website which is built based upon latest
+
+60
+00:04:34,000 --> 00:04:37,000
+UI stack like Angular or React.
+
+61
+00:04:37,000 --> 00:04:42,000
+With this, both my mobile client and angular are react based web application.
+
+62
+00:04:42,000 --> 00:04:45,000
+They can try to consume my Rest APIs or microservices.
+
+63
+00:04:45,000 --> 00:04:52,000
+I don't have to write separate components one with Rest API and other one with MVC pattern.
+
+64
+00:04:52,000 --> 00:04:58,000
+I can simply expose all my business logic with the help of Rest APIs, and that's why my client applications.
+
+65
+00:04:58,000 --> 00:05:03,000
+They can communicate with my backend with the help of API gateway.
+
+66
+00:05:03,000 --> 00:05:10,000
+All the microservices, including the API gateway, deployed with the help of containers on the
+
+67
+00:05:10,000 --> 00:05:10,000
+backend.
+
+68
+00:05:10,000 --> 00:05:17,000
+What the team has done is, they have separated all the modules into independent microservices like identity
+
+69
+00:05:17,000 --> 00:05:22,000
+microservice, catalog microservice, order, invoice, sales, marketing microservice.
+
+70
+00:05:22,000 --> 00:05:28,000
+So anyone who wants to communicate with my microservice, first they need to talk with my API gateway.
+
+71
+00:05:28,000 --> 00:05:35,000
+Using API gateway, my client application, they can invoke my Rest APIs or microservices.
+
+72
+00:05:35,000 --> 00:05:41,000
+And all these microservices, including API gateway is deployed as a Docker containers inside a Kubernetes
+
+73
+00:05:41,000 --> 00:05:41,000
+cluster.
+
+74
+00:05:41,000 --> 00:05:45,000
+So we are going to build something very similar to this inside this course.
+
+75
+00:05:45,000 --> 00:05:47,000
+If you are not clear, don't worry.
+
+76
+00:05:47,000 --> 00:05:49,000
+I'm going to discuss about all of them inside this course.
+
+77
+00:05:49,000 --> 00:05:55,000
+If you see the beauty of this microservices implementation is, each microservice, they can have their
+
+78
+00:05:55,000 --> 00:05:56,000
+own supporting database.
+
+79
+00:05:56,000 --> 00:06:01,000
+They can follow their own programming language or framework, for example other microservices
+
+80
+00:06:01,000 --> 00:06:08,000
+they are using NoSQL database because they need to store a lot of data and similar for invoice microservice,
+
+81
+00:06:08,000 --> 00:06:12,000
+whereas catalog microservice they don't have to store a lot of data
+
+82
+00:06:12,000 --> 00:06:16,000
+that's why they are going with RDBMS and sales, marketing microservice.
+
+83
+00:06:16,000 --> 00:06:22,000
+They are following a Redis cache database based upon their business requirements.
+
+84
+00:06:22,000 --> 00:06:29,000
+On top of this microservice and supporting databases, the team also implemented event streaming with
+
+85
+00:06:29,000 --> 00:06:32,000
+the help of Event Bus like Kafka, RabbitMQ.
+
+86
+00:06:32,000 --> 00:06:37,000
+So with these products you can implement event streaming.
+
+87
+00:06:37,000 --> 00:06:44,000
+So whenever an authentication trying to happen, you can trigger an SMS to the customer for his OTP
+
+88
+00:06:44,000 --> 00:06:48,000
+so that you can do asynchronously with the help of event streaming.
+
+89
+00:06:48,000 --> 00:06:55,000
+And similarly, whenever an order is confirmed, you can send an SMS or email to the customer asynchronously
+
+90
+00:06:55,000 --> 00:06:56,000
+with the help of event streaming.
+
+91
+00:06:56,000 --> 00:07:03,000
+So this way, this e-commerce team, they are trying to get all the benefits with the help of these
+
+92
+00:07:03,000 --> 00:07:05,000
+microservices architecture.
+
+93
+00:07:05,000 --> 00:07:11,000
+Now this e-commerce organization, they can also have different agile teams, different scrum teams
+
+94
+00:07:11,000 --> 00:07:13,000
+focusing on each of these microservices.
+
+95
+00:07:13,000 --> 00:07:19,000
+And they can travel with their own enhancement lifecycle, with their own defects and with their own
+
+96
+00:07:19,000 --> 00:07:20,000
+deployment lifecycle.
+
+97
+00:07:20,000 --> 00:07:24,000
+So here you need to observe that sizing is very important.
+
+98
+00:07:24,000 --> 00:07:31,000
+For some reason, if the e-commerce team, they have identified too many microservices, then it is
+
+99
+00:07:31,000 --> 00:07:34,000
+going to be super, super operational overhead for them.
+
+100
+00:07:34,000 --> 00:07:36,000
+That's why right sizing is different.
+
+101
+00:07:36,000 --> 00:07:43,000
+Even whenever you are trying to migrate your existing monolithic application into a microservice architecture.
+
+102
+00:07:43,000 --> 00:07:48,000
+With all these discussions, I'm assuming you are super clear about what is the importance of right
+
+103
+00:07:48,000 --> 00:07:54,000
+sizing, what are the inputs and challenges that you need to consider while trying to right sizing your
+
+104
+00:07:54,000 --> 00:07:55,000
+microservices?
+
+105
+00:07:55,000 --> 00:07:56,000
+Thank you,
+
+106
+00:07:56,000 --> 00:07:57,000
+bye.
+

@@ -1,0 +1,316 @@
+1
+00:00:00,000 --> 00:00:07,000
+In the previous lecture I discussed about the common approaches that we can follow whenever we are trying
+
+2
+00:00:07,000 --> 00:00:11,000
+to right size and identify service boundaries for our microservices.
+
+3
+00:00:11,000 --> 00:00:17,000
+Now, inside this lecture, let's try to take an example of a BankApplication that needs to migrate
+
+4
+00:00:18,000 --> 00:00:20,000
+or built based upon a microservices architecture.
+
+5
+00:00:20,000 --> 00:00:27,000
+So whenever someone is trying to migrate or built based upon a microservices architecture, definitely
+
+6
+00:00:27,000 --> 00:00:31,000
+first, they need to identify the appropriate sizing for the microservices.
+
+7
+00:00:31,000 --> 00:00:39,000
+So the CEO or the chief technology officer of the bank, he or she formed three different teams for
+
+8
+00:00:39,000 --> 00:00:45,000
+these analysis and he or she asked them to come up with their own sizing for the microservices.
+
+9
+00:00:45,000 --> 00:00:51,000
+Let's try to see what these three different teams, they try to come up based upon their understanding
+
+10
+00:00:51,000 --> 00:00:52,000
+on the BankApplication.
+
+11
+00:00:52,000 --> 00:00:56,000
+They might have used the Domain-Driven Sizing or Event-Driven Sizing.
+
+12
+00:00:56,000 --> 00:01:01,000
+It's up to them, but let's try to see what they come up and towards the end of this lecture we will
+
+13
+00:01:01,000 --> 00:01:08,000
+act as a CEO or the CTO of the bank and will try to select one of the sizing for our microservices.
+
+14
+00:01:08,000 --> 00:01:14,000
+The very first team, they came up with a sizing saying that saving account and trading account related
+
+15
+00:01:14,000 --> 00:01:19,000
+business logic can be separated as a single microservice.
+
+16
+00:01:19,000 --> 00:01:24,000
+So this bank application, they support both saving account and trading account.
+
+17
+00:01:24,000 --> 00:01:28,000
+Using saving account you can save or you can store your money digitally.
+
+18
+00:01:28,000 --> 00:01:33,000
+And similarly, with the help of trading account, you can buy and sell the stocks mutual funds.
+
+19
+00:01:33,000 --> 00:01:39,000
+So they're trying to club both of the saving account and trading account into a single microservice.
+
+20
+00:01:39,000 --> 00:01:45,000
+And similarly, the bank also provides cards and loans related products to the end customers.
+
+21
+00:01:45,000 --> 00:01:49,000
+They're trying to club both these cards and loans as a single microservice.
+
+22
+00:01:49,000 --> 00:01:52,000
+So this is what team1 came up.
+
+23
+00:01:52,000 --> 00:01:54,000
+Now let's see what is Team2 came up.
+
+24
+00:01:54,000 --> 00:02:00,000
+Now Team2 recommended to have a separate microservice for the saving account and trading account.
+
+25
+00:02:00,000 --> 00:02:05,000
+And very similarly, they also recommended separate microservice for cards and loans.
+
+26
+00:02:05,000 --> 00:02:10,000
+So Team2 came up with four different microservices, whereas Team1 came up with two different
+
+27
+00:02:10,000 --> 00:02:11,000
+microservices.
+
+28
+00:02:11,000 --> 00:02:18,000
+Now let's go and see what is Team3 came up, Team3 came up with so many microservices like
+
+29
+00:02:18,000 --> 00:02:24,000
+one for saving account, the second one for trading account, which is very similar to team2.
+
+30
+00:02:24,000 --> 00:02:30,000
+Now coming to the cards, since the bank application supports both debit card and credit card, they are recommending
+
+31
+00:02:30,000 --> 00:02:34,000
+a separate microservice for debit and credit card. And inside loans
+
+32
+00:02:34,000 --> 00:02:40,000
+also, the bank is going to offer many types of loans like home loan, vehicle loan, personal loan
+
+33
+00:02:40,000 --> 00:02:42,000
+for all these type of loans.
+
+34
+00:02:42,000 --> 00:02:44,000
+Team 3 recommended separate microservices.
+
+35
+00:02:44,000 --> 00:02:49,000
+So these are the three options that three different teams presented in front of us.
+
+36
+00:02:49,000 --> 00:02:53,000
+So now let's try to act as a CTO or CEO.
+
+37
+00:02:53,000 --> 00:02:56,000
+I hope you are fine to act as a CEO or CTO.
+
+38
+00:02:56,000 --> 00:03:03,000
+Off course, every one of us aspired to become CEO and CTO someday, but for today, let's try to act
+
+39
+00:03:03,000 --> 00:03:04,000
+in those roles.
+
+40
+00:03:04,000 --> 00:03:10,000
+So with the very first option we have drawback because they are not rightly sized.
+
+41
+00:03:10,000 --> 00:03:15,000
+As you can see, cards and loans, they are clubbed and similarly saving account and trading account,
+
+42
+00:03:15,000 --> 00:03:16,000
+they are clubbed.
+
+43
+00:03:16,000 --> 00:03:22,000
+With these, there is a tight coupling between cards and loans and saving accounts and trading account.
+
+44
+00:03:22,000 --> 00:03:27,000
+And in future when a cards team they want to enhance the microservice for their own needs, then definitely
+
+45
+00:03:27,000 --> 00:03:29,000
+there will be some issues from the loans team.
+
+46
+00:03:29,000 --> 00:03:34,000
+That's why this right sizing is not a good sizing, at least to me.
+
+47
+00:03:34,000 --> 00:03:35,000
+I hope you are convinced with that.
+
+48
+00:03:35,000 --> 00:03:37,000
+Now let's look at the second option.
+
+49
+00:03:37,000 --> 00:03:45,000
+The second option looks most reasonable and correct sizing to me because all the business domains they
+
+50
+00:03:45,000 --> 00:03:49,000
+are recommending as independent modules or microservice.
+
+51
+00:03:49,000 --> 00:03:55,000
+So there is a loose coupling and at the same time, this sizing gives a flexibility to the different
+
+52
+00:03:55,000 --> 00:03:59,000
+teams inside the organization to have their own enhancement life cycle.
+
+53
+00:03:59,000 --> 00:04:03,000
+And on top of this they can choose their own language, their own database.
+
+54
+00:04:03,000 --> 00:04:09,000
+Now coming to the third approach, this also makes sense, but in order to go for this service, you
+
+55
+00:04:09,000 --> 00:04:16,000
+should have huge functionality that separates between debit card and credit card and home loan and vehicle
+
+56
+00:04:16,000 --> 00:04:17,000
+loan and personal loan.
+
+57
+00:04:17,000 --> 00:04:23,000
+If the functionality is very similar, then this is not a right sizing because you will end up having
+
+58
+00:04:23,000 --> 00:04:28,000
+too many microservice which will attract lot, many operational overheads.
+
+59
+00:04:28,000 --> 00:04:33,000
+That's why here my choice is going to be the option two, which looks safer for me right now.
+
+60
+00:04:33,000 --> 00:04:39,000
+Maybe in future if there are some issues like cards, we cannot put everything inside a single microservice
+
+61
+00:04:39,000 --> 00:04:43,000
+instead, we should go for debit card and credit card microservice separately.
+
+62
+00:04:43,000 --> 00:04:48,000
+Then obviously in future, after discussing with all the stakeholders, we can separate a single cards
+
+63
+00:04:48,000 --> 00:04:53,000
+microservice into two microservices like debit card and credit card.
+
+64
+00:04:53,000 --> 00:04:59,000
+So the overall summary that I'm trying to convey with this exercise is no sizing is a right sizing.
+
+65
+00:04:59,000 --> 00:05:07,000
+Initially, and if there are some issues you should continuously follow sizing your microservices till
+
+66
+00:05:07,000 --> 00:05:10,000
+you reach to a safer and correct sizing.
+
+67
+00:05:10,000 --> 00:05:16,000
+And in fact, the expectation also is not to identify the right sizing on the day one itself.
+
+68
+00:05:16,000 --> 00:05:18,000
+Companies are organizations
+
+69
+00:05:18,000 --> 00:05:24,000
+they will have their own learnings with their own microservices sizing post that based upon these learnings,
+
+70
+00:05:24,000 --> 00:05:28,000
+they will always try to rightsize and identify service boundaries for their microservices.
+
+71
+00:05:28,000 --> 00:05:31,000
+But for now, Team 2 is a winner here.
+
+72
+00:05:31,000 --> 00:05:38,000
+As a CTO or as a CEO, this makes sense more to me because there is no separate business logic as of
+
+73
+00:05:38,000 --> 00:05:44,000
+now inside my organization that differentiate between a debit card and credit card, home loan, vehicle
+
+74
+00:05:44,000 --> 00:05:45,000
+loan and personal loan.
+
+75
+00:05:45,000 --> 00:05:51,000
+There might be some minor differences, but I can handle such minor differences with the help of database
+
+76
+00:05:51,000 --> 00:05:56,000
+columns or any other approaches just for the minute Business logic differences.
+
+77
+00:05:56,000 --> 00:06:00,000
+We should not separate microservices and go for the approach 3.
+
+78
+00:06:00,000 --> 00:06:02,000
+I hope this is clear.
+
+79
+00:06:02,000 --> 00:06:05,000
+Thank you and I'll catch you in the next lecture bye.
+
