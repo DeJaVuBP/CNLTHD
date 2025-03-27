@@ -1,0 +1,332 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, we know how to activate a specific profile by hardcoding the profile values inside application.yml
+
+2
+00:00:07,000 --> 00:00:08,000
+file.
+
+3
+00:00:08,000 --> 00:00:14,000
+With this we have a disadvantage every time we want to move our code from one environment to other environment
+
+4
+00:00:14,000 --> 00:00:17,000
+and activate a profile specific to that environment.
+
+5
+00:00:17,000 --> 00:00:23,000
+We need to make sure we are regenerating our Docker image or our web application package, which is
+
+6
+00:00:23,000 --> 00:00:27,000
+against the 15 factor methodology that we have discussed.
+
+7
+00:00:27,000 --> 00:00:33,000
+So to overcome this challenge, we need to identify is there any way inside Springboot where we can
+
+8
+00:00:33,000 --> 00:00:38,000
+activate a specific profile from an external location or through an external parameter?
+
+9
+00:00:38,000 --> 00:00:44,000
+So let's try to understand the same Inside this lecture, Springboot provides various ways to externalize
+
+10
+00:00:44,000 --> 00:00:46,000
+our configurations and activate them.
+
+11
+00:00:46,000 --> 00:00:52,000
+And inside these approaches, the very first mostly used approach is with the help of command line arguments.
+
+12
+00:00:52,000 --> 00:00:58,000
+Whenever you are trying to provide a given property along with its value, with the help of command
+
+13
+00:00:58,000 --> 00:01:04,000
+line arguments behind the scenes, Springboot automatically converts that command line arguments into
+
+14
+00:01:04,000 --> 00:01:08,000
+a key and value pairs and add them to the environment object.
+
+15
+00:01:08,000 --> 00:01:13,000
+Whenever you use these command line arguments, it is going to have highest precedence compared to other
+
+16
+00:01:13,000 --> 00:01:14,000
+approaches.
+
+17
+00:01:14,000 --> 00:01:20,000
+Even if you define same property inside your application.yml or any other profile file, all those
+
+18
+00:01:20,000 --> 00:01:26,000
+values will be overrided because whatever you have defined inside the command line arguments is going
+
+19
+00:01:26,000 --> 00:01:27,000
+to have highest precedence.
+
+20
+00:01:27,000 --> 00:01:32,000
+There are multiple ways on how we can pass this command line arguments we saw previously.
+
+21
+00:01:32,000 --> 00:01:38,000
+We can try to start our spring boot application with a fat jar that got generated inside the target
+
+22
+00:01:38,000 --> 00:01:39,000
+folder.
+
+23
+00:01:39,000 --> 00:01:43,000
+For the same, we are going to use the java-jar and what is our jar name?
+
+24
+00:01:43,000 --> 00:01:49,000
+And this will start our spring boot application or your microservices application. To this command only
+
+25
+00:01:49,000 --> 00:01:56,000
+if you want to provide command line arguments, you need to follow a syntax which is by mentioning the
+
+26
+00:01:56,000 --> 00:02:01,000
+prefix two hyphens followed by what is your property key name and what is its value.
+
+27
+00:02:01,000 --> 00:02:05,000
+So here the property that I want to override are the property that I want to provide.
+
+28
+00:02:05,000 --> 00:02:10,000
+Using external configuration like command line arguments is build.version.
+
+29
+00:02:10,000 --> 00:02:14,000
+That's why I'm trying to mention this property along with the required value.
+
+30
+00:02:14,000 --> 00:02:20,000
+Similarly, you can pass any number of properties to this command by following the same prefix, but
+
+31
+00:02:20,000 --> 00:02:23,000
+please make sure your command line arguments are separated with a space.
+
+32
+00:02:23,000 --> 00:02:29,000
+I'll be showing a demo how to activate a specific profile with the help of command line in few seconds.
+
+33
+00:02:29,000 --> 00:02:34,000
+Just like how we can provide externalized configurations with the help of command line arguments, we
+
+34
+00:02:34,000 --> 00:02:38,000
+can also provide by using the JVM system properties.
+
+35
+00:02:38,000 --> 00:02:45,000
+This JVM system properties has less precedence compared to the command line arguments, but it has more
+
+36
+00:02:45,000 --> 00:02:49,000
+precedence compared to the normal property files like application.yml file.
+
+37
+00:02:49,000 --> 00:02:53,000
+So let's try to understand how to provide these JVM properties.
+
+38
+00:02:53,000 --> 00:02:55,000
+What is the syntax. To these JVM system
+
+39
+00:02:55,000 --> 00:02:58,000
+properties are very similar to command line arguments.
+
+40
+00:02:58,000 --> 00:03:03,000
+They can override your spring boot to properties which has a lower priority, but the syntax is going
+
+41
+00:03:03,000 --> 00:03:06,000
+to be different for JVM system properties.
+
+42
+00:03:06,000 --> 00:03:12,000
+Using JVM system properties, you need to make sure you are having -d as a prefix before your
+
+43
+00:03:12,000 --> 00:03:13,000
+property.
+
+44
+00:03:13,000 --> 00:03:19,000
+You can see here I have provided an example for your reference. But you may have a question like what
+
+45
+00:03:19,000 --> 00:03:24,000
+if I mention the same property both in command line arguments and JVM system properties?
+
+46
+00:03:24,000 --> 00:03:30,000
+In such scenarios the precedence are the preference followed by the spring boot will come into picture
+
+47
+00:03:30,000 --> 00:03:33,000
+since the command line arguments is going to have the highest precedence.
+
+48
+00:03:33,000 --> 00:03:38,000
+Whatever value you have mentioned through the command line arguments will be considered by the spring
+
+49
+00:03:38,000 --> 00:03:39,000
+boot application.
+
+50
+00:03:39,000 --> 00:03:42,000
+By taking the precedence or the JVM properties.
+
+51
+00:03:42,000 --> 00:03:49,000
+The next common approach to provide externalized configurations is with the help of environment variables.
+
+52
+00:03:49,000 --> 00:03:53,000
+This approach has an advantage compared to the other approaches.
+
+53
+00:03:53,000 --> 00:04:01,000
+The advantage is environment variables are widely used for externalized configurations as they are universally sopported.
+
+54
+00:04:01,000 --> 00:04:07,000
+Regardless of your using Java or Spring Boot, regardless of whatever language or whatever
+
+55
+00:04:07,000 --> 00:04:14,000
+platform you are using, these environment variables are universally supported, so even Java and Spring
+
+56
+00:04:14,000 --> 00:04:16,000
+Boot also supports these environment variables.
+
+57
+00:04:16,000 --> 00:04:22,000
+That's why if you have a scenario where you are not using JVM or Spring Boot or Java, but for your
+
+58
+00:04:22,000 --> 00:04:28,000
+microservice or for your serverless application, if you want to still provide an external configuration,
+
+59
+00:04:28,000 --> 00:04:31,000
+then this approach is recommended, which is environment variables.
+
+60
+00:04:31,000 --> 00:04:38,000
+We can also access these environment variables inside Java code with the help of system.getEnvironment()
+
+61
+00:04:38,000 --> 00:04:39,000
+method.
+
+62
+00:04:39,000 --> 00:04:44,000
+Now let's try to see what is the syntax that we need to follow while we are trying to use this environment.
+
+63
+00:04:44,000 --> 00:04:45,000
+Variables.
+
+64
+00:04:45,000 --> 00:04:51,000
+The syntax is first, you need to convert all your property key names to the uppercase values.
+
+65
+00:04:51,000 --> 00:04:53,000
+They should not be any lowercase values.
+
+66
+00:04:53,000 --> 00:04:55,000
+All the letters should be in uppercase. And post that,
+
+67
+00:04:55,000 --> 00:05:00,000
+replace all your dots with underscore. For example if you want to
+
+68
+00:05:00,000 --> 00:05:05,000
+provide the property of build.version as an environment variable, then you need to make sure you
+
+69
+00:05:05,000 --> 00:05:06,000
+are following these standard.
+
+70
+00:05:06,000 --> 00:05:12,000
+With that, you will convert all the letters inside the build.version into capital letters post
+
+71
+00:05:12,000 --> 00:05:14,000
+that you will replace that dot with underscore.
+
+72
+00:05:14,000 --> 00:05:16,000
+Let's see an example here.
+
+73
+00:05:16,000 --> 00:05:17,000
+Inside Windows,
+
+74
+00:05:17,000 --> 00:05:23,000
+whenever you are trying to set an environment variable through command line, first you need to execute
+
+75
+00:05:23,000 --> 00:05:29,000
+this command which is env colon and what is your environment variable post that mention colon followed
+
+76
+00:05:29,000 --> 00:05:35,000
+by your Java command to start your application and inside Linux based operating system or inside Mac
+
+77
+00:05:35,000 --> 00:05:40,000
+based operating system, you can directly mention what is your environment variable.
+
+78
+00:05:40,000 --> 00:05:42,000
+After that, please give a space.
+
+79
+00:05:42,000 --> 00:05:45,000
+After the space you can mention your Java command.
+
+80
+00:05:45,000 --> 00:05:50,000
+So these are the different approaches to externalize the configurations. Inside the next lecture,
+
+81
+00:05:50,000 --> 00:05:56,000
+let's see that demo of all these externalized configurations and try to activate the profile of our
+
+82
+00:05:56,000 --> 00:05:58,000
+application using these approaches.
+
+83
+00:05:58,000 --> 00:06:01,000
+Thank you and I'll catch you in the next lecture bye.
+

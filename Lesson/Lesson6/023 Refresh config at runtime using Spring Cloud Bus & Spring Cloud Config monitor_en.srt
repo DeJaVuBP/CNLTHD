@@ -1,0 +1,964 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, inside our microservices network, we are able to refresh the properties runtime without
+
+2
+00:00:07,000 --> 00:00:14,000
+restarting our microservice instances by invoking the bus refresh or refresh APIs available inside the
+
+3
+00:00:14,000 --> 00:00:14,000
+actuator.
+
+4
+00:00:14,000 --> 00:00:17,000
+They both have manual approach involved.
+
+5
+00:00:17,000 --> 00:00:25,000
+Someone has to invoke either bus refresh on any of the one instance or refresh API in all the microservices
+
+6
+00:00:25,000 --> 00:00:25,000
+instances.
+
+7
+00:00:25,000 --> 00:00:31,000
+But here we are looking for an automated approach which will automate the refreshing of the properties
+
+8
+00:00:31,000 --> 00:00:34,000
+without invoking any API path manually.
+
+9
+00:00:34,000 --> 00:00:35,000
+But the same.
+
+10
+00:00:35,000 --> 00:00:41,000
+There is an option with the help of GitHub webhooks, so this approach is built on top of the spring
+
+11
+00:00:41,000 --> 00:00:44,000
+cloud bus approach that we have discussed in the previous lecture.
+
+12
+00:00:44,000 --> 00:00:50,000
+So all the changes that we have discussed in the previous lecture has to be there to use this approach
+
+13
+00:00:50,000 --> 00:00:51,000
+as well.
+
+14
+00:00:51,000 --> 00:00:57,000
+To get started with the new approach, first we need to add a new dependency inside the palm dot XML
+
+15
+00:00:57,000 --> 00:01:03,000
+of the config server, and this new dependency is Spring Cloud config monitor.
+
+16
+00:01:03,000 --> 00:01:08,000
+We need to add this dependency only inside the config server, but not in the other microservices.
+
+17
+00:01:08,000 --> 00:01:16,000
+Whenever we add these dependency inside the config server, it is going to expose a new API path with
+
+18
+00:01:16,000 --> 00:01:18,000
+the name slash monitor.
+
+19
+00:01:18,000 --> 00:01:21,000
+So this is not a API path under the actuator.
+
+20
+00:01:21,000 --> 00:01:27,000
+This is a rest API path which exposed by the spring cloud config server only, but not the actuator.
+
+21
+00:01:27,000 --> 00:01:34,000
+Using this monitor API path available inside the Spring Cloud Config server, we can create a webhook
+
+22
+00:01:34,000 --> 00:01:40,000
+inside the GitHub repo saying that whenever a change happened inside my GitHub repo, like a new property
+
+23
+00:01:40,000 --> 00:01:43,000
+is added, please invoke the monitor API path.
+
+24
+00:01:43,000 --> 00:01:50,000
+As soon as this monitor API path receives a webhook request from the GitHub repo behind the scenes,
+
+25
+00:01:50,000 --> 00:01:56,000
+it is going to invoke the refresh event with the help of Spring Cloud Bus and RabbitMQ.
+
+26
+00:01:56,000 --> 00:01:58,000
+I hope you are clear with the high level introduction.
+
+27
+00:01:58,000 --> 00:02:01,000
+When we see the demo, it will be more clear for you.
+
+28
+00:02:01,000 --> 00:02:05,000
+As a next step, I need to go to the application dot Yaml off config server.
+
+29
+00:02:05,000 --> 00:02:11,000
+Here we need to make sure we are mentioning the property which is management dot endpoints dot web dot
+
+30
+00:02:11,000 --> 00:02:14,000
+exposure dot include as asterisk.
+
+31
+00:02:14,000 --> 00:02:20,000
+Because like I said, whenever the GitHub repo send a webhook request to the monitor API behind the
+
+32
+00:02:20,000 --> 00:02:23,000
+scenes, my config server is going to use the Spring Cloud bus.
+
+33
+00:02:23,000 --> 00:02:30,000
+So that's why since behind the scenes it is going to invoke automatically the bus refresh API path,
+
+34
+00:02:30,000 --> 00:02:36,000
+we need to make sure we are enabling all these management endpoints inside the config server as well.
+
+35
+00:02:36,000 --> 00:02:42,000
+Now, as a next step, we can also mention that RabbitMQ configuration details just to be consistent
+
+36
+00:02:42,000 --> 00:02:43,000
+with all the microservices.
+
+37
+00:02:43,000 --> 00:02:50,000
+Previously I said it is completely optional because as of now we are starting our RabbitMQ with the
+
+38
+00:02:50,000 --> 00:02:51,000
+default values.
+
+39
+00:02:51,000 --> 00:02:55,000
+So let me mention the same connection details inside the config server as well.
+
+40
+00:02:55,000 --> 00:03:02,000
+So just here at the end, after giving a tap space, I'll be creating an element under the spring parent.
+
+41
+00:03:02,000 --> 00:03:07,000
+The element is RabbitMQ followed by host port, username and password.
+
+42
+00:03:07,000 --> 00:03:09,000
+I just want it to be consistent.
+
+43
+00:03:09,000 --> 00:03:12,000
+That's why I'm mentioning this RabbitMQ connection details here.
+
+44
+00:03:12,000 --> 00:03:15,000
+After making these changes we should be good.
+
+45
+00:03:15,000 --> 00:03:17,000
+Let me save the changes now.
+
+46
+00:03:17,000 --> 00:03:21,000
+As a next step, we need to go to the GitHub repo and create a webhook.
+
+47
+00:03:21,000 --> 00:03:27,000
+So here you can see this is the GitHub repo where we are mentioning all the properties of the microservices.
+
+48
+00:03:27,000 --> 00:03:31,000
+And at this GitHub repo you will be able to see the settings option.
+
+49
+00:03:31,000 --> 00:03:33,000
+So I'm just giving a demo here.
+
+50
+00:03:33,000 --> 00:03:39,000
+You can't create a webhook under my Easy Bites hyphen config repository because this is owned by me.
+
+51
+00:03:39,000 --> 00:03:43,000
+If you want to practice this approach, please create your own GitHub repo.
+
+52
+00:03:43,000 --> 00:03:46,000
+Very similar to Easy Bites hyphen config.
+
+53
+00:03:46,000 --> 00:03:52,000
+Now on this setting page you can click on this webhooks option that we have and post that try to click
+
+54
+00:03:52,000 --> 00:03:54,000
+on this add Webhook button.
+
+55
+00:03:54,000 --> 00:04:00,000
+The purpose of the webhook is whenever there is a change happen inside your GitHub repo, your GitHub
+
+56
+00:04:00,000 --> 00:04:05,000
+is going to publish an event to the URL that you have configured.
+
+57
+00:04:05,000 --> 00:04:09,000
+And all this is going to happen automatically whenever you try to push a new change.
+
+58
+00:04:09,000 --> 00:04:15,000
+These webhooks are very famous and they are available in most of the git implementation products like
+
+59
+00:04:15,000 --> 00:04:17,000
+GitLab, Bitbucket.
+
+60
+00:04:17,000 --> 00:04:22,000
+So regardless of whatever versioning system you are using, you will be able to create this webhooks.
+
+61
+00:04:22,000 --> 00:04:29,000
+So now here under the payload URL, I need to give the URL where the webhook request has to be sent
+
+62
+00:04:29,000 --> 00:04:30,000
+by my GitHub repo.
+
+63
+00:04:30,000 --> 00:04:37,000
+So let me give the URL which is http localhost and the port value is 8071.
+
+64
+00:04:37,000 --> 00:04:39,000
+And the API path is monitor.
+
+65
+00:04:39,000 --> 00:04:46,000
+So this is the API path that is exposed by the spring cloud config server, which my GitHub can invoke.
+
+66
+00:04:46,000 --> 00:04:48,000
+But do you think this is going to work?
+
+67
+00:04:48,000 --> 00:04:48,000
+Definitely.
+
+68
+00:04:48,000 --> 00:04:52,000
+This is not going to work because we are trying to give a localhost URL.
+
+69
+00:04:52,000 --> 00:04:58,000
+If I give a local host URL, how GitHub server will know where this URL is deployed.
+
+70
+00:04:58,000 --> 00:04:59,000
+I'm not giving any public IP.
+
+71
+00:05:00,000 --> 00:05:01,000
+I'm not giving any domain name.
+
+72
+00:05:01,000 --> 00:05:05,000
+It is clueless and it will eventually fail in a production scenario.
+
+73
+00:05:05,000 --> 00:05:07,000
+Your operations team.
+
+74
+00:05:07,000 --> 00:05:11,000
+They will configure a public IP or domain name in the place of localhost.
+
+75
+00:05:11,000 --> 00:05:14,000
+But now how to overcome this challenge?
+
+76
+00:05:14,000 --> 00:05:17,000
+So to help in these kind of scenarios we have some websites.
+
+77
+00:05:17,000 --> 00:05:19,000
+So let's try to explore them.
+
+78
+00:05:19,000 --> 00:05:23,000
+The website that I want to introduce here is hook deck.com.
+
+79
+00:05:23,000 --> 00:05:30,000
+So this is the website which will help us in testing the web hooks even with the local host system.
+
+80
+00:05:30,000 --> 00:05:35,000
+So as of now the GitHub server is not able to send a hook to our local system.
+
+81
+00:05:35,000 --> 00:05:39,000
+But with the help of these mediator, we are going to resolve that challenge.
+
+82
+00:05:39,000 --> 00:05:44,000
+So to understand how we are going to resolve, you can click on this test web hook that will take you
+
+83
+00:05:44,000 --> 00:05:46,000
+to this console dot hook Digg.com.
+
+84
+00:05:46,000 --> 00:05:49,000
+Here you can see we need to add that destination details.
+
+85
+00:05:49,000 --> 00:05:52,000
+So let's click on this add a destination.
+
+86
+00:05:52,000 --> 00:05:57,000
+As soon as you click on this add destination, you will get the set of instructions that you need to
+
+87
+00:05:57,000 --> 00:05:58,000
+follow inside your local host.
+
+88
+00:05:58,000 --> 00:06:02,000
+So if you are using Mac OS, you need to follow all these instructions.
+
+89
+00:06:02,000 --> 00:06:08,000
+The very first instruction is to install the hook deck related libraries inside my local system.
+
+90
+00:06:08,000 --> 00:06:10,000
+For the same I need to use this brew command.
+
+91
+00:06:10,000 --> 00:06:12,000
+I already ran this command behind the scenes.
+
+92
+00:06:12,000 --> 00:06:15,000
+That's why I'm not going to run this command again.
+
+93
+00:06:15,000 --> 00:06:19,000
+Next, we need to login into this session from our local host system.
+
+94
+00:06:19,000 --> 00:06:22,000
+So that's why we need to take this hook deck login command.
+
+95
+00:06:22,000 --> 00:06:25,000
+So let me run the same command inside my terminal.
+
+96
+00:06:25,000 --> 00:06:32,000
+So as soon as I try to run this command, my local hook deck CLI will be configured with my remote console
+
+97
+00:06:32,000 --> 00:06:33,000
+sandbox.
+
+98
+00:06:33,000 --> 00:06:37,000
+As a next step, we need to run this third command which is hook deck.
+
+99
+00:06:37,000 --> 00:06:39,000
+Listen command, I'm trying to run the same.
+
+100
+00:06:39,000 --> 00:06:44,000
+But before you try to run this command, you need to provide the port number where your local host is
+
+101
+00:06:44,000 --> 00:06:45,000
+trying to listen.
+
+102
+00:06:45,000 --> 00:06:50,000
+So in our scenario, the config server is started at the port 8071.
+
+103
+00:06:50,000 --> 00:06:54,000
+So let me run this command post that it will ask you what is the path?
+
+104
+00:06:54,000 --> 00:07:00,000
+My hook deck has to redirect the request received from the GitHub repo webhook.
+
+105
+00:07:00,000 --> 00:07:03,000
+So like we know the path is slash monitor.
+
+106
+00:07:03,000 --> 00:07:06,000
+So let's try to mention the same slash monitor.
+
+107
+00:07:06,000 --> 00:07:08,000
+After this I'm going to press the enter.
+
+108
+00:07:08,000 --> 00:07:12,000
+And it is going to ask me what is the connection label which is our host name.
+
+109
+00:07:12,000 --> 00:07:15,000
+So let me give the host name as local host.
+
+110
+00:07:15,000 --> 00:07:21,000
+So I have given the host name details, port details and what is the API path details as well.
+
+111
+00:07:21,000 --> 00:07:26,000
+So if I press the enter you will be able to see a new session will be created.
+
+112
+00:07:26,000 --> 00:07:33,000
+Now it created a webhook URL which has some domain name, and this URL perfectly works inside the GitHub
+
+113
+00:07:33,000 --> 00:07:33,000
+repo.
+
+114
+00:07:33,000 --> 00:07:41,000
+And whenever a webhook request receives from the GitHub repo to this webhook URL, it is going to redirect
+
+115
+00:07:41,000 --> 00:07:45,000
+that into my local system, which is at the path monitor.
+
+116
+00:07:45,000 --> 00:07:47,000
+So let me take this webhook URL.
+
+117
+00:07:47,000 --> 00:07:49,000
+You can see this also has his steps.
+
+118
+00:07:49,000 --> 00:07:55,000
+So now inside my GitHub repo I'm going to add the new URL under the payload URL.
+
+119
+00:07:55,000 --> 00:08:01,000
+So after I have added these URL, I need to make sure the content type is Json and there is no secret
+
+120
+00:08:01,000 --> 00:08:08,000
+involved in our scenario and post that you can see I want the webhook to be created or triggered only
+
+121
+00:08:08,000 --> 00:08:14,000
+in the case of push event, which means whenever I make some changes I don't want in any other scenario,
+
+122
+00:08:14,000 --> 00:08:20,000
+like whenever a pull is happening or whenever a new branch is created, I want to ignore all such events
+
+123
+00:08:20,000 --> 00:08:20,000
+only.
+
+124
+00:08:20,000 --> 00:08:22,000
+I'm interested with the push event.
+
+125
+00:08:22,000 --> 00:08:28,000
+That's why I'm fine with the default selection here, which is just the push event post that you can
+
+126
+00:08:28,000 --> 00:08:34,000
+click on this add webhook, which will create a new webhook inside your GitHub repo.
+
+127
+00:08:34,000 --> 00:08:40,000
+Now I'll go to my workspace and I'll try to start all my microservices along with the config server.
+
+128
+00:08:40,000 --> 00:08:41,000
+So here I'm trying to do a build.
+
+129
+00:08:41,000 --> 00:08:47,000
+Once the build is completed, I will first start the config server application.
+
+130
+00:08:47,000 --> 00:08:53,000
+Once the config server application is started, I'm going to start accounts application followed by
+
+131
+00:08:53,000 --> 00:08:57,000
+loans application followed by cards application.
+
+132
+00:08:57,000 --> 00:09:02,000
+Now all my services started successfully inside my local including the config server.
+
+133
+00:09:02,000 --> 00:09:06,000
+As a next step, I'll go to the GitHub repo and I'll try to change a property value.
+
+134
+00:09:06,000 --> 00:09:10,000
+So inside my GitHub repo I'm going to the main repository location.
+
+135
+00:09:10,000 --> 00:09:15,000
+And here I will try to make a change inside the cards hyphen prod dot yaml.
+
+136
+00:09:15,000 --> 00:09:18,000
+So let me click on this and click on this edit button.
+
+137
+00:09:18,000 --> 00:09:22,000
+As of now you can see we have the prod API's here.
+
+138
+00:09:22,000 --> 00:09:26,000
+Instead I'm going to mention this time as webhook API's.
+
+139
+00:09:26,000 --> 00:09:29,000
+So just for fun, I'm just mentioning webhook here.
+
+140
+00:09:29,000 --> 00:09:31,000
+Before I try to commit this change.
+
+141
+00:09:31,000 --> 00:09:38,000
+First I'll try to invoke the config server cards API path and at the same time contact info API path
+
+142
+00:09:38,000 --> 00:09:40,000
+available inside the cards microservice.
+
+143
+00:09:40,000 --> 00:09:44,000
+So here you can see I'm trying to invoke card slash prod and the response.
+
+144
+00:09:44,000 --> 00:09:47,000
+As of now you can see there is a value prod.
+
+145
+00:09:47,000 --> 00:09:49,000
+So I'm just trying to zoom here.
+
+146
+00:09:49,000 --> 00:09:51,000
+So you can see there is a value as prod.
+
+147
+00:09:51,000 --> 00:09:57,000
+I can also confirm the same by invoking the contact info available inside the cards microservice.
+
+148
+00:09:57,000 --> 00:09:59,000
+So let me try to invoke this.
+
+149
+00:09:59,000 --> 00:09:59,000
+You can see.
+
+150
+00:10:00,000 --> 00:10:01,000
+We have the value as prod here.
+
+151
+00:10:01,000 --> 00:10:03,000
+Now, are you ready to see the magic?
+
+152
+00:10:03,000 --> 00:10:05,000
+I'm just trying to commit this change.
+
+153
+00:10:05,000 --> 00:10:12,000
+Which means a push event will be generated by my GitHub webhook that I have created.
+
+154
+00:10:12,000 --> 00:10:16,000
+So now let me go to the settings and go to the webhooks.
+
+155
+00:10:16,000 --> 00:10:19,000
+You can click on this webhook that we have created.
+
+156
+00:10:19,000 --> 00:10:22,000
+There is a tab which you can see the recent deliverables.
+
+157
+00:10:22,000 --> 00:10:27,000
+You can see the very first time the ping happened to test whether the hook is working or not.
+
+158
+00:10:27,000 --> 00:10:30,000
+Post that there is a push event happened by my GitHub.
+
+159
+00:10:30,000 --> 00:10:37,000
+So inside this push there are all the details will be available about what file is changed like if you
+
+160
+00:10:37,000 --> 00:10:41,000
+can scroll down you can see under this GitHub repo there is a change happened.
+
+161
+00:10:41,000 --> 00:10:44,000
+So there are a lot of details here under this webhook.
+
+162
+00:10:44,000 --> 00:10:50,000
+Let me search for cards here so you can see there is a commit information like what is the commit ID.
+
+163
+00:10:50,000 --> 00:10:55,000
+What is the commit message that we have used which is like update cards, prod dot Yaml which we have
+
+164
+00:10:55,000 --> 00:10:55,000
+used.
+
+165
+00:10:55,000 --> 00:11:01,000
+And at the same time under the modified list we have the modified file which is cards hyphen prod,
+
+166
+00:11:01,000 --> 00:11:02,000
+dot yaml.
+
+167
+00:11:02,000 --> 00:11:03,000
+Now I have not done anything.
+
+168
+00:11:03,000 --> 00:11:08,000
+I have not invoked any bus refresh or refresh API path.
+
+169
+00:11:08,000 --> 00:11:10,000
+Let's go to the terminal and see what is happening there.
+
+170
+00:11:10,000 --> 00:11:14,000
+Here you can see initially when the ping request came.
+
+171
+00:11:14,000 --> 00:11:18,000
+By the time we have not started the config server, that's why there is a error.
+
+172
+00:11:18,000 --> 00:11:24,000
+But after we try to make the change, a new webhook request came and by the time the config server started.
+
+173
+00:11:24,000 --> 00:11:30,000
+That's why we are able to see these 200 requests like there is a Post request happened to this API path
+
+174
+00:11:30,000 --> 00:11:34,000
+from the console session of the hook deck that we have created.
+
+175
+00:11:34,000 --> 00:11:37,000
+Now first I'll try to test my config server response.
+
+176
+00:11:37,000 --> 00:11:39,000
+So here I'm trying to refresh.
+
+177
+00:11:39,000 --> 00:11:41,000
+You can see there is a webhook API.
+
+178
+00:11:41,000 --> 00:11:42,000
+So there is no wonder here.
+
+179
+00:11:42,000 --> 00:11:43,000
+This is always happening.
+
+180
+00:11:43,000 --> 00:11:47,000
+The wonder that we want to see is inside the cards microservice.
+
+181
+00:11:47,000 --> 00:11:50,000
+So here I'm trying to click on this send button.
+
+182
+00:11:50,000 --> 00:11:51,000
+Are you ready to see the magic.
+
+183
+00:11:51,000 --> 00:11:53,000
+So let me click on the send button.
+
+184
+00:11:53,000 --> 00:11:55,000
+You can see we are getting the webhook.
+
+185
+00:11:55,000 --> 00:11:56,000
+Hooray!
+
+186
+00:11:56,000 --> 00:12:02,000
+So this brings a lot of happiness to me because we did a lot of hard work and we took a lot of discussion
+
+187
+00:12:02,000 --> 00:12:06,000
+around this because all these are production ready scenarios.
+
+188
+00:12:06,000 --> 00:12:11,000
+If you are working seriously inside any production application, all these are the approaches that you
+
+189
+00:12:11,000 --> 00:12:12,000
+need to follow.
+
+190
+00:12:12,000 --> 00:12:16,000
+That's why always don't go with the Hello world approaches or the simple approaches.
+
+191
+00:12:16,000 --> 00:12:19,000
+I have demoed you all the approaches inside this section.
+
+192
+00:12:19,000 --> 00:12:22,000
+Please choose the better option which works for you.
+
+193
+00:12:22,000 --> 00:12:28,000
+You can see we have taken the responsibilities like running a RabbitMQ, creating a webhook inside the
+
+194
+00:12:28,000 --> 00:12:29,000
+GitHub.
+
+195
+00:12:29,000 --> 00:12:34,000
+So if you take more number of responsibilities, the microservice is going to give more powers to you.
+
+196
+00:12:34,000 --> 00:12:36,000
+Do you want to see this magic again?
+
+197
+00:12:36,000 --> 00:12:41,000
+So let's try to see this magic again by reverting these webhook back to the prod.
+
+198
+00:12:41,000 --> 00:12:47,000
+So inside my GitHub repo I'm going to the same file which is cards hyphen prod dot yaml.
+
+199
+00:12:47,000 --> 00:12:50,000
+So let me click on this and click on this edit button.
+
+200
+00:12:50,000 --> 00:12:55,000
+And now instead of webhook I'm going to go back to the prod APIs.
+
+201
+00:12:55,000 --> 00:12:56,000
+So I'm trying to commit this.
+
+202
+00:12:56,000 --> 00:13:00,000
+As soon as I commit there will be a webhook request will go.
+
+203
+00:13:00,000 --> 00:13:01,000
+We can confirm the same.
+
+204
+00:13:01,000 --> 00:13:04,000
+Inside the terminal you can see there is a new 200 response.
+
+205
+00:13:04,000 --> 00:13:06,000
+Now I'm trying to click the send button again.
+
+206
+00:13:06,000 --> 00:13:08,000
+We are back to the prod APIs.
+
+207
+00:13:08,000 --> 00:13:09,000
+I hope you're clear.
+
+208
+00:13:09,000 --> 00:13:14,000
+Now let's try to quickly discuss the steps that we have followed by referring to a slide.
+
+209
+00:13:14,000 --> 00:13:20,000
+Inside this slide, I have mentioned all the steps that we followed in order to refresh the configurations
+
+210
+00:13:20,000 --> 00:13:24,000
+at runtime using Spring Cloud Bus and Spring Cloud Config Monitor.
+
+211
+00:13:24,000 --> 00:13:29,000
+The very first step, you know, we need to make sure the actuator dependency is added inside all the
+
+212
+00:13:29,000 --> 00:13:32,000
+microservices, including the config server.
+
+213
+00:13:32,000 --> 00:13:38,000
+Inside the second step, we need to make sure we are activating our enabling the bus refresh actuator
+
+214
+00:13:38,000 --> 00:13:41,000
+API path by using a property like you can see on the screen.
+
+215
+00:13:41,000 --> 00:13:47,000
+Inside the third step, we need to make sure we are adding a dependency which is spring Cloud starter
+
+216
+00:13:47,000 --> 00:13:52,000
+plus Amqp inside all the applications inside your microservices network.
+
+217
+00:13:52,000 --> 00:13:57,000
+Inside the fourth step, we need to add a new dependency which is Spring Cloud config monitor inside
+
+218
+00:13:57,000 --> 00:13:58,000
+the config server alone.
+
+219
+00:13:58,000 --> 00:14:02,000
+And this will expose a new API path which is slash monitor.
+
+220
+00:14:02,000 --> 00:14:08,000
+And in the fifth step, please start the RabbitMQ inside your local system with the help of the docker
+
+221
+00:14:08,000 --> 00:14:09,000
+command that we have discussed.
+
+222
+00:14:09,000 --> 00:14:14,000
+And in the last step, you need to create a webhook inside the GitHub, which will automatically send
+
+223
+00:14:14,000 --> 00:14:18,000
+a Post request whenever a new push request is happening.
+
+224
+00:14:18,000 --> 00:14:23,000
+So this new webhook has to send a request to the slash monitor path against the config server.
+
+225
+00:14:23,000 --> 00:14:25,000
+So let's try to visualize these steps.
+
+226
+00:14:25,000 --> 00:14:27,000
+Like you can see here.
+
+227
+00:14:27,000 --> 00:14:32,000
+Everything is going to be similar to what we have discussed with the Spring Cloud bus, but only the
+
+228
+00:14:32,000 --> 00:14:39,000
+change that we are bringing with this option is we are adding a webhook between the GitHub and the config
+
+229
+00:14:39,000 --> 00:14:40,000
+service and this webhook.
+
+230
+00:14:40,000 --> 00:14:46,000
+Whenever a push happens, it is going to invoke the slash monitor, which is available inside the config
+
+231
+00:14:46,000 --> 00:14:50,000
+server, and it is going to take care of doing the remaining magic.
+
+232
+00:14:50,000 --> 00:14:55,000
+So this approach does not have any manual steps involved and everything is automated.
+
+233
+00:14:55,000 --> 00:14:57,000
+I hope you are super, super clear.
+
+234
+00:14:57,000 --> 00:14:59,000
+As of now we are testing everything.
+
+235
+00:15:00,000 --> 00:15:05,000
+Inside the local system, but our clients and end users will not test our applications with the local
+
+236
+00:15:05,000 --> 00:15:06,000
+host deployments.
+
+237
+00:15:06,000 --> 00:15:10,000
+We need to convert them as a Docker images post them.
+
+238
+00:15:10,000 --> 00:15:15,000
+We need to try to start them with the help of docker compose and make sure everything is working.
+
+239
+00:15:15,000 --> 00:15:21,000
+That's why from the next section, let's focus on converting our microservices into Docker images and
+
+240
+00:15:21,000 --> 00:15:26,000
+post that we can try to start all our microservices with the help of docker compose command.
+
+241
+00:15:26,000 --> 00:15:29,000
+Thank you and I'll catch you in the next lecture by.
+

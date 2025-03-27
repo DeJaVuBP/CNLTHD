@@ -1,0 +1,240 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let me give you a quick introduction about the development principles or
+
+2
+00:00:06,000 --> 00:00:11,000
+the standards that we need to follow while building cloud native applications.
+
+3
+00:00:11,000 --> 00:00:17,000
+Many of us who is trying to build cloud native applications or microservices will have a basic question,
+
+4
+00:00:17,000 --> 00:00:25,000
+which is how to get succeeded in building a better cloud native application or a better microservices
+
+5
+00:00:25,000 --> 00:00:26,000
+applications.
+
+6
+00:00:26,000 --> 00:00:30,000
+Are there any guiding principles that can be considered for the same?
+
+7
+00:00:30,000 --> 00:00:35,000
+To answer your question, yes, we do have standards, so let's try to understand them.
+
+8
+00:00:35,000 --> 00:00:43,000
+Back in 2012, the engineering team at Heroku Cloud Platform, they introduced 12 factor methodology.
+
+9
+00:00:43,000 --> 00:00:51,000
+So these are the 12 different development principles that are aimed at guiding the developers in designing
+
+10
+00:00:51,000 --> 00:00:53,000
+and developing cloud native applications.
+
+11
+00:00:53,000 --> 00:01:01,000
+These 12 different principles under the 12 factor methodology are the result of the Heroku team expertise
+
+12
+00:01:01,000 --> 00:01:05,000
+from many, many years building these cloud native applications.
+
+13
+00:01:05,000 --> 00:01:11,000
+When you follow these 12 factor methodology, your applications will have advantages like ready for
+
+14
+00:01:11,000 --> 00:01:16,000
+cloud platform deployment regardless of whatever cloud platform that you choose.
+
+15
+00:01:16,000 --> 00:01:22,000
+You can seamlessly deploy your cloud native applications. And at the core of this cloud native applications,
+
+16
+00:01:22,000 --> 00:01:25,000
+they are going to support scalability and elasticity.
+
+17
+00:01:25,000 --> 00:01:31,000
+And very similarly, these cloud native systems that you are going to develop with the help of 12 factor
+
+18
+00:01:31,000 --> 00:01:37,000
+methodology, they allow system portability, which means your applications can run across different
+
+19
+00:01:37,000 --> 00:01:40,000
+systems and environments without any issues.
+
+20
+00:01:40,000 --> 00:01:45,000
+And at last these applications will support continuous deployment and agility.
+
+21
+00:01:45,000 --> 00:01:51,000
+So in the initial days, everyone are recommended to follow these 12 factor methodology.
+
+22
+00:01:51,000 --> 00:01:56,000
+But later on, after few years since the technology is getting evolved day by day, a person with the
+
+23
+00:01:56,000 --> 00:02:03,000
+name Kevin Hoffman, he expanded these 12 factor methodology by adding three more principles.
+
+24
+00:02:03,000 --> 00:02:09,000
+And in his book with the name Beyond the 12 Factory app, he revised all these 12 factor methodology.
+
+25
+00:02:09,000 --> 00:02:13,000
+And on top of that, he also introduced three more development principles.
+
+26
+00:02:13,000 --> 00:02:18,000
+And with that, a new 15 factor methodology came into picture.
+
+27
+00:02:18,000 --> 00:02:22,000
+And this is the most latest one right now everyone is referring to.
+
+28
+00:02:22,000 --> 00:02:25,000
+So do you want to see what are these principles?
+
+29
+00:02:25,000 --> 00:02:28,000
+Let's try to see the summary of these methodologies.
+
+30
+00:02:28,000 --> 00:02:35,000
+So these are the 15 methodologies are the principles or guidelines that any developer or organization
+
+31
+00:02:35,000 --> 00:02:38,000
+should follow while building cloud native applications.
+
+32
+00:02:38,000 --> 00:02:43,000
+Without following these standards, they can't tell their applications as cloud native applications
+
+33
+00:02:43,000 --> 00:02:48,000
+because they will end up with some problems since they are not following these standards.
+
+34
+00:02:48,000 --> 00:02:55,000
+These standards are built based upon the development experience of cloud native applications.
+
+35
+00:02:55,000 --> 00:03:00,000
+If you see first, this is the website like everyone used to refer 12factor.net
+
+36
+00:03:00,000 --> 00:03:06,000
+So inside this website you can read all the 12 factor methodologies and if you can scroll down here,
+
+37
+00:03:06,000 --> 00:03:08,000
+these are the 12 factors.
+
+38
+00:03:08,000 --> 00:03:13,000
+If you can click on each of them, there is a detailed description about each of these methodologies.
+
+39
+00:03:13,000 --> 00:03:17,000
+So don't worry, I'm going to explain them inside this course.
+
+40
+00:03:17,000 --> 00:03:19,000
+You don't need to read all of them and digest them.
+
+41
+00:03:19,000 --> 00:03:23,000
+I'm going to explain them in an easily understandable format.
+
+42
+00:03:23,000 --> 00:03:27,000
+But like I said, these Twelve-Factor app is right now outdated.
+
+43
+00:03:27,000 --> 00:03:33,000
+Like I said, Kevin Hoffman, he wrote a book with the name Beyond the Twelve-Factor App.
+
+44
+00:03:33,000 --> 00:03:37,000
+And inside this book he added three more principles or guidelines.
+
+45
+00:03:37,000 --> 00:03:41,000
+And with that this became 15 factor methodology.
+
+46
+00:03:41,000 --> 00:03:43,000
+You can see the description of this book.
+
+47
+00:03:43,000 --> 00:03:49,000
+In 2012, Early cloud pioneer Heroku developed the 12 Factor app, a set of rules and guidelines for
+
+48
+00:03:49,000 --> 00:03:53,000
+helping organizations for building cloud native applications.
+
+49
+00:03:53,000 --> 00:04:00,000
+It served as an excellent starting point, but as a technology changes day by day, some areas need
+
+50
+00:04:00,000 --> 00:04:03,000
+revisiting to accommodate the current best practices
+
+51
+00:04:03,000 --> 00:04:10,000
+this practical book expands on the original guidelines to help you to build applications that not only
+
+52
+00:04:10,000 --> 00:04:12,000
+function in the cloud but also thrive.
+
+53
+00:04:12,000 --> 00:04:13,000
+I hope you are clear.
+
+54
+00:04:13,000 --> 00:04:18,000
+Like what is the difference between 12 Factor app and the 15 factor app methodology?
+
+55
+00:04:18,000 --> 00:04:21,000
+So 15 factor methodology is the most updated one.
+
+56
+00:04:21,000 --> 00:04:27,000
+If you attend an interview focusing on microservices, definitely there will be some questions around
+
+57
+00:04:27,000 --> 00:04:30,000
+these 12 factor methodology or 15 factor methodology.
+
+58
+00:04:30,000 --> 00:04:35,000
+That's why it is very important to understand these methodologies one by one.
+
+59
+00:04:35,000 --> 00:04:40,000
+So let's try to deep dive into these methodologies and learn quickly about them.
+
+60
+00:04:40,000 --> 00:04:42,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,588 @@
+1
+00:00:00,000 --> 00:00:05,000
+Now, inside this lecture, let's try to understand the concepts of liveness and readiness.
+
+2
+00:00:05,000 --> 00:00:09,000
+We all know inside microservices are any cloud native applications,
+
+3
+00:00:09,000 --> 00:00:16,000
+we are going to deploy our microservices, our applications as a Docker containers and these containers,
+
+4
+00:00:16,000 --> 00:00:22,000
+we don't have to manually monitor them and we don't have to manually handle the scaling or elasticity
+
+5
+00:00:22,000 --> 00:00:23,000
+requirements.
+
+6
+00:00:23,000 --> 00:00:28,000
+Instead, container orchestration products like Kubernetes, they are going to handle that.
+
+7
+00:00:28,000 --> 00:00:34,000
+So to handle these containers effectively, platforms like Kubernetes or even Docker, they need to
+
+8
+00:00:34,000 --> 00:00:41,000
+understand whether my running container is working without any issues is the health of my running container
+
+9
+00:00:41,000 --> 00:00:41,000
+is fine.
+
+10
+00:00:41,000 --> 00:00:42,000
+For the same,
+
+11
+00:00:42,000 --> 00:00:49,000
+we need these liveness and readiness probes. Using these probes, my Docker or Kubernetes or any other
+
+12
+00:00:49,000 --> 00:00:50,000
+cloud product,
+
+13
+00:00:50,000 --> 00:00:53,000
+they will try to understand whether my container is running properly.
+
+14
+00:00:53,000 --> 00:00:58,000
+If not, they will try to make some corrective steps like maybe they will try to restart the container
+
+15
+00:00:58,000 --> 00:01:00,000
+even after restarting the container.
+
+16
+00:01:00,000 --> 00:01:05,000
+If the health probes are not working properly, they will try to create a new container by deleting
+
+17
+00:01:05,000 --> 00:01:07,000
+the existing one and the same.
+
+18
+00:01:07,000 --> 00:01:13,000
+It has to follow whenever it is trying to create a new instance during the scale up scenario.
+
+19
+00:01:13,000 --> 00:01:19,000
+During the scale up scenario, the responsibility of the platforms like Kubernetes is not only to create
+
+20
+00:01:19,000 --> 00:01:25,000
+a container and leave it, it should make sure it is working properly and it started with a proper good
+
+21
+00:01:25,000 --> 00:01:25,000
+health.
+
+22
+00:01:25,000 --> 00:01:29,000
+Otherwise it will try to scale up one more instance.
+
+23
+00:01:29,000 --> 00:01:34,000
+So first let's try to understand what is liveness post that we'll discuss what is readiness?
+
+24
+00:01:34,000 --> 00:01:42,000
+Liveness is a concept using which we can send a signals from the container or the application indicating
+
+25
+00:01:42,000 --> 00:01:47,000
+whether my container is running properly or it has some health issues.
+
+26
+00:01:47,000 --> 00:01:53,000
+If the output is that the container is alive and it is working properly, then there is no action required
+
+27
+00:01:53,000 --> 00:01:57,000
+because the current state or current health is already good.
+
+28
+00:01:57,000 --> 00:02:03,000
+Whereas if the container is dead, then an attempt should be made by the products like Kubernetes or
+
+29
+00:02:03,000 --> 00:02:08,000
+any other products to heal the application by restarting or by creating a new container.
+
+30
+00:02:08,000 --> 00:02:15,000
+So it is the responsibility of the products like Kubernetes or any other platform to regularly invoke
+
+31
+00:02:15,000 --> 00:02:19,000
+this liveness probe to get the health of my running container.
+
+32
+00:02:19,000 --> 00:02:23,000
+In simple words, this liveness answer a true or false question.
+
+33
+00:02:23,000 --> 00:02:26,000
+The question is, is this container alive?
+
+34
+00:02:26,000 --> 00:02:30,000
+If the output is true, that means there is no action is required.
+
+35
+00:02:30,000 --> 00:02:36,000
+Whereas if the output is false, then a corrective action needs to be taken by restarting or by creating
+
+36
+00:02:36,000 --> 00:02:37,000
+a new container.
+
+37
+00:02:37,000 --> 00:02:44,000
+If you try to correlate this liveness with a real life scenario inside the boxing, you might have seen
+
+38
+00:02:44,000 --> 00:02:47,000
+a boxer will sit and wait for the fighting to get started.
+
+39
+00:02:47,000 --> 00:02:53,000
+This confirms that this boxer is alive and he is about to start the game.
+
+40
+00:02:53,000 --> 00:02:57,000
+But this doesn't mean he is ready to face the fighting with other boxer.
+
+41
+00:02:57,000 --> 00:03:03,000
+He just trying to warm up himself and trying to take instructions from the coach or he is trying to
+
+42
+00:03:03,000 --> 00:03:04,000
+take the water.
+
+43
+00:03:04,000 --> 00:03:09,000
+So whenever he is in this state, always think like it is indicating liveness.
+
+44
+00:03:09,000 --> 00:03:15,000
+Now, coming to the readiness, a readiness probe used to know whether the container or app that we
+
+45
+00:03:15,000 --> 00:03:20,000
+are trying to probe is ready to start receiving the network traffic from its clients.
+
+46
+00:03:20,000 --> 00:03:25,000
+Sometimes, especially during the startup, your container might be alive.
+
+47
+00:03:25,000 --> 00:03:32,000
+The output from the liveness probe can be positive, but it may not be ready to accept any new traffic.
+
+48
+00:03:32,000 --> 00:03:38,000
+It might be doing some background work or it might be warming up to accept the request behind the scenes,
+
+49
+00:03:38,000 --> 00:03:41,000
+it might be doing some database initialization.
+
+50
+00:03:41,000 --> 00:03:46,000
+So to get ready and accept the traffic, your container will take more time, especially during the
+
+51
+00:03:46,000 --> 00:03:47,000
+startup time.
+
+52
+00:03:47,000 --> 00:03:53,000
+So that's why to avoid any scenarios where my Kubernetes or any other platform trying to send the request
+
+53
+00:03:53,000 --> 00:03:59,000
+before it is completely ready, we can make this readiness probe to send an output saying that I am
+
+54
+00:03:59,000 --> 00:04:00,000
+not yet ready.
+
+55
+00:04:00,000 --> 00:04:01,000
+Please give some more time.
+
+56
+00:04:01,000 --> 00:04:06,000
+This way we can avoid scenarios where the liveness is given positive response, but the application
+
+57
+00:04:06,000 --> 00:04:09,000
+or the container is not completely started.
+
+58
+00:04:09,000 --> 00:04:13,000
+And this is a very common scenario, especially during the startup of the container.
+
+59
+00:04:13,000 --> 00:04:19,000
+So platforms like Kubernetes, they will make sure both liveness and readiness, they are giving a positive
+
+60
+00:04:19,000 --> 00:04:25,000
+response in order to send the request that it is being received from the client applications.
+
+61
+00:04:25,000 --> 00:04:31,000
+In simple words, this readiness also answers a true or false question, which is, Is this container
+
+62
+00:04:31,000 --> 00:04:33,000
+ready to receive the network traffic?
+
+63
+00:04:33,000 --> 00:04:39,000
+So if you try to compare the readiness with the same boxing scenario, whenever the boxer is ready for
+
+64
+00:04:39,000 --> 00:04:44,000
+the fighting, he will come from a sitting position and stand in the middle of the court.
+
+65
+00:04:44,000 --> 00:04:46,000
+So that indicates he is alive.
+
+66
+00:04:46,000 --> 00:04:49,000
+And at the same time he is also ready to continue with the fight.
+
+67
+00:04:49,000 --> 00:04:52,000
+So that's the difference between liveness and readiness.
+
+68
+00:04:52,000 --> 00:04:58,000
+This liveness and readiness you may see in many places inside Docker, Kubernetes, cloud environments.
+
+69
+00:04:58,000 --> 00:04:59,000
+orver all these are the general concepts.
+
+70
+00:05:00,000 --> 00:05:01,000
+Using the same concepts 
+
+71
+00:05:01,000 --> 00:05:08,000
+now, we need to make sure our config server started completely and it is accepting the traffic post that
+
+72
+00:05:08,000 --> 00:05:12,000
+only we need to try to start the containers like accounts, loans and cards.
+
+73
+00:05:12,000 --> 00:05:20,000
+So to help in this scenario, Spring Boot has some actuator endpoints expose and these endpoints are
+
+74
+00:05:20,000 --> 00:05:22,000
+available under the health endpoints.
+
+75
+00:05:22,000 --> 00:05:28,000
+So whenever you are trying to invoke the endpoint URL, which is /actuator/health, it will
+
+76
+00:05:28,000 --> 00:05:31,000
+give you the both of these two indicators in the output.
+
+77
+00:05:31,000 --> 00:05:37,000
+But if you are looking only a specific output, then you can invoke the respective endpoint URLs like
+
+78
+00:05:37,000 --> 00:05:41,000
+actuator/health/liveness and similarly readiness.
+
+79
+00:05:41,000 --> 00:05:47,000
+So these liveness and readiness internally give the output based upon the health indicators from the
+
+80
+00:05:47,000 --> 00:05:53,000
+liveness state health indicator available inside the spring boot framework and very similarly readiness
+
+81
+00:05:53,000 --> 00:05:54,000
+state health indicator.
+
+82
+00:05:54,000 --> 00:06:01,000
+So using these indicators behind the scenes, my spring boot application can expose the health information
+
+83
+00:06:01,000 --> 00:06:05,000
+by using the actuator endpoint URLs. Like you can see on the screen.
+
+84
+00:06:05,000 --> 00:06:11,000
+So now as a next step, let's try to enable these endpoints inside our config server. For the sme,
+
+85
+00:06:11,000 --> 00:06:16,000
+first, I need to make sure inside the pom.xml of the config server I have the actuator dependency,
+
+86
+00:06:16,000 --> 00:06:18,000
+so I have added this.
+
+87
+00:06:18,000 --> 00:06:20,000
+So we are good from this dependency perspective.
+
+88
+00:06:20,000 --> 00:06:24,000
+As a next step we need to open the application.yml file.
+
+89
+00:06:24,000 --> 00:06:30,000
+So I'm trying to open the application.yml of config server and here we need to add few properties
+
+90
+00:06:30,000 --> 00:06:34,000
+to enabled and expose the health related information.
+
+91
+00:06:34,000 --> 00:06:39,000
+This new configurations we need to mention just under the same position where we have mentioned the
+
+92
+00:06:39,000 --> 00:06:45,000
+endpoints, which means whatever new properties that we are trying to mention has to be defined under
+
+93
+00:06:45,000 --> 00:06:46,000
+the management.
+
+94
+00:06:46,000 --> 00:06:49,000
+So you can see I'm trying to create new properties here.
+
+95
+00:06:49,000 --> 00:06:55,000
+The properties that I have created is first using the health element under the management.
+
+96
+00:06:55,000 --> 00:07:01,000
+I'm trying to invoke readiness-state and under this I'm trying to invoke one more element which
+
+97
+00:07:01,000 --> 00:07:04,000
+is enabled and to this enable I'm trying to pass the value
+
+98
+00:07:04,000 --> 00:07:05,000
+true.
+
+99
+00:07:05,000 --> 00:07:10,000
+And similarly I'm also trying to mention the liveness-state and enabled as true with this I'm
+
+100
+00:07:10,000 --> 00:07:17,000
+telling to my actuator, please enable the health related information which will give me the details
+
+101
+00:07:17,000 --> 00:07:19,000
+about the readiness state and the liveness state.
+
+102
+00:07:19,000 --> 00:07:25,000
+And since we want to read these health information using endpoint, we need to make sure we are mentioning
+
+103
+00:07:25,000 --> 00:07:27,000
+a child element under the management.
+
+104
+00:07:27,000 --> 00:07:29,000
+And this child element is endpoint.
+
+105
+00:07:29,000 --> 00:07:32,000
+You can see it is at the same position where we have endpoints.
+
+106
+00:07:32,000 --> 00:07:36,000
+So this is the plural form, this is a singular form.
+
+107
+00:07:36,000 --> 00:07:40,000
+So under this endpoint we need to mention one more child, which is health and under health
+
+108
+00:07:40,000 --> 00:07:44,000
+there will be props under the props, they will be enabled and the value is true.
+
+109
+00:07:44,000 --> 00:07:47,000
+So please get these properties from the GitHub repo.
+
+110
+00:07:47,000 --> 00:07:54,000
+So once we define these properties inside the config server, we can try to test this once inside local.
+
+111
+00:07:54,000 --> 00:07:59,000
+Whether the health information of my config server is being communicated correctly or not with the help
+
+112
+00:07:59,000 --> 00:08:01,000
+of actuator URLs.
+
+113
+00:08:01,000 --> 00:08:02,000
+So let me save this changes.
+
+114
+00:08:02,000 --> 00:08:03,000
+Do a build.
+
+115
+00:08:03,000 --> 00:08:08,000
+Once the build is completed, I will start only config server application alone.
+
+116
+00:08:08,000 --> 00:08:11,000
+So I have started my config server.
+
+117
+00:08:11,000 --> 00:08:18,000
+Here I'll try to invoke the path which is 8071/actuator/health.
+
+118
+00:08:18,000 --> 00:08:21,000
+So this will give the overall health details.
+
+119
+00:08:21,000 --> 00:08:23,000
+Like you can see we are getting the status as down.
+
+120
+00:08:23,000 --> 00:08:29,000
+The reason why I'm getting the status as down is, if you try to understand the logs, I'm getting an
+
+121
+00:08:29,000 --> 00:08:35,000
+exception because there is no rabbitmq server or container running inside my local system.
+
+122
+00:08:35,000 --> 00:08:41,000
+The Rabbitmq container that we started previously, I stopped it behind the scenes, so I need to make
+
+123
+00:08:41,000 --> 00:08:44,000
+sure I'm starting this rabbitmq again.
+
+124
+00:08:44,000 --> 00:08:48,000
+So here inside my terminal, I'm running the Rabbitmq related run command.
+
+125
+00:08:48,000 --> 00:08:55,000
+So once we run this command, the Rabbitmq will start successfully post that my config server also will
+
+126
+00:08:55,000 --> 00:09:01,000
+start successfully. Because now it will be able to connect with the rabbitmq server that we have started.
+
+127
+00:09:01,000 --> 00:09:04,000
+Now my config server might have started successfully.
+
+128
+00:09:04,000 --> 00:09:05,000
+Let's confirm the same.
+
+129
+00:09:05,000 --> 00:09:06,000
+To confirm the same,
+
+130
+00:09:06,000 --> 00:09:10,000
+I'm going to refresh this page which is actuator/health.
+
+131
+00:09:10,000 --> 00:09:12,000
+This time you'll be seeing the status as up.
+
+132
+00:09:12,000 --> 00:09:19,000
+If you are looking for the liveness information you need to invoke the endpoint which is /actuator/health/liveness.
+
+133
+00:09:19,000 --> 00:09:21,000
+.
+
+134
+00:09:21,000 --> 00:09:25,000
+So once you invoke this, you can see it is giving the status as up.
+
+135
+00:09:25,000 --> 00:09:32,000
+Up means it is giving a positive information about its health, whereas down means the container at
+
+136
+00:09:32,000 --> 00:09:34,000
+the application is down.
+
+137
+00:09:34,000 --> 00:09:36,000
+Very similarly we can invoke readiness.
+
+138
+00:09:36,000 --> 00:09:39,000
+Readiness is also giving status as app.
+
+139
+00:09:39,000 --> 00:09:45,000
+This confirms that our config server is ready to accept the request from the client applications like
+
+140
+00:09:45,000 --> 00:09:48,000
+accounts, loans and cards microservice.
+
+141
+00:09:48,000 --> 00:09:52,000
+So this way we have set up the liveness and readiness inside config server.
+
+142
+00:09:52,000 --> 00:09:58,000
+In future, whenever we have some dependent components on our service, then definitely we need to implement
+
+143
+00:09:58,000 --> 00:09:59,000
+these readiness and liveness.
+
+144
+00:09:59,000 --> 00:10:04,000
+So that by looking at this information, only my dependent components will try to start.
+
+145
+00:10:04,000 --> 00:10:06,000
+I hope this is clear in the next lecture.
+
+146
+00:10:06,000 --> 00:10:10,000
+Using this information, let's try to update the Docker compose file.
+
+147
+00:10:10,000 --> 00:10:13,000
+Thank you and I'll catch you in the next lecture bye.
+

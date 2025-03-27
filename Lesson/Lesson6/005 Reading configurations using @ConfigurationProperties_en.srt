@@ -1,0 +1,708 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:07,000
+let me show you the third approach, which is with the help of @ConfigurationProperties annotation.
+
+3
+00:00:07,000 --> 00:00:14,000
+Using this third approach, we can read multiple properties at a time with a single pojo class.
+
+4
+00:00:14,000 --> 00:00:21,000
+All the limitations that we have with the previous two approaches will be handled with this third approach.
+
+5
+00:00:21,000 --> 00:00:26,000
+Limitations are like where we are hardcoding the property key names inside the Java code. And at the
+
+6
+00:00:26,000 --> 00:00:31,000
+same time we can only read one property at a time with the two approaches that we have discussed.
+
+7
+00:00:31,000 --> 00:00:37,000
+So to demo you, the third approach, I'm going to create a set of properties that are required for
+
+8
+00:00:37,000 --> 00:00:43,000
+my Accounts Microservice. Whenever we are trying to use @ConfigurationProperties approach,
+
+9
+00:00:43,000 --> 00:00:48,000
+first, we need to make sure all our properties have a common prefix name. For the same,
+
+10
+00:00:48,000 --> 00:00:55,000
+I'm going to create a prefix name with the name accounts. Since I'm trying to create various properties
+
+11
+00:00:55,000 --> 00:00:56,000
+for my accounts
+
+12
+00:00:56,000 --> 00:00:56,000
+microservice,
+
+13
+00:00:56,000 --> 00:01:01,000
+I thought mentioning a prefix as accounts would make more sense here. After this,
+
+14
+00:01:02,000 --> 00:01:06,000
+inside this property we can define any number of other properties.
+
+15
+00:01:06,000 --> 00:01:10,000
+Here just to save some time, I'm going to paste a few properties.
+
+16
+00:01:10,000 --> 00:01:13,000
+You can get these properties from the GitHub location as well.
+
+17
+00:01:13,000 --> 00:01:18,000
+These properties are like message, contactDetails and onCallSupport
+
+18
+00:01:18,000 --> 00:01:25,000
+So I'm going to use these properties to send to my client applications whenever they're trying to invoke
+
+19
+00:01:25,000 --> 00:01:25,000
+one
+
+20
+00:01:25,000 --> 00:01:27,000
+new REST API that I'm going to build.
+
+21
+00:01:27,000 --> 00:01:32,000
+So with the new Rest API that I'm going to build, since I'm sending this information, my client applications,
+
+22
+00:01:32,000 --> 00:01:38,000
+they know to whom they need to contact in case of any issues like what is the developer name, what
+
+23
+00:01:38,000 --> 00:01:41,000
+is the email of the developer, what is the on call support details?
+
+24
+00:01:41,000 --> 00:01:45,000
+So you can see under the same accounts prefix property.
+
+25
+00:01:45,000 --> 00:01:51,000
+I have three different properties, message, contact details and on call support and you can see these
+
+26
+00:01:51,000 --> 00:01:59,000
+contact details again has internally other properties like name and email and similarly on call support
+
+27
+00:01:59,000 --> 00:02:01,000
+property has multiple values.
+
+28
+00:02:01,000 --> 00:02:07,000
+Like we are providing two different phone numbers that someone can call in case of any issues when they're
+
+29
+00:02:07,000 --> 00:02:08,000
+trying to invoke our accounts
+
+30
+00:02:08,000 --> 00:02:14,000
+microservice. Now we have different set of properties with the same prefix name accounts.
+
+31
+00:02:14,000 --> 00:02:19,000
+If you are following the first approach, which is with the help of @Value annotation, if you
+
+32
+00:02:19,000 --> 00:02:25,000
+want to read all these properties, you need to define all these fields along with the hardcoded property
+
+33
+00:02:25,000 --> 00:02:27,000
+key names inside your controller class.
+
+34
+00:02:27,000 --> 00:02:32,000
+Similarly, if you have any other controller class where you have to use the same properties, then
+
+35
+00:02:32,000 --> 00:02:39,000
+in that controller class also you need to create multiple Java fields with the help of @Value annotation
+
+36
+00:02:39,000 --> 00:02:41,000
+along with the hardcoded property key names.
+
+37
+00:02:41,000 --> 00:02:44,000
+So that is going to be super, super inconvenience.
+
+38
+00:02:44,000 --> 00:02:48,000
+So to overcome this challenge we can use the third approach. In order to use the third approach,
+
+39
+00:02:48,000 --> 00:02:54,000
+first, we need to have a pojo class which represents all of the properties that we have defined here.
+
+40
+00:02:54,000 --> 00:02:56,000
+In order to create a pojo class,
+
+41
+00:02:56,000 --> 00:03:01,000
+let me go to the dto package that we have. Inside this DTO package,
+
+42
+00:03:01,000 --> 00:03:08,000
+I'm going to create a new DTO class and this class name is going to be AccountsContactInfoDto
+
+43
+00:03:09,000 --> 00:03:11,000
+So here I'm not going to create a Java class.
+
+44
+00:03:11,000 --> 00:03:14,000
+Instead, I'll go with the Java record.
+
+45
+00:03:14,000 --> 00:03:19,000
+Record is a new type of Java classes introduced in Java 17.
+
+46
+00:03:19,000 --> 00:03:24,000
+Let me try to talk few minutes about what is this record class and why Java people introduce this.
+
+47
+00:03:24,000 --> 00:03:32,000
+Sometimes we want our Pojo class or DTO classes to simply act as a data carriers, which means first
+
+48
+00:03:32,000 --> 00:03:39,000
+I'll create an object of this DTO class and someone can read the data from the object of this DTO class, but
+
+49
+00:03:39,000 --> 00:03:40,000
+they should not be able to change.
+
+50
+00:03:40,000 --> 00:03:47,000
+So whatever fields data that you pass during the object creation, the same values are going to be final.
+
+51
+00:03:47,000 --> 00:03:52,000
+And anyone can read using the getter methods and there won't be any setter methods.
+
+52
+00:03:52,000 --> 00:03:55,000
+So this is the most common scenario and common requirement.
+
+53
+00:03:55,000 --> 00:04:00,000
+So instead of writing all the getter methods and creating a constructor that is going to accept the
+
+54
+00:04:00,000 --> 00:04:03,000
+final Java fields, you can simply use this record class.
+
+55
+00:04:03,000 --> 00:04:08,000
+So to this record class, you can pass all the Java fields inside these brackets.
+
+56
+00:04:08,000 --> 00:04:13,000
+So in order to define the Java fields, first I need to know what is the property name that we have
+
+57
+00:04:13,000 --> 00:04:16,000
+defined inside the application.yml.
+
+58
+00:04:16,000 --> 00:04:22,000
+So inside my application.yml you can see the very first property name is message and it is holding
+
+59
+00:04:22,000 --> 00:04:25,000
+a value of type String.
+
+60
+00:04:25,000 --> 00:04:33,000
+And very similarly the second property name is contact details, but here it has a list of properties
+
+61
+00:04:33,000 --> 00:04:34,000
+with the key and value.
+
+62
+00:04:34,000 --> 00:04:40,000
+So inside Java the key and values can be represented with the help of HashMap or Map.
+
+63
+00:04:40,000 --> 00:04:46,000
+And the third property we have here is on call support and this property has list of phone numbers in
+
+64
+00:04:46,000 --> 00:04:48,000
+a alphanumeric format.
+
+65
+00:04:48,000 --> 00:04:50,000
+You can see message is a simple String.
+
+66
+00:04:50,000 --> 00:04:58,000
+Contact details supports storing of map data and on call support is going to support to store the list
+
+67
+00:04:58,000 --> 00:05:00,000
+of elements. By following the same data
+
+68
+00:05:00,000 --> 00:05:00,000
+types,
+
+69
+00:05:00,000 --> 00:05:04,000
+we need to define the fields inside our pojo class.
+
+70
+00:05:04,000 --> 00:05:06,000
+So here our pojo class is a record class.
+
+71
+00:05:06,000 --> 00:05:09,000
+That's why we need to define all the fields inside this bracket itself.
+
+72
+00:05:09,000 --> 00:05:16,000
+So first property is of type String and please make sure the field name is same as the message because
+
+73
+00:05:16,000 --> 00:05:22,000
+we have defined the same inside the application.yml and the second field data type is going to
+
+74
+00:05:22,000 --> 00:05:27,000
+be map and it is going to have key and values of type String.
+
+75
+00:05:27,000 --> 00:05:33,000
+That's why I'm mentioning the String, String inside this map and the field name has to be same
+
+76
+00:05:33,000 --> 00:05:34,000
+as contact details.
+
+77
+00:05:34,000 --> 00:05:41,000
+Since we have defined the contact details here and inside this we have key and value which can be stored
+
+78
+00:05:41,000 --> 00:05:43,000
+inside the map with the name, contact details.
+
+79
+00:05:43,000 --> 00:05:48,000
+And very similarly, you need to create a list of string with the name on call support.
+
+80
+00:05:48,000 --> 00:05:55,000
+So let me go to my controller class and here I'm going to mention the data type as list of String and
+
+81
+00:05:55,000 --> 00:05:58,000
+the field name is going to be on call support.
+
+82
+00:05:58,000 --> 00:06:00,000
+So with this I should be good.
+
+83
+00:06:00,000 --> 00:06:07,000
+Now behind the scenes, the Java is going to make these fields as final and at the same time it is going
+
+84
+00:06:07,000 --> 00:06:11,000
+to generate a getter method and a constructor behind the scenes.
+
+85
+00:06:11,000 --> 00:06:17,000
+So there won't be any setter methods, which means whenever you are using record type classes, you
+
+86
+00:06:17,000 --> 00:06:22,000
+can only initialize the data only once and you cannot change that
+
+87
+00:06:22,000 --> 00:06:26,000
+and whatever you have provided during the object creation, it is going to be final.
+
+88
+00:06:26,000 --> 00:06:31,000
+Since we also have a requirement to not change these values at runtime
+
+89
+00:06:31,000 --> 00:06:38,000
+again and again, we can use record class here now to map all these properties to Java fields.
+
+90
+00:06:38,000 --> 00:06:44,000
+We need to mention this prefix with the help of @Configuration properties.
+
+91
+00:06:44,000 --> 00:06:49,000
+So to this annotation we need to mention a parameter which is prefix.
+
+92
+00:06:49,000 --> 00:06:53,000
+And to this prefix we need to pass a prefix which is accounts.
+
+93
+00:06:53,000 --> 00:06:59,000
+So please make sure you are mentioning the same prefix both in application.yml and inside this record
+
+94
+00:06:59,000 --> 00:06:59,000
+class.
+
+95
+00:06:59,000 --> 00:07:06,000
+So once we make these changes we need to go to our spring boot main class and on top of this class we
+
+96
+00:07:06,000 --> 00:07:14,000
+need to make sure we are mentioning an annotation which is @EnableConfigurationProperties.
+
+97
+00:07:14,000 --> 00:07:14,000
+Against
+
+98
+00:07:14,000 --> 00:07:21,000
+to this annotation, we need to invoke a parameter value and inside this value we need to pass the Pojo
+
+99
+00:07:21,000 --> 00:07:22,000
+class details.
+
+100
+00:07:22,000 --> 00:07:28,000
+The class name that we have here is, AccountsContactInfoDto.class
+
+101
+00:07:28,000 --> 00:07:34,000
+So this is the class name where we try to map all our properties from application.yml to the Pojo
+
+102
+00:07:34,000 --> 00:07:34,000
+class.
+
+103
+00:07:34,000 --> 00:07:41,000
+So now we have the Pojo class ready and during the startup my spring boot will try to read all the properties
+
+104
+00:07:41,000 --> 00:07:48,000
+with the prefix value as accounts and it will try to map those property values to the fields present
+
+105
+00:07:48,000 --> 00:07:50,000
+inside this class with the name.
+
+106
+00:07:50,000 --> 00:07:56,000
+AccountsContactInfoDto. As a next step, I can use this Pojo class anywhere inside my business logic and I
+
+107
+00:07:56,000 --> 00:08:01,000
+don't have to depend on the @Value annotation, so let me go to the AccountsController.
+
+108
+00:08:01,000 --> 00:08:07,000
+I'm going to create a new REST API by copying the existing REST API related to Java version.
+
+109
+00:08:07,000 --> 00:08:15,000
+And first, I'll change this Java method name to getContactInfo() since any client they can get these
+
+110
+00:08:15,000 --> 00:08:20,000
+contact details by invoking this REST API, I want to make the method name as getContactInfo().
+
+111
+00:08:20,000 --> 00:08:25,000
+Post that I'll change the API path to contact-info
+
+112
+00:08:26,000 --> 00:08:31,000
+Once we change this API path, we need to make sure we are changing the operation summary and description.
+
+113
+00:08:31,000 --> 00:08:33,000
+So let me change the summary and description.
+
+114
+00:08:33,000 --> 00:08:37,000
+So the summary is going to be Get Contact info.
+
+115
+00:08:37,000 --> 00:08:43,000
+Once I mention the summary details as a next step, I'm going to change the description which is Contact
+
+116
+00:08:43,000 --> 00:08:46,000
+info details that can be reached out in case of any issues.
+
+117
+00:08:46,000 --> 00:08:49,000
+So the API responses are going to be the same.
+
+118
+00:08:49,000 --> 00:08:54,000
+Now in order to write the business logic inside this method, first we need to make sure we are injecting
+
+119
+00:08:54,000 --> 00:08:57,000
+the bean of AccountsContactInfoDto
+
+120
+00:08:57,000 --> 00:09:03,000
+Since we have mentioned this @ConfigurationProperties on top of this class, behind the scenes,
+
+121
+00:09:03,000 --> 00:09:08,000
+my spring framework is going to create a bean, so that's why we can directly inject that with the help
+
+122
+00:09:08,000 --> 00:09:15,000
+of @Autowired annotation inside my controller class, I'll try to copy these environment related
+
+123
+00:09:15,000 --> 00:09:21,000
+autowiring information and instead of environment, I'm going to mention the class name of AccountsContactInfoDto.
+
+124
+00:09:21,000 --> 00:09:23,000
+The variable name
+
+125
+00:09:23,000 --> 00:09:26,000
+also I'm going to change it to accountsContactInfoDto.
+
+126
+00:09:27,000 --> 00:09:29,000
+So now I have these
+
+127
+00:09:29,000 --> 00:09:29,000
+AccountsContactInfoDto.
+
+128
+00:09:30,000 --> 00:09:35,000
+I'll simply go to my REST API that I have created here inside this body,
+
+129
+00:09:35,000 --> 00:09:43,000
+I'm going to send the entire object of AccountsInfoDto and with that inside the return statement I
+
+130
+00:09:43,000 --> 00:09:47,000
+need to remove the String and mention AccountsContactInfoDto.
+
+131
+00:09:48,000 --> 00:09:55,000
+So with these changes now anyone can invoke my contact-info API and they are going to get all the properties
+
+132
+00:09:55,000 --> 00:09:59,000
+that we have defined inside my application.yml.
+
+133
+00:09:59,000 --> 00:10:06,000
+This way you can create hundreds of properties inside your application.yml and for all of them you
+
+134
+00:10:06,000 --> 00:10:09,000
+can define Java fields inside your Dto class.
+
+135
+00:10:09,000 --> 00:10:13,000
+Whether you are following a record class or a normal pojo class, it's up to you.
+
+136
+00:10:13,000 --> 00:10:19,000
+But please make sure this field names and the return data types are matching with the property names
+
+137
+00:10:19,000 --> 00:10:23,000
+and the data types that we have inside this application.yml.
+
+138
+00:10:23,000 --> 00:10:25,000
+So now I have made all the required changes.
+
+139
+00:10:25,000 --> 00:10:29,000
+So let me save these changes and do a build.
+
+140
+00:10:29,000 --> 00:10:36,000
+Once the build is completed we can restart the server just to make sure our new REST API method is going
+
+141
+00:10:36,000 --> 00:10:37,000
+to work properly.
+
+142
+00:10:37,000 --> 00:10:40,000
+So now my Accounts Microservice started successfully.
+
+143
+00:10:40,000 --> 00:10:42,000
+Let me go to the postman.
+
+144
+00:10:42,000 --> 00:10:46,000
+Inside my postman there is an API with the name contact-info.
+
+145
+00:10:46,000 --> 00:10:47,000
+You can click on that.
+
+146
+00:10:47,000 --> 00:10:55,000
+You can see this is an API that supports GET method and the URL is localhost:8080/api/contact-info
+
+147
+00:10:55,000 --> 00:10:56,000
+.
+
+148
+00:10:56,000 --> 00:10:58,000
+I'm clicking on this send button.
+
+149
+00:10:58,000 --> 00:11:03,000
+You can see I got a successful response with all the property details.
+
+150
+00:11:03,000 --> 00:11:04,000
+Like what is the message?
+
+151
+00:11:04,000 --> 00:11:05,000
+What is the contact details?
+
+152
+00:11:05,000 --> 00:11:07,000
+What is the on call support?
+
+153
+00:11:07,000 --> 00:11:10,000
+So this information can be used by my client applications.
+
+154
+00:11:10,000 --> 00:11:17,000
+Here we are just passing these DTO object directly in the client response, but in real projects it's
+
+155
+00:11:17,000 --> 00:11:23,000
+up to you on how to read the data and utilize the data present inside this object.
+
+156
+00:11:23,000 --> 00:11:29,000
+I'm just trying to show you a demo of how to map multiple properties into a single pojo class, and
+
+157
+00:11:29,000 --> 00:11:34,000
+that's why I have used this third approach, which is with the help of @ConfigurationProperties.
+
+158
+00:11:34,000 --> 00:11:40,000
+Since this is more matured approach, Spring team also recommend to use this approach compared to 
+
+159
+00:11:41,000 --> 00:11:42,000
+@Value annotation.
+
+160
+00:11:42,000 --> 00:11:48,000
+Off course, we need to use environment interface to read the environment variables that approach you
+
+161
+00:11:48,000 --> 00:11:49,000
+can use.
+
+162
+00:11:49,000 --> 00:11:54,000
+But in real applications we will not be having multiple environment properties.
+
+163
+00:11:54,000 --> 00:11:58,000
+There will be 2 or 3. Normal properties and configurations
+
+164
+00:11:58,000 --> 00:12:01,000
+there can be multiple properties that you may need to create.
+
+165
+00:12:01,000 --> 00:12:07,000
+That's why using this third approach, which is ConfigurationProperties approach, is going to make
+
+166
+00:12:07,000 --> 00:12:08,000
+more sense to you.
+
+167
+00:12:08,000 --> 00:12:11,000
+So as of now, we have explored all the three approaches.
+
+168
+00:12:11,000 --> 00:12:13,000
+But here I have a question for you.
+
+169
+00:12:13,000 --> 00:12:19,000
+You can see as of now we have created an application.yml and we have defined all the properties.
+
+170
+00:12:19,000 --> 00:12:24,000
+But what if I want to have different values for different environment?
+
+171
+00:12:24,000 --> 00:12:27,000
+Maybe I want to follow these values inside my dev environment?
+
+172
+00:12:27,000 --> 00:12:30,000
+How about inside the QA and production environment?
+
+173
+00:12:30,000 --> 00:12:36,000
+If my requirement is to maintain different values for different environments, then definitely all these
+
+174
+00:12:36,000 --> 00:12:39,000
+three approaches are not going to be helpful.
+
+175
+00:12:39,000 --> 00:12:43,000
+We need something more advanced that is supported by the spring boot framework.
+
+176
+00:12:43,000 --> 00:12:46,000
+So let's try to explore the same inside the next lecture.
+
+177
+00:12:46,000 --> 00:12:49,000
+Thank you and I'll catch you in the next lecture bye.
+

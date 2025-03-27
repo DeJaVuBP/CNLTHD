@@ -1,0 +1,428 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let's try to generate the Docker images of all the microservices, including
+
+2
+00:00:06,000 --> 00:00:07,000
+the config server.
+
+3
+00:00:07,000 --> 00:00:12,000
+We need to regenerate the Docker images of accounts, loans and microservice as well, because we made
+
+4
+00:00:12,000 --> 00:00:15,000
+a lot of changes related to the configuration management.
+
+5
+00:00:15,000 --> 00:00:22,000
+For the same I came to my workspace location under this section 6 folder we have v2 - spring
+
+6
+00:00:22,000 --> 00:00:22,000
+cloud config.
+
+7
+00:00:22,000 --> 00:00:29,000
+Under this we have various projects like accounts, cards, config server and loans in order to generate
+
+8
+00:00:29,000 --> 00:00:36,000
+a Docker image for the accounts microservice using jib, we need to run a maven command from the location
+
+9
+00:00:36,000 --> 00:00:38,000
+where the pom.xml of accounts is present.
+
+10
+00:00:38,000 --> 00:00:42,000
+So let me right click on this and open the terminal.
+
+11
+00:00:42,000 --> 00:00:52,000
+Here I need to run a command which is mvn space compile space Jib:dockerBuild, B should be in the capital
+
+12
+00:00:52,000 --> 00:00:53,000
+letters.
+
+13
+00:00:53,000 --> 00:00:54,000
+So I'm trying to execute this command.
+
+14
+00:00:54,000 --> 00:00:59,000
+This will initiate generating a new docker image for my accounts
+
+15
+00:00:59,000 --> 00:01:03,000
+microservice with the tag name S6.
+
+16
+00:01:03,000 --> 00:01:06,000
+You can see it completed within 8 seconds.
+
+17
+00:01:06,000 --> 00:01:10,000
+So Jib is very, very fast and super convenient for local systems.
+
+18
+00:01:10,000 --> 00:01:13,000
+That's why we are using Jib throughout this course.
+
+19
+00:01:13,000 --> 00:01:19,000
+Now let me clean this console and go back to the parent folder post that I'll navigate to the cards
+
+20
+00:01:19,000 --> 00:01:20,000
+location.
+
+21
+00:01:20,000 --> 00:01:25,000
+Here also, I'm going to run the same command, which is mvn  compile Jib, Docker build.
+
+22
+00:01:25,000 --> 00:01:31,000
+This will generate a new Docker image with the name cards along with the tag S6. So the Docker image
+
+23
+00:01:31,000 --> 00:01:34,000
+of cards also is completed within 10s.
+
+24
+00:01:34,000 --> 00:01:36,000
+So let me clean the console post that
+
+25
+00:01:36,000 --> 00:01:41,000
+I'll go back to the parent folder and navigate to the loans microservice and run the same command,
+
+26
+00:01:41,000 --> 00:01:44,000
+which is mvn compile Jib docker build.
+
+27
+00:01:44,000 --> 00:01:48,000
+Now do you think the same command will work for config server?
+
+28
+00:01:48,000 --> 00:01:49,000
+Think about it.
+
+29
+00:01:49,000 --> 00:01:54,000
+As of now we have not added plugin related information of jib inside the config server.
+
+30
+00:01:54,000 --> 00:02:00,000
+That's why first, let's try to add the jib related plugin details inside the pom.xml of config server
+
+31
+00:02:00,000 --> 00:02:01,000
+Here
+
+32
+00:02:01,000 --> 00:02:07,000
+inside my pom.xml of config server, you can see as of now there is no plugin related to the Google
+
+33
+00:02:07,000 --> 00:02:07,000
+jib.
+
+34
+00:02:07,000 --> 00:02:08,000
+We need to add that.
+
+35
+00:02:08,000 --> 00:02:11,000
+To get that we can go to the any of the service
+
+36
+00:02:11,000 --> 00:02:12,000
+pom.xml.
+
+37
+00:02:12,000 --> 00:02:14,000
+So here we have the plugin details of Google jib.
+
+38
+00:02:15,000 --> 00:02:21,000
+So let me copy this and mention inside the config server just after the spring boot maven plugin details.
+
+39
+00:02:21,000 --> 00:02:23,000
+So the image name we should be fine.
+
+40
+00:02:23,000 --> 00:02:28,000
+Like eazybytes, artifactId, which will be config server and the tag name is S6, so we should
+
+41
+00:02:28,000 --> 00:02:29,000
+be fine with this.
+
+42
+00:02:29,000 --> 00:02:30,000
+So let me load this
+
+43
+00:02:30,000 --> 00:02:31,000
+maven changes.
+
+44
+00:02:31,000 --> 00:02:34,000
+Now I'll go to the terminal location. Here, let me clean the console.
+
+45
+00:02:34,000 --> 00:02:38,000
+As of now, we generated the docker images for cards, accounts and loans.
+
+46
+00:02:38,000 --> 00:02:42,000
+Now I'll navigate back to the config server.
+
+47
+00:02:42,000 --> 00:02:48,000
+So inside the config server I'm going to run the same command, which is mvn compile jib docker
+
+48
+00:02:48,000 --> 00:02:48,000
+build.
+
+49
+00:02:48,000 --> 00:02:50,000
+So this is going to generate a new Docker image.
+
+50
+00:02:50,000 --> 00:02:57,000
+We can validate if all these Docker images are generated or not by running a Docker images command.
+
+51
+00:02:57,000 --> 00:03:01,000
+Or we can also go to the Docker dashboard and confirm the same.
+
+52
+00:03:01,000 --> 00:03:08,000
+So inside the Docker dashboard you can see there are many Docker images which are related to S4 like
+
+53
+00:03:08,000 --> 00:03:09,000
+section 4 also.
+
+54
+00:03:09,000 --> 00:03:14,000
+So let's try to delete all the unnecessary images to save some storage inside your local system.
+
+55
+00:03:14,000 --> 00:03:16,000
+So this I don't need, buildpacks
+
+56
+00:03:16,000 --> 00:03:23,000
+I don't need, since we are no more using it and rabbitmq I need, mysql I need and logs explorer extension
+
+57
+00:03:23,000 --> 00:03:29,000
+there is one image I need this and key clock I need for some other testing and package I can remove
+
+58
+00:03:29,000 --> 00:03:34,000
+and loans I can remove, which is specific to S4 and cards
+
+59
+00:03:34,000 --> 00:03:36,000
+also I can remove which is specific to S4.
+
+60
+00:03:36,000 --> 00:03:40,000
+So with that I can delete all these images to get some space.
+
+61
+00:03:40,000 --> 00:03:43,000
+And you can also always make sure there are no unused containers.
+
+62
+00:03:43,000 --> 00:03:47,000
+As of now, only the rabbitmq container is running inside my local system.
+
+63
+00:03:47,000 --> 00:03:53,000
+This also we can delete because when we run the docker compose command anyway, behind the scenes it
+
+64
+00:03:53,000 --> 00:03:55,000
+is going to create the rabbitmq container.
+
+65
+00:03:55,000 --> 00:04:01,000
+Now if you go to the images, you can see there are four different images that are just now created
+
+66
+00:04:01,000 --> 00:04:01,000
+with the tag S6.
+
+67
+00:04:01,000 --> 00:04:05,000
+Like accounts, cards, loans and config server.
+
+68
+00:04:05,000 --> 00:04:12,000
+Now, as a next step, I need to push these images into my Docker hub repository. So that in future,
+
+69
+00:04:12,000 --> 00:04:18,000
+whenever I simply run my docker compose without having these images inside my local system, then my
+
+70
+00:04:18,000 --> 00:04:21,000
+docker compose will pull them from the remote repository.
+
+71
+00:04:21,000 --> 00:04:26,000
+So it's like storing them inside the remote repository and anyone can use them because I'm making them
+
+72
+00:04:26,000 --> 00:04:32,000
+as public. Now in order to push these Docker images into the Docker hub, I need to run a command inside
+
+73
+00:04:32,000 --> 00:04:33,000
+my terminal.
+
+74
+00:04:33,000 --> 00:04:40,000
+So here, let me clean the console and run the command, which is docker  image  push post that
+
+75
+00:04:40,000 --> 00:04:41,000
+docker.io.
+
+76
+00:04:41,000 --> 00:04:46,000
+Since I'm trying to push into the Docker hub followed by what is my Docker account name, which is eazybytes
+
+77
+00:04:47,000 --> 00:04:50,000
+and what is the image name like accounts:S6.
+
+78
+00:04:50,000 --> 00:04:53,000
+So this image should also present inside your local system
+
+79
+00:04:53,000 --> 00:04:55,000
+then only this push will work.
+
+80
+00:04:55,000 --> 00:05:00,000
+Please make sure you login into your Docker desktop and your docker is running whenever you
+
+81
+00:05:00,000 --> 00:05:03,000
+trying to run this command, so I'm trying to push into the Docker hub.
+
+82
+00:05:03,000 --> 00:05:08,000
+After a few seconds, my account's Docker image is successfully pushed into the Docker hub.
+
+83
+00:05:08,000 --> 00:05:14,000
+Now, as a next step, I can try to run the same command, but this time I will try to push the loans
+
+84
+00:05:14,000 --> 00:05:15,000
+related Docker image.
+
+85
+00:05:15,000 --> 00:05:21,000
+Once these loans related Docker image is pushed, I'm going to push cards followed by config server.
+
+86
+00:05:21,000 --> 00:05:25,000
+Now I'm going to push the carts image. After the carts image,
+
+87
+00:05:25,000 --> 00:05:29,000
+at last I'm going to push the config server related docker image.
+
+88
+00:05:29,000 --> 00:05:33,000
+So let me mention the config server as a docker image name.
+
+89
+00:05:33,000 --> 00:05:39,000
+With this, all our docker images should be available inside the Docker hub as well.
+
+90
+00:05:39,000 --> 00:05:40,000
+So let's try to validate the same.
+
+91
+00:05:40,000 --> 00:05:44,000
+Before that, let's give more seconds for this push to get completed.
+
+92
+00:05:44,000 --> 00:05:47,000
+So now my config server also pushed successfully.
+
+93
+00:05:47,000 --> 00:05:49,000
+Let me go to the Docker hub website.
+
+94
+00:05:49,000 --> 00:05:55,000
+So here as of now you can see I have cards, loans and accounts microservice, which I pushed to
+
+95
+00:05:55,000 --> 00:05:56,000
+six days back.
+
+96
+00:05:56,000 --> 00:06:02,000
+Now if I try to refresh this page, you will be able to see the latest Docker images like config server
+
+97
+00:06:02,000 --> 00:06:05,000
+is available cards and loans and accounts.
+
+98
+00:06:05,000 --> 00:06:12,000
+If I try to open these accounts image you can see and at the tags we have two different tags like S4
+
+99
+00:06:12,000 --> 00:06:18,000
+and S6. So if someone is trying to use this S4 tag name, they will get the Docker image which we have
+
+100
+00:06:18,000 --> 00:06:20,000
+created from the Section four.
+
+101
+00:06:20,000 --> 00:06:26,000
+Whereas if you check for the config server, there will be only one tag because we never pushed any
+
+102
+00:06:26,000 --> 00:06:28,000
+Docker image with the tag S4.
+
+103
+00:06:28,000 --> 00:06:34,000
+With this, we have successfully created Docker images for all the services, including config server
+
+104
+00:06:34,000 --> 00:06:37,000
+and we also pushed them into the Docker hub.
+
+105
+00:06:37,000 --> 00:06:43,000
+In the next lecture we can try to test our Docker compose file with the default profile and see if the
+
+106
+00:06:43,000 --> 00:06:44,000
+changes are working.
+
+107
+00:06:44,000 --> 00:06:47,000
+Thank you and I'll catch you in the next lecture bye.
+

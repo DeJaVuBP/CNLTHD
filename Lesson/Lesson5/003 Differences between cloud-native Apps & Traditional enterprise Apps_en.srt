@@ -1,0 +1,180 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now inside this lecture, let me try to spend a few minutes explaining you about the differences between
+
+2
+00:00:06,000 --> 00:00:09,000
+cloud native applications and traditional apps.
+
+3
+00:00:09,000 --> 00:00:15,000
+The very first difference of cloud native application and traditional applications is, cloud
+
+4
+00:00:15,000 --> 00:00:21,000
+native applications will have predictable behavior, whereas with traditional applications, the behavior
+
+5
+00:00:21,000 --> 00:00:23,000
+is going to be unpredictable.
+
+6
+00:00:23,000 --> 00:00:30,000
+For example, inside microservice environment, if there is an issue, we can easily track that where
+
+7
+00:00:30,000 --> 00:00:37,000
+the issue is because all your business logic is loosely coupled and separated into multiple microservices,
+
+8
+00:00:37,000 --> 00:00:40,000
+so you can easily predict where the exception happens.
+
+9
+00:00:40,000 --> 00:00:46,000
+Whereas inside monolithic application, since all your business logic clubbed together, you never know
+
+10
+00:00:46,000 --> 00:00:52,000
+where the exception happens until your developer put a lot of efforts by debugging all the lines of
+
+11
+00:00:52,000 --> 00:00:54,000
+code that you have inside your application.
+
+12
+00:00:54,000 --> 00:00:58,000
+The next difference that we have here is cloud native applications
+
+13
+00:00:58,000 --> 00:01:00,000
+they are not OS dependent.
+
+14
+00:01:00,000 --> 00:01:06,000
+They will abstract the operating system, whereas traditional enterprise applications, they are dependent
+
+15
+00:01:06,000 --> 00:01:07,000
+on operating system.
+
+16
+00:01:07,000 --> 00:01:13,000
+This is because inside cloud native applications we are going to adopt docker containers and Docker
+
+17
+00:01:13,000 --> 00:01:19,000
+images where they will abstract the operating system and they will work in any operating system.
+
+18
+00:01:19,000 --> 00:01:23,000
+The next difference that we have here is, cloud native applications
+
+19
+00:01:23,000 --> 00:01:29,000
+they are rightly sized and they are following the right capacity and they work in an independent manner.
+
+20
+00:01:29,000 --> 00:01:35,000
+Whereas with traditional applications they are oversized capacity because you have all your business
+
+21
+00:01:35,000 --> 00:01:39,000
+logic inside a single application or inside a single codebase.
+
+22
+00:01:39,000 --> 00:01:45,000
+That's why most of the times traditional enterprise applications, they are dependent on each other.
+
+23
+00:01:45,000 --> 00:01:48,000
+Moving on to the next difference cloud native applications
+
+24
+00:01:48,000 --> 00:01:54,000
+they support continuous delivery with the help of DevOps principles and automation, whereas traditional
+
+25
+00:01:54,000 --> 00:01:57,000
+enterprise applications, they follow waterfall development.
+
+26
+00:01:57,000 --> 00:02:01,000
+They won't support Agile style of working inside any organization.
+
+27
+00:02:01,000 --> 00:02:04,000
+Then the last difference that we have here is Cloud
+
+28
+00:02:04,000 --> 00:02:10,000
+Native Application supports rapid recovery and automated scalability. Inside cloud native applications
+
+29
+00:02:10,000 --> 00:02:16,000
+if one of the microservice instance is not working properly Kubernetes, they can automatically create
+
+30
+00:02:16,000 --> 00:02:22,000
+a new instance and try to recover automatically and also scale your applications automatically based
+
+31
+00:02:22,000 --> 00:02:23,000
+upon the incoming traffic.
+
+32
+00:02:23,000 --> 00:02:28,000
+Whereas with traditional applications, since they are not going to use Docker containers, obviously
+
+33
+00:02:28,000 --> 00:02:32,000
+they cannot rely on the platforms like Kubernetes with that reasons
+
+34
+00:02:32,000 --> 00:02:37,000
+with the traditional enterprise applications, the recovery is going to be super slow and at the same
+
+35
+00:02:37,000 --> 00:02:42,000
+time there won't be any automated style of recovery and scalability. From these differences
+
+36
+00:02:42,000 --> 00:02:49,000
+It is very clear that Cloud Native application is a clear winner compared to the traditional enterprise
+
+37
+00:02:49,000 --> 00:02:50,000
+applications.
+
+38
+00:02:50,000 --> 00:02:56,000
+So now you agree that cloud native applications are good and that's why we are trying to learn and build
+
+39
+00:02:56,000 --> 00:02:57,000
+microservices inside this course.
+
+40
+00:02:57,000 --> 00:03:04,000
+But here you may have a question like do we have any principles or guidelines that we need to follow
+
+41
+00:03:04,000 --> 00:03:09,000
+while building these cloud native applications in order to get all these advantages?
+
+42
+00:03:09,000 --> 00:03:15,000
+Off course, there are good guidelines and principles that we can follow while building these cloud native
+
+43
+00:03:15,000 --> 00:03:17,000
+applications or microservices.
+
+44
+00:03:17,000 --> 00:03:22,000
+So let's try to understand what are these principles and guidelines from the next lecture.
+
+45
+00:03:22,000 --> 00:03:25,000
+Thank you and I'll catch you in the next lecture bye.
+

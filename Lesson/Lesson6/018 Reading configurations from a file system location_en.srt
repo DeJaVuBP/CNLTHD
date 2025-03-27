@@ -1,0 +1,292 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+Let's try to maintain all our configurations inside a file system location and using the same location,
+
+3
+00:00:08,000 --> 00:00:11,000
+we can try to start our spring cloud config server.
+
+4
+00:00:11,000 --> 00:00:18,000
+And here you may have a question like why some projects they prefer to use file system approach.
+
+5
+00:00:18,000 --> 00:00:19,000
+Using file system approach.
+
+6
+00:00:19,000 --> 00:00:26,000
+You are going to maintain all the required properties inside the server location where your microservice
+
+7
+00:00:26,000 --> 00:00:32,000
+is deployed. And this approach has an advantage like your server admins, they can enforce some security
+
+8
+00:00:32,000 --> 00:00:33,000
+restrictions.
+
+9
+00:00:33,000 --> 00:00:39,000
+Like no one can open that folder and no one can see the content of that folder except your config server
+
+10
+00:00:39,000 --> 00:00:40,000
+application.
+
+11
+00:00:40,000 --> 00:00:43,000
+So that's why few projects they follow this approach as well.
+
+12
+00:00:43,000 --> 00:00:49,000
+Now let's try to understand how to store all our configurations inside a file system location.
+
+13
+00:00:49,000 --> 00:00:55,000
+So behind the scenes what I have done is I have taken all the files inside my config folder.
+
+14
+00:00:55,000 --> 00:00:57,000
+You can see all these files that I have highlighted.
+
+15
+00:00:57,000 --> 00:01:02,000
+I have copied to a location inside my local system.
+
+16
+00:01:02,000 --> 00:01:04,000
+So this is the location where I have copied.
+
+17
+00:01:04,000 --> 00:01:10,000
+And here if I try to show you the path where I have stored, you can see I have stored under the users,
+
+18
+00:01:10,000 --> 00:01:13,000
+eazybytes, documents, config.
+
+19
+00:01:13,000 --> 00:01:16,000
+So this is the folder location like where I have copied.
+
+20
+00:01:16,000 --> 00:01:22,000
+If I try to navigate outside there is a config folder and this config folder is present inside the documents.
+
+21
+00:01:22,000 --> 00:01:28,000
+And this documents is present inside the eazybytes and this eazybytes is present inside the users,
+
+22
+00:01:28,000 --> 00:01:31,000
+which is the root location inside my system.
+
+23
+00:01:31,000 --> 00:01:35,000
+So now I have the configurations successfully copied into a file system.
+
+24
+00:01:35,000 --> 00:01:40,000
+As a next step I need to open the application.yml inside my config server.
+
+25
+00:01:40,000 --> 00:01:44,000
+As of now you can see we have mentioned the search location as classpath.
+
+26
+00:01:44,000 --> 00:01:48,000
+Instead of this we need to provide a new search location.
+
+27
+00:01:48,000 --> 00:01:54,000
+Here I'll try to comment this existing one for your reference post that I'm going to copy the same search
+
+28
+00:01:54,000 --> 00:01:58,000
+location property and mention the same here inside the native element.
+
+29
+00:01:58,000 --> 00:02:06,000
+So now here instead of classpath path, I should mention file after the file I need to give the colon
+
+30
+00:02:06,000 --> 00:02:12,000
+and after the colon, I need to make sure I'm giving three forward slashes followed by what is a folder
+
+31
+00:02:12,000 --> 00:02:18,000
+path or the file system path where I have stored my configurations inside my local system or inside
+
+32
+00:02:18,000 --> 00:02:19,000
+my local server.
+
+33
+00:02:19,000 --> 00:02:22,000
+So you can see user, eazybytes, documents, config.
+
+34
+00:02:22,000 --> 00:02:24,000
+This is the folder location.
+
+35
+00:02:24,000 --> 00:02:28,000
+Since I'm using macOS, my folder location will be like this.
+
+36
+00:02:28,000 --> 00:02:33,000
+But if you are using Windows operating system and if you stored inside C drive or D drive, please make
+
+37
+00:02:33,000 --> 00:02:35,000
+sure you are mentioning the same.
+
+38
+00:02:35,000 --> 00:02:37,000
+I can also provide an example here.
+
+39
+00:02:37,000 --> 00:02:45,000
+For example, if you have stored inside the config folder of C drive, then you can mention C colon
+
+40
+00:02:45,000 --> 00:02:48,000
+two forward slashes and your folder name, which is config.
+
+41
+00:02:48,000 --> 00:02:52,000
+So this is how you need to mention inside your Windows operating system.
+
+42
+00:02:52,000 --> 00:02:58,000
+So let me revert back to my local folder structure which is user,eazybytes, documents, config.
+
+43
+00:02:58,000 --> 00:03:05,000
+And we need to make sure we are mentioning two forward slashes between every folder and after this file colon
+
+44
+00:03:05,000 --> 00:03:09,000
+prefix, we need to make sure we are mentioning three forward slashes.
+
+45
+00:03:09,000 --> 00:03:15,000
+With this now my config server will point to a new search location and this new search location is following the
+
+46
+00:03:15,000 --> 00:03:17,000
+approach of file system.
+
+47
+00:03:17,000 --> 00:03:24,000
+Now I can stop all my microservices including the config server and do a build. As a next step,
+
+48
+00:03:24,000 --> 00:03:30,000
+first I can start my config server because like we know before we try to start all the individual
+
+49
+00:03:30,000 --> 00:03:33,000
+microservices we need to start the config server.
+
+50
+00:03:33,000 --> 00:03:37,000
+So the config server started successfully post that
+
+51
+00:03:37,000 --> 00:03:44,000
+I'm going to start my accounts application followed by loans application and at last cards application.
+
+52
+00:03:44,000 --> 00:03:48,000
+So all my microservices are also getting started successfully.
+
+53
+00:03:48,000 --> 00:03:52,000
+First, I can quickly try to test my config server URLs.
+
+54
+00:03:52,000 --> 00:03:57,000
+So first I'll try to test prod profile of loans microservice.
+
+55
+00:03:57,000 --> 00:03:58,000
+I'm able to fetch the properties.
+
+56
+00:03:58,000 --> 00:04:05,000
+You can see the location it is showing as user, eazybytes, documents, config, loans-prod.yml.
+
+57
+00:04:05,000 --> 00:04:05,000
+.
+
+58
+00:04:05,000 --> 00:04:12,000
+This confirms we are successfully able to load the configurations from a file system location.
+
+59
+00:04:12,000 --> 00:04:18,000
+Very similarly, I can randomly test for cards as well, followed by accounts as well.
+
+60
+00:04:18,000 --> 00:04:22,000
+So accounts microservice profile is also getting loaded properly.
+
+61
+00:04:22,000 --> 00:04:28,000
+Now as a next step, let's try to test the integration between our individual microservice with the
+
+62
+00:04:28,000 --> 00:04:29,000
+config server.
+
+63
+00:04:29,000 --> 00:04:31,000
+I'm not going to test all the APIs.
+
+64
+00:04:31,000 --> 00:04:35,000
+Let's try to test randomly for cards Microservice
+
+65
+00:04:35,000 --> 00:04:42,000
+by invoking this contact-info, you can see we are getting the prod related properties because by default
+
+66
+00:04:42,000 --> 00:04:46,000
+for all of our microservice we have activated the prod profile.
+
+67
+00:04:46,000 --> 00:04:51,000
+I hope you are clear with the changes that we have done inside this lecture to read the configurations
+
+68
+00:04:51,000 --> 00:04:53,000
+from a file system location.
+
+69
+00:04:53,000 --> 00:04:58,000
+The only change that we have done is to change the value inside the search location from classpath to
+
+70
+00:04:58,000 --> 00:05:00,000
+file along with the folder
+
+71
+00:05:00,000 --> 00:05:00,000
+location.
+
+72
+00:05:00,000 --> 00:05:05,000
+The profile has to be native only inside your spring cloud config server.
+
+73
+00:05:05,000 --> 00:05:08,000
+Thank you and I'll catch you in the next lecture bye.
+
