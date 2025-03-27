@@ -1,0 +1,384 @@
+1
+00:00:00,000 --> 00:00:07,000
+We looked at three most commonly used approaches to generate a Docker image of our microservices.
+
+2
+00:00:07,000 --> 00:00:12,000
+And now you may have a question like which approach is better, Which one I can use?
+
+3
+00:00:12,000 --> 00:00:15,000
+Frankly speaking, there is no better approach.
+
+4
+00:00:15,000 --> 00:00:19,000
+Every approach has its own advantages and disadvantages.
+
+5
+00:00:19,000 --> 00:00:22,000
+So based upon your scenario, you need to select one of them.
+
+6
+00:00:22,000 --> 00:00:25,000
+You see, for the Docker file, it has disadvantages.
+
+7
+00:00:25,000 --> 00:00:28,000
+Like you need to be an expert to write a Docker file.
+
+8
+00:00:28,000 --> 00:00:33,000
+You need to follow all the production standards and best practices by yourself.
+
+9
+00:00:33,000 --> 00:00:38,000
+And at the same time, the Docker file has to be maintained for all your microservices, but it also
+
+10
+00:00:38,000 --> 00:00:39,000
+has an advantage.
+
+11
+00:00:39,000 --> 00:00:45,000
+This Docker file will give a lot of flexibility to you. If you have any custom requirements while you
+
+12
+00:00:45,000 --> 00:00:51,000
+are generating a Docker image, you can achieve all of them with the help of Docker file approach.
+
+13
+00:00:51,000 --> 00:00:56,000
+Whereas with the buildpacks and jib, you just need to accept what you have received or what they are
+
+14
+00:00:56,000 --> 00:00:57,000
+supporting.
+
+15
+00:00:57,000 --> 00:01:03,000
+That's why if you have any such custom requirements, you can always follow these Docker file approach.
+
+16
+00:01:03,000 --> 00:01:10,000
+But we're not going to use this Docker file approach throughout this course because we as a developers,
+
+17
+00:01:10,000 --> 00:01:16,000
+we don't have to learn all the concepts of Docker file and follow all the best practices manually.
+
+18
+00:01:16,000 --> 00:01:18,000
+We don't want to take that burden.
+
+19
+00:01:18,000 --> 00:01:25,000
+Instead, we can rely on these open source platforms like Buildpacks and Google jib inside these two approaches,
+
+20
+00:01:25,000 --> 00:01:26,000
+which one to choose.
+
+21
+00:01:26,000 --> 00:01:27,000
+Again here, a confusion.
+
+22
+00:01:27,000 --> 00:01:31,000
+Let's try to understand the advantages and disadvantages of them.
+
+23
+00:01:31,000 --> 00:01:37,000
+So inside the Buildpacks website, if you click on this features tab and scroll down, there is a comparison
+
+24
+00:01:37,000 --> 00:01:43,000
+table provided by the Buildpacks team among the various approaches that you can use to generate a Docker
+
+25
+00:01:43,000 --> 00:01:44,000
+image.
+
+26
+00:01:44,000 --> 00:01:47,000
+The very first approach is of course the Buildpacks approach.
+
+27
+00:01:47,000 --> 00:01:50,000
+The second approach is Docker file and similarly we have jib approach.
+
+28
+00:01:50,000 --> 00:01:55,000
+And apart from that, we also have other approaches like source to image and ko.
+
+29
+00:01:55,000 --> 00:02:00,000
+Inside this ko I showed you three different approaches like Buildpacks, Dockerfile and Jib.
+
+30
+00:02:00,000 --> 00:02:05,000
+That's why let's focus on them only and ignore the other approaches because those are not commonly used.
+
+31
+00:02:05,000 --> 00:02:11,000
+You see here, Buildpacks is a winner in most of the scenarios like caching. Buildpacks is providing
+
+32
+00:02:11,000 --> 00:02:18,000
+and the jib it is not providing this bill of materials Buildpacks is providing, Jib is not providing
+
+33
+00:02:18,000 --> 00:02:23,000
+and similarly modular and pluggable Buildpacks is providing and multi-language support
+
+34
+00:02:23,000 --> 00:02:29,000
+this is very, very important because Buildpack supports various languages and even the Docker file,
+
+35
+00:02:29,000 --> 00:02:35,000
+whereas Jib is going to support only Java and same Multi-process Buildpacks is a winner.
+
+36
+00:02:35,000 --> 00:02:36,000
+Minimal app image
+
+37
+00:02:36,000 --> 00:02:43,000
+both a buildpacks and jib by default provide, whereas dockerfile with some conditions.
+
+38
+00:02:43,000 --> 00:02:47,000
+This way there are many other advantages and you can see Buildpacks is a clear winner.
+
+39
+00:02:47,000 --> 00:02:50,000
+That's why you'll be seeing many people using Buildpacks.
+
+40
+00:02:50,000 --> 00:02:52,000
+And this also give them flexibility.
+
+41
+00:02:52,000 --> 00:02:58,000
+If they have different microservices based upon different languages, they can always use a buildpacks.
+
+42
+00:02:58,000 --> 00:03:03,000
+But whereas if they go with jib, then only for Java based microservice, they can use jib and for the
+
+43
+00:03:03,000 --> 00:03:07,000
+other microservice where they are using Python or any other language.
+
+44
+00:03:07,000 --> 00:03:09,000
+In such scenarios they have to use buildpacks.
+
+45
+00:03:09,000 --> 00:03:13,000
+So instead of using two different approaches they will go with the Buildpacks.
+
+46
+00:03:13,000 --> 00:03:16,000
+They have microservices focusing on various languages.
+
+47
+00:03:16,000 --> 00:03:22,000
+But the question right now is which one we are going to use inside this course.
+
+48
+00:03:22,000 --> 00:03:25,000
+The approach that I'm going to use inside this course is jib.
+
+49
+00:03:25,000 --> 00:03:26,000
+You may get surprise here,
+
+50
+00:03:26,000 --> 00:03:28,000
+why I'm using Jib.
+
+51
+00:03:28,000 --> 00:03:32,000
+There are three different reasons why I'm going to use Jib inside this course.
+
+52
+00:03:32,000 --> 00:03:37,000
+The very first one is Jib is going to take very less time to generate a Docker image.
+
+53
+00:03:37,000 --> 00:03:39,000
+It is going to super quick compared to Buildpacks.
+
+54
+00:03:39,000 --> 00:03:44,000
+That's the very first reason and it is also going to take less memory inside my system.
+
+55
+00:03:44,000 --> 00:03:51,000
+So inside local system, since I want to save some storage and ram memory, I'm going with this jib
+
+56
+00:03:51,000 --> 00:03:51,000
+option.
+
+57
+00:03:51,000 --> 00:03:58,000
+Even many of my students, they may have some laptops with eight GB Ram only or 16 GB Ram only.
+
+58
+00:03:58,000 --> 00:04:03,000
+And since we are going to build lot many other microservice components in the coming sections, the
+
+59
+00:04:03,000 --> 00:04:09,000
+following buildpacks inside local system, I won't recommend because it is going to need a lot of storage
+
+60
+00:04:09,000 --> 00:04:12,000
+and ram capacity and many times it is going to be super slow.
+
+61
+00:04:12,000 --> 00:04:19,000
+And the second reason why I'm preferring Jib or Buildpacks is right now our microservice is only Java
+
+62
+00:04:19,000 --> 00:04:20,000
+based microservice.
+
+63
+00:04:20,000 --> 00:04:25,000
+I don't have any intentions to develop microservice based upon other languages.
+
+64
+00:04:25,000 --> 00:04:27,000
+That's why I'm not going to choose Buildpacks.
+
+65
+00:04:27,000 --> 00:04:29,000
+I'll simply follow the jib.
+
+66
+00:04:29,000 --> 00:04:34,000
+But in real projects where you have multi language microservice, please follow the buildpacks.
+
+67
+00:04:34,000 --> 00:04:42,000
+And the last reason why I'm using jib is, Buildpacks has some issues inside the Mac operating systems.
+
+68
+00:04:42,000 --> 00:04:48,000
+There are some official defects are also logged inside Buildpacks and the Buildpacks team is trying
+
+69
+00:04:48,000 --> 00:04:54,000
+to fix them in the coming months or may take years also to stabilize these buildpacks inside the Mac
+
+70
+00:04:54,000 --> 00:04:55,000
+operating system.
+
+71
+00:04:55,000 --> 00:05:00,000
+Since I'm using Mac operating system and many of my students are also going to use Mac
+
+72
+00:05:00,000 --> 00:05:01,000
+operating system.
+
+73
+00:05:01,000 --> 00:05:07,000
+I don't want to follow an approach which is going to give some issues in a particular operating system,
+
+74
+00:05:07,000 --> 00:05:14,000
+whereas I validated it is working perfectly fine in Windows Mac and at the same time it is also working
+
+75
+00:05:14,000 --> 00:05:16,000
+perfectly Linux operating system.
+
+76
+00:05:16,000 --> 00:05:23,000
+Buildpacks also working fine in Mac operating system like we saw in the loans demo, but it is going
+
+77
+00:05:23,000 --> 00:05:30,000
+to work very slowly inside the Mac operating system. And few students may even have some challenges to
+
+78
+00:05:30,000 --> 00:05:32,000
+generate a Docker image with the Buildpacks.
+
+79
+00:05:32,000 --> 00:05:37,000
+With all these reasons I am going with the jib approach inside this course.
+
+80
+00:05:37,000 --> 00:05:38,000
+I hope you are fine.
+
+81
+00:05:38,000 --> 00:05:45,000
+But like I said, in real projects where we use heavy servers to generate a Docker images, you can
+
+82
+00:05:45,000 --> 00:05:51,000
+go with the Buildpacks because inside local system many of the softwares running and you may not have
+
+83
+00:05:51,000 --> 00:05:55,000
+32 GB Ram laptop or any other higher configurations.
+
+84
+00:05:55,000 --> 00:06:00,000
+With all these reasons we are going with jib but not the Buildpacks, but in production applications
+
+85
+00:06:00,000 --> 00:06:01,000
+I recommend Buildpacks.
+
+86
+00:06:01,000 --> 00:06:04,000
+Off course, Jib also works for production applications.
+
+87
+00:06:04,000 --> 00:06:10,000
+This buildpacks has more advantages like we saw like it supports advanced caching, it supports multiple
+
+88
+00:06:10,000 --> 00:06:11,000
+languages.
+
+89
+00:06:11,000 --> 00:06:16,000
+So there are many, many other advantages which you can identify by looking at this comparison table.
+
+90
+00:06:16,000 --> 00:06:22,000
+I hope you are clear on why we are using Jib as a approach that we are going to continue to use throughout
+
+91
+00:06:22,000 --> 00:06:22,000
+this course.
+
+92
+00:06:22,000 --> 00:06:25,000
+So there is no bad and good approach.
+
+93
+00:06:25,000 --> 00:06:27,000
+All of them are very good.
+
+94
+00:06:27,000 --> 00:06:29,000
+They all have their own strengths and disadvantages.
+
+95
+00:06:29,000 --> 00:06:33,000
+Please choose whatever works based upon your project and scenario.
+
+96
+00:06:33,000 --> 00:06:36,000
+Thank you and I'll catch you in the next lecture bye.
+

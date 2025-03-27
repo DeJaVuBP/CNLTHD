@@ -1,0 +1,456 @@
+1
+00:00:00,000 --> 00:00:04,000
+Now is the time to install Docker inside your local system.
+
+2
+00:00:05,000 --> 00:00:08,000
+I already installed Docker inside my local system long back.
+
+3
+00:00:08,000 --> 00:00:10,000
+That's why I'm not going to install again inside my system.
+
+4
+00:00:10,000 --> 00:00:16,000
+But I'll show you the steps that you need to follow to install the docker inside your system.
+
+5
+00:00:16,000 --> 00:00:21,000
+These steps are going to be pretty straightforward and pretty easy, so please do follow these steps
+
+6
+00:00:21,000 --> 00:00:25,000
+and make sure you are installing the docker inside your system.
+
+7
+00:00:25,000 --> 00:00:27,000
+Without installing Docker.
+
+8
+00:00:27,000 --> 00:00:32,000
+You cannot practice all the microservice concepts that we are going to discuss from now onwards.
+
+9
+00:00:32,000 --> 00:00:38,000
+If you have intentions to practice along with me, please make sure you are installing the Docker inside
+
+10
+00:00:38,000 --> 00:00:38,000
+your system.
+
+11
+00:00:38,000 --> 00:00:39,000
+Like you can see here.
+
+12
+00:00:39,000 --> 00:00:41,000
+First we need to visit docker.com.
+
+13
+00:00:41,000 --> 00:00:42,000
+This is the website.
+
+14
+00:00:42,000 --> 00:00:43,000
+Inside this website.
+
+15
+00:00:43,000 --> 00:00:49,000
+As soon as you land on this homepage, you have an option to download the Docker desktop.
+
+16
+00:00:49,000 --> 00:00:55,000
+Since mine is a mac operating system, it is automatically detecting that and it is asking me to download
+
+17
+00:00:55,000 --> 00:00:57,000
+the Mac related Docker desktop.
+
+18
+00:00:57,000 --> 00:01:02,000
+Based upon your operating system, you can select any of the operating systems available like Apple,
+
+19
+00:01:02,000 --> 00:01:04,000
+Windows and Linux.
+
+20
+00:01:04,000 --> 00:01:10,000
+So once you select, you can click on this download Docker desktop option and post that it is going
+
+21
+00:01:10,000 --> 00:01:10,000
+to be simple.
+
+22
+00:01:10,000 --> 00:01:13,000
+You just have to double click on it and click next, next, next
+
+23
+00:01:13,000 --> 00:01:17,000
+and finally the Docker will be installed inside your system.
+
+24
+00:01:17,000 --> 00:01:23,000
+If you have any challenges in installing the Docker inside your system, you can click on this Get Started,
+
+25
+00:01:23,000 --> 00:01:29,000
+post that there is also clear instructions like learn how to install Docker for example
+
+26
+00:01:29,000 --> 00:01:30,000
+I'm just clicking on this.
+
+27
+00:01:30,000 --> 00:01:36,000
+Learn how to install Docker, which will take me to the documentation website of Docker.
+
+28
+00:01:36,000 --> 00:01:37,000
+Here,
+
+29
+00:01:37,000 --> 00:01:41,000
+there are clear instructions given based upon the operating system.
+
+30
+00:01:41,000 --> 00:01:47,000
+So if you see install Docker desktop on Mac Windows Linux, if I click on this Windows, it is going
+
+31
+00:01:47,000 --> 00:01:52,000
+to show you all the installation steps that you need to follow, but please make sure you are having
+
+32
+00:01:52,000 --> 00:01:56,000
+at least four GB system Ram along with 64 bit processor.
+
+33
+00:01:56,000 --> 00:02:01,000
+So by seeing all these steps you should be able to install Docker inside your system.
+
+34
+00:02:01,000 --> 00:02:06,000
+If you are facing any issues, don't worry, there is also a troubleshoot link available.
+
+35
+00:02:06,000 --> 00:02:12,000
+Under this troubleshoot you'll be able to see the most common issues that you may face with Docker or
+
+36
+00:02:12,000 --> 00:02:13,000
+Docker installation.
+
+37
+00:02:13,000 --> 00:02:14,000
+So please follow these
+
+38
+00:02:14,000 --> 00:02:20,000
+otherwise you can also post a question to me or you can also take help from the Docker community.
+
+39
+00:02:20,000 --> 00:02:26,000
+You can check there is a lot of help available from the Docker community inside the websites like StackOverflow,
+
+40
+00:02:26,000 --> 00:02:31,000
+Docker community, so there is enough help for you to resolve any Docker issues.
+
+41
+00:02:31,000 --> 00:02:33,000
+So don't get demotivated.
+
+42
+00:02:33,000 --> 00:02:38,000
+The installation is going to be super, super easy. So once the installation is completed, you can
+
+43
+00:02:38,000 --> 00:02:43,000
+click on the sign in button which will take you to the website called hub.docker.com.
+
+44
+00:02:43,000 --> 00:02:50,000
+So since I already created an account, it is already logged in me, so easy bites is my account or
+
+45
+00:02:50,000 --> 00:02:50,000
+username.
+
+46
+00:02:50,000 --> 00:02:56,000
+If you don't have an account, please make sure you are also creating an account and your account should
+
+47
+00:02:56,000 --> 00:02:59,000
+have an username and it will have password.
+
+48
+00:02:59,000 --> 00:03:04,000
+There is no need of providing any credit card details, so once the account is created you can log in
+
+49
+00:03:04,000 --> 00:03:05,000
+into the Docker hub.
+
+50
+00:03:05,000 --> 00:03:08,000
+So this is the website which is hub.docker.com.
+
+51
+00:03:08,000 --> 00:03:11,000
+So please remember your username.
+
+52
+00:03:11,000 --> 00:03:15,000
+In my case, the username of my Docker website is eazybytes.
+
+53
+00:03:15,000 --> 00:03:18,000
+We need to use the same inside the coming lectures.
+
+54
+00:03:18,000 --> 00:03:24,000
+So like I said, Docker Hub is a place where you can find that Docker images or you can also store your
+
+55
+00:03:24,000 --> 00:03:27,000
+own Docker images with the public access and private access.
+
+56
+00:03:27,000 --> 00:03:34,000
+If you want to store the Docker images with the private access, then definitely you need to upgrade
+
+57
+00:03:34,000 --> 00:03:34,000
+your plan.
+
+58
+00:03:34,000 --> 00:03:39,000
+So if I click on this upgrade, you can see it will show you all the plans available.
+
+59
+00:03:39,000 --> 00:03:43,000
+As of now, I'm using this personal plan which costs me $0.
+
+60
+00:03:43,000 --> 00:03:49,000
+So with this I can store Docker images in unlimited public repositories. For this course,
+
+61
+00:03:49,000 --> 00:03:55,000
+we are good with this personal plan, but in real projects, since we want to store our Docker images
+
+62
+00:03:55,000 --> 00:04:02,000
+in a secured manner, usually inside your organization they will provide a Docker login from any of
+
+63
+00:04:02,000 --> 00:04:03,000
+these plans.
+
+64
+00:04:03,000 --> 00:04:04,000
+Mostly business plan.
+
+65
+00:04:04,000 --> 00:04:08,000
+But don't worry, for now you can happily use this personal plan.
+
+66
+00:04:08,000 --> 00:04:11,000
+So let me go back with this personal plan,
+
+67
+00:04:11,000 --> 00:04:14,000
+I can only store my Docker images inside public repository.
+
+68
+00:04:14,000 --> 00:04:20,000
+That's fine for me because my intention also to store all my Docker images inside a public repository
+
+69
+00:04:20,000 --> 00:04:22,000
+so that you can also access them.
+
+70
+00:04:22,000 --> 00:04:25,000
+We can create a new repository, but we'll see that later.
+
+71
+00:04:25,000 --> 00:04:31,000
+But for now, I just wanted to show you like you can see many products, they store their official images
+
+72
+00:04:31,000 --> 00:04:32,000
+inside this Docker hub.
+
+73
+00:04:32,000 --> 00:04:35,000
+Only you can see Python has their own Docker image.
+
+74
+00:04:35,000 --> 00:04:38,000
+Postgres, ubuntu, MySQL.
+
+75
+00:04:38,000 --> 00:04:46,000
+See they have 1 billion downloads from this Docker hub which shows how many developers are using this
+
+76
+00:04:46,000 --> 00:04:46,000
+docker.
+
+77
+00:04:46,000 --> 00:04:49,000
+So that's why it is very important for us to learn this docker.
+
+78
+00:04:49,000 --> 00:04:54,000
+For now, let me try to search a Docker image with the name MySQL.
+
+79
+00:04:54,000 --> 00:04:59,000
+So if you try to MySQL Docker image, you can see this is the MySQL
+
+80
+00:04:59,000 --> 00:05:00,000
+Docker image.
+
+81
+00:05:00,000 --> 00:05:05,000
+There is also a tag docker official image 1 billion times download happen.
+
+82
+00:05:05,000 --> 00:05:10,000
+So in order to get this Docker image inside your local system, you just need to run this command which
+
+83
+00:05:10,000 --> 00:05:14,000
+is Docker pull MySQL will deep dive into all those commands, don't worry.
+
+84
+00:05:14,000 --> 00:05:21,000
+But for now I just wanted to show you that, inside this Docker hub we can store our own Docker images
+
+85
+00:05:21,000 --> 00:05:27,000
+and at the same time we can also find and fetch all the Docker images of other products that we want
+
+86
+00:05:27,000 --> 00:05:27,000
+to use.
+
+87
+00:05:27,000 --> 00:05:32,000
+If you want to use a database or if you want to use a server or if you want to use a language.
+
+88
+00:05:32,000 --> 00:05:35,000
+So all of them are available as a docker
+
+89
+00:05:35,000 --> 00:05:37,000
+Images inside this Docker hub.
+
+90
+00:05:37,000 --> 00:05:43,000
+Once you install the Docker and created this Docker account, you need to click on this Docker icon
+
+91
+00:05:43,000 --> 00:05:45,000
+available inside your local system.
+
+92
+00:05:45,000 --> 00:05:50,000
+As of now you can see I have already logged in so I can click on this dashboard.
+
+93
+00:05:50,000 --> 00:05:55,000
+So this is my Docker dashboard where you can see all my local Docker images, Docker containers,
+
+94
+00:05:55,000 --> 00:06:01,000
+Docker volumes, will be using this Docker desktop a lot, but please make sure if you are not logged
+
+95
+00:06:01,000 --> 00:06:07,000
+in already, you can click on this button at the top right corner where you can enter your credentials.
+
+96
+00:06:07,000 --> 00:06:08,000
+With that,
+
+97
+00:06:08,000 --> 00:06:16,000
+your local docker is connected to the Docker hub repository that you have created with the same username,
+
+98
+00:06:16,000 --> 00:06:19,000
+which in my case this is eazybytes.
+
+99
+00:06:19,000 --> 00:06:24,000
+And you can also confirm the Docker installation is completed successfully or not by running a command
+
+100
+00:06:24,000 --> 00:06:25,000
+inside the terminal.
+
+101
+00:06:25,000 --> 00:06:30,000
+So here inside my terminal I'm running a command which is docker  version.
+
+102
+00:06:30,000 --> 00:06:34,000
+You'll be getting the version details about the client and the server.
+
+103
+00:06:34,000 --> 00:06:39,000
+The client is using the operating system, which is Darwin, whereas the server, like we discussed
+
+104
+00:06:39,000 --> 00:06:40,000
+it, is using the Linux.
+
+105
+00:06:40,000 --> 00:06:46,000
+So inside my Mac operating system, whenever I try to install this Docker internally, it is going to
+
+106
+00:06:46,000 --> 00:06:49,000
+create a small and lightweight Linux virtual machine.
+
+107
+00:06:49,000 --> 00:06:53,000
+And inside that Linux virtual machine, the Docker server is going to be installed.
+
+108
+00:06:53,000 --> 00:06:55,000
+We already discussed about this.
+
+109
+00:06:55,000 --> 00:07:00,000
+I hope this is clear and I'm also assuming your Docker installation is successful. For some reason,
+
+110
+00:07:00,000 --> 00:07:06,000
+if you face any issues, please check the existing Q&A questions or you can also try to get the help
+
+111
+00:07:06,000 --> 00:07:09,000
+from the web. If nothing is working,
+
+112
+00:07:09,000 --> 00:07:13,000
+if you are stuck, please let me know and post your question inside the Udemy Q&A.
+
+113
+00:07:13,000 --> 00:07:15,000
+I should be able to help you.
+
+114
+00:07:15,000 --> 00:07:18,000
+Thank you and I'll catch you in the next lecture bye.
+

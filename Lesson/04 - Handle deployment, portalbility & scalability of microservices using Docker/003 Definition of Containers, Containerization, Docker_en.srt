@@ -1,0 +1,580 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+Let me try to explain you the formal definition of containers and Docker.
+
+3
+00:00:06,000 --> 00:00:13,000
+The reason why I'm spending a lot of time on introducing these containers and Dockers to you is as a
+
+4
+00:00:13,000 --> 00:00:20,000
+microservice developer, it is a mandatory skill for you to aware about few important technologies like
+
+5
+00:00:20,000 --> 00:00:22,000
+containers, Docker, Kubernetes.
+
+6
+00:00:22,000 --> 00:00:28,000
+That's why inside this course I'm going to put a lot of efforts explaining about all these concepts.
+
+7
+00:00:28,000 --> 00:00:34,000
+As a Java developer, as a microservice developer, you will be asked a lot of questions inside your
+
+8
+00:00:34,000 --> 00:00:39,000
+interviews and your projects, and you should be in a position to answer all such questions.
+
+9
+00:00:39,000 --> 00:00:42,000
+That's why I'm trying to convey all this information.
+
+10
+00:00:42,000 --> 00:00:47,000
+One of the question that anyone can ask you inside an interview is what is a container?
+
+11
+00:00:47,000 --> 00:00:54,000
+A container is a loosely isolated environment inside a server or inside a virtual machine or inside
+
+12
+00:00:54,000 --> 00:00:55,000
+your local system as well.
+
+13
+00:00:55,000 --> 00:01:03,000
+Since you are getting an loosely isolated environment inside a machine, you can use that isolated environment
+
+14
+00:01:03,000 --> 00:01:07,000
+to deploy your microservice by using software packages.
+
+15
+00:01:07,000 --> 00:01:14,000
+So these software packages include all the code and all the dependencies to run your applications or
+
+16
+00:01:14,000 --> 00:01:19,000
+microservices quickly and reliably on any computing environment.
+
+17
+00:01:19,000 --> 00:01:25,000
+Your containers in order to run, they just need the required code and dependencies along with the computing
+
+18
+00:01:25,000 --> 00:01:26,000
+environment.
+
+19
+00:01:26,000 --> 00:01:29,000
+And this environment can be your local system.
+
+20
+00:01:29,000 --> 00:01:34,000
+It can be a virtual machine inside a data center, or it can be a virtual machine inside a cloud environment.
+
+21
+00:01:34,000 --> 00:01:41,000
+So the computing environment can be anywhere your container is going to work very similarly, like it
+
+22
+00:01:41,000 --> 00:01:43,000
+work inside your local system.
+
+23
+00:01:43,000 --> 00:01:48,000
+That's why, regardless of how many environments you are trying to deploy your microservice, you are
+
+24
+00:01:48,000 --> 00:01:54,000
+going to use the same container and there won't be any manual efforts to set up your container to install
+
+25
+00:01:54,000 --> 00:01:57,000
+the dependencies to install the required servers.
+
+26
+00:01:57,000 --> 00:02:01,000
+So everything is going to be available inside the container itself.
+
+27
+00:02:01,000 --> 00:02:08,000
+Like I said, all the required dependencies and libraries are available inside software packages and
+
+28
+00:02:08,000 --> 00:02:11,000
+these packages we call them as container images.
+
+29
+00:02:11,000 --> 00:02:18,000
+So from our microservice application we are going to generate a Docker image or container image.
+
+30
+00:02:18,000 --> 00:02:21,000
+From the container image, we can create any number of containers.
+
+31
+00:02:21,000 --> 00:02:28,000
+So think like this image is like your Java class, just like how your Java class is a skeleton or representation
+
+32
+00:02:28,000 --> 00:02:30,000
+of your object.
+
+33
+00:02:30,000 --> 00:02:34,000
+Very similarly, this container image is a representation of your container.
+
+34
+00:02:34,000 --> 00:02:40,000
+From these container image, you can create any number of containers, just like how you can create
+
+35
+00:02:40,000 --> 00:02:43,000
+multiple Java objects from your Java class.
+
+36
+00:02:43,000 --> 00:02:50,000
+In other words, your Docker container is an actual running representation of your Docker image.
+
+37
+00:02:50,000 --> 00:02:53,000
+We'll see the demo in the coming lectures. Post that
+
+38
+00:02:53,000 --> 00:02:58,000
+the next definition that I want to share here is what is software containerization?
+
+39
+00:02:58,000 --> 00:03:04,000
+So using these containerization concepts only, we need to convert our microservice applications into
+
+40
+00:03:04,000 --> 00:03:06,000
+Docker containers.
+
+41
+00:03:06,000 --> 00:03:07,000
+So what is the software
+
+42
+00:03:07,000 --> 00:03:08,000
+Containerization?
+
+43
+00:03:08,000 --> 00:03:10,000
+It is an operating system
+
+44
+00:03:10,000 --> 00:03:15,000
+virtualization methods. Like we discussed in the previous lecture, we can deploy multiple containers
+
+45
+00:03:15,000 --> 00:03:22,000
+inside a single machine or a virtual machine and all these containers, they are going to get a virtually
+
+46
+00:03:22,000 --> 00:03:27,000
+isolated environment and these containers, they will feel like they are running inside their own operating
+
+47
+00:03:27,000 --> 00:03:28,000
+system.
+
+48
+00:03:28,000 --> 00:03:33,000
+So with these containerization concept, we are virtualizing an entire operating system.
+
+49
+00:03:33,000 --> 00:03:39,000
+Whereas with hypervisor, if you see we are virtualizing the machines, all these virtual machines like
+
+50
+00:03:40,000 --> 00:03:44,000
+VM1, VM2, VM3, they will feel like they are all running in different, different physical hardwares,
+
+51
+00:03:44,000 --> 00:03:50,000
+but they are not because with the help of hypervisor we are virtualizing the machines very similarly
+
+52
+00:03:50,000 --> 00:03:55,000
+with the help of containerization, we will virtualize the operating system.
+
+53
+00:03:55,000 --> 00:03:58,000
+So all these container 1, container 2, container 3.
+
+54
+00:03:58,000 --> 00:04:04,000
+They are running on a same operating system which is host operating system, but they will feel like
+
+55
+00:04:04,000 --> 00:04:07,000
+they are running in a separate, separate operating systems.
+
+56
+00:04:07,000 --> 00:04:13,000
+So since we are providing such kind of virtual isolated environment inside the containerization concept,
+
+57
+00:04:13,000 --> 00:04:19,000
+the virtualization is at the operating system level, whereas inside the virtual machines, the virtualization
+
+58
+00:04:19,000 --> 00:04:21,000
+is at the hardware level.
+
+59
+00:04:21,000 --> 00:04:26,000
+I hope it is clear now we know what is a container, what is a software containerization?
+
+60
+00:04:26,000 --> 00:04:28,000
+The next question is what is a docker?
+
+61
+00:04:28,000 --> 00:04:36,000
+Docker is a open source platform or a product that enables developers to convert their web applications
+
+62
+00:04:36,000 --> 00:04:42,000
+or to convert their application code into a Docker image using the same Docker image.
+
+63
+00:04:42,000 --> 00:04:49,000
+And with the help of this Docker, we can automate the deployment, scaling and management of the applications.
+
+64
+00:04:49,000 --> 00:04:51,000
+With the concept of containerization.
+
+65
+00:04:51,000 --> 00:04:55,000
+I hope you are able to tie the strings here between these three components.
+
+66
+00:04:55,000 --> 00:04:58,000
+So software containerization is a concept.
+
+67
+00:04:58,000 --> 00:05:00,000
+Docker is an platform which,
+
+68
+00:05:00,000 --> 00:05:02,000
+it implements this containerization technology.
+
+69
+00:05:02,000 --> 00:05:09,000
+So using the Docker, we are going to generate the Docker images and Docker containers from our application
+
+70
+00:05:09,000 --> 00:05:09,000
+code.
+
+71
+00:05:09,000 --> 00:05:16,000
+Now let's try to understand what exactly is going to happen inside the containerization concept.
+
+72
+00:05:16,000 --> 00:05:22,000
+Like I said, containers, they are going to get isolated environment, how they are going to get because
+
+73
+00:05:22,000 --> 00:05:29,000
+containers are based on the concept of operating system virtualization, where multiple containers run
+
+74
+00:05:29,000 --> 00:05:35,000
+on the same physical or a virtual machine that shares the same operating system kernel.
+
+75
+00:05:35,000 --> 00:05:40,000
+And this is different from the traditional virtualization that we follow whenever we are trying to create
+
+76
+00:05:40,000 --> 00:05:42,000
+multiple virtual machines.
+
+77
+00:05:42,000 --> 00:05:48,000
+And these virtual machines run on their own separate operating system instance, whereas with Dockers
+
+78
+00:05:48,000 --> 00:05:51,000
+they're going to share the same operating system kernel.
+
+79
+00:05:51,000 --> 00:05:59,000
+So inside this containerization Linux features like namespace and cgroups play a crucial role in providing
+
+80
+00:05:59,000 --> 00:06:02,000
+the isolation and resource management.
+
+81
+00:06:02,000 --> 00:06:09,000
+So let's try to understand what are these namespace and cgroups. Namespace is a concept inside Linux,
+
+82
+00:06:09,000 --> 00:06:15,000
+which will allow for the creation of isolated environments within the same operating system.
+
+83
+00:06:15,000 --> 00:06:23,000
+So each container will get its own set of namespace and these namespace is going to have process resource,
+
+84
+00:06:23,000 --> 00:06:30,000
+network resource and any storage resources, communication resources and similarly user namespaces.
+
+85
+00:06:30,000 --> 00:06:37,000
+So these namespaces ensures that process within a container are only aware of and can interact with
+
+86
+00:06:37,000 --> 00:06:41,000
+the resources within their own specific namespace.
+
+87
+00:06:41,000 --> 00:06:46,000
+So this provides a level of isolation from the other containers.
+
+88
+00:06:46,000 --> 00:06:48,000
+I hope you understand it's very simple.
+
+89
+00:06:48,000 --> 00:06:55,000
+Using namespace for a container, we are giving its own network process, storage everything. So that
+
+90
+00:06:55,000 --> 00:06:58,000
+all the components inside the container are inside the namespace.
+
+91
+00:06:58,000 --> 00:07:04,000
+They can interact with each other, but not other components inside other container or inside other
+
+92
+00:07:04,000 --> 00:07:05,000
+namespaces.
+
+93
+00:07:05,000 --> 00:07:08,000
+Now coming to the cgroup, what are cgroups?
+
+94
+00:07:08,000 --> 00:07:11,000
+The cgroups also called as control groups.
+
+95
+00:07:11,000 --> 00:07:17,000
+The reason why we call them as control groups is namespaces will provide the isolation of the resources,
+
+96
+00:07:17,000 --> 00:07:22,000
+but someone has to control the uses of the resources by a container.
+
+97
+00:07:22,000 --> 00:07:29,000
+So with the help of this control groups, we can administrate and control the usage of the resources
+
+98
+00:07:29,000 --> 00:07:33,000
+like CPU, memory, disk, network bandwidth.
+
+99
+00:07:33,000 --> 00:07:39,000
+That's where for the containers we can enforce resource restriction at runtime and try to avoid the
+
+100
+00:07:39,000 --> 00:07:46,000
+scenarios like one container from monopolizing the system resources and ensuring fair allocation between
+
+101
+00:07:46,000 --> 00:07:47,000
+multiple containers.
+
+102
+00:07:47,000 --> 00:07:54,000
+Since we can deploy multiple containers inside a same virtual machine or inside a same computing system,
+
+103
+00:07:54,000 --> 00:07:59,000
+we need to make sure every container is getting its own fair allocation.
+
+104
+00:07:59,000 --> 00:08:04,000
+It should not be like one container is getting very less allocation, whereas other container is getting
+
+105
+00:08:04,000 --> 00:08:07,000
+lot of memory allocation or CPU allocation.
+
+106
+00:08:07,000 --> 00:08:12,000
+That is not fair and it may result into issues dynamically at runtime.
+
+107
+00:08:12,000 --> 00:08:19,000
+That's why with these concepts of like namespaces and control groups, a separate isolated environment
+
+108
+00:08:19,000 --> 00:08:21,000
+will be provided to the containers.
+
+109
+00:08:21,000 --> 00:08:25,000
+Here you may have a question like these are the Linux features.
+
+110
+00:08:25,000 --> 00:08:33,000
+If these are the Linux features, then how I'm going to containerize my applications from my local system,
+
+111
+00:08:33,000 --> 00:08:37,000
+like inside my Mac OS or inside my windows operating system.
+
+112
+00:08:37,000 --> 00:08:42,000
+Even it is also possible your production server can be a Windows server.
+
+113
+00:08:42,000 --> 00:08:47,000
+So in such scenarios you may have a question like these are the Linux concepts.
+
+114
+00:08:47,000 --> 00:08:53,000
+Then how the Docker containerization or containerization concept is going to work inside my Windows
+
+115
+00:08:53,000 --> 00:08:56,000
+operating system or Mac operating system?
+
+116
+00:08:56,000 --> 00:08:58,000
+So let's try to understand the same.
+
+117
+00:08:58,000 --> 00:09:06,000
+Whenever you try to install and Docker on a Linux operating system, it is going to be pretty simple.
+
+118
+00:09:06,000 --> 00:09:11,000
+You will receive the entire Docker engine inside your Linux operating system.
+
+119
+00:09:11,000 --> 00:09:18,000
+However, if you try to install the same docker inside a mac or Windows operating system, you will
+
+120
+00:09:18,000 --> 00:09:20,000
+get two separate components.
+
+121
+00:09:20,000 --> 00:09:27,000
+One is Docker client, which is installed on your own operating system like Mac or Window Os.
+
+122
+00:09:27,000 --> 00:09:32,000
+And behind the scenes there will be also a separate component installed which which is a lightweight
+
+123
+00:09:32,000 --> 00:09:39,000
+linux based virtual machine and the Docker server component is installed inside this Linux virtual machine.
+
+124
+00:09:39,000 --> 00:09:46,000
+This way, regardless of what is the host operating system, Docker is going to work in any kind of
+
+125
+00:09:46,000 --> 00:09:48,000
+operating systems.
+
+126
+00:09:48,000 --> 00:09:50,000
+As a developer or as an end user,
+
+127
+00:09:50,000 --> 00:09:57,000
+you will get very similar look and feel when you try to use a docker on a Linux machine or in any other
+
+128
+00:09:57,000 --> 00:09:58,000
+operating systems.
+
+129
+00:09:58,000 --> 00:09:59,000
+I can also confirm 
+
+130
+00:09:59,000 --> 00:10:04,000
+you the same when we install the docker inside our local system.
+
+131
+00:10:04,000 --> 00:10:09,000
+So when you install the docker inside your local system, just run the command Docker version and you
+
+132
+00:10:09,000 --> 00:10:12,000
+will get an output like you can see on the right hand side.
+
+133
+00:10:12,000 --> 00:10:17,000
+So here you can see there are two details are printed.
+
+134
+00:10:17,000 --> 00:10:23,000
+The very first one is what is the client details, which is Docker CLI for DockerCLI or Docker client.
+
+135
+00:10:23,000 --> 00:10:29,000
+You can see the OS darwin/arm64, which is inside my Mac operating system.
+
+136
+00:10:29,000 --> 00:10:36,000
+Inside Windows you may see a different output, but coming to the server, the OS is Linux because behind
+
+137
+00:10:36,000 --> 00:10:41,000
+the scenes, like I said, a lightweight Linux virtual machine will be installed.
+
+138
+00:10:41,000 --> 00:10:47,000
+That's why you are able to see clear difference between Docker client and Docker server inside the same
+
+139
+00:10:47,000 --> 00:10:47,000
+machine.
+
+140
+00:10:47,000 --> 00:10:48,000
+I hope you are clear.
+
+141
+00:10:48,000 --> 00:10:49,000
+What is container?
+
+142
+00:10:49,000 --> 00:10:50,000
+What is containerization?
+
+143
+00:10:50,000 --> 00:10:51,000
+What is Docker?
+
+144
+00:10:51,000 --> 00:10:56,000
+In the next lecture, let's try to understand the internal architecture of Docker.
+
+145
+00:10:56,000 --> 00:10:58,000
+Thank you and I'll catch you in the next lecture bye.
+

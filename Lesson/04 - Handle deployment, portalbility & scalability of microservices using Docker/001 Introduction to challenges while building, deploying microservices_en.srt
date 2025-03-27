@@ -1,0 +1,504 @@
+1
+00:00:00,000 --> 00:00:04,000
+There is a saying with great power comes great responsibility.
+
+2
+00:00:04,000 --> 00:00:11,000
+Like you can see here we have the character Grogu inside the The Mandalorian Web series of Hotstar.
+
+3
+00:00:11,000 --> 00:00:19,000
+This grogu has a lot of natural powers, but he don't unnecessarily show off his powers and use them
+
+4
+00:00:19,000 --> 00:00:20,000
+only when required.
+
+5
+00:00:20,000 --> 00:00:26,000
+Similarly, many other superheroes that we have, like Superman, Spider-Man or Iron Man, they all
+
+6
+00:00:26,000 --> 00:00:31,000
+follow this rule, which is with great power comes great responsibility.
+
+7
+00:00:31,000 --> 00:00:36,000
+They don't use their powers unnecessarily, or they don't use their powers on the innocent peoples.
+
+8
+00:00:36,000 --> 00:00:42,000
+When you are building a microservice application inside any organization, you need to reverse the saying,
+
+9
+00:00:42,000 --> 00:00:46,000
+saying that with great responsibility comes great power.
+
+10
+00:00:46,000 --> 00:00:52,000
+The reason why I'm saying this is if you take a lot of responsibilities and accept a lot of challenges
+
+11
+00:00:52,000 --> 00:00:57,000
+that you face during the microservice implementation and handle all those challenges with the best possible
+
+12
+00:00:57,000 --> 00:01:03,000
+standards inside the industry, then you are going to get great power from your microservice application
+
+13
+00:01:03,000 --> 00:01:08,000
+in the form of all the advantages that we get from the microservice application.
+
+14
+00:01:08,000 --> 00:01:12,000
+You might be scratching your head why this fellow right now is saying all this story.
+
+15
+00:01:12,000 --> 00:01:17,000
+The reason I'm telling all this is right now we are ready to face a new challenge.
+
+16
+00:01:17,000 --> 00:01:20,000
+I thought of giving some motivation to you.
+
+17
+00:01:20,000 --> 00:01:26,000
+Don't get demotivated by seeing all the challenges that we are going to face while implementing microservice
+
+18
+00:01:26,000 --> 00:01:27,000
+application.
+
+19
+00:01:27,000 --> 00:01:33,000
+If you face all these challenges and implement a perfect microservice application towards the end,
+
+20
+00:01:33,000 --> 00:01:39,000
+you are going to have a perfect microservice application using which your organization can enjoy all
+
+21
+00:01:39,000 --> 00:01:40,000
+the benefits.
+
+22
+00:01:40,000 --> 00:01:46,000
+With this small motivation talk, let me introduce a new challenge, The new challenge that we are going
+
+23
+00:01:46,000 --> 00:01:54,000
+to discuss inside this section is how to handle deployment, portability and scalability of our microservice.
+
+24
+00:01:54,000 --> 00:02:00,000
+First, if you try to take that deployment, you may have a question like how do we deploy all the small
+
+25
+00:02:00,000 --> 00:02:06,000
+microservices that we have with less efforts and cost. With monolithic application, we have only a
+
+26
+00:02:06,000 --> 00:02:14,000
+single application or a single jar or war or ear file, which we can deploy into your web server or
+
+27
+00:02:14,000 --> 00:02:14,000
+application server.
+
+28
+00:02:14,000 --> 00:02:20,000
+Whereas with microservice architecture, we are going to have hundreds of microservice in any organization.
+
+29
+00:02:20,000 --> 00:02:24,000
+So how do we deploy all those hundreds of microservices?
+
+30
+00:02:24,000 --> 00:02:28,000
+Do we need 100 different servers and virtual machines to deploy them?
+
+31
+00:02:28,000 --> 00:02:28,000
+Off course not.
+
+32
+00:02:28,000 --> 00:02:31,000
+That is not going to be a viable solution.
+
+33
+00:02:31,000 --> 00:02:35,000
+We'll explore what are the options that we have, now after deployment
+
+34
+00:02:35,000 --> 00:02:41,000
+if you think from portability perspective, how do we move our hundreds of microservice across environments
+
+35
+00:02:41,000 --> 00:02:44,000
+with less effort configurations and cost?
+
+36
+00:02:44,000 --> 00:02:51,000
+Like any web application, regardless of monolithic or microservice or any other architecture, it has
+
+37
+00:02:51,000 --> 00:02:55,000
+to be deployed in various environment, right from the developer mission
+
+38
+00:02:55,000 --> 00:02:59,000
+it will go into the GitHub repository or any other versioning system.
+
+39
+00:02:59,000 --> 00:03:03,000
+From there, we need to deploy into the development environment.
+
+40
+00:03:03,000 --> 00:03:10,000
+Once the build is stable, we need to move to the uat environment or sit environment or QA environment.
+
+41
+00:03:10,000 --> 00:03:16,000
+Once the testing is completed, we need to deploy the same into the production replica environment.
+
+42
+00:03:16,000 --> 00:03:22,000
+Once the pre-production testing is completed, eventually the deployment has to be done inside the production.
+
+43
+00:03:22,000 --> 00:03:28,000
+If you see, the code has to move across many environments. With monolithic, there is only single application,
+
+44
+00:03:28,000 --> 00:03:29,000
+single server.
+
+45
+00:03:29,000 --> 00:03:35,000
+We can move the code by making enough configurations with very less efforts, but with hundreds of microservice
+
+46
+00:03:35,000 --> 00:03:37,000
+who is going to take care of all the portability issues.
+
+47
+00:03:37,000 --> 00:03:44,000
+If your application need a specific JDK version or a specific web server or a specific folder structure
+
+48
+00:03:44,000 --> 00:03:50,000
+or specific DB configurations who are going to do all those manual work when we have hundreds of microservice.
+
+49
+00:03:50,000 --> 00:03:54,000
+So these are another problem or another challenge that we may have.
+
+50
+00:03:54,000 --> 00:04:00,000
+And after the portability, we also have another challenge in the form of scalability. Scaling a monolithic
+
+51
+00:04:00,000 --> 00:04:06,000
+application is going to be super, super easy because you have only a single server.
+
+52
+00:04:06,000 --> 00:04:07,000
+You can try to onboard
+
+53
+00:04:07,000 --> 00:04:11,000
+one more server, which is replica of the existing monolithic server.
+
+54
+00:04:11,000 --> 00:04:13,000
+With microservice, the story is different.
+
+55
+00:04:13,000 --> 00:04:15,000
+We may have hundreds of microservice.
+
+56
+00:04:15,000 --> 00:04:20,000
+How do we scale a specific microservice whenever we want based upon the traffic needs?
+
+57
+00:04:20,000 --> 00:04:23,000
+So we need to scale the microservice on the fly based upon the demands.
+
+58
+00:04:23,000 --> 00:04:26,000
+And at the same time, whenever we don't need, we need to scale down.
+
+59
+00:04:26,000 --> 00:04:32,000
+So this all has to happen with the minimum effort and cost, off course, without any manual intervention.
+
+60
+00:04:32,000 --> 00:04:39,000
+So these are the three challenges that we may face whenever we try to build microservice with a traditional
+
+61
+00:04:39,000 --> 00:04:41,000
+monolithic mindset.
+
+62
+00:04:41,000 --> 00:04:43,000
+So we need to change our mindset.
+
+63
+00:04:43,000 --> 00:04:46,000
+We need to change how we package our web applications.
+
+64
+00:04:46,000 --> 00:04:52,000
+In the traditional approach, you package your application as an war or ear or jar, and you will
+
+65
+00:04:52,000 --> 00:04:56,000
+eventually deploy into a web server or app server.
+
+66
+00:04:56,000 --> 00:04:58,000
+But that is not going to work.
+
+67
+00:04:58,000 --> 00:04:59,000
+We need some new technique which
+
+68
+00:05:00,000 --> 00:05:03,000
+we can adopt inside our microservice applications.
+
+69
+00:05:03,000 --> 00:05:06,000
+So do you have any clue what is this new technique?
+
+70
+00:05:06,000 --> 00:05:10,000
+Let me reveal the solution that we can use to overcome this challenge.
+
+71
+00:05:10,000 --> 00:05:16,000
+The solution is containerization of our applications to overcome all these challenges,
+
+72
+00:05:16,000 --> 00:05:19,000
+first, we should containerize all our microservice.
+
+73
+00:05:19,000 --> 00:05:21,000
+Why should we containerize our applications?
+
+74
+00:05:21,000 --> 00:05:28,000
+Because when we containerize our applications, we are converting a normal maven project into a container.
+
+75
+00:05:28,000 --> 00:05:35,000
+These containers are very small in nature, which offer a self-isolated environment for applications,
+
+76
+00:05:35,000 --> 00:05:37,000
+including all the necessary dependencies.
+
+77
+00:05:37,000 --> 00:05:44,000
+If your microservice require a Java version or a Tomcat or DB configurations or any folder structure,
+
+78
+00:05:44,000 --> 00:05:51,000
+you can club all those dependencies inside a container and the same container you can deploy across
+
+79
+00:05:51,000 --> 00:05:56,000
+any environment or across any cloud environment without making any changes.
+
+80
+00:05:56,000 --> 00:06:00,000
+I'll be showing all the benefits of this containerization in this section.
+
+81
+00:06:00,000 --> 00:06:07,000
+So the very next question you may have is how do we containerize our Maven applications.
+
+82
+00:06:07,000 --> 00:06:10,000
+For the same we have a solution which is Docker.
+
+83
+00:06:10,000 --> 00:06:12,000
+You might have heard about this Docker already.
+
+84
+00:06:12,000 --> 00:06:20,000
+So Docker is an open source platform that provides an ability to package and run an application in a
+
+85
+00:06:20,000 --> 00:06:23,000
+loosely isolated environment called a container.
+
+86
+00:06:23,000 --> 00:06:25,000
+You have a maven application.
+
+87
+00:06:25,000 --> 00:06:31,000
+With the help of this docker, you can convert that into a Docker image and eventually you can run that
+
+88
+00:06:31,000 --> 00:06:36,000
+image as a container inside any virtual machine or inside any cloud environment.
+
+89
+00:06:36,000 --> 00:06:39,000
+I know you may have many questions. Inside this section,
+
+90
+00:06:39,000 --> 00:06:42,000
+I'm going to give you a very good introduction about Docker.
+
+91
+00:06:42,000 --> 00:06:43,000
+What is Docker?
+
+92
+00:06:43,000 --> 00:06:46,000
+How we can containerize our applications?
+
+93
+00:06:46,000 --> 00:06:49,000
+What are the challenges that it is going to solve with all this,
+
+94
+00:06:49,000 --> 00:06:51,000
+this section is going to be interesting.
+
+95
+00:06:51,000 --> 00:06:57,000
+Before I try to close this lecture, let me give a quick introduction how this containerization came
+
+96
+00:06:57,000 --> 00:06:58,000
+into picture.
+
+97
+00:06:58,000 --> 00:07:01,000
+You see a ship here, so I have a question here.
+
+98
+00:07:01,000 --> 00:07:02,000
+What do you observe from this ship?
+
+99
+00:07:02,000 --> 00:07:09,000
+If you observe this ship, it is carrying a lot of goods from one country to other country with the
+
+100
+00:07:09,000 --> 00:07:10,000
+help of these containers.
+
+101
+00:07:10,000 --> 00:07:17,000
+So why they are using these containers, why can't they simply carry all the goods without these containers?
+
+102
+00:07:17,000 --> 00:07:21,000
+Because with the help of these containers, they are able to optimize the space.
+
+103
+00:07:21,000 --> 00:07:27,000
+They are able to provide a separate environment or separate isolated space for each of the good.
+
+104
+00:07:27,000 --> 00:07:35,000
+Like inside a container, there can be apples which need a refrigerator, whereas inside other container
+
+105
+00:07:35,000 --> 00:07:39,000
+there are some electronic goods which does not require any cooling or refrigerator.
+
+106
+00:07:39,000 --> 00:07:45,000
+Similarly, in a real world web applications, every web application may have its own requirements.
+
+107
+00:07:45,000 --> 00:07:52,000
+One microservice may want to use Java 17 version, whereas other microservice it may want to use Java
+
+108
+00:07:52,000 --> 00:07:53,000
+21 version.
+
+109
+00:07:53,000 --> 00:07:58,000
+Similarly, there can be many, many different requirements for different different microservice in
+
+110
+00:07:58,000 --> 00:08:01,000
+terms of database, in terms of framework
+
+111
+00:08:01,000 --> 00:08:03,000
+they use, in terms of language they use.
+
+112
+00:08:03,000 --> 00:08:09,000
+If you try to manage all these microservices inside a single virtual machine or a single jumbo server,
+
+113
+00:08:09,000 --> 00:08:11,000
+it is going to be hell of work.
+
+114
+00:08:11,000 --> 00:08:16,000
+And at the same time you are not optimally using all the resources of your server.
+
+115
+00:08:16,000 --> 00:08:22,000
+So just like how this ship is using the resources optimally with the help of this containers, the same
+
+116
+00:08:22,000 --> 00:08:29,000
+way we are going to convert our microservices and deploy them as a containers that way inside a single
+
+117
+00:08:29,000 --> 00:08:35,000
+virtual machine or a single jumbo server, I can deploy ten different microservice with ten different
+
+118
+00:08:35,000 --> 00:08:41,000
+requirements because every container will have its own isolated environment.
+
+119
+00:08:41,000 --> 00:08:43,000
+How it is going to have, how that is possible.
+
+120
+00:08:43,000 --> 00:08:47,000
+We are going to discuss in the coming lectures, but for now I just wanted to highlight whenever you
+
+121
+00:08:47,000 --> 00:08:51,000
+are thinking about Docker and Containers, just think about the ship.
+
+122
+00:08:51,000 --> 00:08:54,000
+What are the advantages that it is getting with these containers?
+
+123
+00:08:54,000 --> 00:09:00,000
+Very similarly, just like how the shipping industry is taking advantage of containers, we are also
+
+124
+00:09:00,000 --> 00:09:06,000
+going to adopt the same container kind of concept inside microservice with the help of Docker.
+
+125
+00:09:06,000 --> 00:09:09,000
+I hope you are clear with the agenda of this section.
+
+126
+00:09:09,000 --> 00:09:12,000
+Thank you and I'll catch you in the next lecture bye.
+

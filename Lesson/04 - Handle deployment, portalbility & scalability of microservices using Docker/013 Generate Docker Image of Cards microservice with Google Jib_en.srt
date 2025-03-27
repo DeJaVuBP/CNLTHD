@@ -1,0 +1,680 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now into this lecture, let's try to explore Jib from the Google to generate a Docker image for the
+
+2
+00:00:07,000 --> 00:00:08,000
+cards microservice.
+
+3
+00:00:08,000 --> 00:00:15,000
+So like you can see you need to go to this URL which is github.com/GoogleContainerTools/jib.
+
+4
+00:00:15,000 --> 00:00:15,000
+.
+
+5
+00:00:15,000 --> 00:00:19,000
+The same URL I have mentioned inside the GitHub repository.
+
+6
+00:00:19,000 --> 00:00:24,000
+Under the important links you can see this is the link of Google jib website.
+
+7
+00:00:24,000 --> 00:00:30,000
+Once you are on to this GitHub repository, you can scroll down and there are instructions on how to
+
+8
+00:00:30,000 --> 00:00:33,000
+use this cheap and containerize our Java applications.
+
+9
+00:00:33,000 --> 00:00:40,000
+So please note that Jib is going to work only for Java applications, whereas Buildpacks is going to
+
+10
+00:00:40,000 --> 00:00:46,000
+work for many other famous languages like Python, Ruby, NodeJS.
+
+11
+00:00:46,000 --> 00:00:51,000
+So there are many other languages that Buildpacks is going to support apart from Java, whereas Jib
+
+12
+00:00:51,000 --> 00:00:53,000
+is strictly for the Java applications.
+
+13
+00:00:53,000 --> 00:00:58,000
+Since we are building Java based microservice, we can use this jib without any issues.
+
+14
+00:00:58,000 --> 00:01:04,000
+If we can scroll down here, there are links to know more details about how to use this jib with the
+
+15
+00:01:04,000 --> 00:01:06,000
+help of Maven and Gradle.
+
+16
+00:01:06,000 --> 00:01:09,000
+If you are using Gradle, you can click on this gradle link.
+
+17
+00:01:09,000 --> 00:01:11,000
+Otherwise you can click on this.
+
+18
+00:01:11,000 --> 00:01:11,000
+maven.
+
+19
+00:01:11,000 --> 00:01:17,000
+Since we are using Maven, we need to click on this Maven link which will redirect us to the GitHub
+
+20
+00:01:17,000 --> 00:01:21,000
+repo page where this Jib Maven plugin is available.
+
+21
+00:01:21,000 --> 00:01:25,000
+If you can scroll down here, there are details on how to get started.
+
+22
+00:01:25,000 --> 00:01:29,000
+The very first setup that you need to do is inside your pom.xml.
+
+23
+00:01:29,000 --> 00:01:35,000
+We need to make sure to copy this plugin detail which will help us to generate a Docker image.
+
+24
+00:01:35,000 --> 00:01:38,000
+So let me copy these configurations.
+
+25
+00:01:38,000 --> 00:01:41,000
+Now I will go to my cards microservice.
+
+26
+00:01:41,000 --> 00:01:43,000
+So here inside my cards
+
+27
+00:01:43,000 --> 00:01:49,000
+microservice, first I'll try to delete the existing content of target folder post that I'll go to my
+
+28
+00:01:49,000 --> 00:01:55,000
+pom.xml and I'll make sure to mention the packaging details after this versioning.
+
+29
+00:01:55,000 --> 00:01:59,000
+So the packaging configurations that I want to use is Jar.
+
+30
+00:01:59,000 --> 00:02:05,000
+So let me mention the same now we can go to the end of this pom.xml. We already have a spring boot maven
+
+31
+00:02:05,000 --> 00:02:09,000
+plugin here so we can introduce one more plugin.
+
+32
+00:02:09,000 --> 00:02:11,000
+So let me copy the new plugin details.
+
+33
+00:02:11,000 --> 00:02:18,000
+So the plugin details is it belongs to a groupId com.google.cloud.tools and the artifactId
+
+34
+00:02:18,000 --> 00:02:20,000
+is zip maven plugin.
+
+35
+00:02:20,000 --> 00:02:22,000
+The version is 3.3.2.
+
+36
+00:02:22,000 --> 00:02:26,000
+And under this configuration we need to mention a tag which is two.
+
+37
+00:02:26,000 --> 00:02:30,000
+After this we can mention the image and what is the image name?
+
+38
+00:02:30,000 --> 00:02:37,000
+The image name we can follow the very similar to what we have been following for the loans microservice.
+
+39
+00:02:37,000 --> 00:02:40,000
+So let me copy the name from the loans
+
+40
+00:02:40,000 --> 00:02:46,000
+microservice. So I'll take this value and I'll mention the same under the cards pom.xml as well.
+
+41
+00:02:46,000 --> 00:02:52,000
+So eazybytes is the Docker username that I have created and the project.artifactId of this pom.xml
+
+42
+00:02:52,000 --> 00:02:56,000
+is cards. So there is no need to worry even though we copied from the loans.
+
+43
+00:02:56,000 --> 00:03:01,000
+Since this variable is going to get derived from the existing pom.xml, we should be good.
+
+44
+00:03:01,000 --> 00:03:02,000
+Post that
+
+45
+00:03:02,000 --> 00:03:08,000
+the tag name that I want to mention here is S4. Once we added these changes inside pom.xml.
+
+46
+00:03:08,000 --> 00:03:11,000
+We can go to the GitHub repository.
+
+47
+00:03:11,000 --> 00:03:16,000
+Here if we can scroll down, there is a command that you can use to generate a Docker image.
+
+48
+00:03:16,000 --> 00:03:21,000
+So the command is mvn compile jib:dockerBuild.
+
+49
+00:03:21,000 --> 00:03:26,000
+So this will use your local Docker server setup to generate a Docker image.
+
+50
+00:03:26,000 --> 00:03:29,000
+So let's try to execute this command inside my terminal.
+
+51
+00:03:29,000 --> 00:03:34,000
+So for the same first I need to go to the cards microservice location.
+
+52
+00:03:34,000 --> 00:03:35,000
+So I'm just going there post that.
+
+53
+00:03:35,000 --> 00:03:37,000
+I'm clearing the my console.
+
+54
+00:03:37,000 --> 00:03:45,000
+After this, the command that I need to run is maven compile jib followed by Colon and Docker build
+
+55
+00:03:45,000 --> 00:03:47,000
+with B as capital.
+
+56
+00:03:47,000 --> 00:03:53,000
+So if I try to execute this command, it will scan all the details inside my pom.xml and it is going
+
+57
+00:03:53,000 --> 00:04:00,000
+to generate a Docker image for my cards microservice. And this jib is going to be faster than Buildpacks.
+
+58
+00:04:00,000 --> 00:04:07,000
+You can see I'm able to get my Docker image within 11 seconds, whereas Buildpacks is going to take
+
+59
+00:04:07,000 --> 00:04:08,000
+lot of time.
+
+60
+00:04:08,000 --> 00:04:13,000
+So now let me clear the console and try to run the Docker images.
+
+61
+00:04:13,000 --> 00:04:21,000
+So if you can see here, we got a new Docker image with the name cards and this also is having a size
+
+62
+00:04:21,000 --> 00:04:28,000
+of 322 MB, which is very similar to build a pack, but far better than the image size that we have
+
+63
+00:04:28,000 --> 00:04:29,000
+for the accounts
+
+64
+00:04:29,000 --> 00:04:35,000
+microservice. This confirms that Jib also is doing very good job in following all the standards and providing
+
+65
+00:04:35,000 --> 00:04:38,000
+a production ready Docker image.
+
+66
+00:04:38,000 --> 00:04:40,000
+Off course this tool is from Google.
+
+67
+00:04:40,000 --> 00:04:47,000
+We can confidently use this tool because they might be using this from many years and optimized to a
+
+68
+00:04:47,000 --> 00:04:48,000
+great extent.
+
+69
+00:04:48,000 --> 00:04:53,000
+That's why we can always leverage this kind of open source tools like jib and build packs.
+
+70
+00:04:53,000 --> 00:04:59,000
+Now here you may have question like for the images that got generated with the help of build packs and
+
+71
+00:04:59,000 --> 00:04:59,000
+jib,
+
+72
+00:04:59,000 --> 00:05:04,000
+there is a created value, which is like 43 years ago or 53 years ago.
+
+73
+00:05:04,000 --> 00:05:06,000
+Is this a bug inside this build packs and jib.
+
+74
+00:05:06,000 --> 00:05:08,000
+No, this is not a bug.
+
+75
+00:05:08,000 --> 00:05:10,000
+This is a feature provided by them.
+
+76
+00:05:10,000 --> 00:05:16,000
+The reason on why they are using such old dates is they will have a starting date is, which is somewhere
+
+77
+00:05:16,000 --> 00:05:22,000
+in 1970 or 1960, which they are going to use whenever you try to generate a Docker image.
+
+78
+00:05:22,000 --> 00:05:29,000
+And if you try to generate a Docker image again without making any changes intentionally or unintentionally,
+
+79
+00:05:29,000 --> 00:05:32,000
+this new Docker image is also going to have the same createdId.
+
+80
+00:05:32,000 --> 00:05:38,000
+And since it is going to have the same content inside it, the regeneration process of the same Docker
+
+81
+00:05:38,000 --> 00:05:40,000
+image is going to be the same.
+
+82
+00:05:40,000 --> 00:05:46,000
+But instead of this old created date, if they use a normal currentCreatedDate, then the same is
+
+83
+00:05:46,000 --> 00:05:52,000
+not going to work because they cannot really compare two images to identify the same or not because
+
+84
+00:05:52,000 --> 00:05:57,000
+the createdDate is going to differ due to that reason they are using older dates.
+
+85
+00:05:57,000 --> 00:06:00,000
+You can also look about this inside the web, a lot
+
+86
+00:06:00,000 --> 00:06:06,000
+many people thought this is a bug inside a build packs and jib. Why they are showing createdDate as
+
+87
+00:06:06,000 --> 00:06:08,000
+part three years or 53 years.
+
+88
+00:06:08,000 --> 00:06:09,000
+But this is not a bug,
+
+89
+00:06:09,000 --> 00:06:14,000
+this is a feature to optimize the generation of the Docker images again and again.
+
+90
+00:06:14,000 --> 00:06:18,000
+So now my Docker image is available. As a next step,
+
+91
+00:06:18,000 --> 00:06:25,000
+we can run docker run command, which is docker run followed by -d, followed -p and
+
+92
+00:06:25,000 --> 00:06:29,000
+the port mapping that I want to follow for the cards is 9000:9000.
+
+93
+00:06:29,000 --> 00:06:33,000
+Since our cards microservice is going to start at 9000.
+
+94
+00:06:33,000 --> 00:06:39,000
+I have mentioned this port mapping and the image name is eazybytes/cards and the tag name is S4.
+
+95
+00:06:39,000 --> 00:06:39,000
+.
+
+96
+00:06:40,000 --> 00:06:42,000
+So now I'm trying to execute this command.
+
+97
+00:06:42,000 --> 00:06:44,000
+You can see the new container started.
+
+98
+00:06:44,000 --> 00:06:47,000
+I can go to the Docker desktop. Under the containers,
+
+99
+00:06:47,000 --> 00:06:52,000
+right now you can see there is a cards related container also running right now.
+
+100
+00:06:52,000 --> 00:06:57,000
+I can also confirm by looking at the logs, you can see it is still starting and the logs are being
+
+101
+00:06:57,000 --> 00:06:58,000
+updated behind the scenes.
+
+102
+00:06:58,000 --> 00:07:02,000
+So now my cards application container is started.
+
+103
+00:07:02,000 --> 00:07:07,000
+I can also validate if it is working properly or not with the help of postman. Inside the postman, I'm
+
+104
+00:07:07,000 --> 00:07:13,000
+trying to send a request to the create API available inside the cards, so let me click on this send
+
+105
+00:07:13,000 --> 00:07:14,000
+button.
+
+106
+00:07:14,000 --> 00:07:19,000
+After clicking on the send button you can see I'm getting a successful response, which means our cards.
+
+107
+00:07:19,000 --> 00:07:24,000
+microservice is also working fine after converting as a Docker container.
+
+108
+00:07:24,000 --> 00:07:29,000
+You can also try to run the docker ps command, which will show all the existing running containers.
+
+109
+00:07:29,000 --> 00:07:35,000
+So these cards and loans containers are running and the accounts microservice container is not running
+
+110
+00:07:35,000 --> 00:07:37,000
+because I have stopped it long back.
+
+111
+00:07:37,000 --> 00:07:41,000
+I hope you are also clear with the third approach, which is google jib and the steps that we need
+
+112
+00:07:41,000 --> 00:07:44,000
+to follow before we try to close this lecture.
+
+113
+00:07:44,000 --> 00:07:46,000
+Let me show you more details about Google jib.
+
+114
+00:07:46,000 --> 00:07:50,000
+There is a one more great advantage of Google Jib compared to Buildpacks.
+
+115
+00:07:50,000 --> 00:07:54,000
+Whenever we are using Jib, we can generate a Docker image,
+
+116
+00:07:54,000 --> 00:07:58,000
+even if you don't have Docker installed inside your system.
+
+117
+00:07:58,000 --> 00:07:59,000
+That's the beauty of Jib.
+
+118
+00:07:59,000 --> 00:08:05,000
+So if you don't want to install Docker inside your local system, but at the same time you want to convert
+
+119
+00:08:05,000 --> 00:08:12,000
+your application to a Docker image, then you can use a command which is Maven compile jib build.
+
+120
+00:08:12,000 --> 00:08:19,000
+So when you try to use this build command, it is going to generate a Docker image from your application
+
+121
+00:08:19,000 --> 00:08:25,000
+and the same will be pushed into the remote repository. Because if you are not running a docker inside
+
+122
+00:08:25,000 --> 00:08:29,000
+a local system, that means there is no place for your jib to generate the Docker image.
+
+123
+00:08:29,000 --> 00:08:34,000
+That's why it will look for the remote repository details where it has to store.
+
+124
+00:08:34,000 --> 00:08:39,000
+If you can see here, there are many other remote repository details that you can configure.
+
+125
+00:08:39,000 --> 00:08:46,000
+If you are using GCR to store your Docker image, you can mention this image name as gcr.io and what
+
+126
+00:08:46,000 --> 00:08:49,000
+is your GCP project name followed by what is your app name?
+
+127
+00:08:49,000 --> 00:08:55,000
+And very similarly for ECR, also we can configure image name by following these standards.
+
+128
+00:08:55,000 --> 00:08:59,000
+Whereas for the Docker hub you can mention docker.io.
+
+129
+00:08:59,000 --> 00:09:02,000
+What is your Docker username and post that,
+
+130
+00:09:02,000 --> 00:09:05,000
+what is your app name followed by tag name.
+
+131
+00:09:05,000 --> 00:09:11,000
+Tag name is always optional, so whenever it is trying to push your docker image into the remote repository,
+
+132
+00:09:11,000 --> 00:09:18,000
+it may need some credentials like your Docker credentials or your Amazon credentials or your GCP credentials.
+
+133
+00:09:18,000 --> 00:09:22,000
+So to provide those details you can always look these documentation on how to provide.
+
+134
+00:09:22,000 --> 00:09:29,000
+But in this course we are not going to use any of these approaches because first we want to store inside
+
+135
+00:09:29,000 --> 00:09:30,000
+our local system.
+
+136
+00:09:30,000 --> 00:09:31,000
+We want to test it.
+
+137
+00:09:31,000 --> 00:09:35,000
+Once we satisfied, then only we want to manually push into the remote repository.
+
+138
+00:09:35,000 --> 00:09:41,000
+But this approach is going to be super, super helpful for the projects where the developers are not
+
+139
+00:09:41,000 --> 00:09:43,000
+responsible to generate a Docker images.
+
+140
+00:09:43,000 --> 00:09:48,000
+They're simply responsible to push the code into the GitHub repository. Inside the GitHub repository
+
+141
+00:09:48,000 --> 00:09:52,000
+using CI/CD tools like Jenkins or GitHub actions or any other tool.
+
+142
+00:09:52,000 --> 00:09:58,000
+You can write a scripts to generate the Docker image from your application and inside your
+
+143
+00:09:59,000 --> 00:09:59,000
+CI/CD server
+
+144
+00:09:59,000 --> 00:10:04,000
+you don't have to install this heavy software, which is Docker. In such scenarios,
+
+145
+00:10:04,000 --> 00:10:06,000
+this is going to be super, super helpful.
+
+146
+00:10:06,000 --> 00:10:13,000
+But like I said, inside this course we are going to use the Docker build command throughout the course.
+
+147
+00:10:13,000 --> 00:10:18,000
+But I just wanted to highlight these advantages that we have with jib, and this is the true differentiator
+
+148
+00:10:18,000 --> 00:10:22,000
+for many projects where they are trying to prefer cheap compared to Buildpacks.
+
+149
+00:10:22,000 --> 00:10:27,000
+Now let me show you the steps that we have followed to generate a container with the help of Google jib.
+
+150
+00:10:27,000 --> 00:10:28,000
+.
+
+151
+00:10:28,000 --> 00:10:34,000
+In the very first step, we need to configure the plugin details of zip Maven plugin inside our pom.xml
+
+152
+00:10:34,000 --> 00:10:37,000
+like you can see on the right hand side. And inside this plugin details
+
+153
+00:10:37,000 --> 00:10:44,000
+we should also configure what is the image name with the help of these two tag available under the configuration
+
+154
+00:10:44,000 --> 00:10:44,000
+tag.
+
+155
+00:10:44,000 --> 00:10:50,000
+Once we configure these details, we can run a command which is mvn compile docker build, and
+
+156
+00:10:50,000 --> 00:10:56,000
+when we run this command, a Docker image will be generated inside your local system with the help of
+
+157
+00:10:56,000 --> 00:10:57,000
+Docker server installed.
+
+158
+00:10:57,000 --> 00:11:00,000
+And here we are not writing any Docker file.
+
+159
+00:11:00,000 --> 00:11:06,000
+And the last step is once we have the Docker image available, you can run your Docker image as a container
+
+160
+00:11:06,000 --> 00:11:12,000
+with the help of docker run command and with that your application is ready to accept requests in the
+
+161
+00:11:12,000 --> 00:11:19,000
+form of Docker container. On a high level Google jib help us to generate production ready Docker images
+
+162
+00:11:19,000 --> 00:11:26,000
+by following all the production standards like performance security, caching, compressing, and developers
+
+163
+00:11:26,000 --> 00:11:28,000
+are not forced to write any Docker files.
+
+164
+00:11:28,000 --> 00:11:35,000
+They can simply generate production ready images for their application source code without the need
+
+165
+00:11:35,000 --> 00:11:41,000
+of writing any low level Docker file. And if needed Jib also is capable of generating a Docker image
+
+166
+00:11:41,000 --> 00:11:44,000
+without even local Docker setup.
+
+167
+00:11:44,000 --> 00:11:49,000
+I hope you are clear with all the details that we discussed about Google Jib. In the next lecture,
+
+168
+00:11:49,000 --> 00:11:55,000
+let's try to compare three different approaches that we have and try to select one of them for the rest
+
+169
+00:11:55,000 --> 00:11:55,000
+of the course.
+
+170
+00:11:55,000 --> 00:11:58,000
+Thank you and I'll catch you in the next lecture bye.
+

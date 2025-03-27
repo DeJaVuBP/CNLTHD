@@ -1,0 +1,388 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+let me try to explain you what are the important components available inside the Docker and what is
+
+3
+00:00:06,000 --> 00:00:09,000
+the internal architecture of Docker?
+
+4
+00:00:09,000 --> 00:00:13,000
+The very first important component that we have is Docker client.
+
+5
+00:00:13,000 --> 00:00:19,000
+Like I said before, whenever we try to install Docker inside any system, we get Docker client and
+
+6
+00:00:19,000 --> 00:00:20,000
+Docker server.
+
+7
+00:00:20,000 --> 00:00:27,000
+So using this Docker client only, we need to give instructions to the Docker server on how to containerize
+
+8
+00:00:27,000 --> 00:00:28,000
+our applications.
+
+9
+00:00:28,000 --> 00:00:33,000
+So inside this Docker client there are two different components that we can use to issue the commands
+
+10
+00:00:33,000 --> 00:00:35,000
+to the Docker server.
+
+11
+00:00:35,000 --> 00:00:37,000
+The most commonly used approach is Docker CLI.
+
+12
+00:00:38,000 --> 00:00:45,000
+Using this command line interface, we can issue commands to the Docker server directly from your terminal
+
+13
+00:00:45,000 --> 00:00:46,000
+or from your command line.
+
+14
+00:00:46,000 --> 00:00:53,000
+This is very similar to GitHub CLI or any other CLI is provided by the other products.
+
+15
+00:00:53,000 --> 00:01:00,000
+Apart from CLI, you can also issue commands to the Docker server using APIs using this Docker remote
+
+16
+00:01:00,000 --> 00:01:05,000
+API, we can issue commands like how to run a Docker container from a Docker image.
+
+17
+00:01:05,000 --> 00:01:10,000
+So all such commands we can give with this remote API approach as well.
+
+18
+00:01:10,000 --> 00:01:15,000
+But inside this course we are going to use the Docker CLI approach because that is the most commonly
+
+19
+00:01:15,000 --> 00:01:21,000
+used approach. Apart from this Docker client, the next important component that we have is Docker server.
+
+20
+00:01:21,000 --> 00:01:25,000
+In other words, we can also call this Docker server as Docker host.
+
+21
+00:01:25,000 --> 00:01:31,000
+So when I say Docker server, don't think like this is going to be installed in some other remote machine.
+
+22
+00:01:31,000 --> 00:01:35,000
+So both this Docker client and Docker server or Docker hosts,
+
+23
+00:01:35,000 --> 00:01:39,000
+both of these are going to be installed inside your system.
+
+24
+00:01:39,000 --> 00:01:44,000
+So inside this Docker server there will be a Docker daemon process that is going to run continuously,
+
+25
+00:01:44,000 --> 00:01:49,000
+which is going to accept the commands from the client, the client like CLI, we can issue commands
+
+26
+00:01:49,000 --> 00:01:50,000
+to this server.
+
+27
+00:01:50,000 --> 00:01:54,000
+Like please generate a Docker image for my application.
+
+28
+00:01:54,000 --> 00:01:57,000
+So for my application, these are the dependencies.
+
+29
+00:01:57,000 --> 00:01:59,000
+This is the Java version that I'm using.
+
+30
+00:01:59,000 --> 00:02:01,000
+These are the configuration that I need.
+
+31
+00:02:01,000 --> 00:02:08,000
+So once we provide all those details, our instructions to the Docker server, it is going to convert
+
+32
+00:02:08,000 --> 00:02:15,000
+your spring boot application or Maven application or your microservice into a packaged software which
+
+33
+00:02:15,000 --> 00:02:18,000
+commonly called as Docker image.
+
+34
+00:02:18,000 --> 00:02:22,000
+So image is an representation of your packaged application.
+
+35
+00:02:22,000 --> 00:02:29,000
+So it has all the required dependencies and configurations packaged into a Docker image.
+
+36
+00:02:29,000 --> 00:02:34,000
+Very similarly, we can also give commands to generate a container from a Docker image.
+
+37
+00:02:34,000 --> 00:02:40,000
+Like you can see here, there will be images and very similarly we also have containers, so we can't
+
+38
+00:02:40,000 --> 00:02:42,000
+generate containers without a Docker image.
+
+39
+00:02:42,000 --> 00:02:44,000
+First we need a Docker image.
+
+40
+00:02:44,000 --> 00:02:50,000
+When we give an instruction to the Docker server to generate a container from a Docker image, it is
+
+41
+00:02:50,000 --> 00:02:56,000
+going to leverage the Docker image and it is going to create a running instance of your Docker image,
+
+42
+00:02:56,000 --> 00:03:00,000
+which is your web application or your microservice in a running state.
+
+43
+00:03:00,000 --> 00:03:07,000
+So once the container is in running state, you can obviously try to access all your REST APIs or microservice
+
+44
+00:03:07,000 --> 00:03:11,000
+business logic through the endpoint URL by using the correct port number.
+
+45
+00:03:11,000 --> 00:03:13,000
+Correct API path.
+
+46
+00:03:13,000 --> 00:03:14,000
+I hope this is clear.
+
+47
+00:03:14,000 --> 00:03:20,000
+So inside your Docker server only all your images and containers are going to be stored.
+
+48
+00:03:20,000 --> 00:03:25,000
+Now this setup is going to work perfectly if you are working in your own machine.
+
+49
+00:03:25,000 --> 00:03:31,000
+Once we generate a Docker image for our microservice, once we test that with the help of Docker container
+
+50
+00:03:31,000 --> 00:03:37,000
+and once we feel that everything is working, we need to push the Docker images to a repository from
+
+51
+00:03:37,000 --> 00:03:43,000
+where we can continue to the steps like deployment and running the containers inside the dev environment,
+
+52
+00:03:43,000 --> 00:03:49,000
+environment or production environment. Just like how we store our Java code inside the GitHub repo.
+
+53
+00:03:49,000 --> 00:03:57,000
+Very similarly, we need to store these Docker images available inside our local system into a remote
+
+54
+00:03:57,000 --> 00:03:58,000
+repository.
+
+55
+00:03:58,000 --> 00:04:01,000
+That's where we have the third component available.
+
+56
+00:04:01,000 --> 00:04:05,000
+This third component we call it as Docker Registry, Docker Company itself
+
+57
+00:04:05,000 --> 00:04:08,000
+they provide a Docker registry with the name Docker Hub.
+
+58
+00:04:08,000 --> 00:04:14,000
+Inside this Docker hub, you can store all your Docker images and you can make them available for public
+
+59
+00:04:14,000 --> 00:04:20,000
+use, or you can also protect them so that only authenticated users are applications will try to download
+
+60
+00:04:20,000 --> 00:04:24,000
+your Docker images. Just like how Docker providing Docker hub.
+
+61
+00:04:24,000 --> 00:04:31,000
+Very similarly, there are private registries provided by famous companies like GitHub, AWS, GCP,
+
+62
+00:04:32,000 --> 00:04:38,000
+Azure, so most of the cloud providers and most of the version repository products like GitHub, so
+
+63
+00:04:38,000 --> 00:04:44,000
+they have their own private registry where you can push the Docker images from your local system to
+
+64
+00:04:44,000 --> 00:04:45,000
+this remote repositories.
+
+65
+00:04:45,000 --> 00:04:51,000
+For example, if you are using to a great extent inside your organization, then it makes sense to push
+
+66
+00:04:51,000 --> 00:04:57,000
+your Docker images into your private registry provided by the AWS from this private registry.
+
+67
+00:04:57,000 --> 00:04:59,000
+All your deployment of the microservices will happen.
+
+68
+00:05:00,000 --> 00:05:04,000
+Inside this course, I'm going to use the Docker hub to store all my Docker images.
+
+69
+00:05:04,000 --> 00:05:07,000
+So I'll show you how to generate a Docker image.
+
+70
+00:05:07,000 --> 00:05:12,000
+And once the Docker image is generated inside our local, I'll also show you how to create a running
+
+71
+00:05:12,000 --> 00:05:14,000
+container from your Docker image.
+
+72
+00:05:14,000 --> 00:05:20,000
+Once everything is completed, we can push these Docker images into a remote Docker hub repository.
+
+73
+00:05:20,000 --> 00:05:26,000
+So these are the three important components available inside the Docker architecture.
+
+74
+00:05:26,000 --> 00:05:33,000
+Now let me give a simple flow that will happen whenever I try to issue an instructions to the Docker
+
+75
+00:05:33,000 --> 00:05:33,000
+server.
+
+76
+00:05:33,000 --> 00:05:39,000
+So in the very first step, I'm going to give the instructions to the Docker server with the help of
+
+77
+00:05:39,000 --> 00:05:40,000
+my Docker client.
+
+78
+00:05:40,000 --> 00:05:44,000
+So the instruction may be like to run a container from a Docker image.
+
+79
+00:05:44,000 --> 00:05:51,000
+So as soon as I give this instruction, my Docker server will validate if the Docker image is available
+
+80
+00:05:51,000 --> 00:05:52,000
+inside my local system.
+
+81
+00:05:52,000 --> 00:06:00,000
+If it is not there, it is going to fetch the required Docker image from the remote repository like
+
+82
+00:06:00,000 --> 00:06:00,000
+Docker Hub.
+
+83
+00:06:00,000 --> 00:06:07,000
+Once the Docker image is pulled into my local system using the same Docker image, a container will
+
+84
+00:06:07,000 --> 00:06:10,000
+be created by the Docker server.
+
+85
+00:06:10,000 --> 00:06:16,000
+So once the container is available, it means my application is ready and I can try to use the application.
+
+86
+00:06:16,000 --> 00:06:22,000
+These days, many of the products, they are providing everything as part of a Docker image.
+
+87
+00:06:22,000 --> 00:06:27,000
+For example, if you want to use a MySQL inside your local system, the traditional or older approach
+
+88
+00:06:27,000 --> 00:06:33,000
+is, you will go to the MySQL website, you will download the MySQL installation you will install inside
+
+89
+00:06:33,000 --> 00:06:34,000
+your system.
+
+90
+00:06:34,000 --> 00:06:37,000
+So that is very cumbersome process and a lengthy process.
+
+91
+00:06:37,000 --> 00:06:42,000
+Instead, with the help of Docker, you can pull the image of MySQL.
+
+92
+00:06:42,000 --> 00:06:48,000
+Once the image of MySQL is pulled from the Docker hub, you can try to run a container from the image.
+
+93
+00:06:48,000 --> 00:06:52,000
+That means you are going to have MySQL server running inside your system.
+
+94
+00:06:52,000 --> 00:06:55,000
+I hope you are clear with this Docker architecture.
+
+95
+00:06:55,000 --> 00:07:00,000
+In the next lecture I'll show you how to install Docker inside a local system.
+
+96
+00:07:00,000 --> 00:07:02,000
+I hope it is clear.
+
+97
+00:07:02,000 --> 00:07:04,000
+Thank you and I'll catch you in the next lecture bye.
+

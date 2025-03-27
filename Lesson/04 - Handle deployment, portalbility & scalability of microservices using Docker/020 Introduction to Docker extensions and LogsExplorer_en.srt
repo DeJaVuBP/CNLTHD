@@ -1,0 +1,180 @@
+1
+00:00:00,000 --> 00:00:07,000
+Inside this lecture, let me introduce a Docker extension that may be useful for you on day to day basis.
+
+2
+00:00:07,000 --> 00:00:12,000
+You can see inside your Docker desktop there is an option add extensions.
+
+3
+00:00:12,000 --> 00:00:17,000
+There are thousands of Docker extensions available which you can use based upon your requirements on
+
+4
+00:00:17,000 --> 00:00:18,000
+day to day basis.
+
+5
+00:00:18,000 --> 00:00:24,000
+So whenever you are into a problem while using Docker containers, Docker images or Docker desktop,
+
+6
+00:00:24,000 --> 00:00:29,000
+always search for if there is any extension that will solve your problem.
+
+7
+00:00:29,000 --> 00:00:33,000
+By installing these extensions, you can make your life easy.
+
+8
+00:00:33,000 --> 00:00:40,000
+One such extension is related to logs, so if you search for log, there is an extension with the name
+
+9
+00:00:40,000 --> 00:00:41,000
+Logs Explorer.
+
+10
+00:00:41,000 --> 00:00:43,000
+You can see if you can click on this.
+
+11
+00:00:43,000 --> 00:00:47,000
+This is officially published by the Docker company itself.
+
+12
+00:00:47,000 --> 00:00:54,000
+You can click on this install button as soon as you click on this install button, this extension will
+
+13
+00:00:54,000 --> 00:00:56,000
+be installed inside your Docker desktop.
+
+14
+00:00:56,000 --> 00:00:58,000
+So let me close this right now.
+
+15
+00:00:58,000 --> 00:01:00,000
+You can see the installation is completed.
+
+16
+00:01:00,000 --> 00:01:06,000
+With that, I have a logs explorer under my extensions, so let me click on that.
+
+17
+00:01:06,000 --> 00:01:11,000
+You can see there is no logs information right now because I have installed this just now.
+
+18
+00:01:11,000 --> 00:01:17,000
+So with the help of these Logs Explorer, we can see all the logs of our running containers or stopped
+
+19
+00:01:17,000 --> 00:01:18,000
+containers.
+
+20
+00:01:18,000 --> 00:01:21,000
+So let me show you a demo of this extension. For the same,
+
+21
+00:01:21,000 --> 00:01:27,000
+I'm going to run a command which is docker compose up, which will start all of my containers.
+
+22
+00:01:27,000 --> 00:01:30,000
+Now I can go to my Docker desktop.
+
+23
+00:01:30,000 --> 00:01:36,000
+Here you can see under accounts there are three different microservices are running like loans microservice,
+
+24
+00:01:36,000 --> 00:01:39,000
+cards microservice and accounts microservice.
+
+25
+00:01:39,000 --> 00:01:42,000
+And each microservice has its own color.
+
+26
+00:01:42,000 --> 00:01:47,000
+Like all accounts microservice related logs are highlighted in a blue color.
+
+27
+00:01:47,000 --> 00:01:51,000
+Similarly for loan, it is red color, and for cards it is green color.
+
+28
+00:01:51,000 --> 00:01:59,000
+So you can look for all the logs from this Logs Explorer itself instead of navigating each of the container.
+
+29
+00:01:59,000 --> 00:02:05,000
+If you are looking for the logs of a specific container, you can select here and that will do the filtration
+
+30
+00:02:05,000 --> 00:02:11,000
+automatically and you will be able to see only the logs related to the loans microservice.
+
+31
+00:02:11,000 --> 00:02:17,000
+And at the same time there is also a filter option to see the running containers logs or the stopped
+
+32
+00:02:17,000 --> 00:02:18,000
+container logs.
+
+33
+00:02:18,000 --> 00:02:25,000
+There is also a search button and if you want to see the logs based upon the specific log type like
+
+34
+00:02:25,000 --> 00:02:29,000
+standard output or standard error, you can select the option accordingly.
+
+35
+00:02:29,000 --> 00:02:36,000
+This way, these Docker extensions are going to make our lives super, super easy and Logs Explorer
+
+36
+00:02:36,000 --> 00:02:38,000
+is one such extension.
+
+37
+00:02:38,000 --> 00:02:44,000
+I would strongly recommend you to install this extension inside your system as well. In future
+
+38
+00:02:44,000 --> 00:02:45,000
+anytime
+
+39
+00:02:45,000 --> 00:02:50,000
+like I said, if you face any problem with the Docker or if there is some task which is taking you a
+
+40
+00:02:50,000 --> 00:02:57,000
+lot of time, then look for extensions because somebody might have faced the same issue and they might
+
+41
+00:02:57,000 --> 00:03:01,000
+have built the extension, which which is right now available for others to use.
+
+42
+00:03:01,000 --> 00:03:05,000
+So with the help of these extensions, make your life easy.
+
+43
+00:03:05,000 --> 00:03:07,000
+That's what my recommendation here.
+
+44
+00:03:07,000 --> 00:03:08,000
+Thank you,
+
+45
+00:03:08,000 --> 00:03:10,000
+and I'll catch you in the next lecture bye.
+

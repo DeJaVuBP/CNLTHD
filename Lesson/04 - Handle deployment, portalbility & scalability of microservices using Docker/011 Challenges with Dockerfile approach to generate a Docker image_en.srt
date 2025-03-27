@@ -1,0 +1,252 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now we are clear on how to generate a Docker image with the help of Docker file and we have seen the
+
+2
+00:00:06,000 --> 00:00:10,000
+demo of the same inside accounts microservice.
+
+3
+00:00:10,000 --> 00:00:16,000
+But this approach has certain disadvantages, so let's try to understand them inside this lecture.
+
+4
+00:00:16,000 --> 00:00:22,000
+Before that, let me stop my running containers inside my local system so that I can free some memory
+
+5
+00:00:22,000 --> 00:00:23,000
+inside my system.
+
+6
+00:00:23,000 --> 00:00:26,000
+So as of now, you can see there are two running containers of accounts.
+
+7
+00:00:26,000 --> 00:00:32,000
+So I'm just stopping them by clicking on the stop button against each of them post that I'm going to
+
+8
+00:00:32,000 --> 00:00:34,000
+delete them because I don't need them.
+
+9
+00:00:34,000 --> 00:00:40,000
+If I need any container of accounts microservice, I can create them again with the help of Docker run
+
+10
+00:00:40,000 --> 00:00:40,000
+command.
+
+11
+00:00:40,000 --> 00:00:45,000
+So let me delete them the same I can confirm by running the docker ps command.
+
+12
+00:00:45,000 --> 00:00:47,000
+So there are no running containers inside my system.
+
+13
+00:00:47,000 --> 00:00:53,000
+So please do this occasionally and make sure you are deleting any unused containers so that the memory
+
+14
+00:00:53,000 --> 00:00:58,000
+usage and the storage usage inside your system will be used properly.
+
+15
+00:00:58,000 --> 00:01:00,000
+Otherwise your system is going to get hanged.
+
+16
+00:01:00,000 --> 00:01:05,000
+If you are using a system which has very low storage and a low ram memory.
+
+17
+00:01:05,000 --> 00:01:11,000
+Now coming to the disadvantages of Docker file, the very first disadvantage is in order to write a
+
+18
+00:01:11,000 --> 00:01:15,000
+Docker file, you need to be an expert of Docker concepts.
+
+19
+00:01:15,000 --> 00:01:21,000
+So right now we have very basic Docker file where I have given very basic Docker instructions and I
+
+20
+00:01:21,000 --> 00:01:26,000
+told you like you need to use the so and so keyword, you need to mention so and so docker image, you
+
+21
+00:01:26,000 --> 00:01:29,000
+need to give so and so copy commands or entrypoint commands.
+
+22
+00:01:29,000 --> 00:01:36,000
+But in real projects, if your application is large, this simple Docker file may not work for you.
+
+23
+00:01:36,000 --> 00:01:42,000
+So to convert your microservices a Docker image, you need to learn a lot of Docker concepts and you
+
+24
+00:01:42,000 --> 00:01:46,000
+need to learn a lot of instructions on how to provide them with the help of Docker file.
+
+25
+00:01:46,000 --> 00:01:51,000
+So there is a lot of learning curve involved for that developer.
+
+26
+00:01:51,000 --> 00:01:54,000
+Why should developers should learn everything about Docker?
+
+27
+00:01:54,000 --> 00:01:58,000
+Because he's not a DevOps person, because he's not a platform team member.
+
+28
+00:01:58,000 --> 00:02:05,000
+So that's why this option is not good for developers because it involves a lot of learning curve.
+
+29
+00:02:05,000 --> 00:02:10,000
+And at the same time, apart from learning the concepts of Docker, you should also follow the best
+
+30
+00:02:10,000 --> 00:02:13,000
+practices when you try to generate a Docker image.
+
+31
+00:02:13,000 --> 00:02:17,000
+The best practices like your Docker image should be as small as possible.
+
+32
+00:02:17,000 --> 00:02:24,000
+You should try to use lot of caching compression while generating the docker image so that the process
+
+33
+00:02:24,000 --> 00:02:29,000
+is going to be super quick and the Docker image is going to be super small, which will improve your
+
+34
+00:02:29,000 --> 00:02:31,000
+overall microservices setup.
+
+35
+00:02:31,000 --> 00:02:36,000
+And apart from these standards, we should also not ignore any security related concept.
+
+36
+00:02:36,000 --> 00:02:43,000
+We should make sure our Docker image is perfectly secured and there are no security vulnerabilities
+
+37
+00:02:43,000 --> 00:02:44,000
+inside our Docker image.
+
+38
+00:02:44,000 --> 00:02:47,000
+So there is a lot of standards that you need to follow.
+
+39
+00:02:47,000 --> 00:02:54,000
+And in order to implement all these standards and in order to follow all these best practices, you
+
+40
+00:02:54,000 --> 00:03:00,000
+need to put a lot of efforts, you need to learn Docker concept, you need to learn Docker best practices,
+
+41
+00:03:00,000 --> 00:03:05,000
+post that only you can implement all of them inside a Docker file. And the same Docker file you need
+
+42
+00:03:05,000 --> 00:03:10,000
+to maintain for all kind of microservices like accounts, loans, cards.
+
+43
+00:03:10,000 --> 00:03:15,000
+If you have 100 different microservices, you need to maintain 100 different Docker files for them.
+
+44
+00:03:15,000 --> 00:03:20,000
+And maintaining all these Docker files is another nightmare and there will be other challenges like
+
+45
+00:03:20,000 --> 00:03:21,000
+versioning.
+
+46
+00:03:21,000 --> 00:03:24,000
+So there are many challenges that you are going to face with this approach.
+
+47
+00:03:24,000 --> 00:03:31,000
+That's why developers are always looking for an approach where a Docker image is going to be generated
+
+48
+00:03:31,000 --> 00:03:36,000
+automatically without writing any low level instructions inside a Docker file.
+
+49
+00:03:36,000 --> 00:03:41,000
+That's where we have solutions like Buildpacks and Google Jib came into picture.
+
+50
+00:03:41,000 --> 00:03:48,000
+Since developers are facing all these challenges, these two products are built over the years and the
+
+51
+00:03:48,000 --> 00:03:52,000
+same are being used extensively by the developers and the platforms teams these days.
+
+52
+00:03:52,000 --> 00:03:56,000
+So that's why let's try to learn these two different approaches.
+
+53
+00:03:56,000 --> 00:03:59,000
+One is Buildpacks and the other one is Google Jib.
+
+54
+00:03:59,000 --> 00:04:04,000
+First, we'll try to learn Buildpacks. While trying to learn these Buildpacks,
+
+55
+00:04:04,000 --> 00:04:08,000
+I'll be showing you how to generate a Docker image with the help of Buildpacks.
+
+56
+00:04:08,000 --> 00:04:13,000
+And in the same process you will be seeing how easy it is compared to the Docker file approach.
+
+57
+00:04:13,000 --> 00:04:15,000
+I hope you are with me on this.
+
+58
+00:04:15,000 --> 00:04:19,000
+And what are the disadvantages with this Docker file approach and with these disadvantages
+
+59
+00:04:19,000 --> 00:04:25,000
+it should be pretty clear for you that we are not going to use this Docker file approach anymore inside
+
+60
+00:04:25,000 --> 00:04:30,000
+the course because it has a lot of disadvantages and it requires a lot of time to set up.
+
+61
+00:04:30,000 --> 00:04:33,000
+So right now we have only two options Buildpacks and Google Jib.
+
+62
+00:04:33,000 --> 00:04:37,000
+Let's explore both of them and choose one of them that is best suitable for us.
+
+63
+00:04:37,000 --> 00:04:40,000
+Thank you and I'll catch you in the next lecture bye.
+

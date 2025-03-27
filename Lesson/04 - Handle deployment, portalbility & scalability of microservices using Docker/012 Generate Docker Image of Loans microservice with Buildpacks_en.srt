@@ -1,0 +1,664 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now is the time to explore the second approach that we have to generate a Docker image.
+
+2
+00:00:06,000 --> 00:00:09,000
+And this approach is with the help of Buildpacks.
+
+3
+00:00:09,000 --> 00:00:12,000
+So what is a Buildpacks. Using Buildpacks,
+
+4
+00:00:12,000 --> 00:00:18,000
+we can transform our application source code into a Docker image that can run on any cloud.
+
+5
+00:00:18,000 --> 00:00:23,000
+There is no need of writing low level instructions with the help of Docker file.
+
+6
+00:00:23,000 --> 00:00:27,000
+With a single maven command, we can generate a Docker image very easily.
+
+7
+00:00:27,000 --> 00:00:31,000
+So this buildpacks is developed by Heroku.
+
+8
+00:00:31,000 --> 00:00:35,000
+So initially they started this concept of Buildpacks.
+
+9
+00:00:35,000 --> 00:00:38,000
+Later on both Pivotal and Heroku.
+
+10
+00:00:38,000 --> 00:00:44,000
+They work together and they build a cloud native build packs and with these cloud native build packs,
+
+11
+00:00:44,000 --> 00:00:50,000
+we can generate Docker images very easily because behind the scenes build a pack is going to scan all
+
+12
+00:00:50,000 --> 00:00:56,000
+your source code, it is going to scan your dependencies and accordingly it is going to generate a Docker
+
+13
+00:00:56,000 --> 00:00:57,000
+image.
+
+14
+00:00:57,000 --> 00:01:03,000
+So during the generation of this Docker image, this build packs is going to follow all the standards
+
+15
+00:01:03,000 --> 00:01:09,000
+of Docker in terms of security, in terms of compressing, in terms of caching.
+
+16
+00:01:09,000 --> 00:01:15,000
+So regardless, whatever standard you talk about, Buildpacks is going to take care of everything.
+
+17
+00:01:15,000 --> 00:01:20,000
+And if you want to achieve the same result with the Docker file approach, you need to be a super, super
+
+18
+00:01:20,000 --> 00:01:24,000
+expert at Docker and understanding all the standards of Docker.
+
+19
+00:01:24,000 --> 00:01:30,000
+Since we are the developers and don't want to learn everything about Docker, it will be a wise decision
+
+20
+00:01:30,000 --> 00:01:36,000
+to use Buildpacks instead of Docker file. Because already these build packs is built based upon years
+
+21
+00:01:36,000 --> 00:01:42,000
+of experience at Heroku and Pivotal and they know all the standards that we need to follow while generating
+
+22
+00:01:42,000 --> 00:01:43,000
+a Docker image.
+
+23
+00:01:43,000 --> 00:01:48,000
+We can use this ready to solution instead of reinventing the wheel again and again.
+
+24
+00:01:48,000 --> 00:01:54,000
+So Buildpacks is a framework or an ecosystem or a concept. Based upon this ecosystem,
+
+25
+00:01:54,000 --> 00:01:59,000
+we have Pacchetto Buildpacks that we can use for Java based applications.
+
+26
+00:01:59,000 --> 00:02:06,000
+Apart from Java, it is also going to support many other languages like Go, Graalvm, Python, Ruby,
+
+27
+00:02:07,000 --> 00:02:08,000
+PHP node.
+
+28
+00:02:08,000 --> 00:02:15,000
+So if your microservice or if your web application is written in any of these languages, you can safely
+
+29
+00:02:15,000 --> 00:02:16,000
+use buildpacks.
+
+30
+00:02:16,000 --> 00:02:23,000
+And behind the scenes this buildpacks is going to use these Pacchetto build packs, which is an implementation
+
+31
+00:02:23,000 --> 00:02:24,000
+of Buildpacks ecosystem.
+
+32
+00:02:24,000 --> 00:02:27,000
+I hope you are clear with this quick introduction about Buildpacks.
+
+33
+00:02:27,000 --> 00:02:33,000
+Now let's try to understand how to generate a Docker image with the help of this Buildpacks.
+
+34
+00:02:33,000 --> 00:02:33,000
+For the same,
+
+35
+00:02:33,000 --> 00:02:39,000
+first, let me close all these files of accounts microservice, post that I'm going to go to the loans
+
+36
+00:02:39,000 --> 00:02:45,000
+microservice inside this pom.xml, first I need to make sure just after this version I'm mentioning
+
+37
+00:02:45,000 --> 00:02:47,000
+the packaging as jar.
+
+38
+00:02:47,000 --> 00:02:54,000
+So once we mention this packaging as jar, you need to make sure you have a plugin related to the maven
+
+39
+00:02:54,000 --> 00:03:00,000
+inside your pom.xml. Like you can see whenever we try to generate a spring boot web application from
+
+40
+00:03:00,000 --> 00:03:02,000
+start.spring.io website.
+
+41
+00:03:02,000 --> 00:03:08,000
+By default you will get this plugin which is like Spring boot maven plugin. With the help of this Spring
+
+42
+00:03:08,000 --> 00:03:14,000
+boot Maven plugin. We can generate a Docker image and behind the scenes this Spring Boot Maven plugin
+
+43
+00:03:14,000 --> 00:03:20,000
+is going to leverage Buildpacks and Paquito to generate a production ready Docker image.
+
+44
+00:03:20,000 --> 00:03:25,000
+But in order to generate a Docker image, first we need to provide what is the name that we want to
+
+45
+00:03:25,000 --> 00:03:29,000
+consider for that Docker image that we are going to generate.
+
+46
+00:03:29,000 --> 00:03:35,000
+That's why inside this configurations we need to invoke a tag which is image.
+
+47
+00:03:35,000 --> 00:03:40,000
+So inside this image tag we need to invoke one more tag, which is name.
+
+48
+00:03:40,000 --> 00:03:45,000
+Under this name tag we need to provide what is that Docker image name.
+
+49
+00:03:45,000 --> 00:03:51,000
+The Docker image name that we want to follow is very similar to accounts microservice
+
+50
+00:03:51,000 --> 00:03:56,000
+First, we need to make sure that we are mentioning the Docker username that we have created inside
+
+51
+00:03:56,000 --> 00:03:58,000
+the Docker website.
+
+52
+00:03:58,000 --> 00:04:05,000
+So my username is eazybytes, so please make sure you are mentioning your own Docker username, post that
+
+53
+00:04:05,000 --> 00:04:09,000
+slash followed by what is the name of your application.
+
+54
+00:04:09,000 --> 00:04:11,000
+The name of my application is loans.
+
+55
+00:04:11,000 --> 00:04:15,000
+Again this name can be anything but you need to make sure with the help of this Docker image name,
+
+56
+00:04:15,000 --> 00:04:18,000
+you should be able to identify your microservice.
+
+57
+00:04:18,000 --> 00:04:23,000
+That's why I'm giving this name as loans, which is same as my microservice name.
+
+58
+00:04:23,000 --> 00:04:25,000
+After this, we need to mention colon.
+
+59
+00:04:25,000 --> 00:04:29,000
+And what is the tag name or what is the version name?
+
+60
+00:04:29,000 --> 00:04:34,000
+The tag name that we want to follow here is S4, which indicates section 4, since this image belongs
+
+61
+00:04:34,000 --> 00:04:38,000
+to the section 4, I'm mentioning this S4 here.
+
+62
+00:04:38,000 --> 00:04:43,000
+Now, if you see, instead of hard coding these loans anyway we decided to use the same as microservice
+
+63
+00:04:43,000 --> 00:04:44,000
+name.
+
+64
+00:04:44,000 --> 00:04:50,000
+What we can do is we can try to read this application name with the help of this dollar and curly braces.
+
+65
+00:04:50,000 --> 00:04:58,000
+So inside this I'm going to mention project.artifactId, this project.artifactId we have defined
+
+66
+00:04:58,000 --> 00:04:59,000
+in the top.
+
+67
+00:04:59,000 --> 00:04:59,000
+So the
+
+68
+00:04:59,000 --> 00:05:01,000
+artifactId name is loans.
+
+69
+00:05:01,000 --> 00:05:03,000
+So the same name comes here.
+
+70
+00:05:03,000 --> 00:05:04,000
+This way
+
+71
+00:05:04,000 --> 00:05:08,000
+I'm trying to avoid hardcoding my microservice name.
+
+72
+00:05:08,000 --> 00:05:13,000
+So with this we have mentioned that Docker image name that we want to consider whenever we are trying
+
+73
+00:05:13,000 --> 00:05:16,000
+to generate a Docker image with the help of Buildpacks.
+
+74
+00:05:16,000 --> 00:05:20,000
+So let me save this changes post that I'll go to the terminal.
+
+75
+00:05:20,000 --> 00:05:22,000
+So here, let me clean the console.
+
+76
+00:05:22,000 --> 00:05:29,000
+Right now my terminal is at a location where my pom.xml of loans microservice is available here.
+
+77
+00:05:29,000 --> 00:05:39,000
+I need to issue a maven command and the command is mvn spring-boot:build-image.
+
+78
+00:05:39,000 --> 00:05:47,000
+So with this command we are telling to the maven to generate a docker image of my spring boot microservice
+
+79
+00:05:47,000 --> 00:05:48,000
+by leveraging buildpacks.
+
+80
+00:05:48,000 --> 00:05:51,000
+So behind the scenes it is going to leverage Buildpacks.
+
+81
+00:05:51,000 --> 00:05:57,000
+Let me press enter here and if you are doing this very first time, it is going to take some five minutes
+
+82
+00:05:57,000 --> 00:06:04,000
+because it has to download all the Buildpacks or package related libraries and images inside your local
+
+83
+00:06:04,000 --> 00:06:05,000
+system.
+
+84
+00:06:05,000 --> 00:06:10,000
+You can see right now it is downloading the base image from the paketo buildpacks using this base
+
+85
+00:06:10,000 --> 00:06:13,000
+image only it is going to generate a Docker image.
+
+86
+00:06:13,000 --> 00:06:16,000
+That's why very first time it is going to take some time.
+
+87
+00:06:16,000 --> 00:06:21,000
+But once you have done this from next time onwards, it is going to be quick compared to the very first
+
+88
+00:06:21,000 --> 00:06:22,000
+time.
+
+89
+00:06:22,000 --> 00:06:24,000
+So let's wait for this to complete.
+
+90
+00:06:24,000 --> 00:06:33,000
+Right now it is 36% post at 41% and please make sure while running this mvn command, your Docker
+
+91
+00:06:33,000 --> 00:06:35,000
+server should be running behind the scenes.
+
+92
+00:06:35,000 --> 00:06:40,000
+If you don't have your Docker server is running your Buildpacks can't do anything because at the end
+
+93
+00:06:40,000 --> 00:06:45,000
+of the day, behind the scenes it is going to give instructions to your Docker server to generate a
+
+94
+00:06:45,000 --> 00:06:47,000
+Docker image inside your local system.
+
+95
+00:06:47,000 --> 00:06:53,000
+So you can see it is trying to understand my Java version, which version I'm using inside my pom.xml
+
+96
+00:06:53,000 --> 00:06:57,000
+So inside my pom.xml I have mentioned the Java version as 17.
+
+97
+00:06:57,000 --> 00:07:03,000
+If you can go to the top of this pom.xml, here under this properties we have mentioned the Java version
+
+98
+00:07:03,000 --> 00:07:04,000
+as 17.
+
+99
+00:07:04,000 --> 00:07:10,000
+So based upon all the details and dependencies that we have mentioned inside the pom.xml, it is going
+
+100
+00:07:10,000 --> 00:07:12,000
+to scan for all the dependencies.
+
+101
+00:07:12,000 --> 00:07:17,000
+And by considering all these behind the scenes it is going to generate a Docker image.
+
+102
+00:07:17,000 --> 00:07:23,000
+Finally, after waiting for few more minutes, my Docker image generation of loans microservice got
+
+103
+00:07:23,000 --> 00:07:26,000
+successful with the help of Buildpacks.
+
+104
+00:07:26,000 --> 00:07:31,000
+You can see a Docker image is built with this image name.
+
+105
+00:07:31,000 --> 00:07:36,000
+Now I can try to clean this console and run the docker images command.
+
+106
+00:07:36,000 --> 00:07:43,000
+So here I'm trying to run the same and this time you can see there is also a loans image with the tag S4
+
+107
+00:07:43,000 --> 00:07:51,000
+and the size is 311 MB. If you see for accounts microservice, we have used the Docker file and
+
+108
+00:07:51,000 --> 00:07:57,000
+the size of the accounts Docker image is 456 MB because we don't know how to follow the best standards,
+
+109
+00:07:57,000 --> 00:08:03,000
+how to cache multiple layers, how to compress our multiple components inside Docker image.
+
+110
+00:08:03,000 --> 00:08:08,000
+We don't know about all those standards and the Docker concept, but with the help of Buildpacks, you
+
+111
+00:08:08,000 --> 00:08:14,000
+can see there is a lot of improvement in terms of the size of our Docker image.
+
+112
+00:08:14,000 --> 00:08:18,000
+It reduced from 456 MB to 311 MB.
+
+113
+00:08:18,000 --> 00:08:23,000
+So this is one of the great advantage if you use the products like Buildpacks, you can also see there
+
+114
+00:08:23,000 --> 00:08:26,000
+is a paketo Buildpacks Docker image downloaded.
+
+115
+00:08:26,000 --> 00:08:33,000
+So this image is going to do all the work of generating a Docker image for your spring boot microservice.
+
+116
+00:08:33,000 --> 00:08:35,000
+And this is of 1.31 GB.
+
+117
+00:08:35,000 --> 00:08:41,000
+So this is a very heavy image and of course you don't have to take this into your deployment.
+
+118
+00:08:41,000 --> 00:08:44,000
+You just need only the loans Docker image.
+
+119
+00:08:44,000 --> 00:08:49,000
+Now I can try to run my loans Docker image as a container. For the same,
+
+120
+00:08:49,000 --> 00:08:54,000
+the command is very similar if you go to the previous commands that we have executed.
+
+121
+00:08:54,000 --> 00:09:00,000
+So this is the one which we have executed docker run -d -p and the loans microservice is going
+
+122
+00:09:00,000 --> 00:09:03,000
+to start at the port 8090.
+
+123
+00:09:03,000 --> 00:09:09,000
+First, I need to make sure I'm mentioning the same and I will try to expose at the same port which
+
+124
+00:09:09,000 --> 00:09:18,000
+is 8090 and the Docker image name of loans is eazybytes/loans and the tag name is S4 only.
+
+125
+00:09:18,000 --> 00:09:20,000
+So we should be good with that.
+
+126
+00:09:20,000 --> 00:09:26,000
+Now, if I try to execute this command, a Docker container will get created behind the scenes.
+
+127
+00:09:26,000 --> 00:09:27,000
+You may see this warning,
+
+128
+00:09:27,000 --> 00:09:29,000
+don't worry, you can simply ignore that.
+
+129
+00:09:29,000 --> 00:09:35,000
+Now if you can go to the Docker desktop first, under the images, you should be able to see the new
+
+130
+00:09:35,000 --> 00:09:38,000
+image that got generated, which is eazybytes/loans.
+
+131
+00:09:38,000 --> 00:09:43,000
+And very similarly, if we can go to the containers, you can see there is a running container of loans.
+
+132
+00:09:43,000 --> 00:09:49,000
+If you can click on this container name, you should be able to see all the logs and you can see your
+
+133
+00:09:49,000 --> 00:09:49,000
+loans
+
+134
+00:09:49,000 --> 00:09:52,000
+microservice started at the port 1890.
+
+135
+00:09:52,000 --> 00:09:58,000
+I can also confirm the same by invoking a REST API against loans microservice with the help of postman.
+
+136
+00:09:58,000 --> 00:09:59,000
+So here you can see,
+
+137
+00:09:59,000 --> 00:10:04,000
+I'm trying to send a request for my create loan with the help of this mobile number.
+
+138
+00:10:04,000 --> 00:10:08,000
+As soon as I click send, you should be able to get a response.
+
+139
+00:10:08,000 --> 00:10:10,000
+So I'm getting a successful response here.
+
+140
+00:10:10,000 --> 00:10:17,000
+So this confirms we have a proper running container of loans microservice that built with the help of
+
+141
+00:10:17,000 --> 00:10:18,000
+Buildpacks concept.
+
+142
+00:10:18,000 --> 00:10:23,000
+So let's try to revise the steps very quickly that we followed inside this Buildpacks approach.
+
+143
+00:10:23,000 --> 00:10:29,000
+The very first step that we need to follow while building a Docker image with the help of Buildpacks
+
+144
+00:10:29,000 --> 00:10:36,000
+is, we need to add the image name details inside your pom.xml like you can see on the right hand side.
+
+145
+00:10:36,000 --> 00:10:37,000
+Along with the image name,
+
+146
+00:10:37,000 --> 00:10:43,000
+please make sure you also have the Spring boot Maven plugin configured inside your pom.xml.
+
+147
+00:10:43,000 --> 00:10:46,000
+This comes by default inside your spring boot web application.
+
+148
+00:10:46,000 --> 00:10:52,000
+If you don't have, please mention that by referring to the code present inside the GitHub repo.
+
+149
+00:10:52,000 --> 00:10:57,000
+Post that we need to run a mvn command which is mvn spring boot build image.
+
+150
+00:10:57,000 --> 00:11:03,000
+So when you try to run this command behind the scenes, your spring boot Maven plugin is going to utilize
+
+151
+00:11:03,000 --> 00:11:07,000
+Buildpacks to generate a Docker image without the need of Docker file.
+
+152
+00:11:07,000 --> 00:11:13,000
+Once you generate a Docker image, you can run this Docker image as a Docker container by using the
+
+153
+00:11:13,000 --> 00:11:18,000
+command which is Docker run along with the port mapping and your Docker image name.
+
+154
+00:11:18,000 --> 00:11:21,000
+So these are the steps that we need to follow.
+
+155
+00:11:21,000 --> 00:11:26,000
+So I have mentioned this inside this slide so that in future you can always refer them and you can always
+
+156
+00:11:26,000 --> 00:11:29,000
+try to brush up the concepts that we have discussed.
+
+157
+00:11:29,000 --> 00:11:31,000
+So on a high level, what is Buildpacks?
+
+158
+00:11:31,000 --> 00:11:35,000
+Buildpacks offers alternative approach to Docker files.
+
+159
+00:11:35,000 --> 00:11:41,000
+So without writing the Docker files this Buildpacks, it is going to help developers to automatically
+
+160
+00:11:41,000 --> 00:11:46,000
+generate production ready Docker images from their application source code.
+
+161
+00:11:46,000 --> 00:11:51,000
+And while generating these Docker images, these Buildpacks is going to follow all the production standards
+
+162
+00:11:51,000 --> 00:11:54,000
+like security, caching, performance, compressing.
+
+163
+00:11:54,000 --> 00:11:59,000
+So that's why this approach is better than Docker file approach.
+
+164
+00:11:59,000 --> 00:12:03,000
+With this, I'm assuming your super clear about Buildpacks in the next lecture,
+
+165
+00:12:03,000 --> 00:12:07,000
+let's try to explore the last approach that we have, which is Google Jib.
+
+166
+00:12:07,000 --> 00:12:10,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,872 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let me show you how to run a Docker container from your Docker image.
+
+2
+00:00:06,000 --> 00:00:12,000
+As of now, like you can see, we have these accounts microservice, Docker image inside our local
+
+3
+00:00:12,000 --> 00:00:12,000
+system.
+
+4
+00:00:12,000 --> 00:00:16,000
+We build this Docker image with the help of Docker Build command.
+
+5
+00:00:16,000 --> 00:00:22,000
+Very similarly, using Docker run command, we can run a container from our Docker image.
+
+6
+00:00:22,000 --> 00:00:26,000
+So this Docker run command is similar to new Operator inside Java.
+
+7
+00:00:26,000 --> 00:00:32,000
+Just like with the help of new operator, we can create any number of instances or objects of our class.
+
+8
+00:00:32,000 --> 00:00:39,000
+Very similarly, with the help of this Docker run command, we can create any number of containers from
+
+9
+00:00:39,000 --> 00:00:40,000
+our Docker image.
+
+10
+00:00:40,000 --> 00:00:47,000
+After giving this Docker run command, we need to give  -p, p indicates port with the help of this
+
+11
+00:00:47,000 --> 00:00:50,000
+port, we need to provide a port mapping.
+
+12
+00:00:50,000 --> 00:00:55,000
+Like I said before, by default, all your Docker containers, they are going to start inside their
+
+13
+00:00:55,000 --> 00:01:02,000
+own isolated network and we can't access the services inside your Docker network because since it is
+
+14
+00:01:02,000 --> 00:01:04,000
+deployed inside its own private network.
+
+15
+00:01:04,000 --> 00:01:11,000
+So that's why not to get them access from the external network, like from your local system or from
+
+16
+00:01:11,000 --> 00:01:16,000
+any other system, you need to expose them explicitly with the help of this port mapping.
+
+17
+00:01:16,000 --> 00:01:22,000
+That's why here I'm going to give a port mapping, which is 8080 with the 8080. With this,
+
+18
+00:01:22,000 --> 00:01:28,000
+what I'm telling to my Docker server is my Docker container is going to start at a port 8080.
+
+19
+00:01:28,000 --> 00:01:32,000
+Like, you know, our accounts microservice is going to start at the port 8080.
+
+20
+00:01:32,000 --> 00:01:38,000
+That's why we need to mention the port at which the container is going to start with the help of the
+
+21
+00:01:38,000 --> 00:01:39,000
+second port.
+
+22
+00:01:39,000 --> 00:01:45,000
+Whereas with this first port mapping, which is 8080 like I highlighted with that, we are telling to
+
+23
+00:01:45,000 --> 00:01:52,000
+the docker, please expose the container to the outside of the Docker network at the port 8080.
+
+24
+00:01:52,000 --> 00:01:58,000
+So anyone who wants to communicate with this container from outside of the Docker network, they have
+
+25
+00:01:58,000 --> 00:02:00,000
+to use a port which is 8080.
+
+26
+00:02:00,000 --> 00:02:05,000
+So here, just to avoid confusion, I'm using the same port number like where the Docker container is
+
+27
+00:02:05,000 --> 00:02:06,000
+going to start.
+
+28
+00:02:06,000 --> 00:02:11,000
+So once we provide these port mapping, we need to provide what is a Docker image name.
+
+29
+00:02:11,000 --> 00:02:13,000
+So from which Docker image name,
+
+30
+00:02:13,000 --> 00:02:15,000
+we want to create a Docker container.
+
+31
+00:02:15,000 --> 00:02:20,000
+So the Docker image is eazybytes/accounts:S4.
+
+32
+00:02:21,000 --> 00:02:25,000
+So this is a complete Docker image name.
+
+33
+00:02:25,000 --> 00:02:31,000
+So as soon as I try to execute this command, you can see my Docker container is being started, which
+
+34
+00:02:31,000 --> 00:02:38,000
+means my accounts microservice behind the scenes is getting started at the port 8080 and with this
+
+35
+00:02:38,000 --> 00:02:43,000
+we are able to successfully start our Docker image as a Docker container.
+
+36
+00:02:43,000 --> 00:02:46,000
+I can also go to the postman and try to validate this container,
+
+37
+00:02:46,000 --> 00:02:49,000
+here I'm trying to invoke this create API.
+
+38
+00:02:49,000 --> 00:02:50,000
+I'm just clicking on the send button.
+
+39
+00:02:50,000 --> 00:02:54,000
+You can see I'm getting a successful response.
+
+40
+00:02:54,000 --> 00:03:00,000
+Now you can see the Docker container is running and I will not be able to run any other Docker command or
+
+41
+00:03:00,000 --> 00:03:02,000
+any other command inside my terminal.
+
+42
+00:03:02,000 --> 00:03:05,000
+So this kind of a inconvenience to the developers.
+
+43
+00:03:05,000 --> 00:03:11,000
+That's why we can start the container in a detached mode for the same first, let me try to kill this
+
+44
+00:03:11,000 --> 00:03:14,000
+container or stop this container by pressing Ctrl C.
+
+45
+00:03:14,000 --> 00:03:17,000
+So with that, my container right now it is stopped.
+
+46
+00:03:17,000 --> 00:03:20,000
+So let me clean the console.
+
+47
+00:03:20,000 --> 00:03:25,000
+After this I need to execute the same command which is docker run-p 8080:8080.
+
+48
+00:03:25,000 --> 00:03:28,000
+And what is the Docker image name. Inside this command?
+
+49
+00:03:28,000 --> 00:03:33,000
+Just after the run I'm going to give a new flag which is -d.
+
+50
+00:03:33,000 --> 00:03:35,000
+This d indicates detached mode.
+
+51
+00:03:35,000 --> 00:03:42,000
+So I'm telling to my Docker server to run the container behind the scenes in a detached mode and I don't
+
+52
+00:03:42,000 --> 00:03:44,000
+want to see any logs inside my terminal.
+
+53
+00:03:44,000 --> 00:03:50,000
+So as soon as I execute this command you can see a container ID is displayed like this is the container
+
+54
+00:03:50,000 --> 00:03:52,000
+ID behind the scenes it is running.
+
+55
+00:03:52,000 --> 00:03:59,000
+And now I can also run any other Docker commands inside my terminal. So we can also see all the existing
+
+56
+00:03:59,000 --> 00:04:02,000
+running containers with the help of docker ps.
+
+57
+00:04:02,000 --> 00:04:08,000
+So if I try to run this docker ps, you will see what are the existing containers that are right
+
+58
+00:04:08,000 --> 00:04:10,000
+now running inside my system.
+
+59
+00:04:10,000 --> 00:04:15,000
+So this is the image, this is the container ID, this is the command that it has used to run as a container.
+
+60
+00:04:15,000 --> 00:04:19,000
+It is created 23 seconds ago and this is a port mapping.
+
+61
+00:04:19,000 --> 00:04:24,000
+You can also validate all the running containers inside your Docker desktop. Inside your Docker desktop,
+
+62
+00:04:24,000 --> 00:04:30,000
+if you go to the containers here, you can see right now my Docker container of eazybytes accounts
+
+63
+00:04:30,000 --> 00:04:32,000
+is in running status.
+
+64
+00:04:32,000 --> 00:04:38,000
+I can also stop this running container from my Docker desktop by clicking on the stop button.
+
+65
+00:04:38,000 --> 00:04:43,000
+Right now if I go and execute the docker ps command, you will not be able to see this container under the list
+
+66
+00:04:43,000 --> 00:04:44,000
+of running containers.
+
+67
+00:04:44,000 --> 00:04:46,000
+So let me run the docker ps command.
+
+68
+00:04:46,000 --> 00:04:48,000
+You can see right now it is empty.
+
+69
+00:04:48,000 --> 00:04:53,000
+If you have a scenario where you want to see all the stopped containers, you can see them inside the
+
+70
+00:04:53,000 --> 00:04:59,000
+Docker desktop or you can also see inside your terminal by running a command docker ps -a.
+
+71
+00:05:00,000 --> 00:05:06,000
+So with this, it is going to display all type of containers that right now are in stopped status.
+
+72
+00:05:06,000 --> 00:05:11,000
+So you can see these are all the containers right now inside my system that are in stopped status.
+
+73
+00:05:11,000 --> 00:05:12,000
+I hope this is clear.
+
+74
+00:05:12,000 --> 00:05:20,000
+Now, if I try to issue the same command, which is docker  run -d -p  8080:8080 eazybytes/accounts:S4.
+
+75
+00:05:20,000 --> 00:05:26,000
+It is going to start a container again from the Docker image.
+
+76
+00:05:26,000 --> 00:05:31,000
+Now if I try to run the docker ps command, you'll be able to see a container right now in a running
+
+77
+00:05:31,000 --> 00:05:32,000
+status.
+
+78
+00:05:32,000 --> 00:05:38,000
+So now if I go to my Docker desktop, you can see right now the Docker container is in running status.
+
+79
+00:05:38,000 --> 00:05:45,000
+You can also have a filter here which you can select that will show you only the running containers.
+
+80
+00:05:45,000 --> 00:05:50,000
+So now if we try to click on this running container, like this is the random name that is given to
+
+81
+00:05:50,000 --> 00:05:53,000
+your container by your Docker server.
+
+82
+00:05:53,000 --> 00:05:57,000
+So if you try to click on this, you'll be able to see the logs of your container.
+
+83
+00:05:57,000 --> 00:06:00,000
+Like these are all the spring boot startup logs.
+
+84
+00:06:00,000 --> 00:06:05,000
+And if you try to invoke your rest APIs and if they generate any logs, you can see them here.
+
+85
+00:06:05,000 --> 00:06:10,000
+And of you try to inspect, you will be able to see details about your container.
+
+86
+00:06:10,000 --> 00:06:14,000
+What is the JAVA_VERSION, what is the JAVA_HOME and what is the port where it is being started?
+
+87
+00:06:14,000 --> 00:06:19,000
+And similarly, if you go to files, you'll be able to see all the files inside your Docker image.
+
+88
+00:06:19,000 --> 00:06:24,000
+You can see we copied the account jar into the root location of our Docker image.
+
+89
+00:06:24,000 --> 00:06:28,000
+That's why you can see these accounts are inside the root location of our Docker image.
+
+90
+00:06:28,000 --> 00:06:34,000
+And similarly, if you go and check inside the inspect, the JAVA_HOME path is user local openjdk.
+
+91
+00:06:34,000 --> 00:06:42,000
+You can also validate the same by going to the files and click on user post that you can look for local
+
+92
+00:06:42,000 --> 00:06:46,000
+inside which the openjdk related libraries are available.
+
+93
+00:06:46,000 --> 00:06:52,000
+This way you can always inspect the files inside your Docker image from your Docker desktop itself.
+
+94
+00:06:52,000 --> 00:06:58,000
+Like under the logs, you can always see the logs and at the same time you can also click on these statistics
+
+95
+00:06:58,000 --> 00:07:04,000
+which will show the CPU usage memory usage and other related resource usages from your container.
+
+96
+00:07:04,000 --> 00:07:06,000
+And at last there is a terminal
+
+97
+00:07:06,000 --> 00:07:11,000
+also, when you click on this terminal, you are actually inside the Docker running container.
+
+98
+00:07:11,000 --> 00:07:17,000
+So if I try to run a present working directory, you can see right now I'm at the root location.
+
+99
+00:07:17,000 --> 00:07:22,000
+This way, whenever you want to run some commands inside your running container, you can always come
+
+100
+00:07:22,000 --> 00:07:25,000
+to this terminal and execute some commands.
+
+101
+00:07:25,000 --> 00:07:29,000
+I hope you are clear with all these steps that we have under the containers.
+
+102
+00:07:29,000 --> 00:07:34,000
+So let's go back to the containers under the Docker desktop and flip this filter.
+
+103
+00:07:34,000 --> 00:07:38,000
+With that, we'll be able to see all other containers inside your system.
+
+104
+00:07:38,000 --> 00:07:43,000
+You can also see here there are other containers of the same image, which means whenever I tried to
+
+105
+00:07:43,000 --> 00:07:50,000
+create a container with the help of Docker image and the Docker run command, a new container is going
+
+106
+00:07:50,000 --> 00:07:51,000
+to be created.
+
+107
+00:07:51,000 --> 00:07:55,000
+If you don't want that, you can also start the existing containers.
+
+108
+00:07:55,000 --> 00:07:59,000
+So for that, let me try to stop this container.
+
+109
+00:07:59,000 --> 00:08:05,000
+So I'm just clicking on the stop button and I'm also copying this container ID, So now you can come
+
+110
+00:08:05,000 --> 00:08:06,000
+to the terminal.
+
+111
+00:08:06,000 --> 00:08:11,000
+And here if I try to execute docker ps, it will not display any running containers because there
+
+112
+00:08:11,000 --> 00:08:13,000
+are no running containers.
+
+113
+00:08:13,000 --> 00:08:18,000
+So now I can also run a command which is docker start and what is the container ID?
+
+114
+00:08:18,000 --> 00:08:20,000
+So this is my container ID if needed.
+
+115
+00:08:20,000 --> 00:08:24,000
+You can also give first four digits or first four characters as well.
+
+116
+00:08:24,000 --> 00:08:30,000
+So as soon as I run this command, you should be able to see that existing container might have started.
+
+117
+00:08:30,000 --> 00:08:34,000
+So you can see right now the status converted into running status.
+
+118
+00:08:34,000 --> 00:08:39,000
+So very similarly, you can also issue docker stop and what is the container ID?
+
+119
+00:08:39,000 --> 00:08:42,000
+And with that your container is going to be stopped.
+
+120
+00:08:42,000 --> 00:08:47,000
+We can also validate by running the docker ps command and there are no running containers.
+
+121
+00:08:47,000 --> 00:08:53,000
+Now what I'm going to do is first I'll try to delete all my existing containers off accounts.
+
+122
+00:08:53,000 --> 00:08:56,000
+For the same inside my Docker desktop.
+
+123
+00:08:56,000 --> 00:09:01,000
+I'm going to select all the containers related to the accounts image and clicking on this delete button.
+
+124
+00:09:01,000 --> 00:09:05,000
+Now I'm going to create the containers again.
+
+125
+00:09:05,000 --> 00:09:09,000
+For the same I'm going to run a command docker run -d -p 8080:8080.
+
+126
+00:09:09,000 --> 00:09:12,000
+eazybytes/accountsS4.
+
+127
+00:09:12,000 --> 00:09:17,000
+So if I try to run this command, a new container is created that you already aware.
+
+128
+00:09:17,000 --> 00:09:24,000
+Very similarly, I can also create any number of containers so I can try to run the same command again.
+
+129
+00:09:24,000 --> 00:09:30,000
+But please make sure you are giving a different port number which is 8081.
+
+130
+00:09:31,000 --> 00:09:37,000
+The reason why we can't give the same port number is we already started and exposed a container at the
+
+131
+00:09:37,000 --> 00:09:43,000
+port 8080 inside your system and we can't reuse the same busy port inside your system.
+
+132
+00:09:43,000 --> 00:09:47,000
+That's why we need to mention a new port number like 8081.
+
+133
+00:09:47,000 --> 00:09:51,000
+And here you may have a question like then why you are not changing the second port number inside the
+
+134
+00:09:51,000 --> 00:09:52,000
+command.
+
+135
+00:09:52,000 --> 00:09:56,000
+Like I said, the second port number inside the command indicates the port number where your container
+
+136
+00:09:56,000 --> 00:09:59,000
+is going to start inside the Docker network.
+
+137
+00:09:59,000 --> 00:09:59,000
+So this container 
+
+138
+00:10:00,000 --> 00:10:05,000
+and the second container will have their own isolated network, which means they can use the same port
+
+139
+00:10:05,000 --> 00:10:08,000
+numbers and it will not create any issues.
+
+140
+00:10:08,000 --> 00:10:16,000
+Whereas this port like 8080 and 8081, it is going to be exposed into your local system, your
+
+141
+00:10:16,000 --> 00:10:16,000
+local system.
+
+142
+00:10:16,000 --> 00:10:21,000
+Everything is the same network and that's why you can't reuse the same port number.
+
+143
+00:10:21,000 --> 00:10:27,000
+So now if I try to execute this command, a different container is going to start.
+
+144
+00:10:27,000 --> 00:10:29,000
+Let me run the docker ps command.
+
+145
+00:10:29,000 --> 00:10:35,000
+Now you can see there are two running containers with the port mapping 8080:8080 and 8081
+
+146
+00:10:35,000 --> 00:10:36,000
+and 8080.
+
+147
+00:10:36,000 --> 00:10:39,000
+The same can be confirmed inside the Docker desktop.
+
+148
+00:10:39,000 --> 00:10:41,000
+So you can see there are two running containers.
+
+149
+00:10:41,000 --> 00:10:46,000
+Now, I can also validate these containers by invoking few REST APIs.
+
+150
+00:10:46,000 --> 00:10:52,000
+So here first I'm trying to test my container one, which is exposed at 8080.
+
+151
+00:10:52,000 --> 00:10:54,000
+So let me invoke this.
+
+152
+00:10:54,000 --> 00:11:01,000
+Similarly, I can also test my second container, which is exposed at 8081, so I'm also validating
+
+153
+00:11:01,000 --> 00:11:02,000
+the same.
+
+154
+00:11:02,000 --> 00:11:05,000
+So this way we can create any number of containers.
+
+155
+00:11:05,000 --> 00:11:12,000
+And I'm assuming you also understand how this is going to solve our deployment portability and scalability
+
+156
+00:11:12,000 --> 00:11:13,000
+issues.
+
+157
+00:11:13,000 --> 00:11:17,000
+You can see how easily I'm able to scale the application from one instance to two instance.
+
+158
+00:11:17,000 --> 00:11:22,000
+Very similarly, I can create any number of instances and coming to the portability, the same Docker
+
+159
+00:11:22,000 --> 00:11:29,000
+image can be taken by anyone as long as they have the docker installed inside the system, they are
+
+160
+00:11:29,000 --> 00:11:34,000
+good and the same application is going to work very similarly like it did inside my local system.
+
+161
+00:11:34,000 --> 00:11:40,000
+And with this Docker image, they don't have to install any JDK, they don't have to download any spring
+
+162
+00:11:40,000 --> 00:11:42,000
+boot, they don't have to download any maven.
+
+163
+00:11:42,000 --> 00:11:45,000
+All the setup is already included inside your Docker image.
+
+164
+00:11:45,000 --> 00:11:51,000
+You just have to run the Docker run command and do a port mapping and provide your Docker image name.
+
+165
+00:11:51,000 --> 00:11:55,000
+With that, the portability issue also resolved and coming to the deployment.
+
+166
+00:11:55,000 --> 00:12:00,000
+Like I said, the same Docker image you can deploy inside your local system, inside a virtual machine,
+
+167
+00:12:00,000 --> 00:12:05,000
+inside a cloud server, wherever you are trying to deploy, the command is going to be the same.
+
+168
+00:12:05,000 --> 00:12:09,000
+The Docker image is going to same, nothing is going to change.
+
+169
+00:12:09,000 --> 00:12:14,000
+And this will make very easy in terms of deployment whenever you are trying to move your microservice
+
+170
+00:12:14,000 --> 00:12:17,000
+from one environment to other environment.
+
+171
+00:12:17,000 --> 00:12:21,000
+Now, quickly, let me explain you how port mapping works inside Docker.
+
+172
+00:12:21,000 --> 00:12:23,000
+I already explained it.
+
+173
+00:12:23,000 --> 00:12:28,000
+I know you may have some confusion as some questions, so let's try to formally discuss about them.
+
+174
+00:12:28,000 --> 00:12:33,000
+If you see here, the very first question is what is port mapping or port forwarding or port publishing?
+
+175
+00:12:33,000 --> 00:12:37,000
+We can also call the port mapping as port forwarding and port publishing.
+
+176
+00:12:37,000 --> 00:12:43,000
+So what is this concept is by default, the containers are connected to an isolated network within the
+
+177
+00:12:43,000 --> 00:12:49,000
+Docker host, to access a container from your local network or from your local system.
+
+178
+00:12:49,000 --> 00:12:52,000
+You need to configure this port mapping explicitly.
+
+179
+00:12:52,000 --> 00:12:58,000
+And I have also given an example where my accounts microservice is running inside a Docker network
+
+180
+00:12:58,000 --> 00:13:00,000
+as a Docker container at the port 8080.
+
+181
+00:13:00,000 --> 00:13:07,000
+If I want to expose that to the outside world with the Port 8081, I need to use this -p 8081:8080.
+
+182
+00:13:07,000 --> 00:13:09,000
+.
+
+183
+00:13:09,000 --> 00:13:16,000
+Always remember the very first port number indicates the value where you want to expose to the external
+
+184
+00:13:16,000 --> 00:13:19,000
+local system or external network.
+
+185
+00:13:19,000 --> 00:13:23,000
+And the second value represents the container port where your container started.
+
+186
+00:13:23,000 --> 00:13:26,000
+I can also show you this in a diagram.
+
+187
+00:13:26,000 --> 00:13:32,000
+First, as soon as the container started, it is going to start inside a Docker network Like you can
+
+188
+00:13:32,000 --> 00:13:36,000
+see the accounts microservice container started at a port 8080.
+
+189
+00:13:36,000 --> 00:13:39,000
+This I cannot access from my outside Docker network.
+
+190
+00:13:40,000 --> 00:13:45,000
+That's why we need to expose this Docker container to the outside world with the help of port mapping.
+
+191
+00:13:45,000 --> 00:13:51,000
+And with that I should be able to access my account microservice, which is deployed inside a Docker
+
+192
+00:13:51,000 --> 00:13:54,000
+network from my local network.
+
+193
+00:13:54,000 --> 00:13:59,000
+So anyone who wants to communicate with my accounts, microservice container, they need to send a
+
+194
+00:13:59,000 --> 00:14:02,000
+traffic request at the port 8081.
+
+195
+00:14:02,000 --> 00:14:07,000
+So this is how port mapping or port forwarding or port publishing will work.
+
+196
+00:14:07,000 --> 00:14:08,000
+I hope you are clear.
+
+197
+00:14:08,000 --> 00:14:14,000
+So these are all the concepts on how to convert your Docker image to your Docker container.
+
+198
+00:14:14,000 --> 00:14:19,000
+So for the accounts microservice, we have followed the very first approach, which is with the help
+
+199
+00:14:19,000 --> 00:14:20,000
+of Docker files.
+
+200
+00:14:20,000 --> 00:14:24,000
+So let me try to revise the list of steps that we have followed very quickly.
+
+201
+00:14:24,000 --> 00:14:29,000
+So in order to run a spring boot application as a container using Docker file, you need to follow the
+
+202
+00:14:29,000 --> 00:14:30,000
+following steps.
+
+203
+00:14:30,000 --> 00:14:36,000
+The very first one is you need to run a Maven command, which is mvn clean install from the location
+
+204
+00:14:36,000 --> 00:14:43,000
+where pom.xml is present and this will generate a fat jar of your application inside the target folder
+
+205
+00:14:43,000 --> 00:14:47,000
+post that you need to define a Docker file.
+
+206
+00:14:47,000 --> 00:14:52,000
+Once the Docker file is created with the set of instructions on the right hand side, you can generate
+
+207
+00:14:52,000 --> 00:14:58,000
+a Docker image for your application by running a docker build command along with what is a tag name
+
+208
+00:14:58,000 --> 00:14:59,000
+that you want to use for
+
+209
+00:15:00,000 --> 00:15:01,000
+your Docker image. For example
+
+210
+00:15:01,000 --> 00:15:03,000
+eazybytes/accounts:S4.
+
+211
+00:15:03,000 --> 00:15:09,000
+is a complete Docker image name that I should provide inside the docker build command.
+
+212
+00:15:09,000 --> 00:15:14,000
+And once the Docker image is generated, the very next step is to create a container from the Docker
+
+213
+00:15:14,000 --> 00:15:15,000
+image.
+
+214
+00:15:15,000 --> 00:15:20,000
+For the same, I need to run the Docker run command and to this Docker run command
+
+215
+00:15:20,000 --> 00:15:26,000
+I should pass the what is a port forwarding requirements that I have along with the Docker image name.
+
+216
+00:15:26,000 --> 00:15:31,000
+With that, I should be able to have a running container inside my local system.
+
+217
+00:15:31,000 --> 00:15:33,000
+I hope this is clear and you are with me.
+
+218
+00:15:33,000 --> 00:15:36,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,344 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+Let's try to learn how to start all our microservices with the Docker compose command.
+
+3
+00:00:06,000 --> 00:00:10,000
+As of now, you can see I am into my cards microservice.
+
+4
+00:00:10,000 --> 00:00:12,000
+So this is my present working directory.
+
+5
+00:00:12,000 --> 00:00:15,000
+And inside this folder there is no Docker compose file.
+
+6
+00:00:15,000 --> 00:00:24,000
+If I try to give a command which is Docker space, compose space up, which is up with this docker compose
+
+7
+00:00:24,000 --> 00:00:30,000
+up, we should be able to start all our microservices that we have defined inside our docker compose
+
+8
+00:00:30,000 --> 00:00:30,000
+Yaml file.
+
+9
+00:00:30,000 --> 00:00:34,000
+But the problem right now we may face is inside folder.
+
+10
+00:00:34,000 --> 00:00:35,000
+We don't have this Yaml file.
+
+11
+00:00:35,000 --> 00:00:37,000
+Let's see what error it is going to throw.
+
+12
+00:00:37,000 --> 00:00:43,000
+So if I try to execute here you can see no configuration file provided, not found.
+
+13
+00:00:43,000 --> 00:00:43,000
+That's why
+
+14
+00:00:44,000 --> 00:00:46,000
+please make sure you are running this docker
+
+15
+00:00:46,000 --> 00:00:48,000
+compose up command from the location where you are.
+
+16
+00:00:48,000 --> 00:00:55,000
+docker compose Yaml file is present. So let me go back to the accounts folder and inside this folder
+
+17
+00:00:55,000 --> 00:00:58,000
+we know that Docker compose Yaml file is available.
+
+18
+00:00:58,000 --> 00:01:01,000
+I can also confirm the same by running the command list.
+
+19
+00:01:01,000 --> 00:01:04,000
+You can see there is an docker compose Yaml file.
+
+20
+00:01:04,000 --> 00:01:07,000
+Now I'm going to run the docker compose up command.
+
+21
+00:01:07,000 --> 00:01:13,000
+If I try to run this command, all my containers are going to start and the same log is going to be
+
+22
+00:01:13,000 --> 00:01:14,000
+displayed inside my terminal.
+
+23
+00:01:14,000 --> 00:01:20,000
+I don't want to keep my terminal busy, so that's why I'm going to start this in a detached mode.
+
+24
+00:01:20,000 --> 00:01:25,000
+-d will start all your containers behind the scenes, so let me try to execute this command.
+
+25
+00:01:25,000 --> 00:01:32,000
+You can see behind the scenes it is trying to start my containers and right now my terminal is also
+
+26
+00:01:32,000 --> 00:01:32,000
+free.
+
+27
+00:01:32,000 --> 00:01:37,000
+So let me clear the console and try to run the command, which is docker ps.
+
+28
+00:01:37,000 --> 00:01:44,000
+So with the single command, I'm able to start three different microservice that are running at the
+
+29
+00:01:44,000 --> 00:01:44,000
+port 8080:8090,
+
+30
+00:01:44,000 --> 00:01:47,000
+9000.
+
+31
+00:01:47,000 --> 00:01:50,000
+These are the container names that we have created.
+
+32
+00:01:50,000 --> 00:01:53,000
+We can also confirm the same inside the Docker desktop.
+
+33
+00:01:53,000 --> 00:01:59,000
+So under the containers you can see since I'm trying to run my docker compose command from the accounts
+
+34
+00:01:59,000 --> 00:02:02,000
+folder, the parent folder will come here.
+
+35
+00:02:02,000 --> 00:02:07,000
+So under this accounts folder we have three different microservices are running.
+
+36
+00:02:07,000 --> 00:02:12,000
+One is loans microservice, and the third one is cards microservice for accounts microservice you
+
+37
+00:02:12,000 --> 00:02:16,000
+may have question like why it is showing only ms but not accounts -ms.
+
+38
+00:02:16,000 --> 00:02:18,000
+The accounts is already present here.
+
+39
+00:02:18,000 --> 00:02:22,000
+That's why it is not showing accounts-ms again here.
+
+40
+00:02:22,000 --> 00:02:26,000
+I think it's a kind of bug inside the Docker desktop, but that's fine.
+
+41
+00:02:26,000 --> 00:02:31,000
+Inside our CLI, we are able to see the container name properly.
+
+42
+00:02:31,000 --> 00:02:34,000
+You can see all these three containers are running properly.
+
+43
+00:02:34,000 --> 00:02:36,000
+Now I can try to test them.
+
+44
+00:02:36,000 --> 00:02:42,000
+Frist I'm trying to create an account, but please make sure the port number is 8080 because we configured
+
+45
+00:02:42,000 --> 00:02:44,000
+the port mapping as 8080.
+
+46
+00:02:44,000 --> 00:02:48,000
+So let me click on the send button and you can see I'm getting a successful response.
+
+47
+00:02:48,000 --> 00:02:50,000
+Now I'll go to the create loan.
+
+48
+00:02:50,000 --> 00:02:54,000
+I will click on the send button and you will get a successful response.
+
+49
+00:02:54,000 --> 00:02:56,000
+Let me do the same for Create Card.
+
+50
+00:02:56,000 --> 00:02:59,000
+And here also I'm getting a successful response.
+
+51
+00:02:59,000 --> 00:03:03,000
+So this confirms all our containers are started successfully with a single command.
+
+52
+00:03:03,000 --> 00:03:08,000
+How about stopping all of them with a single command again. For the same, it's going to be super, super
+
+53
+00:03:08,000 --> 00:03:09,000
+easy.
+
+54
+00:03:09,000 --> 00:03:12,000
+Just like how we have docker compose up.
+
+55
+00:03:12,000 --> 00:03:14,000
+You can also use docker compose down.
+
+56
+00:03:14,000 --> 00:03:20,000
+So let me run this command docker compose down -d. I think for Docker compose down,
+
+57
+00:03:20,000 --> 00:03:26,000
+we can't use this -d. So let me try to execute docker compose down alone and that will stop all
+
+58
+00:03:26,000 --> 00:03:27,000
+my containers.
+
+59
+00:03:27,000 --> 00:03:30,000
+You can see those are getting removed.
+
+60
+00:03:30,000 --> 00:03:32,000
+Now I'll go to my Docker desktop.
+
+61
+00:03:32,000 --> 00:03:37,000
+You can see now my containers are no more there and all the containers are deleted.
+
+62
+00:03:37,000 --> 00:03:42,000
+If you don't want them to be deleted, you can run a command which is docker compose stop.
+
+63
+00:03:42,000 --> 00:03:48,000
+But since it is always advisable to delete the containers whenever you are trying to stop them, please
+
+64
+00:03:48,000 --> 00:03:50,000
+use the Docker compose down command.
+
+65
+00:03:50,000 --> 00:03:55,000
+So we have used two commands docker compose up which will start all your containers with a single command.
+
+66
+00:03:55,000 --> 00:04:01,000
+And similarly we also use docker compose down which will stop and remove all your containers from your
+
+67
+00:04:01,000 --> 00:04:02,000
+Docker desktop.
+
+68
+00:04:02,000 --> 00:04:03,000
+I hope this is clear.
+
+69
+00:04:03,000 --> 00:04:06,000
+I didn't show you the demo of network that we have created.
+
+70
+00:04:06,000 --> 00:04:11,000
+Like there is a network easybank that we have created as of now in the upcoming sections.
+
+71
+00:04:11,000 --> 00:04:16,000
+When we try to have such scenario, I'll be showing you the demo and how the intercommunication between
+
+72
+00:04:16,000 --> 00:04:18,000
+the containers are working
+
+73
+00:04:18,000 --> 00:04:22,000
+with the help of this driver bridge network that we have created.
+
+74
+00:04:22,000 --> 00:04:28,000
+This way you can create any number of services inside your Docker compose file and you can start them
+
+75
+00:04:28,000 --> 00:04:29,000
+and you can stop them.
+
+76
+00:04:29,000 --> 00:04:33,000
+You can restart them, you can achieve everything with a single command.
+
+77
+00:04:33,000 --> 00:04:37,000
+Please make sure you are learning the structure and syntax of this docker
+
+78
+00:04:37,000 --> 00:04:38,000
+compose Yaml file.
+
+79
+00:04:38,000 --> 00:04:39,000
+This is super super easy.
+
+80
+00:04:39,000 --> 00:04:42,000
+You can also find this inside the GitHub repo.
+
+81
+00:04:42,000 --> 00:04:46,000
+Please make sure you are following this indentation of this yaml file properly.
+
+82
+00:04:46,000 --> 00:04:49,000
+Otherwise things won't work like you expected.
+
+83
+00:04:49,000 --> 00:04:52,000
+Every space is important inside the yaml file.
+
+84
+00:04:52,000 --> 00:04:54,000
+I hope this is super super clear to you.
+
+85
+00:04:54,000 --> 00:04:54,000
+Thank you,
+
+86
+00:04:54,000 --> 00:04:57,000
+and I'll catch you in the next lecture bye.
+

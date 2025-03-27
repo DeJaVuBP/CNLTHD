@@ -1,0 +1,572 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+let me show you the list of Docker commands that we use on day to day basis.
+
+3
+00:00:06,000 --> 00:00:10,000
+The very first Docker command that we have here is Docker images.
+
+4
+00:00:10,000 --> 00:00:12,000
+We are already using these Docker images command.
+
+5
+00:00:12,000 --> 00:00:18,000
+A lot of times to see the list of Docker images present inside my local Docker server.
+
+6
+00:00:18,000 --> 00:00:24,000
+And if I have a scenario where I want to know more details about a specific image, then I can run the
+
+7
+00:00:24,000 --> 00:00:30,000
+second command, which is Docker space image, space inspect and what is the image ID?
+
+8
+00:00:30,000 --> 00:00:37,000
+So whenever you're trying to pass a image ID or container ID or any other ID inside Docker, you don't
+
+9
+00:00:37,000 --> 00:00:39,000
+have to mention the entire ID value.
+
+10
+00:00:39,000 --> 00:00:45,000
+You can simply mention first three characters or four characters and your Docker server is smart enough
+
+11
+00:00:45,000 --> 00:00:51,000
+to detect the entire image ID or container ID based upon the short value that you have provided.
+
+12
+00:00:51,000 --> 00:00:54,000
+And the next command is to remove that Docker image.
+
+13
+00:00:54,000 --> 00:00:57,000
+I showed you how to remove a Docker image from the Docker desktop.
+
+14
+00:00:57,000 --> 00:01:03,000
+If you don't have access to Docker desktop, then you can issue this command from your CLI, which is
+
+15
+00:01:03,000 --> 00:01:07,000
+docker image rm, rm indicates remove.
+
+16
+00:01:07,000 --> 00:01:09,000
+And to this command you can pass.
+
+17
+00:01:09,000 --> 00:01:10,000
+What is the image ID?
+
+18
+00:01:10,000 --> 00:01:17,000
+If you have multiple images to remove, you can mention all those multiple image IDs separated by a
+
+19
+00:01:17,000 --> 00:01:18,000
+space value.
+
+20
+00:01:18,000 --> 00:01:22,000
+And after this remove command we have Docker build command.
+
+21
+00:01:22,000 --> 00:01:29,000
+Using this Docker build command, we can generate a Docker image based upon a Docker file.
+
+22
+00:01:29,000 --> 00:01:35,000
+So please make sure when you are running this Docker build .command the Docker file present inside the
+
+23
+00:01:35,000 --> 00:01:40,000
+same location where you are running this command from the terminal to this Docker build command, we
+
+24
+00:01:40,000 --> 00:01:45,000
+should provide the complete Docker image name with the help of -t indicates tag. And the 5th
+
+25
+00:01:45,000 --> 00:01:48,000
+command that we have here is docker run command.
+
+26
+00:01:48,000 --> 00:01:54,000
+We use this already many times with the help of this docker run command, along with the port mapping
+
+27
+00:01:54,000 --> 00:02:00,000
+details and the Docker image name, we can start a Docker container based upon a given image.
+
+28
+00:02:00,000 --> 00:02:03,000
+The 6th command that we have here is docker ps
+
+29
+00:02:03,000 --> 00:02:08,000
+This will show all the running containers and similarly, if you want to see all the containers,
+
+30
+00:02:08,000 --> 00:02:13,000
+including running and the stopped ones, then you need to run the 7th command, which is docker ps -a.
+
+31
+00:02:13,000 --> 00:02:19,000
+The next command, which is 8th command is docker container start.
+
+32
+00:02:19,000 --> 00:02:21,000
+What is a container ID?
+
+33
+00:02:21,000 --> 00:02:25,000
+We want to start a specific container which is previously stopped.
+
+34
+00:02:25,000 --> 00:02:27,000
+Then you can run this command.
+
+35
+00:02:27,000 --> 00:02:32,000
+If you want multiple containers to start, then you can mention all those container IDs separated by
+
+36
+00:02:32,000 --> 00:02:34,000
+a space value.
+
+37
+00:02:34,000 --> 00:02:40,000
+And for whatever reason, if you want your container to pass for some time or if you want your container
+
+38
+00:02:40,000 --> 00:02:47,000
+to not accept any traffic, then you can run this docker container pass command along with the container Id.
+
+39
+00:02:47,000 --> 00:02:49,000
+Once the container is passed.
+
+40
+00:02:49,000 --> 00:02:52,000
+Definitely after some time you want to unpass it.
+
+41
+00:02:52,000 --> 00:02:58,000
+So in such scenarios you can run the 10th command, which is docker container and unpass and what is the
+
+42
+00:02:58,000 --> 00:02:59,000
+container ID?
+
+43
+00:02:59,000 --> 00:03:03,000
+So this will resume your container and it will start accepting the request.
+
+44
+00:03:03,000 --> 00:03:07,000
+And the 11th command is to stop the running container.
+
+45
+00:03:07,000 --> 00:03:11,000
+Whenever you want to stop any running container, you need to use docker container stop.
+
+46
+00:03:11,000 --> 00:03:13,000
+And what is a container ID?
+
+47
+00:03:13,000 --> 00:03:19,000
+Whenever you use this docker container stop command, your Docker server is going to give some time
+
+48
+00:03:19,000 --> 00:03:26,000
+for your container to close any resources, which means your Docker server is not going to kill your
+
+49
+00:03:26,000 --> 00:03:27,000
+running container instantly.
+
+50
+00:03:27,000 --> 00:03:33,000
+It is going to give some time like 5 seconds and within this 5 seconds your Docker container can
+
+51
+00:03:33,000 --> 00:03:38,000
+close any resources that is opened by it, like database connections or file systems.
+
+52
+00:03:38,000 --> 00:03:44,000
+Whereas with the 12th command, which is like docker container kill, you can kill one or more running
+
+53
+00:03:44,000 --> 00:03:46,000
+containers instantly.
+
+54
+00:03:46,000 --> 00:03:48,000
+That's the difference between stop and kill.
+
+55
+00:03:48,000 --> 00:03:54,000
+With the kill command, we are going to kill the container instantly, whereas the stop command will
+
+56
+00:03:54,000 --> 00:03:58,000
+give you like 5 seconds for your container to close any resources.
+
+57
+00:03:58,000 --> 00:04:04,000
+And similarly, like you can see under the 13th command, we can restart containers with the command
+
+58
+00:04:04,000 --> 00:04:08,000
+docker container restart and just like image inspect.
+
+59
+00:04:08,000 --> 00:04:14,000
+If you want to know more details about your container, you can use this docker container inspect command.
+
+60
+00:04:14,000 --> 00:04:15,000
+To this command,
+
+61
+00:04:15,000 --> 00:04:18,000
+you can pass a containerId. For debugging,
+
+62
+00:04:18,000 --> 00:04:24,000
+if you want to see the logs of a container, you can run this 15th command, which is docker container
+
+63
+00:04:24,000 --> 00:04:24,000
+logs.
+
+64
+00:04:24,000 --> 00:04:26,000
+And what is the container ID?
+
+65
+00:04:26,000 --> 00:04:33,000
+This will fetch all the logs of a given container ID, but like I showed before, the more convenient
+
+66
+00:04:33,000 --> 00:04:36,000
+way of checking the logs is with the help of Docker desktop.
+
+67
+00:04:36,000 --> 00:04:42,000
+So inside your Docker desktop, go to containers and click on the container name and you will be able
+
+68
+00:04:42,000 --> 00:04:44,000
+to see the logs of the container in live.
+
+69
+00:04:44,000 --> 00:04:50,000
+Now moving on to the next important commands, sometimes you want to continuously follow the logs of
+
+70
+00:04:50,000 --> 00:04:53,000
+a container like you want to see the logs in action
+
+71
+00:04:53,000 --> 00:04:55,000
+what is happening. In such scenario,
+
+72
+00:04:55,000 --> 00:04:59,000
+you can use this -f flag which tells to your
+
+73
+00:04:59,000 --> 00:05:05,000
+Docker server that you want to follow the log output of a given container ID continuously inside your
+
+74
+00:05:05,000 --> 00:05:10,000
+terminal and to remove your container, you can run the 17th command, which which is Docker rm
+
+75
+00:05:11,000 --> 00:05:12,000
+and what is your container ID?
+
+76
+00:05:13,000 --> 00:05:18,000
+If you want to remove multiple containers at the same time, you can provide all those container IDs
+
+77
+00:05:18,000 --> 00:05:23,000
+separated by the space value, the 18th command, which which is docker container prune.
+
+78
+00:05:23,000 --> 00:05:28,000
+This will help you to remove all the stopped containers with a single command.
+
+79
+00:05:28,000 --> 00:05:32,000
+You don't even have to mention what are the stopped container IDs.
+
+80
+00:05:32,000 --> 00:05:38,000
+So by default, this command is going to remove all the stopped containers. And the docker image push
+
+81
+00:05:38,000 --> 00:05:45,000
+and docker image pull commands we already discussed. Using these commands, we can push and pull the
+
+82
+00:05:45,000 --> 00:05:49,000
+images from local system to remote repository and vice versa.
+
+83
+00:05:49,000 --> 00:05:56,000
+And just like Docker container prune, we also have Docker image prune like you can see in the 21st
+
+84
+00:05:56,000 --> 00:05:56,000
+command.
+
+85
+00:05:56,000 --> 00:06:00,000
+So this is going to remove all the unused images.
+
+86
+00:06:00,000 --> 00:06:05,000
+So how your Docker server is going to identify all unused images.
+
+87
+00:06:05,000 --> 00:06:06,000
+The answer is very simple.
+
+88
+00:06:06,000 --> 00:06:14,000
+If there are no associated containers of an image is present either in start or stop mode, then that
+
+89
+00:06:14,000 --> 00:06:19,000
+image will be considered as an unused image by your Docker server.
+
+90
+00:06:19,000 --> 00:06:26,000
+From Docker Desktop, I showed you how to see the statistics of CPU usage or memory usage of your container.
+
+91
+00:06:26,000 --> 00:06:32,000
+If you want to see from your CLI as well, you can run this command which is docker container stats.
+
+92
+00:06:32,000 --> 00:06:38,000
+So this will show all container statistics like CPU utilization, memory and IO usage.
+
+93
+00:06:38,000 --> 00:06:44,000
+And just like how we have image prune and container prune, we also have Docker system prune.
+
+94
+00:06:44,000 --> 00:06:52,000
+This will remove all the stopped containers, unused images, unused networks, volumes, cache inside
+
+95
+00:06:52,000 --> 00:06:58,000
+your Docker server. And under that 24th command you can see I have mentioned one more approach on how
+
+96
+00:06:58,000 --> 00:07:00,000
+to delete our image.
+
+97
+00:07:00,000 --> 00:07:09,000
+Docker rmi, I indicates image with this rmi we are telling to our Docker server to remove the image which
+
+98
+00:07:09,000 --> 00:07:13,000
+is associated to an image ID that we have provided.
+
+99
+00:07:13,000 --> 00:07:16,000
+Now coming to the next command, which is 25th command.
+
+100
+00:07:16,000 --> 00:07:23,000
+Whenever you want to log in into your remote Docker hub from your CLI, you need to use this docker
+
+101
+00:07:23,000 --> 00:07:28,000
+login -u and followed by what is your username. Post that it will ask you the password.
+
+102
+00:07:28,000 --> 00:07:33,000
+You can enter your password and with that from your CLI you are going to get logged in.
+
+103
+00:07:33,000 --> 00:07:39,000
+But we don't have to follow this because inside Docker desktop there is a sign in option which will
+
+104
+00:07:39,000 --> 00:07:44,000
+allow you to sign in with the help of browser as long as you logged in with the Docker desktop, your
+
+105
+00:07:44,000 --> 00:07:49,000
+CLI also is automatically connected to your Docker hub account.
+
+106
+00:07:49,000 --> 00:07:54,000
+But in the scenarios where you don't have Docker desktop installed, you have only Docker and Docker
+
+107
+00:07:54,000 --> 00:07:55,000
+server.
+
+108
+00:07:55,000 --> 00:08:01,000
+Then in such cases, these Docker login will help you to log in into your remote hub repository.
+
+109
+00:08:01,000 --> 00:08:07,000
+And similarly we also have Docker log out to log out from the Docker Hub Container Registry account.
+
+110
+00:08:07,000 --> 00:08:13,000
+Now moving on to that 27th command, which is Docker History Command with the help of Docker History
+
+111
+00:08:13,000 --> 00:08:20,000
+Command and providing an image name, we can see all the intermediate layers and the commands that were
+
+112
+00:08:20,000 --> 00:08:23,000
+executed while building an image.
+
+113
+00:08:23,000 --> 00:08:27,000
+So this is going to help you to debug your image.
+
+114
+00:08:27,000 --> 00:08:31,000
+If you are facing any issues behind the scenes, there will be lot of work that will be done by the
+
+115
+00:08:31,000 --> 00:08:36,000
+Buildpacks or the Google jib or the Docker server while generating a Docker image.
+
+116
+00:08:36,000 --> 00:08:42,000
+So to understand the intermediate layers and the commands that it has used to generate the Docker image,
+
+117
+00:08:42,000 --> 00:08:43,000
+you can use this command.
+
+118
+00:08:43,000 --> 00:08:49,000
+Sometimes you may want to run some commands inside your running container, so the running container
+
+119
+00:08:49,000 --> 00:08:57,000
+is present in its own network to run any CLI commands or any terminal commands from the Docker desktop,
+
+120
+00:08:57,000 --> 00:09:02,000
+you always have an option to directly go to the terminal and run the commands.
+
+121
+00:09:02,000 --> 00:09:08,000
+Whereas if you want the similar behavior with the help of Docker CLI, you can execute these 28th
+
+122
+00:09:08,000 --> 00:09:15,000
+command which is docker execute - it and followed by what is your container ID followed by sh.
+
+123
+00:09:16,000 --> 00:09:22,000
+So with that you are telling I want to open a shell inside a running container based upon the container
+
+124
+00:09:22,000 --> 00:09:28,000
+id that you have passed and this will open a shell inside a running container from your CLI itself and
+
+125
+00:09:28,000 --> 00:09:30,000
+you can execute the commands.
+
+126
+00:09:30,000 --> 00:09:36,000
+And at last we discussed that Docker compose related commands like like docker compose up, which will
+
+127
+00:09:36,000 --> 00:09:40,000
+create and start the containers based upon the given Docker compose file.
+
+128
+00:09:40,000 --> 00:09:45,000
+And similarly we have docker compose down which will stop and remove the containers.
+
+129
+00:09:45,000 --> 00:09:51,000
+And if you don't want to delete your containers, you can simply use docker compose stop command.
+
+130
+00:09:51,000 --> 00:09:56,000
+And similarly, if you simply want to start the containers and if you don't want to create the containers
+
+131
+00:09:56,000 --> 00:09:59,000
+from scratch, then you can use the command docker
+
+132
+00:09:59,000 --> 00:10:00,000
+compost start.
+
+133
+00:10:00,000 --> 00:10:05,000
+So these are all the important commands that you can use on your day to day basis.
+
+134
+00:10:05,000 --> 00:10:10,000
+And these commands will be also handy to you whenever you go for any interview.
+
+135
+00:10:10,000 --> 00:10:15,000
+That's why I have mentioned all the important commands inside the slides that I'm going to provide,
+
+136
+00:10:15,000 --> 00:10:21,000
+and at the same time I have also mentioned them inside the GitHub repo page, so please refer them whenever
+
+137
+00:10:21,000 --> 00:10:22,000
+you have some questions.
+
+138
+00:10:22,000 --> 00:10:28,000
+But like I said, always try to use the Docker desktop, which is the most convenient way to interact
+
+139
+00:10:28,000 --> 00:10:34,000
+with the Docker images and Docker containers because that will give you an UI to interact with your
+
+140
+00:10:34,000 --> 00:10:36,000
+containers and images.
+
+141
+00:10:36,000 --> 00:10:40,000
+So feel free to use whatever approach is comfortable to you.
+
+142
+00:10:40,000 --> 00:10:41,000
+I hope this is clear to you.
+
+143
+00:10:41,000 --> 00:10:44,000
+Thank you and I'll catch you in the next lecture bye.
+

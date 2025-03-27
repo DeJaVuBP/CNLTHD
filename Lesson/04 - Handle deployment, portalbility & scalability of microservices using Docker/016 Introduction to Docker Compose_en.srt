@@ -1,0 +1,716 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, I will show you a problem that we may face with the current setup that we have,
+
+2
+00:00:06,000 --> 00:00:07,000
+and post that
+
+3
+00:00:07,000 --> 00:00:09,000
+I'll also show you a solution for the problem.
+
+4
+00:00:09,000 --> 00:00:15,000
+As of now, you can see we have three different images like cards, loans and accounts.
+
+5
+00:00:15,000 --> 00:00:21,000
+These are the Docker images of three microservices that we have built so far to run our microservices
+
+6
+00:00:21,000 --> 00:00:26,000
+we need to convert these Docker images into containers with the help of docker run command.
+
+7
+00:00:26,000 --> 00:00:32,000
+So if I want to start my three microservice, I need to issue docker run command three different times
+
+8
+00:00:32,000 --> 00:00:35,000
+along with the image name and the port mapping.
+
+9
+00:00:35,000 --> 00:00:42,000
+What if I want to start multiple instances of my microservices in such scenarios, giving this docker
+
+10
+00:00:42,000 --> 00:00:49,000
+run command manually for each microservice and for each instance of it is super, super cumbersome process
+
+11
+00:00:49,000 --> 00:00:51,000
+and it is time consuming process.
+
+12
+00:00:51,000 --> 00:00:57,000
+If I have 100 microservice, I need to issue these Docker run command 100 different times, which is
+
+13
+00:00:57,000 --> 00:01:00,000
+not quite viable option for any human.
+
+14
+00:01:00,000 --> 00:01:06,000
+To overcome this challenge, we have another component inside Docker ecosystem with the name Docker
+
+15
+00:01:06,000 --> 00:01:06,000
+Compose.
+
+16
+00:01:06,000 --> 00:01:09,000
+Let me try to introduce this Docker Compose.
+
+17
+00:01:09,000 --> 00:01:14,000
+So this is a location where you can read more details about the Docker compose.
+
+18
+00:01:14,000 --> 00:01:21,000
+You can see Docker Compose is a tool for defining and running multiple container docker applications.
+
+19
+00:01:21,000 --> 00:01:27,000
+So with the help of with Compose, we can use a Yaml file to configure all our application service.
+
+20
+00:01:27,000 --> 00:01:31,000
+Then with a single command we can create or start all our services.
+
+21
+00:01:31,000 --> 00:01:38,000
+So instead of running multiple Docker run commands, I can define all my Docker image details and how
+
+22
+00:01:38,000 --> 00:01:41,000
+I want to start them inside a single Yaml file.
+
+23
+00:01:41,000 --> 00:01:47,000
+Once I define all these details inside a single Yaml file, I can issue a single command and with a
+
+24
+00:01:47,000 --> 00:01:53,000
+single command all of my microservice containers are going to start and this docker compose.
+
+25
+00:01:53,000 --> 00:01:59,000
+We can make it work inside any environment like production, staging, development testing as well as
+
+26
+00:01:59,000 --> 00:02:00,000
+continuous integration workflows.
+
+27
+00:02:00,000 --> 00:02:04,000
+So that's why it is highly recommended to use Docker Compose.
+
+28
+00:02:04,000 --> 00:02:10,000
+If you have multiple microservices inside your system and these Docker compose will help you to start,
+
+29
+00:02:10,000 --> 00:02:12,000
+stop and rebuild services.
+
+30
+00:02:12,000 --> 00:02:14,000
+View the status of running services.
+
+31
+00:02:14,000 --> 00:02:15,000
+Stream the log output.
+
+32
+00:02:15,000 --> 00:02:17,000
+Run a one off command.
+
+33
+00:02:17,000 --> 00:02:19,000
+This way it has many other advantages.
+
+34
+00:02:19,000 --> 00:02:25,000
+So whenever you install Docker desktop inside your system by default, Docker compose related components
+
+35
+00:02:25,000 --> 00:02:26,000
+also will be installed.
+
+36
+00:02:26,000 --> 00:02:32,000
+We can also validate the same by running a command which is Docker space compose version.
+
+37
+00:02:32,000 --> 00:02:38,000
+This will print the what is the Docker compose version right now you have inside your system.
+
+38
+00:02:38,000 --> 00:02:42,000
+So this is the version of Docker Compose right now that I have inside my system.
+
+39
+00:02:42,000 --> 00:02:46,000
+And this also confirms that Docker Compose is installed inside my machine.
+
+40
+00:02:46,000 --> 00:02:52,000
+For some reason, if you don't have this docker compose installed inside your system, don't worry,
+
+41
+00:02:52,000 --> 00:02:59,000
+you can simply come to this page and here there is an link which will help you to install Docker compose
+
+42
+00:02:59,000 --> 00:03:00,000
+inside your system.
+
+43
+00:03:00,000 --> 00:03:06,000
+So please follow the steps based upon your operating system and you should be able to install the Docker
+
+44
+00:03:06,000 --> 00:03:07,000
+compose successfully.
+
+45
+00:03:07,000 --> 00:03:10,000
+Now to get started with the Docker compose.
+
+46
+00:03:10,000 --> 00:03:17,000
+Like I said, we need to write a configuration file and inside this configuration file we need to define
+
+47
+00:03:17,000 --> 00:03:22,000
+all the details about our Docker images and how we want to start them. For the same,
+
+48
+00:03:22,000 --> 00:03:27,000
+first, I need to create a configuration file and I'm going to create that under this accounts
+
+49
+00:03:27,000 --> 00:03:28,000
+microservice.
+
+50
+00:03:28,000 --> 00:03:33,000
+There is no specific reason on why I'm creating a configuration file under accounts.
+
+51
+00:03:33,000 --> 00:03:39,000
+Since this is applicable for all microservices, you can create this configuration file any place.
+
+52
+00:03:39,000 --> 00:03:45,000
+But since I want to check in this file into the GitHub repository I'm trying to create inside this accounts
+
+53
+00:03:45,000 --> 00:03:47,000
+microservice maven project.
+
+54
+00:03:47,000 --> 00:03:55,000
+So here I'm going to create a new file and the file name has to be docker -compose and the format
+
+55
+00:03:55,000 --> 00:03:58,000
+are the extension of this Docker compose file
+
+56
+00:03:58,000 --> 00:03:59,000
+should be yml.
+
+57
+00:03:59,000 --> 00:03:59,000
+.
+
+58
+00:04:00,000 --> 00:04:06,000
+Because we are going to provide all our configuration details to the Docker server using Yaml format.
+
+59
+00:04:06,000 --> 00:04:08,000
+So let me create this file.
+
+60
+00:04:08,000 --> 00:04:09,000
+Post this
+
+61
+00:04:09,000 --> 00:04:11,000
+you can see this is an Yaml file.
+
+62
+00:04:11,000 --> 00:04:16,000
+It is automatically detected now here, since we want to define about all our service details, the
+
+63
+00:04:16,000 --> 00:04:23,000
+very first syntax that we need to mention here is, services followed by Colon, and at these services
+
+64
+00:04:23,000 --> 00:04:26,000
+we can define any number of service details.
+
+65
+00:04:26,000 --> 00:04:30,000
+That's why we need to press enter and make sure there is a Tab space.
+
+66
+00:04:30,000 --> 00:04:34,000
+If you don't have tab space then Yaml configuration is not going to work.
+
+67
+00:04:34,000 --> 00:04:37,000
+You can see there is a tab space that I have created.
+
+68
+00:04:37,000 --> 00:04:40,000
+After you have given tab space you can give,
+
+69
+00:04:40,000 --> 00:04:41,000
+what is your service name?
+
+70
+00:04:41,000 --> 00:04:44,000
+The service name that I want to give for accounts
+
+71
+00:04:44,000 --> 00:04:51,000
+microservice is, accounts itself and under these accounts service I can provide the details like what
+
+72
+00:04:51,000 --> 00:04:54,000
+is the image name that this service is going to use, For the same
+
+73
+00:04:54,000 --> 00:05:00,000
+let me press enter as soon as I press enter since I'm using .yaml extension and
+
+74
+00:05:00,000 --> 00:05:03,000
+there is a yaml plugin installed inside my intelliJ IDE.
+
+75
+00:05:03,000 --> 00:05:06,000
+It is automatically giving a tab space.
+
+76
+00:05:06,000 --> 00:05:11,000
+Right you can see I'm not exactly under the accounts so there is a tab space came into picture.
+
+77
+00:05:11,000 --> 00:05:17,000
+Here since we want to provide the image details, I need to select the image and post that give colon followed
+
+78
+00:05:17,000 --> 00:05:18,000
+by space.
+
+79
+00:05:18,000 --> 00:05:23,000
+After that you can mention what is that accounts microservice image name.
+
+80
+00:05:23,000 --> 00:05:28,000
+So the image name is eazybytes/accounts.
+
+81
+00:05:28,000 --> 00:05:30,000
+And what is the tag name?
+
+82
+00:05:30,000 --> 00:05:31,000
+The tag name is S4.
+
+83
+00:05:31,000 --> 00:05:38,000
+If needed, you can also give this image name inside the double quotes so that will make your
+
+84
+00:05:38,000 --> 00:05:44,000
+image name crystal clear to your docker compose file, post that we can give a container name.
+
+85
+00:05:44,000 --> 00:05:51,000
+So with the help of this container underscore name, we can give a container name for our accounts microservice
+
+86
+00:05:51,000 --> 00:05:56,000
+whenever it is trying to generate a new container from the Docker image that we have provided.
+
+87
+00:05:56,000 --> 00:06:01,000
+So the container name that I'm going to give here is -accounts-ms.
+
+88
+00:06:01,000 --> 00:06:03,000
+MS indicates microservice.
+
+89
+00:06:03,000 --> 00:06:07,000
+If you don't give this container, what will happen is whenever you are trying to create a container
+
+90
+00:06:07,000 --> 00:06:12,000
+from your Docker image, a random name will be given to your container by the Docker server.
+
+91
+00:06:12,000 --> 00:06:18,000
+You can also see under the containers right now there is a container of loans previously which we have
+
+92
+00:06:18,000 --> 00:06:22,000
+created, so it has a random name which is angry Cannon.
+
+93
+00:06:22,000 --> 00:06:26,000
+So with this I cannot really identify to which microservice this container belongs.
+
+94
+00:06:26,000 --> 00:06:33,000
+So to identify that, I need to check the image details to avoid such inconvenience, we can define
+
+95
+00:06:33,000 --> 00:06:35,000
+a name to our container.
+
+96
+00:06:35,000 --> 00:06:37,000
+So this container is in running status.
+
+97
+00:06:37,000 --> 00:06:39,000
+Let me stop this.
+
+98
+00:06:39,000 --> 00:06:44,000
+So please make sure you have deleted all the containers inside your system so that you will get some
+
+99
+00:06:44,000 --> 00:06:47,000
+space and memory inside your Docker desktop.
+
+100
+00:06:47,000 --> 00:06:53,000
+Once we mention these container name, press enter and configure the ports mapping with the help of
+
+101
+00:06:53,000 --> 00:06:54,000
+ports.
+
+102
+00:06:54,000 --> 00:06:58,000
+So under the ports we can define multiple ports mapping.
+
+103
+00:06:58,000 --> 00:07:04,000
+That's why inside the Yaml, whenever you are trying to provide multiple elements, we should follow
+
+104
+00:07:04,000 --> 00:07:05,000
+this hyphen.
+
+105
+00:07:05,000 --> 00:07:12,000
+So this hyphen indicates this is a single element inside an array like, you know, our accounts microservice
+
+106
+00:07:12,000 --> 00:07:19,000
+is going to start at the port 8080 and at the same port I'm trying to expose to the external network.
+
+107
+00:07:19,000 --> 00:07:25,000
+And if needed, if you want more number of port mapping, you can define multiple port mapping by pressing
+
+108
+00:07:25,000 --> 00:07:28,000
+enter and following the syntax with the help of Hyphen.
+
+109
+00:07:28,000 --> 00:07:34,000
+But right now I don't have any requirements to create multiple port mappings, so that's why I'm deleting
+
+110
+00:07:34,000 --> 00:07:37,000
+this and going to the same position where my ports is present.
+
+111
+00:07:37,000 --> 00:07:44,000
+Now whenever my container is being created, I want to make sure that it has a maximum memory allocation.
+
+112
+00:07:44,000 --> 00:07:50,000
+Beyond that, I don't want to assign that because inside my local system I have only 16 GB Ram.
+
+113
+00:07:50,000 --> 00:07:56,000
+Since we are going to create multiple containers inside our course, we should make sure we are restricting
+
+114
+00:07:56,000 --> 00:07:58,000
+our containers to a maximum memory.
+
+115
+00:07:58,000 --> 00:07:59,000
+For the same,
+
+116
+00:07:59,000 --> 00:08:05,000
+I need to mention a keyword which is deploy and this deploy you need to invoke resources.
+
+117
+00:08:05,000 --> 00:08:13,000
+Post that under these resources, please invoke limits after the limits you can mention memory and under
+
+118
+00:08:13,000 --> 00:08:19,000
+the memory mention 700 M with this I'm telling to this accounts microservice at a max
+
+119
+00:08:19,000 --> 00:08:23,000
+I want to provide 700 M memory.
+
+120
+00:08:23,000 --> 00:08:26,000
+Beyond that my Docker server is not going to assign.
+
+121
+00:08:26,000 --> 00:08:31,000
+So if you see there is a hierarchy that we have followed inside Yaml services is the parent and under
+
+122
+00:08:31,000 --> 00:08:38,000
+the services there is a child with the name accounts under accounts we have details like image, container
+
+123
+00:08:38,000 --> 00:08:41,000
+name, ports mapping and what are the deployment instructions.
+
+124
+00:08:41,000 --> 00:08:45,000
+So under the deploy we have resources and a resources
+
+125
+00:08:45,000 --> 00:08:48,000
+we have limits under the limits, we have memory.
+
+126
+00:08:48,000 --> 00:08:55,000
+Now we can copy the same configuration and copy it at the same location where the accounts microservice
+
+127
+00:08:55,000 --> 00:08:56,000
+details are mentioned.
+
+128
+00:08:56,000 --> 00:09:02,000
+So please make sure this newly copied values are also present inside the same line where my accounts
+
+129
+00:09:02,000 --> 00:09:03,000
+is present.
+
+130
+00:09:03,000 --> 00:09:06,000
+Like you can see it is present in the same line portion.
+
+131
+00:09:06,000 --> 00:09:12,000
+Now I can change this accounts to the loans because we want to mention the loans related configurations.
+
+132
+00:09:12,000 --> 00:09:18,000
+Also, the image name is going to be changed to loans and the container name is going to be changed
+
+133
+00:09:18,000 --> 00:09:20,000
+to the loans-ms.
+
+134
+00:09:20,000 --> 00:09:27,000
+And the port mapping is going to be 8090 and the both sides and the deployment instructions are
+
+135
+00:09:27,000 --> 00:09:31,000
+going to be the same. After loans, I'm going to copy the same again.
+
+136
+00:09:31,000 --> 00:09:36,000
+And this time I'm going to rename all these loans details to cards.
+
+137
+00:09:36,000 --> 00:09:39,000
+So let me do the same for image name as well.
+
+138
+00:09:39,000 --> 00:09:40,000
+And the container name
+
+139
+00:09:40,000 --> 00:09:47,000
+I'm going to change to cards-ms. And the port mapping is 9000:9000 the same I'm trying to mention
+
+140
+00:09:47,000 --> 00:09:47,000
+here.
+
+141
+00:09:47,000 --> 00:09:51,000
+And there is no change inside the deployment resource limits memory restrictions.
+
+142
+00:09:51,000 --> 00:09:59,000
+Now if I try to start my services with this Docker compose file, all these services are going to start
+
+143
+00:09:59,000 --> 00:09:59,000
+with a single
+
+144
+00:09:59,000 --> 00:10:00,000
+command.
+
+145
+00:10:00,000 --> 00:10:04,000
+As of now, there is no dependency between these microservices.
+
+146
+00:10:04,000 --> 00:10:07,000
+They are all going to start in different, different isolated networks.
+
+147
+00:10:07,000 --> 00:10:11,000
+What if I have a dependency between these microservices
+
+148
+00:10:11,000 --> 00:10:16,000
+or what if in future, if I have a scenario where these microservices need to talk with each other?
+
+149
+00:10:16,000 --> 00:10:22,000
+In that scenario, it is not going to work by default because all these services are going to get created
+
+150
+00:10:22,000 --> 00:10:24,000
+inside their own network.
+
+151
+00:10:24,000 --> 00:10:32,000
+So to make sure that the Intercommunication is working, we need to tag all these microservices under
+
+152
+00:10:32,000 --> 00:10:33,000
+a same network by the same.
+
+153
+00:10:33,000 --> 00:10:40,000
+What you have to do is just after these deploy instructions, mention networks, after these networks,
+
+154
+00:10:40,000 --> 00:10:43,000
+we can define any number of networks.
+
+155
+00:10:43,000 --> 00:10:47,000
+The network name that I want to mention here is EazyBank and this can be any name.
+
+156
+00:10:47,000 --> 00:10:54,000
+So the same network information I'm going to mention for loans as well just after the deploy, I'll
+
+157
+00:10:54,000 --> 00:10:58,000
+just make sure it is present exactly in the same portion of deploy.
+
+158
+00:10:58,000 --> 00:11:00,000
+So let me do the same for cards as well.
+
+159
+00:11:00,000 --> 00:11:07,000
+Now I have tagged a network to all my microservices with the name easybank to create a network with
+
+160
+00:11:07,000 --> 00:11:08,000
+the name easybank.
+
+161
+00:11:08,000 --> 00:11:15,000
+You can come to the place where the services is mentioned so you can see there is no space.
+
+162
+00:11:15,000 --> 00:11:18,000
+I'm at the very first position of my line.
+
+163
+00:11:18,000 --> 00:11:25,000
+Here I need to invoke a root element inside my docker compose and the root element is networks, just like
+
+164
+00:11:25,000 --> 00:11:28,000
+how we have services at the root level.
+
+165
+00:11:28,000 --> 00:11:30,000
+Similarly, we can also define networks.
+
+166
+00:11:30,000 --> 00:11:36,000
+The network name that I want to create is the same name that we have configured inside our services.
+
+167
+00:11:36,000 --> 00:11:38,000
+So this is the network that I want to create.
+
+168
+00:11:38,000 --> 00:11:45,000
+So I'm just mentioning the easybank under my networks post that I'm just mentioning Colon followed
+
+169
+00:11:45,000 --> 00:11:53,000
+by Driver under the driver, I'm going to mention bridge b,r, i,d,g,e. So with this I'm telling to my
+
+170
+00:11:53,000 --> 00:11:59,000
+Docker server, please create a network with the name easybank with the driver bridge.
+
+171
+00:11:59,000 --> 00:12:05,000
+Since I'm using the same network inside my accounts, microservice, loans microservice and the cards
+
+172
+00:12:05,000 --> 00:12:06,000
+microservice.
+
+173
+00:12:06,000 --> 00:12:13,000
+My Docker server is going to establish a bridge using which all my micro services they can communicate
+
+174
+00:12:13,000 --> 00:12:14,000
+with each other.
+
+175
+00:12:14,000 --> 00:12:20,000
+So this way we have defined all our instructions inside this docker compose Yaml file.
+
+176
+00:12:20,000 --> 00:12:23,000
+Right now our docker compose file is ready.
+
+177
+00:12:23,000 --> 00:12:28,000
+Inside the next lecture I'll show you how to start all our microservices with a single command.
+
+178
+00:12:28,000 --> 00:12:30,000
+With the help of this Docker compose file.
+
+179
+00:12:30,000 --> 00:12:33,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,640 @@
+1
+00:00:00,000 --> 00:00:07,000
+In the previous lecture I introduced a lot of new jargons like containerization, containers and dockers.
+
+2
+00:00:07,000 --> 00:00:14,000
+Before we try to understand all these jargons and how to convert our microservices into Docker containers,
+
+3
+00:00:14,000 --> 00:00:20,000
+first let me try to clarify a burning question that you may have, which is what are these containers
+
+4
+00:00:20,000 --> 00:00:23,000
+and how they are different from that Traditional virtual machines.
+
+5
+00:00:23,000 --> 00:00:30,000
+Before cloud computing days, every organization they used to buy their own hardware and using these
+
+6
+00:00:30,000 --> 00:00:33,000
+hardware they will install the operating system.
+
+7
+00:00:33,000 --> 00:00:39,000
+So once a hardware and operating system is installed, we can call it as a server and this server will
+
+8
+00:00:39,000 --> 00:00:43,000
+be connected to a public network. Inside this server,
+
+9
+00:00:43,000 --> 00:00:49,000
+the code will be deployed with the help of web server or app server, and there will be a public IP
+
+10
+00:00:49,000 --> 00:00:51,000
+address assigned to your server.
+
+11
+00:00:51,000 --> 00:00:57,000
+So the platform team or operations team, they will map your public IP address to your domain name and
+
+12
+00:00:57,000 --> 00:01:04,000
+using the same domain name, my end user can access my web application from his local browser.
+
+13
+00:01:04,000 --> 00:01:08,000
+So this is the basic and old story that you are aware.
+
+14
+00:01:08,000 --> 00:01:14,000
+But with the cloud computing concept, we don't need to buy a server physically and maintain that inside
+
+15
+00:01:14,000 --> 00:01:16,000
+our own data centers.
+
+16
+00:01:16,000 --> 00:01:22,000
+We can buy a server virtually from the cloud providers and the cloud providers behind the scenes,
+
+17
+00:01:22,000 --> 00:01:24,000
+they will give you a virtual machine.
+
+18
+00:01:24,000 --> 00:01:30,000
+Why the server is called as virtual machine because you can physically see it, you can only feel it
+
+19
+00:01:30,000 --> 00:01:34,000
+virtually and you can access it through the web internet.
+
+20
+00:01:34,000 --> 00:01:37,000
+That's why they called as virtual machines.
+
+21
+00:01:37,000 --> 00:01:40,000
+So let's try to understand how these virtual machines are created.
+
+22
+00:01:40,000 --> 00:01:44,000
+Like you can see here at the bottom of this table, we have server.
+
+23
+00:01:44,000 --> 00:01:46,000
+So this is a physical hardware.
+
+24
+00:01:46,000 --> 00:01:50,000
+So think like a cloud provider, like AWS, Azure or GCP.
+
+25
+00:01:51,000 --> 00:01:58,000
+They'll have a physical hardware or a physical server available in their data centers and they can't
+
+26
+00:01:58,000 --> 00:02:05,000
+assign a server to a single organization. Because the server capacity might be 64 GB Ram, and it also
+
+27
+00:02:05,000 --> 00:02:08,000
+holds four terabyte of hard disk.
+
+28
+00:02:08,000 --> 00:02:13,000
+So they can't give these entire jumbo server to a single organization because there will be very rare
+
+29
+00:02:13,000 --> 00:02:18,000
+such instances where an organization will request for such a jumbo server.
+
+30
+00:02:18,000 --> 00:02:25,000
+So that's why on top of this server they will use a technology or they will use a concept called hypervisor.
+
+31
+00:02:25,000 --> 00:02:34,000
+Using these hypervisor software from the same physical hardware, they can create multiple virtual machines.
+
+32
+00:02:34,000 --> 00:02:39,000
+You can see here from the same physical hardware, there are three virtual machines created like VM1,
+
+33
+00:02:40,000 --> 00:02:41,000
+VM2 and VM3.
+
+34
+00:02:41,000 --> 00:02:48,000
+Inside these, each virtual machines, we can install our own operating system like inside VM1,
+
+35
+00:02:48,000 --> 00:02:55,000
+I can have a windows operating system and inside VM2 I can have Linux operating system and inside VM3
+
+36
+00:02:55,000 --> 00:02:58,000
+three, I can have Mac operating system.
+
+37
+00:02:58,000 --> 00:03:03,000
+So it's up to us what operating system we want to install. With the hypervisor,
+
+38
+00:03:03,000 --> 00:03:09,000
+while we are creating a virtual machine, we can install required operating system based upon our own
+
+39
+00:03:09,000 --> 00:03:10,000
+requirements.
+
+40
+00:03:10,000 --> 00:03:18,000
+So here it is very clear the resources like ram, hard disk of the physical server is virtually distributed
+
+41
+00:03:18,000 --> 00:03:22,000
+between multiple virtual machines with the help of hypervisor concept.
+
+42
+00:03:22,000 --> 00:03:29,000
+So now this VM1 can be given to a company one and VM2 can be given to the other company and so
+
+43
+00:03:29,000 --> 00:03:29,000
+on.
+
+44
+00:03:30,000 --> 00:03:36,000
+So now coming to the microservices environment, think like there is no containerization concept.
+
+45
+00:03:36,000 --> 00:03:39,000
+We have to live with these virtual machines in such scenarios.
+
+46
+00:03:39,000 --> 00:03:45,000
+What we have to do, suppose I have three micro services like AccountService, LoanService and CardService
+
+47
+00:03:45,000 --> 00:03:46,000
+.
+
+48
+00:03:46,000 --> 00:03:53,000
+So for AccountService I may need some JDK version and similarly I may need some web server or app server
+
+49
+00:03:53,000 --> 00:03:54,000
+or Maven installed.
+
+50
+00:03:54,000 --> 00:04:00,000
+So all the required binaries and libraries I have to manually install inside the VM1.
+
+51
+00:04:00,000 --> 00:04:06,000
+And similarly I have to do inside the VM2 and VM three for the required binaries and libraries of
+
+52
+00:04:06,000 --> 00:04:08,000
+LoanService and CardService.
+
+53
+00:04:08,000 --> 00:04:13,000
+So after creating my virtual machine with the help of guest OS and after that I will install the required
+
+54
+00:04:13,000 --> 00:04:21,000
+binaries and libraries post that only I can deploy my Accounts Microservice or Loans Microservice
+
+55
+00:04:21,000 --> 00:04:24,000
+or Cards Microservice into my virtual machine.
+
+56
+00:04:24,000 --> 00:04:30,000
+Once this deployment is completed, anyone can access my Microservice using the public IP address.
+
+57
+00:04:30,000 --> 00:04:36,000
+So behind the scenes, the cloud providers, they will assign a public IP address for each of the virtual
+
+58
+00:04:36,000 --> 00:04:38,000
+machine that they are going to create.
+
+59
+00:04:38,000 --> 00:04:44,000
+The same public IP will be mapped to your DNS name or domain name and using the same domain name or
+
+60
+00:04:44,000 --> 00:04:48,000
+DNS name, we can access our microservice from outside the world.
+
+61
+00:04:48,000 --> 00:04:50,000
+So this is a story with the virtual machines.
+
+62
+00:04:50,000 --> 00:04:52,000
+And here you may have a question.
+
+63
+00:04:52,000 --> 00:04:53,000
+What's the problem with this?
+
+64
+00:04:53,000 --> 00:04:57,000
+I can deploy all my microservice into separate virtual machines.
+
+65
+00:04:57,000 --> 00:04:59,000
+There are multiple problems here.
+
+66
+00:04:59,000 --> 00:04:59,000
+First, here,
+
+67
+00:04:59,000 --> 00:05:00,000
+I'm trying
+
+68
+00:05:00,000 --> 00:05:01,000
+to show you only three microservices.
+
+69
+00:05:01,000 --> 00:05:03,000
+What if you have 100 microservices.
+
+70
+00:05:03,000 --> 00:05:04,000
+Please don't answer
+
+71
+00:05:04,000 --> 00:05:06,000
+like I'll create 100 virtual machines.
+
+72
+00:05:06,000 --> 00:05:13,000
+That is going to be a super, super complex process and it is going to attract a lot of cloud Bill for
+
+73
+00:05:13,000 --> 00:05:14,000
+your organization.
+
+74
+00:05:14,000 --> 00:05:17,000
+So when you create a virtual machine, it's a big machine.
+
+75
+00:05:17,000 --> 00:05:24,000
+It is as good as your laptop, which has 16 GB Ram and one terabyte hard disk inside such a big machine,
+
+76
+00:05:24,000 --> 00:05:28,000
+if you only deploy a small microservice, do you think it is a viable solution?
+
+77
+00:05:28,000 --> 00:05:29,000
+Off course not.
+
+78
+00:05:29,000 --> 00:05:34,000
+And similarly, you may think like why can't I deploy AccountService, LoanService and CardService
+
+79
+00:05:34,000 --> 00:05:36,000
+inside a single virtual machine?
+
+80
+00:05:36,000 --> 00:05:39,000
+Even with that approach, you may face some challenges.
+
+81
+00:05:39,000 --> 00:05:40,000
+Like your Accounts Microservice
+
+82
+00:05:40,000 --> 00:05:46,000
+may need a Java 8 version, whereas your Loans Microservice may need a Java 17 version.
+
+83
+00:05:46,000 --> 00:05:51,000
+And similarly Cards Microservice may need some other program language like Python.
+
+84
+00:05:51,000 --> 00:05:58,000
+So if you try to deploy all these microservices inside a single virtual machine, you see we will face
+
+85
+00:05:58,000 --> 00:06:03,000
+lot many problems when we have different, different requirements for different, different microservice.
+
+86
+00:06:03,000 --> 00:06:05,000
+On top of that, we have one more problem.
+
+87
+00:06:05,000 --> 00:06:11,000
+Like if you try to restart your virtual machine, all your AccountService, LoanService and CardService
+
+88
+00:06:11,000 --> 00:06:17,000
+will be down, which is again a not an acceptable risk by any organization.
+
+89
+00:06:17,000 --> 00:06:25,000
+And at the same time, in terms of scalability, suppose you want more number of AccountService instances
+
+90
+00:06:25,000 --> 00:06:27,000
+deployed in some other virtual machine.
+
+91
+00:06:27,000 --> 00:06:28,000
+Your Accounts
+
+92
+00:06:28,000 --> 00:06:30,000
+Microservice is receiving a lot of traffic.
+
+93
+00:06:30,000 --> 00:06:36,000
+All of a sudden you decided to scale up your Accounts Microservice from one instance to three instance
+
+94
+00:06:36,000 --> 00:06:39,000
+with the virtual machine concept.
+
+95
+00:06:39,000 --> 00:06:44,000
+By the time you create a virtual machine, by the time you install a guest operating system, by the
+
+96
+00:06:44,000 --> 00:06:49,000
+time you complete all the binaries and libraries, installation and scale your Accounts Microservice,
+
+97
+00:06:49,000 --> 00:06:52,000
+it is going to take at least 15 minutes of time.
+
+98
+00:06:52,000 --> 00:07:00,000
+With such a long 15 minutes of time, you can't really call it as a real scalability. Because within
+
+99
+00:07:00,000 --> 00:07:02,000
+that 15 minutes your traffic may get reduced.
+
+100
+00:07:02,000 --> 00:07:08,000
+By the time you scale up your Accounts Microservice, your traffic reduced to normal traffic.
+
+101
+00:07:08,000 --> 00:07:12,000
+And again, you decided to scale down from 3 VMs to one virtual machine.
+
+102
+00:07:12,000 --> 00:07:17,000
+Again, deleting the virtual machine also is not a simple and easy task.
+
+103
+00:07:17,000 --> 00:07:19,000
+It will easily take again 5 to 10 minutes.
+
+104
+00:07:19,000 --> 00:07:22,000
+Apart from these challenges, there are many, many other challenges.
+
+105
+00:07:22,000 --> 00:07:27,000
+If you try to deploy your microservices using a virtual machines concept.
+
+106
+00:07:27,000 --> 00:07:34,000
+That's why whenever you are trying to deploy your microservices, please say a big no to the virtual
+
+107
+00:07:34,000 --> 00:07:34,000
+machines.
+
+108
+00:07:34,000 --> 00:07:38,000
+Instead, we should go for the containers.
+
+109
+00:07:38,000 --> 00:07:42,000
+So let's try to understand how these containers are different from virtual machines.
+
+110
+00:07:42,000 --> 00:07:47,000
+If you see at the bottom the server, the physical hardware is going to be same for the virtual machine
+
+111
+00:07:47,000 --> 00:07:48,000
+and the containers.
+
+112
+00:07:48,000 --> 00:07:53,000
+On top of this physical hardware as a server will install a host operating system.
+
+113
+00:07:53,000 --> 00:07:59,000
+So here it can be an windows operating system or Linux operating system or Mac operating system.
+
+114
+00:07:59,000 --> 00:08:06,000
+So once you have the server and host operating system, you need to install a implementation of container
+
+115
+00:08:06,000 --> 00:08:08,000
+engine products like Docker.
+
+116
+00:08:08,000 --> 00:08:15,000
+So once you install the Docker with the help of the Docker, you can create multiple containers.
+
+117
+00:08:15,000 --> 00:08:21,000
+And inside these containers you can deploy AccountService, LoanService and CardService.
+
+118
+00:08:21,000 --> 00:08:26,000
+So if you see the beauty here for the containers, there is no need of separate operating system.
+
+119
+00:08:26,000 --> 00:08:29,000
+They will share the host operating system.
+
+120
+00:08:29,000 --> 00:08:34,000
+So when the guest operating system is not there for containers, they are going to become lightweight
+
+121
+00:08:34,000 --> 00:08:41,000
+and creating a container and and destroying a container or restarting a container is going to take only
+
+122
+00:08:41,000 --> 00:08:42,000
+few seconds.
+
+123
+00:08:42,000 --> 00:08:47,000
+So that's the very first great advantage that we have with containers compared to virtual machine.
+
+124
+00:08:47,000 --> 00:08:54,000
+So they are lightweight and they are going to be super quick in terms of restart creation and destroying.
+
+125
+00:08:54,000 --> 00:08:59,000
+Now the other advantage that we have with containers is, inside the same virtual machine or inside the
+
+126
+00:08:59,000 --> 00:09:01,000
+same server,
+
+127
+00:09:01,000 --> 00:09:05,000
+they can have a separate isolated environment.
+
+128
+00:09:05,000 --> 00:09:10,000
+So think like all these three containers are deployed inside a same virtual machine or inside a same
+
+129
+00:09:10,000 --> 00:09:11,000
+server.
+
+130
+00:09:11,000 --> 00:09:14,000
+But the advantage with containers is inside the container1,
+
+131
+00:09:14,000 --> 00:09:20,000
+I can have Java eight version and inside the container2 I can have Java 17 version and inside
+
+132
+00:09:20,000 --> 00:09:25,000
+the container3 I can have different language which is Python installed.
+
+133
+00:09:25,000 --> 00:09:27,000
+So that's a one more advantage.
+
+134
+00:09:27,000 --> 00:09:33,000
+Every container will have its own isolated virtual network and virtual environment.
+
+135
+00:09:33,000 --> 00:09:39,000
+The container 1 will not know about container 2  and its environment, and the same applies for vice
+
+136
+00:09:39,000 --> 00:09:40,000
+versa scenario as well.
+
+137
+00:09:40,000 --> 00:09:47,000
+Like I said before, these containers are a packed components where all the required dependencies package.
+
+138
+00:09:47,000 --> 00:09:53,000
+Like if your Accounts Microservice need a JDK and Springboot related libraries, all of them will be
+
+139
+00:09:53,000 --> 00:09:57,000
+clubbed and be available inside the container 1 itself.
+
+140
+00:09:57,000 --> 00:10:00,000
+Due to that, whenever you are trying to create
+
+141
+00:10:00,000 --> 00:10:04,000
+new container inside another server or inside another environment.
+
+142
+00:10:04,000 --> 00:10:06,000
+It is not going to be super, super manual setup.
+
+143
+00:10:06,000 --> 00:10:11,000
+You don't have to install the Java, you don't have to download the spring boot libraries.
+
+144
+00:10:11,000 --> 00:10:17,000
+You can just take the packaged component of the container to some other environment and you can convert
+
+145
+00:10:17,000 --> 00:10:19,000
+that package to a container with a single command.
+
+146
+00:10:19,000 --> 00:10:21,000
+So that's one advantage.
+
+147
+00:10:21,000 --> 00:10:23,000
+So this will solve the portability issue.
+
+148
+00:10:23,000 --> 00:10:29,000
+Now the deployment also is going to be super, super easy because these are lightweight components and
+
+149
+00:10:29,000 --> 00:10:34,000
+restarting, creating a new container, destroying the existing containers is also going to take only
+
+150
+00:10:34,000 --> 00:10:41,000
+few seconds and every container will have its own network, own resources, own memory, own storage,
+
+151
+00:10:41,000 --> 00:10:46,000
+which can't be accessed by the other container until unless someone allowed it.
+
+152
+00:10:46,000 --> 00:10:51,000
+So on a high level, I just wanted to say the main difference between virtual machine and containers
+
+153
+00:10:51,000 --> 00:10:53,000
+is, containers
+
+154
+00:10:53,000 --> 00:10:57,000
+they don't need the guest operating system, not the hypervisor to assign the resources.
+
+155
+00:10:57,000 --> 00:11:01,000
+Instead, they will use the container engine, which is Docker.
+
+156
+00:11:01,000 --> 00:11:07,000
+I know you may have many other questions, but when we try to convert our microservices into containers,
+
+157
+00:11:08,000 --> 00:11:14,000
+all these benefits and advantages I'll be showing you in action and that will make more sense to you
+
+158
+00:11:14,000 --> 00:11:15,000
+about these containers.
+
+159
+00:11:15,000 --> 00:11:20,000
+I hope you are clear about what are the differences between virtual machine and containers.
+
+160
+00:11:20,000 --> 00:11:23,000
+Thank you and I'll catch you in the next lecture bye.
+

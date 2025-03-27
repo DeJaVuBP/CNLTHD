@@ -1,0 +1,388 @@
+1
+00:00:00,000 --> 00:00:07,000
+We discussed a lot about Docker and how to containerize our web applications inside this section.
+
+2
+00:00:07,000 --> 00:00:13,000
+Before I try to conclude this section, I just wanted to share a few important information.
+
+3
+00:00:13,000 --> 00:00:19,000
+One such information is I have uploaded the section 4 related code inside the GitHub repo.
+
+4
+00:00:19,000 --> 00:00:25,000
+Like you can see under this section 4 you should be able to see three different microservices with
+
+5
+00:00:25,000 --> 00:00:27,000
+the name accounts, cards and loans.
+
+6
+00:00:27,000 --> 00:00:32,000
+And inside the accounts you will be able to see the Docker file and Docker compose file that we have
+
+7
+00:00:32,000 --> 00:00:38,000
+created along with the other Maven related configurations that we have done inside the pom.xml.
+
+8
+00:00:38,000 --> 00:00:45,000
+So please refer to this GitHub repo for any questions. Since I also provided you the PDF content, please
+
+9
+00:00:45,000 --> 00:00:51,000
+try to revise the same multiple times so that the concepts are going to be super, super clear for you.
+
+10
+00:00:51,000 --> 00:00:54,000
+So we did a lot of hard work inside this section.
+
+11
+00:00:54,000 --> 00:01:00,000
+Before we try to conclude this section, let's have some fun post that we can take a break.
+
+12
+00:01:00,000 --> 00:01:05,000
+So to have some fun, I'm going to show you some funny memes based upon the Docker concept.
+
+13
+00:01:05,000 --> 00:01:07,000
+Are you ready to see those memes?
+
+14
+00:01:07,000 --> 00:01:12,000
+So whatever funny memes that I'm going to show you are pulled from the web itself.
+
+15
+00:01:12,000 --> 00:01:13,000
+I didn't create any of them.
+
+16
+00:01:13,000 --> 00:01:17,000
+I don't have such creativity, so let's try to see them.
+
+17
+00:01:17,000 --> 00:01:19,000
+This is the very first funny meme.
+
+18
+00:01:19,000 --> 00:01:24,000
+Like during Corona time, someone tweeted this like, This is a docker.
+
+19
+00:01:24,000 --> 00:01:26,000
+This is a definition of the docker.
+
+20
+00:01:26,000 --> 00:01:32,000
+Docker emphasizes on isolation of applications inside containers so that different applications have
+
+21
+00:01:32,000 --> 00:01:34,000
+no effect on each other.
+
+22
+00:01:34,000 --> 00:01:40,000
+So at the end you can see they're saying, be like a docker and stay safe and fight with Corona.
+
+23
+00:01:40,000 --> 00:01:43,000
+So you can see how act it is with the Corona situation.
+
+24
+00:01:43,000 --> 00:01:50,000
+Many of us acted like a docker during the corona time so that the corona or the Covid won't spread from
+
+25
+00:01:50,000 --> 00:01:52,000
+one person to other person.
+
+26
+00:01:52,000 --> 00:01:54,000
+Are you ready for the next meme?
+
+27
+00:01:54,000 --> 00:01:55,000
+This is one of my favorite meme.
+
+28
+00:01:55,000 --> 00:02:01,000
+You can see there is a message like It worked on my mission many developers before Docker, they used
+
+29
+00:02:01,000 --> 00:02:04,000
+to tell like it worked on my mission.
+
+30
+00:02:04,000 --> 00:02:10,000
+I don't know why it is not working in dev or QA environment, but with Docker all these issues are solved
+
+31
+00:02:10,000 --> 00:02:16,000
+because the Docker image is going to work very similarly across all the environments, like whatever
+
+32
+00:02:16,000 --> 00:02:22,000
+way it is working inside your local system, the same way it is going to work in dev, QA and production
+
+33
+00:02:22,000 --> 00:02:22,000
+environment.
+
+34
+00:02:22,000 --> 00:02:29,000
+We have the next meme on the similar lines, so someone is telling it only works on my mission and it's
+
+35
+00:02:29,000 --> 00:02:31,000
+not working in other missions.
+
+36
+00:02:31,000 --> 00:02:37,000
+Then the Batman is saying with a slap saying that DOCK THE DAMN THING  thing, use a docker because with the
+
+37
+00:02:37,000 --> 00:02:43,000
+Docker images you are going to package all the required dependencies and whoever is using your Docker
+
+38
+00:02:43,000 --> 00:02:48,000
+image, it is going to work very similarly like it is working inside your mission.
+
+39
+00:02:48,000 --> 00:02:50,000
+On the similar lines, we also have one more meme.
+
+40
+00:02:50,000 --> 00:02:57,000
+So the developer is saying it works on my mission, but Tester never cares about that.
+
+41
+00:02:57,000 --> 00:03:01,000
+He won the application to be working inside the QA environment.
+
+42
+00:03:01,000 --> 00:03:06,000
+So obviously the solution for this scenario is to follow the Docker images.
+
+43
+00:03:06,000 --> 00:03:08,000
+The next meme is containers,
+
+44
+00:03:08,000 --> 00:03:09,000
+containers.
+
+45
+00:03:09,000 --> 00:03:11,000
+They are everywhere.
+
+46
+00:03:11,000 --> 00:03:17,000
+If you go to any project which is building cloud, native applications like microservices, serverless
+
+47
+00:03:17,000 --> 00:03:19,000
+components, even streaming applications.
+
+48
+00:03:19,000 --> 00:03:26,000
+So in all those applications, in all those projects and organizations, you will see containers everywhere.
+
+49
+00:03:26,000 --> 00:03:29,000
+And these containers are created with the help of Docker images.
+
+50
+00:03:30,000 --> 00:03:31,000
+Are you ready for the next meme?
+
+51
+00:03:31,000 --> 00:03:35,000
+So here someone is trying to tell the list of instructions.
+
+52
+00:03:35,000 --> 00:03:37,000
+Please download So-and-so Java version.
+
+53
+00:03:37,000 --> 00:03:39,000
+Please install so-and-so server.
+
+54
+00:03:39,000 --> 00:03:44,000
+Please install so-and-so dependencies and if you face any issues, troubleshoot issues.
+
+55
+00:03:44,000 --> 00:03:47,000
+So this is very annoying to the developers.
+
+56
+00:03:47,000 --> 00:03:52,000
+Instead, if you use Docker, it is going to make your life super, super easy.
+
+57
+00:03:52,000 --> 00:03:59,000
+One more funny meme you can see it is working fine in dev, but the same when you deploy inside production
+
+58
+00:03:59,000 --> 00:04:01,000
+it is not working and operations team.
+
+59
+00:04:01,000 --> 00:04:04,000
+They are struggling to fix the issue in production.
+
+60
+00:04:04,000 --> 00:04:10,000
+But when you use Docker you won't get these kind of issues because Docker will make sure your container
+
+61
+00:04:10,000 --> 00:04:14,000
+is working very similarly in all the environments. And the similar lines.
+
+62
+00:04:14,000 --> 00:04:16,000
+We have one more meme.
+
+63
+00:04:16,000 --> 00:04:20,000
+It works on my computer, but the lead is telling.
+
+64
+00:04:20,000 --> 00:04:23,000
+Yes, but we're not going to give your computer to the client.
+
+65
+00:04:23,000 --> 00:04:26,000
+So in this scenario also the solution is Docker.
+
+66
+00:04:26,000 --> 00:04:27,000
+Here is the next meme.
+
+67
+00:04:27,000 --> 00:04:32,000
+When you try to follow Docker and do the deployments inside the cloud, everything is going to look
+
+68
+00:04:32,000 --> 00:04:38,000
+very clean and powerful because the cloud servers are very big servers and they are capable of handling
+
+69
+00:04:38,000 --> 00:04:41,000
+many containers and images running inside them.
+
+70
+00:04:41,000 --> 00:04:49,000
+But inside your laptop where you have 8 GB Ram, 16 GB Ram, if you try to fit all your containers
+
+71
+00:04:49,000 --> 00:04:52,000
+and images, it is going to look like this.
+
+72
+00:04:52,000 --> 00:04:59,000
+The next meme here is so this is the position right now I'm into when someone is trying to explain about
+
+73
+00:04:59,000 --> 00:04:59,000
+Docker.
+
+74
+00:05:00,000 --> 00:05:02,000
+They had to put a lot of efforts.
+
+75
+00:05:02,000 --> 00:05:03,000
+They need to do a lot of hard work.
+
+76
+00:05:03,000 --> 00:05:09,000
+I'm assuming with all the efforts that they have put inside this section, you are clear about the Docker
+
+77
+00:05:09,000 --> 00:05:10,000
+concepts.
+
+78
+00:05:10,000 --> 00:05:17,000
+Right now I'm also sweating a lot because I tried to explain most of the concepts of Docker and how to generate
+
+79
+00:05:17,000 --> 00:05:19,000
+Docker images from your microservices.
+
+80
+00:05:19,000 --> 00:05:26,000
+The next meme is when your boss or manager tells you that we are trying to convert into microservices
+
+81
+00:05:26,000 --> 00:05:32,000
+all the applications, they will convert their code into the Docker images and they will get their code
+
+82
+00:05:32,000 --> 00:05:36,000
+as a container for the deployment into the cloud server.
+
+83
+00:05:36,000 --> 00:05:42,000
+So this is one of the funny representation of containers and microservices deployment.
+
+84
+00:05:42,000 --> 00:05:48,000
+Moving on to the next one so you can see the child is telling it works on my mission and he's telling
+
+85
+00:05:48,000 --> 00:05:50,000
+me with a lot of sincere voice.
+
+86
+00:05:50,000 --> 00:05:54,000
+And the man who is listening to the child, he's trying to console the child.
+
+87
+00:05:54,000 --> 00:05:59,000
+Don't worry, we will ship your mission to the client location or we will try to fix the issue.
+
+88
+00:05:59,000 --> 00:06:04,000
+So with all these kind of problems, finally the Docker was invented with Docker
+
+89
+00:06:04,000 --> 00:06:08,000
+all these kind of issues are resolved and going on to the final meme.
+
+90
+00:06:08,000 --> 00:06:14,000
+So you can see you as a developer, you always prefer Docker compared to the virtual machine because
+
+91
+00:06:14,000 --> 00:06:20,000
+virtual machines are heavy in nature and they require a lot of cloud bill, whereas containers, they
+
+92
+00:06:20,000 --> 00:06:26,000
+are very modern and they are very lightweight, easy to deploy, easy to scale and they offer a lot
+
+93
+00:06:26,000 --> 00:06:27,000
+of portability.
+
+94
+00:06:27,000 --> 00:06:30,000
+I hope you enjoyed this funny representation of Docker.
+
+95
+00:06:30,000 --> 00:06:31,000
+Thank you,
+
+96
+00:06:31,000 --> 00:06:34,000
+take a break and I'll catch you in the next section.
+
+97
+00:06:34,000 --> 00:06:35,000
+Bye.
+
