@@ -1,0 +1,248 @@
+1
+00:00:00,000 --> 00:00:02,000
+Welcome back to the new section.
+
+2
+00:00:02,000 --> 00:00:09,000
+This section is a small theory section where we are going to discuss about the definition of cloud native
+
+3
+00:00:09,000 --> 00:00:10,000
+applications.
+
+4
+00:00:10,000 --> 00:00:16,000
+What are the characters of Cloud Native applications and 12 factor methodology and 15 factor methodology?
+
+5
+00:00:16,000 --> 00:00:23,000
+These are the standards that any microservice developer has to know because by following these standards
+
+6
+00:00:23,000 --> 00:00:28,000
+only we are going to build many concepts inside the microservice in the upcoming sections.
+
+7
+00:00:28,000 --> 00:00:33,000
+So we are into a new section and the slides color is also changed to a new color.
+
+8
+00:00:33,000 --> 00:00:38,000
+I will be using various colors for my power point slides background in different different sections.
+
+9
+00:00:38,000 --> 00:00:44,000
+The purpose of this is to make sure you're not getting bored by looking at the same color of the slide
+
+10
+00:00:44,000 --> 00:00:49,000
+and at the same time it is going to please your eyes because you are seeing different, different colors
+
+11
+00:00:49,000 --> 00:00:53,000
+in different sections and you won't get bored or you won't feel mundane.
+
+12
+00:00:53,000 --> 00:00:58,000
+Now coming to the question, what is a cloud native application?
+
+13
+00:00:58,000 --> 00:01:04,000
+You might be hearing this jargon or this buzzword a lot inside your project or inside some blogs or
+
+14
+00:01:04,000 --> 00:01:06,000
+podcasts or YouTube videos.
+
+15
+00:01:06,000 --> 00:01:12,000
+So let's try to understand what are these cloud native applications and how they are related to the
+
+16
+00:01:12,000 --> 00:01:13,000
+microservices.
+
+17
+00:01:13,000 --> 00:01:16,000
+First, I'll try to provide a layman language.
+
+18
+00:01:16,000 --> 00:01:22,000
+Like any non-technical person can understand this definitions. Cloud Native applications are the software
+
+19
+00:01:22,000 --> 00:01:29,000
+applications that are designed and developed specifically to leverage the cloud computing principles
+
+20
+00:01:29,000 --> 00:01:36,000
+and take the full advantage of cloud native technologies and services, which means these applications
+
+21
+00:01:36,000 --> 00:01:43,000
+are built and optimized to run inside any cloud environments by utilizing the cloud advantages like
+
+22
+00:01:43,000 --> 00:01:46,000
+scalability, elasticity and flexibility.
+
+23
+00:01:46,000 --> 00:01:52,000
+In simple words, cloud native applications are built for cloud environments so that the organizations
+
+24
+00:01:52,000 --> 00:01:57,000
+can take complete advantage of cloud provider services and technologies.
+
+25
+00:01:57,000 --> 00:02:03,000
+Now let's try to understand the official definition of cloud native applications from the Cloud Native
+
+26
+00:02:03,000 --> 00:02:05,000
+Computing Foundation.
+
+27
+00:02:05,000 --> 00:02:12,000
+So if you see here, cloud native technologies empower organizations to build and run scalable applications
+
+28
+00:02:12,000 --> 00:02:18,000
+in modern dynamic environments such as public, private and hybrid clouds.
+
+29
+00:02:18,000 --> 00:02:24,000
+So the cloud environment can be anything, it can be it can be your own data center, it can be GCP,
+
+30
+00:02:24,000 --> 00:02:29,000
+azure, or it can be a hybrid combination of private cloud and public cloud.
+
+31
+00:02:29,000 --> 00:02:36,000
+Regardless of what type of cloud computing you're trying to use, your cloud native applications will
+
+32
+00:02:36,000 --> 00:02:36,000
+work.
+
+33
+00:02:36,000 --> 00:02:41,000
+So how this is possible is when we are trying to build cloud native applications, we will try to leverage
+
+34
+00:02:41,000 --> 00:02:48,000
+technologies like containers, service meshes, microservices, immutable infrastructure and declarative
+
+35
+00:02:48,000 --> 00:02:49,000
+APIs.
+
+36
+00:02:49,000 --> 00:02:55,000
+So all these technologies make your applications to run on any cloud so you won't get vendor lock in
+
+37
+00:02:55,000 --> 00:02:58,000
+with any particular cloud environment.
+
+38
+00:02:58,000 --> 00:03:00,000
+On top of these cloud advantages.
+
+39
+00:03:00,000 --> 00:03:07,000
+These techniques also enable developing loosely coupled systems that are resilient, manageable and
+
+40
+00:03:07,000 --> 00:03:08,000
+observable.
+
+41
+00:03:08,000 --> 00:03:12,000
+Resilient means they can withstand any failures manageable
+
+42
+00:03:12,000 --> 00:03:18,000
+you already know they are easy to manage and observable means we'll get to know everything about our
+
+43
+00:03:18,000 --> 00:03:20,000
+applications, how it is working,
+
+44
+00:03:20,000 --> 00:03:21,000
+are there any issues?
+
+45
+00:03:21,000 --> 00:03:25,000
+There is also a separate section inside this course about the observability.
+
+46
+00:03:25,000 --> 00:03:27,000
+We'll be discussing more details in that section.
+
+47
+00:03:27,000 --> 00:03:33,000
+So with all these new techniques, along with the robust automation, these cloud native applications,
+
+48
+00:03:33,000 --> 00:03:40,000
+they allow engineers to develop high impact changes frequently and predictably with minimal toil.
+
+49
+00:03:40,000 --> 00:03:44,000
+So this will give freedom to the organizations and the developers if they want to make a small change
+
+50
+00:03:44,000 --> 00:03:51,000
+or if they want to make a small enhancement, they can do that very quickly without any defects or regression
+
+51
+00:03:51,000 --> 00:03:57,000
+issues being introduced. Because they are all loosely coupled and it is very easy to test them to develop
+
+52
+00:03:57,000 --> 00:03:58,000
+new enhancements.
+
+53
+00:03:58,000 --> 00:03:59,000
+I hope this is clear to you.
+
+54
+00:03:59,000 --> 00:04:05,000
+So if anyone asks you what is the definition of cloud native application inside an interview or inside
+
+55
+00:04:05,000 --> 00:04:11,000
+any project, first try to understand whether the opposite person who is asking is a technical person
+
+56
+00:04:11,000 --> 00:04:12,000
+or a non-technical person.
+
+57
+00:04:12,000 --> 00:04:16,000
+If he is a non-technical person, please share this layman definition.
+
+58
+00:04:16,000 --> 00:04:22,000
+Whereas if the person is a technical person, you can share the official definition from the Cloud Native
+
+59
+00:04:22,000 --> 00:04:23,000
+Computing Foundation.
+
+60
+00:04:23,000 --> 00:04:27,000
+I hope you are clear about the definition of cloud native applications.
+
+61
+00:04:27,000 --> 00:04:32,000
+I'll be discussing in the coming lectures how these cloud native applications are related to the microservices.
+
+62
+00:04:32,000 --> 00:04:35,000
+Thank you and I'll catch you in the next lecture bye.
+

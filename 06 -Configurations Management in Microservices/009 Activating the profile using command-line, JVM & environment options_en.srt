@@ -1,0 +1,580 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now, inside this lecture, let me show you the demo of how to activate a specific profile using externalized
+
+2
+00:00:07,000 --> 00:00:08,000
+configuration approaches.
+
+3
+00:00:08,000 --> 00:00:12,000
+Since we are already using IDE, using this IDE
+
+4
+00:00:12,000 --> 00:00:17,000
+also, we can provide command line arguments, JVM arguments, and environment variables.
+
+5
+00:00:17,000 --> 00:00:22,000
+We don't have to go with the approach to generate a jar first post that try to run the jar with the
+
+6
+00:00:22,000 --> 00:00:23,000
+terminal.
+
+7
+00:00:23,000 --> 00:00:28,000
+That approach can be used by the operations team and platforms team where they're trying to run the
+
+8
+00:00:28,000 --> 00:00:32,000
+applications through the CI/CD tools like Jenkins GitHub actions.
+
+9
+00:00:32,000 --> 00:00:37,000
+Since we are developers and we have the access to the IDE, let's try to utilize the same.
+
+10
+00:00:37,000 --> 00:00:42,000
+First, let me show you the approach of command line arguments. To provide the command line arguments,
+
+11
+00:00:42,000 --> 00:00:46,000
+go to your spring boot main class, which is AccountsApplication.
+
+12
+00:00:46,000 --> 00:00:52,000
+Right click on this class and here you have an option which is Modify Run Configuration.
+
+13
+00:00:52,000 --> 00:00:59,000
+If you click on this and try to maximize this page, there is an text field where you can provide program
+
+14
+00:00:59,000 --> 00:01:04,000
+arguments. Like we discussed whenever we are trying to provide command line arguments, we need to make
+
+15
+00:01:04,000 --> 00:01:07,000
+sure we are providing a prefix which is two hyphens.
+
+16
+00:01:07,000 --> 00:01:13,000
+Post this we need to mention the property which is spring.profiles.active.
+
+17
+00:01:13,000 --> 00:01:18,000
+After this active, we need to mention what is the profile that we want to activate right now inside
+
+18
+00:01:18,000 --> 00:01:20,000
+the application.yml.
+
+19
+00:01:20,000 --> 00:01:22,000
+We have activated the QA profile. This time
+
+20
+00:01:22,000 --> 00:01:27,000
+let's try to activate the prod profile using this externalized configuration.
+
+21
+00:01:27,000 --> 00:01:33,000
+Along with this I'll also try to override the value presence inside the build.version.
+
+22
+00:01:33,000 --> 00:01:37,000
+For the same, I need to mention two hyphens post that I need to mention.
+
+23
+00:01:37,000 --> 00:01:40,000
+build.version is equal to
+
+24
+00:01:40,000 --> 00:01:43,000
+I'm going to mention some 1.1 as a value.
+
+25
+00:01:43,000 --> 00:01:46,000
+Now we need to click on this apply
+
+26
+00:01:46,000 --> 00:01:47,000
+okay
+
+27
+00:01:47,000 --> 00:01:51,000
+Now you can stop your application and try to start the application again.
+
+28
+00:01:51,000 --> 00:01:57,000
+This time the application should have started with the production profile, so let's confirm the same.
+
+29
+00:01:57,000 --> 00:01:58,000
+Inside my postman
+
+30
+00:01:58,000 --> 00:02:01,000
+I'm trying to invoke this contact info API.
+
+31
+00:02:01,000 --> 00:02:07,000
+You can see I'm getting the message which has prod APIs and at the same time the contact details name
+
+32
+00:02:07,000 --> 00:02:10,000
+has product owner details and the relevant mobile numbers.
+
+33
+00:02:10,000 --> 00:02:14,000
+Now let's go and test the build info.
+
+34
+00:02:14,000 --> 00:02:18,000
+Here ideally we should get 1.0 since we have activated the prod profile.
+
+35
+00:02:18,000 --> 00:02:25,000
+But on top of that we also override the value defined inside the profile with the help of command line
+
+36
+00:02:25,000 --> 00:02:25,000
+arguments.
+
+37
+00:02:25,000 --> 00:02:30,000
+That's why if I try to invoke this, you can see I'm getting the value 1.1.
+
+38
+00:02:30,000 --> 00:02:36,000
+So this is one approach on how to provide the configurations using an externalized approach.
+
+39
+00:02:36,000 --> 00:02:42,000
+Now let's try to use the the next approach, which is JVM system variables.
+
+40
+00:02:42,000 --> 00:02:49,000
+For the same, I need to go again to the accounts applications and click on these modify run configurations.
+
+41
+00:02:49,000 --> 00:02:52,000
+This time I'm going to remove my command line arguments.
+
+42
+00:02:52,000 --> 00:02:59,000
+Here by default, you will not be able to see the option to provide the JVM system variables. To make it visible
+
+43
+00:02:59,000 --> 00:03:06,000
+here we need to click on this Modify options and here there is an option which is add VM options.
+
+44
+00:03:06,000 --> 00:03:10,000
+If you click on this, you can see you got a new text field which has VM options.
+
+45
+00:03:10,000 --> 00:03:16,000
+Here we can paste the same values like we did for command line arguments, but we need to make sure
+
+46
+00:03:16,000 --> 00:03:23,000
+instead of double hyphens we need to mention -d and what is our property value like,
+
+47
+00:03:23,000 --> 00:03:29,000
+spring.profiles.active is equal to prod and the same I have to do for the next property which
+
+48
+00:03:29,000 --> 00:03:35,000
+is -d build.version is equal to this time I'll mention something like 1.3.
+
+49
+00:03:35,000 --> 00:03:39,000
+So with this, let me click on this apply and click on
+
+50
+00:03:39,000 --> 00:03:39,000
+okay.
+
+51
+00:03:39,000 --> 00:03:43,000
+Now I'll try to restart my application again.
+
+52
+00:03:43,000 --> 00:03:46,000
+So I'm trying to start my application in debug mode.
+
+53
+00:03:46,000 --> 00:03:47,000
+I'll go to the postman.
+
+54
+00:03:47,000 --> 00:03:49,000
+So first let me click on this contact info.
+
+55
+00:03:49,000 --> 00:03:52,000
+You can see the prod profile is activated.
+
+56
+00:03:52,000 --> 00:03:56,000
+So we have mentioned the profile inside the application.yml file.
+
+57
+00:03:56,000 --> 00:03:58,000
+Now we can test the build info.
+
+58
+00:03:58,000 --> 00:04:02,000
+Here we should get the output as 1.3 and this is working perfectly fine.
+
+59
+00:04:02,000 --> 00:04:07,000
+Now let's test the last approach that we have, which is with the help of environment variables.
+
+60
+00:04:07,000 --> 00:04:13,000
+But this approach also we can right click on this AccountsApplication and click on this modify run
+
+61
+00:04:13,000 --> 00:04:14,000
+configurations.
+
+62
+00:04:14,000 --> 00:04:20,000
+Now here, first I'm going to delete the VM arguments post that you can see there is an environment
+
+63
+00:04:20,000 --> 00:04:22,000
+variables option.
+
+64
+00:04:22,000 --> 00:04:29,000
+Here first, I can paste the values, now I can remove these -d and the same I can do for 
+
+65
+00:04:29,000 --> 00:04:29,000
+build.-version.
+
+66
+00:04:29,000 --> 00:04:36,000
+There is no need of any prefix, but please make sure all the environment variables are separated with
+
+67
+00:04:36,000 --> 00:04:37,000
+semicolon value.
+
+68
+00:04:37,000 --> 00:04:44,000
+Apart from this, we should also make sure we are mentioning all the values in uppercase letters post
+
+69
+00:04:44,000 --> 00:04:46,000
+that we need to replace dot with
+
+70
+00:04:46,000 --> 00:04:49,000
+underscore. The same let me do for profiles.
+
+71
+00:04:49,000 --> 00:04:52,000
+After this I'm going to replace the dot with underscore.
+
+72
+00:04:52,000 --> 00:04:55,000
+Now I'm going to make this active as uppercase value.
+
+73
+00:04:55,000 --> 00:04:58,000
+Let me do the same for build version also.
+
+74
+00:04:58,000 --> 00:05:00,000
+So I'll just convert this
+
+75
+00:05:00,000 --> 00:05:06,000
+to uppercase and replace this dot with underscore and mention version in all capital letters.
+
+76
+00:05:06,000 --> 00:05:13,000
+So here this time I'll try to override this build -version to a new value, which is 1.8.
+
+77
+00:05:13,000 --> 00:05:19,000
+So let me apply these changes and click on okay, I will stop my application and I'll try to start again
+
+78
+00:05:19,000 --> 00:05:21,000
+in debug or run mode.
+
+79
+00:05:21,000 --> 00:05:22,000
+So let me go to the postman.
+
+80
+00:05:22,000 --> 00:05:26,000
+We should be able to see the prod profile is activated.
+
+81
+00:05:26,000 --> 00:05:31,000
+The same is confirmed by looking at these message content and the name under the contact details.
+
+82
+00:05:31,000 --> 00:05:33,000
+Now let's go to the build info.
+
+83
+00:05:33,000 --> 00:05:38,000
+We should get the value 1.8 so we are getting 1.8 value. As a next step,
+
+84
+00:05:38,000 --> 00:05:43,000
+what we can do is we can try to provide this build.version property in all the approaches.
+
+85
+00:05:43,000 --> 00:05:49,000
+So for the same, I'll start my application first and I'll right click on this AccountsApplication
+
+86
+00:05:49,000 --> 00:05:54,000
+and here I'll click on this modifier and configurations we already have build_version and
+
+87
+00:05:54,000 --> 00:05:56,000
+the environment variables.
+
+88
+00:05:56,000 --> 00:06:01,000
+Now under the program arguments also, which is like command line arguments approach.
+
+89
+00:06:01,000 --> 00:06:07,000
+We can mention build.version, but please make sure we need to mention two hyphens.
+
+90
+00:06:07,000 --> 00:06:13,000
+And very similarly I'll also try to mention the build.version under the VM options.
+
+91
+00:06:13,000 --> 00:06:19,000
+So here what I'm going to do is, I'm going to mention VM options with a different value.
+
+92
+00:06:19,000 --> 00:06:24,000
+Like maybe I'll mention 1.1 and mention the prefix which is -d.
+
+93
+00:06:24,000 --> 00:06:29,000
+So as per our understanding, command line arguments has highest preference.
+
+94
+00:06:29,000 --> 00:06:36,000
+So that's why now the output should be 1.3 where anyway we are activating the spring profiles
+
+95
+00:06:36,000 --> 00:06:39,000
+active is equal to prod inside this environment variables.
+
+96
+00:06:39,000 --> 00:06:41,000
+So let's try to focus on build.version.
+
+97
+00:06:41,000 --> 00:06:44,000
+So I'm clicking on this apply post clicking on this
+
+98
+00:06:44,000 --> 00:06:44,000
+okay.
+
+99
+00:06:44,000 --> 00:06:47,000
+And starting my application in debug mode.
+
+100
+00:06:47,000 --> 00:06:49,000
+So what is the output that we should get right now?
+
+101
+00:06:49,000 --> 00:06:52,000
+We should get the output which is 1.3.
+
+102
+00:06:52,000 --> 00:06:55,000
+So I'm just trying to send this build info.
+
+103
+00:06:55,000 --> 00:06:58,000
+You can see I'm getting 1.3. As a next step,
+
+104
+00:06:58,000 --> 00:07:03,000
+I'll go to AccountsApplication again and clicking on this Modify Run Configurations.
+
+105
+00:07:03,000 --> 00:07:06,000
+This time I will remove the command line arguments. With that,
+
+106
+00:07:06,000 --> 00:07:12,000
+now the fight will be between the JVM system variables and the environment variables.
+
+107
+00:07:12,000 --> 00:07:16,000
+And in these two the highest preference goes to the JVM system variables.
+
+108
+00:07:16,000 --> 00:07:19,000
+That's why we will get the output as 1.1.
+
+109
+00:07:19,000 --> 00:07:21,000
+So let's try to confirm the same.
+
+110
+00:07:21,000 --> 00:07:24,000
+I'm trying to restart my application in a debug mode.
+
+111
+00:07:24,000 --> 00:07:25,000
+Now I'll go to the postman.
+
+112
+00:07:25,000 --> 00:07:28,000
+We should get an output which is 1.1.
+
+113
+00:07:28,000 --> 00:07:31,000
+You can see we are getting the output 1.1.
+
+114
+00:07:31,000 --> 00:07:33,000
+I can stop my application.
+
+115
+00:07:33,000 --> 00:07:37,000
+I'll right click on this accounts application, click on this modify run configurations.
+
+116
+00:07:37,000 --> 00:07:41,000
+Now I will remove this JVM system variables with that
+
+117
+00:07:41,000 --> 00:07:46,000
+obviously, whatever build version we have mentioned under the environment variables will come as an
+
+118
+00:07:46,000 --> 00:07:47,000
+output.
+
+119
+00:07:47,000 --> 00:07:54,000
+Now if I try to remove the value even here, also the value that we have defined inside the production
+
+120
+00:07:54,000 --> 00:07:55,000
+profile will come into picture.
+
+121
+00:07:55,000 --> 00:07:57,000
+So let's confirm the same.
+
+122
+00:07:57,000 --> 00:08:03,000
+I'm trying to click on apply and okay, post that I'm going to start my application in debug mode.
+
+123
+00:08:03,000 --> 00:08:06,000
+So now the output should be 1.0.
+
+124
+00:08:06,000 --> 00:08:08,000
+I'm trying to test this build info API.
+
+125
+00:08:08,000 --> 00:08:12,000
+You can see we are getting 1.0 as an output.
+
+126
+00:08:12,000 --> 00:08:15,000
+This way we are able to solve most of our problems.
+
+127
+00:08:15,000 --> 00:08:22,000
+We built different profiles inside our application and we are able to activate the profiles through
+
+128
+00:08:22,000 --> 00:08:28,000
+externalized configurations and at the same time, if needed, we can override the existing property
+
+129
+00:08:28,000 --> 00:08:31,000
+or we can provide a new property through externalized configurations.
+
+130
+00:08:31,000 --> 00:08:39,000
+And this way we can make our microservices immutable and the same Docker image we can deploy in multiple
+
+131
+00:08:39,000 --> 00:08:44,000
+environments without the need of regenerating Docker image again and again.
+
+132
+00:08:44,000 --> 00:08:47,000
+So this solves the problem that we have.
+
+133
+00:08:47,000 --> 00:08:50,000
+But do you think this is a best approach and we can follow this?
+
+134
+00:08:50,000 --> 00:08:52,000
+Off course this may work to some extent.
+
+135
+00:08:52,000 --> 00:08:59,000
+You will be seeing some projects or some organizations using this Spring Boot profiles concept and externalize
+
+136
+00:08:59,000 --> 00:09:04,000
+the configuration concept to maintain their properties inside the microservices environment.
+
+137
+00:09:04,000 --> 00:09:10,000
+But these may work to some extent, and this is the most basic approach to maintain the configurations
+
+138
+00:09:10,000 --> 00:09:13,000
+inside the microservices or cloud native application.
+
+139
+00:09:13,000 --> 00:09:16,000
+This basic approach will not work.
+
+140
+00:09:16,000 --> 00:09:19,000
+This approach has some good amount of disadvantages.
+
+141
+00:09:19,000 --> 00:09:25,000
+I'll try to explain those disadvantages in the coming lectures, but before we try to discuss them,
+
+142
+00:09:25,000 --> 00:09:32,000
+first let's try to make the similar set of changes inside the loans and cards microservices as well.
+
+143
+00:09:32,000 --> 00:09:34,000
+I hope you are excited for the assignment.
+
+144
+00:09:34,000 --> 00:09:37,000
+Let me introduce this assignment in the next lecture.
+
+145
+00:09:37,000 --> 00:09:39,000
+Thank you and I'll catch you in the next lecture bye.
+

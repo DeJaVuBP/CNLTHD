@@ -1,0 +1,280 @@
+1
+00:00:00,000 --> 00:00:05,000
+As of now, we have built these properties inside accounts, microservice.
+
+2
+00:00:05,000 --> 00:00:11,000
+The challenge that right now we are facing is, if you try to deploy this code into various environments,
+
+3
+00:00:11,000 --> 00:00:14,000
+the set of properties they are going to use will be same.
+
+4
+00:00:14,000 --> 00:00:20,000
+What if we have an requirement where we should use different property values inside different, different
+
+5
+00:00:20,000 --> 00:00:21,000
+environments?
+
+6
+00:00:21,000 --> 00:00:25,000
+You will be seeing such requirements very often inside real projects.
+
+7
+00:00:25,000 --> 00:00:30,000
+For example, take database credentials itself, the properties related to database credentials.
+
+8
+00:00:30,000 --> 00:00:35,000
+They should not have the same values inside all the environments. Based upon the environment,
+
+9
+00:00:35,000 --> 00:00:37,000
+they should have different, different properties.
+
+10
+00:00:37,000 --> 00:00:43,000
+So let's see how to overcome this challenge and how Spring Boot is going to help in this scenario.
+
+11
+00:00:43,000 --> 00:00:47,000
+Inside Spring Boot, there is a beautiful concept called profiles.
+
+12
+00:00:47,000 --> 00:00:50,000
+So let's try to understand what are these profiles.
+
+13
+00:00:50,000 --> 00:00:56,000
+Spring Boot provides a great tool for grouping your configurations and properties into so-called profiles,
+
+14
+00:00:56,000 --> 00:01:04,000
+which means you can create different set of files and properties that will get activated based upon
+
+15
+00:01:04,000 --> 00:01:06,000
+the current executing environment.
+
+16
+00:01:06,000 --> 00:01:12,000
+If you create three different profiles like dev, QA and prod, this will give you a flexibility to you to
+
+17
+00:01:12,000 --> 00:01:18,000
+have different values for your configurations and the same will be activated based upon the current
+
+18
+00:01:18,000 --> 00:01:22,000
+active profile or based upon the current executing environment.
+
+19
+00:01:22,000 --> 00:01:29,000
+Using these profiles, we can perfectly set up our application that will run in different environments
+
+20
+00:01:29,000 --> 00:01:35,000
+with the same code, but our application is going to use different properties or configurations.
+
+21
+00:01:35,000 --> 00:01:36,000
+Using the same profiles
+
+22
+00:01:36,000 --> 00:01:39,000
+also, we can control the bean creation process.
+
+23
+00:01:39,000 --> 00:01:45,000
+We can write logic such a way that my bean has to be created only when a particular profile is activated.
+
+24
+00:01:45,000 --> 00:01:48,000
+This way, this profiles concept inside Spring boot
+
+25
+00:01:48,000 --> 00:01:54,000
+it can influence the application properties that will load and the beans that will get created inside
+
+26
+00:01:54,000 --> 00:01:55,000
+the spring context.
+
+27
+00:01:55,000 --> 00:02:01,000
+So let's try to understand more details about these profiles by default inside Spring Boot framework,
+
+28
+00:02:01,000 --> 00:02:03,000
+the default profile is always active.
+
+29
+00:02:03,000 --> 00:02:09,000
+Whatever properties and configurations you have defined inside your application.properties or applications.yml
+
+30
+00:02:09,000 --> 00:02:16,000
+file, they will go into the default profile and these profile will always be activated by
+
+31
+00:02:16,000 --> 00:02:22,000
+default and based upon your requirements, you can create another profiles by creating property files
+
+32
+00:02:22,000 --> 00:02:28,000
+or yaml files by following a naming convention like you can see if I want to create two more profiles
+
+33
+00:02:28,000 --> 00:02:34,000
+for the production environment and the QA environment, I can create the files like application_prod.properties
+
+34
+00:02:34,000 --> 00:02:39,000
+or application_prod.properties.
+
+35
+00:02:39,000 --> 00:02:45,000
+Since in our case we are using Yaml extension, we should create files with the extension.yml.
+
+36
+00:02:45,000 --> 00:02:50,000
+Once we create these two extra profile files, then inside our application there will be total three
+
+37
+00:02:50,000 --> 00:02:51,000
+profiles.
+
+38
+00:02:51,000 --> 00:02:57,000
+One is default profile that you can use inside your local development and the second one will be QA profile
+
+39
+00:02:57,000 --> 00:02:59,000
+and the third one will be production profile.
+
+40
+00:02:59,000 --> 00:03:03,000
+This way you can create any number of profiles based upon your business requirements.
+
+41
+00:03:03,000 --> 00:03:08,000
+So now the very next question that you will be having is, how can I activate a specific profile?
+
+42
+00:03:08,000 --> 00:03:14,000
+We can easily activate a profile with the help of this property available inside the springboard.
+
+43
+00:03:14,000 --> 00:03:21,000
+So this property is spring.profiles.active and to this property key you need to pass the value
+
+44
+00:03:21,000 --> 00:03:22,000
+of your profile.
+
+45
+00:03:22,000 --> 00:03:28,000
+Since I'm passing here prod, this means my production related profile will get activated.
+
+46
+00:03:28,000 --> 00:03:35,000
+Along with that, all the properties and configurations defined inside our application_prod.properties
+
+47
+00:03:35,000 --> 00:03:41,000
+or yml file will get considered by the spring boot application. And if needed you can
+
+48
+00:03:41,000 --> 00:03:47,000
+activate multiple profiles also with the help of comma separated values. By following these spring boot
+
+49
+00:03:47,000 --> 00:03:47,000
+profiles.
+
+50
+00:03:47,000 --> 00:03:54,000
+We don't have to rebuild our code and regenerate the Docker image or the software package for every
+
+51
+00:03:54,000 --> 00:04:00,000
+environment because we are going to have the properties and configurations related to all the environments
+
+52
+00:04:00,000 --> 00:04:05,000
+inside the code base itself and we can activate these profiles based upon our requirements.
+
+53
+00:04:05,000 --> 00:04:12,000
+So I just wanted to highlight always please remember that once the application is built and packaged,
+
+54
+00:04:12,000 --> 00:04:15,000
+it should not be modified at any cost.
+
+55
+00:04:15,000 --> 00:04:21,000
+Whenever you are trying to move your application from one environment to other environment, it might
+
+56
+00:04:21,000 --> 00:04:23,000
+be a feasible option inside monolithic application.
+
+57
+00:04:23,000 --> 00:04:30,000
+But inside microservices, building your application again and again for different environments is not
+
+58
+00:04:30,000 --> 00:04:35,000
+going to be a feasible option and it is going to be super, super complex and cumbersome process.
+
+59
+00:04:35,000 --> 00:04:41,000
+With these profiles to some extent, we are able to configure all the properties related to all the environments
+
+60
+00:04:41,000 --> 00:04:47,000
+inside our application code itself and based upon our requirements, we can activate a specific profile.
+
+61
+00:04:47,000 --> 00:04:54,000
+But if there is a scenario where you can't maintain certain sensitive credentials or properties inside
+
+62
+00:04:54,000 --> 00:04:59,000
+your properties file, then they should be provided externally during the startup of the 
+
+63
+00:05:00,000 --> 00:05:05,000
+application. We will explore what are the various options that we have to provide properties externally
+
+64
+00:05:05,000 --> 00:05:07,000
+during the startup of the application.
+
+65
+00:05:07,000 --> 00:05:13,000
+But for now, let's try to update our accounts microservice, by creating various profiles for various
+
+66
+00:05:13,000 --> 00:05:15,000
+environments like QA  and production.
+
+67
+00:05:15,000 --> 00:05:18,000
+I hope you are clear with these profiles concept.
+
+68
+00:05:18,000 --> 00:05:20,000
+If you have any questions, don't worry.
+
+69
+00:05:20,000 --> 00:05:23,000
+When we see these in action it will be more clear for you.
+
+70
+00:05:23,000 --> 00:05:26,000
+Thank you and I'll catch you in the next lecture bye.
+

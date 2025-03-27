@@ -1,0 +1,712 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+let's try to store all the configurations of our microservices inside the classpath of our config server.
+
+3
+00:00:08,000 --> 00:00:13,000
+Before I try to make those changes, first let me try to define a new property inside the application.yml
+
+4
+00:00:13,000 --> 00:00:15,000
+of config server.
+
+5
+00:00:15,000 --> 00:00:21,000
+And this property is spring and under the spring we need to invoke application.
+
+6
+00:00:21,000 --> 00:00:24,000
+After the application we need to invoke name.
+
+7
+00:00:24,000 --> 00:00:27,000
+So I'm trying to set a name for my config server.
+
+8
+00:00:27,000 --> 00:00:33,000
+So whenever we are trying to set a name for our spring boot application, we can use this 
+
+9
+00:00:33,000 --> 00:00:36,000
+spring.application.name property.
+
+10
+00:00:36,000 --> 00:00:40,000
+Or you can also follow this Yaml configuration inside your spring boot applications.
+
+11
+00:00:40,000 --> 00:00:44,000
+So the name that I want to give here is config server itself.
+
+12
+00:00:44,000 --> 00:00:49,000
+So please make sure you are giving a space after the colon and the name is config server.
+
+13
+00:00:49,000 --> 00:00:55,000
+So from now onwards for all our spring boot applications we are going to give the name for them.
+
+14
+00:00:55,000 --> 00:00:56,000
+Using these names,
+
+15
+00:00:56,000 --> 00:01:00,000
+only the entire spring cloud config server concept is going to work.
+
+16
+00:01:00,000 --> 00:01:02,000
+More details to follow.
+
+17
+00:01:02,000 --> 00:01:06,000
+For now we just assign a name for our spring boot application and the name is config server.
+
+18
+00:01:06,000 --> 00:01:13,000
+Now I'll go to the resources folder and inside this resources folder I'm going to create a new folder
+
+19
+00:01:13,000 --> 00:01:19,000
+with the name config because inside this config folder only I'm going to store all the configurations
+
+20
+00:01:19,000 --> 00:01:21,000
+related to other microservices.
+
+21
+00:01:21,000 --> 00:01:25,000
+First, I'll try to get the configurations from the accounts
+
+22
+00:01:25,000 --> 00:01:31,000
+microservice. You know, under this we have three different profiles like default, prod and QA.
+
+23
+00:01:31,000 --> 00:01:36,000
+So let me try to copy these three values to the config server location.
+
+24
+00:01:36,000 --> 00:01:40,000
+So under this config directory I'm trying to paste all these three new files.
+
+25
+00:01:40,000 --> 00:01:46,000
+So here you can see we have three different files, but here there is a challenge for our config server.
+
+26
+00:01:46,000 --> 00:01:47,000
+Like for accounts microservice
+
+27
+00:01:47,000 --> 00:01:49,000
+we can mention these three files.
+
+28
+00:01:49,000 --> 00:01:55,000
+If you try to bring the files of cards microservice and loans microservice or any other microservice,
+
+29
+00:01:55,000 --> 00:01:58,000
+they are all going to have the same name.
+
+30
+00:01:58,000 --> 00:02:04,000
+So that will create a lot of confusion to config server like which files it has to load, which properties
+
+31
+00:02:04,000 --> 00:02:05,000
+it has to load during the startup.
+
+32
+00:02:05,000 --> 00:02:12,000
+To overcome this challenge, all our property files, we should name them with our spring boot application
+
+33
+00:02:12,000 --> 00:02:15,000
+name or with the microservice name itsel. For accounts,
+
+34
+00:02:15,000 --> 00:02:20,000
+I'm going to set the spring.application.name as accounts in few minutes.
+
+35
+00:02:20,000 --> 00:02:25,000
+That's why we can change the name of this application.yaml to accounts.yml.
+
+36
+00:02:25,000 --> 00:02:29,000
+Very similarly, I will do the same for other file as well.
+
+37
+00:02:29,000 --> 00:02:29,000
+Here
+
+38
+00:02:29,000 --> 00:02:34,000
+I will just remove the application and mention accounts and with that the file name will be 
+
+39
+00:02:34,000 --> 00:02:36,000
+accounts_prod.yml.
+
+40
+00:02:36,000 --> 00:02:42,000
+Since we are using this application_prod.yml inside the accounts.yml it is asking do
+
+41
+00:02:42,000 --> 00:02:47,000
+we need to change the name inside the application.yml also. So we can click on this
+
+42
+00:02:47,000 --> 00:02:48,000
+do refactor.
+
+43
+00:02:48,000 --> 00:02:49,000
+That should be fine.
+
+44
+00:02:49,000 --> 00:02:49,000
+Now,
+
+45
+00:02:49,000 --> 00:02:54,000
+very similarly, I'm going to rename the file name of application_qa.
+
+46
+00:02:54,000 --> 00:02:58,000
+So the file name is going to be accounts_qa.
+
+47
+00:02:58,000 --> 00:03:01,000
+I'm going to click on this refactor and do refactor.
+
+48
+00:03:01,000 --> 00:03:07,000
+And with this we have the three different files of accounts microservice, which are representing three
+
+49
+00:03:07,000 --> 00:03:08,000
+different profiles.
+
+50
+00:03:08,000 --> 00:03:14,000
+If you see under the accounts_qa as of now we have these properties, off course we need them
+
+51
+00:03:14,000 --> 00:03:19,000
+because these are the properties that we are trying to externalize from our business logic.
+
+52
+00:03:19,000 --> 00:03:24,000
+Here I don't need these property because I'm not going to use the approaches related to the spring boot since
+
+53
+00:03:24,000 --> 00:03:30,000
+we are going to leverage spring cloud config, we can safely delete these property. With that,
+
+54
+00:03:30,000 --> 00:03:36,000
+right now we have only the properties related to the build version and accounts microservice like
+
+55
+00:03:36,000 --> 00:03:39,000
+message, contact details and on call support.
+
+56
+00:03:39,000 --> 00:03:42,000
+So let me do the same for accounts_prod also here
+
+57
+00:03:42,000 --> 00:03:48,000
+also I'm going to delete this and very similarly I'll go to accounts.yml and all these are the
+
+58
+00:03:48,000 --> 00:03:53,000
+properties related to the accounts microservice and we don't want to externalize all these server.port
+
+59
+00:03:53,000 --> 00:03:55,000
+h2 database related properties.
+
+60
+00:03:55,000 --> 00:04:01,000
+So that's why we can delete these and we don't need to mention all the file names with the help of this
+
+61
+00:04:01,000 --> 00:04:03,000
+spring.config.import.
+
+62
+00:04:03,000 --> 00:04:06,000
+That's why I'm going to remove these configurations as well.
+
+63
+00:04:06,000 --> 00:04:12,000
+With this inside the config server we have strictly the properties or the configurations for default
+
+64
+00:04:12,000 --> 00:04:19,000
+profile, for prod profile and similarly for QA profile, I'm going to do the same for loans and cards
+
+65
+00:04:19,000 --> 00:04:20,000
+microservice as well.
+
+66
+00:04:20,000 --> 00:04:24,000
+So behind the scenes I'll make them and I'll come back in few seconds.
+
+67
+00:04:24,000 --> 00:04:30,000
+I successfully created the property files related to cards and loans Microservice
+
+68
+00:04:30,000 --> 00:04:35,000
+you can see there are six new files that I have created under this config folder, and these files have
+
+69
+00:04:35,000 --> 00:04:39,000
+the microservice at the applications name itself like cards and loans.
+
+70
+00:04:39,000 --> 00:04:42,000
+So we follow the same naming convention.
+
+71
+00:04:42,000 --> 00:04:48,000
+If you can try to open any of these yaml file under this cards.yml we have all the properties or
+
+72
+00:04:48,000 --> 00:04:54,000
+the configurations of cards microservice that we need to follow in the default or local profile.
+
+73
+00:04:54,000 --> 00:05:00,000
+Very similarly, if you can open randomly loans-prod.yml here we have all the properties
+
+74
+00:05:00,000 --> 00:05:06,000
+related to loans microservice that needs to be activated whenever we're trying to activate the prod
+
+75
+00:05:06,000 --> 00:05:06,000
+profile.
+
+76
+00:05:06,000 --> 00:05:13,000
+So now we have moved all the required properties into the centralized location which is inside the classpath
+
+77
+00:05:13,000 --> 00:05:15,000
+location of my config server itself.
+
+78
+00:05:15,000 --> 00:05:21,000
+I have to communicate to my spring cloud config server that I have stored all these files in so and
+
+79
+00:05:21,000 --> 00:05:27,000
+so location. For the same, we need to open the application.yml of spring cloud config server.
+
+80
+00:05:27,000 --> 00:05:30,000
+Here we need to create few configurations or properties.
+
+81
+00:05:30,000 --> 00:05:33,000
+The very first one is spring.profiles.active.
+
+82
+00:05:33,000 --> 00:05:35,000
+So we already have spring here.
+
+83
+00:05:35,000 --> 00:05:40,000
+So just under the spring I can try to mention a new element which is profiles.
+
+84
+00:05:40,000 --> 00:05:46,000
+After this profiles I'm going to mention a child element which is active under this active we need to
+
+85
+00:05:46,000 --> 00:05:48,000
+mention a value which is native.
+
+86
+00:05:48,000 --> 00:05:54,000
+So with this native I'm trying to tell to my spring cloud config server that I want to activate a native
+
+87
+00:05:54,000 --> 00:05:56,000
+profile of spring cloud config server.
+
+88
+00:05:56,000 --> 00:06:01,000
+So whenever we are trying to use a classpath to store all our configuration, we need to make sure we
+
+89
+00:06:01,000 --> 00:06:03,000
+are activating this native profile.
+
+90
+00:06:03,000 --> 00:06:06,000
+Once we define this profile activation details.
+
+91
+00:06:06,000 --> 00:06:12,000
+Now under the same spring, we need to create few more properties like spring.cloud under the cloud
+
+92
+00:06:12,000 --> 00:06:13,000
+config,
+
+93
+00:06:13,000 --> 00:06:19,000
+after the config we need to mention server and after the server we need to mention native because we
+
+94
+00:06:19,000 --> 00:06:22,000
+activated the native profile. Under the native,
+
+95
+00:06:22,000 --> 00:06:28,000
+we need to mention search locations like search hyphen locations.
+
+96
+00:06:28,000 --> 00:06:29,000
+With this property only,
+
+97
+00:06:29,000 --> 00:06:34,000
+we are going to tell to the spring cloud config server where our properties are stored.
+
+98
+00:06:34,000 --> 00:06:37,000
+Right now our properties are stored inside the classpath.
+
+99
+00:06:37,000 --> 00:06:41,000
+That's why we need to give this classpath prefix followed by colon and post that
+
+100
+00:06:41,000 --> 00:06:46,000
+we need to give the folder location inside your classpath which is config.
+
+101
+00:06:46,000 --> 00:06:48,000
+So with this we should be good.
+
+102
+00:06:48,000 --> 00:06:50,000
+We have made all the required changes.
+
+103
+00:06:50,000 --> 00:06:55,000
+Now let me save this changes and do a build since we are trying to do the build very first time inside
+
+104
+00:06:55,000 --> 00:06:56,000
+this workspace,
+
+105
+00:06:56,000 --> 00:07:01,000
+it is trying to ask me to enable this annotation processing which is required for Lombok.
+
+106
+00:07:01,000 --> 00:07:03,000
+So let me try to enable this and post that
+
+107
+00:07:03,000 --> 00:07:05,000
+I'm going to do the build again.
+
+108
+00:07:05,000 --> 00:07:12,000
+Now I will try to start my spring cloud config server in a debug mode and this will start my spring
+
+109
+00:07:12,000 --> 00:07:15,000
+boot application at the port 8071.
+
+110
+00:07:15,000 --> 00:07:17,000
+You can see this is the port number.
+
+111
+00:07:17,000 --> 00:07:19,000
+Now the server is started successfully.
+
+112
+00:07:19,000 --> 00:07:25,000
+How to validate if the server loaded all the properties from my storage location. For  the same we
+
+113
+00:07:25,000 --> 00:07:31,000
+can try to invoke various get API paths that are exposed by the config server.
+
+114
+00:07:31,000 --> 00:07:40,000
+So here we need to invoke the path which is localhost:8071/and what is the microservice name
+
+115
+00:07:40,000 --> 00:07:43,000
+or application name that you want to check for the properties.
+
+116
+00:07:43,000 --> 00:07:50,000
+So first let's try to check for accounts and inside accounts, multiple profiles like prod, qa, default.
+
+117
+00:07:50,000 --> 00:07:58,000
+So here if you try to invoke the URL, which is localhost:8071/accounts/prod, you should get the properties
+
+118
+00:07:58,000 --> 00:08:01,000
+related to the prod profile of accounts
+
+119
+00:08:01,000 --> 00:08:01,000
+microservice.
+
+120
+00:08:01,000 --> 00:08:03,000
+So let's try to access the same.
+
+121
+00:08:03,000 --> 00:08:09,000
+So as of now you can see I'm getting the properties from the default profile from this file which is
+
+122
+00:08:09,000 --> 00:08:10,000
+accounts.yml.
+
+123
+00:08:10,000 --> 00:08:13,000
+Since there is an issue with my accounts microservice.
+
+124
+00:08:13,000 --> 00:08:15,000
+So let's try to see what is the issue.
+
+125
+00:08:15,000 --> 00:08:21,000
+I made a mistake which is like I have used underscore, whereas we should use hyphen, I have used the
+
+126
+00:08:21,000 --> 00:08:25,000
+same hyphen for cards and loans but for accounts microservice
+
+127
+00:08:25,000 --> 00:08:28,000
+I made a mistake here, so please allow me to correct this issue.
+
+128
+00:08:28,000 --> 00:08:34,000
+So I'm going to rename this property file name to accounts-prod.
+
+129
+00:08:34,000 --> 00:08:36,000
+So please don't use underscore.
+
+130
+00:08:36,000 --> 00:08:37,000
+We should use a hyphen.
+
+131
+00:08:37,000 --> 00:08:40,000
+So let me try to rename the show as well.
+
+132
+00:08:40,000 --> 00:08:45,000
+You can see a single character is creating such a major issue inside the application.
+
+133
+00:08:45,000 --> 00:08:47,000
+So now we should be good.
+
+134
+00:08:47,000 --> 00:08:53,000
+Let me restart the application after doing a build, so I'm just stopping my application and trying
+
+135
+00:08:53,000 --> 00:08:54,000
+to start the application again.
+
+136
+00:08:54,000 --> 00:08:57,000
+So here I'll try to access the account/prod.
+
+137
+00:08:57,000 --> 00:09:02,000
+You can see we are getting the properties from prod profile and default profile.
+
+138
+00:09:02,000 --> 00:09:08,000
+That's the expected behavior because by default all the properties inside your default profile will
+
+139
+00:09:08,000 --> 00:09:09,000
+be loaded.
+
+140
+00:09:09,000 --> 00:09:14,000
+Apart from that, since you are trying to access the prod profile, it is going to load the properties
+
+141
+00:09:14,000 --> 00:09:16,000
+related to the prod as well.
+
+142
+00:09:16,000 --> 00:09:21,000
+So these are the prod profile properties and these are the default profile properties.
+
+143
+00:09:21,000 --> 00:09:27,000
+And during the startup of our microservice, they are going to ignore the default profile values and
+
+144
+00:09:27,000 --> 00:09:32,000
+they will simply follow the prod profile if you try to activate the same prod profile.
+
+145
+00:09:32,000 --> 00:09:35,000
+So let's validate the same for QA as well.
+
+146
+00:09:35,000 --> 00:09:37,000
+For also we have two different properties.
+
+147
+00:09:37,000 --> 00:09:40,000
+One is for QA and the other one is default profile.
+
+148
+00:09:40,000 --> 00:09:46,000
+If you try to access a default profile, which is default, you will be seeing only the properties from
+
+149
+00:09:46,000 --> 00:09:47,000
+the default profile.
+
+150
+00:09:47,000 --> 00:09:49,000
+So this is quite expected.
+
+151
+00:09:49,000 --> 00:09:52,000
+Now let's try to validate the same for loans default.
+
+152
+00:09:52,000 --> 00:09:54,000
+So loans defaults also working fine.
+
+153
+00:09:54,000 --> 00:09:57,000
+Similarly for cards default also working fine.
+
+154
+00:09:57,000 --> 00:09:59,000
+I'll try to validate the qa cards
+
+155
+00:09:59,000 --> 00:10:00,000
+profile.
+
+156
+00:10:00,000 --> 00:10:02,000
+It is also working fine.
+
+157
+00:10:02,000 --> 00:10:04,000
+Let me validate prod as well for cards,
+
+158
+00:10:04,000 --> 00:10:05,000
+it is working fine.
+
+159
+00:10:05,000 --> 00:10:07,000
+I can validate loans-prod,
+
+160
+00:10:07,000 --> 00:10:09,000
+it is working fine.
+
+161
+00:10:09,000 --> 00:10:12,000
+And at last we can also validate loans-qa as well.
+
+162
+00:10:12,000 --> 00:10:19,000
+So with this all the profiles are loaded into my spring cloud config server like whatever configurations
+
+163
+00:10:19,000 --> 00:10:25,000
+we have stored inside the classpath, all of them loaded during the startup of the config server.
+
+164
+00:10:25,000 --> 00:10:31,000
+As a next step, we need to establish a link between the config server and our individual microservice.
+
+165
+00:10:31,000 --> 00:10:36,000
+So that during the startup of the individual microservice, based upon the profile that we are trying
+
+166
+00:10:36,000 --> 00:10:42,000
+to activate these APIs of the config server will be invoked and the property details present inside
+
+167
+00:10:42,000 --> 00:10:45,000
+them will be considered by our individual microservice.
+
+168
+00:10:45,000 --> 00:10:51,000
+So that's our target right now we have and here you may have a question like how this Json is displaying
+
+169
+00:10:51,000 --> 00:10:57,000
+for me very beautifully inside your case it might be showing very raw data or very raw Json.
+
+170
+00:10:57,000 --> 00:11:03,000
+So if you want to beautify your Json inside your Chrome browser, always go for an Chrome extension
+
+171
+00:11:03,000 --> 00:11:05,000
+with the name Json view.
+
+172
+00:11:05,000 --> 00:11:07,000
+So please install this and post that,
+
+173
+00:11:07,000 --> 00:11:10,000
+you should be able to see the Json in a readable format.
+
+174
+00:11:10,000 --> 00:11:16,000
+So with this we have successfully created a config server and we are right now reading the properties
+
+175
+00:11:16,000 --> 00:11:17,000
+from the classpath location.
+
+176
+00:11:17,000 --> 00:11:24,000
+In the next lecture, let's try to establish the link between our microservices and spring cloud config
+
+177
+00:11:24,000 --> 00:11:24,000
+server.
+
+178
+00:11:24,000 --> 00:11:27,000
+Thank you and I'll catch you in the next lecture bye.
+

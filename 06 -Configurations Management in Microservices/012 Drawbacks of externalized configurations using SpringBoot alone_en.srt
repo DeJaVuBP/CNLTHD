@@ -1,0 +1,348 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+let me show you the limitations or the drawbacks that we may face when we try to externalize the configurations
+
+3
+00:00:08,000 --> 00:00:10,000
+using spring boot framework alone.
+
+4
+00:00:10,000 --> 00:00:16,000
+The very first drawback is we try to externalize the configurations using the approaches like CLI,
+
+5
+00:00:16,000 --> 00:00:20,000
+arguments, JVM properties and environment variables.
+
+6
+00:00:20,000 --> 00:00:23,000
+They are effective ways to externalize the configurations.
+
+7
+00:00:23,000 --> 00:00:24,000
+I do agree with that.
+
+8
+00:00:24,000 --> 00:00:29,000
+And they also support to maintain the immutability of your application build.
+
+9
+00:00:29,000 --> 00:00:34,000
+You don't have to regenerate your Docker image again and again for different environments.
+
+10
+00:00:34,000 --> 00:00:36,000
+Until this point everything is perfect.
+
+11
+00:00:36,000 --> 00:00:43,000
+Now coming to the disadvantages like we saw whenever we are trying to use this approaches, it often
+
+12
+00:00:43,000 --> 00:00:49,000
+involves executing separate commands with the help of Java commands or manually setting up the application,
+
+13
+00:00:49,000 --> 00:00:57,000
+which means we need to inject these CLI arguments, JVM properties, environment variables manually at some point
+
+14
+00:00:57,000 --> 00:01:00,000
+of time, like maybe inside the CI/CD pipelines.
+
+15
+00:01:00,000 --> 00:01:04,000
+So this process again may introduce potential errors during the deployment.
+
+16
+00:01:04,000 --> 00:01:10,000
+And again, you can see you need to dependent on someone like there should be some human setting up
+
+17
+00:01:10,000 --> 00:01:14,000
+all these externalized configurations during the startup of the application.
+
+18
+00:01:14,000 --> 00:01:19,000
+And doing that for all instances for all the microservices is going to be super challenging.
+
+19
+00:01:19,000 --> 00:01:25,000
+Though you can automate most of these tasks with the help of CI/CD pipelines like GitHub actions or Jenkins.
+
+20
+00:01:25,000 --> 00:01:29,000
+But still there is a chance that someone can mess up this process.
+
+21
+00:01:29,000 --> 00:01:32,000
+So that's a very first limitation that we have here.
+
+22
+00:01:32,000 --> 00:01:39,000
+The next limitation is if you have hundreds of microservice, then you will also have thousands of configuration
+
+23
+00:01:39,000 --> 00:01:43,000
+properties that will evolve and changes on day to day basis.
+
+24
+00:01:43,000 --> 00:01:49,000
+So just like how your application code, you should also follow the strategies to store and maintain
+
+25
+00:01:49,000 --> 00:01:53,000
+the versioning of your configurations and properties based upon your release.
+
+26
+00:01:53,000 --> 00:01:59,000
+And at the same time, you should also support the auditing functionality like who access to your configuration,
+
+27
+00:01:59,000 --> 00:02:01,000
+which clients access to your configuration data.
+
+28
+00:02:01,000 --> 00:02:07,000
+With the spring boot profiles alone, we are putting all our configurations inside the source code itself.
+
+29
+00:02:07,000 --> 00:02:14,000
+So anyone who has access to my source code or Docker image, they can easily understand all my configurations
+
+30
+00:02:14,000 --> 00:02:20,000
+and it is not a wise decision to expose all the configurations to anyone.
+
+31
+00:02:20,000 --> 00:02:25,000
+That's why it is always recommended to store our configuration separately inside a centralized repository
+
+32
+00:02:25,000 --> 00:02:31,000
+where it supports all kind of versioning, tracking revision and auditing the configurations.
+
+33
+00:02:31,000 --> 00:02:35,000
+Right now, Spring boot and profiles cannot provide this advantage.
+
+34
+00:02:35,000 --> 00:02:38,000
+That's why we can call this as an limitation.
+
+35
+00:02:38,000 --> 00:02:44,000
+And whenever we are trying to use environment variables, they lack granular access, like whoever has
+
+36
+00:02:44,000 --> 00:02:51,000
+access to your production server, like all the server admins, they can see your environment variables.
+
+37
+00:02:51,000 --> 00:02:56,000
+May be you are trying to configure database credentials as some sensitive properties with the help of
+
+38
+00:02:56,000 --> 00:03:02,000
+environment variables because you don't want to mention them inside the application.yml file or
+
+39
+00:03:02,000 --> 00:03:04,000
+inside the profile files directly.
+
+40
+00:03:04,000 --> 00:03:07,000
+Since that is going to expose your sensitive information to everyone.
+
+41
+00:03:07,000 --> 00:03:13,000
+But even if you try to follow the environment variables with this approach, also your server admins
+
+42
+00:03:13,000 --> 00:03:17,000
+will be seeing your environment variables.
+
+43
+00:03:17,000 --> 00:03:22,000
+That's why this is considered as a serious security limitation. Inside the microservices,
+
+44
+00:03:22,000 --> 00:03:28,000
+we will deploy multiple instances of a single microservice like we have three microservices like accounts,
+
+45
+00:03:28,000 --> 00:03:29,000
+loans and cards.
+
+46
+00:03:29,000 --> 00:03:36,000
+But if we decided to deploy three instances of each microservice, then there will be total nine Docker
+
+47
+00:03:36,000 --> 00:03:43,000
+containers or total nine instances will be running inside your production in such scenarios, providing
+
+48
+00:03:43,000 --> 00:03:48,000
+all these externalized configurations with the CLI arguments, JVM properties or any other approach
+
+49
+00:03:48,000 --> 00:03:50,000
+is going to be super, super challenging.
+
+50
+00:03:50,000 --> 00:03:55,000
+And here I'm just talking about three microservices where each one has three instances.
+
+51
+00:03:55,000 --> 00:04:01,000
+Think like 100 microservice, where each one has at least five instances, then the number of instances
+
+52
+00:04:01,000 --> 00:04:02,000
+are going to run inside,
+
+53
+00:04:02,000 --> 00:04:05,000
+your production is going to be 500 instances.
+
+54
+00:04:05,000 --> 00:04:12,000
+You can imagine, even if you have a single manual task involved for a microservice, the same has to
+
+55
+00:04:12,000 --> 00:04:14,000
+be repeated in all the microservice.
+
+56
+00:04:14,000 --> 00:04:17,000
+That's why this approach is not going to work.
+
+57
+00:04:17,000 --> 00:04:21,000
+When you are trying to deploy multiple instances of your microservices.
+
+58
+00:04:21,000 --> 00:04:24,000
+The next limitation is around the security.
+
+59
+00:04:24,000 --> 00:04:30,000
+Think like you want to provide the database password to your spring boot container or your spring boot
+
+60
+00:04:30,000 --> 00:04:37,000
+microservice, regardless of whatever approach you use like CLI, JVM or environment variables or spring
+
+61
+00:04:37,000 --> 00:04:43,000
+boot profiles, you need to mention the plain text password which can expose your password to everyone.
+
+62
+00:04:43,000 --> 00:04:49,000
+And these approaches, they are not going to support any encryption or decryption and storing the secrets
+
+63
+00:04:49,000 --> 00:04:51,000
+securely inside your application.
+
+64
+00:04:51,000 --> 00:04:55,000
+So that's why this is also going to be a security limitation.
+
+65
+00:04:55,000 --> 00:04:59,000
+And the last important limitation is, with all these approaches that we have discussed
+
+66
+00:05:00,000 --> 00:05:06,000
+as of now, whenever you want to change the property value at runtime, you need to definitely restart
+
+67
+00:05:06,000 --> 00:05:07,000
+your application.
+
+68
+00:05:07,000 --> 00:05:14,000
+Suppose if I want to change a property value, once the microservices instances are started, then definitely
+
+69
+00:05:14,000 --> 00:05:20,000
+I need to change this property and restart all of my containers or microservices, which is not again
+
+70
+00:05:20,000 --> 00:05:22,000
+a good way to handle this.
+
+71
+00:05:22,000 --> 00:05:29,000
+The microservices should be able to automatically read the latest property value without the restart.
+
+72
+00:05:29,000 --> 00:05:31,000
+With spring boot alone, this is not going to happen.
+
+73
+00:05:31,000 --> 00:05:36,000
+Every time we want to change something, we need to restart the application or microservice.
+
+74
+00:05:36,000 --> 00:05:43,000
+So with all these limitations, definitely we cannot use spring boot alone to manage the configurations
+
+75
+00:05:43,000 --> 00:05:45,000
+inside the microservices applications.
+
+76
+00:05:45,000 --> 00:05:51,000
+If you are seeing someone using spring boot alone to handle the configurations inside the microservice,
+
+77
+00:05:51,000 --> 00:05:53,000
+then there are two chances.
+
+78
+00:05:53,000 --> 00:05:58,000
+Either the project is very small in nature where they have, with a very limited number of properties
+
+79
+00:05:58,000 --> 00:06:04,000
+with very low severity applications, or they may not be knowing the advanced options that we have to
+
+80
+00:06:04,000 --> 00:06:05,000
+handle these kind of scenarios.
+
+81
+00:06:05,000 --> 00:06:11,000
+So since you are my student and you have taken this course, don't worry, you are not going to be in
+
+82
+00:06:11,000 --> 00:06:12,000
+such scenarios.
+
+83
+00:06:12,000 --> 00:06:17,000
+I'm going to teach you how to overcome all these challenges with the help of an advanced option, which
+
+84
+00:06:17,000 --> 00:06:20,000
+is using spring cloud config server.
+
+85
+00:06:20,000 --> 00:06:22,000
+I know you're super, super excited.
+
+86
+00:06:22,000 --> 00:06:26,000
+Let's try to start the journey of spring cloud config server from the next lecture.
+
+87
+00:06:26,000 --> 00:06:29,000
+Thank you and I'll catch you in the next lecture bye.
+
