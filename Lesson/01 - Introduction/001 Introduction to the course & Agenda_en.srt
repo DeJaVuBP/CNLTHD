@@ -1,0 +1,320 @@
+1
+00:00:00,000 --> 00:00:07,000
+Welcome to the Master Microservices course with the help of Spring Boot, Docker and Kubernetes.
+
+2
+00:00:07,000 --> 00:00:14,000
+This course helps Java developers to build production grade microservices by using Spring Boot, Docker,
+
+3
+00:00:14,000 --> 00:00:17,000
+Kubernetes and other supporting components.
+
+4
+00:00:17,000 --> 00:00:21,000
+Here you may have a question like Why should I learn microservices?
+
+5
+00:00:21,000 --> 00:00:27,000
+The reason why you should learn and master microservices is these days many organizations, they are
+
+6
+00:00:27,000 --> 00:00:31,000
+migrating their monolithic applications into microservices.
+
+7
+00:00:31,000 --> 00:00:38,000
+The reason is microservices architecture makes applications easier to scale, faster to develop, enable
+
+8
+00:00:38,000 --> 00:00:45,000
+innovation, and it is also going to help organizations by accelerating the time to take their new enhancements
+
+9
+00:00:45,000 --> 00:00:46,000
+to the market.
+
+10
+00:00:46,000 --> 00:00:53,000
+So with all these reasons, microservice is going to be a demanding skill set for next few years.
+
+11
+00:00:53,000 --> 00:00:58,000
+So to help you mastering microservices, this course has been built.
+
+12
+00:00:58,000 --> 00:01:05,000
+Let me try to quickly cover what is the agenda of this course, what exactly I'm going to cover throughout
+
+13
+00:01:05,000 --> 00:01:06,000
+this course.
+
+14
+00:01:06,000 --> 00:01:11,000
+First, we are going to start the course by entering into the world of microservices.
+
+15
+00:01:11,000 --> 00:01:16,000
+I'm going to give a formal introduction about what is microservices, how they are different from monolithic
+
+16
+00:01:16,000 --> 00:01:17,000
+and server architectures.
+
+17
+00:01:17,000 --> 00:01:23,000
+Once we are clear about the microservices architecture, why we should build microservices, I'm going
+
+18
+00:01:23,000 --> 00:01:29,000
+to explain you how to build a microservices with the help of Spring Boot by following the production
+
+19
+00:01:29,000 --> 00:01:30,000
+standards.
+
+20
+00:01:30,000 --> 00:01:36,000
+These standards includes best practices while building rest APIs, how to document your Rest APIs,
+
+21
+00:01:36,000 --> 00:01:42,000
+how to perform validations on top of your rest APIs, all these standards and best practices we are
+
+22
+00:01:42,000 --> 00:01:48,000
+going to discuss while building microservices throughout this course. And apart from building microservices,
+
+23
+00:01:48,000 --> 00:01:54,000
+I'm also going to teach you how to rightsize your microservices, how to identify boundaries and how
+
+24
+00:01:54,000 --> 00:01:57,000
+to containerize your microservices with the help of Docker.
+
+25
+00:01:57,000 --> 00:02:03,000
+Because without knowing on how to containerize your spring boot application, you cannot really build
+
+26
+00:02:03,000 --> 00:02:04,000
+microservices.
+
+27
+00:02:04,000 --> 00:02:09,000
+That's why learning about Docker is very basic need for a microservice developer.
+
+28
+00:02:09,000 --> 00:02:15,000
+So once we learn about how to containerize our microservices, I'm going to explain you how to maintain
+
+29
+00:02:15,000 --> 00:02:21,000
+configurations inside your microservices with the help of spring cloud config server, followed by how
+
+30
+00:02:21,000 --> 00:02:27,000
+to build your own service discovery and service registration inside microservices using Eureka Server
+
+31
+00:02:27,000 --> 00:02:34,000
+and how to build an edge server or an entry point into your microservice network with the help of Spring
+
+32
+00:02:34,000 --> 00:02:34,000
+Cloud Gateway.
+
+33
+00:02:34,000 --> 00:02:41,000
+And apart from building your microservices, you should also take care of making your microservices
+
+34
+00:02:41,000 --> 00:02:46,000
+resilient and fault tolerant by using standards like resiliency4j  patterns.
+
+35
+00:02:46,000 --> 00:02:50,000
+So these patterns are also discussed throughout this course in detail.
+
+36
+00:02:50,000 --> 00:02:56,000
+Once building microservices is completed, you should also take care of how to implement observability
+
+37
+00:02:56,000 --> 00:03:02,000
+and monitoring inside your microservices by using supporting components like Grafana, Prometheus.
+
+38
+00:03:02,000 --> 00:03:09,000
+So all these components we are going to explore and we are going to implement observability and monitoring
+
+39
+00:03:09,000 --> 00:03:16,000
+inside our microservices. And we can't climb our microservices as production ready without securing our
+
+40
+00:03:16,000 --> 00:03:17,000
+microservices.
+
+41
+00:03:17,000 --> 00:03:23,000
+That's why we are also going to put good amount of efforts in understanding how to secure our microservices.
+
+42
+00:03:23,000 --> 00:03:27,000
+Using Oauth2, OpenID, Spring Security Frameworks.
+
+43
+00:03:27,000 --> 00:03:34,000
+And sometimes you may also want to build some microservices which can process the requests asynchronously.
+
+44
+00:03:34,000 --> 00:03:39,000
+So to handle such scenarios, I'm going to explain you how to build event driven microservices with
+
+45
+00:03:39,000 --> 00:03:43,000
+the help of Rabbitmq, Spring cloud functions and spring cloud stream.
+
+46
+00:03:43,000 --> 00:03:48,000
+Very similarly, we are also going to explore how to build event driven microservices with the help
+
+47
+00:03:48,000 --> 00:03:50,000
+of Kafka as well.
+
+48
+00:03:50,000 --> 00:03:57,000
+And at last we are also going to learn on how to deploy all our containers into a Kubernetes cluster.
+
+49
+00:03:57,000 --> 00:04:01,000
+So Kubernetes cluster is an container orchestration product.
+
+50
+00:04:01,000 --> 00:04:05,000
+At the end of the day, all our microservice has to be deployed into a Kubernetes cluster.
+
+51
+00:04:05,000 --> 00:04:11,000
+That's why we are also going to focus on learning about Kubernetes, how to deploy your microservices
+
+52
+00:04:11,000 --> 00:04:13,000
+into your Kubernetes cluster.
+
+53
+00:04:13,000 --> 00:04:18,000
+And once we are clear about Kubernetes, we are also going to learn about Helm, which is a Kubernetes
+
+54
+00:04:18,000 --> 00:04:19,000
+package manager.
+
+55
+00:04:19,000 --> 00:04:26,000
+Once we are clear about Helm, we are also going to deploy our microservices into one of the cloud environment.
+
+56
+00:04:26,000 --> 00:04:31,000
+So by logging into your cloud environment, we are going to create a Kubernetes cluster and deploy all
+
+57
+00:04:31,000 --> 00:04:34,000
+our microservices into cloud environment.
+
+58
+00:04:34,000 --> 00:04:39,000
+Apart from all these components, we are going to learn many best practices, techniques that are followed
+
+59
+00:04:39,000 --> 00:04:42,000
+by the real time microservice developers.
+
+60
+00:04:42,000 --> 00:04:49,000
+So with all these agenda, this course is going to help you to master microservices and clear any interviews.
+
+61
+00:04:49,000 --> 00:04:51,000
+Apart from these course agenda
+
+62
+00:04:51,000 --> 00:04:58,000
+I also want to highlight that entire course is built using easily understandable format.
+
+63
+00:04:58,000 --> 00:05:00,000
+Any complex topic you will be
+
+64
+00:05:00,000 --> 00:05:06,000
+able to easily understand with a beautiful visuals that we are going to discuss throughout this course.
+
+65
+00:05:06,000 --> 00:05:12,000
+All these visuals is going to help you to easily digest any kind of complex topic.
+
+66
+00:05:12,000 --> 00:05:19,000
+And I'm also going to share you all this content in an PDF format for your reference. So that in future,
+
+67
+00:05:19,000 --> 00:05:25,000
+whenever you have some questions, you can always refer these PDF for any questions and quickly refresh
+
+68
+00:05:25,000 --> 00:05:27,000
+your microservices skills.
+
+69
+00:05:27,000 --> 00:05:32,000
+This pdf I'm going to share is also going to help you to save some time from taking notes.
+
+70
+00:05:32,000 --> 00:05:37,000
+So with this, it should be pretty clear for you that I have put good amount of efforts to build this
+
+71
+00:05:37,000 --> 00:05:41,000
+information in an easily understandable format.
+
+72
+00:05:41,000 --> 00:05:46,000
+I also want to clarify you that throughout this course, apart from theory discussions, apart from
+
+73
+00:05:46,000 --> 00:05:53,000
+discussing about various concepts and best practices, we are also going to build good amount of microservices
+
+74
+00:05:53,000 --> 00:05:58,000
+and there are enough hands on discussions that we are going to make throughout this course and in the
+
+75
+00:05:58,000 --> 00:06:05,000
+same process we are going to explore many, many best practices, standards, products, tools that
+
+76
+00:06:05,000 --> 00:06:08,000
+are going to make our life easy while building production ready.
+
+77
+00:06:08,000 --> 00:06:14,000
+Microservices, I hope this is clear to you, so please go ahead and enroll into this course without
+
+78
+00:06:14,000 --> 00:06:19,000
+any questions and we are together is going to enjoy this microservice journey.
+
+79
+00:06:19,000 --> 00:06:20,000
+Thank you.
+
+80
+00:06:20,000 --> 00:06:23,000
+And I'm hoping you to see in the next lecture bye.
+

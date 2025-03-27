@@ -1,0 +1,432 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+let's try to compare the three architecture patterns that we discussed in the previous lecture.
+
+3
+00:00:06,000 --> 00:00:11,000
+Like you can see on the left hand side of the slide, we have monolithic architecture.
+
+4
+00:00:11,000 --> 00:00:17,000
+The primary characters of monolithic application is we're going to deploy all our code base inside a
+
+5
+00:00:17,000 --> 00:00:22,000
+single server and it is going to be supported by a single database.
+
+6
+00:00:22,000 --> 00:00:29,000
+With this, we have tightly coupled all our components of a web application and business logic into
+
+7
+00:00:29,000 --> 00:00:30,000
+a single server.
+
+8
+00:00:30,000 --> 00:00:37,000
+Now moving on to the SOA, we separate the UI and backend logic, but we are going to add an middleware
+
+9
+00:00:37,000 --> 00:00:42,000
+extra component which is complex to maintain and require a lot of investment.
+
+10
+00:00:42,000 --> 00:00:46,000
+And SOA also is going to have a single supporting database.
+
+11
+00:00:46,000 --> 00:00:52,000
+And at last we have microservice where we can separate all our backend logic based upon the business
+
+12
+00:00:52,000 --> 00:00:59,000
+domain and each of the microservice we can deploy into separate servers or containers.
+
+13
+00:00:59,000 --> 00:01:05,000
+And one more important character of microservice is each of your microservice is going to have a supporting
+
+14
+00:01:05,000 --> 00:01:10,000
+database and all these database don't have to be a single technology.
+
+15
+00:01:10,000 --> 00:01:16,000
+You can have various types of databases like RDBMS NoSQL database, Redis cache.
+
+16
+00:01:16,000 --> 00:01:17,000
+It's up to you
+
+17
+00:01:17,000 --> 00:01:22,000
+based upon your business requirement, you can have a supporting database for your microservice.
+
+18
+00:01:22,000 --> 00:01:27,000
+Now let's try to see a different perspective of monolithic server and microservices.
+
+19
+00:01:27,000 --> 00:01:35,000
+Like you can see in simple words, monolithic is a single unit and SOA is a coarse grain, whereas
+
+20
+00:01:35,000 --> 00:01:38,000
+microservices is fine grained in server.
+
+21
+00:01:38,000 --> 00:01:44,000
+We are separating our backend services, but it is not going to give a lot of flexibility in terms of
+
+22
+00:01:44,000 --> 00:01:47,000
+multiple database, multiple codebase.
+
+23
+00:01:47,000 --> 00:01:53,000
+With that reason, we cannot really separate our services or code based around the business domains.
+
+24
+00:01:53,000 --> 00:02:00,000
+That's why compared to SOA inside microservice, we can fine grain our microservice based upon the
+
+25
+00:02:00,000 --> 00:02:05,000
+domains because all of them, they are going to have separate code base, separate development and deployment
+
+26
+00:02:05,000 --> 00:02:05,000
+lifecycle.
+
+27
+00:02:06,000 --> 00:02:06,000
+I hope you are clear.
+
+28
+00:02:06,000 --> 00:02:08,000
+Like what is difference between them?
+
+29
+00:02:08,000 --> 00:02:14,000
+Now let me put a one more perspective in terms of monolithic, SOA and microservice.
+
+30
+00:02:14,000 --> 00:02:20,000
+So I'm going to compare these monolithic, SOA and microservice by taking different, different features.
+
+31
+00:02:20,000 --> 00:02:22,000
+The very first feature is parallel development.
+
+32
+00:02:22,000 --> 00:02:24,000
+You can see inside monolithic.
+
+33
+00:02:24,000 --> 00:02:25,000
+There is no parallel development,
+
+34
+00:02:25,000 --> 00:02:32,000
+the developers are going to cry, whereas in SOA it's not a happy scenario or a sad scenario.
+
+35
+00:02:32,000 --> 00:02:37,000
+It is somewhere in the middle because at least you are providing some flexibility between UI and backend
+
+36
+00:02:37,000 --> 00:02:40,000
+teams. Whereas in microservice it is going to be the winner.
+
+37
+00:02:40,000 --> 00:02:47,000
+You are providing complete freedom to that different, different teams in terms of parallel development,
+
+38
+00:02:47,000 --> 00:02:49,000
+deployment and enhancements.
+
+39
+00:02:49,000 --> 00:02:51,000
+The next feature is agility.
+
+40
+00:02:51,000 --> 00:02:52,000
+With monolithic.
+
+41
+00:02:52,000 --> 00:02:53,000
+There is no agility.
+
+42
+00:02:53,000 --> 00:03:00,000
+You can't enhance your web application with the new frameworks and new languages because it requires
+
+43
+00:03:00,000 --> 00:03:01,000
+a lot of effort.
+
+44
+00:03:01,000 --> 00:03:08,000
+And SOA you can do to some extent, whereas in microservice you're going to have a lot of agility because
+
+45
+00:03:08,000 --> 00:03:10,000
+all the teams are working independently.
+
+46
+00:03:10,000 --> 00:03:13,000
+And in this scenario, also microservice is the winner.
+
+47
+00:03:13,000 --> 00:03:15,000
+The next feature is scalability.
+
+48
+00:03:15,000 --> 00:03:18,000
+Coming to scalability inside monolithic
+
+49
+00:03:18,000 --> 00:03:23,000
+it is going to be very, very tough to scale your web application because you're going to deploy all
+
+50
+00:03:23,000 --> 00:03:26,000
+your code inside a single jumbo server.
+
+51
+00:03:26,000 --> 00:03:30,000
+If you want to scale your web application, you need to bring one more jumbo server.
+
+52
+00:03:30,000 --> 00:03:37,000
+You need to take care of load balancing between them, which is like very manual setup and it is going
+
+53
+00:03:37,000 --> 00:03:38,000
+to be very challenging.
+
+54
+00:03:38,000 --> 00:03:45,000
+And to SOA also the scalability is going to be challenged because all your backend logic is staying
+
+55
+00:03:45,000 --> 00:03:46,000
+inside a single jumbo server.
+
+56
+00:03:46,000 --> 00:03:53,000
+And there is also an extra complexity with ESB, so you should also scale your ESB component.
+
+57
+00:03:53,000 --> 00:03:58,000
+Whereas with microservice, the scalability is going to be super, super easy and it is also going to
+
+58
+00:03:58,000 --> 00:04:02,000
+be automated with the help of products like Docker and Kubernetes.
+
+59
+00:04:02,000 --> 00:04:04,000
+We are going to discuss about them.
+
+60
+00:04:04,000 --> 00:04:10,000
+So in scalability, also the winner is microservice coming to the usability. Inside usability
+
+61
+00:04:10,000 --> 00:04:17,000
+also the clear winner is microservices because your developers, they are going to bring lot many new
+
+62
+00:04:17,000 --> 00:04:22,000
+enhancements and they are going to deploy their new enhancements within a matter of days.
+
+63
+00:04:22,000 --> 00:04:27,000
+Think of a scenario where accounts team, they are thinking to deploy a new change which will increase
+
+64
+00:04:27,000 --> 00:04:29,000
+the usability of the end user.
+
+65
+00:04:29,000 --> 00:04:32,000
+In such scenarios, they don't have to discuss with any other team members.
+
+66
+00:04:32,000 --> 00:04:38,000
+They just have to discuss internally, get a client approval and they can do a deployment of their new
+
+67
+00:04:38,000 --> 00:04:39,000
+feature within seconds
+
+68
+00:04:39,000 --> 00:04:45,000
+with the help of Docker deployments and Kubernetes deployment, We're going to discuss all of them in
+
+69
+00:04:45,000 --> 00:04:46,000
+the coming lectures.
+
+70
+00:04:46,000 --> 00:04:49,000
+So inside usability also the winner is microservice.
+
+71
+00:04:49,000 --> 00:04:52,000
+Now coming to the complexity and operational overhead?
+
+72
+00:04:52,000 --> 00:04:58,000
+Off course, here the winner is going to be monolithic because inside monolithic, you just have one
+
+73
+00:04:58,000 --> 00:04:58,000
+server.
+
+74
+00:04:58,000 --> 00:04:59,000
+You just need to take care of that
+
+75
+00:04:59,000 --> 00:05:00,000
+one server.
+
+76
+00:05:00,000 --> 00:05:05,000
+You just need to make sure that one server is running properly without any issues. In SOA
+
+77
+00:05:05,000 --> 00:05:07,000
+they are going to be three components.
+
+78
+00:05:07,000 --> 00:05:10,000
+UI server, backend server and ESB component.
+
+79
+00:05:10,000 --> 00:05:16,000
+Whereas in microservice it is going to be super, super complex because there are some organizations
+
+80
+00:05:16,000 --> 00:05:21,000
+where they are deploying thousands of microservice in hundreds of different, different servers.
+
+81
+00:05:21,000 --> 00:05:27,000
+You can think of operational overhead and complexity that microservice need on day to day basis.
+
+82
+00:05:27,000 --> 00:05:33,000
+But don't worry, we are going to discuss how to overcome these challenges with the help of various
+
+83
+00:05:33,000 --> 00:05:38,000
+products frameworks that we have inside the microservice ecosystem.
+
+84
+00:05:38,000 --> 00:05:41,000
+And the last feature is security concerns and performance.
+
+85
+00:05:41,000 --> 00:05:44,000
+And here also the winner is going to be monolithic.
+
+86
+00:05:44,000 --> 00:05:50,000
+And inside microservice, the security concerns are going to be more and there will be some performance
+
+87
+00:05:50,000 --> 00:05:56,000
+issues because every communication between your backend logic like accounts, loans and cards, microservice,
+
+88
+00:05:56,000 --> 00:06:00,000
+they have to communicate over the network with the help of REST APIs.
+
+89
+00:06:00,000 --> 00:06:03,000
+Previously it used to be method calls inside the same server.
+
+90
+00:06:03,000 --> 00:06:05,000
+Now they are all deployed in different servers.
+
+91
+00:06:05,000 --> 00:06:12,000
+With that there will be some network latency and since you are making so many API calls, off course
+
+92
+00:06:12,000 --> 00:06:15,000
+we need to take care of security concerns as well.
+
+93
+00:06:15,000 --> 00:06:23,000
+So like I said, microservice is not a silver bullet for all your problems, for all your web applications,
+
+94
+00:06:23,000 --> 00:06:28,000
+You need to be aware under which scenarios we can go for monolithic, SOA and microservice.
+
+95
+00:06:28,000 --> 00:06:30,000
+I think these days no one is following.
+
+96
+00:06:30,000 --> 00:06:30,000
+SOA.
+
+97
+00:06:30,000 --> 00:06:33,000
+It's a discussion about whether monolithic or microservice.
+
+98
+00:06:33,000 --> 00:06:40,000
+If your web application is small and your organization is very small and you don't need frequent deployments,
+
+99
+00:06:40,000 --> 00:06:42,000
+then you can always go with monolithic.
+
+100
+00:06:42,000 --> 00:06:48,000
+Whereas if your application is large and your organization requires frequent deployments, frequent
+
+101
+00:06:48,000 --> 00:06:52,000
+enhancements, then you can always go with the microservices architecture.
+
+102
+00:06:52,000 --> 00:06:57,000
+I hope you are clear, like the reason why I have discussed so much about monolithic SOA and microservices
+
+103
+00:06:57,000 --> 00:07:01,000
+is, if you go to any interview, there will be definitely questions around microservice and they will
+
+104
+00:07:01,000 --> 00:07:05,000
+ask you under which scenario I should go for microservice and monolithic.
+
+105
+00:07:05,000 --> 00:07:11,000
+So please, please always have this information and I'm sure with this knowledge that you have gained
+
+106
+00:07:11,000 --> 00:07:17,000
+in these two lectures, you can explain about what are microservice, monolithic and server to anyone.
+
+107
+00:07:17,000 --> 00:07:18,000
+So please spread this knowledge.
+
+108
+00:07:18,000 --> 00:07:22,000
+Thank you and I'll catch you in the next lecture bye.
+

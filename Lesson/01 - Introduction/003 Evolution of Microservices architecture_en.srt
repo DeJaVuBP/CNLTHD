@@ -1,0 +1,920 @@
+1
+00:00:00,000 --> 00:00:08,000
+Let me start the journey of microservices by introducing what are these microservices inside this lecture?
+
+2
+00:00:08,000 --> 00:00:15,000
+In a simple language, we can call these microservices as one of the architecture style that we can
+
+3
+00:00:15,000 --> 00:00:17,000
+consider to build our web applications.
+
+4
+00:00:17,000 --> 00:00:23,000
+So to understand more about microservices, let's try to take an bank application with the name EasyBank
+
+5
+00:00:23,000 --> 00:00:29,000
+and this bank application, just like any other bank application, it provides various products
+
+6
+00:00:29,000 --> 00:00:34,000
+to its customers with the name, accounts, cards and loans.
+
+7
+00:00:34,000 --> 00:00:40,000
+So for these EasyBank, in order to build a web application, there are multiple architecture patterns
+
+8
+00:00:40,000 --> 00:00:42,000
+available inside the industry.
+
+9
+00:00:42,000 --> 00:00:46,000
+The very first are traditional approach that we have to build.
+
+10
+00:00:46,000 --> 00:00:48,000
+Web application is Monolith.
+
+11
+00:00:48,000 --> 00:00:55,000
+Whenever we are following the pattern of monolith, all the business functionality of a bank application,
+
+12
+00:00:55,000 --> 00:00:58,000
+they will be deployed as a single unit.
+
+13
+00:00:58,000 --> 00:01:05,000
+If you see here inside a single server, it has a presentation layer related logic like HTML code,
+
+14
+00:01:05,000 --> 00:01:12,000
+JavaScript, CSS and post that there is going to be a backend business logic along with that data access
+
+15
+00:01:12,000 --> 00:01:12,000
+layer.
+
+16
+00:01:12,000 --> 00:01:19,000
+And one more important feature of monolithic is it is going to have a single supporting database where
+
+17
+00:01:19,000 --> 00:01:24,000
+we store all the data related to accounts, cards and loans.
+
+18
+00:01:24,000 --> 00:01:30,000
+This is the architecture style that companies are developers they use to follow back decade.
+
+19
+00:01:30,000 --> 00:01:36,000
+And off course this approach has its own advantages and disadvantages.
+
+20
+00:01:36,000 --> 00:01:41,000
+So first let's try to understand what are the advantages of this monolithic architecture.
+
+21
+00:01:41,000 --> 00:01:48,000
+The very first advantage is this architecture style supports simpler development and deployment for
+
+22
+00:01:48,000 --> 00:01:50,000
+smaller teams and applications.
+
+23
+00:01:50,000 --> 00:01:56,000
+If you have a small team or if your application is a very small application, definitely this pattern
+
+24
+00:01:56,000 --> 00:02:03,000
+is going to make sense because it is going to ease your development and deployment with a single deployment
+
+25
+00:02:03,000 --> 00:02:09,000
+all your web application is going to be deployed and it is going to be available for the end users.
+
+26
+00:02:09,000 --> 00:02:15,000
+And on the similar lines, since we are deploying everything inside a single server, there are going
+
+27
+00:02:15,000 --> 00:02:18,000
+to be a fewer cross-cutting concerns.
+
+28
+00:02:18,000 --> 00:02:24,000
+When I say cross-cutting concerns, all your non-functional requirements like security, auditing,
+
+29
+00:02:24,000 --> 00:02:25,000
+logging.
+
+30
+00:02:25,000 --> 00:02:32,000
+This is going to be simple inside monolithic because all your code deployed inside a single server as
+
+31
+00:02:32,000 --> 00:02:33,000
+an web application.
+
+32
+00:02:33,000 --> 00:02:39,000
+And the next advantage that we have with monolithic is, it is going to provide better performance due
+
+33
+00:02:39,000 --> 00:02:41,000
+to no network latency.
+
+34
+00:02:41,000 --> 00:02:42,000
+Why better performance?
+
+35
+00:02:42,000 --> 00:02:46,000
+Because all the code is deployed inside a single server.
+
+36
+00:02:46,000 --> 00:02:52,000
+If accounts business logic want to communicate with cards or loans, it is just going to be a method
+
+37
+00:02:52,000 --> 00:02:54,000
+call inside the same server.
+
+38
+00:02:54,000 --> 00:02:57,000
+There is no network call with the help of web services.
+
+39
+00:02:57,000 --> 00:03:02,000
+So with this reason, monolithic applications, they are going to have a better performance.
+
+40
+00:03:02,000 --> 00:03:04,000
+Now these are the advantages.
+
+41
+00:03:04,000 --> 00:03:05,000
+Let's go to that
+
+42
+00:03:05,000 --> 00:03:08,000
+disadvantages of monolithic with the monolithic
+
+43
+00:03:08,000 --> 00:03:13,000
+the primary disadvantage is it is difficult to adopt new technology.
+
+44
+00:03:13,000 --> 00:03:19,000
+Like whenever I want to enhance my web application with the new frameworks or with the new languages
+
+45
+00:03:19,000 --> 00:03:27,000
+or new technology, either I has to update my entire codebase or I need to continue with the old technology.
+
+46
+00:03:27,000 --> 00:03:32,000
+Sometimes the accounts team members, they may want to move to a latest framework or latest language
+
+47
+00:03:32,000 --> 00:03:38,000
+or latest version of the framework, but there will be a pushback coming from the Cards and Loans team
+
+48
+00:03:38,000 --> 00:03:39,000
+members.
+
+49
+00:03:39,000 --> 00:03:44,000
+So with all these reasons, it is going to be difficult to adopt new technologies and with that reason,
+
+50
+00:03:44,000 --> 00:03:47,000
+very limited agility inside a monolithic applications.
+
+51
+00:03:47,000 --> 00:03:53,000
+It is not going to work like you decided to move to a framework or a new language today.
+
+52
+00:03:53,000 --> 00:03:57,000
+And you can't do that immediately in a week or a month time.
+
+53
+00:03:57,000 --> 00:04:03,000
+It is going to take a lot of time to upgrade your monolithic application because entire your code is
+
+54
+00:04:03,000 --> 00:04:03,000
+tightly coupled.
+
+55
+00:04:03,000 --> 00:04:08,000
+We never know what issues it is going to create when we try to migrate.
+
+56
+00:04:08,000 --> 00:04:09,000
+With that reason
+
+57
+00:04:09,000 --> 00:04:13,000
+a rigorous testing and regression has to be done on top of your web application.
+
+58
+00:04:13,000 --> 00:04:18,000
+And since we are going to maintain everything inside a single server, all the code related to your
+
+59
+00:04:18,000 --> 00:04:24,000
+web application is going to maintain as a single code base, which is going to be difficult to maintain
+
+60
+00:04:24,000 --> 00:04:29,000
+over the time as your application is growing with the new enhancements day by day.
+
+61
+00:04:29,000 --> 00:04:35,000
+And the next disadvantage that we have here is your application is not going to be a fault tolerance,
+
+62
+00:04:35,000 --> 00:04:41,000
+which means you are going to be having a frequent issues with the scalability, availability of your
+
+63
+00:04:41,000 --> 00:04:42,000
+monolithic application.
+
+64
+00:04:42,000 --> 00:04:48,000
+And the last disadvantage like you can see since you deployed everything inside a single server if loans
+
+65
+00:04:48,000 --> 00:04:55,000
+development team, they want to introduce a small feature or if they want to make a small enhancement
+
+66
+00:04:55,000 --> 00:04:59,000
+inside their codebase, it will require a full deployment due to that reason
+
+67
+00:05:00,000 --> 00:05:06,000
+your entire web application is going to be having a downtime and this is going to be a super drawback
+
+68
+00:05:06,000 --> 00:05:09,000
+whenever you're dealing with the end users.
+
+69
+00:05:09,000 --> 00:05:12,000
+Who uses your web application 24/7 ?
+
+70
+00:05:12,000 --> 00:05:18,000
+This monolithic architecture is developed in various forms inside the industry, like single process
+
+71
+00:05:18,000 --> 00:05:24,000
+monolithic, modular monolithic, distributed monolithic, regardless of what is a form of monolithic
+
+72
+00:05:24,000 --> 00:05:26,000
+pattern is being followed.
+
+73
+00:05:26,000 --> 00:05:32,000
+It will have all these drawbacks that we discussed, and it is going to be having only a single supporting
+
+74
+00:05:32,000 --> 00:05:33,000
+database.
+
+75
+00:05:33,000 --> 00:05:34,000
+I hope you are clear.
+
+76
+00:05:34,000 --> 00:05:37,000
+Like what is monolithic architecture pattern?
+
+77
+00:05:37,000 --> 00:05:43,000
+Let me try to explain monolithic by taking a different perspective inside our EasyBank web application
+
+78
+00:05:43,000 --> 00:05:50,000
+typically, there will be development team handling the accounts, loans, cards and UI, UX inside
+
+79
+00:05:50,000 --> 00:05:52,000
+monolithic applications.
+
+80
+00:05:52,000 --> 00:05:56,000
+All these developers, they are going to work on a single code base.
+
+81
+00:05:56,000 --> 00:06:04,000
+And using these single code base, we are going to deploy the entire our web application into a web
+
+82
+00:06:04,000 --> 00:06:08,000
+server or application server with the help of CI/CD tools like Jenkins.
+
+83
+00:06:09,000 --> 00:06:17,000
+Typically, we will package all our code base into a war format or an ear format and deploy into
+
+84
+00:06:17,000 --> 00:06:18,000
+a single web application.
+
+85
+00:06:18,000 --> 00:06:23,000
+And this single web application is going to be supported by a single database.
+
+86
+00:06:23,000 --> 00:06:31,000
+So here the major drawback is there is no flexibility to the organization and developers to introduce
+
+87
+00:06:31,000 --> 00:06:37,000
+new features, to introduce new enhancements With that reason, since the companies are growing a lot
+
+88
+00:06:37,000 --> 00:06:43,000
+and since that demand from the end users is increasing on day to day basis, slowly the industry migrated
+
+89
+00:06:43,000 --> 00:06:47,000
+to a new architecture pattern, which is SOA.
+
+90
+00:06:47,000 --> 00:06:50,000
+SOA means Service Oriented Architecture.
+
+91
+00:06:50,000 --> 00:06:53,000
+Let's try to understand what is this Service Oriented Architecture ?
+
+92
+00:06:53,000 --> 00:07:00,000
+The main enhancement that happened inside this SOA architecture compared to monolithic Is organizations.
+
+93
+00:07:00,000 --> 00:07:04,000
+They can segregate their UI logic and backend logic.
+
+94
+00:07:04,000 --> 00:07:10,000
+Like you can see here, I'm going to deploy the presentation layer or UI logic into a server one and
+
+95
+00:07:10,000 --> 00:07:18,000
+inside the server 2, I'm going to deploy all my logic related to accounts, cards and loans with the
+
+96
+00:07:18,000 --> 00:07:19,000
+help of web services.
+
+97
+00:07:19,000 --> 00:07:26,000
+With this pattern, at least I'm able to separate the tight coupling between UI and the backend logic.
+
+98
+00:07:26,000 --> 00:07:31,000
+But like you can see here, for these UI to communicate with the backend services, we should use a
+
+99
+00:07:31,000 --> 00:07:35,000
+middleware component which is enterprise service bus.
+
+100
+00:07:35,000 --> 00:07:41,000
+So whenever a request comes to these ESB, this ESB is going to redirect that request to the corresponding
+
+101
+00:07:41,000 --> 00:07:48,000
+service, like whether the UI application is trying to fetch the accounts information, cards information
+
+102
+00:07:48,000 --> 00:07:49,000
+or loans information.
+
+103
+00:07:49,000 --> 00:07:55,000
+Accordingly, it is going to redirect the request to one of the web service inside the server 2.
+
+104
+00:07:55,000 --> 00:08:00,000
+So we are able to separate the UI logic and backend logic into two different servers.
+
+105
+00:08:00,000 --> 00:08:05,000
+But this architecture also has its own advantages and disadvantages.
+
+106
+00:08:05,000 --> 00:08:08,000
+First, let's try to understand what are the advantages.
+
+107
+00:08:08,000 --> 00:08:14,000
+The advantages are like reusability of services, better maintainability, higher reliability and parallel
+
+108
+00:08:14,000 --> 00:08:15,000
+development.
+
+109
+00:08:15,000 --> 00:08:21,000
+The reason why we have these advantages is you have separated all your logic into separate components.
+
+110
+00:08:21,000 --> 00:08:26,000
+Like all your accounts related logic is going to be stay inside the account service.
+
+111
+00:08:26,000 --> 00:08:33,000
+Similarly for loans and card service and coming to the UI code, it is going to be separated into a
+
+112
+00:08:33,000 --> 00:08:37,000
+separate code base and it is going to be deployed into a separate server as well.
+
+113
+00:08:37,000 --> 00:08:43,000
+With all these reason we can achieve parallel development, better maintainability and reusability of
+
+114
+00:08:43,000 --> 00:08:45,000
+services and higher reliability.
+
+115
+00:08:45,000 --> 00:08:52,000
+Now coming to the disadvantages of this architecture is, the communication is going to happen with the
+
+116
+00:08:52,000 --> 00:08:56,000
+complex protocols like SOAP. Using SOAP and the XML format,
+
+117
+00:08:56,000 --> 00:09:03,000
+the communication between the UI and backend server is going to happen compared to other protocols like
+
+118
+00:09:03,000 --> 00:09:04,000
+rest,
+
+119
+00:09:04,000 --> 00:09:07,000
+SOAP is very complex in nature and heavy in nature.
+
+120
+00:09:07,000 --> 00:09:09,000
+That is one of the disadvantage that we have.
+
+121
+00:09:09,000 --> 00:09:16,000
+And like you can see here, we have a middleware component which is ESB, and to set up that ESB, we
+
+122
+00:09:16,000 --> 00:09:20,000
+need to put a lot of investment because these are not open source.
+
+123
+00:09:20,000 --> 00:09:26,000
+These products are like commercial products, like Oracle has an ESB product which is costly in nature
+
+124
+00:09:26,000 --> 00:09:31,000
+and it is an extra overload in between your UI and backend services.
+
+125
+00:09:31,000 --> 00:09:36,000
+Why should we maintain a separate component just for communicating between UI and backend services?
+
+126
+00:09:36,000 --> 00:09:42,000
+So in the initial days projects they use this architecture and to some extent they got the benefits
+
+127
+00:09:42,000 --> 00:09:46,000
+like parallel development, reusability of services and better maintainability.
+
+128
+00:09:46,000 --> 00:09:54,000
+But slowly industry felt that this architecture pattern also very complex to maintain and it involves
+
+129
+00:09:54,000 --> 00:09:55,000
+higher investment cost.
+
+130
+00:09:55,000 --> 00:09:59,000
+So with all these reasons, everyone started looking for a better architecture
+
+131
+00:09:59,000 --> 00:10:04,000
+style which will overcome the challenges of SOA and Monolithic.
+
+132
+00:10:04,000 --> 00:10:09,000
+That's where we landed onto a new architecture style, which is microservices.
+
+133
+00:10:09,000 --> 00:10:15,000
+So before I try to go to microservices, let's try to understand how SOA is going to look like by
+
+134
+00:10:15,000 --> 00:10:19,000
+taking the perspective of GitHub and Jenkins that we discussed.
+
+135
+00:10:19,000 --> 00:10:25,000
+So initially, like you can see we are going to have UI, UX dev team accounts, team loans, team and
+
+136
+00:10:25,000 --> 00:10:27,000
+cards development team.
+
+137
+00:10:27,000 --> 00:10:33,000
+Inside SOA like you can see UI team, they are going to have separate code repo and all the backend team
+
+138
+00:10:33,000 --> 00:10:39,000
+they are going to have separate backend repo and using these two separate code repos, we are going
+
+139
+00:10:39,000 --> 00:10:44,000
+to have a separate deployments into separate web servers.
+
+140
+00:10:44,000 --> 00:10:50,000
+But like you can see the catch is the communication between the UI server and the backend server is
+
+141
+00:10:50,000 --> 00:10:55,000
+going to happen only with the help of a middleware component, which is enterprise service bus.
+
+142
+00:10:55,000 --> 00:11:01,000
+So to some extent it has the advantages of parallel development and independent deployments between
+
+143
+00:11:01,000 --> 00:11:03,000
+UI team and backend team.
+
+144
+00:11:03,000 --> 00:11:06,000
+But like we discussed, it has its own disadvantages.
+
+145
+00:11:06,000 --> 00:11:10,000
+So now let's try to jump into the microservices architecture.
+
+146
+00:11:10,000 --> 00:11:13,000
+So let me try to explain you what is microservices?
+
+147
+00:11:13,000 --> 00:11:19,000
+So whenever we are developing our web application, for example, the same easy bank web application,
+
+148
+00:11:19,000 --> 00:11:25,000
+we are going to develop many services that are modeled around a business domain.
+
+149
+00:11:25,000 --> 00:11:32,000
+I can have separate small microservice focusing entirely on accounts, logic and similarly for cards
+
+150
+00:11:32,000 --> 00:11:32,000
+and loans.
+
+151
+00:11:32,000 --> 00:11:39,000
+This way based upon separate, separate business domain logic, I can segregate them into separate services
+
+152
+00:11:39,000 --> 00:11:43,000
+and all these microservices, they are going to have their own database.
+
+153
+00:11:43,000 --> 00:11:47,000
+They are going to be deployed into their own servers or own containers.
+
+154
+00:11:47,000 --> 00:11:53,000
+With that like you can see, we are going to have all our UI logic inside a server 1 coming to the
+
+155
+00:11:53,000 --> 00:11:54,000
+backend services,
+
+156
+00:11:54,000 --> 00:12:00,000
+we can create any number of micro services that can be deployed into separate servers and containers
+
+157
+00:12:00,000 --> 00:12:01,000
+and all these services
+
+158
+00:12:01,000 --> 00:12:04,000
+they are going to have their own supporting database.
+
+159
+00:12:04,000 --> 00:12:10,000
+So let's try to understand what are the advantages and disadvantages of this microservice pattern. Coming
+
+160
+00:12:10,000 --> 00:12:12,000
+to the advantages.
+
+161
+00:12:12,000 --> 00:12:18,000
+Like it is easy to develop, test and deploy because you loosely coupled all your business logic, all
+
+162
+00:12:18,000 --> 00:12:22,000
+your accounts related logic is going to be stayed inside a small component.
+
+163
+00:12:22,000 --> 00:12:27,000
+If you want to enhance accounts microservice with a new language or new framework, you can happily
+
+164
+00:12:27,000 --> 00:12:33,000
+do that because it's entirely separate component which will have its own development life cycle deployment
+
+165
+00:12:33,000 --> 00:12:34,000
+lifecycle.
+
+166
+00:12:34,000 --> 00:12:39,000
+And with that reason it is going to increase the agility inside your organization.
+
+167
+00:12:39,000 --> 00:12:45,000
+Since there is no tight coupling between your microservices or services, all the development teams,
+
+168
+00:12:45,000 --> 00:12:50,000
+they can have their own enhancement lifecycle, they can have their own discussions, they can have
+
+169
+00:12:50,000 --> 00:12:53,000
+their own deployment lifecycle.
+
+170
+00:12:53,000 --> 00:12:56,000
+With that, we are going to achieve the parallel development.
+
+171
+00:12:56,000 --> 00:13:00,000
+And the beauty of microservices is it is modeled around your business domain.
+
+172
+00:13:00,000 --> 00:13:04,000
+Like for example, inside the bank we have accounts, loans and cards.
+
+173
+00:13:04,000 --> 00:13:08,000
+So I can have three microservices focusing these three different business domains.
+
+174
+00:13:08,000 --> 00:13:14,000
+And since we are going to deploy all these services into Docker containers, which I'm going to explain
+
+175
+00:13:14,000 --> 00:13:20,000
+you in the coming lectures, it is also going to provide you a flexibility where you can scale horizontally
+
+176
+00:13:20,000 --> 00:13:21,000
+and independently.
+
+177
+00:13:21,000 --> 00:13:27,000
+For example, if your accounts microservice is going to receive higher traffic compared to loans and
+
+178
+00:13:27,000 --> 00:13:31,000
+cards, you can scale only accounts microservice independently.
+
+179
+00:13:31,000 --> 00:13:35,000
+So these are all the main advantages of microservices.
+
+180
+00:13:35,000 --> 00:13:42,000
+And please don't assume that microservices is a silver bullet for all your problems inside the web application.
+
+181
+00:13:42,000 --> 00:13:49,000
+You should not always jump into microservices because it is unnecessary for smaller applications or
+
+182
+00:13:49,000 --> 00:13:50,000
+smaller companies.
+
+183
+00:13:50,000 --> 00:13:54,000
+So that's why let's try to understand what are the disadvantages that we have with microservices.
+
+184
+00:13:54,000 --> 00:14:00,000
+The very first disadvantage is it has complexity because when you have so many independent containers
+
+185
+00:14:00,000 --> 00:14:07,000
+deployed separately in different, different servers and clusters, definitely connecting them and making
+
+186
+00:14:07,000 --> 00:14:13,000
+sure they are able to communicate properly always is going to be a complex task and it is also going
+
+187
+00:14:13,000 --> 00:14:16,000
+to be infrastructure overhead inside monolithic and SOA,
+
+188
+00:14:16,000 --> 00:14:22,000
+you only have 1 or 2 servers to monitor, but inside microservices you are going to deploy your microservices
+
+189
+00:14:22,000 --> 00:14:24,000
+into number of servers and containers.
+
+190
+00:14:24,000 --> 00:14:27,000
+With that, you need to monitor all of them.
+
+191
+00:14:27,000 --> 00:14:32,000
+That's why there is going to be infrastructure overhead and there are also going to be security concerns
+
+192
+00:14:32,000 --> 00:14:39,000
+because previously any communication between your code used to happen with the help of method calls
+
+193
+00:14:39,000 --> 00:14:41,000
+and a web service call from UI to backend.
+
+194
+00:14:41,000 --> 00:14:47,000
+But now with microservice, even your backend services, they need to communicate with web services
+
+195
+00:14:47,000 --> 00:14:48,000
+like rest based services.
+
+196
+00:14:48,000 --> 00:14:52,000
+And this increases security concerns inside your web application.
+
+197
+00:14:52,000 --> 00:14:58,000
+But don't get demotivated with all these disadvantages because at the end of the day, organizations
+
+198
+00:14:58,000 --> 00:14:59,000
+they want
+
+199
+00:14:59,000 --> 00:15:05,000
+agility and they want the freedom to enhance their web applications and microservices whenever they
+
+200
+00:15:05,000 --> 00:15:09,000
+want, and they want to go to the market as soon as possible.
+
+201
+00:15:09,000 --> 00:15:16,000
+Since Microservice is going to provide all these advantages, they are ready to face these challenges.
+
+202
+00:15:16,000 --> 00:15:22,000
+And off course we have various approaches to overcome these challenges inside microservices architecture.
+
+203
+00:15:22,000 --> 00:15:25,000
+We are going to discuss all of them inside this course.
+
+204
+00:15:25,000 --> 00:15:31,000
+If there is one crucial takeaway that you want to take from this course and the concept of microservices
+
+205
+00:15:31,000 --> 00:15:32,000
+is, microservices
+
+206
+00:15:32,000 --> 00:15:37,000
+they're going to prioritize the independent deployability of your services.
+
+207
+00:15:37,000 --> 00:15:43,000
+And whenever you're deploying your own microservice, you are not going to have any dependency on other
+
+208
+00:15:43,000 --> 00:15:46,000
+microservices. With this primary advantage,
+
+209
+00:15:46,000 --> 00:15:53,000
+all other numerous benefits will naturally emerge inside your microservices web application.
+
+210
+00:15:53,000 --> 00:15:55,000
+We are going to discuss what are those.
+
+211
+00:15:55,000 --> 00:16:01,000
+Now let's try to see how the microservices is going to look like with the GitHub and Jenkins scenario.
+
+212
+00:16:01,000 --> 00:16:07,000
+You can see there are four different development teams. Inside microservices architecture pattern, all
+
+213
+00:16:07,000 --> 00:16:07,000
+of them
+
+214
+00:16:07,000 --> 00:16:10,000
+they are going to have a separate code base.
+
+215
+00:16:10,000 --> 00:16:16,000
+And from these separate code base, they are going to have a separate deployment lifecycles with the
+
+216
+00:16:16,000 --> 00:16:21,000
+help of Jenkins or any other CI/CD tool and post the deployment
+
+217
+00:16:21,000 --> 00:16:27,000
+all of them, they are deployed into multiple servers or containers and each of the service is going
+
+218
+00:16:27,000 --> 00:16:30,000
+to have their own supporting database.
+
+219
+00:16:30,000 --> 00:16:35,000
+And apart from these independent deployment and parallel development, the other advantage that we have
+
+220
+00:16:35,000 --> 00:16:38,000
+with microservices is, accounts microservice team
+
+221
+00:16:38,000 --> 00:16:45,000
+they can have an SQL database and loans microservice they can have a NoSQL database. So they can choose
+
+222
+00:16:45,000 --> 00:16:48,000
+their own database based upon their requirements.
+
+223
+00:16:48,000 --> 00:16:54,000
+And even we can have accounts microservice built with the help of Python, loans microservice built
+
+224
+00:16:54,000 --> 00:17:00,000
+with the help of Java and cards microservice built with the help of go language at the end of the day
+
+225
+00:17:00,000 --> 00:17:05,000
+it is going to give super super freedom to your company and to the developers.
+
+226
+00:17:05,000 --> 00:17:11,000
+They are free to explore because they are not bounded to a single codebase or to a single server.
+
+227
+00:17:11,000 --> 00:17:16,000
+I hope you are clear with all the architecture patterns that we have, like monolithic, SOA and microservices,
+
+228
+00:17:16,000 --> 00:17:20,000
+what are the advantages and disadvantages of each of these patterns?
+
+229
+00:17:20,000 --> 00:17:24,000
+Let's try to continue the discussion of these microservices inside the next lecture.
+
+230
+00:17:24,000 --> 00:17:27,000
+Thank you and I'll catch you in the next lecture bye.
+
