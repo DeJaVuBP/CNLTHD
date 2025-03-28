@@ -1,0 +1,356 @@
+1
+00:00:00,000 --> 00:00:01,000
+In the previous lecture,
+
+2
+00:00:01,000 --> 00:00:07,000
+We have created entities representing each of the database table that we have.
+
+3
+00:00:07,000 --> 00:00:13,000
+So with these entities, we are supporting inside our web application to create new account customer
+
+4
+00:00:13,000 --> 00:00:19,000
+details, to fetch the account and customer details to update and delete these details.
+
+5
+00:00:19,000 --> 00:00:26,000
+What if one of the client application they want both your accounts and customer data together in a single
+
+6
+00:00:26,000 --> 00:00:27,000
+request?
+
+7
+00:00:27,000 --> 00:00:31,000
+Do you think we can send two different objects as a response?
+
+8
+00:00:31,000 --> 00:00:32,000
+Off course not.
+
+9
+00:00:32,000 --> 00:00:34,000
+We cannot send them two different objects.
+
+10
+00:00:34,000 --> 00:00:37,000
+We can only send a single object inside a response.
+
+11
+00:00:37,000 --> 00:00:41,000
+Maybe you can think like we can create an one more entity or pojo class.
+
+12
+00:00:41,000 --> 00:00:46,000
+And inside them I can try to create the fields of accounts and customer.
+
+13
+00:00:46,000 --> 00:00:50,000
+That way I can embed both these two classes inside another class.
+
+14
+00:00:50,000 --> 00:00:54,000
+That's one of the basic approach, but we should not do that.
+
+15
+00:00:54,000 --> 00:00:59,000
+The reason is all these entity classes, they are related to that database layer.
+
+16
+00:00:59,000 --> 00:01:06,000
+You may ended up into various scenarios where you may want to send the data in various formats or in
+
+17
+00:01:06,000 --> 00:01:08,000
+various combinations.
+
+18
+00:01:08,000 --> 00:01:13,000
+That's why we should never touch these database related entity classes.
+
+19
+00:01:13,000 --> 00:01:17,000
+They should always clearly and purely represent the database tables.
+
+20
+00:01:17,000 --> 00:01:22,000
+So to overcome this challenge, we have a standard with the name DTO pattern.
+
+21
+00:01:22,000 --> 00:01:25,000
+So let's try to understand what is this DTO pattern?
+
+22
+00:01:25,000 --> 00:01:28,000
+DTO means Data Transfer Object.
+
+23
+00:01:28,000 --> 00:01:35,000
+What is this pattern is recommending is whenever a client is trying to communicate with a backend application
+
+24
+00:01:35,000 --> 00:01:41,000
+to get the data, we should follow the detour pattern, which is a design pattern that will allow to
+
+25
+00:01:41,000 --> 00:01:44,000
+transfer data between different parts of your application.
+
+26
+00:01:44,000 --> 00:01:51,000
+For example, inside my application I can have a database layer, presentation layer service layer.
+
+27
+00:01:51,000 --> 00:01:58,000
+So to flow the data between multiple layers of your web application, we should use these DTO pattern
+
+28
+00:01:58,000 --> 00:02:05,000
+and inside these dto patterns, we should create the detour classes which holds the fields that you
+
+29
+00:02:05,000 --> 00:02:10,000
+want to transfer to and fro from the different layers of your application.
+
+30
+00:02:10,000 --> 00:02:12,000
+So here, let's take an example to understand this.
+
+31
+00:02:12,000 --> 00:02:17,000
+On the right hand side, I have a Customer entity class and Accounts entity, class.
+
+32
+00:02:17,000 --> 00:02:22,000
+And inside these we have these fields which represent columns inside the database.
+
+33
+00:02:22,000 --> 00:02:29,000
+I didn't mention metadata columns here just to save some space, but these Customer and Accounts, they
+
+34
+00:02:29,000 --> 00:02:32,000
+represent the database entities and some client.
+
+35
+00:02:32,000 --> 00:02:38,000
+They may request you to send both the customer and accounts in a single request.
+
+36
+00:02:38,000 --> 00:02:44,000
+In such scenarios, what you can dto is we can create a class with the name like CustomerDetails.
+
+37
+00:02:45,000 --> 00:02:51,000
+And inside this DTO class you can define all the fields that your client is asking from these entity
+
+38
+00:02:51,000 --> 00:02:52,000
+classes.
+
+39
+00:02:52,000 --> 00:02:59,000
+Once you define a class in between, you can write a mapper logic or aggregation logic that will take
+
+40
+00:02:59,000 --> 00:03:04,000
+care of converting all your field values from DB entity to DTO class.
+
+41
+00:03:04,000 --> 00:03:08,000
+So this is just a small piece of Java code that we need to write.
+
+42
+00:03:08,000 --> 00:03:13,000
+I'm going to show you the demo of this DTO classes and pattern in the coming lectures.
+
+43
+00:03:13,000 --> 00:03:19,000
+This way my client applications who are using web application like with the help of HTML page or who
+
+44
+00:03:19,000 --> 00:03:26,000
+are trying to invoke my rest APIs with the help of other backend APIs. They can always request whatever
+
+45
+00:03:26,000 --> 00:03:29,000
+data that they want from my database tables.
+
+46
+00:03:29,000 --> 00:03:35,000
+Instead of I sending the data with the help of my database entity Pojo classes, I should rely on the
+
+47
+00:03:35,000 --> 00:03:40,000
+DTO classes and following these pattern, we have various advantages.
+
+48
+00:03:40,000 --> 00:03:44,000
+The very first advantage is it is going to reduce the network traffic.
+
+49
+00:03:44,000 --> 00:03:50,000
+Think of a scenario if you don't have this dto pattern. And if your UI application or if another client
+
+50
+00:03:50,000 --> 00:03:55,000
+API they're trying to ask you, provide me both customer and accounts table data.
+
+51
+00:03:55,000 --> 00:04:01,000
+So in that case you will ask them to send the two different requests one for customer and the other
+
+52
+00:04:01,000 --> 00:04:03,000
+one for accounts, which is unnecessary.
+
+53
+00:04:03,000 --> 00:04:09,000
+Whereas with the dto pattern they will make a single request and you will have a mapper logic which
+
+54
+00:04:09,000 --> 00:04:14,000
+will take care of combining the data from the customer and accounts and transferring it to the CustomerDetails class
+
+55
+00:04:14,000 --> 00:04:15,000
+.
+
+56
+00:04:15,000 --> 00:04:18,000
+And the same you will be responding back to the client applications.
+
+57
+00:04:18,000 --> 00:04:22,000
+And the second advantage that we have is encapsulate serialization.
+
+58
+00:04:22,000 --> 00:04:27,000
+So these classes usually they represent only the data that they carry.
+
+59
+00:04:27,000 --> 00:04:30,000
+We are not supposed to write any other business logic inside these dto classes.
+
+60
+00:04:30,000 --> 00:04:32,000
+Apart from these data fields
+
+61
+00:04:32,000 --> 00:04:36,000
+we can also write logic related to the serialization.
+
+62
+00:04:36,000 --> 00:04:42,000
+When I say serialization, some clients, they may ask you to send the data as an XML or as an Json
+
+63
+00:04:42,000 --> 00:04:45,000
+format or an Yaml format.
+
+64
+00:04:45,000 --> 00:04:51,000
+So whatever serialization format that they need, you can always write that logic inside your DTO class,
+
+65
+00:04:51,000 --> 00:04:58,000
+otherwise you will end up spreading or writing that serialization format in many places of your application,
+
+66
+00:04:58,000 --> 00:04:59,000
+which is going to be again a cumbersome
+
+67
+00:04:59,000 --> 00:05:04,000
+process to maintain whenever there is a serialization format is changing in future.
+
+68
+00:05:04,000 --> 00:05:09,000
+And the last advantage that we have with the dto pattern is, it will decouple the layers.
+
+69
+00:05:09,000 --> 00:05:16,000
+With the help of this pattern, your presentation layer is going to be decoupled from the data access
+
+70
+00:05:16,000 --> 00:05:16,000
+layer.
+
+71
+00:05:16,000 --> 00:05:20,000
+What is the meaning of decoupling between presentation layer and data access layer?
+
+72
+00:05:20,000 --> 00:05:25,000
+This means your presentation layer, like your client applications.
+
+73
+00:05:25,000 --> 00:05:31,000
+They never know what is that database entities, what is the fields that they hold, what kind of data
+
+74
+00:05:31,000 --> 00:05:32,000
+that they hold.
+
+75
+00:05:32,000 --> 00:05:33,000
+They don't have to worry.
+
+76
+00:05:33,000 --> 00:05:39,000
+And if there is anything changing inside the database, entities that will never impact the client applications
+
+77
+00:05:39,000 --> 00:05:43,000
+because client applications, they always work with the help of dto class.
+
+78
+00:05:43,000 --> 00:05:49,000
+Suppose think like in future you are introducing new column inside the DB entity and the same will be
+
+79
+00:05:49,000 --> 00:05:51,000
+reflected inside your DB entity classes.
+
+80
+00:05:51,000 --> 00:05:56,000
+If it is not required to the clients, you don't need to send that to clients and you don't need to
+
+81
+00:05:56,000 --> 00:05:58,000
+update the DTO class.
+
+82
+00:05:58,000 --> 00:06:06,000
+This way the DB layer and presentation layer are client layer is always decoupled with the help of DTO pattern.
+
+83
+00:06:06,000 --> 00:06:08,000
+I hope you are clear what is dto pattern?
+
+84
+00:06:08,000 --> 00:06:13,000
+So as a next step, what we have to do is, for each of the DB entities that we have created inside our
+
+85
+00:06:13,000 --> 00:06:21,000
+web application, we need to create a corresponding DTO class so that we can send that data or response
+
+86
+00:06:21,000 --> 00:06:27,000
+to the client applications when they invoke our REST APIs or microservices with the help of these D2
+
+87
+00:06:27,000 --> 00:06:30,000
+pattern and DTO classes that we are going to create.
+
+88
+00:06:30,000 --> 00:06:31,000
+I hope this is clear.
+
+89
+00:06:31,000 --> 00:06:34,000
+Thank you and I'll catch you in the next lecture bye.
+

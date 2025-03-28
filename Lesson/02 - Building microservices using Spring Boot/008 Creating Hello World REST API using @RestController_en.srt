@@ -1,0 +1,468 @@
+1
+00:00:00,000 --> 00:00:06,000
+In the previous lecture, we have created a basic spring boot web application.
+
+2
+00:00:06,000 --> 00:00:12,000
+Now let's try to update this basic spring boot application with a new Rest API that gives the response
+
+3
+00:00:12,000 --> 00:00:17,000
+saying that Hello World. At the same, if you are already comfortable with all these basic concepts,
+
+4
+00:00:17,000 --> 00:00:20,000
+I would recommend you to fast forward the discussion.
+
+5
+00:00:20,000 --> 00:00:22,000
+That way you won't get feel bored.
+
+6
+00:00:22,000 --> 00:00:28,000
+But if you're not aware about all these basic concepts, I would recommend you to follow the discussions
+
+7
+00:00:28,000 --> 00:00:28,000
+carefully.
+
+8
+00:00:28,000 --> 00:00:36,000
+So in order to create a new basic Rest API, I'm going to create a new package with the name
+
+9
+00:00:36,000 --> 00:00:39,000
+com.eazybytes.accounts.controller.
+
+10
+00:00:39,000 --> 00:00:43,000
+So inside this controller package I'm going to create a new class.
+
+11
+00:00:43,000 --> 00:00:48,000
+The class name is going to be accounts controller. Inside this class only
+
+12
+00:00:48,000 --> 00:00:53,000
+I'm going to create all the Rest APIs related to the accounts.
+
+13
+00:00:53,000 --> 00:00:58,000
+Microservice First, let's try to put an annotation on top of this class.
+
+14
+00:00:58,000 --> 00:01:01,000
+The annotation is @RestController.
+
+15
+00:01:01,000 --> 00:01:07,000
+Whenever we mention this annotation on top of a class, we are instructing to the spring boot framework
+
+16
+00:01:07,000 --> 00:01:14,000
+I'm going to write methods inside this class with the annotations related to the Http methods.
+
+17
+00:01:14,000 --> 00:01:20,000
+Accordingly, please expose all these methods as a Rest APIs to the outside world.
+
+18
+00:01:20,000 --> 00:01:24,000
+So that is an indication that we are giving to the spring boot framework.
+
+19
+00:01:24,000 --> 00:01:26,000
+So here I'm going to create a method.
+
+20
+00:01:26,000 --> 00:01:29,000
+So let me type the method like public.
+
+21
+00:01:29,000 --> 00:01:35,000
+It is going to return string and the method name is going to be say hello and it is not going to accept
+
+22
+00:01:35,000 --> 00:01:36,000
+anything.
+
+23
+00:01:36,000 --> 00:01:40,000
+It is simply going to return a string saying that Hello world.
+
+24
+00:01:40,000 --> 00:01:46,000
+So this is the tradition that most developers, they follow whenever they are getting started with the
+
+25
+00:01:46,000 --> 00:01:47,000
+new framework.
+
+26
+00:01:47,000 --> 00:01:50,000
+So that's why I'm trying to follow the same tradition.
+
+27
+00:01:50,000 --> 00:01:55,000
+Now, on top of this method, I'm going to mention an annotation which is get mapping.
+
+28
+00:01:55,000 --> 00:02:01,000
+So whenever we are mentioning get mapping, we are telling to the spring boot framework that this method
+
+29
+00:02:01,000 --> 00:02:04,000
+is going to support Http get method.
+
+30
+00:02:04,000 --> 00:02:11,000
+So whoever want to invoke my API, they need to invoke with the help of Http get method because this
+
+31
+00:02:11,000 --> 00:02:16,000
+method is simply going to return the data to the end user or to the client.
+
+32
+00:02:16,000 --> 00:02:18,000
+That's why we should use the Get Mapping.
+
+33
+00:02:18,000 --> 00:02:24,000
+And since someone want to invoke this API, we should mention what is the path that this method is going
+
+34
+00:02:24,000 --> 00:02:25,000
+to support.
+
+35
+00:02:25,000 --> 00:02:29,000
+So here I'm just going to define the path saying that say hello.
+
+36
+00:02:29,000 --> 00:02:34,000
+So if someone is trying to invoke my API, say hello, they'll get this response.
+
+37
+00:02:34,000 --> 00:02:36,000
+So let me save this changes.
+
+38
+00:02:36,000 --> 00:02:37,000
+I'm going to do a build.
+
+39
+00:02:37,000 --> 00:02:43,000
+When you're trying to do a build very first time, your IDE will ask you to enable annotation processing
+
+40
+00:02:43,000 --> 00:02:47,000
+because it identifies the Lombok inside your classpath.
+
+41
+00:02:47,000 --> 00:02:54,000
+So please enable the annotations so that we can leverage the Lombok Library inside this course.
+
+42
+00:02:54,000 --> 00:02:55,000
+So let me do this.
+
+43
+00:02:55,000 --> 00:02:58,000
+After this, I'm going to do build again.
+
+44
+00:02:58,000 --> 00:03:04,000
+Once the build is completed, I'm straight away going to the spring Boot main class, which is accounts
+
+45
+00:03:04,000 --> 00:03:04,000
+application.
+
+46
+00:03:04,000 --> 00:03:08,000
+And here I'm trying to start my application in a debug mode.
+
+47
+00:03:08,000 --> 00:03:12,000
+So let's see the magic that it is going to do behind the scenes.
+
+48
+00:03:12,000 --> 00:03:20,000
+Like you can see here, my accounts application started at the port 8080 and it also identified that
+
+49
+00:03:20,000 --> 00:03:22,000
+I have history database inside my dependency.
+
+50
+00:03:22,000 --> 00:03:27,000
+That's why it completed all auto configuration related to H2 console.
+
+51
+00:03:27,000 --> 00:03:29,000
+The same applies for the actuator.
+
+52
+00:03:29,000 --> 00:03:37,000
+Since we have the actuator related dependency inside our pom.xml spring boot did all the auto configuration
+
+53
+00:03:37,000 --> 00:03:44,000
+and apart from that it is also deployed our web application automatically into your Tomcat server at
+
+54
+00:03:44,000 --> 00:03:48,000
+the port 8080 with the context path empty.
+
+55
+00:03:48,000 --> 00:03:54,000
+This means my spring boot framework based upon dependencies that I have defined inside my web application.
+
+56
+00:03:54,000 --> 00:03:57,000
+It is able to do a lot of auto configuration.
+
+57
+00:03:57,000 --> 00:04:03,000
+It is not asking me to provide what is a port number where it has to deploy, what is the server, where
+
+58
+00:04:03,000 --> 00:04:08,000
+it has to deploy, what are the connection details to my H2 database?
+
+59
+00:04:08,000 --> 00:04:13,000
+It is not asking all those details and it is assuming and doing some default configurations.
+
+60
+00:04:13,000 --> 00:04:18,000
+I'll be showing how to override these default configurations in the coming lectures.
+
+61
+00:04:18,000 --> 00:04:24,000
+For now, let's try to access our API the help of port 8080.
+
+62
+00:04:24,000 --> 00:04:31,000
+For the same inside my browser, I'm going to type localhost 8080 since our application started at the
+
+63
+00:04:31,000 --> 00:04:32,000
+port 8080.
+
+64
+00:04:32,000 --> 00:04:35,000
+And the path that we need to invoke is say hello.
+
+65
+00:04:35,000 --> 00:04:41,000
+As soon as I try to invoke this API path, you will be able to see I'm getting Hello world response
+
+66
+00:04:41,000 --> 00:04:43,000
+from my backend server.
+
+67
+00:04:43,000 --> 00:04:48,000
+So whenever we try to invoke this path from browser, it is going to invoke with the help of history
+
+68
+00:04:48,000 --> 00:04:49,000
+http get method only.
+
+69
+00:04:49,000 --> 00:04:51,000
+That's why I'm getting the response.
+
+70
+00:04:51,000 --> 00:04:52,000
+Hello world.
+
+71
+00:04:52,000 --> 00:04:58,000
+I hope you are seeing the beauty of the spring boot framework, how easy it is to build a microservice
+
+72
+00:04:58,000 --> 00:05:00,000
+if I'm aware of all these steps.
+
+73
+00:05:00,000 --> 00:05:07,000
+I can create a micro service template or skeleton within one two minutes, post that I can update with
+
+74
+00:05:07,000 --> 00:05:08,000
+my own business logic.
+
+75
+00:05:08,000 --> 00:05:14,000
+And apart from this, like I said, there are some productivity tools available inside the spring boot
+
+76
+00:05:14,000 --> 00:05:19,000
+framework like dev tools, which is going to help to improve the productivity of the developer.
+
+77
+00:05:19,000 --> 00:05:28,000
+For example, if I try to update this string to hi world and I'm saving these changes and doing a build
+
+78
+00:05:28,000 --> 00:05:34,000
+as soon as the build is completed, I'm not going to restart the server, I'll just go to the debug
+
+79
+00:05:34,000 --> 00:05:37,000
+and I'll see what is there inside my console.
+
+80
+00:05:37,000 --> 00:05:46,000
+You can see by default my spring boot framework itself restarted my application within eight milliseconds
+
+81
+00:05:46,000 --> 00:05:48,000
+initially to start the server.
+
+82
+00:05:48,000 --> 00:05:51,000
+Very first time it took 6.834 seconds.
+
+83
+00:05:51,000 --> 00:05:57,000
+But later on when I make the changes, it restarted very quickly because it is trying to load the class,
+
+84
+00:05:57,000 --> 00:05:59,000
+which is changed in our scenario.
+
+85
+00:05:59,000 --> 00:06:01,000
+It is accounts controller.
+
+86
+00:06:01,000 --> 00:06:04,000
+So now let me go to the browser and try to refresh.
+
+87
+00:06:04,000 --> 00:06:09,000
+So here I'm trying to refresh my page and you can see I'm getting the latest response.
+
+88
+00:06:09,000 --> 00:06:15,000
+Whereas if you can think about all these inside a monolithic application where you are not using a spring
+
+89
+00:06:15,000 --> 00:06:20,000
+boot framework, you need to manually restart for each and every small change.
+
+90
+00:06:20,000 --> 00:06:26,000
+And sometimes this manual restarts is going to take a lot of your efforts on day to day basis.
+
+91
+00:06:26,000 --> 00:06:27,000
+I hope you are clear.
+
+92
+00:06:27,000 --> 00:06:31,000
+Now I want to share an important note about IntelliJ IDE.
+
+93
+00:06:31,000 --> 00:06:38,000
+By default, you may not have this look and feel in terms of this font and these colors and this dark
+
+94
+00:06:38,000 --> 00:06:39,000
+theme.
+
+95
+00:06:39,000 --> 00:06:45,000
+If you want to have the same theme like I'm showing here, please go to these IntelliJ idea and open
+
+96
+00:06:45,000 --> 00:06:47,000
+the preferences here.
+
+97
+00:06:47,000 --> 00:06:49,000
+Look for plugins under plugins.
+
+98
+00:06:49,000 --> 00:06:50,000
+I'm clicking on this install.
+
+99
+00:06:50,000 --> 00:06:59,000
+So as of now you can see I installed a theme which is dark purple theme from Jetbrains and also I installed
+
+100
+00:06:59,000 --> 00:07:03,000
+one more theme which is one dark theme from Mark Skelton.
+
+101
+00:07:03,000 --> 00:07:11,000
+So using these themes, I'm able to get all these look and feel so you can go to this marketplace and
+
+102
+00:07:11,000 --> 00:07:17,000
+you can simply search for these themes like Dark Purple theme, and you will be seeing the result and
+
+103
+00:07:17,000 --> 00:07:22,000
+there will be an install option for you since it is already installed inside my IDE, I'm getting it
+
+104
+00:07:22,000 --> 00:07:23,000
+disabled option.
+
+105
+00:07:23,000 --> 00:07:30,000
+Once you install this theme, you can enable these and you can search for theme inside your preferences.
+
+106
+00:07:30,000 --> 00:07:31,000
+Once you search for the theme.
+
+107
+00:07:31,000 --> 00:07:35,000
+Under these appearance and behavior, there is an appearance tab.
+
+108
+00:07:35,000 --> 00:07:36,000
+Just click on that.
+
+109
+00:07:36,000 --> 00:07:41,000
+Under this theme, you should be able to change to whatever theme that you want.
+
+110
+00:07:41,000 --> 00:07:47,000
+And previously I'm telling to enable the annotations processing because we are going to use a lombok.
+
+111
+00:07:47,000 --> 00:07:47,000
+For the same,
+
+112
+00:07:47,000 --> 00:07:53,000
+you can also search for annotation here and you can see this is the annotation processor.
+
+113
+00:07:53,000 --> 00:07:57,000
+So always make sure you are enable these annotation processing.
+
+114
+00:07:57,000 --> 00:08:02,000
+Otherwise you will not be able to use all the Lombok related annotations that we are going to discuss
+
+115
+00:08:02,000 --> 00:08:04,000
+in the coming lectures.
+
+116
+00:08:04,000 --> 00:08:05,000
+I hope you're clear.
+
+117
+00:08:05,000 --> 00:08:08,000
+Thank you and I'll catch you in the next lecture bye.
+

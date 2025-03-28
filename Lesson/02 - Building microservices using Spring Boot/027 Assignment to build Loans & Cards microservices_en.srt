@@ -1,0 +1,210 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, we completed the development of 
+AccountsMicroservice business logic, along with the standards
+
+2
+00:00:07,000 --> 00:00:08,000
+that we have discussed.
+
+3
+00:00:08,000 --> 00:00:15,000
+As a next step, I want you to try building Cards and Loans Microservice with very similar standards
+
+4
+00:00:15,000 --> 00:00:19,000
+that we have discussed and followed for 
+AccountsMicroservice.
+
+5
+00:00:19,000 --> 00:00:24,000
+First, you need to create an empty spring boot application with the required dependencies from the
+
+6
+00:00:24,000 --> 00:00:26,000
+start.spring.io.
+
+7
+00:00:26,000 --> 00:00:31,000
+Once you downloaded that spring boot web application, you should start implementing various standards
+
+8
+00:00:31,000 --> 00:00:38,000
+and various features like h2 database, creating the entities and JPA repositories, implementing
+
+9
+00:00:38,000 --> 00:00:44,000
+Dto pattern, writing, the Crud operation APIs, building the exception handling logic, and also
+
+10
+00:00:44,000 --> 00:00:48,000
+implementing auditing functionality and documenting your REST APIs.
+
+11
+00:00:48,000 --> 00:00:51,000
+So these are all the standards that we discussed and followed.
+
+12
+00:00:51,000 --> 00:00:56,000
+Please make sure you are also building these inside the Cards and Loans Microservice.
+
+13
+00:00:56,000 --> 00:01:02,000
+And I know here, while building Cards and Loans, 
+Microservice, you may have many questions like
+
+14
+00:01:02,000 --> 00:01:04,000
+what is the table name, what are the column names?
+
+15
+00:01:04,000 --> 00:01:05,000
+What are the field names?
+
+16
+00:01:05,000 --> 00:01:07,000
+What is the class name method name.
+
+17
+00:01:07,000 --> 00:01:09,000
+So this way you have many questions.
+
+18
+00:01:09,000 --> 00:01:11,000
+That's why I don't want you to get stressed.
+
+19
+00:01:11,000 --> 00:01:14,000
+Always refer the code present inside the GitHub repo.
+
+20
+00:01:15,000 --> 00:01:20,000
+If you see this is the GitHub repo that I have mentioned in the starting like github.com/easybites/microservice
+
+21
+00:01:20,000 --> 00:01:22,000
+here,
+
+22
+00:01:22,000 --> 00:01:29,000
+as of now I have uploaded section 2 related code and if you can open this section 2 inside this,
+
+23
+00:01:29,000 --> 00:01:32,000
+we have Accounts, Cards and Loans Micro service.
+
+24
+00:01:32,000 --> 00:01:37,000
+For example, if you want to get started with the 
+Loans Microservice, please open the code here and
+
+25
+00:01:37,000 --> 00:01:41,000
+try to understand what is a database schema.
+
+26
+00:01:41,000 --> 00:01:47,000
+If you open the schema.sql here inside this Microservice, I only want to create one table with
+
+27
+00:01:47,000 --> 00:01:53,000
+the name loans and it is going to have all these columns like loan ID is going to be the primary key
+
+28
+00:01:53,000 --> 00:01:55,000
+and is going to be created automatically.
+
+29
+00:01:55,000 --> 00:02:01,000
+Similarly, mobile_number, loan_number, loan_type, total_loan ,amount_paid outstanding_amount.
+
+30
+00:02:01,000 --> 00:02:06,000
+And similarly, if you can go to the application.yml, you will have all the required details for
+
+31
+00:02:06,000 --> 00:02:07,000
+the Loans,
+
+32
+00:02:07,000 --> 00:02:13,000
+Please follow the port 8090 and very similarly for Cards, please follow the port 9000.
+
+33
+00:02:13,000 --> 00:02:20,000
+This way you can refer all the classes and packages available inside this GitHub repo and try to build
+
+34
+00:02:20,000 --> 00:02:25,000
+the Microservices of Loans and Cards with the same naming conventions, with the same standards, with
+
+35
+00:02:25,000 --> 00:02:28,000
+the same methods and with the same field names.
+
+36
+00:02:28,000 --> 00:02:33,000
+That's where in the coming sections when I try to make some more changes on the Loans and Cards Microservice
+
+37
+00:02:33,000 --> 00:02:36,000
+your code and my code will look similar.
+
+38
+00:02:36,000 --> 00:02:41,000
+I just want you to build Loans and Cards, Microservice and I'm perfectly fine.
+
+39
+00:02:41,000 --> 00:02:46,000
+Even if you building this Microservice by taking the code or by copying the code from the GitHub,
+
+40
+00:02:46,000 --> 00:02:51,000
+I want you to understand the process and the standards by doing yourself.
+
+41
+00:02:51,000 --> 00:02:57,000
+So please try building these Cards and Loans, 
+Microservice and inside these GitHub repo you can also
+
+42
+00:02:57,000 --> 00:03:01,000
+see I have uploaded the postman collection Json.
+
+43
+00:03:01,000 --> 00:03:05,000
+This Json you can download and you can try to import inside the postman.
+
+44
+00:03:05,000 --> 00:03:10,000
+And very similarly, if you scroll down, I have mentioned all the important links so far we have discussed.
+
+45
+00:03:10,000 --> 00:03:16,000
+This is the spring boot link, this is the start.spring.io 
+Dto pattern blog and this is the Spring Doc
+
+46
+00:03:16,000 --> 00:03:19,000
+website and open API specification website.
+
+47
+00:03:19,000 --> 00:03:24,000
+So I'm going to maintain all important information inside this GitHub repo itself.
+
+48
+00:03:24,000 --> 00:03:27,000
+I hope you are clear with the ask and the assignment.
+
+49
+00:03:28,000 --> 00:03:33,000
+Please try by yourself and I'm going to explain all the code present inside this Microservice in the
+
+50
+00:03:33,000 --> 00:03:34,000
+coming lectures.
+
+51
+00:03:34,000 --> 00:03:37,000
+Thank you and I'll catch you in the next lecture bye.
+

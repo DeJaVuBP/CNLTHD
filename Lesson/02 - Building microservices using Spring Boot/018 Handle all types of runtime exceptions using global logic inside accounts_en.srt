@@ -1,0 +1,294 @@
+1
+00:00:00,000 --> 00:00:03,000
+As of now, inside our accounts.
+
+2
+00:00:03,000 --> 00:00:08,000
+Microservice We have built four REST APIs supporting the Crud operations.
+
+3
+00:00:08,000 --> 00:00:12,000
+Like you can see there are four different API operations inside this lecture.
+
+4
+00:00:12,000 --> 00:00:19,000
+Let's try to handle the runtime exceptions that may happen inside our REST APIs at any time, at any
+
+5
+00:00:19,000 --> 00:00:20,000
+location.
+
+6
+00:00:20,000 --> 00:00:25,000
+As of now, if you go to the GlobalExceptionHandler inside this GlobalExceptionHandler, we are
+
+7
+00:00:25,000 --> 00:00:33,000
+only handling two exceptions, and these two exceptions are business exceptions are user defined exceptions.
+
+8
+00:00:33,000 --> 00:00:37,000
+So these are the two exceptions like ResourceNotFound and customer already exist.
+
+9
+00:00:37,000 --> 00:00:43,000
+Exception But what if there is some runtime exception happens inside your application?
+
+10
+00:00:43,000 --> 00:00:48,000
+You should be able to send a proper response to the client application that so-and-so issue occurred
+
+11
+00:00:48,000 --> 00:00:52,000
+so that they are aware that API invocation is failed for the same.
+
+12
+00:00:52,000 --> 00:00:54,000
+It's going to be super, super easy.
+
+13
+00:00:54,000 --> 00:00:58,000
+We just need to copy one of this method here and paste the same inside.
+
+14
+00:00:58,000 --> 00:01:05,000
+The GlobalExceptionHandler here instead of ResourceNotFoundException class, I'm going to mention
+
+15
+00:01:05,000 --> 00:01:08,000
+Exception.class inside Java,
+
+16
+00:01:08,000 --> 00:01:15,000
+we know Exception is a class that can represent all kind of exceptions, including checked and unchecked
+
+17
+00:01:15,000 --> 00:01:16,000
+exceptions.
+
+18
+00:01:16,000 --> 00:01:22,000
+With this, the method that I'm going to define right now is going to handle all kind of exceptions.
+
+19
+00:01:22,000 --> 00:01:27,000
+But here you may have a question like user not found exception is also a type of exception.
+
+20
+00:01:27,000 --> 00:01:34,000
+Only the way it is going to work is for Springboot framework is going to look for handler methods which
+
+21
+00:01:34,000 --> 00:01:36,000
+are with the exact exception details.
+
+22
+00:01:36,000 --> 00:01:42,000
+If there is no such handler exception, then the logic inside this exception handler is going to be
+
+23
+00:01:42,000 --> 00:01:43,000
+invoked.
+
+24
+00:01:43,000 --> 00:01:48,000
+Let me change this method name to handleGlobalException() and at the same time we need to change this
+
+25
+00:01:48,000 --> 00:01:49,000
+ResourceNotFoundException
+
+26
+00:01:49,000 --> 00:01:52,000
+to normal exception class.
+
+27
+00:01:52,000 --> 00:01:58,000
+And apart from that here I want to return an 
+ErrorResponseDto as an response.
+
+28
+00:01:58,000 --> 00:02:01,000
+And I want to send what is the path that they invoked?
+
+29
+00:02:01,000 --> 00:02:05,000
+And instead of NOT_FOUND, I want to send internal server error.
+
+30
+00:02:05,000 --> 00:02:09,000
+So this indicates that there is some runtime error happened.
+
+31
+00:02:09,000 --> 00:02:13,000
+And the same I'm going to mention here as well, post this internal server.
+
+32
+00:02:13,000 --> 00:02:19,000
+We should be good with whatever exception message that we receive from the spring boot framework along
+
+33
+00:02:19,000 --> 00:02:21,000
+with these LocalDateTime.now().
+
+34
+00:02:21,000 --> 00:02:29,000
+So with these changes now our application can handle the runtime exceptions and it can execute the logic
+
+35
+00:02:29,000 --> 00:02:32,000
+that we have written here if needed in real time applications.
+
+36
+00:02:32,000 --> 00:02:39,000
+You can enhance this method to trigger an email to operation or to make an entry into one of the table
+
+37
+00:02:39,000 --> 00:02:43,000
+where you are maintaining all the exception details for reporting purpose.
+
+38
+00:02:43,000 --> 00:02:46,000
+So the scenario can be anything based upon your business requirements.
+
+39
+00:02:46,000 --> 00:02:49,000
+So now we have this logic available.
+
+40
+00:02:49,000 --> 00:02:52,000
+The question right now is how to test a runtime exception.
+
+41
+00:02:52,000 --> 00:02:54,000
+That's going to be super, super easy.
+
+42
+00:02:54,000 --> 00:03:00,000
+Let's try to introduce a runtime exception intentionally inside my AccountsController.
+
+43
+00:03:00,000 --> 00:03:02,000
+As of now we have this AllArgsConstructor.
+
+44
+00:03:02,000 --> 00:03:03,000
+I'm going to delete this.
+
+45
+00:03:03,000 --> 00:03:09,000
+With that, there will be only default constructor for our class and with the default constructor the
+
+46
+00:03:09,000 --> 00:03:11,000
+autowiring will not happen.
+
+47
+00:03:11,000 --> 00:03:17,000
+And when no aut wiring happening then this 
+IAccountService is going to be null and I'm going to get
+
+48
+00:03:17,000 --> 00:03:22,000
+a null pointer exception in all my API operations.
+
+49
+00:03:22,000 --> 00:03:24,000
+So let me save this changes and do a build.
+
+50
+00:03:24,000 --> 00:03:28,000
+Once the build is completed, we can try to test one of the API,
+
+51
+00:03:28,000 --> 00:03:31,000
+maybe we can try to test create API itself.
+
+52
+00:03:31,000 --> 00:03:32,000
+So this is the API that I want to test.
+
+53
+00:03:32,000 --> 00:03:35,000
+So let me invoke with a proper request.
+
+54
+00:03:35,000 --> 00:03:37,000
+So I'm clicking on the Send button.
+
+55
+00:03:37,000 --> 00:03:42,000
+You can see I got a runtime exception saying that this is the API path, this is the error code which
+
+56
+00:03:42,000 --> 00:03:47,000
+is internal server error and the same we are getting here like 500 internal server, which is the Http
+
+57
+00:03:47,000 --> 00:03:48,000
+status.
+
+58
+00:03:48,000 --> 00:03:53,000
+Now coming to the error message, you can see we are getting actual runtime exception saying that that
+
+59
+00:03:53,000 --> 00:03:56,000
+so-and-so object is null because autowiring failed.
+
+60
+00:03:56,000 --> 00:03:59,000
+The same will happen for all kind of APIs.
+
+61
+00:03:59,000 --> 00:04:01,000
+Like you can see we we are getting the same here.
+
+62
+00:04:01,000 --> 00:04:06,000
+Let's do the same for update account and the same for delete account.
+
+63
+00:04:06,000 --> 00:04:08,000
+You can see the power of global exception.
+
+64
+00:04:08,000 --> 00:04:11,000
+So this is going to be super, super important.
+
+65
+00:04:11,000 --> 00:04:16,000
+And if someone want to test your spring boot knowledge and your rest API knowledge, they can simply
+
+66
+00:04:16,000 --> 00:04:20,000
+ask you how to implement global exception logic inside an application.
+
+67
+00:04:20,000 --> 00:04:26,000
+So please remember that we need to use this annotation like @ControllerAdvice and we need
+
+68
+00:04:26,000 --> 00:04:32,000
+to write a method and on top of this method we need to make sure we are mentioning this annotation 
+
+69
+00:04:32,000 --> 00:04:36,000
+@ExceptioHandler post that you already know what we have to do inside this method.
+
+70
+00:04:36,000 --> 00:04:42,000
+The short answer is the combination of ControllerAdvice and ExceptionHandler is going to help you
+
+71
+00:04:42,000 --> 00:04:47,000
+to implement the global error logic inside all of your Controller methods.
+
+72
+00:04:47,000 --> 00:04:48,000
+I hope this is clear.
+
+73
+00:04:48,000 --> 00:04:52,000
+Thank you and I'll catch you in the next lecture bye.
+

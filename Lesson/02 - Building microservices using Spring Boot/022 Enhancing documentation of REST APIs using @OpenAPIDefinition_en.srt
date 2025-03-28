@@ -1,0 +1,476 @@
+1
+00:00:00,000 --> 00:00:05,000
+We decided to improve our REST API documentation further. For the same,
+
+2
+00:00:05,000 --> 00:00:08,000
+first, I want to target this the top section.
+
+3
+00:00:08,000 --> 00:00:15,000
+So as of now you can see this section does not have any much information about what is the purpose of
+
+4
+00:00:15,000 --> 00:00:18,000
+my REST APIs that I'm trying to expose here.
+
+5
+00:00:18,000 --> 00:00:19,000
+What is the summary?
+
+6
+00:00:19,000 --> 00:00:20,000
+What is the description?
+
+7
+00:00:20,000 --> 00:00:22,000
+Is there any contact information?
+
+8
+00:00:22,000 --> 00:00:24,000
+Is there any licensing information?
+
+9
+00:00:24,000 --> 00:00:29,000
+If someone has such questions, they can always check that kind of information inside my documentation
+
+10
+00:00:29,000 --> 00:00:30,000
+itself.
+
+11
+00:00:30,000 --> 00:00:34,000
+So let's try to document these details with the help of few annotations that we have.
+
+12
+00:00:34,000 --> 00:00:39,000
+For the same, we need to go to the location where our Springboot main class is present.
+
+13
+00:00:39,000 --> 00:00:41,000
+Here we have AccountsApplication.
+
+14
+00:00:41,000 --> 00:00:43,000
+This is the main class.
+
+15
+00:00:43,000 --> 00:00:48,000
+Here we need to mention an annotation with the name Openapi Definition.
+
+16
+00:00:48,000 --> 00:00:52,000
+We are trying to provide the definition details with the help of open API.
+
+17
+00:00:52,000 --> 00:00:54,000
+That's why we need to use this annotation.
+
+18
+00:00:54,000 --> 00:01:02,000
+Using this annotation we need to invoke a param which is info and to this info param we should again
+
+19
+00:01:02,000 --> 00:01:04,000
+invoke an annotation which is @Info.
+
+20
+00:01:05,000 --> 00:01:11,000
+Using this annotation I can populate what is the title of my springboot documentation.
+
+21
+00:01:11,000 --> 00:01:15,000
+So using this title you can mention a short summary about your REST APIs.
+
+22
+00:01:15,000 --> 00:01:21,000
+So here I'm going to mention something like Accounts Microservice REST API Documentation.
+
+23
+00:01:21,000 --> 00:01:27,000
+In real projects you can mention whatever makes sense to you based upon your business application.
+
+24
+00:01:27,000 --> 00:01:31,000
+After this title, we can also mention description.
+
+25
+00:01:31,000 --> 00:01:37,000
+Using this description, we can provide a good description about our REST APIs.
+
+26
+00:01:37,000 --> 00:01:43,000
+Here also, I'm going to mention a description saying that EasyBank Accounts Microservice REST API Documentation.
+
+27
+00:01:43,000 --> 00:01:44,000
+And post that,
+
+28
+00:01:44,000 --> 00:01:46,000
+we can also mention version.
+
+29
+00:01:46,000 --> 00:01:52,000
+As of now I'm trying to build a version v1 so if you are trying to build a new version, you can always
+
+30
+00:01:52,000 --> 00:01:55,000
+change to v2, v3 based upon your business requirements.
+
+31
+00:01:55,000 --> 00:02:00,000
+Post that I can also invoke contact param and to this contact param,
+
+32
+00:02:00,000 --> 00:02:07,000
+since this is going to accept multiple information, we need to first invoke the Contact annotation
+
+33
+00:02:07,000 --> 00:02:10,000
+available inside the spring doc library.
+
+34
+00:02:10,000 --> 00:02:14,000
+So to this Contact annotation we can pass multiple details.
+
+35
+00:02:14,000 --> 00:02:21,000
+These details are like what is the name of the person to whom you can try to contact whenever you have
+
+36
+00:02:21,000 --> 00:02:25,000
+some questions or any issues with these documentation or with the REST APIs.
+
+37
+00:02:25,000 --> 00:02:28,000
+So here I'm just mentioning my name very similarly
+
+38
+00:02:28,000 --> 00:02:33,000
+we can mention what is the email of this person, and this information don't have to be an individual
+
+39
+00:02:33,000 --> 00:02:35,000
+information always.
+
+40
+00:02:35,000 --> 00:02:37,000
+You can define an email of your team.
+
+41
+00:02:37,000 --> 00:02:42,000
+It's up to you what kind of information you want to mention here and the name and email.
+
+42
+00:02:42,000 --> 00:02:48,000
+Similarly, we can also mention what is a URL information where people can try to reach out to you.
+
+43
+00:02:48,000 --> 00:02:52,000
+So here I'm just mentioning my website, which is eazybytes.com.
+
+44
+00:02:52,000 --> 00:02:58,000
+Once we provide all this contact information, we can also provide license information. Because in real
+
+45
+00:02:58,000 --> 00:03:04,000
+project we should also provide license details whether our REST APIs are free to use or you have any
+
+46
+00:03:04,000 --> 00:03:05,000
+license restrictions.
+
+47
+00:03:05,000 --> 00:03:11,000
+So so such kind of information you can always mention with the help of these License annotation and
+
+48
+00:03:11,000 --> 00:03:16,000
+linside this License annotation we can invoke name parameter.
+
+49
+00:03:16,000 --> 00:03:22,000
+So here I'm just passing the name as Apache 2.0, which is the licensing that I want to follow.
+
+50
+00:03:22,000 --> 00:03:23,000
+After this name,
+
+51
+00:03:23,000 --> 00:03:30,000
+we can also provide URL details where people can try to read more about your licensing details.
+
+52
+00:03:30,000 --> 00:03:33,000
+So for now I'm just mentioning my website URL.
+
+53
+00:03:33,000 --> 00:03:38,000
+So these are all sample data that I'm mentioning here, but I hope you understand in real project you
+
+54
+00:03:38,000 --> 00:03:42,000
+should use something which is relevant to your project and your organization.
+
+55
+00:03:42,000 --> 00:03:48,000
+Once we mention all these Info information, you can see under this info we have mentioned title, description,
+
+56
+00:03:48,000 --> 00:03:51,000
+version, contact and license details.
+
+57
+00:03:51,000 --> 00:03:54,000
+We can also mention external documentation details.
+
+58
+00:03:54,000 --> 00:04:00,000
+For example, if people want to learn more about our REST APIs, more about our business.
+
+59
+00:04:00,000 --> 00:04:07,000
+So in such scenarios we can provide some external documentation that people can read in case if they
+
+60
+00:04:07,000 --> 00:04:11,000
+want to gain more knowledge about our REST APIs and application.
+
+61
+00:04:11,000 --> 00:04:14,000
+So here I'm trying to mention some description.
+
+62
+00:04:14,000 --> 00:04:20,000
+The description is going to be EasyBank Accounts, Microservice REST API Documentation and post that
+
+63
+00:04:20,000 --> 00:04:27,000
+we should also mention the URL details where people can read more about your REST APIs and your organization
+
+64
+00:04:27,000 --> 00:04:27,000
+business.
+
+65
+00:04:27,000 --> 00:04:30,000
+So here I'm just mentioning some dummy URL.
+
+66
+00:04:30,000 --> 00:04:33,000
+So with this way we can provide many other details.
+
+67
+00:04:33,000 --> 00:04:38,000
+Like if you if you can try to see what other details that we can mention, we can mention security details
+
+68
+00:04:38,000 --> 00:04:40,000
+like what security that you follow.
+
+69
+00:04:40,000 --> 00:04:46,000
+We can provide server details like URL details where our REST APIs are hosted, so we can provide tax
+
+70
+00:04:46,000 --> 00:04:49,000
+information, extension details.
+
+71
+00:04:49,000 --> 00:04:55,000
+So this is all advanced concepts inside Openapi specification which need its own discussion.
+
+72
+00:04:55,000 --> 00:05:00,000
+If you want to know everything about Openapi specification and swagger ecosystem.
+
+73
+00:05:00,000 --> 00:05:07,000
+You can enroll one of my course inside Udemy focusing on open API specification and swagger.
+
+74
+00:05:07,000 --> 00:05:07,000
+With this changes,
+
+75
+00:05:07,000 --> 00:05:12,000
+we should be good from these main class which is AccountsApplication.
+
+76
+00:05:12,000 --> 00:05:13,000
+So let me save this changes.
+
+77
+00:05:13,000 --> 00:05:14,000
+Do a build.
+
+78
+00:05:14,000 --> 00:05:18,000
+Once the build is completed I can go and refresh my swagger ui HTML.
+
+79
+00:05:18,000 --> 00:05:22,000
+So here, as of now you can see this entire section is empty.
+
+80
+00:05:22,000 --> 00:05:30,000
+So let me refresh this page and this time you can see I have an beautiful title description and contact
+
+81
+00:05:30,000 --> 00:05:35,000
+details to whom they can send an email, they can visit a website and this is the licensing information
+
+82
+00:05:35,000 --> 00:05:38,000
+and this is the external documentation information.
+
+83
+00:05:38,000 --> 00:05:43,000
+This way we enhance this section, which is common for all our REST APIs.
+
+84
+00:05:43,000 --> 00:05:48,000
+Now, as a next step, we should also enhance this documentation present.
+
+85
+00:05:48,000 --> 00:05:53,000
+Under this controller, we should not display technical information like our class name
+
+86
+00:05:53,000 --> 00:05:57,000
+and similarly, we are trying to display the host name, which is not good.
+
+87
+00:05:57,000 --> 00:06:04,000
+On top of that, we should also provide some example data to our clients so that they can easily understand
+
+88
+00:06:04,000 --> 00:06:05,000
+our REST APIs.
+
+89
+00:06:05,000 --> 00:06:10,000
+We can try to enhance this documentation further in the next lecture before we try to close this lecture
+
+90
+00:06:10,000 --> 00:06:16,000
+I just wanted to share one more important information about the Spring Boot main class, which is
+
+91
+00:06:16,000 --> 00:06:17,000
+AccountsApplication.
+
+92
+00:06:17,000 --> 00:06:24,000
+So whenever you see this annotation, it indicates that this is a main class of US spring boot web application
+
+93
+00:06:24,000 --> 00:06:25,000
+or microservice.
+
+94
+00:06:25,000 --> 00:06:33,000
+So as of now you can see all my packages I have created as a sub packages where my spring boot main
+
+95
+00:06:33,000 --> 00:06:34,000
+class is present.
+
+96
+00:06:34,000 --> 00:06:40,000
+My spring boot main class is present inside a package with the name com.eazybytes.accounts
+
+97
+00:06:40,000 --> 00:06:45,000
+and all my remaining packages I have created inside them as a sub package.
+
+98
+00:06:45,000 --> 00:06:48,000
+And this is the most recommended approach. For some reasons
+
+99
+00:06:48,000 --> 00:06:53,000
+if you are not following the standard like you are creating this controller package somewhere outside
+
+100
+00:06:53,000 --> 00:06:54,000
+this package.
+
+101
+00:06:54,000 --> 00:07:00,000
+So in such scenarios it is mandatory to mention details to spring boot where your controllers are,
+
+102
+00:07:00,000 --> 00:07:03,000
+where your repositories are, where your entity classes.
+
+103
+00:07:03,000 --> 00:07:08,000
+So all such information we are supposed to pass using certain annotations.
+
+104
+00:07:08,000 --> 00:07:14,000
+So these annotations I'm going to mention for your reference, like you can see using ComponentScan,
+
+105
+00:07:14,000 --> 00:07:17,000
+we need to mention all the packages where our beans are present.
+
+106
+00:07:17,000 --> 00:07:23,000
+Like here under the controller we have beans and similarly we also have beans inside the service package.
+
+107
+00:07:23,000 --> 00:07:29,000
+So all those packages we need to repeat with the help of this ComponentScan annotation inside these
+
+108
+00:07:29,000 --> 00:07:34,000
+ComponentsScan annotation and similarly you need to mention where all your repositories are present
+
+109
+00:07:34,000 --> 00:07:37,000
+like JpaRepositories and JpaEntities.
+
+110
+00:07:37,000 --> 00:07:41,000
+So here I have commented these annotations because I don't need to mention them.
+
+111
+00:07:41,000 --> 00:07:48,000
+Reason is I maintain these packages as a sub package inside my main package where my AccountsApplication
+
+112
+00:07:48,000 --> 00:07:49,000
+is present.
+
+113
+00:07:49,000 --> 00:07:50,000
+I hope this is clear.
+
+114
+00:07:50,000 --> 00:07:54,000
+I always recommend you to follow this approach, for some reason
+
+115
+00:07:54,000 --> 00:08:00,000
+if you are creating your classes, beans, repositories and entities in a different package, then please
+
+116
+00:08:00,000 --> 00:08:02,000
+please make sure you are using these annotations.
+
+117
+00:08:02,000 --> 00:08:04,000
+Otherwise your code is not going to work.
+
+118
+00:08:04,000 --> 00:08:06,000
+I hope this is clear.
+
+119
+00:08:06,000 --> 00:08:09,000
+Thank you and I'll catch you in the next lecture bye.
+

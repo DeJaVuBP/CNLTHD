@@ -1,0 +1,1348 @@
+1
+00:00:00,000 --> 00:00:01,000
+Welcome back
+
+2
+00:00:01,000 --> 00:00:03,000
+As of now, we have created a mapping logic.
+
+3
+00:00:03,000 --> 00:00:07,000
+Now, as a next step, let's go to the AccountServiceImpl.
+
+4
+00:00:07,000 --> 00:00:08,000
+Here,
+
+5
+00:00:08,000 --> 00:00:14,000
+First, I need to convert the input received customer DTO to Customer entity object.
+
+6
+00:00:14,000 --> 00:00:15,000
+For the same,
+
+7
+00:00:15,000 --> 00:00:18,000
+I'm going to write a piece of logic here.
+
+8
+00:00:18,000 --> 00:00:21,000
+First, I'm going to create a field with the name customer.
+
+9
+00:00:21,000 --> 00:00:28,000
+Post that with the help of customer mapper that we have created, I'm going to invoke the method, which
+
+10
+00:00:28,000 --> 00:00:35,000
+is map to customer and to this method we need to pass what is the DTO and post that we need to pass
+
+11
+00:00:35,000 --> 00:00:37,000
+a new object of Customer.
+
+12
+00:00:37,000 --> 00:00:43,000
+So with this line, all the data that I have inside this CustomerDto will be transferred to this Customer
+
+13
+00:00:43,000 --> 00:00:46,000
+object and the same will be stored with the help of this customer field.
+
+14
+00:00:46,000 --> 00:00:51,000
+Now I want to save these customer information into the customer table.
+
+15
+00:00:51,000 --> 00:00:52,000
+For the same,
+
+16
+00:00:52,000 --> 00:00:58,000
+I need to use the CustomerRepository interface and using this interface we can call a method called
+
+17
+00:00:58,000 --> 00:00:59,000
+save().
+
+18
+00:00:59,000 --> 00:01:05,000
+You can see there are multiple save(), but since we want to save a single entity, we need to
+
+19
+00:01:05,000 --> 00:01:06,000
+invoke the save method.
+
+20
+00:01:06,000 --> 00:01:10,000
+And to this method we need to pass the Customer object that we have.
+
+21
+00:01:10,000 --> 00:01:16,000
+So with this code, the Spring Data JPA framework will take care of taking the input object, preparing
+
+22
+00:01:16,000 --> 00:01:22,000
+an SQL statement, creating a connection with the database, executing the statement, committing the
+
+23
+00:01:22,000 --> 00:01:24,000
+transaction, closing the connection.
+
+24
+00:01:24,000 --> 00:01:30,000
+So all those boilerplate code which developers use to write now will be taken care by the spring data
+
+25
+00:01:30,000 --> 00:01:31,000
+JPA.
+
+26
+00:01:31,000 --> 00:01:35,000
+So the save method I have not written inside the CustomerRepository.
+
+27
+00:01:35,000 --> 00:01:40,000
+It is coming from the spring data JPA since we extended this JpaRepository class.
+
+28
+00:01:40,000 --> 00:01:44,000
+So now we successfully save the customer details into the database.
+
+29
+00:01:44,000 --> 00:01:48,000
+When this customer details is saved into the database.
+
+30
+00:01:48,000 --> 00:01:53,000
+Very first time the customerId will be generated automatically by the spring Data JPA framework.
+
+31
+00:01:53,000 --> 00:02:00,000
+So in order to know what is the customerId, we need to store the return type of the save() method into
+
+32
+00:02:00,000 --> 00:02:03,000
+another variable called savedCustomers.
+
+33
+00:02:03,000 --> 00:02:08,000
+Now, with the help of this customer details, I want to create a new bank account for this customer.
+
+34
+00:02:09,000 --> 00:02:14,000
+The customer is only going to give what is his name, email and mobileNumber with his customer details.
+
+35
+00:02:14,000 --> 00:02:17,000
+I want to create a new bank account. For the same,
+
+36
+00:02:17,000 --> 00:02:24,000
+we need to use the AccountsRepository and invoke the save method. To this method, We need to pass the
+
+37
+00:02:24,000 --> 00:02:31,000
+object of Accounts entity populated with the values like customerId, accountNumber.
+
+38
+00:02:31,000 --> 00:02:32,000
+What is the account type?
+
+39
+00:02:32,000 --> 00:02:34,000
+What is the branch address?
+
+40
+00:02:34,000 --> 00:02:35,000
+All those details.
+
+41
+00:02:35,000 --> 00:02:41,000
+So to populate a new accounts object, let me create a new private method inside this service class
+
+42
+00:02:41,000 --> 00:02:42,000
+to save some time.
+
+43
+00:02:42,000 --> 00:02:44,000
+I'm pasting this private method.
+
+44
+00:02:44,000 --> 00:02:47,000
+You can see this is the private method which is create new account.
+
+45
+00:02:47,000 --> 00:02:53,000
+It is going to accept the customer entity and inside this customer entity there will be a customerId
+
+46
+00:02:53,000 --> 00:02:57,000
+which is populated by the previous operation we have done here.
+
+47
+00:02:57,000 --> 00:03:03,000
+So I'm taking the customerId from the customer and the same I'm populating into the accounts object
+
+48
+00:03:03,000 --> 00:03:05,000
+which I have created inside this method.
+
+49
+00:03:05,000 --> 00:03:10,000
+And now coming to the accountNumber previously I was telling it is the responsibility of the developer
+
+50
+00:03:10,000 --> 00:03:16,000
+to generate the account number which is a primary key and send the same to the spring data JPA using
+
+51
+00:03:16,000 --> 00:03:19,000
+the same account number, it is going to insert a new record.
+
+52
+00:03:19,000 --> 00:03:26,000
+So here I have written a logic that will give me a ten digit random account number. Post that I'm setting
+
+53
+00:03:26,000 --> 00:03:32,000
+the same random account number into the Account entity object followed by what is the account type and
+
+54
+00:03:32,000 --> 00:03:33,000
+branch address.
+
+55
+00:03:33,000 --> 00:03:38,000
+So this account type is coming from the accounts constraints we have created previously.
+
+56
+00:03:38,000 --> 00:03:42,000
+The savings means it is a savings account and the branch address.
+
+57
+00:03:42,000 --> 00:03:44,000
+I'm just putting it as 
+
+58
+00:03:44,000 --> 00:03:45,000
+123 Main Street, New York.
+
+59
+00:03:45,000 --> 00:03:52,000
+So this is a simple method which will take Customer entity class and will return a Accounts entity class.
+
+60
+00:03:52,000 --> 00:03:53,000
+So to this save() method,
+
+61
+00:03:53,000 --> 00:03:59,000
+Since I need to pass the Accounts entity pojo class, what I'm going to do is I'm going to invoke the
+
+62
+00:03:59,000 --> 00:04:04,000
+new account method and pass the saved customer object that we have.
+
+63
+00:04:04,000 --> 00:04:11,000
+So behind the scenes, a new account will be created with the customerId that we have passed to this
+
+64
+00:04:11,000 --> 00:04:18,000
+method, and that way we are establishing a link between a customer and new account that is created
+
+65
+00:04:18,000 --> 00:04:23,000
+with this everything looking good, but we are not handling the exceptions properly.
+
+66
+00:04:23,000 --> 00:04:27,000
+Think like someone is trying to use the same mobile number again and again.
+
+67
+00:04:27,000 --> 00:04:29,000
+We don't want that to happen.
+
+68
+00:04:29,000 --> 00:04:36,000
+We want only one customer to use a single mobile number, but multiple customers can have same email
+
+69
+00:04:36,000 --> 00:04:41,000
+or same name, but we don't want the mobile number to be used by multiple customers.
+
+70
+00:04:41,000 --> 00:04:46,000
+That's why we need to have some logic to handle these kind of scenarios.
+
+71
+00:04:46,000 --> 00:04:53,000
+For the same, let me create a new package where I can store all the classes related to exception handling.
+
+72
+00:04:53,000 --> 00:04:56,000
+So the package name is going to be exception.
+
+73
+00:04:56,000 --> 00:04:59,000
+Inside this exception package, I'm going to create a
+
+74
+00:04:59,000 --> 00:05:01,000
+new custom exception.
+
+75
+00:05:01,000 --> 00:05:07,000
+And the name of this new custom exception is CustomerAlreadyExistsException.
+
+76
+00:05:07,000 --> 00:05:08,000
+.
+
+77
+00:05:08,000 --> 00:05:10,000
+So this is the class name that I want to keep.
+
+78
+00:05:10,000 --> 00:05:17,000
+And since I want to write my own custom exception, I need to make sure I'm extending the RuntimeException.
+
+79
+00:05:17,000 --> 00:05:22,000
+So any custom exception that you want to create, it should extend the RuntimeException.
+
+80
+00:05:22,000 --> 00:05:30,000
+Now, I also want to create a constructor for this class which is going to accept the exception message
+
+81
+00:05:30,000 --> 00:05:33,000
+post that once this constructor is invoked with this message
+
+82
+00:05:33,000 --> 00:05:34,000
+details.
+
+83
+00:05:34,000 --> 00:05:40,000
+Since we are trying to extend another class, we need to make sure we are invoking the parent constructor
+
+84
+00:05:40,000 --> 00:05:41,000
+also, for the same
+
+85
+00:05:41,000 --> 00:05:43,000
+I'm using super(message).
+
+86
+00:05:43,000 --> 00:05:48,000
+So with this what I'm trying to do is whenever someone is trying to create an object of this custom
+
+87
+00:05:48,000 --> 00:05:51,000
+exception by passing this message, value the same
+
+88
+00:05:51,000 --> 00:05:56,000
+I'm passing to this RuntimeException because I'm extending this as a superclass.
+
+89
+00:05:56,000 --> 00:06:02,000
+Now, on top of this custom exception, I'm going to mention an annotation which is ResponseStatus
+
+90
+00:06:02,000 --> 00:06:04,000
+to this ResponseStatus
+
+91
+00:06:04,000 --> 00:06:10,000
+I'm going to send the value as HttpStatus.BAD_REQUEST.
+
+92
+00:06:10,000 --> 00:06:15,000
+Whenever I'm trying to throw this exception in the response, my client is going to receive a status
+
+93
+00:06:15,000 --> 00:06:18,000
+saying that 400 which represents bad requests.
+
+94
+00:06:18,000 --> 00:06:21,000
+So this is the custom exception I have created.
+
+95
+00:06:21,000 --> 00:06:25,000
+Now, as a next step, I can go to my Service class.
+
+96
+00:06:25,000 --> 00:06:25,000
+Here first
+
+97
+00:06:25,000 --> 00:06:31,000
+I need to make sure I'm validating if there is any existing customer with a given mobileNumber, which
+
+98
+00:06:31,000 --> 00:06:38,000
+means I need to execute a query on my database by passing a mobileNumber and to identify if there is
+
+99
+00:06:38,000 --> 00:06:40,000
+any existing record.
+
+100
+00:06:40,000 --> 00:06:43,000
+Can we do that with the help of this CustomerRepository?
+
+101
+00:06:43,000 --> 00:06:44,000
+Think about it.
+
+102
+00:06:44,000 --> 00:06:51,000
+We declared customerId as an primary key field inside our entity, so this CustomerRepository will
+
+103
+00:06:51,000 --> 00:06:56,000
+have a find()  with the help of Id, which is customerId.
+
+104
+00:06:56,000 --> 00:07:03,000
+My framework can only provide a find() based upon my primary key values, which is customerId.
+
+105
+00:07:03,000 --> 00:07:10,000
+That's why if you go and check the ServiceImpl class using this CustomerRepository, I can invoke find
+
+106
+00:07:10,000 --> 00:07:17,000
+by method which will accept the customerId as a input because customerId is a primary key that we
+
+107
+00:07:17,000 --> 00:07:18,000
+have defined.
+
+108
+00:07:18,000 --> 00:07:23,000
+But are we receiving the customerId inside the request when they're trying to create the account very
+
+109
+00:07:23,000 --> 00:07:24,000
+first time?
+
+110
+00:07:24,000 --> 00:07:26,000
+Off course we won't receive that.
+
+111
+00:07:26,000 --> 00:07:32,000
+That's why we need to write a different method that will help us to query the database based upon a
+
+112
+00:07:32,000 --> 00:07:33,000
+mobileNumber.
+
+113
+00:07:33,000 --> 00:07:36,000
+For the same, let's go to the CustomerRepository.
+
+114
+00:07:36,000 --> 00:07:42,000
+Inside this interface, we need to define an abstract method by following some naming convention and
+
+115
+00:07:42,000 --> 00:07:47,000
+the Spring Data JPA framework is going to write the logic of fetching the record based upon the column
+
+116
+00:07:47,000 --> 00:07:48,000
+that we have mentioned.
+
+117
+00:07:48,000 --> 00:07:50,000
+So let's try to understand how to do that.
+
+118
+00:07:50,000 --> 00:07:58,000
+So here I'm going to create a method that is going to return optional of customer, because for a given
+
+119
+00:07:58,000 --> 00:08:02,000
+mobileNumber there can be a customer or they cannot be any customer.
+
+120
+00:08:02,000 --> 00:08:06,000
+That's why I need to make sure I'm using optional of customer.
+
+121
+00:08:06,000 --> 00:08:12,000
+So now I need to write a method with the name findByMobileNumber().
+
+122
+00:08:12,000 --> 00:08:17,000
+To this method I need to pass the input which is mobile number itself.
+
+123
+00:08:17,000 --> 00:08:24,000
+So whenever I write this method inside my repository interface, my spring data JPA framework will take
+
+124
+00:08:24,000 --> 00:08:26,000
+care of fetching the record based upon a mobileNumber.
+
+125
+00:08:26,000 --> 00:08:32,000
+So here you may have a question like how your spring data JPA know that you are trying to query based
+
+126
+00:08:32,000 --> 00:08:37,000
+upon a single column which is mobileNumber, but at the same you can see if you see the naming convention
+
+127
+00:08:37,000 --> 00:08:42,000
+findBy whenever we are using findBy we're telling to the spring data JPA framework.
+
+128
+00:08:42,000 --> 00:08:46,000
+We are trying to run a select query using the column mobileNumber.
+
+129
+00:08:46,000 --> 00:08:54,000
+So this field name mobileNumber has to match with what you have mentioned inside your pojo entity class.
+
+130
+00:08:54,000 --> 00:08:56,000
+Don't worry about this small letter that we have.
+
+131
+00:08:56,000 --> 00:09:00,000
+It is not case sensitive, but please make sure the spelling is correct
+
+132
+00:09:00,000 --> 00:09:04,000
+like mobileNumber is matching with what you have mentioned here.
+
+133
+00:09:04,000 --> 00:09:09,000
+This way we are telling to spring data JPA framework to fetch the records from this column.
+
+134
+00:09:09,000 --> 00:09:12,000
+What if you have multiple columns inside your requirements?
+
+135
+00:09:12,000 --> 00:09:17,000
+In that case, you need to write and followed by what is the second parameter and the second parameter
+
+136
+00:09:17,000 --> 00:09:21,000
+also you need to pass as a method parameter to this method.
+
+137
+00:09:21,000 --> 00:09:26,000
+I talked extensively about this concept inside my spring course.
+
+138
+00:09:26,000 --> 00:09:33,000
+We call this concept as derived named method because based upon the method names, my spring data JPA
+
+139
+00:09:33,000 --> 00:09:37,000
+framework is going to prepare the SQL queries and run the same onto the database.
+
+140
+00:09:37,000 --> 00:09:43,000
+So now let's go and use these fineByMobileNumber inside our ServiceImpl class.
+
+141
+00:09:43,000 --> 00:09:49,000
+So I'm just trying to invoke fineByMobileNumber and to this method we need to pass the mobileNumber
+
+142
+00:09:49,000 --> 00:09:52,000
+that we received inside the CustomerDto.
+
+143
+00:09:52,000 --> 00:09:56,000
+So I'm trying to invoke CustomerDto.getMobileNumber().
+
+144
+00:09:56,000 --> 00:09:59,000
+So whatever returned by my spring data JPA framework, I'm going to
+
+145
+00:09:59,000 --> 00:10:04,000
+catch that into an object with the name optional customer.
+
+146
+00:10:04,000 --> 00:10:10,000
+So now using this optional customer object, I need to validate if there is an existing customer available
+
+147
+00:10:10,000 --> 00:10:12,000
+inside the database or not.
+
+148
+00:10:12,000 --> 00:10:18,000
+For the same, I'm going to write an If check here like you can see with the help of this
+
+149
+00:10:18,000 --> 00:10:23,000
+OptionalCustumer.isPresent(), which means this is present is going to return a boolean value true
+
+150
+00:10:23,000 --> 00:10:23,000
+.
+
+151
+00:10:23,000 --> 00:10:27,000
+If there is a record inside this optional object.
+
+152
+00:10:27,000 --> 00:10:34,000
+If there is a record, then I want to throw a CustomerAlreadyExistingException with a message customer
+
+153
+00:10:34,000 --> 00:10:38,000
+already registered with a given mobile number.
+
+154
+00:10:38,000 --> 00:10:44,000
+So this is what I'm doing inside this if block with this now I'm doing the validation and I'm throwing
+
+155
+00:10:44,000 --> 00:10:46,000
+the custom validation exception.
+
+156
+00:10:46,000 --> 00:10:49,000
+But where is the logic to handle this exception?
+
+157
+00:10:49,000 --> 00:10:55,000
+I'll throw this CustomerAlreadyExistingException to my parent method, which is inside my controller
+
+158
+00:10:55,000 --> 00:10:57,000
+and inside my controller.
+
+159
+00:10:57,000 --> 00:11:03,000
+I can handle the exception using catch block and I can send an error response to my client application.
+
+160
+00:11:03,000 --> 00:11:09,000
+But in future, if there is some other place where you're trying to throw the same exception, you're
+
+161
+00:11:09,000 --> 00:11:10,000
+going to throw again.
+
+162
+00:11:10,000 --> 00:11:13,000
+A different controller method has to catch that.
+
+163
+00:11:13,000 --> 00:11:15,000
+So there is a lot of exception
+
+164
+00:11:15,000 --> 00:11:18,000
+handling logic is going to be duplicated inside your application.
+
+165
+00:11:18,000 --> 00:11:20,000
+To overcome this challenge.
+
+166
+00:11:20,000 --> 00:11:25,000
+The best standard is you need to write a GlobalExceptionHandlingLogic.
+
+167
+00:11:25,000 --> 00:11:32,000
+So for the same under these exception package, I'm going to create a new class, and the class name
+
+168
+00:11:32,000 --> 00:11:35,000
+that I want to do here is GlobalExceptionHandler.
+
+169
+00:11:35,000 --> 00:11:40,000
+So this is the class where I want to write all the Global exception logic.
+
+170
+00:11:40,000 --> 00:11:45,000
+So whenever you want to write some global exception logic, we need to make sure you are mentioning
+
+171
+00:11:45,000 --> 00:11:48,000
+the annotation @ControllerAdvice.
+
+172
+00:11:48,000 --> 00:11:53,000
+Using this annotation, we are telling to the Springboard framework whenever an exception happens in
+
+173
+00:11:53,000 --> 00:11:59,000
+any of my control not only accounts controller in future I may write different controller in all such
+
+174
+00:11:59,000 --> 00:11:59,000
+controllers.
+
+175
+00:11:59,000 --> 00:12:05,000
+If any exception happens, please invoke a method that I'm going to write inside this class.
+
+176
+00:12:05,000 --> 00:12:09,000
+So here, inside this class I'm going to create a new method.
+
+177
+00:12:09,000 --> 00:12:12,000
+Let me paste the method to save some time.
+
+178
+00:12:12,000 --> 00:12:18,000
+You can also get this method from the GitHub repo so you can see the method name is handleCustomer
+
+179
+00:12:18,000 --> 00:12:20,000
+handleCustomerAlreadyExistingException().
+
+180
+00:12:20,000 --> 00:12:22,000
+You can write any method name.
+
+181
+00:12:22,000 --> 00:12:28,000
+This method is going to handle the exception which is CustomerAlreadyExistException.
+
+182
+00:12:28,000 --> 00:12:33,000
+And we should also pass this web request parameter to this method because inside our ErrorResponseDto
+
+183
+00:12:34,000 --> 00:12:39,000
+we decided to send the what is the path that my client application is trying to invoke?
+
+184
+00:12:39,000 --> 00:12:45,000
+So you can see using this web request, I'm trying to get the get description. When I pass this false
+
+185
+00:12:45,000 --> 00:12:49,000
+value to this get description, I'll only get the API information.
+
+186
+00:12:49,000 --> 00:12:54,000
+Whereas if I try to pass the true value, I'll get many other information like what is the IP address
+
+187
+00:12:54,000 --> 00:12:55,000
+of my client?
+
+188
+00:12:55,000 --> 00:12:56,000
+All those details.
+
+189
+00:12:56,000 --> 00:12:59,000
+But for now I just wanted to send the only API path.
+
+190
+00:12:59,000 --> 00:13:06,000
+So using ErrorResponseDto constructor I'm trying to pass what is the path that my client is trying to
+
+191
+00:13:06,000 --> 00:13:12,000
+invoke and the HttpStatus as BAD_REQUEST and the message that we receive from the customer already
+
+192
+00:13:12,000 --> 00:13:15,000
+CustomerAlreadyExistingException which we are trying to throw from the AccountService.
+
+193
+00:13:16,000 --> 00:13:22,000
+So we will receive this message. And at last, what is our date and time right now when this exception
+
+194
+00:13:22,000 --> 00:13:22,000
+happened?
+
+195
+00:13:22,000 --> 00:13:29,000
+That's why we have created a error response and we have annotated @AllArgsConstructor because
+
+196
+00:13:29,000 --> 00:13:32,000
+we need a constructor that accept all these four parameters.
+
+197
+00:13:32,000 --> 00:13:38,000
+So right now, with the help of this constructor, I have created a DTO object and the same I'm trying
+
+198
+00:13:38,000 --> 00:13:42,000
+to send as inside the ResponseEntity as a body.
+
+199
+00:13:42,000 --> 00:13:45,000
+So you can see here this ResponseEntity object.
+
+200
+00:13:45,000 --> 00:13:51,000
+It is accepting the body as a very first parameter and the second parameter what is the HttpStatusCode
+
+201
+00:13:51,000 --> 00:13:51,000
+.
+
+202
+00:13:51,000 --> 00:13:57,000
+So I'm trying to send the bad request as a HttpStatusCode, which will throw 400 to the client application
+
+203
+00:13:57,000 --> 00:14:00,000
+saying that you are sending some bad data.
+
+204
+00:14:00,000 --> 00:14:03,000
+For more details, check the body of the Response.
+
+205
+00:14:03,000 --> 00:14:10,000
+So now here I have written a method and in future I may return more methods which will handle more custom
+
+206
+00:14:10,000 --> 00:14:11,000
+exception logics.
+
+207
+00:14:11,000 --> 00:14:17,000
+How my spring boot framework will know that this method has to be invoked whenever there is an exception.
+
+208
+00:14:17,000 --> 00:14:19,000
+CustomerAlreadyExist.
+
+209
+00:14:19,000 --> 00:14:21,000
+Exception is being thrown. For the same,
+
+210
+00:14:21,000 --> 00:14:27,000
+what we need to do is we need to mention an annotation which is ExceptionHandler.
+
+211
+00:14:27,000 --> 00:14:33,000
+This annotation we need to pass what is the exception name that this method is supposed to handle.
+
+212
+00:14:33,000 --> 00:14:36,000
+So this method is supposed to handle CustomerAlreadyExistsExcepiton.
+
+213
+00:14:36,000 --> 00:14:40,000
+That's why I have mentioned this .class here.
+
+214
+00:14:40,000 --> 00:14:42,000
+So now with these changes we should be good.
+
+215
+00:14:42,000 --> 00:14:45,000
+Let's go to the AccountServiceImpl, here
+
+216
+00:14:45,000 --> 00:14:46,000
+everything is looking good.
+
+217
+00:14:46,000 --> 00:14:50,000
+We need to go to the controller class. Here first
+
+218
+00:14:50,000 --> 00:14:54,000
+I need to do the autowiring of my service class to these AccountsController
+
+219
+00:14:54,000 --> 00:14:56,000
+For the same,
+
+220
+00:14:56,000 --> 00:14:58,000
+I'm going to mention private
+
+221
+00:14:58,000 --> 00:15:03,000
+AccountService and accountService is the field name.
+
+222
+00:15:03,000 --> 00:15:10,000
+Now I can mention @Autowired on top of these field which will take care of autowiring.
+
+223
+00:15:10,000 --> 00:15:12,000
+But I don't want to go with the field autowiring.
+
+224
+00:15:12,000 --> 00:15:17,000
+Instead I want to go with the constructor autowiring, which is the recommended approach.
+
+225
+00:15:17,000 --> 00:15:23,000
+For the same, I need to mention an annotation which is AllArgsConstructor and with this Lombok annotation
+
+226
+00:15:23,000 --> 00:15:29,000
+AccountsController is going to have a constructor that accepts the IAccountService as the input parameter.
+
+227
+00:15:29,000 --> 00:15:34,000
+Like I said before, whenever you have only single constructor then you don't need to mention
+
+228
+00:15:34,000 --> 00:15:39,000
+@Autowired annotation anywhere, either inside your constructor or inside your class.
+
+229
+00:15:39,000 --> 00:15:44,000
+So now, using this AccountService, I'm going to invoke the createAccount method.
+
+230
+00:15:44,000 --> 00:15:48,000
+And to this method I'm going to pass the CustomerDto object.
+
+231
+00:15:48,000 --> 00:15:53,000
+And if there is no exception, which means my next line will be executed and here will be sending this
+
+232
+00:15:53,000 --> 00:15:54,000
+successful response.
+
+233
+00:15:54,000 --> 00:16:01,000
+Whereas if there is an exception inside my service due to this business exception, then definitely
+
+234
+00:16:01,000 --> 00:16:03,000
+it will never reach to my controller layer.
+
+235
+00:16:03,000 --> 00:16:09,000
+Instead, it will go to the GlobalExceptionHandler and this ErrorResponseDto will be written to my end
+
+236
+00:16:09,000 --> 00:16:10,000
+user.
+
+237
+00:16:10,000 --> 00:16:14,000
+But here you may have a question like what if there is some RuntimeException due to any other exceptions?
+
+238
+00:16:15,000 --> 00:16:16,000
+Don't worry about that.
+
+239
+00:16:16,000 --> 00:16:18,000
+I'm going to handle that in the coming lectures.
+
+240
+00:16:18,000 --> 00:16:21,000
+For now, let's try to save these changes.
+
+241
+00:16:21,000 --> 00:16:21,000
+Do a build.
+
+242
+00:16:22,000 --> 00:16:27,000
+You can see my automatic restart with the help of dev tools might have failed.
+
+243
+00:16:27,000 --> 00:16:29,000
+That's why it wrote these hard swap fail.
+
+244
+00:16:29,000 --> 00:16:35,000
+So whenever you get this kind of scenario because you might have done a lot many changes which can't
+
+245
+00:16:35,000 --> 00:16:40,000
+be recognized by the dev tools, then you need to stop the server and start it again manually.
+
+246
+00:16:40,000 --> 00:16:42,000
+So let me do a build.
+
+247
+00:16:42,000 --> 00:16:44,000
+Once the build is completed.
+
+248
+00:16:44,000 --> 00:16:46,000
+I'm trying to start my application.
+
+249
+00:16:46,000 --> 00:16:49,000
+My application started successfully at the port 8080.
+
+250
+00:16:49,000 --> 00:16:57,000
+As a next step, we can go and send a request to my create API and validate if my account is successfully
+
+251
+00:16:57,000 --> 00:16:58,000
+created or not.
+
+252
+00:16:58,000 --> 00:17:00,000
+For the same, I came to the postman.
+
+253
+00:17:00,000 --> 00:17:05,000
+Postman is an tool using which we can invoke REST APIs easily.
+
+254
+00:17:05,000 --> 00:17:10,000
+If you don't have this tool, please download from the web and I'm going to show a lot many APIs inside
+
+255
+00:17:10,000 --> 00:17:13,000
+this course and I'll populate lot many requests.
+
+256
+00:17:13,000 --> 00:17:19,000
+So to make your life easy, what I'm going to do is I'm going to upload this entire microservices collection
+
+257
+00:17:19,000 --> 00:17:22,000
+into the root location of my GitHub repo.
+
+258
+00:17:22,000 --> 00:17:30,000
+What you can do is you can download this collection and you can go to the file and click on this import
+
+259
+00:17:30,000 --> 00:17:34,000
+option that you have in the postman and you can drop the collection.
+
+260
+00:17:34,000 --> 00:17:36,000
+Basically it is a Json file.
+
+261
+00:17:36,000 --> 00:17:43,000
+As soon as you drop all the operations that I have inside, my collections will be downloaded into your
+
+262
+00:17:43,000 --> 00:17:44,000
+postman.
+
+263
+00:17:44,000 --> 00:17:46,000
+You just have to follow these instructions.
+
+264
+00:17:46,000 --> 00:17:50,000
+You don't have to type all this one this way it will save some time for you.
+
+265
+00:17:50,000 --> 00:17:56,000
+So as of now you can see I have create account request where I'm trying to send a post request this
+
+266
+00:17:56,000 --> 00:18:03,000
+API which is localhost 8080/api/create to this API under the body.
+
+267
+00:18:03,000 --> 00:18:06,000
+I need to send the json with the name as Madan Reddy.
+
+268
+00:18:06,000 --> 00:18:07,000
+.
+
+269
+00:18:07,000 --> 00:18:07,000
+This is my name.
+
+270
+00:18:07,000 --> 00:18:08,000
+That's why I'm sending.
+
+271
+00:18:08,000 --> 00:18:10,000
+Please feel free to send your own name.
+
+272
+00:18:10,000 --> 00:18:14,000
+And this is my official email and this is the sample mobile number.
+
+273
+00:18:14,000 --> 00:18:20,000
+I'm not mentioning my actual mobile number just for some privacy here, but please make sure this name
+
+274
+00:18:20,000 --> 00:18:26,000
+email, mobile number has to match with the fields that you have inside your customer data.
+
+275
+00:18:26,000 --> 00:18:31,000
+If you see inside the AccountsController, we're accepting the customer data as a input RequestBody.
+
+276
+00:18:31,000 --> 00:18:36,000
+So the fields has to match like name, email and mobileNumber.
+
+277
+00:18:36,000 --> 00:18:40,000
+These names has to match with what you are sending inside the Json.
+
+278
+00:18:40,000 --> 00:18:46,000
+If the fields are matching, then the spring boot is going to take care of converting this Json to the
+
+279
+00:18:46,000 --> 00:18:47,000
+dto object.
+
+280
+00:18:47,000 --> 00:18:53,000
+How this is going to happen Inside the spring boot, there are Jackson libraries with the help of those
+
+281
+00:18:53,000 --> 00:18:56,000
+Jackson libraries, the conversion from Json to Pojo object.
+
+282
+00:18:56,000 --> 00:18:59,000
+And similarly, when we return the Pojo object in the Response.
+
+283
+00:18:59,000 --> 00:19:03,000
+The same will be converted to Json and send back to the client.
+
+284
+00:19:03,000 --> 00:19:05,000
+So let me click on this send button.
+
+285
+00:19:05,000 --> 00:19:09,000
+As soon as I click send you can see I'm getting an exception.
+
+286
+00:19:09,000 --> 00:19:17,000
+The reason is my spring data JPA framework did not receive the data like createdBy and createdAt this
+
+287
+00:19:17,000 --> 00:19:18,000
+are not null values.
+
+288
+00:19:18,000 --> 00:19:25,000
+For the same, we can go to the service class before we try to save this customer information.
+
+289
+00:19:25,000 --> 00:19:33,000
+We need to pass like customer.setCreatedAt(LocalDateTime.now())
+
+290
+00:19:33,000 --> 00:19:35,000
+So with that I'm populating the createdat.
+
+291
+00:19:35,000 --> 00:19:38,000
+Very similarly, I'll invoke the set createdBy.
+
+292
+00:19:38,000 --> 00:19:42,000
+So for now I'm just trying to mention anonymous.
+
+293
+00:19:42,000 --> 00:19:45,000
+So someone is trying to create this account.
+
+294
+00:19:45,000 --> 00:19:48,000
+Later on I'll show you how to automatically populate this
+
+295
+00:19:48,000 --> 00:19:52,000
+createdAt, createdBy the help of Spring Data JPA Framework.
+
+296
+00:19:52,000 --> 00:19:55,000
+For now, let's try to populate this values manually.
+
+297
+00:19:55,000 --> 00:19:57,000
+Very similarly, I'm also going to mention
+
+298
+00:19:57,000 --> 00:20:00,000
+the same for Account object as well.
+
+299
+00:20:00,000 --> 00:20:05,000
+So just after this branch address, I'm going to do the same for the Account object.
+
+300
+00:20:05,000 --> 00:20:06,000
+So with this we should be good.
+
+301
+00:20:06,000 --> 00:20:09,000
+Let me save the changes and do a build.
+
+302
+00:20:09,000 --> 00:20:10,000
+Now the build is completed.
+
+303
+00:20:10,000 --> 00:20:13,000
+The server also might have restarted successfully.
+
+304
+00:20:13,000 --> 00:20:13,000
+Here
+
+305
+00:20:13,000 --> 00:20:15,000
+let me try to invoke this API again.
+
+306
+00:20:15,000 --> 00:20:21,000
+This time you can see I'm getting a successful response status code and status message, which is 201
+
+307
+00:20:21,000 --> 00:20:26,000
+account created successfully, and this is the status that we are returning with the help of ResponseEntity.status
+
+308
+00:20:26,000 --> 00:20:28,000
+.
+
+309
+00:20:28,000 --> 00:20:30,000
+And this is the body that we are sending inside the Response.
+
+310
+00:20:30,000 --> 00:20:33,000
+So let's try to invoke the operation again with the same mobileNumber.
+
+311
+00:20:33,000 --> 00:20:36,000
+We should get a business exception.
+
+312
+00:20:36,000 --> 00:20:42,000
+You can see I'm getting a API path like I tried to invoke this path error code, bad request error message
+
+313
+00:20:42,000 --> 00:20:48,000
+like so and so user already registered with the so-and-so mobile number and this is the error time.
+
+314
+00:20:48,000 --> 00:20:51,000
+So my exception handling also working fine.
+
+315
+00:20:51,000 --> 00:20:56,000
+Let's go to the H2 console and validate if the records are saved successfully or not.
+
+316
+00:20:56,000 --> 00:21:01,000
+So here I need to invoke H2 console and connect to my H2 console.
+
+317
+00:21:01,000 --> 00:21:01,000
+First
+
+318
+00:21:01,000 --> 00:21:03,000
+I will try to invoke customer table here.
+
+319
+00:21:03,000 --> 00:21:07,000
+You can see these are the details that we have inserted.
+
+320
+00:21:07,000 --> 00:21:13,000
+And very similarly I can check the accounts table and this is the account random account number that
+
+321
+00:21:13,000 --> 00:21:18,000
+is created and the customer ID also link between accounts and customer table.
+
+322
+00:21:18,000 --> 00:21:25,000
+This way we have successfully created create API inside accounts microservice.
+
+323
+00:21:25,000 --> 00:21:26,000
+I hope you are super super clear.
+
+324
+00:21:26,000 --> 00:21:32,000
+Please try to understand and digest all this information because I'm going to give an activity for you
+
+325
+00:21:32,000 --> 00:21:39,000
+where you need to build all these logic for cards and loans microservice by yourself by referring to
+
+326
+00:21:39,000 --> 00:21:42,000
+the code present inside the GitHub repo.
+
+327
+00:21:42,000 --> 00:21:44,000
+So understanding this is very important.
+
+328
+00:21:44,000 --> 00:21:48,000
+If you face any issues, don't worry, I'm going to explain cards and loans microservice very quickly
+
+329
+00:21:48,000 --> 00:21:49,000
+as well.
+
+330
+00:21:49,000 --> 00:21:53,000
+So with this we have developed only create operation inside our AccountsMicroservices
+
+331
+00:21:53,000 --> 00:21:54,000
+.
+
+332
+00:21:54,000 --> 00:21:57,000
+We should also develop, read, update and delete APIs.
+
+333
+00:21:57,000 --> 00:21:58,000
+Are you excited?
+
+334
+00:21:58,000 --> 00:22:01,000
+I'm also super excited that I'm making some progress with you.
+
+335
+00:22:01,000 --> 00:22:06,000
+Let's try to implement a read API or select API in the next lecture.
+
+336
+00:22:06,000 --> 00:22:06,000
+Thank you.
+
+337
+00:22:06,000 --> 00:22:07,000
+Bye.
+

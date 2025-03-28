@@ -1,0 +1,376 @@
+1
+00:00:00,000 --> 00:00:07,000
+When I say that we need to build microservices with the help of input framework behind the scenes,
+
+2
+00:00:07,000 --> 00:00:09,000
+we need to build the REST services.
+
+3
+00:00:09,000 --> 00:00:12,000
+Because at the end of the day, what is a microservice?
+
+4
+00:00:12,000 --> 00:00:20,000
+It is a service that exposes its business logic to other APIs or to external UI application with the help
+
+5
+00:00:20,000 --> 00:00:22,000
+of Rest API.
+
+6
+00:00:22,000 --> 00:00:30,000
+Using REST services, we can establish synchronous communication between multiple APIs or multiple services
+
+7
+00:00:30,000 --> 00:00:32,000
+or multiple web applications.
+
+8
+00:00:32,000 --> 00:00:38,000
+Synchronous communication means when a request comes from an external application to my microservice,
+
+9
+00:00:38,000 --> 00:00:45,000
+the external application is going to wait for my response so that it can proceed to the next request.
+
+10
+00:00:45,000 --> 00:00:52,000
+Off course, synchronous communication is not the only option that we have to build microservices, so
+
+11
+00:00:52,000 --> 00:00:57,000
+this is the mostly commonly used approach in the coming sections of the course.
+
+12
+00:00:57,000 --> 00:01:04,000
+I'm going to show you how to build asynchronous micro services by taking message queues and Kafka as
+
+13
+00:01:04,000 --> 00:01:05,000
+an example.
+
+14
+00:01:05,000 --> 00:01:08,000
+For now, let's try to focus on building REST services.
+
+15
+00:01:08,000 --> 00:01:12,000
+Let me try to introduce the definition of what is REST service.
+
+16
+00:01:12,000 --> 00:01:18,000
+Formally REST service works based upon Http protocol compared to soap based web services.
+
+17
+00:01:18,000 --> 00:01:24,000
+REST services are very lightweight in nature because they can work with the help of lightweight data
+
+18
+00:01:24,000 --> 00:01:25,000
+format, which is Json.
+
+19
+00:01:25,000 --> 00:01:32,000
+That's why REST is the most commonly encountered approaches to establish communication between two web
+
+20
+00:01:32,000 --> 00:01:33,000
+apps.
+
+21
+00:01:33,000 --> 00:01:39,000
+So whenever we are building services with the help of REST APIs, our web application is going to expose
+
+22
+00:01:39,000 --> 00:01:44,000
+certain endpoints which my client application can invoke by sending a request.
+
+23
+00:01:44,000 --> 00:01:50,000
+So these are the various scenarios where we use REST services behind the scenes.
+
+24
+00:01:50,000 --> 00:01:54,000
+It might be communicating with a backend server with the help of REST API.
+
+25
+00:01:54,000 --> 00:02:00,000
+And similarly, if you see the second scenario, two different backend servers are two different microservices.
+
+26
+00:02:00,000 --> 00:02:04,000
+They can also communicate with each other with the help of REST API.
+
+27
+00:02:04,000 --> 00:02:11,000
+And the last scenario that we have is we can build a web applications with the help of UI frameworks
+
+28
+00:02:11,000 --> 00:02:17,000
+like Angular, React and these frameworks they need to fetch the data or they need to store the data
+
+29
+00:02:17,000 --> 00:02:19,000
+inside a backend database.
+
+30
+00:02:19,000 --> 00:02:24,000
+The same they are going to communicate with the backend server with the help of REST services.
+
+31
+00:02:24,000 --> 00:02:25,000
+I hope you are clear.
+
+32
+00:02:25,000 --> 00:02:26,000
+What is REST services?
+
+33
+00:02:26,000 --> 00:02:33,000
+Now let's try to understand what are the various standards that we need to follow while implementing
+
+34
+00:02:33,000 --> 00:02:33,000
+REST services.
+
+35
+00:02:33,000 --> 00:02:39,000
+Because at the end of the day, whenever we are trying to build REST services, we will write a business
+
+36
+00:02:39,000 --> 00:02:44,000
+logic to calculate and to process some data and our REST APIs
+
+37
+00:02:44,000 --> 00:02:48,000
+They are going to support crud operations and the storage system.
+
+38
+00:02:48,000 --> 00:02:54,000
+For example, inside our Rest APIs, we are going to write business logic that supports creating the
+
+39
+00:02:54,000 --> 00:03:01,000
+data, reading the data, updating the data and deleting the data inside a database or inside a storage
+
+40
+00:03:01,000 --> 00:03:01,000
+system.
+
+41
+00:03:01,000 --> 00:03:08,000
+So whenever we are trying to build APIs that expose these, create, read, update and delete operations
+
+42
+00:03:08,000 --> 00:03:15,000
+to the external applications, we need to make sure we are following the standards of the Http methods.
+
+43
+00:03:15,000 --> 00:03:21,000
+For example, whenever you are trying to save the data or whenever you are trying to create the data
+
+44
+00:03:21,000 --> 00:03:27,000
+with the help of your API, you need to make sure you are accepting the requests with the help of post
+
+45
+00:03:27,000 --> 00:03:28,000
+method.
+
+46
+00:03:28,000 --> 00:03:33,000
+And similarly, if your API support just reading the data from the storage system and sending the same
+
+47
+00:03:33,000 --> 00:03:37,000
+to the client, then it is just a read operation for such scenarios
+
+48
+00:03:37,000 --> 00:03:44,000
+we should use the get Http method and if your API is supporting update operation where a client can
+
+49
+00:03:44,000 --> 00:03:51,000
+update the existing data, then we can use Http method put or http method patch.
+
+50
+00:03:51,000 --> 00:03:57,000
+The difference between put and patch is if you are trying to update your entire record or major data
+
+51
+00:03:57,000 --> 00:04:00,000
+inside your table record, then you should use put.
+
+52
+00:04:00,000 --> 00:04:07,000
+Whereas if you're trying to update only a small set of information or a specific column, you should
+
+53
+00:04:07,000 --> 00:04:11,000
+use Http patch method to support the update operation.
+
+54
+00:04:11,000 --> 00:04:18,000
+And at last, if the client application wants to delete a data inside your application, then you need
+
+55
+00:04:18,000 --> 00:04:21,000
+to expose an API that supports delete operation.
+
+56
+00:04:21,000 --> 00:04:26,000
+And in such scenarios we should use Http method, which is delete method.
+
+57
+00:04:26,000 --> 00:04:33,000
+So please make sure you are following these standards whenever you are building REST services and microservices.
+
+58
+00:04:33,000 --> 00:04:39,000
+And the next standard that you need to follow is you should perform proper input validation on your
+
+59
+00:04:39,000 --> 00:04:47,000
+REST APIs because if you consider a UI application, it will have HTML forms, input elements using
+
+60
+00:04:47,000 --> 00:04:49,000
+which you can perform lot of validations.
+
+61
+00:04:49,000 --> 00:04:56,000
+But coming to the REST APIs, any application can invoke a backend application or a mobile application
+
+62
+00:04:56,000 --> 00:04:58,000
+or an application.
+
+63
+00:04:58,000 --> 00:05:00,000
+So that's why you should not rely on.
+
+64
+00:05:00,000 --> 00:05:04,000
+The validations that is happening in external system.
+
+65
+00:05:04,000 --> 00:05:08,000
+You should do your own input, validation and accordingly process the request.
+
+66
+00:05:08,000 --> 00:05:13,000
+And after the input validations, we should also take care of exceptional handling.
+
+67
+00:05:13,000 --> 00:05:19,000
+Regardless if you are getting a runtime exception or a business exception, you should properly handle
+
+68
+00:05:19,000 --> 00:05:23,000
+it and you should always send a meaningful response to the clients.
+
+69
+00:05:23,000 --> 00:05:28,000
+Otherwise you are going to have a very tough time with your clients because they cannot understand what
+
+70
+00:05:28,000 --> 00:05:29,000
+is the issue with your APIs?
+
+71
+00:05:29,000 --> 00:05:35,000
+Which data is wrong if they don't know which data is wrong or why the operation is failing, they will
+
+72
+00:05:35,000 --> 00:05:40,000
+be clueless and you need to pitch in and make them understand manually, which is very cumbersome process.
+
+73
+00:05:40,000 --> 00:05:45,000
+That's why always have exception handling covering all your scenarios.
+
+74
+00:05:45,000 --> 00:05:50,000
+And the next standard that we need to follow is document your services inside microservices
+
+75
+00:05:50,000 --> 00:05:57,000
+we are going to build hundreds of REST services and in some cases thousands of REST services.
+
+76
+00:05:57,000 --> 00:06:03,000
+So whenever you are building such large amount of APIs, it is a good idea or it is a good standard
+
+77
+00:06:03,000 --> 00:06:09,000
+to document your REST services with the help of standards like Openapi specification, swagger when
+
+78
+00:06:09,000 --> 00:06:15,000
+you document your REST services well with these standards, your life is going to be easy.
+
+79
+00:06:15,000 --> 00:06:22,000
+Think like your organization has some 1000 REST API services and it is being consumed by hundreds of
+
+80
+00:06:22,000 --> 00:06:24,000
+client applications from external world.
+
+81
+00:06:24,000 --> 00:06:28,000
+If they all reach out to you, like what is the format of request?
+
+82
+00:06:28,000 --> 00:06:30,000
+What is the validations that you are doing?
+
+83
+00:06:30,000 --> 00:06:31,000
+What is the response format?
+
+84
+00:06:31,000 --> 00:06:37,000
+What are the operations that you support to explain all these information through a document or through
+
+85
+00:06:37,000 --> 00:06:43,000
+your email or through a KT session through a knowledge transfer session is going to be very cumbersome
+
+86
+00:06:43,000 --> 00:06:45,000
+and it is going to be very complex.
+
+87
+00:06:45,000 --> 00:06:50,000
+Whenever more and more clients are onboarding who are trying to consume your API services.
+
+88
+00:06:50,000 --> 00:06:56,000
+That's why as a bare minimum, please make sure you are adhering to these standards that we discussed
+
+89
+00:06:56,000 --> 00:06:57,000
+here.
+
+90
+00:06:57,000 --> 00:07:03,000
+I'm going to show you how to build a REST services with the help of Spring Boot framework and following
+
+91
+00:07:03,000 --> 00:07:10,000
+all these three standards so that you are in a good position to build production ready services inside
+
+92
+00:07:10,000 --> 00:07:12,000
+your real projects.
+
+93
+00:07:12,000 --> 00:07:13,000
+I hope you are clear.
+
+94
+00:07:13,000 --> 00:07:16,000
+Thank you and I'll catch you in the next lecture bye.
+

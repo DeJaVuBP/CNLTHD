@@ -1,0 +1,256 @@
+1
+00:00:00,000 --> 00:00:07,000
+In the previous lecture we discussed that the same error Code 500 is being used both for RuntimeException
+
+2
+00:00:07,000 --> 00:00:09,000
+like inside the GlobalExceptionHandler.
+
+3
+00:00:09,000 --> 00:00:14,000
+Whenever a RuntimeException happens, we are throwing an internal server error with the status code
+
+4
+00:00:14,000 --> 00:00:15,000
+500.
+
+5
+00:00:15,000 --> 00:00:21,000
+And very similarly, we also use the same 500 error code both in update operation and delete operation
+
+6
+00:00:21,000 --> 00:00:24,000
+whenever the update or delete operation fail.
+
+7
+00:00:24,000 --> 00:00:26,000
+So this gives some confusion to the client.
+
+8
+00:00:26,000 --> 00:00:31,000
+I said in the previous lecture you can change it based upon your requirements, but I thought about
+
+9
+00:00:31,000 --> 00:00:37,000
+it and decided to correct it inside this small lecture because many students, they refer to my code
+
+10
+00:00:37,000 --> 00:00:39,000
+and I don't want to create any confusion to them.
+
+11
+00:00:39,000 --> 00:00:42,000
+That's why I have quickly fixed the issue behind the scenes
+
+12
+00:00:42,000 --> 00:00:46,000
+let me show you what I have done inside the GlobalExceptionHandler.
+
+13
+00:00:46,000 --> 00:00:52,000
+I have not changed anything, but if you go to the controller class inside the update operation, whenever
+
+14
+00:00:52,000 --> 00:00:59,000
+this boolean is false, I am using a new HttpStatus code which is 417.
+
+15
+00:00:59,000 --> 00:01:01,000
+This indicates this exception failed.
+
+16
+00:01:01,000 --> 00:01:07,000
+So I thought like this error code, I can use the same status code I am also sending as part of ResponseDto
+
+17
+00:01:07,000 --> 00:01:15,000
+I have created a constant status 417 and there is also a message I have created for the update operation
+
+18
+00:01:15,000 --> 00:01:17,000
+which tells update operation failed.
+
+19
+00:01:17,000 --> 00:01:21,000
+Please try again or contact dev team. And the same for delete operation
+
+20
+00:01:21,000 --> 00:01:25,000
+I have created a separate message. To go to the delete operation as well.
+
+21
+00:01:25,000 --> 00:01:30,000
+If the boolean is false, I'm sending the same 41 status with the same exception
+
+22
+00:01:30,000 --> 00:01:34,000
+failed HttpStatus with a message delete operation failed.
+
+23
+00:01:34,000 --> 00:01:41,000
+Please try again or contact dev team. With this we no more need the status 500 and message 500 constants.
+
+24
+00:01:41,000 --> 00:01:46,000
+I'm going to comment them in case if you want to refer them for some other reason.
+
+25
+00:01:46,000 --> 00:01:48,000
+So let me save this changes.
+
+26
+00:01:48,000 --> 00:01:55,000
+And apart from these changes, if you go and check right now all the ApiResponses for my four APIs,
+
+27
+00:01:55,000 --> 00:01:57,000
+you'll be seeing that for each operation
+
+28
+00:01:57,000 --> 00:02:01,000
+I'm passing these ApiResponse with the schema as ErrorResponseDto.
+
+29
+00:02:01,000 --> 00:02:05,000
+because any API can have RuntimeException.
+
+30
+00:02:05,000 --> 00:02:09,000
+That's why with the response code 500 with this description, I have mentioned that I'm going to send
+
+31
+00:02:09,000 --> 00:02:12,000
+this content with the schema of ErrorResponseDto.
+
+32
+00:02:12,000 --> 00:02:18,000
+So the same 500 related ApiResponse I have mentioned for all the APIs.
+
+33
+00:02:18,000 --> 00:02:23,000
+Similarly for the fetch operation, I have mentioned the RuntimeException related ApiResponse.
+
+34
+00:02:23,000 --> 00:02:29,000
+Now coming to the update operation. update operation is going to have one more extra ApiResponse with
+
+35
+00:02:29,000 --> 00:02:32,000
+the response code 417 and description as exception failed.
+
+36
+00:02:32,000 --> 00:02:38,000
+So update operation is going to have three different API response 204, one seven and 500.
+
+37
+00:02:38,000 --> 00:02:40,000
+And very similarly, the delete operation
+
+38
+00:02:40,000 --> 00:02:44,000
+also, we are going to have three different responses.
+
+39
+00:02:44,000 --> 00:02:48,000
+Now if I try to look at them in the UI, everything is going to be super, super cool.
+
+40
+00:02:48,000 --> 00:02:55,000
+Like you can see for the update operation 200, 417 indicates there is an exception fail and 500,
+
+41
+00:02:55,000 --> 00:02:58,000
+this is the object response that you are going to get.
+
+42
+00:02:58,000 --> 00:03:05,000
+So this looks everything good, but you can see for 204 and 417, the status code is showing as 200.
+
+43
+00:03:05,000 --> 00:03:07,000
+The reason is inside the ResponseDto
+
+44
+00:03:07,000 --> 00:03:12,000
+we have mentioned the example values as 200 and request process successfully.
+
+45
+00:03:12,000 --> 00:03:14,000
+So this gives some confusion to the clients.
+
+46
+00:03:14,000 --> 00:03:18,000
+Like why in the case of 417, I'm going to receive the status code as 200.
+
+47
+00:03:18,000 --> 00:03:23,000
+So that's why mentioning examples is not always a good advantage.
+
+48
+00:03:23,000 --> 00:03:28,000
+Sometimes you don't want to mention the examples because it will create more confusion.
+
+49
+00:03:28,000 --> 00:03:29,000
+For that reason,
+
+50
+00:03:29,000 --> 00:03:33,000
+let me go and remove these example value inside the ResponseDto.
+
+51
+00:03:33,000 --> 00:03:39,000
+So here I'm just removing these example as 200 and very similarly, I'm going to remove these here
+
+52
+00:03:39,000 --> 00:03:39,000
+as well.
+
+53
+00:03:39,000 --> 00:03:41,000
+So with this, let me do a build.
+
+54
+00:03:41,000 --> 00:03:47,000
+Now, if I try to refresh this page, you can see the status code is going to be String status message
+
+55
+00:03:47,000 --> 00:03:49,000
+is going to be String the same for 417.
+
+56
+00:03:49,000 --> 00:03:54,000
+So this is going to appear in all the API's like for the response codes.
+
+57
+00:03:54,000 --> 00:04:01,000
+So each API is going to have at least two response formats, one for success scenario and the other
+
+58
+00:04:01,000 --> 00:04:03,000
+one for RuntimeException scenario.
+
+59
+00:04:03,000 --> 00:04:08,000
+And 417 is going to be present for both update and delete operation.
+
+60
+00:04:08,000 --> 00:04:14,000
+Now ErrorResponseDto is also appearing inside the schemas and with this I believe everything is looking
+
+61
+00:04:14,000 --> 00:04:15,000
+perfect
+
+62
+00:04:15,000 --> 00:04:15,000
+now.
+
+63
+00:04:15,000 --> 00:04:18,000
+I hope you understand the changes that I have done.
+
+64
+00:04:18,000 --> 00:04:23,000
+Please take your time, digest this information and I'll be catching you in the next lecture bye.
+

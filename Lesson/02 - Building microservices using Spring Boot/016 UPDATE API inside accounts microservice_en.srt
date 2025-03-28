@@ -1,0 +1,556 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now inside our Accounts Microservice we have REST API supporting create account and fetch account.
+
+2
+00:00:06,000 --> 00:00:13,000
+Now as a next step we can build one more REST API that will allow my client application to update the
+
+3
+00:00:13,000 --> 00:00:20,000
+account details inside my database so my clients application, they can send this entire data as an
+
+4
+00:00:20,000 --> 00:00:22,000
+request to the update API.
+
+5
+00:00:22,000 --> 00:00:27,000
+So whenever they're trying to invoke this, get API based upon mobileNumber, they will get all these
+
+6
+00:00:27,000 --> 00:00:28,000
+customer and account details.
+
+7
+00:00:28,000 --> 00:00:33,000
+They can pass the same data to the update  API patch while passing these data.
+
+8
+00:00:33,000 --> 00:00:40,000
+They can change any of these data except account number, because based upon my business logic, once
+
+9
+00:00:40,000 --> 00:00:46,000
+the account number is generated, I don't want to give a flexibility to my end user to update the account
+
+10
+00:00:46,000 --> 00:00:46,000
+number.
+
+11
+00:00:46,000 --> 00:00:52,000
+You can update the name, email, mobileNumber, he can update his account type, he can update branch
+
+12
+00:00:52,000 --> 00:00:53,000
+address, anything
+
+13
+00:00:53,000 --> 00:00:56,000
+he can update, but not the account number.
+
+14
+00:00:56,000 --> 00:00:58,000
+So I hope you are clear with the requirements.
+
+15
+00:00:58,000 --> 00:01:00,000
+Now let's go to the code.
+
+16
+00:01:00,000 --> 00:01:02,000
+Here inside the IAccountService interface.
+
+17
+00:01:02,000 --> 00:01:07,000
+First, I need to create an abstract method that supports update account functionality.
+
+18
+00:01:07,000 --> 00:01:09,000
+So I'm creating a new abstract method here.
+
+19
+00:01:09,000 --> 00:01:11,000
+So I have pasted here just to save some time.
+
+20
+00:01:11,000 --> 00:01:17,000
+The method name is going to be update account and it is going to return a boolean value indicating whether
+
+21
+00:01:17,000 --> 00:01:20,000
+the update operation is successful or not.
+
+22
+00:01:20,000 --> 00:01:25,000
+And this is going to accept the CustomerDto as an input, which we are going to receive from the client
+
+23
+00:01:25,000 --> 00:01:25,000
+application.
+
+24
+00:01:25,000 --> 00:01:30,000
+Now inside this AccountService, we need to override this method.
+
+25
+00:01:30,000 --> 00:01:36,000
+So let me put the cursor towards the end post that I can go to the top and run this compilation error
+
+26
+00:01:36,000 --> 00:01:39,000
+and click on this implement methods.
+
+27
+00:01:39,000 --> 00:01:44,000
+So this will generate a new empty method at the place where I have put cursor.
+
+28
+00:01:44,000 --> 00:01:50,000
+So now inside this method I'm going to copy some lines of code post that we can discuss.
+
+29
+00:01:50,000 --> 00:01:56,000
+I'm doing this just to save some time because we already comfortable with all the mapping logic, spring
+
+30
+00:01:56,000 --> 00:01:59,000
+data logic that we have discussed, very similar logic we are going to write.
+
+31
+00:01:59,000 --> 00:02:02,000
+You can also get this logic from the GitHub repo.
+
+32
+00:02:02,000 --> 00:02:05,000
+Like you can see here, I have pasted the required code.
+
+33
+00:02:05,000 --> 00:02:12,000
+So first I'm having a boolean value which is declared as false post that I'm trying to first get the
+
+34
+00:02:12,000 --> 00:02:17,000
+AccountsDto from the CustomerDto which I have received from these accounts.
+
+35
+00:02:17,000 --> 00:02:21,000
+I'm checking if it is not null then using the AccountsDto
+
+36
+00:02:21,000 --> 00:02:26,000
+I'm trying to fetch the account number that I received from the client application.
+
+37
+00:02:26,000 --> 00:02:32,000
+First using the account number, I'm trying to fetch the accounts record because like we discussed,
+
+38
+00:02:32,000 --> 00:02:35,000
+we are not allowing the end user to change the account number.
+
+39
+00:02:35,000 --> 00:02:40,000
+That's why I'm trying to consider account number as the search criteria here.
+
+40
+00:02:40,000 --> 00:02:46,000
+And since the account number is the primary key inside my Accounts entity, I can use findById() method
+
+41
+00:02:46,000 --> 00:02:49,000
+available inside the spring data JPA framework.
+
+42
+00:02:49,000 --> 00:02:55,000
+So whenever we are using findById, my spring data JPA framework will go for the Accounts entity and
+
+43
+00:02:55,000 --> 00:02:57,000
+it will look what is the primary key column.
+
+44
+00:02:57,000 --> 00:03:03,000
+This is the primary key column because we have mentioned @Id, So with this logic it is going
+
+45
+00:03:03,000 --> 00:03:08,000
+to fetch the account details based upon the account number.
+
+46
+00:03:08,000 --> 00:03:13,000
+If there is no record, we are throwing this ResourceNotFoundException with the details that you
+
+47
+00:03:13,000 --> 00:03:14,000
+can see on the screen.
+
+48
+00:03:14,000 --> 00:03:20,000
+Once we have these Accounts entity class fetched from the database based upon the account number, we
+
+49
+00:03:20,000 --> 00:03:28,000
+are populating all the data from the dto two Accounts entity object. Using this mapper().
+
+50
+00:03:28,000 --> 00:03:32,000
+So all the data that we receive from the end user will be inside the accounts.
+
+51
+00:03:33,000 --> 00:03:35,000
+The same will be transferred into the accounts.
+
+52
+00:03:35,000 --> 00:03:41,000
+Here you may have a question like if my end user or my client application send a account number inside,
+
+53
+00:03:42,000 --> 00:03:45,000
+the same will be copied over to the Accounts entity.
+
+54
+00:03:45,000 --> 00:03:52,000
+That's fine because this logic will get executed only if there is an record inside the database with
+
+55
+00:03:52,000 --> 00:03:54,000
+a given account number.
+
+56
+00:03:54,000 --> 00:04:00,000
+So if we try to give a different account number, he will never be able to fetch a record from the database.
+
+57
+00:04:00,000 --> 00:04:01,000
+So that's why it's fine.
+
+58
+00:04:01,000 --> 00:04:08,000
+But if you want, you can put a logic inside this mapped.accounts to not set this account number based
+
+59
+00:04:08,000 --> 00:04:11,000
+upon some boolean value or based upon some condition.
+
+60
+00:04:11,000 --> 00:04:14,000
+But for now I just wanted to keep it simple.
+
+61
+00:04:14,000 --> 00:04:20,000
+Once we have these data populated from these dto to accounts object, I'm simply passing to the save()
+
+62
+00:04:20,000 --> 00:04:22,000
+method inside the AccountsRepository.
+
+63
+00:04:22,000 --> 00:04:28,000
+And with this line we are saving the updated data into the database and the same is going to be returned
+
+64
+00:04:28,000 --> 00:04:30,000
+again into these Accounts
+
+65
+00:04:30,000 --> 00:04:33,000
+object. Post that with this Accounts object.
+
+66
+00:04:33,000 --> 00:04:38,000
+I'm going to get the customerId using the customerId, I'm invoking the findById() and passing the
+
+67
+00:04:38,000 --> 00:04:40,000
+same customerId to the CustomerRepository.
+
+68
+00:04:40,000 --> 00:04:46,000
+Since the customerId is the primary key inside my customer table, findById() method should work.
+
+69
+00:04:46,000 --> 00:04:52,000
+If there is no record, we are going to throw ResourceNotFoundException, but if there is a record
+
+70
+00:04:52,000 --> 00:04:57,000
+first, we are trying to get the record from the database which is present based upon the customerId
+
+71
+00:04:57,000 --> 00:04:59,000
+post that we are invoking this mapper()method and
+
+72
+00:04:59,000 --> 00:05:06,000
+this method will transfer all the updated data from dto to Customer, and at last we are invoking the
+
+73
+00:05:06,000 --> 00:05:06,000
+save().
+
+74
+00:05:06,000 --> 00:05:10,000
+So save() is a very smart method inside the spring data JPA.
+
+75
+00:05:10,000 --> 00:05:17,000
+If we don't find any primary key values inside the given entity object, it is going to simply do the
+
+76
+00:05:17,000 --> 00:05:18,000
+insert operation.
+
+77
+00:05:18,000 --> 00:05:24,000
+Otherwise it is going to perform the update operation based upon the primary key value that we shared
+
+78
+00:05:24,000 --> 00:05:27,000
+inside these entity Pojo class.
+
+79
+00:05:27,000 --> 00:05:32,000
+Once all this operation is completed, we are setting, is updated, is equal to true and we are returning
+
+80
+00:05:32,000 --> 00:05:34,000
+the same to the controller layer.
+
+81
+00:05:34,000 --> 00:05:35,000
+I hope this is clear.
+
+82
+00:05:35,000 --> 00:05:39,000
+Please take a pause and try to understand and digest this information.
+
+83
+00:05:39,000 --> 00:05:43,000
+Now as a next step, let's go to the controller layer, which is AccountsController.
+
+84
+00:05:43,000 --> 00:05:48,000
+Here also, I'm going to create a new method that supports the update operation.
+
+85
+00:05:48,000 --> 00:05:50,000
+So let me paste the code related to the new method.
+
+86
+00:05:50,000 --> 00:05:54,000
+The reason I'm trying to paste all this code is we already know all this logic.
+
+87
+00:05:54,000 --> 00:05:56,000
+You can get this code from the GitHub repo.
+
+88
+00:05:56,000 --> 00:06:03,000
+I want to save some time because we have a lot of interesting stuff to discuss about the actual microservices
+
+89
+00:06:03,000 --> 00:06:04,000
+architecture and challenges.
+
+90
+00:06:04,000 --> 00:06:10,000
+So let's try to wrap all these changes related to microservices and rest APIs quickly.
+
+91
+00:06:10,000 --> 00:06:15,000
+So here you can see this is a method with the name update account details that supports the operation
+
+92
+00:06:15,000 --> 00:06:17,000
+/update.
+
+93
+00:06:17,000 --> 00:06:20,000
+And this is going to return the ResponseDto inside Response entity.
+
+94
+00:06:20,000 --> 00:06:26,000
+And to this method we are going to accept CustomerDto with the help of this RequestBody annotation
+
+95
+00:06:26,000 --> 00:06:31,000
+and here we are invoking IAccountService.update account with the CustomerDto input object.
+
+96
+00:06:31,000 --> 00:06:36,000
+And if the boolean is true, that means the update operation is successful.
+
+97
+00:06:36,000 --> 00:06:43,000
+We are sending a response saying that okay, 200 and message as 200 which indicates request to process
+
+98
+00:06:43,000 --> 00:06:50,000
+two successfully, whereas if the boolean is false for some reason we are sending the status as internal
+
+99
+00:06:50,000 --> 00:06:56,000
+server error with the status 500 and the message saying that an error occurred, please try again or
+
+100
+00:06:56,000 --> 00:06:57,000
+contact dev team.
+
+101
+00:06:57,000 --> 00:06:59,000
+So with these changes we should be good.
+
+102
+00:06:59,000 --> 00:07:00,000
+Let me save this changes.
+
+103
+00:07:00,000 --> 00:07:05,000
+Do a build with the build my dev tools will restart my application.
+
+104
+00:07:05,000 --> 00:07:09,000
+That means I will lose all the data present inside my database.
+
+105
+00:07:09,000 --> 00:07:12,000
+So let's try to recreate the data quickly here.
+
+106
+00:07:12,000 --> 00:07:13,000
+I'm trying to create the account.
+
+107
+00:07:13,000 --> 00:07:18,000
+I'm taking the same mobile number and trying to fetch the details with the get operation.
+
+108
+00:07:18,000 --> 00:07:23,000
+Now I'll take this response and I'll go to these update account details.
+
+109
+00:07:23,000 --> 00:07:30,000
+And here you can see we are trying to invoke /api/update with the put operation and I'm
+
+110
+00:07:30,000 --> 00:07:36,000
+going to paste the same content that we received previously, but here I'm going to change few details.
+
+111
+00:07:36,000 --> 00:07:43,000
+Like instead of Madan Reddy, I'll say Madan Mohan post that instead of tutor I can say madan@eazybytes
+
+112
+00:07:43,000 --> 00:07:45,000
+and mobile number
+
+113
+00:07:45,000 --> 00:07:50,000
+Also I'm going to change to 88 and account type
+
+114
+00:07:50,000 --> 00:07:52,000
+I'll change to current and address.
+
+115
+00:07:52,000 --> 00:07:54,000
+Also I'll change to 1 to 4.
+
+116
+00:07:54,000 --> 00:07:59,000
+Off course we can't change the account number, so let me click on the send button so you can see I'm
+
+117
+00:07:59,000 --> 00:08:02,000
+getting a response saying that 200 request passes successfully.
+
+118
+00:08:02,000 --> 00:08:09,000
+Now if I go to the get API and try to fetch the records based upon the latest mobile number, which
+
+119
+00:08:09,000 --> 00:08:11,000
+is this is the one I'm trying to send.
+
+120
+00:08:11,000 --> 00:08:18,000
+So if I try to send, you can see I'm getting the updated name, updated email, updated mobile number,
+
+121
+00:08:18,000 --> 00:08:20,000
+account type and branch address.
+
+122
+00:08:20,000 --> 00:08:22,000
+So this confirms it is working perfectly.
+
+123
+00:08:22,000 --> 00:08:24,000
+Let's try to test a negative scenario.
+
+124
+00:08:24,000 --> 00:08:29,000
+So the negative scenario is going to be I'm going to give a account number that does not exist.
+
+125
+00:08:29,000 --> 00:08:31,000
+So let me click on the send button.
+
+126
+00:08:31,000 --> 00:08:38,000
+You can see I'm getting an error response saying that account not found with a given account number
+
+127
+00:08:38,000 --> 00:08:40,000
+so and so is the value.
+
+128
+00:08:40,000 --> 00:08:46,000
+So with this, the update API operation inside accounts microservice is also completed.
+
+129
+00:08:46,000 --> 00:08:51,000
+But before I try to close this lecture, let me give you a small bug that we have inside our code.
+
+130
+00:08:51,000 --> 00:08:58,000
+As of now, if you go and check the H2 console inside our database, we updated both account and customer,
+
+131
+00:08:58,000 --> 00:09:05,000
+but when we are updating this updatedAt and updatedBy is not getting updated because we are not
+
+132
+00:09:05,000 --> 00:09:10,000
+populating these values manually while we are trying to save the records into the database.
+
+133
+00:09:10,000 --> 00:09:12,000
+So don't worry about this bug.
+
+134
+00:09:12,000 --> 00:09:18,000
+I'm going to make few auditing related changes where all these createdAt and createdBy , updatedAt and
+
+135
+00:09:18,000 --> 00:09:24,000
+updatedBy will be automatically taken care by the spring Data JPA framework.
+
+136
+00:09:24,000 --> 00:09:30,000
+For now, let's bear this small bug for few lectures post that I'm going to fix this in the coming lectures.
+
+137
+00:09:30,000 --> 00:09:32,000
+I hope you are clear in the next lecture.
+
+138
+00:09:32,000 --> 00:09:34,000
+Let's target the delete API.
+
+139
+00:09:34,000 --> 00:09:37,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,416 @@
+1
+00:00:00,000 --> 00:00:05,000
+In the previous lecture we discussed about the challenge, one that we may face while we are trying
+
+2
+00:00:05,000 --> 00:00:07,000
+to build microservice.
+
+3
+00:00:07,000 --> 00:00:13,000
+And in the same lecture I have told that Springboot framework is a best framework to build Java based
+
+4
+00:00:13,000 --> 00:00:14,000
+microservices.
+
+5
+00:00:14,000 --> 00:00:18,000
+So here you may have a question like what is Springboot framework?
+
+6
+00:00:18,000 --> 00:00:21,000
+Why it is the best framework to build Java based microservice?
+
+7
+00:00:21,000 --> 00:00:24,000
+So let me try to answer the same question inside this lecture.
+
+8
+00:00:24,000 --> 00:00:29,000
+Springboot is a framework that built based upon the spring framework.
+
+9
+00:00:29,000 --> 00:00:37,000
+With the help of Spring Boot, we can develop and deploy Java based web applications, including microservices,
+
+10
+00:00:37,000 --> 00:00:38,000
+very easily.
+
+11
+00:00:38,000 --> 00:00:41,000
+It is going to improve the productivity of the developer.
+
+12
+00:00:41,000 --> 00:00:48,000
+It is also going to make the life of developer and platform team and operations team very easy with
+
+13
+00:00:48,000 --> 00:00:50,000
+all the features that it is going to support.
+
+14
+00:00:50,000 --> 00:00:57,000
+And with the help of this spring boot framework, we can build self-contained and executable jar files
+
+15
+00:00:57,000 --> 00:01:05,000
+instead of traditional war or  ear files. Which means you as a developer just focus on your business logic
+
+16
+00:01:05,000 --> 00:01:11,000
+and the framework is going to take care of starting your application and packaging your application
+
+17
+00:01:11,000 --> 00:01:18,000
+and deploying your application into an embedded tomcat server or into an embedded web server.
+
+18
+00:01:18,000 --> 00:01:23,000
+So whatever jars that we are going to generate with the help of this spring boot applications, these
+
+19
+00:01:23,000 --> 00:01:29,000
+are self-contained, which means they're going to have all the dependencies that they require to run
+
+20
+00:01:29,000 --> 00:01:31,000
+the microservices.
+
+21
+00:01:31,000 --> 00:01:38,000
+So this approach eliminates the need of external web server like Tomcat or JBoss or any other application
+
+22
+00:01:38,000 --> 00:01:42,000
+servers. And we don't have to maintain all of them manually.
+
+23
+00:01:42,000 --> 00:01:44,000
+Apart from these major advantages.
+
+24
+00:01:44,000 --> 00:01:47,000
+We also have other advantages with Spring boot framework.
+
+25
+00:01:47,000 --> 00:01:50,000
+So let's try to understand one by one.
+
+26
+00:01:50,000 --> 00:01:56,000
+The very first advantage is whenever we are using spring boot framework, it is going to provide a lot,
+
+27
+00:01:56,000 --> 00:02:02,000
+many built in features and integrations with the help of concepts like auto configuration dependency
+
+28
+00:02:02,000 --> 00:02:06,000
+injection, and it also supports various cloud platforms.
+
+29
+00:02:06,000 --> 00:02:08,000
+So let me break this into simple words.
+
+30
+00:02:08,000 --> 00:02:14,000
+Whenever we are using spring boot framework, think like you are trying to create a web application.
+
+31
+00:02:14,000 --> 00:02:19,000
+As soon as you're trying to create a web application with Spring boot framework, it is going to make
+
+32
+00:02:19,000 --> 00:02:27,000
+auto configurations to deploy your web application into a web server like Tomcat at a default port of
+
+33
+00:02:27,000 --> 00:02:28,000
+8080.
+
+34
+00:02:28,000 --> 00:02:35,000
+So all these kind of auto configurations, it will try to do by itself by assuming some default values.
+
+35
+00:02:35,000 --> 00:02:41,000
+If you as a developer, if you are not good with those default configurations, you can always override
+
+36
+00:02:41,000 --> 00:02:45,000
+them with the help of properties inside the spring boot framework.
+
+37
+00:02:45,000 --> 00:02:51,000
+Everything we are going to discuss in Spring Boot, I'm going to show you the demo of them when we are
+
+38
+00:02:51,000 --> 00:02:55,000
+trying to build microservice with the spring boot in the coming lectures.
+
+39
+00:02:55,000 --> 00:03:01,000
+The next advantage that we have is like we discussed whenever we are using Spring Boot framework, it
+
+40
+00:03:01,000 --> 00:03:08,000
+provides an embedded service like Tomcat Jetty or Undertow, which you can use to run your microservices
+
+41
+00:03:08,000 --> 00:03:13,000
+directly without the need of a separate server, installation and maintenance.
+
+42
+00:03:13,000 --> 00:03:19,000
+After this, the next advantage that we have is this Spring boot framework supports a lot many production
+
+43
+00:03:19,000 --> 00:03:25,000
+ready features, such as providing metrics about your web application, health monitoring and external
+
+44
+00:03:25,000 --> 00:03:26,000
+configurations.
+
+45
+00:03:26,000 --> 00:03:32,000
+So whenever we are trying to build web applications inside monolithic approach, we as a developer need
+
+46
+00:03:32,000 --> 00:03:38,000
+to write lot of code to monitor our web application, to produce metrics from our web application and
+
+47
+00:03:38,000 --> 00:03:40,000
+to configure some external configurations.
+
+48
+00:03:40,000 --> 00:03:46,000
+Whereas with Spring Boot, everything is going to be super, super easy with the dependencies like spring
+
+49
+00:03:46,000 --> 00:03:47,000
+boot actuator.
+
+50
+00:03:47,000 --> 00:03:53,000
+So we are going to explore what is spring boot actuator, how it is going to expose all the metrics,
+
+51
+00:03:53,000 --> 00:03:59,000
+health information and configuration details about our web application in the coming lectures.
+
+52
+00:03:59,000 --> 00:04:06,000
+The next advantage that we have is we can quickly bootstrap a microservice project and start coding
+
+53
+00:04:06,000 --> 00:04:09,000
+with range of started dependencies.
+
+54
+00:04:09,000 --> 00:04:14,000
+In the coming lectures, I'm going to show you how quickly and easily we can create a microservice project
+
+55
+00:04:14,000 --> 00:04:17,000
+with the help of Spring Boot. And before Spring Boot
+
+56
+00:04:17,000 --> 00:04:24,000
+whenever a developer wants to add a dependency related to some database or some message queues or some
+
+57
+00:04:24,000 --> 00:04:30,000
+other framework, you need to do a lot of configurations inside his project and he need to add a lot
+
+58
+00:04:30,000 --> 00:04:32,000
+of dependencies manually.
+
+59
+00:04:32,000 --> 00:04:37,000
+But with the help of starter projects inside Spring Boot, it is going to be super, super easy.
+
+60
+00:04:37,000 --> 00:04:42,000
+You as a developer just tell what dependencies you have inside your web application.
+
+61
+00:04:42,000 --> 00:04:48,000
+Suppose if I'm trying to connect to a MySQL database, I can define that and my spring boot is going
+
+62
+00:04:48,000 --> 00:04:54,000
+to provide a starter project which will have a bundle of dependencies that will help me to connect with
+
+63
+00:04:54,000 --> 00:04:55,000
+my MySQL database.
+
+64
+00:04:55,000 --> 00:05:00,000
+The last advantage that we have here is, whenever we are building applications with the help
+
+65
+00:05:00,000 --> 00:05:02,000
+of microservices.
+
+66
+00:05:02,000 --> 00:05:07,000
+They are cloud ready, which means you can easily deploy them into
+
+67
+00:05:07,000 --> 00:05:13,000
+any cloud platforms like Kubernetes, you can containerize your application with the help of Docker,
+
+68
+00:05:13,000 --> 00:05:18,000
+you can easily deploy them into cloud providers like AWS, GCP, Azure.
+
+69
+00:05:18,000 --> 00:05:21,000
+So this is the one more advantage that we have.
+
+70
+00:05:21,000 --> 00:05:27,000
+I'm going to show you how to containerize our Spring Boot web application with the help of Docker in
+
+71
+00:05:27,000 --> 00:05:28,000
+the coming lectures.
+
+72
+00:05:28,000 --> 00:05:33,000
+And by the end of this course, I'm also going to show you a demo of how to deploy our microservices
+
+73
+00:05:33,000 --> 00:05:36,000
+into a Kubernetes cluster.
+
+74
+00:05:36,000 --> 00:05:38,000
+I hope you are clear with these advantages.
+
+75
+00:05:38,000 --> 00:05:44,000
+Let me show you a different perspective on how Spring Boot is going to make our life easy.
+
+76
+00:05:44,000 --> 00:05:50,000
+Like you can see here on the left hand side, we have a traditional approach which we will use whenever
+
+77
+00:05:50,000 --> 00:05:55,000
+we are building monolithic web application back a decade when Spring Boot is not yet released.
+
+78
+00:05:55,000 --> 00:06:02,000
+So you can see to build and deploy monolithic web applications as we need to have Java runtime environment
+
+79
+00:06:02,000 --> 00:06:03,000
+like JVM.
+
+80
+00:06:03,000 --> 00:06:10,000
+On top of that, we should also install our web servers like Tomcat, Jetty, Netty, inside our server
+
+81
+00:06:10,000 --> 00:06:12,000
+or inside our laptop.
+
+82
+00:06:12,000 --> 00:06:20,000
+Once we have these two components ready, then we need to package our applications into war or ear format
+
+83
+00:06:20,000 --> 00:06:23,000
+and we need to deploy them manually into a server.
+
+84
+00:06:23,000 --> 00:06:29,000
+And with the help of runtime environment like JVM, our web applications will work where an end user
+
+85
+00:06:29,000 --> 00:06:30,000
+can use them.
+
+86
+00:06:30,000 --> 00:06:35,000
+Whereas with spring boot framework, you can see the middle component, which is servers.
+
+87
+00:06:35,000 --> 00:06:42,000
+We got rid of this server component because this server component right now is embedded into the jar
+
+88
+00:06:42,000 --> 00:06:49,000
+of your web application or of your microservice, which means whenever I'm trying to use spring boot
+
+89
+00:06:49,000 --> 00:06:55,000
+to build my microservices, it is automatically going to package my application along with the embedded
+
+90
+00:06:55,000 --> 00:06:56,000
+server.
+
+91
+00:06:56,000 --> 00:07:01,000
+So as a developer, I don't need to worry about all the server installations and maintaining of all
+
+92
+00:07:01,000 --> 00:07:03,000
+these servers configurations.
+
+93
+00:07:03,000 --> 00:07:09,000
+And this is also going to make our platform team, our operations team life very easy.
+
+94
+00:07:09,000 --> 00:07:15,000
+These self-contained jars were also going to call them as fat jars or uber jars because they will have
+
+95
+00:07:15,000 --> 00:07:21,000
+everything packaged, including all the dependencies, all the business logic along with the embedded
+
+96
+00:07:21,000 --> 00:07:22,000
+server.
+
+97
+00:07:22,000 --> 00:07:28,000
+So that's why we call them with various names like self-contained jars, fat jars or Uber jars.
+
+98
+00:07:28,000 --> 00:07:32,000
+I hope you are clear with the introduction of the spring boot framework.
+
+99
+00:07:32,000 --> 00:07:34,000
+If you have any questions, don't worry.
+
+100
+00:07:34,000 --> 00:07:40,000
+While building the microservices in the coming lectures, I'm going to show you a demo of all these
+
+101
+00:07:40,000 --> 00:07:41,000
+advantages
+
+102
+00:07:41,000 --> 00:07:47,000
+with that, you will be super, super clear and happy on choosing the Spring boot framework to build
+
+103
+00:07:47,000 --> 00:07:48,000
+the microservices.
+
+104
+00:07:48,000 --> 00:07:51,000
+Thank you and I'll catch you in the next lecture bye.
+

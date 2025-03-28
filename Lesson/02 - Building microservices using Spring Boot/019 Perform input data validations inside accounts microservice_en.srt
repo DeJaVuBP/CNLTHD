@@ -1,0 +1,832 @@
+1
+00:00:00,000 --> 00:00:05,000
+We handle runtime exceptions and custom exceptions inside our AccountsMicroservices.
+
+2
+00:00:05,000 --> 00:00:06,000
+.
+
+3
+00:00:06,000 --> 00:00:12,000
+One more standard that we need to follow when we are building microservices and REST APIs is, we need
+
+4
+00:00:12,000 --> 00:00:17,000
+to perform validations on the input data that we receive from the client applications.
+
+5
+00:00:17,000 --> 00:00:21,000
+We are right now accepting various kinds of data from our clients.
+
+6
+00:00:21,000 --> 00:00:26,000
+Like you can see here they are passing the name, email and mobileNumber.
+
+7
+00:00:26,000 --> 00:00:31,000
+What if someone is sending a nine digit or five digit mobile number instead of ten digit?
+
+8
+00:00:31,000 --> 00:00:34,000
+What if someone is not following the email format?
+
+9
+00:00:34,000 --> 00:00:38,000
+What if someone is sending a name with a value of only two characters and three characters?
+
+10
+00:00:38,000 --> 00:00:44,000
+And very similarly, someone, while trying to invoke these get API, they can send a mobile number
+
+11
+00:00:44,000 --> 00:00:48,000
+of five digit value or four digit value instead of ten digit value.
+
+12
+00:00:48,000 --> 00:00:53,000
+Off course, in this scenario you may question me like there's nothing wrong going to happen anyway
+
+13
+00:00:53,000 --> 00:00:58,000
+the end user is going to get a response saying that there is no such account with a given mobile number.
+
+14
+00:00:58,000 --> 00:01:04,000
+That's a valid question, but you are unnecessarily firing a DB query with an invalid data.
+
+15
+00:01:04,000 --> 00:01:08,000
+We should straight away reject such invalid data from our REST APIs.
+
+16
+00:01:08,000 --> 00:01:10,000
+Same applies for update account details.
+
+17
+00:01:10,000 --> 00:01:16,000
+If they're trying to send some account number which is not of type ten digit and account type as empty
+
+18
+00:01:16,000 --> 00:01:18,000
+branch address as empty.
+
+19
+00:01:18,000 --> 00:01:20,000
+So there are multiple combinations.
+
+20
+00:01:20,000 --> 00:01:25,000
+The client applications and end users they can miss and they can screw up.
+
+21
+00:01:25,000 --> 00:01:31,000
+That's why as an developer we need to make sure we are doing enough validations on the input data that
+
+22
+00:01:31,000 --> 00:01:33,000
+we receive to our REST APIs.
+
+23
+00:01:33,000 --> 00:01:37,000
+So let's try to perform these input validations inside this lecture.
+
+24
+00:01:37,000 --> 00:01:43,000
+Any time, whenever we want to perform validations first, we need to make sure we have added relevant
+
+25
+00:01:43,000 --> 00:01:49,000
+dependency inside the pom.xml like we discussed before, we added this dependency, which is spring
+
+26
+00:01:49,000 --> 00:01:55,000
+boot starter validation when we are trying to create this microservice with the help of start.spring.io
+
+27
+00:01:55,000 --> 00:01:56,000
+website.
+
+28
+00:01:56,000 --> 00:02:02,000
+This dependency has all the annotations and libraries that will help us to enforce the validations on
+
+29
+00:02:02,000 --> 00:02:05,000
+the input data that we receive from the clients.
+
+30
+00:02:05,000 --> 00:02:10,000
+So once we validated this step, we can go to the DTO classes.
+
+31
+00:02:10,000 --> 00:02:16,000
+As of now we have four Dto's First, let's go to the CustomerDto the reason why I open these class
+
+32
+00:02:16,000 --> 00:02:21,000
+is whatever data that we receive from the clients will get converted into CustomerDto.
+
+33
+00:02:21,000 --> 00:02:27,000
+So these DTOs are going to hold the data that we are going to receive from clients, which means my
+
+34
+00:02:27,000 --> 00:02:33,000
+spring boot has to perform the validations on the data stored inside the object of this CustomerDto
+
+35
+00:02:33,000 --> 00:02:35,000
+or any other DTO like AccountsDto.
+
+36
+00:02:35,000 --> 00:02:41,000
+So since we want to enforce some validations on the input received from the clients, we need to make
+
+37
+00:02:41,000 --> 00:02:47,000
+sure we are mentioning all our validation requirements with the help of annotations inside the Spring
+
+38
+00:02:47,000 --> 00:02:48,000
+Boot framework.
+
+39
+00:02:48,000 --> 00:02:53,000
+The very first and basic attention that we can use is @NotEmpty.
+
+40
+00:02:53,000 --> 00:02:59,000
+So whenever we are mentioning this @NotEmpty, we are making that field as mandatory field.
+
+41
+00:02:59,000 --> 00:03:04,000
+So whenever someone is trying to send this name value, it has to be mandatory, like it should not
+
+42
+00:03:04,000 --> 00:03:06,000
+be empty or null value.
+
+43
+00:03:06,000 --> 00:03:10,000
+The same I want to mention for email as well.
+
+44
+00:03:10,000 --> 00:03:11,000
+So let me mention the same.
+
+45
+00:03:11,000 --> 00:03:12,000
+Now,
+
+46
+00:03:12,000 --> 00:03:19,000
+whenever a validation fails due to this NotEmpty annotation that we mentioned here, we want to throw
+
+47
+00:03:19,000 --> 00:03:24,000
+a custom message to the client application so that they are clear about which data is wrong.
+
+48
+00:03:24,000 --> 00:03:31,000
+For the same, we need to invoke the message parameter against this annotation and inside this message
+
+49
+00:03:31,000 --> 00:03:36,000
+parameter. I'm going to mention the message like name cannot be null or empty.
+
+50
+00:03:36,000 --> 00:03:39,000
+The same I can do for email as well.
+
+51
+00:03:39,000 --> 00:03:46,000
+I'm going to invoke the message here and mention the message saying that email address cannot be null
+
+52
+00:03:46,000 --> 00:03:46,000
+or empty.
+
+53
+00:03:46,000 --> 00:03:52,000
+So we have mentioned this NotEmpty validation on top of this name and email, which makes the fields
+
+54
+00:03:52,000 --> 00:03:53,000
+as mandatory.
+
+55
+00:03:53,000 --> 00:04:00,000
+If you see this NotEmpty annotation present inside this Jakarta.validations.constraints package.
+
+56
+00:04:00,000 --> 00:04:06,000
+If I can open this annotation and go to the same package, you can see there are many other annotations
+
+57
+00:04:06,000 --> 00:04:13,000
+that we can use to enforce the validations on top of our Java fields like digits will make sure we are
+
+58
+00:04:13,000 --> 00:04:19,000
+accepting only numeric and similarly, email will validate the format of the email and future, will
+
+59
+00:04:19,000 --> 00:04:25,000
+make sure that the date that we are accepting is of type future very similarly max, minimum,negative.
+
+60
+00:04:25,000 --> 00:04:31,000
+NotBlank, NotEmpty, NotNull null past pattern to enforce some rejects patterns.
+
+61
+00:04:31,000 --> 00:04:37,000
+This way we have a lot of annotations that you can use based upon your business requirements.
+
+62
+00:04:37,000 --> 00:04:43,000
+Now I want to enforce one more validation on top of my name field with the help of Size annotation using
+
+63
+00:04:43,000 --> 00:04:49,000
+the Size annotation, we can mention what is the minimum length of value that we are going to accept.
+
+64
+00:04:49,000 --> 00:04:55,000
+And similarly, using Max, we can mention what is the maximum value that we are going to accept.
+
+65
+00:04:55,000 --> 00:04:56,000
+If this validation fails.
+
+66
+00:04:56,000 --> 00:04:59,000
+I'm going to throw a message saying that the length of the customer name
+
+67
+00:05:00,000 --> 00:05:02,000
+should be between 5 and 30.
+
+68
+00:05:02,000 --> 00:05:09,000
+This will make sure we are receiving a name value with at least five length characters and at a maximum
+
+69
+00:05:09,000 --> 00:05:10,000
+of 30 chars.
+
+70
+00:05:10,000 --> 00:05:12,000
+So we are good with the name.
+
+71
+00:05:12,000 --> 00:05:19,000
+Now on top of email, I want to enforce email format related validations, so that's why I need to invoke
+
+72
+00:05:19,000 --> 00:05:20,000
+@Email annotation.
+
+73
+00:05:20,000 --> 00:05:27,000
+And if these email validation fails, I want to throw a message saying that email address should be
+
+74
+00:05:27,000 --> 00:05:29,000
+a valid value.
+
+75
+00:05:29,000 --> 00:05:34,000
+Suppose if I try to forget mentioning @Symbol inside my email value, then I'll get these
+
+76
+00:05:34,000 --> 00:05:36,000
+validation error message.
+
+77
+00:05:36,000 --> 00:05:43,000
+Now coming to the mobile number, we want to make sure that we always receive a mobile number in numeric
+
+78
+00:05:43,000 --> 00:05:49,000
+format and the numeric value also should be exactly ten digit number and it should not be like nine
+
+79
+00:05:49,000 --> 00:05:50,000
+digit or 11 digit.
+
+80
+00:05:50,000 --> 00:05:53,000
+I want exactly ten digit numeric value.
+
+81
+00:05:53,000 --> 00:06:00,000
+But these kind of requirements, we can use a annotation which is @Pattern with the help
+
+82
+00:06:00,000 --> 00:06:06,000
+of @Pattern annotation, we can invoke rejects expression and to these rejects expression
+
+83
+00:06:06,000 --> 00:06:09,000
+we can pass what is the expression that we want to follow.
+
+84
+00:06:09,000 --> 00:06:11,000
+So this is the pattern that I want to follow.
+
+85
+00:06:11,000 --> 00:06:18,000
+This will make sure that I'm accepting only numeric values with exactly ten digits post that I need
+
+86
+00:06:18,000 --> 00:06:19,000
+to mention.
+
+87
+00:06:19,000 --> 00:06:23,000
+What is the message that I want to throw in case of this validation fails?
+
+88
+00:06:23,000 --> 00:06:27,000
+The message that I want to throw here is mobile number must be ten digits.
+
+89
+00:06:27,000 --> 00:06:32,000
+So with this, we have mentioned all the validation related annotations inside CustomerDto.
+
+90
+00:06:32,000 --> 00:06:39,000
+Next, we can go to the AccountsDto here inside my AccountsDto. For the account number, I want to
+
+91
+00:06:39,000 --> 00:06:42,000
+follow the same pattern like mobile number.
+
+92
+00:06:42,000 --> 00:06:47,000
+Just like for mobile number, we are accepting ten digit numeric value for account number
+
+93
+00:06:47,000 --> 00:06:50,000
+also, we should follow the same pattern.
+
+94
+00:06:50,000 --> 00:06:55,000
+So here for account number also I'm going to mention these annotations like @Pattern and
+
+95
+00:06:55,000 --> 00:07:00,000
+@NotEmpty that will make sure that my account number is going to be a mandatory value.
+
+96
+00:07:00,000 --> 00:07:08,000
+Similarly, for account type, we can mention @NotEmpty, the same I can mention for branch
+
+97
+00:07:08,000 --> 00:07:09,000
+address as well.
+
+98
+00:07:09,000 --> 00:07:12,000
+So let me pass the message values.
+
+99
+00:07:12,000 --> 00:07:16,000
+So the message value that I want to pass here is account type cannot be null or empty.
+
+100
+00:07:16,000 --> 00:07:21,000
+Similarly, I want to follow the same for branch address as well.
+
+101
+00:07:21,000 --> 00:07:26,000
+The validation message that I want to throw here is branch address cannot be a null or empty.
+
+102
+00:07:26,000 --> 00:07:32,000
+So with this we have mentioned all the validation related annotations inside our DTO classes like Accounts
+
+103
+00:07:32,000 --> 00:07:33,000
+and Customer.
+
+104
+00:07:33,000 --> 00:07:37,000
+We don't have to mention inside ResponseDto and ErrorResponseDto.
+
+105
+00:07:37,000 --> 00:07:43,000
+The reason is these two DTOs we don't get as an input from the client applications.
+
+106
+00:07:43,000 --> 00:07:46,000
+We always use these DTOs to send the response to them.
+
+107
+00:07:46,000 --> 00:07:52,000
+That's why we don't have to perform validations or we don't have to mention any validations inside these
+
+108
+00:07:52,000 --> 00:07:52,000
+DTO.
+
+109
+00:07:52,000 --> 00:07:58,000
+Now as a next step, we need to go to the place where we are trying to use these AccountsDto and CustomerDto,
+
+110
+00:07:58,000 --> 00:08:05,000
+like you expect we are accepting them as an input inside our AccountsController.
+
+111
+00:08:05,000 --> 00:08:11,000
+So you can see here I'm accepting the RequestBody in the format of CustomerDto and the same for the
+
+112
+00:08:11,000 --> 00:08:13,000
+update operation as well.
+
+113
+00:08:13,000 --> 00:08:16,000
+So here also we need to mention some annotations.
+
+114
+00:08:16,000 --> 00:08:22,000
+The very first annotation that I want to mention here is @Validated on top of my AccountsController 
+
+115
+00:08:22,000 --> 00:08:23,000
+class.
+
+116
+00:08:23,000 --> 00:08:30,000
+So this annotation will tell to my spring boot framework to perform validations on all the REST APIs
+
+117
+00:08:30,000 --> 00:08:32,000
+that I have defined inside these AccountsController.
+
+118
+00:08:32,000 --> 00:08:33,000
+.
+
+119
+00:08:33,000 --> 00:08:40,000
+Now, as a next step, we need to mention an annotation which is @Valid just before the RequestBody
+
+120
+00:08:40,000 --> 00:08:40,000
+.
+
+121
+00:08:40,000 --> 00:08:45,000
+The v should be capital V, so this is the annotation which is @Valid.
+
+122
+00:08:45,000 --> 00:08:51,000
+We need to mention just before the RequestBody annotation to communicate to the spring boot framework
+
+123
+00:08:51,000 --> 00:08:55,000
+to perform all the validations that we mentioned inside this duo.
+
+124
+00:08:55,000 --> 00:09:01,000
+So the same I have to mention for my update operation as well just before this RequestBody annotation.
+
+125
+00:09:01,000 --> 00:09:04,000
+So we are good right now for create and update operations.
+
+126
+00:09:04,000 --> 00:09:08,000
+What about these fetch account details and delete account details.
+
+127
+00:09:08,000 --> 00:09:12,000
+Here we are not accepting the input data with the help of DTOs.
+
+128
+00:09:12,000 --> 00:09:15,000
+We are directly accepting them with the help of query parameters.
+
+129
+00:09:15,000 --> 00:09:22,000
+So to perform validations on these mobile number, what we can do is just after this request param,
+
+130
+00:09:22,000 --> 00:09:28,000
+we can mention @Pattern validation, very similar to what we have mentioned inside the dto
+
+131
+00:09:29,000 --> 00:09:29,000
+class.
+
+132
+00:09:29,000 --> 00:09:34,000
+So with the help of @Pattern, I'm accepting a reject expression that will make sure that
+
+133
+00:09:34,000 --> 00:09:36,000
+I'm receiving only ten digit numeric value.
+
+134
+00:09:36,000 --> 00:09:41,000
+The same I can mention for deleteAccountDetails method as well.
+
+135
+00:09:41,000 --> 00:09:47,000
+So here also I'm going to perform the same validation ten digit numeric value.
+
+136
+00:09:47,000 --> 00:09:52,000
+So now we have mentioned all the input validations that we want to perform. As a next step
+
+137
+00:09:52,000 --> 00:09:58,000
+we should let spring boot framework what it has to do whenever these validations fails, it knows what
+
+138
+00:09:58,000 --> 00:09:59,000
+validations it has to perform.
+
+139
+00:09:59,000 --> 00:10:00,000
+.
+
+140
+00:10:00,000 --> 00:10:06,000
+The framework also knows what message it has to throw to the end user or client application, but it
+
+141
+00:10:06,000 --> 00:10:12,000
+does not know how to send that inside the error response or inside the body of the response.
+
+142
+00:10:12,000 --> 00:10:17,000
+For the same, what we have to do is we can go to the GlobalExceptionHandler.
+
+143
+00:10:17,000 --> 00:10:25,000
+Here we need to extend a class with the name ResponseEntityExceptionHandler After extending this class,
+
+144
+00:10:25,000 --> 00:10:33,000
+if you go to this class, there is a method inside this class which is handleMethodArgumentsNotValid()
+
+145
+00:10:33,000 --> 00:10:33,000
+.
+
+146
+00:10:33,000 --> 00:10:39,000
+So we need to override this method inside our GlobalExceptionHandler.
+
+147
+00:10:39,000 --> 00:10:46,000
+If you see it is going to get all the validation exception details as the first parameter and header
+
+148
+00:10:46,000 --> 00:10:48,000
+details, statusCode and WebRequest.
+
+149
+00:10:48,000 --> 00:10:51,000
+We need to override with the same method parameters.
+
+150
+00:10:51,000 --> 00:10:57,000
+So let me try to create this method and you can see this has right now empty method.
+
+151
+00:10:57,000 --> 00:11:02,000
+The method name has to be same and it needs to accept these four method parameters.
+
+152
+00:11:02,000 --> 00:11:08,000
+Now we need to write a small logic inside this method which will process all the validation exceptions
+
+153
+00:11:08,000 --> 00:11:13,000
+that failed and the same we need to send as part of the response with the help of this Response entity
+
+154
+00:11:13,000 --> 00:11:14,000
+of object.
+
+155
+00:11:14,000 --> 00:11:17,000
+So here I'm going to paste few lines of code.
+
+156
+00:11:17,000 --> 00:11:19,000
+The code is going to be super, super simple.
+
+157
+00:11:19,000 --> 00:11:22,000
+I'll explain line by line just to save some time.
+
+158
+00:11:22,000 --> 00:11:24,000
+I have pasted the code here.
+
+159
+00:11:24,000 --> 00:11:30,000
+So first I'm trying to create an empty map with the name validation errors and it is going to hold the
+
+160
+00:11:30,000 --> 00:11:36,000
+key and value of type string. Post that what I'm doing is using this exception parameter I'm invoking
+
+161
+00:11:36,000 --> 00:11:40,000
+getBindingResult().getAllErrors().
+
+162
+00:11:40,000 --> 00:11:47,000
+So this will give me all validation errors failed in the input data that I receive.
+
+163
+00:11:47,000 --> 00:11:55,000
+Using this list I'm trying to iterate one by one and from each error I'm trying to get what is the field where the validation
+
+164
+00:11:55,000 --> 00:11:58,000
+failed and what is the validation message related to the field?
+
+165
+00:11:58,000 --> 00:12:04,000
+If you recall, in all the places we have mentioned validation message, the same message will appear
+
+166
+00:12:04,000 --> 00:12:06,000
+inside the error default message.
+
+167
+00:12:06,000 --> 00:12:13,000
+Post that the same field name and validation message I'm populating into the HashMap validationErrors.
+
+168
+00:12:13,000 --> 00:12:19,000
+Once we populate all the validationErrors, I'm trying to send the validation errors as part of Response
+
+169
+00:12:19,000 --> 00:12:22,000
+entity with a status as BAD_REQUEST.
+
+170
+00:12:22,000 --> 00:12:24,000
+With this, we all set.
+
+171
+00:12:24,000 --> 00:12:25,000
+Let me save these changes.
+
+172
+00:12:25,000 --> 00:12:29,000
+Do a build once the build is completed inside the postman,
+
+173
+00:12:29,000 --> 00:12:34,000
+first I'll try to invoke the Create API, but before that I'll try to screw up some data
+
+174
+00:12:34,000 --> 00:12:34,000
+here,
+
+175
+00:12:34,000 --> 00:12:40,000
+I'm just removing these .com and also I'm trying to make my mobile number as nine digit.
+
+176
+00:12:40,000 --> 00:12:44,000
+Similarly, I'm going to make my name as only one char.
+
+177
+00:12:44,000 --> 00:12:46,000
+So let me click on the send button.
+
+178
+00:12:46,000 --> 00:12:51,000
+You can see I got the two validation errors like mobile number and name.
+
+179
+00:12:51,000 --> 00:12:54,000
+So for mobile number, this is the validation fail.
+
+180
+00:12:54,000 --> 00:12:58,000
+And for the name also this is the validation fail for email I didn't receive
+
+181
+00:12:58,000 --> 00:13:03,000
+maybe because I have this @ so let me remove this and try again.
+
+182
+00:13:03,000 --> 00:13:08,000
+So this time I'm also getting the validation error message for email as well.
+
+183
+00:13:08,000 --> 00:13:13,000
+So this confirms my validations are working on my create operation.
+
+184
+00:13:13,000 --> 00:13:16,000
+So let me roll back all these inside our AccountsController.
+
+185
+00:13:16,000 --> 00:13:20,000
+We need to make sure we are mentioning the annotation
+
+186
+00:13:20,000 --> 00:13:21,000
+AllArgsConstructor.
+
+187
+00:13:21,000 --> 00:13:26,000
+Previously, if you recall, we reverted these annotation to create a RuntimeException.
+
+188
+00:13:26,000 --> 00:13:28,000
+Right now we don't want that RuntimeException.
+
+189
+00:13:28,000 --> 00:13:31,000
+With that, let me save changes and do a build.
+
+190
+00:13:31,000 --> 00:13:37,000
+Now what I'm going to do is I'm going to invoke the Create account API with a valid data.
+
+191
+00:13:37,000 --> 00:13:39,000
+So let me click on the send button.
+
+192
+00:13:39,000 --> 00:13:44,000
+You will see the operation is successful right now because I'm sending a valid data, so I'll go to
+
+193
+00:13:44,000 --> 00:13:49,000
+fetch account here instead of ten digit, I'm going to send the nine digit mobile number.
+
+194
+00:13:49,000 --> 00:13:56,000
+You see that my API failed because mobile number must be ten digit due to this validation, my API failed.
+
+195
+00:13:56,000 --> 00:14:01,000
+So if I try to mention the ten digit mobile number, I'll get a proper response.
+
+196
+00:14:01,000 --> 00:14:07,000
+Now, if I go to my update for update, also what I'm going to do is I'm just going to remove these
+
+197
+00:14:07,000 --> 00:14:10,000
+@ and simply invoke these send.
+
+198
+00:14:10,000 --> 00:14:15,000
+I'm getting a proper error response saying that email address should be a valid value.
+
+199
+00:14:15,000 --> 00:14:17,000
+So for my update also it's working fine.
+
+200
+00:14:17,000 --> 00:14:19,000
+Now I'll go to delete. For delete
+
+201
+00:14:19,000 --> 00:14:24,000
+also, I'll make this mobile number as a nine digit number and click on the send button.
+
+202
+00:14:24,000 --> 00:14:27,000
+You can see I'm getting the same validation error.
+
+203
+00:14:27,000 --> 00:14:33,000
+If I try to send a valid mobile number and click on the send button, I'm getting a successful response.
+
+204
+00:14:33,000 --> 00:14:38,000
+This way we are performing input validations on top of all our REST APIs.
+
+205
+00:14:38,000 --> 00:14:41,000
+This is the standard approach that you need to follow.
+
+206
+00:14:41,000 --> 00:14:45,000
+Off course you can enhance this further based upon your business requirements.
+
+207
+00:14:45,000 --> 00:14:46,000
+I hope this is clear.
+
+208
+00:14:46,000 --> 00:14:49,000
+Thank you and I'll catch you in the next lecture.
+

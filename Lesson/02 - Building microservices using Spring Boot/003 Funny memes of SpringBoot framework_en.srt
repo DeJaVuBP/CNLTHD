@@ -1,0 +1,248 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+let me show you a few funny memes about spring boot framework.
+
+3
+00:00:06,000 --> 00:00:10,000
+That way we are taking a small break of one minute.
+
+4
+00:00:10,000 --> 00:00:12,000
+So are you ready for the funny memes?
+
+5
+00:00:12,000 --> 00:00:16,000
+So this is the very first funny meme about the spring boot framework.
+
+6
+00:00:16,000 --> 00:00:23,000
+So some Java developer who don't know about Spring Boot is trying to say the Batman, that Java development
+
+7
+00:00:23,000 --> 00:00:24,000
+is very hard.
+
+8
+00:00:24,000 --> 00:00:31,000
+You can see the response from Batman is he slap him and he saying go and use spring boot because spring
+
+9
+00:00:31,000 --> 00:00:36,000
+boot framework is going to make Java developer life super, super easy.
+
+10
+00:00:36,000 --> 00:00:38,000
+Are you ready for the next meme?
+
+11
+00:00:38,000 --> 00:00:40,000
+So this is the next meme.
+
+12
+00:00:40,000 --> 00:00:45,000
+So if you see we have two big frameworks sitting in the Java ecosystem.
+
+13
+00:00:45,000 --> 00:00:51,000
+One is spring framework and the other one is spring boot framework, which built on top of spring framework.
+
+14
+00:00:51,000 --> 00:00:58,000
+And if you try to compare with any other Java framework like Struts, EJB, Servlets, So there are
+
+15
+00:00:58,000 --> 00:01:04,000
+many technologies and frameworks available in Java to make developer life easy.
+
+16
+00:01:04,000 --> 00:01:07,000
+But the clear winner is spring and spring boot frameworks.
+
+17
+00:01:07,000 --> 00:01:09,000
+Let's go to the next meme.
+
+18
+00:01:09,000 --> 00:01:16,000
+So here you can see some experienced Java developer is saying, please see the Java world everywhere.
+
+19
+00:01:16,000 --> 00:01:17,000
+We have Spring Boot.
+
+20
+00:01:17,000 --> 00:01:23,000
+So whatever Java web application that you see inside any organization, there is a very, very good
+
+21
+00:01:23,000 --> 00:01:26,000
+chance that they might be using spring boot framework.
+
+22
+00:01:26,000 --> 00:01:32,000
+I can confidently say 90% of Java projects they use either spring or spring boot framework inside their
+
+23
+00:01:32,000 --> 00:01:33,000
+projects.
+
+24
+00:01:33,000 --> 00:01:35,000
+Moving on to the next meme.
+
+25
+00:01:35,000 --> 00:01:39,000
+So here you can see some Java developer who are trying to give two options.
+
+26
+00:01:39,000 --> 00:01:43,000
+You want to go with the spring framework or spring boot framework.
+
+27
+00:01:43,000 --> 00:01:48,000
+Like I said before, spring framework is a very good framework, but make developer life easy and to
+
+28
+00:01:48,000 --> 00:01:50,000
+increase the developer productivity.
+
+29
+00:01:50,000 --> 00:01:55,000
+We have another framework built on top of spring framework, which is spring boot.
+
+30
+00:01:55,000 --> 00:02:02,000
+That's why any Java developer loves to use spring boot framework in their day to day development.
+
+31
+00:02:02,000 --> 00:02:03,000
+Moving on to the next meme.
+
+32
+00:02:03,000 --> 00:02:09,000
+So someone asking Iron Man, when did you become an expert on Spring boot and rest services?
+
+33
+00:02:09,000 --> 00:02:11,000
+So the response from him is last night.
+
+34
+00:02:11,000 --> 00:02:17,000
+So this meme clearly conveys that learning Spring boot and building microservices are rest services
+
+35
+00:02:17,000 --> 00:02:21,000
+with the help of Spring Boot is not a big challenge.
+
+36
+00:02:21,000 --> 00:02:27,000
+Spending few hours, you can become a master of spring boot and you can start building web applications,
+
+37
+00:02:27,000 --> 00:02:29,000
+rest services and microservices.
+
+38
+00:02:29,000 --> 00:02:35,000
+You will also realize that inside this course, just by spending few hours, we are going to build a
+
+39
+00:02:35,000 --> 00:02:36,000
+microservices.
+
+40
+00:02:36,000 --> 00:02:37,000
+I hope you are clear.
+
+41
+00:02:37,000 --> 00:02:42,000
+The next meme that we have here is, someone is trying to directly learn the spring boot framework.
+
+42
+00:02:42,000 --> 00:02:48,000
+So though it is technically possible for you to learn spring boot without knowing the spring core concept,
+
+43
+00:02:48,000 --> 00:02:51,000
+but you are going to struggle a lot in the long run.
+
+44
+00:02:51,000 --> 00:02:57,000
+So if you are not clear about the spring and spring core concepts like what is dependency injection,
+
+45
+00:02:57,000 --> 00:03:02,000
+inversion of control, autowiring, how to create beans, What is spring MVC?
+
+46
+00:03:02,000 --> 00:03:08,000
+I would request you to first learn the basics of the spring framework, then only try to master the
+
+47
+00:03:08,000 --> 00:03:15,000
+spring boot framework. That is the ideal path and having the foundation basics strong always will help
+
+48
+00:03:15,000 --> 00:03:20,000
+you to debug any issues that you are going to face inside your real time projects.
+
+49
+00:03:20,000 --> 00:03:22,000
+And the next image is not a funny image.
+
+50
+00:03:22,000 --> 00:03:27,000
+It's just an image indicating the power of spring boot framework.
+
+51
+00:03:27,000 --> 00:03:32,000
+Like you can see by looking at the iceberg, we always look at the tip of the iceberg from outside,
+
+52
+00:03:32,000 --> 00:03:39,000
+but below we never know how strong it is and what are the other factors and dependencies making that
+
+53
+00:03:39,000 --> 00:03:40,000
+iceberg very strong.
+
+54
+00:03:40,000 --> 00:03:46,000
+So if you see here, spring boot is always tip of the iceberg, but there are many other dependencies
+
+55
+00:03:46,000 --> 00:03:53,000
+and components and frameworks and technologies that you need to learn as a Java software engineer.
+
+56
+00:03:53,000 --> 00:04:00,000
+So with the help of Spring Boot, Spring security, Docker, microservices, a cloud environment like
+
+57
+00:04:00,000 --> 00:04:07,000
+AWS, persistent framework like JPA, Hibernate and message queues like Rabbitmq, Kafka.
+
+58
+00:04:07,000 --> 00:04:13,000
+So with all these technologies, you are going to become a complete Java developer and Spring Boot has
+
+59
+00:04:13,000 --> 00:04:17,000
+the integration with all these components that you are seeing on the screen.
+
+60
+00:04:17,000 --> 00:04:19,000
+I hope you are clear and you have some fun
+
+61
+00:04:19,000 --> 00:04:22,000
+break in between these course.
+
+62
+00:04:22,000 --> 00:04:25,000
+Thank you and I'll catch you in the next lecture bye.
+

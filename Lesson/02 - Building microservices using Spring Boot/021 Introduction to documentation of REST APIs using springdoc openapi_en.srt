@@ -1,0 +1,644 @@
+1
+00:00:00,000 --> 00:00:06,000
+As a next step, we need to implement one more standard inside our AccountsMicroservice, which is
+
+2
+00:00:06,000 --> 00:00:10,000
+documenting all our REST APIs that we have developed so far.
+
+3
+00:00:10,000 --> 00:00:15,000
+Here you may have a question like why should I document my own REST APIs?
+
+4
+00:00:15,000 --> 00:00:16,000
+I know everything about them.
+
+5
+00:00:16,000 --> 00:00:18,000
+I built my own REST APIs.
+
+6
+00:00:18,000 --> 00:00:21,000
+I don't want to again document my REST APIs.
+
+7
+00:00:21,000 --> 00:00:28,000
+To some extent you can live with that argument, but as soon as you start exposing your REST APIs and
+
+8
+00:00:28,000 --> 00:00:35,000
+microservices for external agencies or to some other team inside your organization who are supposed
+
+9
+00:00:35,000 --> 00:00:41,000
+to consume your microservices or REST APIs, think like there is an UI team or there is a mobile application
+
+10
+00:00:41,000 --> 00:00:41,000
+team.
+
+11
+00:00:41,000 --> 00:00:46,000
+They want to consume your backend logic with the help of your REST APIs or microservice.
+
+12
+00:00:46,000 --> 00:00:49,000
+These kind of scenarios, they will have lot, many questions.
+
+13
+00:00:49,000 --> 00:00:53,000
+The questions are like what is the request format that you are going to accept?
+
+14
+00:00:53,000 --> 00:00:55,000
+What is the response format that they are going to receive?
+
+15
+00:00:55,000 --> 00:00:58,000
+What are the validations that you have enforced inside your REST APIs?
+
+16
+00:00:58,000 --> 00:01:04,000
+To some extent you can answer these questions by scheduling a meeting, and inside the meeting you can
+
+17
+00:01:04,000 --> 00:01:09,000
+discuss everything about your REST APIs and you think you are good with that.
+
+18
+00:01:09,000 --> 00:01:13,000
+But in long run, think about the pain process that you have to go through.
+
+19
+00:01:13,000 --> 00:01:19,000
+If more and more third party applications are more and more other developers, they are trying to consume
+
+20
+00:01:19,000 --> 00:01:23,000
+your REST APIs and even you may receive such requests from the testing team
+
+21
+00:01:23,000 --> 00:01:24,000
+also. What is the request format?
+
+22
+00:01:24,000 --> 00:01:26,000
+What is the response format?
+
+23
+00:01:26,000 --> 00:01:27,000
+What is the validations that you have?
+
+24
+00:01:27,000 --> 00:01:33,000
+So all these questions will make your life tough and you need to repeat and share this information every
+
+25
+00:01:33,000 --> 00:01:34,000
+time someone asks you.
+
+26
+00:01:34,000 --> 00:01:40,000
+Instead, it will be a good idea to document our REST APIs by following a industry standard.
+
+27
+00:01:40,000 --> 00:01:43,000
+Let's try to understand how to document our REST APIs.
+
+28
+00:01:43,000 --> 00:01:47,000
+The standards that we need to follow here is Open API specification.
+
+29
+00:01:47,000 --> 00:01:56,000
+Open API is a open source community who maintain how to document our Http APIs like REST APIs that provides
+
+30
+00:01:56,000 --> 00:02:00,000
+a standardized means to define your API to others.
+
+31
+00:02:00,000 --> 00:02:06,000
+So whoever is trying to consume your REST APIs or whoever is trying to test your REST APIs, they can
+
+32
+00:02:06,000 --> 00:02:09,000
+quickly discover how an API works.
+
+33
+00:02:09,000 --> 00:02:14,000
+They can configure infrastructure, they can also generate client code, server code and create test
+
+34
+00:02:14,000 --> 00:02:16,000
+cases from your APIs quickly.
+
+35
+00:02:16,000 --> 00:02:22,000
+Whenever you document your REST APIs by using these open API specification. Here you might be under
+
+36
+00:02:22,000 --> 00:02:28,000
+the assumption this is a very complex task and to document my REST service it need a lot of time.
+
+37
+00:02:28,000 --> 00:02:29,000
+That's not correct.
+
+38
+00:02:29,000 --> 00:02:31,000
+It is going to be super, super easy.
+
+39
+00:02:31,000 --> 00:02:35,000
+With the help of the library called Spring Doc Open API.
+
+40
+00:02:35,000 --> 00:02:42,000
+If you go to this website which is springdoc.org, it has all the details and it has all the steps
+
+41
+00:02:42,000 --> 00:02:47,000
+that you need to follow to get started with documentation of our REST APIs.
+
+42
+00:02:47,000 --> 00:02:50,000
+oSo let's try to explore more about these springdoc-openapi.
+
+43
+00:02:50,000 --> 00:02:57,000
+If you can scroll down, there is a getting started page where you can simply add a maven dependency
+
+44
+00:02:57,000 --> 00:03:02,000
+into your spring boot web application or microservice web application.
+
+45
+00:03:02,000 --> 00:03:08,000
+And behind the scenes it is going to scan all your REST APIs and prepare the documentation for your
+
+46
+00:03:08,000 --> 00:03:11,000
+rest APIs based upon the open API specification.
+
+47
+00:03:11,000 --> 00:03:19,000
+And it is also going to provide you an swagger UI using which anyone can understand your REST
+
+48
+00:03:19,000 --> 00:03:24,000
+APIs, the details about your REST APIs and the validations that you have enforced everything.
+
+49
+00:03:24,000 --> 00:03:31,000
+As a next step, let's try to add this dependency into our pom.xml, let me copy this dependency and this
+
+50
+00:03:31,000 --> 00:03:37,000
+dependency is going to work only if you are using a spring boot version which is greater than or equal
+
+51
+00:03:37,000 --> 00:03:38,000
+to 3.0.
+
+52
+00:03:38,000 --> 00:03:44,000
+For some reason, if you are building your microservice with an older version of spring boot, then
+
+53
+00:03:44,000 --> 00:03:51,000
+you need to use a different version of Openapi specification, which is spring.openapi v1.7.0.
+
+54
+00:03:51,000 --> 00:03:57,000
+So you can see this version is going to support all the spring boot versions, which has a version of
+
+55
+00:03:57,000 --> 00:03:59,000
+2.x and 1.x.
+
+56
+00:03:59,000 --> 00:04:06,000
+Since we are using a spring boot three c.x version, we need to make sure we are using this dependency.
+
+57
+00:04:06,000 --> 00:04:15,000
+So let me take this and I'll go to the pom.xml inside my pom.xml just after this Lombok related dependency,
+
+58
+00:04:15,000 --> 00:04:23,000
+I'm going to add my new dependency related to springdoc-openapi-starter-webmvc-ui.
+
+59
+00:04:23,000 --> 00:04:28,000
+Please make sure you are validating this version number with the code present inside the GitHub repo.
+
+60
+00:04:28,000 --> 00:04:29,000
+In future,
+
+61
+00:04:29,000 --> 00:04:31,000
+If there is a new version released for spring doc Openapi.
+
+62
+00:04:32,000 --> 00:04:34,000
+I'm going to update the same inside the GitHub repo.
+
+63
+00:04:34,000 --> 00:04:40,000
+So once we add this dependency please load the maven changes which will download these new dependencies
+
+64
+00:04:40,000 --> 00:04:41,000
+that we have added.
+
+65
+00:04:41,000 --> 00:04:43,000
+With this we should be good,
+
+66
+00:04:43,000 --> 00:04:46,000
+let me save these changes and do a build.
+
+67
+00:04:46,000 --> 00:04:51,000
+Once the build is completed, we can try to start our application.
+
+68
+00:04:51,000 --> 00:04:56,000
+Since we added a new dependency, please make sure you are restarting your application.
+
+69
+00:04:56,000 --> 00:04:59,000
+So let me click on this debug icon that I have here.
+
+70
+00:04:59,000 --> 00:05:03,000
+Which will start my application at the default port
+
+71
+00:05:03,000 --> 00:05:04,000
+8080.
+
+72
+00:05:04,000 --> 00:05:07,000
+So as a developer, I have not done anything.
+
+73
+00:05:07,000 --> 00:05:12,000
+I simply added a springdock-openapi dependency inside our pom.xml.
+
+74
+00:05:12,000 --> 00:05:16,000
+So now let's try to see the magic that it is going to do behind the scenes.
+
+75
+00:05:16,000 --> 00:05:24,000
+I'm trying to open a path which is localhost:8080/swagger-ui/index.html.
+
+76
+00:05:24,000 --> 00:05:30,000
+So as soon as I tried to access this page, you can see this is a beautiful documentation about my REST
+
+77
+00:05:30,000 --> 00:05:37,000
+APIs that I have built inside the AccountsMicroservice, the server URL populated from the root of
+
+78
+00:05:37,000 --> 00:05:38,000
+our application.
+
+79
+00:05:38,000 --> 00:05:41,000
+So you can see inside AccountsController.
+
+80
+00:05:41,000 --> 00:05:48,000
+We have defined four different type of REST APIs and these are the REST API paths for all of these APIs
+
+81
+00:05:48,000 --> 00:05:50,000
+that we have inside controller.
+
+82
+00:05:50,000 --> 00:05:54,000
+This supports put operations similarly post, get and delete operation.
+
+83
+00:05:54,000 --> 00:06:00,000
+If you try to open these any of these operation, you will be able to see here that for the put operation
+
+84
+00:06:00,000 --> 00:06:06,000
+there are no parameters which is going to accept it is only going to accept a body which is a mandatory
+
+85
+00:06:06,000 --> 00:06:08,000
+and it is going to accept a Json type.
+
+86
+00:06:08,000 --> 00:06:11,000
+And this is the format that it is going to accept.
+
+87
+00:06:11,000 --> 00:06:16,000
+Someone has to send what is the name, what is the email, what is the mobile number, what is the account
+
+88
+00:06:16,000 --> 00:06:18,000
+number, account type and branch address.
+
+89
+00:06:18,000 --> 00:06:25,000
+By using an separate embedded object which is AccountsDto, you can also click on the schema which
+
+90
+00:06:25,000 --> 00:06:28,000
+will show you the input object schema.
+
+91
+00:06:28,000 --> 00:06:34,000
+If you recall, inside our update operation, we are using CustomerDto as an input object.
+
+92
+00:06:34,000 --> 00:06:37,000
+The same is getting reflected here.
+
+93
+00:06:37,000 --> 00:06:42,000
+Like the name is going to be mandatory and it has a min length and a max based upon our annotations
+
+94
+00:06:42,000 --> 00:06:49,000
+that we have defined and email is going to be mandatory for mobile number the patent is going to support
+
+95
+00:06:49,000 --> 00:06:54,000
+is this is a pattern and similarly it has an embedded object with the name account and it has so many
+
+96
+00:06:54,000 --> 00:06:55,000
+other inner fields.
+
+97
+00:06:55,000 --> 00:07:00,000
+So all this information is coming from our DTO object.
+
+98
+00:07:00,000 --> 00:07:07,000
+If you can open the any of the object like AccountsDto or CustomerDto inside these DTOs, we have
+
+99
+00:07:07,000 --> 00:07:12,000
+defined all these annotations using which we are trying to perform input validations.
+
+100
+00:07:12,000 --> 00:07:19,000
+The same information is being converted into the documentation so that anyone right now can understand
+
+101
+00:07:19,000 --> 00:07:23,000
+about my REST APIs so they will know which fields are mandatory, what is the format, what are the
+
+102
+00:07:23,000 --> 00:07:25,000
+validations that we have?
+
+103
+00:07:25,000 --> 00:07:30,000
+And very similarly, they will also know what is the response they can expect when these operation invocation
+
+104
+00:07:30,000 --> 00:07:31,000
+is successful.
+
+105
+00:07:31,000 --> 00:07:35,000
+Like for this update operation, we are going to return a code 200 with the description
+
+106
+00:07:35,000 --> 00:07:36,000
+okay.
+
+107
+00:07:36,000 --> 00:07:40,000
+And the ResponseBody going to have statusCode and statusMessage.
+
+108
+00:07:40,000 --> 00:07:46,000
+So very similarly, you can also validate post operation, which is going to accept a schema of type
+
+109
+00:07:46,000 --> 00:07:52,000
+CustomerDto and here also we are going to return a sample status code and status message.
+
+110
+00:07:52,000 --> 00:07:58,000
+Now coming to the API fetch, which is a get operation for these, we are going to accept the request
+
+111
+00:07:58,000 --> 00:08:02,000
+with the help of a query param which is of type mobile number and mandatory.
+
+112
+00:08:02,000 --> 00:08:04,000
+And you can see this is a mobile number.
+
+113
+00:08:04,000 --> 00:08:08,000
+And very similarly we also have the what is the response format.
+
+114
+00:08:08,000 --> 00:08:09,000
+Here the response format,
+
+115
+00:08:09,000 --> 00:08:16,000
+you can see we are going to send with the help of the schema, which is CustomerDto and the same example
+
+116
+00:08:16,000 --> 00:08:17,000
+structure is populated here.
+
+117
+00:08:17,000 --> 00:08:19,000
+Very similarly for delete
+
+118
+00:08:19,000 --> 00:08:23,000
+also we are going to accept a query param with the name mobile number and the response is going to be
+
+119
+00:08:23,000 --> 00:08:26,000
+simply status code and status message.
+
+120
+00:08:26,000 --> 00:08:31,000
+Towards the end you are going to see a schema section where you can see all the request and response
+
+121
+00:08:31,000 --> 00:08:36,000
+objects that your Rest API is going to use inside a microservice.
+
+122
+00:08:36,000 --> 00:08:42,000
+So here AccountsDto we know what is the structure and similarly CustomerDto we know what is the structure.
+
+123
+00:08:42,000 --> 00:08:43,000
+And ResponseDto
+
+124
+00:08:43,000 --> 00:08:45,000
+we also know what is a structure.
+
+125
+00:08:45,000 --> 00:08:52,000
+So based upon all these documentation, anyone can easily understand about my REST APIs, you can simply
+
+126
+00:08:52,000 --> 00:08:54,000
+give this URL to them.
+
+127
+00:08:54,000 --> 00:08:56,000
+They can analyze if needed.
+
+128
+00:08:56,000 --> 00:09:02,000
+They can also use this try it out option here like they can directly test by sending some mobile number
+
+129
+00:09:02,000 --> 00:09:04,000
+and clicking on execute.
+
+130
+00:09:04,000 --> 00:09:10,000
+They'll get a response saying that so-and-so is invalid because there is no customer found with a given
+
+131
+00:09:10,000 --> 00:09:15,000
+input mobile so they can actually test from this page itself on a high level.
+
+132
+00:09:15,000 --> 00:09:19,000
+You can see there are many advantages documenting your REST APIs.
+
+133
+00:09:19,000 --> 00:09:25,000
+So this is enough to get started with the documentation of your REST APIs and microservices.
+
+134
+00:09:25,000 --> 00:09:31,000
+So please, please make sure at least your documenting by simply adding this maven dependency inside
+
+135
+00:09:31,000 --> 00:09:32,000
+your microservices.
+
+136
+00:09:32,000 --> 00:09:38,000
+I see many times even senior developers, they ignore this important step and they will struggle a lot
+
+137
+00:09:38,000 --> 00:09:43,000
+when they deploy their microservices into production and someone is trying to consume their services.
+
+138
+00:09:43,000 --> 00:09:48,000
+After going through all this pain process, they will come to know about this open API specification
+
+139
+00:09:48,000 --> 00:09:49,000
+and swaggerui.
+
+140
+00:09:49,000 --> 00:09:52,000
+Then only they are going to add these dependency.
+
+141
+00:09:52,000 --> 00:09:54,000
+You don't have to follow that pain process.
+
+142
+00:09:54,000 --> 00:09:55,000
+You are my student.
+
+143
+00:09:55,000 --> 00:09:59,000
+You are taking this course and you have that advantage and you have all the
+
+144
+00:09:59,000 --> 00:10:01,000
+knowledge how to achieve this.
+
+145
+00:10:01,000 --> 00:10:04,000
+So this is a very quick way of getting started.
+
+146
+00:10:04,000 --> 00:10:09,000
+But sometimes we want to be more professional about our spring boot REST API documentation.
+
+147
+00:10:09,000 --> 00:10:12,000
+Like you can see a lot of information is missing.
+
+148
+00:10:12,000 --> 00:10:18,000
+Like we are displaying all technical information like controller name and similarly we are displaying
+
+149
+00:10:18,000 --> 00:10:24,000
+the CustomerDto, which is a technical name of our object and there are no example values
+
+150
+00:10:24,000 --> 00:10:29,000
+like we are just saying the name can be String, email can be String, AccountType can be a String branch
+
+151
+00:10:29,000 --> 00:10:30,000
+address can be a String.
+
+152
+00:10:30,000 --> 00:10:33,000
+We are not providing any example data to the clients.
+
+153
+00:10:33,000 --> 00:10:38,000
+When you provide the example data, it will be more clear to the developers and client applications
+
+154
+00:10:38,000 --> 00:10:41,000
+who are trying to consume your REST APIs.
+
+155
+00:10:41,000 --> 00:10:46,000
+That's why we should use few of the annotations available inside the Spring Doc Open API Library.
+
+156
+00:10:46,000 --> 00:10:48,000
+Using these annotations
+
+157
+00:10:48,000 --> 00:10:55,000
+we can try to enhance this documentation further and will make it look very professional and production
+
+158
+00:10:55,000 --> 00:10:55,000
+ready.
+
+159
+00:10:55,000 --> 00:10:58,000
+So that's a target that we have for the next lecture.
+
+160
+00:10:58,000 --> 00:11:00,000
+I hope you are enjoying this.
+
+161
+00:11:00,000 --> 00:11:02,000
+Thank you and I'll catch you in the next lecture bye.
+

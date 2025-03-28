@@ -1,0 +1,1072 @@
+1
+00:00:00,000 --> 00:00:04,000
+I hope you are successful at building the loans and cards microservice.
+
+2
+00:00:04,000 --> 00:00:05,000
+If not, don't worry.
+
+3
+00:00:05,000 --> 00:00:11,000
+I'm going to explain about these microservices very quickly inside this lecture, but please download
+
+4
+00:00:11,000 --> 00:00:17,000
+the code from the GitHub repo and set up the same inside your IDE as well, so that at least you can
+
+5
+00:00:17,000 --> 00:00:20,000
+test these microservices with the help of postman.
+
+6
+00:00:20,000 --> 00:00:25,000
+By passing some input and validating all the operations are working or not.
+
+7
+00:00:25,000 --> 00:00:29,000
+Inside this lecture, first I'm going to explain you loans microservice first.
+
+8
+00:00:29,000 --> 00:00:31,000
+Like you can see inside the palm Dot XML.
+
+9
+00:00:31,000 --> 00:00:38,000
+I have followed all the same naming conventions like I have used this version and group ID is com dot
+
+10
+00:00:38,000 --> 00:00:38,000
+easy bytes.
+
+11
+00:00:38,000 --> 00:00:44,000
+Artifact ID for loans is loans, whereas for accounts we have used as accounts and the name is also
+
+12
+00:00:44,000 --> 00:00:45,000
+going to be loans.
+
+13
+00:00:45,000 --> 00:00:46,000
+And this is the description.
+
+14
+00:00:46,000 --> 00:00:48,000
+And I have used Java 17 version.
+
+15
+00:00:48,000 --> 00:00:55,000
+And you can see I have used the same maven dependencies like actuator spring data, JPA starter validation,
+
+16
+00:00:55,000 --> 00:01:02,000
+spring boot starter, web dev tools, H2 database project, Lombok and the class we have Spring Doc,
+
+17
+00:01:02,000 --> 00:01:07,000
+OpenAPI Starter Project and by default you will get the Spring Boot Starter Test whenever you are trying
+
+18
+00:01:07,000 --> 00:01:09,000
+to create a Spring Boot Web application.
+
+19
+00:01:09,000 --> 00:01:15,000
+So post this we can go to the application dot Yaml to validate the H2 related changes.
+
+20
+00:01:15,000 --> 00:01:21,000
+So inside the application dot Yaml for loans, please make sure you are using the port 8090 throughout
+
+21
+00:01:21,000 --> 00:01:25,000
+this course for loans, the port we are going to use is 8090.
+
+22
+00:01:25,000 --> 00:01:28,000
+That's why please don't try to give different port number.
+
+23
+00:01:28,000 --> 00:01:34,000
+Otherwise you may need to change lot many configurations, docker files, Kubernetes files in the coming
+
+24
+00:01:34,000 --> 00:01:34,000
+sections.
+
+25
+00:01:34,000 --> 00:01:40,000
+And we have provided the H2 related properties like what is the URL driver class name, user name,
+
+26
+00:01:40,000 --> 00:01:47,000
+password is to console enabled as true and database platform as H2 dialect and DDL auto as update and
+
+27
+00:01:47,000 --> 00:01:49,000
+show SQL as true.
+
+28
+00:01:49,000 --> 00:01:54,000
+This week, everything copied from accounts microservice only the port number will change, which is
+
+29
+00:01:54,000 --> 00:01:55,000
+8090.
+
+30
+00:01:55,000 --> 00:01:57,000
+Now I'm opening the schema dot SQL.
+
+31
+00:01:57,000 --> 00:02:00,000
+You can see inside loans microservice.
+
+32
+00:02:00,000 --> 00:02:03,000
+I'm going to have only single table with the name loans.
+
+33
+00:02:03,000 --> 00:02:09,000
+The reason why I'm not creating a customer table is I already created a customer table inside the accounts
+
+34
+00:02:09,000 --> 00:02:10,000
+microservice.
+
+35
+00:02:10,000 --> 00:02:15,000
+What I'm going to do is inside all the microservices, I'm going to have a mobile number and using the
+
+36
+00:02:15,000 --> 00:02:20,000
+same mobile number of the customer which is created inside the accounts microservice, we can create
+
+37
+00:02:20,000 --> 00:02:21,000
+a loans record.
+
+38
+00:02:21,000 --> 00:02:24,000
+We can also create a cards record inside the cards microservice.
+
+39
+00:02:24,000 --> 00:02:30,000
+So you can see the structure of this loans database table is the loan ID is going to be primary key.
+
+40
+00:02:30,000 --> 00:02:36,000
+Post that mobile number followed by what is the loan number which we are going to generate using a business
+
+41
+00:02:36,000 --> 00:02:36,000
+logic.
+
+42
+00:02:36,000 --> 00:02:37,000
+What is the loan type?
+
+43
+00:02:37,000 --> 00:02:39,000
+What is the total loan amount?
+
+44
+00:02:39,000 --> 00:02:41,000
+What is the amount paid so far?
+
+45
+00:02:41,000 --> 00:02:42,000
+What is the outstanding amount.
+
+46
+00:02:42,000 --> 00:02:45,000
+And these are the four metadata columns.
+
+47
+00:02:45,000 --> 00:02:50,000
+Now for this database table we need to create the JPA entities and repositories.
+
+48
+00:02:50,000 --> 00:02:53,000
+If you can open these entity package.
+
+49
+00:02:53,000 --> 00:02:58,000
+As usual there is a base entity class with all the metadata related columns.
+
+50
+00:02:58,000 --> 00:03:04,000
+And along with that I have also mentioned the auditing related columns like created at created by last
+
+51
+00:03:04,000 --> 00:03:06,000
+modified date and last modified by.
+
+52
+00:03:06,000 --> 00:03:09,000
+So next I'll go to the loans entity.
+
+53
+00:03:09,000 --> 00:03:12,000
+So inside this loans entity very similar to accounts.
+
+54
+00:03:12,000 --> 00:03:14,000
+This is also going to extend base entity.
+
+55
+00:03:14,000 --> 00:03:21,000
+And since loan ID we decided to have as an primary key, we are giving this responsibility of generating
+
+56
+00:03:21,000 --> 00:03:24,000
+the primary key value every time to the Spring Data JPA framework.
+
+57
+00:03:24,000 --> 00:03:27,000
+That's why we need to mention these two annotations.
+
+58
+00:03:27,000 --> 00:03:32,000
+And with the help of this update ID, we are making sure this is acting as a primary key and post that
+
+59
+00:03:32,000 --> 00:03:38,000
+these are the fields representing each of the column inside that database, and I have not used at the
+
+60
+00:03:38,000 --> 00:03:42,000
+date column because the field names and the column names are matching that reason.
+
+61
+00:03:42,000 --> 00:03:45,000
+We don't have to mention the other date column annotation.
+
+62
+00:03:45,000 --> 00:03:50,000
+As a next step, we need to make sure we are creating details for these entities.
+
+63
+00:03:50,000 --> 00:03:55,000
+So like you can see error response data which is very similar to accounts coming to the loans DTO.
+
+64
+00:03:55,000 --> 00:04:01,000
+Inside this we have fields like mobile number, loan number, loan type, total loan amount paid and
+
+65
+00:04:01,000 --> 00:04:02,000
+outstanding amount.
+
+66
+00:04:02,000 --> 00:04:08,000
+Since I don't want to expose the primary key column which is loan ID, that's why I have not mentioned
+
+67
+00:04:08,000 --> 00:04:11,000
+the loan ID related field inside the duo.
+
+68
+00:04:11,000 --> 00:04:16,000
+I only want to send business related information, but not technical information to my clients.
+
+69
+00:04:16,000 --> 00:04:19,000
+That's one of the advantage that we have with the duo pattern.
+
+70
+00:04:19,000 --> 00:04:25,000
+Apart from these fields, you can also observe that I have also used the open API specification related
+
+71
+00:04:25,000 --> 00:04:30,000
+annotations like other schema and very similarly, I have also mentioned validations with the help of
+
+72
+00:04:30,000 --> 00:04:32,000
+annotations like not empty pattern.
+
+73
+00:04:32,000 --> 00:04:38,000
+And here there are new annotations like at the rate positive, which will make sure we are accepting
+
+74
+00:04:38,000 --> 00:04:39,000
+only positive numbers.
+
+75
+00:04:39,000 --> 00:04:43,000
+Even zero also is not allowed whenever you are using positive and very.
+
+76
+00:04:43,000 --> 00:04:47,000
+Similarly, we also have an annotation with the name positive or zero.
+
+77
+00:04:47,000 --> 00:04:53,000
+Whenever we are using this validation annotation, that means we are okay to accept zero and greater
+
+78
+00:04:53,000 --> 00:04:55,000
+than zero values, but not the negative numbers.
+
+79
+00:04:55,000 --> 00:04:57,000
+I hope you are clear after this.
+
+80
+00:04:57,000 --> 00:05:00,000
+As usual, we need to go to the country.
+
+81
+00:05:00,000 --> 00:05:02,000
+Class inside the controller class.
+
+82
+00:05:02,000 --> 00:05:07,000
+First, I make sure I have used the accurate Rest controller annotation, followed by what is the request
+
+83
+00:05:07,000 --> 00:05:08,000
+mapping for this?
+
+84
+00:05:08,000 --> 00:05:13,000
+Also, the prefix is going to be API and these APIs are also going to produce Json format.
+
+85
+00:05:13,000 --> 00:05:19,000
+After that you can see I have injected loan service related been into this controller and there are
+
+86
+00:05:19,000 --> 00:05:21,000
+four different APIs.
+
+87
+00:05:21,000 --> 00:05:26,000
+Inside these controller class there is a create loan which will accept the mobile number based upon
+
+88
+00:05:26,000 --> 00:05:30,000
+the mobile number, it is going to create a new loan.
+
+89
+00:05:30,000 --> 00:05:35,000
+Please make sure you are giving the same mobile number that you have used for accounts micro service.
+
+90
+00:05:35,000 --> 00:05:40,000
+Because in coming sections using the same mobile number, we are going to fetch all the records present
+
+91
+00:05:40,000 --> 00:05:42,000
+inside the accounts, loans and cards.
+
+92
+00:05:42,000 --> 00:05:47,000
+Micro service by using various concepts available inside the Spring Cloud project.
+
+93
+00:05:47,000 --> 00:05:49,000
+So this is the story of Create Loan.
+
+94
+00:05:49,000 --> 00:05:52,000
+Now coming to the fetch loan details using the mobile number.
+
+95
+00:05:52,000 --> 00:05:57,000
+It is going to fetch the loan details from the database, and it is going to return the same to the
+
+96
+00:05:57,000 --> 00:05:59,000
+client application and post that.
+
+97
+00:05:59,000 --> 00:06:03,000
+We also have update operation with the name update loan details.
+
+98
+00:06:03,000 --> 00:06:07,000
+And this is going to accept a loan studio as an request body.
+
+99
+00:06:07,000 --> 00:06:12,000
+And using these all the loans details will be updated in the database.
+
+100
+00:06:12,000 --> 00:06:16,000
+And once the update operation is successful, we are going to return 200.
+
+101
+00:06:16,000 --> 00:06:23,000
+Otherwise we are going to return the status as expectation failed with the status 417 and the corresponding
+
+102
+00:06:23,000 --> 00:06:23,000
+message.
+
+103
+00:06:23,000 --> 00:06:29,000
+And at last we also have delete operation with the name delete loan details that is going to accept
+
+104
+00:06:29,000 --> 00:06:34,000
+mobile number as the input and based upon the input, we are going to fetch the loan details and delete
+
+105
+00:06:34,000 --> 00:06:35,000
+them.
+
+106
+00:06:35,000 --> 00:06:39,000
+Once the delete operation is successful, we are going to send the 200 response.
+
+107
+00:06:39,000 --> 00:06:45,000
+Apart from this business logic, I'm also assuming you observe these OpenAPI specification related annotations
+
+108
+00:06:45,000 --> 00:06:48,000
+like API response operation.
+
+109
+00:06:48,000 --> 00:06:53,000
+So this is going to be very similar to what we have discussed for Accounts Micro Service only.
+
+110
+00:06:53,000 --> 00:06:58,000
+Make sure you are changing the summary description which is specific to Loans Micro service.
+
+111
+00:06:58,000 --> 00:07:02,000
+As a next step, let's go to the loan service impl.
+
+112
+00:07:02,000 --> 00:07:09,000
+So here I'm going to open the I'm p l and this implementation class is going to implement an interface
+
+113
+00:07:09,000 --> 00:07:11,000
+which is I loan service.
+
+114
+00:07:11,000 --> 00:07:13,000
+And this is very similar to I account service.
+
+115
+00:07:13,000 --> 00:07:18,000
+So it has four methods like create loan fetch loan update loan and delete loan.
+
+116
+00:07:18,000 --> 00:07:23,000
+So these abstract methods we have implemented inside these implementation class.
+
+117
+00:07:23,000 --> 00:07:26,000
+And for this class we have auto add the loans repository.
+
+118
+00:07:26,000 --> 00:07:32,000
+If you go and check the loans repository here we have defined two custom methods like find by mobile
+
+119
+00:07:32,000 --> 00:07:34,000
+number and find by loan number.
+
+120
+00:07:34,000 --> 00:07:38,000
+Like you know the primary key inside the loans is loan ID.
+
+121
+00:07:38,000 --> 00:07:43,000
+So whenever we have such scenarios where we want to fetch loan records based upon mobile number and
+
+122
+00:07:43,000 --> 00:07:48,000
+loan number, we need to make sure we are using these custom methods that we have defined inside the
+
+123
+00:07:48,000 --> 00:07:49,000
+loans repository.
+
+124
+00:07:49,000 --> 00:07:51,000
+Now going to the loan service.
+
+125
+00:07:51,000 --> 00:07:52,000
+Simple.
+
+126
+00:07:52,000 --> 00:07:55,000
+Here we have create loan and inside this create loan.
+
+127
+00:07:55,000 --> 00:08:00,000
+First we are trying to understand if there are any existing loan details with the given mobile number.
+
+128
+00:08:00,000 --> 00:08:01,000
+If there is any.
+
+129
+00:08:01,000 --> 00:08:06,000
+We are throwing an business exception which is loan already exists exception.
+
+130
+00:08:06,000 --> 00:08:09,000
+So this is very similar to accounts already exist.
+
+131
+00:08:09,000 --> 00:08:09,000
+Exception.
+
+132
+00:08:09,000 --> 00:08:15,000
+If there is no loan available with a given mobile number, we are going to create a new loan by calling
+
+133
+00:08:15,000 --> 00:08:16,000
+the save method.
+
+134
+00:08:16,000 --> 00:08:21,000
+And to this save method we are invoking this create new loan method where all the details for the new
+
+135
+00:08:21,000 --> 00:08:23,000
+loans is going to be populated.
+
+136
+00:08:23,000 --> 00:08:28,000
+You can see I'm generating a random two digit number here, because that I'm setting the same loan number
+
+137
+00:08:28,000 --> 00:08:32,000
+to the loan object, followed by what is the mobile number?
+
+138
+00:08:32,000 --> 00:08:33,000
+What is the loan type?
+
+139
+00:08:33,000 --> 00:08:38,000
+By default, I'm setting the loan type as home loan and the total loan by default I'm trying to give
+
+140
+00:08:38,000 --> 00:08:41,000
+100 K dollar or 100 K whatever currency you are using.
+
+141
+00:08:41,000 --> 00:08:47,000
+I'm not sure if you are aware of this format where we can use underscore inside numerical values.
+
+142
+00:08:47,000 --> 00:08:51,000
+This is a new feature that got introduced in Java seven or Java eight.
+
+143
+00:08:51,000 --> 00:08:55,000
+So to improve the readability we can mention underscore values like this.
+
+144
+00:08:55,000 --> 00:09:01,000
+But behind the scenes, when my JVM is trying to convert these Java code into byte code, it is going
+
+145
+00:09:01,000 --> 00:09:03,000
+to remove these underscore values.
+
+146
+00:09:03,000 --> 00:09:07,000
+This is amounts that I'm trying to provide for the total loan amount.
+
+147
+00:09:07,000 --> 00:09:14,000
+And initially the amount paid is going to be zero and outstanding amount will be 100 K -0 which will
+
+148
+00:09:14,000 --> 00:09:16,000
+be the same which is new loan amount.
+
+149
+00:09:16,000 --> 00:09:20,000
+So once the loan is created, save operation will be successful.
+
+150
+00:09:20,000 --> 00:09:26,000
+And if you go and observe right now which loan method here based upon the mobile number, we are trying
+
+151
+00:09:26,000 --> 00:09:27,000
+to fetch the loan details.
+
+152
+00:09:27,000 --> 00:09:34,000
+If there is no loan details we are throwing resource not found exception, but if there is a loan available
+
+153
+00:09:34,000 --> 00:09:41,000
+we are going to get the object the entity object form, but we need to convert that into a duo form.
+
+154
+00:09:41,000 --> 00:09:46,000
+That's why I'm using these loans mapper class and invoking these map to loans DTO.
+
+155
+00:09:46,000 --> 00:09:53,000
+So just like how we have accounts mapper very similarly here also we have these map methods which is
+
+156
+00:09:53,000 --> 00:09:57,000
+going to accept loans entity and it is going to convert to loans duo.
+
+157
+00:09:57,000 --> 00:09:59,000
+So this way the fetch loan is going to work.
+
+158
+00:10:00,000 --> 00:10:01,000
+And coming to the update loan.
+
+159
+00:10:01,000 --> 00:10:06,000
+We are trying to fetch the loan details with the help of a loan number.
+
+160
+00:10:06,000 --> 00:10:11,000
+Since loan number cannot be changed, we are trying to fetch the details with the help of loan number.
+
+161
+00:10:11,000 --> 00:10:15,000
+Once we fetch the details, we will try to convert that into loans.
+
+162
+00:10:15,000 --> 00:10:19,000
+Entity object with the help of this mapper map to loans.
+
+163
+00:10:19,000 --> 00:10:26,000
+So the input is going to be the result DTO and the destination object is going to be whatever we fetched
+
+164
+00:10:26,000 --> 00:10:28,000
+from the database with the help of loan number.
+
+165
+00:10:28,000 --> 00:10:33,000
+If you are not able to identify any records, we are going to throw these resource not found exception.
+
+166
+00:10:33,000 --> 00:10:39,000
+At last we are going to invoke the save method, since there is already an record inside the database
+
+167
+00:10:39,000 --> 00:10:44,000
+with the given primary key value, the same method internally is going to do the update operation instead
+
+168
+00:10:44,000 --> 00:10:46,000
+of insert operation.
+
+169
+00:10:46,000 --> 00:10:52,000
+At last, we are going to return a boolean with the value true and delete loan is going to be super,
+
+170
+00:10:52,000 --> 00:10:52,000
+super simple.
+
+171
+00:10:52,000 --> 00:10:55,000
+First, we are trying to fetch based upon the mobile number.
+
+172
+00:10:55,000 --> 00:10:58,000
+If there is no record, we are throwing resource not found exception.
+
+173
+00:10:58,000 --> 00:11:04,000
+But if there is a loan record we are trying to delete by ID and to this delete by ID, we are passing
+
+174
+00:11:04,000 --> 00:11:06,000
+the what is the primary key value.
+
+175
+00:11:06,000 --> 00:11:12,000
+And this primary key value is loan ID, which we fetched from the database by using the find by mobile
+
+176
+00:11:12,000 --> 00:11:13,000
+number method.
+
+177
+00:11:13,000 --> 00:11:18,000
+This way we implemented all the business logic and all the packages are similar.
+
+178
+00:11:18,000 --> 00:11:24,000
+There is a very simple which is going to insert the order name as loans underscore microservice, and
+
+179
+00:11:24,000 --> 00:11:27,000
+there is a constant file with all the relevant constant fields.
+
+180
+00:11:27,000 --> 00:11:33,000
+And we also have exception package where we have global exception handler where we have tried to handle
+
+181
+00:11:33,000 --> 00:11:37,000
+all the input validation failures runtime exceptions with this exception handler.
+
+182
+00:11:37,000 --> 00:11:41,000
+So most of the stuff is very similar to accounts microservice.
+
+183
+00:11:41,000 --> 00:11:43,000
+And I hope it is very, very clear to you.
+
+184
+00:11:43,000 --> 00:11:46,000
+Now as a next step I can go to the loans application.
+
+185
+00:11:46,000 --> 00:11:49,000
+This is my main spring boot class.
+
+186
+00:11:49,000 --> 00:11:53,000
+You can also see that there is a Spring Boot application annotation here.
+
+187
+00:11:53,000 --> 00:11:56,000
+I will try to start the application in a debug mode.
+
+188
+00:11:56,000 --> 00:12:01,000
+Once the application is started in a debug mode, we can go to the postman and we can try to validate
+
+189
+00:12:01,000 --> 00:12:03,000
+the Rest APIs of loans.
+
+190
+00:12:03,000 --> 00:12:04,000
+Microservice.
+
+191
+00:12:04,000 --> 00:12:08,000
+Do you know at what point my application is going to start?
+
+192
+00:12:08,000 --> 00:12:10,000
+It is going to start at the port 8090.
+
+193
+00:12:10,000 --> 00:12:13,000
+This is what we have followed for the loans microservice.
+
+194
+00:12:13,000 --> 00:12:15,000
+Now I'm onto the postman.
+
+195
+00:12:15,000 --> 00:12:19,000
+Like I said before, you can always import the collection from the GitHub repo.
+
+196
+00:12:19,000 --> 00:12:26,000
+If you import the collection by using this file import option, you will get an collection with the
+
+197
+00:12:26,000 --> 00:12:27,000
+name microservice.
+
+198
+00:12:27,000 --> 00:12:32,000
+And here open the loans folder and inside the loans folder you will be able to see very first one which
+
+199
+00:12:32,000 --> 00:12:33,000
+is create loan.
+
+200
+00:12:33,000 --> 00:12:40,000
+So this is a post operation and this is the API path like localhost 8090 API slash create.
+
+201
+00:12:40,000 --> 00:12:43,000
+And we are going to pass a query param with the mobile number value.
+
+202
+00:12:43,000 --> 00:12:48,000
+So like I said please make sure you are using the same mobile number in accounts loans and cards.
+
+203
+00:12:48,000 --> 00:12:50,000
+So there is no validation.
+
+204
+00:12:50,000 --> 00:12:52,000
+Please, please make sure you are trying to follow that.
+
+205
+00:12:52,000 --> 00:12:54,000
+This is just to make sure our life easy.
+
+206
+00:12:54,000 --> 00:13:00,000
+When you try to integrate all these microservices to get a combined response from all the microservices.
+
+207
+00:13:00,000 --> 00:13:02,000
+So I'm clicking on this send button.
+
+208
+00:13:02,000 --> 00:13:06,000
+You see, I got a response saying that 201 loan created successfully.
+
+209
+00:13:06,000 --> 00:13:10,000
+Now taking the same mobile number I'll go to the fetch loan details.
+
+210
+00:13:10,000 --> 00:13:13,000
+And this is a Get operation with the API path fetch.
+
+211
+00:13:13,000 --> 00:13:18,000
+And to this one I'm going to pass the same mobile number and I'm clicking on the send button.
+
+212
+00:13:18,000 --> 00:13:21,000
+And you'll be able to see this is the mobile number.
+
+213
+00:13:21,000 --> 00:13:22,000
+This is the loan type.
+
+214
+00:13:22,000 --> 00:13:24,000
+Total loan is 100 K.
+
+215
+00:13:24,000 --> 00:13:25,000
+Amount paid is zero.
+
+216
+00:13:25,000 --> 00:13:27,000
+Outstanding amount is 100 K.
+
+217
+00:13:27,000 --> 00:13:30,000
+So now I can take this body inside the response.
+
+218
+00:13:30,000 --> 00:13:32,000
+And I'll go to the update loan details.
+
+219
+00:13:32,000 --> 00:13:37,000
+And here I'm going to paste the body that I have pasted from the previous operation.
+
+220
+00:13:37,000 --> 00:13:39,000
+I'll try to change few details here.
+
+221
+00:13:39,000 --> 00:13:43,000
+Instead of home loan I'll say vehicle loan and amount paid.
+
+222
+00:13:43,000 --> 00:13:51,000
+I'll also make sure I'm mentioning some 10,000 here and outstanding amount obviously will be 90 K which
+
+223
+00:13:51,000 --> 00:13:52,000
+is 90,000.
+
+224
+00:13:52,000 --> 00:13:56,000
+Now if I try to click on the send button, you can see it is working perfectly.
+
+225
+00:13:56,000 --> 00:14:03,000
+If I try to go and fetch the loan details again, you can see this is the amount paid which is ten k
+
+226
+00:14:03,000 --> 00:14:05,000
+and outstanding amount is 90 k.
+
+227
+00:14:05,000 --> 00:14:08,000
+And loan type also is changed to vehicle loan.
+
+228
+00:14:08,000 --> 00:14:09,000
+So this is working perfectly.
+
+229
+00:14:09,000 --> 00:14:14,000
+Before I try to delete the loan details, let's test some negative scenarios like inside the update
+
+230
+00:14:14,000 --> 00:14:15,000
+loans.
+
+231
+00:14:15,000 --> 00:14:22,000
+If I try to give a negative amount for the total loans and amount paid and outstanding amount and low
+
+232
+00:14:22,000 --> 00:14:23,000
+number.
+
+233
+00:14:23,000 --> 00:14:27,000
+Also, I'll try to give some more than 12 digit number if I try to send it.
+
+234
+00:14:27,000 --> 00:14:33,000
+You can see I'm getting all the validation errors, so this is working perfectly even for the fetch
+
+235
+00:14:33,000 --> 00:14:33,000
+loan details.
+
+236
+00:14:33,000 --> 00:14:36,000
+I'll try to give some nine digit mobile number.
+
+237
+00:14:36,000 --> 00:14:37,000
+I'll get a validation error.
+
+238
+00:14:37,000 --> 00:14:39,000
+It is working fine.
+
+239
+00:14:39,000 --> 00:14:39,000
+Now.
+
+240
+00:14:39,000 --> 00:14:45,000
+Instead of giving a valid ten digit number, I'll try to give a invalid ten digit number which does
+
+241
+00:14:45,000 --> 00:14:46,000
+not exist inside our database.
+
+242
+00:14:46,000 --> 00:14:52,000
+So with this mobile number you can see I'm getting a resource not found exception which is loan not
+
+243
+00:14:52,000 --> 00:14:54,000
+found with the given input data mobile number.
+
+244
+00:14:54,000 --> 00:14:56,000
+So this is also working fine.
+
+245
+00:14:56,000 --> 00:14:59,000
+Let me try to fetch again with a valid mobile number I'm able to.
+
+246
+00:14:59,000 --> 00:15:00,000
+Get it here.
+
+247
+00:15:00,000 --> 00:15:05,000
+Now here we can invoke the delete operation and I'm passing the valid mobile number.
+
+248
+00:15:05,000 --> 00:15:11,000
+If I try to click send here you can see the loan details are successfully deleted.
+
+249
+00:15:11,000 --> 00:15:15,000
+If I try to fetch the loan details now, you will be getting a not found exception.
+
+250
+00:15:15,000 --> 00:15:18,000
+So this confirms all our negative scenarios.
+
+251
+00:15:18,000 --> 00:15:20,000
+Exception handling, business logic.
+
+252
+00:15:20,000 --> 00:15:23,000
+Everything is working perfectly like we expect.
+
+253
+00:15:23,000 --> 00:15:27,000
+I hope you are super super clear and super super happy with the progress that we are making.
+
+254
+00:15:27,000 --> 00:15:32,000
+In the next lecture, I'm going to explain very similarly about cards microservice.
+
+255
+00:15:32,000 --> 00:15:38,000
+If you got bored and if you already aware about all these cards microservice, you can skip the next
+
+256
+00:15:38,000 --> 00:15:38,000
+lecture.
+
+257
+00:15:38,000 --> 00:15:41,000
+But if you want to quickly check, I'm fine with that as well.
+
+258
+00:15:41,000 --> 00:15:47,000
+The reason I'm trying to demo all these microservice multiple times is so that all the business logic
+
+259
+00:15:47,000 --> 00:15:53,000
+and the coding standards that we have followed will enter into your subconscious memory.
+
+260
+00:15:53,000 --> 00:15:59,000
+The plan is if I try to explain all these three different microservices like accounts, loans and cards,
+
+261
+00:15:59,000 --> 00:16:04,000
+by the end of the course, each concept, each configuration, we are going to repeat three times.
+
+262
+00:16:04,000 --> 00:16:09,000
+One time I'll be showing in the live, which you can see and observe the information and if needed,
+
+263
+00:16:09,000 --> 00:16:14,000
+you can practice the same with the help of two other microservices like cards and loans.
+
+264
+00:16:14,000 --> 00:16:17,000
+But if you want to sit back and enjoy the course, you can also do that.
+
+265
+00:16:17,000 --> 00:16:22,000
+And I'm going to do the same thing three times in three different microservices.
+
+266
+00:16:22,000 --> 00:16:27,000
+That way this is going to be super, super helpful and you will never forget these concepts.
+
+267
+00:16:27,000 --> 00:16:28,000
+I hope you're clear.
+
+268
+00:16:28,000 --> 00:16:30,000
+Thank you and I'll catch you in the next lecture by.
+

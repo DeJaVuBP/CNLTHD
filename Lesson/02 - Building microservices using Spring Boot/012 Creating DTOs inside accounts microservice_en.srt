@@ -1,0 +1,504 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+let's try to create that DTO classes representing each of the entity classes that we have inside our
+
+3
+00:00:08,000 --> 00:00:09,000
+accounts microservice.
+
+4
+00:00:09,000 --> 00:00:13,000
+Before I try to do that, I just wanted to reiterate one more time.
+
+5
+00:00:13,000 --> 00:00:19,000
+If you are clear about all these basic concepts that we typically follow whenever we're trying to create
+
+6
+00:00:19,000 --> 00:00:26,000
+REST APIs, please try to watch the video at a higher speed so that you won't get bored.
+
+7
+00:00:26,000 --> 00:00:31,000
+I'm trying to cover all these basics so that these concepts will help the students
+
+8
+00:00:31,000 --> 00:00:35,000
+or junior developers who are not aware about all these basic concepts.
+
+9
+00:00:35,000 --> 00:00:40,000
+But I promise you there is a lot of interesting and exciting stuff ahead.
+
+10
+00:00:40,000 --> 00:00:46,000
+Once we build all these microservices like accounts, cards and loans, we are going to explore a lot
+
+11
+00:00:46,000 --> 00:00:48,000
+of interesting topics.
+
+12
+00:00:48,000 --> 00:00:49,000
+So brace yourself.
+
+13
+00:00:49,000 --> 00:00:54,000
+Now coming to our DTO pattern, I'm going to create a new package here and the package name
+
+14
+00:00:54,000 --> 00:00:59,000
+I'm going to keep it as dto and inside this dto package
+
+15
+00:00:59,000 --> 00:01:07,000
+first, I'm going to create an DTO class with the name AccountsDto. It is always advisable to end your
+
+16
+00:01:07,000 --> 00:01:10,000
+DTO classes with the name DTO.
+
+17
+00:01:10,000 --> 00:01:16,000
+That way you can always know the difference between a DTO class and a normal spring data JPA entity
+
+18
+00:01:16,000 --> 00:01:17,000
+class.
+
+19
+00:01:17,000 --> 00:01:22,000
+So inside this DTO class, what I'm going to do is, I'll go to Accounts, I will take all the fields that
+
+20
+00:01:22,000 --> 00:01:24,000
+I want to send to my client application.
+
+21
+00:01:24,000 --> 00:01:28,000
+So I don't want to send the customerId to my client application.
+
+22
+00:01:28,000 --> 00:01:32,000
+Why do they want the Id, which is specific to my internal database?
+
+23
+00:01:32,000 --> 00:01:37,000
+So these kind of data filtering also we can do with the help of DTO pattern.
+
+24
+00:01:37,000 --> 00:01:41,000
+That's why I'm ignoring these customerId into my DTO class.
+
+25
+00:01:41,000 --> 00:01:46,000
+So what I can do is I can take this account number, account type and branch address and I can mention
+
+26
+00:01:46,000 --> 00:01:48,000
+them inside my DTO class.
+
+27
+00:01:48,000 --> 00:01:51,000
+I'm removing all the code related to the JPA.
+
+28
+00:01:51,000 --> 00:01:56,000
+So these are the three fields that I have created inside my DTO class.
+
+29
+00:01:56,000 --> 00:02:02,000
+As a next step, we need to create the getters and setters for these class also.
+
+30
+00:02:02,000 --> 00:02:03,000
+So instead,
+
+31
+00:02:03,000 --> 00:02:08,000
+so I'm going to use a lombok here instead of mentioning @Getter, @Setter.
+
+32
+00:02:08,000 --> 00:02:12,000
+Separately, I can mention an annotation which is @Data.
+
+33
+00:02:12,000 --> 00:02:17,000
+So if you open this Data annotation, you can see this is a combination of Getter, Setter, RequiredArgsConstructor,
+
+34
+00:02:17,000 --> 00:02:21,000
+ToString, EqualsAndHashCode and value.
+
+35
+00:02:21,000 --> 00:02:28,000
+So whenever I'm using this annotation behind the scenes it is going to generate all the Getters, Setters
+
+36
+00:02:28,000 --> 00:02:32,000
+equals(), hashCode(), toString() everything it is going to generate.
+
+37
+00:02:32,000 --> 00:02:38,000
+The reason why I have not used this @Data inside our entity classes is I don't want to generate
+
+38
+00:02:38,000 --> 00:02:45,000
+the hashcode or equals code method for our entity classes because sometimes it is going to create issues
+
+39
+00:02:45,000 --> 00:02:47,000
+with the Spring data JPA framework.
+
+40
+00:02:47,000 --> 00:02:51,000
+With that reason, I have not used the @Data on top of our entity classes.
+
+41
+00:02:51,000 --> 00:02:58,000
+Now, as a next step, I'm going to create a next dto, so let me copy this class and paste it again
+
+42
+00:02:58,000 --> 00:03:01,000
+and I'm going to rename it to CustomerDto.
+
+43
+00:03:01,000 --> 00:03:07,000
+So here inside the CustomerDto, I want to use @Data annotation, but I want to maintain the fields
+
+44
+00:03:07,000 --> 00:03:09,000
+related to customer.
+
+45
+00:03:09,000 --> 00:03:15,000
+Like I don't want to send the CustomerId, I just wanted to send name, email and mobile number to
+
+46
+00:03:15,000 --> 00:03:16,000
+my client applications.
+
+47
+00:03:16,000 --> 00:03:23,000
+That's why I'm going to take these fields and mention them here and I'm removing the JPA specific annotations
+
+48
+00:03:23,000 --> 00:03:24,000
+here.
+
+49
+00:03:24,000 --> 00:03:30,000
+So with this we have the CustomerDto also ready, and I'm not creating any DTO class which is a combination
+
+50
+00:03:30,000 --> 00:03:36,000
+of Customer and Accounts, entity class, because for now I'm not going to have that scenario inside
+
+51
+00:03:36,000 --> 00:03:37,000
+our Rest API.
+
+52
+00:03:37,000 --> 00:03:44,000
+But definitely when we progress in the coming sections, we are going to have a different, different
+
+53
+00:03:44,000 --> 00:03:51,000
+DTOs which will aggregate the data and send the same to the client application. After this CustomerDto
+
+54
+00:03:51,000 --> 00:03:52,000
+and AccountsDto,
+
+55
+00:03:52,000 --> 00:03:58,000
+I want to create two more DTOs that will help me to send the response to the client application
+
+56
+00:03:58,000 --> 00:04:04,000
+in certain scenarios. Think like my client application gave a request to save the data into the database.
+
+57
+00:04:04,000 --> 00:04:10,000
+My rest API or my microservice will accept that data, will store the data inside database.
+
+58
+00:04:10,000 --> 00:04:15,000
+So as a response, I may want to send a successful response or an error response.
+
+59
+00:04:15,000 --> 00:04:21,000
+So in such scenarios I can't use this DTOs because they don't have any fields representing the status
+
+60
+00:04:21,000 --> 00:04:24,000
+code and status message inside my response.
+
+61
+00:04:24,000 --> 00:04:31,000
+So for the same, I'm going to create a first a new DTO class and the class is going to be
+
+62
+00:04:31,000 --> 00:04:35,000
+ResponseDto.  So let me create this class. Inside this class
+
+63
+00:04:35,000 --> 00:04:41,000
+also, I'm going to mention @Data annotation, apart from @Data annotation, I'm
+
+64
+00:04:41,000 --> 00:04:44,000
+also going to mention @AllArgsConstructor annotation.
+
+65
+00:04:44,000 --> 00:04:48,000
+The reason why I'm mentioning these AllArgsConstructor is by default.
+
+66
+00:04:48,000 --> 00:04:55,000
+The @Data annotation will not generate a constructor which accepts all arguments present inside my DTO class.
+
+67
+00:04:55,000 --> 00:04:57,000
+That's why I'm creating this. In future
+
+68
+00:04:57,000 --> 00:04:59,000
+I need the constructor that accepts
+
+69
+00:04:59,000 --> 00:05:02,000
+all arguments as an input parameter.
+
+70
+00:05:02,000 --> 00:05:04,000
+That's why I have mentioned this annotation.
+
+71
+00:05:04,000 --> 00:05:07,000
+Now I want to mention two different fields here.
+
+72
+00:05:07,000 --> 00:05:11,000
+The very first one is private string statusCode.
+
+73
+00:05:11,000 --> 00:05:18,000
+So this is going to send the what is the status code to my client applications, like I can send 200 if
+
+74
+00:05:18,000 --> 00:05:19,000
+it is successful or
+
+75
+00:05:19,000 --> 00:05:23,000
+similarly, I can also send other status code like 500, which represents there is an error.
+
+76
+00:05:23,000 --> 00:05:30,000
+Very similarly, I'm going to mention private string instead of statusCode, I'm going to mention statusMsg,
+
+77
+00:05:30,000 --> 00:05:32,000
+which is status message.
+
+78
+00:05:32,000 --> 00:05:37,000
+With these two fields we are going to send what is the status code and status message inside the response
+
+79
+00:05:37,000 --> 00:05:43,000
+using which my client can easily understand whether the given operation is successful or not.
+
+80
+00:05:43,000 --> 00:05:50,000
+Now, just like normal ResponseDto, I also want to build a error response DTO which we can use whenever
+
+81
+00:05:50,000 --> 00:05:55,000
+there is an error or exception happened inside the microservice.
+
+82
+00:05:55,000 --> 00:06:02,000
+So the class name is going to be ErrorResponseDto and inside this DTO class I'm going to mention the
+
+83
+00:06:02,000 --> 00:06:07,000
+same annotation which is @Data and @AllArgsConstructor.
+
+84
+00:06:07,000 --> 00:06:10,000
+And we are going to create four fields here.
+
+85
+00:06:10,000 --> 00:06:14,000
+The very first one is private string apiPath.
+
+86
+00:06:14,000 --> 00:06:19,000
+So this represents what is the API path that my client application trying to invoke.
+
+87
+00:06:19,000 --> 00:06:25,000
+I want to send inside the error response also that you invoke this path and it failed due to so and
+
+88
+00:06:25,000 --> 00:06:27,000
+so error code and the error message and so &
+
+89
+00:06:27,000 --> 00:06:28,000
+so error time.
+
+90
+00:06:28,000 --> 00:06:35,000
+That's why let me try to create other three fields that we need private HttpStatus.
+
+91
+00:06:35,000 --> 00:06:36,000
+What is the errorCode.
+
+92
+00:06:36,000 --> 00:06:43,000
+So I'm going to send the error code which is of type HttpStatus to the client applications sharing
+
+93
+00:06:43,000 --> 00:06:46,000
+what is the reason that the API invocation failed?
+
+94
+00:06:46,000 --> 00:06:54,000
+Now, after errorCode, I'm going to create a new field with the name errorMsg and at last I'm
+
+95
+00:06:54,000 --> 00:06:58,000
+going to create a new field with the name errorTime.
+
+96
+00:06:58,000 --> 00:07:02,000
+So this is going to return LocalDateTime.
+
+97
+00:07:02,000 --> 00:07:08,000
+So with these four fields, my clients will have all the information like which API they tried to invoke.
+
+98
+00:07:08,000 --> 00:07:13,000
+What is the error code that they received, what is the error message and at what time the error happened.
+
+99
+00:07:13,000 --> 00:07:20,000
+This will also help the developers and the client side to debug the logs inside their system and accordingly
+
+100
+00:07:20,000 --> 00:07:22,000
+they can try to debug the issue. With this,
+
+101
+00:07:22,000 --> 00:07:26,000
+we have created all the required DTOs for our accounts
+
+102
+00:07:26,000 --> 00:07:27,000
+microservice.
+
+103
+00:07:27,000 --> 00:07:32,000
+We can build the mapper logic or aggregation logic based upon the needs in the coming sections, but
+
+104
+00:07:32,000 --> 00:07:37,000
+for now we have not implemented DTO pattern completely inside our microservice.
+
+105
+00:07:37,000 --> 00:07:44,000
+We just created DTOs, we created entities, so there should be some mapper logic that we need to build
+
+106
+00:07:44,000 --> 00:07:48,000
+and we are going to build that as we are making progress inside this course.
+
+107
+00:07:48,000 --> 00:07:54,000
+Before I try to close this lecture, I want to highlight that this DTO pattern is initially recommended
+
+108
+00:07:54,000 --> 00:07:57,000
+by Martin Fowler inside his blog.
+
+109
+00:07:57,000 --> 00:08:04,000
+So like you can see, he gave a description why we should follow this data transfer object pattern.
+
+110
+00:08:04,000 --> 00:08:07,000
+And he also gave a logic. Suppose inside a database,
+
+111
+00:08:07,000 --> 00:08:12,000
+there is an album table and artist table which holds a title and name.
+
+112
+00:08:12,000 --> 00:08:18,000
+And if one of the client they want the both title and the name of the artist inside the response, then
+
+113
+00:08:18,000 --> 00:08:24,000
+definitely we will have an AlbumDto, which will hold both title and artist.
+
+114
+00:08:24,000 --> 00:08:31,000
+All the data inside the entities will be mapped to dto with the help of this assembler logic or mapper
+
+115
+00:08:31,000 --> 00:08:37,000
+logic in between and if needed, we can also write some serialization specific logic inside our DTO
+
+116
+00:08:37,000 --> 00:08:41,000
+classes and in some project or in some organizations,
+
+117
+00:08:41,000 --> 00:08:46,000
+they call this DTO objects as Value object or Transfer object.
+
+118
+00:08:46,000 --> 00:08:51,000
+So regardless, the name that they are using, if they are using different pojo classes instead of database
+
+119
+00:08:51,000 --> 00:08:57,000
+entity Pojo classes to transfer the data between multiple layers of the application, then they are
+
+120
+00:08:57,000 --> 00:08:59,000
+following the DTO pattern.
+
+121
+00:08:59,000 --> 00:09:05,000
+I'm going to mention this URL inside the GitHub repo page and at the same time I'm also going to attach
+
+122
+00:09:05,000 --> 00:09:07,000
+this URL link to this lecture.
+
+123
+00:09:07,000 --> 00:09:11,000
+If you are interested to read this page, feel free to do the same. With this,
+
+124
+00:09:11,000 --> 00:09:14,000
+we have successfully created DTO classes inside our Accounts
+
+125
+00:09:14,000 --> 00:09:15,000
+Microservice.
+
+126
+00:09:15,000 --> 00:09:18,000
+Thank you and I'll catch you in the next lecture bye.
+

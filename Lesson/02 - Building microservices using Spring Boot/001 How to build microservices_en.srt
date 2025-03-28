@@ -1,0 +1,220 @@
+1
+00:00:00,000 --> 00:00:07,000
+In the previous lectures, we had a very good discussion about what is microservice and how they are
+
+2
+00:00:07,000 --> 00:00:10,000
+different from monolithic and SOA architecture.
+
+3
+00:00:10,000 --> 00:00:15,000
+Now you agree that microservices are good and we have many advantages with it.
+
+4
+00:00:15,000 --> 00:00:22,000
+The very next question that you may have here is how we can build a microservices inside any project.
+
+5
+00:00:22,000 --> 00:00:28,000
+Because at the end of the day, some great developer has to develop these microservices by using backend
+
+6
+00:00:28,000 --> 00:00:30,000
+language like Java.
+
+7
+00:00:30,000 --> 00:00:36,000
+In this entire course, I'm going to present multiple challenges that we are going to face while we
+
+8
+00:00:36,000 --> 00:00:38,000
+try to build microservices.
+
+9
+00:00:38,000 --> 00:00:44,000
+So first I'll try to introduce what is the challenge that we are going to face and post that I'm going
+
+10
+00:00:44,000 --> 00:00:50,000
+to show you what is the best solution or best standard that you can follow to overcome that challenge
+
+11
+00:00:50,000 --> 00:00:53,000
+that you may face while building the microservice.
+
+12
+00:00:53,000 --> 00:00:59,000
+So here inside this lecture, I am introducing the very first challenge, which is how we can build
+
+13
+00:00:59,000 --> 00:01:06,000
+a microservice houses, because inside traditional web applications, for example, inside any monolithic
+
+14
+00:01:06,000 --> 00:01:13,000
+web application, we develop all our code with the help of Java classes methods and we package it as
+
+15
+00:01:13,000 --> 00:01:21,000
+a WAR or EAR file, post that using the same package to file, we can deploy into a web server like Tomcat
+
+16
+00:01:21,000 --> 00:01:26,000
+or any other application servers, and this is going to be a super, super time consuming process.
+
+17
+00:01:26,000 --> 00:01:28,000
+First, you need to develop the web application.
+
+18
+00:01:28,000 --> 00:01:33,000
+You need to package your application, you need to deploy into your web server.
+
+19
+00:01:33,000 --> 00:01:39,000
+So since this is a time consuming process, do you think this is going to work for building microservices?
+
+20
+00:01:39,000 --> 00:01:46,000
+Off course not, because inside real time projects, bigger organizations, they may build hundreds or
+
+21
+00:01:46,000 --> 00:01:50,000
+even thousands of microservices building, packaging and deploying.
+
+22
+00:01:50,000 --> 00:01:57,000
+All these microservices using traditional methods is going to be extremely challenging and it is going
+
+23
+00:01:57,000 --> 00:01:59,000
+to be practically impossible
+
+24
+00:01:59,000 --> 00:02:02,000
+task. So do you know how to overcome this challenge?
+
+25
+00:02:02,000 --> 00:02:07,000
+I'm going to give five seconds and please try to guess the solution for this challenge.
+
+26
+00:02:07,000 --> 00:02:09,000
+One, two, three, four, five.
+
+27
+00:02:09,000 --> 00:02:14,000
+Let me show you the best solution that we can use to overcome this challenge.
+
+28
+00:02:14,000 --> 00:02:18,000
+Like you can see here, the solution is spring boot framework.
+
+29
+00:02:18,000 --> 00:02:22,000
+With the help of spring boot framework, we are going to overcome all these challenges.
+
+30
+00:02:22,000 --> 00:02:27,000
+Don't worry, I'm going to give you a good introduction about what is Spring boot and how it is going
+
+31
+00:02:27,000 --> 00:02:33,000
+to solve this challenge one that we are going to face while building microservices throughout this
+
+32
+00:02:33,000 --> 00:02:34,000
+course
+
+33
+00:02:34,000 --> 00:02:37,000
+I'm going to use this spring boot framework to build our microservices.
+
+34
+00:02:37,000 --> 00:02:42,000
+So I'm going to do my best to explain all the concepts that we are going to use.
+
+35
+00:02:42,000 --> 00:02:47,000
+But if you are new to the spring framework and if you're not aware of the basics of spring framework,
+
+36
+00:02:47,000 --> 00:02:53,000
+like what is a bean, what is autowiring, then I would recommend you taking a course focusing on spring
+
+37
+00:02:53,000 --> 00:02:54,000
+framework.
+
+38
+00:02:54,000 --> 00:02:57,000
+First, be very clear with the basics of spring framework.
+
+39
+00:02:57,000 --> 00:03:01,000
+Once you are clear with the basics, you can happily continue with this course.
+
+40
+00:03:01,000 --> 00:03:07,000
+I also have a Udemy course focusing on the spring framework where I will try to teach everything about
+
+41
+00:03:07,000 --> 00:03:10,000
+Spring framework, Spring boot, how to build rest services.
+
+42
+00:03:10,000 --> 00:03:15,000
+What is Spring AOP, Spring MVC, Spring Security, Spring Data JPA.
+
+43
+00:03:15,000 --> 00:03:20,000
+So all these concepts I'm going to discuss in this detailed course.
+
+44
+00:03:20,000 --> 00:03:24,000
+So if you are interested, please enroll into this same.
+
+45
+00:03:24,000 --> 00:03:29,000
+Once you are clear with the spring framework, then only please continue with the course of microservices.
+
+46
+00:03:29,000 --> 00:03:34,000
+But if you are already clear with the basics of spring framework and Spring boot, then you are good
+
+47
+00:03:34,000 --> 00:03:36,000
+to continue with the course.
+
+48
+00:03:36,000 --> 00:03:39,000
+Please don't think that I'm trying to market my course here.
+
+49
+00:03:39,000 --> 00:03:43,000
+It is absolutely fine even if you take some other spring course.
+
+50
+00:03:43,000 --> 00:03:48,000
+But I'm just trying to convey that first you need to be very clear with the basics of spring framework
+
+51
+00:03:48,000 --> 00:03:50,000
+in order to build a microservices.
+
+52
+00:03:50,000 --> 00:03:52,000
+I hope you are clear from the next lecture.
+
+53
+00:03:52,000 --> 00:03:55,000
+Let's try to jump into the world of Spring Boot.
+
+54
+00:03:55,000 --> 00:03:58,000
+Thank you and I'll catch you in the next lecture
+
+55
+00:03:58,000 --> 00:03:58,000
+bye.
+

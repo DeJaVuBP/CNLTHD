@@ -1,0 +1,720 @@
+1
+00:00:00,000 --> 00:00:05,000
+Now, inside this lecture I'm going to explain the code and setup of cards.
+
+2
+00:00:05,000 --> 00:00:06,000
+Microservice.
+
+3
+00:00:06,000 --> 00:00:11,000
+Since we already discussed this two times inside the accounts and loans microservice, this one I'm
+
+4
+00:00:11,000 --> 00:00:13,000
+going to explain super, super quick.
+
+5
+00:00:13,000 --> 00:00:17,000
+First you need to validate all the details inside the palm Dot XML.
+
+6
+00:00:17,000 --> 00:00:20,000
+Make sure the artifact ID is cards and the name also is cards.
+
+7
+00:00:20,000 --> 00:00:26,000
+And please also validate all the required dependencies you have added inside the palm Dot XML, especially
+
+8
+00:00:26,000 --> 00:00:27,000
+the H2 database.
+
+9
+00:00:27,000 --> 00:00:32,000
+Once this validation is completed, you can go to the resource folder and at the resources folder first
+
+10
+00:00:32,000 --> 00:00:35,000
+open the applications dot Yaml like you can see.
+
+11
+00:00:35,000 --> 00:00:38,000
+Please make sure you are mentioning the port number as 9000.
+
+12
+00:00:38,000 --> 00:00:44,000
+Just to revise the port numbers for account, it is going to be 8080, and for the loans it is going
+
+13
+00:00:44,000 --> 00:00:45,000
+to be 8090.
+
+14
+00:00:45,000 --> 00:00:48,000
+And for the cards the port number is going to be 9000.
+
+15
+00:00:48,000 --> 00:00:49,000
+And remaining properties.
+
+16
+00:00:49,000 --> 00:00:52,000
+You already know all these are related to the H2 database.
+
+17
+00:00:52,000 --> 00:00:58,000
+After that, inside the schema dot SQL, you can see I have created only single table with the name
+
+18
+00:00:58,000 --> 00:01:04,000
+cards and card ID is going to be the primary key value, which is going to be automatically incremented
+
+19
+00:01:04,000 --> 00:01:07,000
+and taken care by the spring Data JPA mobile number.
+
+20
+00:01:07,000 --> 00:01:10,000
+As usual, we need to maintain card number card type.
+
+21
+00:01:10,000 --> 00:01:12,000
+What is our total limit?
+
+22
+00:01:12,000 --> 00:01:13,000
+What is the amount used?
+
+23
+00:01:13,000 --> 00:01:17,000
+What is the available amount followed by metadata columns?
+
+24
+00:01:17,000 --> 00:01:21,000
+I try to keep all the microservice as simple as possible so that we learn the standards.
+
+25
+00:01:21,000 --> 00:01:27,000
+We learn the process, we learn the all the concepts available inside the microservices technology.
+
+26
+00:01:27,000 --> 00:01:34,000
+We don't want to build a super complex microservice and waste all our time by writing the business logic.
+
+27
+00:01:34,000 --> 00:01:39,000
+Business logic is going to be different for each project, and it is not going to be common for the
+
+28
+00:01:39,000 --> 00:01:39,000
+developers.
+
+29
+00:01:39,000 --> 00:01:43,000
+That's why my humble request is focus on the concepts, focus on the standards.
+
+30
+00:01:43,000 --> 00:01:46,000
+Focus on the approaches that we discussed inside the course.
+
+31
+00:01:46,000 --> 00:01:50,000
+As a next step, you need to make sure all the entities are created.
+
+32
+00:01:50,000 --> 00:01:51,000
+Like you can see, there is a base entity.
+
+33
+00:01:51,000 --> 00:01:53,000
+There is a cards entity inside the cards entity.
+
+34
+00:01:53,000 --> 00:01:59,000
+We have created this card ID as a primary key, and we have mentioned these annotations to automatically
+
+35
+00:01:59,000 --> 00:02:01,000
+generate the primary key value.
+
+36
+00:02:01,000 --> 00:02:03,000
+Followed by these are the columns.
+
+37
+00:02:03,000 --> 00:02:08,000
+And after these please make sure there are also DTO classes to implement the DTO pattern.
+
+38
+00:02:08,000 --> 00:02:13,000
+There is a cards, DTO and error response DTO response to inside the cards DTO.
+
+39
+00:02:13,000 --> 00:02:16,000
+You can see there are schema details.
+
+40
+00:02:16,000 --> 00:02:18,000
+There are validation annotations.
+
+41
+00:02:18,000 --> 00:02:19,000
+There are example values.
+
+42
+00:02:19,000 --> 00:02:22,000
+So all the details are available here.
+
+43
+00:02:22,000 --> 00:02:24,000
+Now moving on to the repository layer.
+
+44
+00:02:24,000 --> 00:02:29,000
+Inside the repository layer we have cards repository where we have defined two different custom abstract
+
+45
+00:02:29,000 --> 00:02:32,000
+methods with the name find by mobile number.
+
+46
+00:02:32,000 --> 00:02:33,000
+Find by card number.
+
+47
+00:02:33,000 --> 00:02:37,000
+Now moving on to the controller class which is cards controller.
+
+48
+00:02:37,000 --> 00:02:42,000
+Here inside my controller there are going to be four different APIs, and we have a request mapping
+
+49
+00:02:42,000 --> 00:02:43,000
+with the path as slash API.
+
+50
+00:02:43,000 --> 00:02:47,000
+And here we have a auto wiring with a cart service.
+
+51
+00:02:47,000 --> 00:02:52,000
+Very first service that we have is create card that is going to accept a input of mobile number.
+
+52
+00:02:52,000 --> 00:02:58,000
+Based upon the mobile number, we are going to issue a new card, or we are going to create a new card
+
+53
+00:02:58,000 --> 00:03:02,000
+inside the database and post that we have a fetch operation using the mobile number.
+
+54
+00:03:02,000 --> 00:03:07,000
+We are going to fetch the card details and we are going to return the same to the client application
+
+55
+00:03:07,000 --> 00:03:08,000
+followed by.
+
+56
+00:03:08,000 --> 00:03:12,000
+There is an update operation with the name update card details.
+
+57
+00:03:12,000 --> 00:03:16,000
+So for the update card details request that we are going to accept is cards DTO.
+
+58
+00:03:16,000 --> 00:03:20,000
+If the update operation is successful, we are going to send the 200 response.
+
+59
+00:03:20,000 --> 00:03:21,000
+Otherwise 417 response.
+
+60
+00:03:21,000 --> 00:03:28,000
+At last we have delete operation and in the delete operation based upon the mobile number, we fetch
+
+61
+00:03:28,000 --> 00:03:30,000
+the card and delete the same.
+
+62
+00:03:30,000 --> 00:03:34,000
+And if the operation is successful, we are going to send 200.
+
+63
+00:03:34,000 --> 00:03:35,000
+Otherwise 417.
+
+64
+00:03:35,000 --> 00:03:39,000
+You can see there is a global exception handler available.
+
+65
+00:03:39,000 --> 00:03:41,000
+There is a card already existing exception available.
+
+66
+00:03:41,000 --> 00:03:43,000
+Resource not found exception available.
+
+67
+00:03:43,000 --> 00:03:48,000
+There is a mapper class which is card mapper and there is a constant file.
+
+68
+00:03:48,000 --> 00:03:50,000
+There is a audit aware mplc file.
+
+69
+00:03:50,000 --> 00:03:54,000
+Now as a last step, let's try to validate card service.
+
+70
+00:03:54,000 --> 00:03:56,000
+I am inside my card service.
+
+71
+00:03:56,000 --> 00:03:57,000
+Simple.
+
+72
+00:03:57,000 --> 00:04:02,000
+I'm going to implement the interface I card service and it is going to have a repository auto wiring
+
+73
+00:04:02,000 --> 00:04:05,000
+with the name cards repository and the create card.
+
+74
+00:04:05,000 --> 00:04:10,000
+You can see first we are trying to validate if there is any existing card with the given mobile number.
+
+75
+00:04:10,000 --> 00:04:13,000
+If yes, then we are going to throw this custom exception.
+
+76
+00:04:13,000 --> 00:04:18,000
+If not, we are going to save the new card that we created with the help of create new card here.
+
+77
+00:04:18,000 --> 00:04:22,000
+Also, I'm trying to generate a random card number of length 12 digits.
+
+78
+00:04:22,000 --> 00:04:27,000
+Post that I'm setting the mobile number, the card type I'm trying to set as credit card.
+
+79
+00:04:27,000 --> 00:04:32,000
+The total limit that we are trying to set here is 100 K, just like how we did for loan.
+
+80
+00:04:32,000 --> 00:04:35,000
+So very similarly here also we are trying to follow 100 K.
+
+81
+00:04:35,000 --> 00:04:39,000
+So let me try to mention underscores here also to improve the readability.
+
+82
+00:04:39,000 --> 00:04:40,000
+So this is okay.
+
+83
+00:04:40,000 --> 00:04:45,000
+Now now the amount used is going to be zero because we are issuing a new card.
+
+84
+00:04:45,000 --> 00:04:51,000
+And the available amount is going to be total limit minus amount used, which will be the same as new
+
+85
+00:04:51,000 --> 00:04:53,000
+card limit and which card is going to work.
+
+86
+00:04:53,000 --> 00:04:58,000
+Similar to fetch loan and fetch account where with the help of mobile number, we try to fetch the card
+
+87
+00:04:58,000 --> 00:05:00,000
+details if there is no card.
+
+88
+00:05:00,000 --> 00:05:02,000
+We are going to throw this resource not found exception.
+
+89
+00:05:02,000 --> 00:05:08,000
+If there is an existing card, we are going to convert that into a DTO and send the data to the controller
+
+90
+00:05:08,000 --> 00:05:09,000
+layer.
+
+91
+00:05:09,000 --> 00:05:15,000
+After this we have update card where first we try to fetch the existing card details with the help of
+
+92
+00:05:15,000 --> 00:05:16,000
+card number.
+
+93
+00:05:16,000 --> 00:05:21,000
+Since the card number is not going to change, we are trying to fetch the card details with the help
+
+94
+00:05:21,000 --> 00:05:22,000
+of card number.
+
+95
+00:05:22,000 --> 00:05:26,000
+If there is no card available, we are going to throw resource not found exception.
+
+96
+00:05:26,000 --> 00:05:31,000
+But if there is a card available, we are trying to convert all the information from the tour to the
+
+97
+00:05:31,000 --> 00:05:37,000
+entity which we loaded from the database and the same entity we are going to send to the save method,
+
+98
+00:05:37,000 --> 00:05:39,000
+which will perform the update operation.
+
+99
+00:05:39,000 --> 00:05:42,000
+Since this cards entity already have an primary key value.
+
+100
+00:05:42,000 --> 00:05:48,000
+Now at last we have delete card operation where we will try to first fetch the card details based upon
+
+101
+00:05:48,000 --> 00:05:54,000
+the mobile number post that will try to delete the card with the help of delete by ID.
+
+102
+00:05:54,000 --> 00:05:58,000
+And to this we are going to pass the primary key value which is card ID.
+
+103
+00:05:58,000 --> 00:06:03,000
+You can also write a custom method which is like delete by mobile number.
+
+104
+00:06:03,000 --> 00:06:06,000
+That approach we followed inside the accounts microservice.
+
+105
+00:06:06,000 --> 00:06:08,000
+And this approach is also is perfectly fine.
+
+106
+00:06:08,000 --> 00:06:12,000
+Just to make sure there is an existing card available with a given number.
+
+107
+00:06:12,000 --> 00:06:14,000
+If not, we are going to throw this exception.
+
+108
+00:06:14,000 --> 00:06:18,000
+If exist, we are going to simply delete it with the help of delete by id.
+
+109
+00:06:18,000 --> 00:06:20,000
+I hope this is super, super clear to you.
+
+110
+00:06:20,000 --> 00:06:23,000
+Now let me do a build.
+
+111
+00:06:23,000 --> 00:06:27,000
+Once the build is completed, I can go to the cards application which is the main class.
+
+112
+00:06:27,000 --> 00:06:34,000
+And here I am going to start the application in debug mode, and this one is going to start at the port
+
+113
+00:06:34,000 --> 00:06:35,000
+9000.
+
+114
+00:06:35,000 --> 00:06:36,000
+We can also validate the same.
+
+115
+00:06:36,000 --> 00:06:41,000
+So here you can see the server started at the port 9000 as a next step.
+
+116
+00:06:41,000 --> 00:06:45,000
+Now I am going to test all the card related APIs.
+
+117
+00:06:45,000 --> 00:06:49,000
+So for the same please go to the cards folder here.
+
+118
+00:06:49,000 --> 00:06:53,000
+First I am going to click on this create card request or operation.
+
+119
+00:06:53,000 --> 00:06:56,000
+So this is going to accept post method.
+
+120
+00:06:56,000 --> 00:06:59,000
+And this is the mobile number that I want to consider.
+
+121
+00:06:59,000 --> 00:07:03,000
+And you can see API slash create is a path 9000 is the port number.
+
+122
+00:07:03,000 --> 00:07:05,000
+I'm just clicking on the send button.
+
+123
+00:07:05,000 --> 00:07:06,000
+The card is created successfully.
+
+124
+00:07:06,000 --> 00:07:09,000
+That's why I'm getting 201 response.
+
+125
+00:07:09,000 --> 00:07:14,000
+If I go to the fetch card details and try to pass the same mobile number to the fetch API, you will
+
+126
+00:07:14,000 --> 00:07:17,000
+be able to see the card details that I have created just now.
+
+127
+00:07:17,000 --> 00:07:19,000
+So this is the card number.
+
+128
+00:07:19,000 --> 00:07:26,000
+Card type is credit card, total limit is 100 K and amount used is zero and available amount is 100
+
+129
+00:07:26,000 --> 00:07:26,000
+k.
+
+130
+00:07:26,000 --> 00:07:32,000
+So now I'll take this body inside the response and go to the update card details and paste the same
+
+131
+00:07:32,000 --> 00:07:33,000
+here.
+
+132
+00:07:33,000 --> 00:07:37,000
+Before I try to invoke the update operation, let me try to update.
+
+133
+00:07:37,000 --> 00:07:41,000
+Few card details will change from credit to debit card.
+
+134
+00:07:41,000 --> 00:07:48,000
+After this we can change the amount used to ten k and with that available amount is going to be 90 k.
+
+135
+00:07:48,000 --> 00:07:54,000
+So here I'm just clicking on the send button now and you'll be able to see 200 successful response here.
+
+136
+00:07:54,000 --> 00:07:59,000
+So now if I go and try to fetch the details again you can see the card type is debit card amount used
+
+137
+00:07:59,000 --> 00:08:01,000
+is ten K and available amount is 90 k.
+
+138
+00:08:02,000 --> 00:08:04,000
+I can also test some negative scenarios here.
+
+139
+00:08:04,000 --> 00:08:08,000
+I'll just mention some negative number here and here.
+
+140
+00:08:08,000 --> 00:08:12,000
+And I'll also change this to 13 digit card number.
+
+141
+00:08:12,000 --> 00:08:17,000
+So if I try to send this you will see I'm getting all the validation errors.
+
+142
+00:08:17,000 --> 00:08:19,000
+All my native logic is also working fine.
+
+143
+00:08:19,000 --> 00:08:21,000
+So I'm good with this update operation.
+
+144
+00:08:21,000 --> 00:08:24,000
+Now as a next step I can delete the card details.
+
+145
+00:08:24,000 --> 00:08:29,000
+Before that, let me try to give some invalid mobile number here.
+
+146
+00:08:29,000 --> 00:08:32,000
+So you'll be seeing that I'm getting A404 error.
+
+147
+00:08:32,000 --> 00:08:35,000
+So let me correct the mobile number and try again.
+
+148
+00:08:35,000 --> 00:08:38,000
+This time you should get a successful response.
+
+149
+00:08:38,000 --> 00:08:42,000
+Now if I try to fetch the card details here also, I'll get the not found exception.
+
+150
+00:08:42,000 --> 00:08:46,000
+I'm so happy that our cards microservice is also working fine with this.
+
+151
+00:08:46,000 --> 00:08:49,000
+All our microservices are completely done.
+
+152
+00:08:49,000 --> 00:08:55,000
+When I say done, we have implemented all the standards and business logic that is required for this
+
+153
+00:08:55,000 --> 00:08:55,000
+entire course.
+
+154
+00:08:55,000 --> 00:08:59,000
+Let me quickly validate the swagger UI as well.
+
+155
+00:08:59,000 --> 00:09:04,000
+I have to use a port number as 9000 post that I need to mention.
+
+156
+00:09:04,000 --> 00:09:09,000
+Swagger, hyphen UI slash index dot HTML.
+
+157
+00:09:09,000 --> 00:09:15,000
+So if I try to access you can see I'm getting all the cards related microservice documentation.
+
+158
+00:09:15,000 --> 00:09:17,000
+These are the four APIs that that we are supporting.
+
+159
+00:09:17,000 --> 00:09:19,000
+And there is a card schema.
+
+160
+00:09:19,000 --> 00:09:20,000
+There is a error response.
+
+161
+00:09:20,000 --> 00:09:21,000
+There is a response DTO.
+
+162
+00:09:21,000 --> 00:09:23,000
+So this is also working perfectly.
+
+163
+00:09:23,000 --> 00:09:27,000
+I hope you are clear with all the microservices that we have created.
+
+164
+00:09:27,000 --> 00:09:31,000
+If you have any questions, please explore all the microservices.
+
+165
+00:09:31,000 --> 00:09:35,000
+Take your time like take 4 hours or 8 hours or a day time.
+
+166
+00:09:35,000 --> 00:09:40,000
+Whatever you are comfortable, try to understand each and every line that we have written inside these
+
+167
+00:09:40,000 --> 00:09:41,000
+microservices.
+
+168
+00:09:41,000 --> 00:09:44,000
+Try to set up these microservices in your local IDE.
+
+169
+00:09:44,000 --> 00:09:50,000
+Try to test all the APIs with the postman collection that I have provided, and please make sure everything
+
+170
+00:09:50,000 --> 00:09:51,000
+is working with the H2 database.
+
+171
+00:09:51,000 --> 00:09:56,000
+And these microservices are going to be stepping stone for all the concepts that we are going to discuss
+
+172
+00:09:56,000 --> 00:09:57,000
+inside this course.
+
+173
+00:09:57,000 --> 00:09:59,000
+That's why please, please make sure that these.
+
+174
+00:10:00,000 --> 00:10:03,000
+Microservices are working inside your local system.
+
+175
+00:10:03,000 --> 00:10:05,000
+I hope you are enjoying the course.
+
+176
+00:10:05,000 --> 00:10:05,000
+Take a break.
+
+177
+00:10:05,000 --> 00:10:07,000
+You deserve a break.
+
+178
+00:10:07,000 --> 00:10:08,000
+I'm also deserve a break.
+
+179
+00:10:08,000 --> 00:10:10,000
+I'll be catching you in the next section.
+
+180
+00:10:10,000 --> 00:10:11,000
+Bye!
+

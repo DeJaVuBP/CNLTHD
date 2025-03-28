@@ -1,0 +1,815 @@
+1
+00:00:00,000 --> 00:00:05,000
+In the previous lecture, we have created a simple rest API that says hello to the world.
+
+2
+00:00:05,000 --> 00:00:13,000
+Now before we try to build other rest APIs which will help us to expose the crud operations to the clients.
+
+3
+00:00:13,000 --> 00:00:19,000
+First, we need to make sure that our database related code is completed and it is available for us
+
+4
+00:00:19,000 --> 00:00:21,000
+to interact with the database.
+
+5
+00:00:21,000 --> 00:00:26,000
+As of now, we are using internal H2 database to use this history database.
+
+6
+00:00:26,000 --> 00:00:31,000
+We can define some properties or configurations inside our application.
+
+7
+00:00:31,000 --> 00:00:35,000
+For the same, we need to go to these resource folder and this resource folder.
+
+8
+00:00:35,000 --> 00:00:38,000
+We have application.properties file.
+
+9
+00:00:38,000 --> 00:00:44,000
+As of now you can see it is an empty file inside this property file only we can define all the configurations
+
+10
+00:00:44,000 --> 00:00:49,000
+related to Spring Boot where we can mention the port number which needs to be considered by the spring
+
+11
+00:00:49,000 --> 00:00:49,000
+boot,
+
+12
+00:00:49,000 --> 00:00:55,000
+to start the service we can define database related configurations, we can define message queues,
+
+13
+00:00:55,000 --> 00:01:00,000
+related configurations, we can define actuator related configurations.
+
+14
+00:01:00,000 --> 00:01:05,000
+So there are good amount of properties or configurations that we can define inside this file, which
+
+15
+00:01:05,000 --> 00:01:07,000
+will make developer life easy.
+
+16
+00:01:07,000 --> 00:01:12,000
+With the properties that we mentioned inside this file, Spring Boot is going to do a lot of work behind
+
+17
+00:01:12,000 --> 00:01:13,000
+the scenes.
+
+18
+00:01:13,000 --> 00:01:20,000
+So instead of we writing the Java code or lot of boilerplate code to handle all those logic, we simply
+
+19
+00:01:20,000 --> 00:01:25,000
+mention the properties inside this file and Spring Boot is going to take care of connecting to database,
+
+20
+00:01:25,000 --> 00:01:31,000
+starting the server at the mentioned port number and enabling certain features of actuator.
+
+21
+00:01:31,000 --> 00:01:38,000
+This way we can achieve many functionality with these properties, but we are not going to write our
+
+22
+00:01:38,000 --> 00:01:45,000
+properties with the format of key and value, which is the default way inside spring boot.
+
+23
+00:01:45,000 --> 00:01:50,000
+Instead, we are going to define all our properties with the Yaml format.
+
+24
+00:01:50,000 --> 00:01:56,000
+So for the same what I'm going to do is I'm going to close this application.properties and rename this
+
+25
+00:01:56,000 --> 00:02:04,000
+file from application.properties to application.yml yml indicates that this file is going to support
+
+26
+00:02:04,000 --> 00:02:05,000
+the yml format.
+
+27
+00:02:05,000 --> 00:02:10,000
+So yml is a very famous format, just like XML and json.
+
+28
+00:02:10,000 --> 00:02:14,000
+Yml is the latest and mostly used format.
+
+29
+00:02:14,000 --> 00:02:21,000
+The reason why I'm using .yml format instead of .properties is Yml is very intuitive in nature.
+
+30
+00:02:21,000 --> 00:02:28,000
+We can easily read the Yaml file very easily and the same Yml format is going to be used inside Docker,
+
+31
+00:02:28,000 --> 00:02:34,000
+Kubernetes or any cloud providers that you go like AWS, GCP, Azure.
+
+32
+00:02:34,000 --> 00:02:38,000
+Since many places this is being used in future also, definitely
+
+33
+00:02:38,000 --> 00:02:42,000
+i'm confident that Spring Boot will move to the .yml format.
+
+34
+00:02:42,000 --> 00:02:48,000
+So right now it is supporting both .properties and .yml since we can achieve more with the help
+
+35
+00:02:48,000 --> 00:02:53,000
+of yaml format, I'm pretty sure that in future spring boot is going to migrate to .yml format.
+
+36
+00:02:53,000 --> 00:02:58,000
+With that reasons, let's try to define the properties with the help of .yml.
+
+37
+00:02:58,000 --> 00:03:03,000
+But here you may have questions like how can I define properties with the help of Yaml format?
+
+38
+00:03:03,000 --> 00:03:05,000
+What is the syntax that I need to follow?
+
+39
+00:03:05,000 --> 00:03:07,000
+So you may have many questions.
+
+40
+00:03:07,000 --> 00:03:10,000
+So let me give a quick introduction about Yaml syntax.
+
+41
+00:03:10,000 --> 00:03:17,000
+If you see this file, these are the normal property values that I can mention whenever I'm using 
+
+42
+00:03:17,000 --> 00:03:18,000
+.properties format.
+
+43
+00:03:18,000 --> 00:03:21,000
+So you can see this is the key and this is the value.
+
+44
+00:03:21,000 --> 00:03:23,000
+So there will be a key and there will be a value.
+
+45
+00:03:23,000 --> 00:03:26,000
+The same applies for all other properties.
+
+46
+00:03:26,000 --> 00:03:30,000
+Every property will have a key and it is going to have a corresponding value.
+
+47
+00:03:30,000 --> 00:03:36,000
+So these are the properties and it is very clear for everyone there is no big complexity here
+
+48
+00:03:36,000 --> 00:03:37,000
+there is a key, there is a value.
+
+49
+00:03:37,000 --> 00:03:43,000
+So now let's try to understand how to represent this inside a yaml,yaml is going to work based upon
+
+50
+00:03:43,000 --> 00:03:44,000
+indentation.
+
+51
+00:03:44,000 --> 00:03:52,000
+When I say indentation you can see whenever I want to define this server.port as a key inside yaml
+
+52
+00:03:52,000 --> 00:03:59,000
+I need to first mention server followed by : post that I should immediately go to a tab space inside
+
+53
+00:03:59,000 --> 00:04:01,000
+my next row.
+
+54
+00:04:01,000 --> 00:04:04,000
+Like you can see here I have given a tab space.
+
+55
+00:04:04,000 --> 00:04:09,000
+Then only my Yaml is going to consider the key as 
+server.port.
+
+56
+00:04:09,000 --> 00:04:13,000
+And very similarly for spring.datasource.url.
+
+57
+00:04:13,000 --> 00:04:20,000
+I need to mention spring followed by a tab space 
+datasource: and since inside data source we are
+
+58
+00:04:20,000 --> 00:04:25,000
+going to have the URL we need to mention the URL again with the tab space.
+
+59
+00:04:25,000 --> 00:04:27,000
+So you can see I have mentioned the tab space here.
+
+60
+00:04:27,000 --> 00:04:34,000
+The advantage of Yaml, you can see this spring is repeated unnecessarily inside properties file for
+
+61
+00:04:34,000 --> 00:04:40,000
+every key, whereas with yaml it is going to have only once inside the same spring
+
+62
+00:04:40,000 --> 00:04:47,000
+we can define data source only once, whereas in property you can see it is repeated four times and
+
+63
+00:04:47,000 --> 00:04:49,000
+at last we reached to the end of the key which is URL.
+
+64
+00:04:49,000 --> 00:04:53,000
+Once we reach, we need to give the : and post the :
+
+65
+00:04:53,000 --> 00:04:58,000
+we need to make sure we are giving a single space followed by what is the value?
+
+66
+00:04:58,000 --> 00:04:59,000
+This is the value that,
+
+67
+00:04:59,000 --> 00:05:05,000
+i want to mention the same I have done for 
+driverClassName and user name and password.
+
+68
+00:05:05,000 --> 00:05:10,000
+And since I want to give empty password, I have given a single quote with empty value.
+
+69
+00:05:10,000 --> 00:05:15,000
+And very similarly, if you see for this property which is 
+
+70
+00:05:15,000 --> 00:05:16,000
+spring.h2.console.enabled = true.
+
+71
+00:05:16,000 --> 00:05:18,000
+I don't need to mention the spring again.
+
+72
+00:05:18,000 --> 00:05:24,000
+I can straight away come to the same location where that data source is present and in the same location.
+
+73
+00:05:24,000 --> 00:05:26,000
+I can start the new key, which is h2.
+
+74
+00:05:26,000 --> 00:05:31,000
+This way I need to maintain this indentation properly.
+
+75
+00:05:31,000 --> 00:05:33,000
+Then only my Yaml is going to work.
+
+76
+00:05:33,000 --> 00:05:39,000
+If I screw up this indentation then my Yaml is not going to work.
+
+77
+00:05:39,000 --> 00:05:39,000
+That's why
+
+78
+00:05:39,000 --> 00:05:46,000
+Please please make sure you are giving the same space, same indentation like I was giving inside the
+
+79
+00:05:46,000 --> 00:05:47,000
+GitHub repo.
+
+80
+00:05:47,000 --> 00:05:54,000
+So let me copy these properties and I can mention inside the application.yml so you can see these
+
+81
+00:05:54,000 --> 00:05:58,000
+are the values that I have mentioned inside my .yml file.
+
+82
+00:05:58,000 --> 00:06:01,000
+I also installed a Yaml related plugin inside my ID.
+
+83
+00:06:01,000 --> 00:06:08,000
+That's why it is able to recognize this file as Yaml file based upon the extension that I have mentioned
+
+84
+00:06:08,000 --> 00:06:08,000
+here.
+
+85
+00:06:08,000 --> 00:06:13,000
+So with the server.port we are telling to the spring boot framework to start the port at 8080.
+
+86
+00:06:13,000 --> 00:06:18,000
+This is the default port, even if you don't mention it is going to consider the same, but it is a
+
+87
+00:06:18,000 --> 00:06:23,000
+good practice to mention the same inside your applications.yml file.
+
+88
+00:06:23,000 --> 00:06:28,000
+And when we are going to build other microservice, definitely we can't leave with 8080 because it is
+
+89
+00:06:28,000 --> 00:06:29,000
+already being used by the accounts
+
+90
+00:06:29,000 --> 00:06:30,000
+Microservice.
+
+91
+00:06:30,000 --> 00:06:36,000
+So in those microservice we are going to override to some other port number now coming to these properties,
+
+92
+00:06:36,000 --> 00:06:39,000
+all these related to the h2 database.
+
+93
+00:06:39,000 --> 00:06:45,000
+So with the spring.datasource.url, I'm telling to the spring boot framework that this is the
+
+94
+00:06:45,000 --> 00:06:51,000
+endpoint details where my application can connect to the internal h2 database.
+
+95
+00:06:51,000 --> 00:06:56,000
+So Jdbc:h2:mem:testdb.
+
+96
+00:06:56,000 --> 00:07:02,000
+So this is the value that we need to do and the 
+driverClassName we need to do org.h2.Driver
+
+97
+00:07:02,000 --> 00:07:03,000
+and username:sa
+
+98
+00:07:04,000 --> 00:07:05,000
+This is the default username.
+
+99
+00:07:05,000 --> 00:07:07,000
+If you want you can change and the password.
+
+100
+00:07:07,000 --> 00:07:12,000
+Also, I want to go with the default password, which is an empty value with the help of this 
+
+101
+00:07:12,000 --> 00:07:14,000
+spring.h2.console.enabled.
+
+102
+00:07:14,000 --> 00:07:21,000
+I'm telling to the spring boot framework to enable the h2 console so that I can login into this h2 console
+
+103
+00:07:21,000 --> 00:07:29,000
+from my browser and I can see all the tables and records that are inserted are created into my internal
+
+104
+00:07:29,000 --> 00:07:30,000
+h2 database.
+
+105
+00:07:30,000 --> 00:07:37,000
+And very similarly we need to mention other properties like Spring.jpa.database platform and
+
+106
+00:07:37,000 --> 00:07:40,000
+the database platform that we are using is 2 dialect.
+
+107
+00:07:40,000 --> 00:07:48,000
+And with this spring.jpa.hibernate.ddl-auto as update we are telling to the spring boot framework.
+
+108
+00:07:48,000 --> 00:07:54,000
+If there are no tables created inside my internal h2 database, please go ahead and create them based upon
+
+109
+00:07:54,000 --> 00:07:58,000
+the SQL instructions that I'm going to provide automatically during the startup.
+
+110
+00:07:58,000 --> 00:08:00,000
+So that's the purpose here.
+
+111
+00:08:00,000 --> 00:08:05,000
+We don't want to create the tables every time manually inside our internal history database.
+
+112
+00:08:05,000 --> 00:08:12,000
+We want that process to be automatically happen when server is being started because h2 database is
+
+113
+00:08:12,000 --> 00:08:14,000
+an internal memory database
+
+114
+00:08:14,000 --> 00:08:21,000
+whenever you shut down the server, all the data and all the tables that you have created will be wiped
+
+115
+00:08:21,000 --> 00:08:21,000
+off
+
+116
+00:08:21,000 --> 00:08:27,000
+that's why to overcome the challenge of creating the tables and data manually every time we can provide
+
+117
+00:08:27,000 --> 00:08:33,000
+some SQL scripts based upon that, my spring boot framework can automatically create these tables behind
+
+118
+00:08:33,000 --> 00:08:35,000
+the scenes during the startup.
+
+119
+00:08:35,000 --> 00:08:42,000
+And at last we also mentioned spring.jpa.show sql as true with this property we are telling to the
+
+120
+00:08:42,000 --> 00:08:43,000
+spring boot framework.
+
+121
+00:08:43,000 --> 00:08:50,000
+Please print all the SQL queries that you are going to execute against the history database on the console,
+
+122
+00:08:50,000 --> 00:08:55,000
+and with this the developers can see what are the queries that are being executed behind the scenes
+
+123
+00:08:55,000 --> 00:08:58,000
+by the Spring Data JPA framework.
+
+124
+00:08:58,000 --> 00:09:02,000
+And these queries are going to help them during the debugging process.
+
+125
+00:09:02,000 --> 00:09:07,000
+I hope you are clear with these properties, please make sure you are also using these Yaml format.
+
+126
+00:09:07,000 --> 00:09:14,000
+This format is going to help you to work on multiple products like Docker, Kubernetes and cloud environments.
+
+127
+00:09:14,000 --> 00:09:16,000
+So let me save these changes.
+
+128
+00:09:16,000 --> 00:09:22,000
+Now, like I said, during startup we want some tables to be created so that we can store that data
+
+129
+00:09:22,000 --> 00:09:23,000
+inside these tables.
+
+130
+00:09:23,000 --> 00:09:31,000
+For the same Under these resources folder, you need to create a new file with the name schema.sql
+
+131
+00:09:31,000 --> 00:09:37,000
+Whenever you want to create the tables columns, you need to define a file with the name 
+
+132
+00:09:37,000 --> 00:09:38,000
+shema.sql.
+
+133
+00:09:38,000 --> 00:09:45,000
+Whereas if you want to create data with the help of insert scripts or update scripts, you can define
+
+134
+00:09:45,000 --> 00:09:47,000
+a file with the name data.sql.
+
+135
+00:09:48,000 --> 00:09:52,000
+For now, I just want to create the tables inside my internal database.
+
+136
+00:09:52,000 --> 00:09:56,000
+So now inside this SQL file, I'm going to paste a few scripts.
+
+137
+00:09:56,000 --> 00:09:59,000
+So these are the scripts that I have pasted just now.
+
+138
+00:09:59,000 --> 00:09:59,000
+I'm
+
+139
+00:09:59,000 --> 00:10:05,000
+not typing all of them in front of you just to save some time here, please get these scripts from the
+
+140
+00:10:05,000 --> 00:10:09,000
+GitHub repo and you can also paste inside your \
+schema.sql.
+
+141
+00:10:09,000 --> 00:10:13,000
+The same you can do for application.yml file as well throughout the course
+
+142
+00:10:13,000 --> 00:10:18,000
+i'm only going to type very important code in front of you to save some time.
+
+143
+00:10:18,000 --> 00:10:24,000
+You can always pass the video, you can always get the code from GitHub repo or you can type the code
+
+144
+00:10:24,000 --> 00:10:28,000
+by seeing at the screen, but please make sure you are passing the video.
+
+145
+00:10:28,000 --> 00:10:33,000
+So I'm doing this so that we can learn more with less time.
+
+146
+00:10:33,000 --> 00:10:38,000
+Because if I start typing all the hundreds and thousands of lines of code that we are going to discuss,
+
+147
+00:10:38,000 --> 00:10:44,000
+definitely the length of the course is going to become more since I want to teach you more with less
+
+148
+00:10:44,000 --> 00:10:46,000
+time so that you can learn quickly.
+
+149
+00:10:46,000 --> 00:10:48,000
+That's why I'm following this strategy.
+
+150
+00:10:48,000 --> 00:10:50,000
+I hope you understand.
+
+151
+00:10:50,000 --> 00:10:55,000
+So now let me save these changes and do a build once the build is completed.
+
+152
+00:10:55,000 --> 00:11:02,000
+Since my application is already started and we have dev tools inside our classpath, my dev tools might
+
+153
+00:11:02,000 --> 00:11:04,000
+have restarted the server.
+
+154
+00:11:04,000 --> 00:11:10,000
+You can see this time my server restarted in 1.237 seconds and my spring boot framework
+
+155
+00:11:10,000 --> 00:11:15,000
+considered all the details that we have given for the history database.
+
+156
+00:11:15,000 --> 00:11:21,000
+And you can see by default the spring boot framework is going to expose the h2 console with this path,
+
+157
+00:11:21,000 --> 00:11:23,000
+which is h2/console.
+
+158
+00:11:23,000 --> 00:11:26,000
+So let me try to access this h2 console in the browser.
+
+159
+00:11:26,000 --> 00:11:33,000
+So I need to go to the localhost 8080 followed by 
+h2 /console and here I'm trying to access it.
+
+160
+00:11:33,000 --> 00:11:41,000
+You can see you will get this page where you need to enter all your driver class, Jdbc URL, username
+
+161
+00:11:41,000 --> 00:11:42,000
+and password.
+
+162
+00:11:42,000 --> 00:11:45,000
+By default, these values will get automatically populated.
+
+163
+00:11:45,000 --> 00:11:51,000
+Please make sure the values are matching with what you have mentioned inside the applications.yml
+
+164
+00:11:51,000 --> 00:11:52,000
+file.
+
+165
+00:11:52,000 --> 00:11:54,000
+So the username is password is empty.
+
+166
+00:11:54,000 --> 00:11:55,000
+I'm just clicking on this
+
+167
+00:11:55,000 --> 00:11:57,000
+Connect with that.
+
+168
+00:11:57,000 --> 00:12:04,000
+This is the h2 console where you can see there are two tables created with the name accounts and customers.
+
+169
+00:12:04,000 --> 00:12:12,000
+My accounts table has columns like customer_Id, 
+account _Number, account_Type branch_Address created_At
+
+170
+00:12:12,000 --> 00:12:19,000
+created_By updated_At and updated_By very similarly, if I click on this customer, it has columns
+
+171
+00:12:19,000 --> 00:12:25,000
+like customer_Id, name, email, mobile_Number created_At, updated_At and updated_By.
+
+172
+00:12:25,000 --> 00:12:32,000
+So these tables are created based upon the scripts that we have provided inside the schema.sql file.
+
+173
+00:12:32,000 --> 00:12:37,000
+So if you try to understand these scripts first, I'm trying to create a customer table where we are
+
+174
+00:12:37,000 --> 00:12:40,000
+trying to save the name of the bank customer.
+
+175
+00:12:40,000 --> 00:12:41,000
+What is his email?
+
+176
+00:12:41,000 --> 00:12:43,000
+What is the mobile number?
+
+177
+00:12:43,000 --> 00:12:49,000
+And a few metadata related columns like Created_At created_By,updated_At and updated_By
+
+178
+00:12:49,000 --> 00:12:56,000
+So these four metadata columns are going to present in each of the table that I'm going to create inside
+
+179
+00:12:56,000 --> 00:12:57,000
+this course.
+
+180
+00:12:57,000 --> 00:13:02,000
+So this is the another standard that you need to follow inside the real projects.
+
+181
+00:13:02,000 --> 00:13:09,000
+These columns will help us who created the data, at what time the data is created and who updated the
+
+182
+00:13:09,000 --> 00:13:10,000
+data at what time.
+
+183
+00:13:10,000 --> 00:13:11,000
+I hope you understand.
+
+184
+00:13:11,000 --> 00:13:19,000
+For this customer table, a primary key is going to be customer_Id column and it is going to be automatically
+
+185
+00:13:19,000 --> 00:13:24,000
+incremented whenever I'm trying to insert a new record into the database.
+
+186
+00:13:24,000 --> 00:13:29,000
+So this is what we are trying to achieve with these customer table creation.
+
+187
+00:13:29,000 --> 00:13:33,000
+And the table will be created only if it not existed in the database.
+
+188
+00:13:33,000 --> 00:13:38,000
+Now, coming to the accounts table, you can see I'm mentioning the customer_Id column and there is
+
+189
+00:13:38,000 --> 00:13:45,000
+going to be a foreign key link between these customer and accounts table with these customer_Id column
+
+190
+00:13:45,000 --> 00:13:50,000
+and inside these accounts table, we are going to have a column with the name account number which will
+
+191
+00:13:50,000 --> 00:13:52,000
+act as a primary key and post that.
+
+192
+00:13:52,000 --> 00:13:58,000
+We'll also have columns like what is the account_Type, whether the account type is saving account or
+
+193
+00:13:58,000 --> 00:14:03,000
+current account, and what is the branch _Address followed by metadata columns.
+
+194
+00:14:03,000 --> 00:14:10,000
+So I'm just trying to keep the things simple so that we can focus more on the microservice concept rather
+
+195
+00:14:10,000 --> 00:14:15,000
+than creating complex tables, complex mappings and do a lot of unnecessary things.
+
+196
+00:14:15,000 --> 00:14:17,000
+I hope you are fine with that.
+
+197
+00:14:17,000 --> 00:14:23,000
+With this, we set up the h2 database with the help of this schema.sql file and with the properties
+
+198
+00:14:23,000 --> 00:14:27,000
+mentioned inside the application.yml file in the next lecture.
+
+199
+00:14:27,000 --> 00:14:33,000
+Let's try to build the code with the help of spring Data JPA that will help us to interact with this
+
+200
+00:14:33,000 --> 00:14:39,000
+h2 database and the tables that we can start leveraging this database for insert data, for reading
+
+201
+00:14:39,000 --> 00:14:42,000
+data, for updating and deleting the data.
+
+202
+00:14:42,000 --> 00:14:45,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,736 @@
+1
+00:00:00,000 --> 00:00:07,000
+Finally, we are at a lecture where we will try to make our hands dirty by creating microservices with
+
+2
+00:00:07,000 --> 00:00:09,000
+the help of spring boot framework.
+
+3
+00:00:09,000 --> 00:00:15,000
+Like I said before, creating a web application or building  REST  services or microservices with the
+
+4
+00:00:15,000 --> 00:00:19,000
+help of spring boot framework is going to be super, super easy.
+
+5
+00:00:19,000 --> 00:00:21,000
+To get started,
+
+6
+00:00:21,000 --> 00:00:25,000
+we need to come to this website which is start.spring.io.
+
+7
+00:00:25,000 --> 00:00:32,000
+Inside this website, like you can see, we need to select our project specifications, what language
+
+8
+00:00:32,000 --> 00:00:35,000
+that we want to consider, what is a build tool that we want to consider?
+
+9
+00:00:35,000 --> 00:00:37,000
+What is the spring boot version?
+
+10
+00:00:37,000 --> 00:00:41,000
+So all such basic details we need to fill inside this website.
+
+11
+00:00:41,000 --> 00:00:43,000
+So let me fill those details.
+
+12
+00:00:43,000 --> 00:00:49,000
+I want to consider Maven as a build tool for my Java based web application.
+
+13
+00:00:49,000 --> 00:00:51,000
+So the language is going to be Java.
+
+14
+00:00:51,000 --> 00:00:53,000
+Now coming to the spring boot version.
+
+15
+00:00:53,000 --> 00:00:59,000
+As of today, the most stable version available is 3.1.1.
+
+16
+00:00:59,000 --> 00:01:01,000
+The same one is selected by default.
+
+17
+00:01:01,000 --> 00:01:04,000
+I am going to continue with the same in future.
+
+18
+00:01:04,000 --> 00:01:09,000
+If you see some other latest version, please do select the latest version always.
+
+19
+00:01:09,000 --> 00:01:16,000
+And I'll also make sure I'm updating the GitHub code repo every quarter with the latest versions.
+
+20
+00:01:16,000 --> 00:01:20,000
+That way you can always refer to the code present inside the GitHub repo.
+
+21
+00:01:20,000 --> 00:01:26,000
+Now coming to the group, I want to give the name as com.eazybytes.
+
+22
+00:01:26,000 --> 00:01:29,000
+So this is the group I want to do.
+
+23
+00:01:29,000 --> 00:01:35,000
+Artifact I want to give as accounts because first I'll try to build accounts microservice.
+
+24
+00:01:35,000 --> 00:01:41,000
+If you can recall we discussed about Easy Bank, which will have three different types of microservices
+
+25
+00:01:41,000 --> 00:01:44,000
+like accounts, loans and cards.
+
+26
+00:01:44,000 --> 00:01:49,000
+So first I'll try to create accounts microservice so please do follow me all the steps that I'm doing.
+
+27
+00:01:49,000 --> 00:01:51,000
+Once I create accounts
+
+28
+00:01:51,000 --> 00:01:54,000
+microservice With all the standards that we discussed
+
+29
+00:01:54,000 --> 00:01:58,000
+similarly, I'm going to do exercise to create loans and cards
+
+30
+00:01:58,000 --> 00:02:01,000
+microservice Very similar to accounts
+
+31
+00:02:01,000 --> 00:02:06,000
+microservice. One request that I have here is while you are trying to create microservice based upon
+
+32
+00:02:06,000 --> 00:02:12,000
+the steps that I have discussed, please do follow the same group name, same artifact or same package
+
+33
+00:02:12,000 --> 00:02:16,000
+name, class names that I'm going to discuss inside this course.
+
+34
+00:02:16,000 --> 00:02:23,000
+The reason is many times, many students, they face some issues and they post their issues and their
+
+35
+00:02:23,000 --> 00:02:26,000
+project Inside the Q&A of the Udemy course.
+
+36
+00:02:26,000 --> 00:02:31,000
+For me to identify that if you follow the same naming conventions, it is going to be super easy.
+
+37
+00:02:31,000 --> 00:02:38,000
+And in fact, before posting a Q&A question, you can also compare my code with your code and this will
+
+38
+00:02:38,000 --> 00:02:44,000
+help you to easily identify the issues if you maintain the same naming conventions that I'm trying to
+
+39
+00:02:44,000 --> 00:02:45,000
+follow inside this course.
+
+40
+00:02:45,000 --> 00:02:46,000
+I hope you are clear.
+
+41
+00:02:46,000 --> 00:02:50,000
+Now, coming to the name, I also want to maintain the same name like artifact.
+
+42
+00:02:50,000 --> 00:02:54,000
+So the name also going to be accounts. Description
+
+43
+00:02:54,000 --> 00:02:58,000
+I want to mention as microservice for accounts.
+
+44
+00:02:58,000 --> 00:03:04,000
+Spouse that the package name automatically populate based upon the group and artifact so com.eazybytes.accounts
+
+45
+00:03:04,000 --> 00:03:05,000
+.
+
+46
+00:03:05,000 --> 00:03:08,000
+I want to go with the default packaging which is jar.
+
+47
+00:03:08,000 --> 00:03:13,000
+Since we are trying to build microservice and eventually in the coming sections we'll containerize our
+
+48
+00:03:13,000 --> 00:03:15,000
+spring boot applications.
+
+49
+00:03:15,000 --> 00:03:18,000
+I want to go with the packaging as Jar. And the Java version
+
+50
+00:03:18,000 --> 00:03:22,000
+I want to go with the default Java version here, which is 17.
+
+51
+00:03:22,000 --> 00:03:28,000
+So as of today, 17 is the stable and LTS version available.
+
+52
+00:03:28,000 --> 00:03:31,000
+And please do make sure you are selecting at least Java 17.
+
+53
+00:03:31,000 --> 00:03:38,000
+Please don't select 11 and 8 because the basic requirement for the spring boot 3 version and
+
+54
+00:03:38,000 --> 00:03:40,000
+above is Java 17.
+
+55
+00:03:40,000 --> 00:03:47,000
+If you want to use 11 or 8, you need to go with the spring boot version, which is less than spring
+
+56
+00:03:47,000 --> 00:03:47,000
+boot 3.
+
+57
+00:03:47,000 --> 00:03:51,000
+And in that case you need to go with the 2.7. 13.
+
+58
+00:03:51,000 --> 00:03:53,000
+But I don't recommend that.
+
+59
+00:03:53,000 --> 00:03:58,000
+Always go with the latest spring boot version and go with the Java 17 version.
+
+60
+00:03:58,000 --> 00:04:01,000
+So now we have provided all the basic configuration details.
+
+61
+00:04:01,000 --> 00:04:07,000
+Now coming to the dependencies, we need to define what dependencies we need for our microservices.
+
+62
+00:04:07,000 --> 00:04:10,000
+The very first dependency that we need to add is web.
+
+63
+00:04:10,000 --> 00:04:17,000
+Since we decided to build REST services by adding these starter project, my spring boot is going to
+
+64
+00:04:17,000 --> 00:04:23,000
+bring all the dependencies and libraries that I need to build web applications, including REST services,
+
+65
+00:04:23,000 --> 00:04:30,000
+MVC based applications, and it is also going to use Apache Tomcat as a default embedded container.
+
+66
+00:04:30,000 --> 00:04:33,000
+So that's a beauty of starter projects inside Spring Boot.
+
+67
+00:04:33,000 --> 00:04:39,000
+You don't need to define the dependencies manually for all these libraries and dependencies by just
+
+68
+00:04:39,000 --> 00:04:42,000
+selecting one of the starter project, which is spring web.
+
+69
+00:04:42,000 --> 00:04:45,000
+I'm going to get all the dependencies that I need.
+
+70
+00:04:45,000 --> 00:04:51,000
+So let me select this post that since we need some storage supporting database now I'm going to go with
+
+71
+00:04:51,000 --> 00:04:53,000
+the H2 database.
+
+72
+00:04:53,000 --> 00:04:59,000
+So H2 database is an internal memory database which you can use inside spring boot web applications.
+
+73
+00:05:00,000 --> 00:05:04,000
+It does not require any installation of MySQL servers or Oracle.
+
+74
+00:05:04,000 --> 00:05:09,000
+You can use this simple internal memory database, so let me select that.
+
+75
+00:05:09,000 --> 00:05:16,000
+But I'm going to change our microservices from H2 database to MySQL in the coming sections when
+
+76
+00:05:16,000 --> 00:05:18,000
+we start using the Docker containers.
+
+77
+00:05:18,000 --> 00:05:20,000
+For now, let's keep it very simple.
+
+78
+00:05:20,000 --> 00:05:22,000
+We don't want to do unnecessary installations.
+
+79
+00:05:22,000 --> 00:05:28,000
+Post that since we want to connect with an database like H2 database, we need to have supporting
+
+80
+00:05:28,000 --> 00:05:30,000
+framework. For the same,
+
+81
+00:05:30,000 --> 00:05:37,000
+I want to add the Spring data JPA as a dependency inside my Spring boot web application.
+
+82
+00:05:37,000 --> 00:05:41,000
+Using this starter projects, we can store the data into the database,
+
+83
+00:05:41,000 --> 00:05:47,000
+we can retrieve the data so all the libraries related to database interaction will be available inside
+
+84
+00:05:47,000 --> 00:05:51,000
+the spring data JPA. So let me select this after this spring Data JPA,
+
+85
+00:05:51,000 --> 00:05:54,000
+I also want to go with the actuator.
+
+86
+00:05:54,000 --> 00:06:01,000
+Like I said before, Spring Boot provides inbuilt endpoints to monitor and manage our application,
+
+87
+00:06:01,000 --> 00:06:05,000
+such as like health of our application metrics of the application.
+
+88
+00:06:05,000 --> 00:06:11,000
+Since we are building microservice and we want to monitor our microservices without writing any external
+
+89
+00:06:11,000 --> 00:06:17,000
+code, I want to use this actuator dependency and the next dependency is dev tools.
+
+90
+00:06:17,000 --> 00:06:23,000
+So this spring boot dev Tools is a starter project which will improve the productivity of the developer.
+
+91
+00:06:23,000 --> 00:06:29,000
+Like you can see, whenever we have this dependency inside our spring boot application, it is going
+
+92
+00:06:29,000 --> 00:06:36,000
+to provide fast application restarts, live reload and configurations for enhanced development experience.
+
+93
+00:06:36,000 --> 00:06:43,000
+Once we start our application, we do some code changes like Java changes, our property changes.
+
+94
+00:06:43,000 --> 00:06:48,000
+In such scenarios, we don't have to manually restart the server of spring boot by default.
+
+95
+00:06:48,000 --> 00:06:55,000
+Internally, this dev tools is going to restart very quickly by reloading only the changes that I have
+
+96
+00:06:55,000 --> 00:06:55,000
+made.
+
+97
+00:06:55,000 --> 00:06:56,000
+So let me select this as well.
+
+98
+00:06:56,000 --> 00:06:59,000
+And the next dependency is Lombok.
+
+99
+00:06:59,000 --> 00:07:06,000
+So using Lombok we can avoid all the setters and getter methods that we need to write inside a pojo
+
+100
+00:07:06,000 --> 00:07:06,000
+class.
+
+101
+00:07:06,000 --> 00:07:12,000
+At the end of the day, all the data that we get from UI application or from other applications will
+
+102
+00:07:12,000 --> 00:07:19,000
+get converted into a pojo class and to access the data from the Pojo class, we will use setter methods.
+
+103
+00:07:19,000 --> 00:07:25,000
+So writing these getter and setter methods is very cumbersome and introduce a lot of boilerplate code.
+
+104
+00:07:25,000 --> 00:07:29,000
+So with the help of Lombok, we can reduce the boilerplate code.
+
+105
+00:07:29,000 --> 00:07:31,000
+I'm going to show you the demo in the coming lectures.
+
+106
+00:07:31,000 --> 00:07:37,000
+For now, please add these dependency and the last validation that I want to add here is validation.
+
+107
+00:07:37,000 --> 00:07:44,000
+Since we decided to follow the standards of performing validations on the incoming requests, we need
+
+108
+00:07:44,000 --> 00:07:48,000
+to add these starter project inside our spring boot application.
+
+109
+00:07:48,000 --> 00:07:51,000
+So now I have added all the dependencies that I have needed.
+
+110
+00:07:51,000 --> 00:07:56,000
+Please note that whatever dependency that I have added related to spring boot dev tools, this will
+
+111
+00:07:56,000 --> 00:07:59,000
+work only for local development.
+
+112
+00:07:59,000 --> 00:08:04,000
+Please don't be under the impression that automatic restarts will happen inside the production as well.
+
+113
+00:08:04,000 --> 00:08:06,000
+That will never happen.
+
+114
+00:08:06,000 --> 00:08:06,000
+Spring Boot team
+
+115
+00:08:06,000 --> 00:08:13,000
+they are smart enough to activate these dependency only during the local development, but not for the
+
+116
+00:08:13,000 --> 00:08:15,000
+production deployments.
+
+117
+00:08:15,000 --> 00:08:16,000
+I hope you are clear.
+
+118
+00:08:16,000 --> 00:08:21,000
+Now as a next step, I can click on this generate button which will generate a Maven application.
+
+119
+00:08:21,000 --> 00:08:24,000
+So let me go to my downloads.
+
+120
+00:08:24,000 --> 00:08:28,000
+You can see here inside my downloads I have this accounts.zip file.
+
+121
+00:08:28,000 --> 00:08:29,000
+So let me copy this.
+
+122
+00:08:29,000 --> 00:08:32,000
+I'll go to the storage Inside workspace folder.
+
+123
+00:08:32,000 --> 00:08:39,000
+I'm going to create a new workspace with the name Microservices inside this microservices folder.
+
+124
+00:08:39,000 --> 00:08:45,000
+I'm going to create one more folder with the name section two because since I said I'm going to upload
+
+125
+00:08:45,000 --> 00:08:50,000
+all the code that we are going to discuss inside the course as per the sections, I'm going to create
+
+126
+00:08:50,000 --> 00:08:56,000
+separate, separate folders inside the workspace and the same way I'm going to upload to GitHub repos
+
+127
+00:08:56,000 --> 00:09:01,000
+so that you have complete code based upon sections inside the GitHub repo.
+
+128
+00:09:01,000 --> 00:09:07,000
+The reason why I'm creating section two but not section one is right now we are in the section two.
+
+129
+00:09:07,000 --> 00:09:12,000
+Inside the section one, we just talked about the microservices introduction and it is a completely
+
+130
+00:09:12,000 --> 00:09:14,000
+theory section.
+
+131
+00:09:14,000 --> 00:09:19,000
+So now inside the section two, I'm going to copy these accounts.zip, let me double click and extract
+
+132
+00:09:19,000 --> 00:09:20,000
+the same.
+
+133
+00:09:20,000 --> 00:09:21,000
+So the file got extracted.
+
+134
+00:09:21,000 --> 00:09:24,000
+I can now remove the .zip file.
+
+135
+00:09:24,000 --> 00:09:27,000
+So here inside this you can see I have the maven structure.
+
+136
+00:09:27,000 --> 00:09:34,000
+There is a source folder, there is a pom.xml and other maven related files inside my Maven project.
+
+137
+00:09:34,000 --> 00:09:39,000
+Now I can import this into my IDE so that we can start working on it.
+
+138
+00:09:39,000 --> 00:09:40,000
+Here,
+
+139
+00:09:40,000 --> 00:09:42,000
+I open my IntelliJ idea.
+
+140
+00:09:42,000 --> 00:09:45,000
+So this is the ID that I'm going to use throughout this course.
+
+141
+00:09:45,000 --> 00:09:51,000
+If you are using Eclipse or NetBeans or any other IDE, you can use the same, but I strongly recommend
+
+142
+00:09:51,000 --> 00:09:59,000
+you switching to IntelliJ idea because this is the most commonly used by the developers.
+
+143
+00:09:59,000 --> 00:10:00,000
+Inside the software industry.
+
+144
+00:10:00,000 --> 00:10:06,000
+It has both community version, which is free and it also have enterprise version as well.
+
+145
+00:10:06,000 --> 00:10:11,000
+If you are working in a organization, there is a good chance you may get enterprise version of this,
+
+146
+00:10:11,000 --> 00:10:17,000
+but I'm going to use a community version inside this course so that all the students who are going to
+
+147
+00:10:17,000 --> 00:10:22,000
+use a free version of this, they will be having same look and feel.
+
+148
+00:10:22,000 --> 00:10:29,000
+So here I'm going to click on this open and I'll go to Storage Workspaces, Micro Services and Section2
+
+149
+00:10:29,000 --> 00:10:29,000
+.
+
+150
+00:10:29,000 --> 00:10:36,000
+So I'll just select the Section2 and click open and this will open all the projects available inside
+
+151
+00:10:36,000 --> 00:10:37,000
+the section2.
+
+152
+00:10:37,000 --> 00:10:41,000
+As of now, we are having only the accounts micro service.
+
+153
+00:10:41,000 --> 00:10:45,000
+Later on we are going to add the loans and cards as well.
+
+154
+00:10:45,000 --> 00:10:50,000
+As soon as you open you'll get this pop up, which is Maven build script found.
+
+155
+00:10:50,000 --> 00:10:51,000
+So you need to click on this load.
+
+156
+00:10:51,000 --> 00:10:55,000
+So this will recognize my accounts project as a Maven project.
+
+157
+00:10:55,000 --> 00:10:59,000
+You can also confirm the same by clicking on this Maven tab.
+
+158
+00:10:59,000 --> 00:11:03,000
+You can see I got this Maven accounts project reflected under this Maven.
+
+159
+00:11:03,000 --> 00:11:05,000
+So with this we should be good.
+
+160
+00:11:05,000 --> 00:11:12,000
+Now let me go to the source file, and under this source file, we'll be having a class with the name
+
+161
+00:11:12,000 --> 00:11:13,000
+accounts application.
+
+162
+00:11:13,000 --> 00:11:21,000
+And this is the main class inside your spring boot application because it has annotation 
+
+163
+00:11:21,000 --> 00:11:22,000
+@SpringBootApplication.
+
+164
+00:11:22,000 --> 00:11:28,000
+With these annotation, we are telling to the spring boot framework to perform auto configurations and
+
+165
+00:11:28,000 --> 00:11:31,000
+to scan all the beans inside our spring boot application.
+
+166
+00:11:31,000 --> 00:11:38,000
+So SpringBootApplication annotation is a combination of all these annotations like enable auto configuration,
+
+167
+00:11:38,000 --> 00:11:41,000
+@SpringBootConfiguration and @ComponentScan.
+
+168
+00:11:41,000 --> 00:11:44,000
+So these are very basic to spring and spring boot framework.
+
+169
+00:11:44,000 --> 00:11:49,000
+Like I said, if you are not aware of these annotations, please, please enroll into your spring and
+
+170
+00:11:49,000 --> 00:11:52,000
+spring boot course so that you can learn the basics.
+
+171
+00:11:52,000 --> 00:11:53,000
+So let me close this.
+
+172
+00:11:53,000 --> 00:11:54,000
+Now
+
+173
+00:11:54,000 --> 00:12:00,000
+our application does not have any REST APIs, so let's try to build a Hello World Rest API in the next
+
+174
+00:12:00,000 --> 00:12:06,000
+lecture, but I'm assuming your super, super clear with all the steps that we have discussed inside this
+
+175
+00:12:06,000 --> 00:12:06,000
+lecture.
+
+176
+00:12:06,000 --> 00:12:12,000
+I have not discussed about the Java installation, Maven installation, IDE installation because I'm assuming
+
+177
+00:12:12,000 --> 00:12:16,000
+you are an mature developer who know all those basic concepts.
+
+178
+00:12:16,000 --> 00:12:23,000
+Because once you learn core Java, Spring and Spring Boot, then only you will come to learn microservices
+
+179
+00:12:23,000 --> 00:12:24,000
+with that assumption.
+
+180
+00:12:24,000 --> 00:12:27,000
+I'm not covering all those very basic setup details.
+
+181
+00:12:27,000 --> 00:12:30,000
+If you have any questions, please reach out to me through Q&A.
+
+182
+00:12:31,000 --> 00:12:32,000
+I'll be able to help you.
+
+183
+00:12:32,000 --> 00:12:32,000
+Thank you,
+
+184
+00:12:32,000 --> 00:12:36,000
+and we can continue the discussion in the next lecture bye.
+

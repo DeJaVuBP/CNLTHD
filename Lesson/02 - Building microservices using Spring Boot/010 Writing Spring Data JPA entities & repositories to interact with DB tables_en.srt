@@ -1,0 +1,1008 @@
+1
+00:00:00,000 --> 00:00:06,000
+In the previous lecture, we have created these two tables with the names, accounts and customer inside
+
+2
+00:00:06,000 --> 00:00:09,000
+our internal H2 database.
+
+3
+00:00:09,000 --> 00:00:15,000
+The same database structure, the same tables and columns we are going to use even when we migrate from
+
+4
+00:00:15,000 --> 00:00:19,000
+H2 database to MySQL database in the coming sections.
+
+5
+00:00:19,000 --> 00:00:22,000
+Right now we have the database and the tables inside it.
+
+6
+00:00:22,000 --> 00:00:27,000
+As a next step, we need to write Java code to interact with these tables so that we can start saving
+
+7
+00:00:27,000 --> 00:00:29,000
+the data into these tables.
+
+8
+00:00:29,000 --> 00:00:30,000
+We can read from them.
+
+9
+00:00:30,000 --> 00:00:34,000
+We can update and delete the data from these tables for the same.
+
+10
+00:00:34,000 --> 00:00:35,000
+Inside our palm dot XML.
+
+11
+00:00:35,000 --> 00:00:40,000
+We already added a library with the name Spring Data JPA.
+
+12
+00:00:40,000 --> 00:00:47,000
+So this is the library under which we have many interfaces and classes, which will help us to interact
+
+13
+00:00:47,000 --> 00:00:50,000
+with the database tables whenever we want to use this framework.
+
+14
+00:00:50,000 --> 00:00:57,000
+First, we need to create the Pojo classes representing each of the table that I have inside my database.
+
+15
+00:00:57,000 --> 00:01:03,000
+For the same, I'm going to create a new package and the package name is going to be entity.
+
+16
+00:01:03,000 --> 00:01:09,000
+Since inside this entity package, I'm going to store all the entity classes of my database.
+
+17
+00:01:09,000 --> 00:01:11,000
+That's why I have choose this name as of now.
+
+18
+00:01:11,000 --> 00:01:17,000
+If you look at the table structure that we have, there are four columns that are going to be present
+
+19
+00:01:17,000 --> 00:01:19,000
+in each of the tables that we are going to create.
+
+20
+00:01:19,000 --> 00:01:24,000
+These four columns are the metadata columns that we maintain in each of the table.
+
+21
+00:01:24,000 --> 00:01:31,000
+So it is a good idea to create a separate superclass that will maintain the details of these four columns.
+
+22
+00:01:31,000 --> 00:01:38,000
+That's why inside this entity package, first I'm going to create a new Java class with the name base
+
+23
+00:01:38,000 --> 00:01:38,000
+entity.
+
+24
+00:01:38,000 --> 00:01:45,000
+Inside this base entity class, I'm going to create four different fields, each representing one of
+
+25
+00:01:45,000 --> 00:01:46,000
+the metadata column.
+
+26
+00:01:46,000 --> 00:01:54,000
+The very first one is private local date time, and the field name is going to be created at.
+
+27
+00:01:54,000 --> 00:02:00,000
+Please make sure this field name is matching with your column name that you have created inside the
+
+28
+00:02:00,000 --> 00:02:01,000
+table.
+
+29
+00:02:01,000 --> 00:02:02,000
+So created at.
+
+30
+00:02:02,000 --> 00:02:09,000
+You have to remove the underscore post that convert the first letter of the second word to capital letter
+
+31
+00:02:09,000 --> 00:02:11,000
+like we are seeing here.
+
+32
+00:02:11,000 --> 00:02:17,000
+This way we don't have to tell to the Spring Data JPA framework to which column this field is mapped
+
+33
+00:02:17,000 --> 00:02:18,000
+inside my database.
+
+34
+00:02:18,000 --> 00:02:21,000
+The next field is private string.
+
+35
+00:02:21,000 --> 00:02:25,000
+For this field, I'm going to mention the field name as created by.
+
+36
+00:02:25,000 --> 00:02:29,000
+So this represents the second metadata column that we have which is created by.
+
+37
+00:02:29,000 --> 00:02:38,000
+Very similarly I'm going to create the next two columns and rename these to updated at and updated by.
+
+38
+00:02:38,000 --> 00:02:43,000
+Now as a next step, we are supposed to create the getter and setter methods for these fields, and
+
+39
+00:02:43,000 --> 00:02:48,000
+creating all those getters and setters will be very cumbersome process.
+
+40
+00:02:48,000 --> 00:02:52,000
+And at the same time, the code looks very lengthy, which we don't want.
+
+41
+00:02:52,000 --> 00:02:56,000
+That's why we need to use our Lombok related annotations.
+
+42
+00:02:56,000 --> 00:03:01,000
+The very first annotation that we need to mention on top of this class is at the rate getter.
+
+43
+00:03:01,000 --> 00:03:09,000
+So when we mention this annotation behind the scenes, my Lombok library is going to generate the getter
+
+44
+00:03:09,000 --> 00:03:14,000
+and setter the same I'm doing for the setter with the help of these at the rate setter annotation and
+
+45
+00:03:14,000 --> 00:03:20,000
+if needed, we can also mention the two string annotation, which will help us to convert these base
+
+46
+00:03:20,000 --> 00:03:22,000
+entity objects to the string format.
+
+47
+00:03:22,000 --> 00:03:26,000
+So once we define all these Lombok related annotations, we should be good.
+
+48
+00:03:26,000 --> 00:03:28,000
+So let me save these changes.
+
+49
+00:03:28,000 --> 00:03:35,000
+Now if I try to show you the methods present inside these class, you can see there is a getter methods
+
+50
+00:03:35,000 --> 00:03:41,000
+for each of the field like get created at, get created by and very similarly we have setter method
+
+51
+00:03:41,000 --> 00:03:47,000
+and two string method, also created by the Lombok annotation behind the scenes, which means you will
+
+52
+00:03:47,000 --> 00:03:50,000
+not be seeing these getters and setters inside your code.
+
+53
+00:03:50,000 --> 00:03:56,000
+But behind the scenes, Lombok is going to do the magic of generating them inside the bytecode of your
+
+54
+00:03:56,000 --> 00:03:57,000
+classes.
+
+55
+00:03:57,000 --> 00:04:01,000
+That's why whenever you are seeing them, list of the methods inside your classes.
+
+56
+00:04:01,000 --> 00:04:03,000
+You are able to see all these methods.
+
+57
+00:04:03,000 --> 00:04:10,000
+You can uncheck these inherited members, and you'll be able to see all the methods which are specific
+
+58
+00:04:10,000 --> 00:04:11,000
+to this class only.
+
+59
+00:04:11,000 --> 00:04:18,000
+I hope you're clear now, since we are trying to leverage these base entity class for all the other
+
+60
+00:04:18,000 --> 00:04:23,000
+entity classes that we are going to create inside our project, we need to mention an annotation which
+
+61
+00:04:23,000 --> 00:04:26,000
+is at the rate mapped superclass.
+
+62
+00:04:26,000 --> 00:04:32,000
+This indicates to the Spring Data JPA framework that this class is going to act as a superclass for
+
+63
+00:04:32,000 --> 00:04:36,000
+all my entities, wherever I'm trying to extend this base entity class.
+
+64
+00:04:36,000 --> 00:04:43,000
+So once we mention these details, we can also mention one more annotation on top of each field, which
+
+65
+00:04:43,000 --> 00:04:44,000
+is at the rate column.
+
+66
+00:04:44,000 --> 00:04:50,000
+Using this, @Column annotation, we can mention what is the column name inside the database
+
+67
+00:04:50,000 --> 00:04:52,000
+that we are trying to map to this field.
+
+68
+00:04:52,000 --> 00:04:57,000
+But since the column name and the field names are matching, we don't need to mention the column name
+
+69
+00:04:57,000 --> 00:04:59,000
+manually with the help of these 
+
+70
+00:04:59,000 --> 00:05:00,000
+@Column annotation.
+
+71
+00:05:00,000 --> 00:05:06,000
+So what I'm trying to mention here is I'm going to mention updatable is equal to false.
+
+72
+00:05:06,000 --> 00:05:12,000
+The purpose of this updatable is equal to false is whenever a record is being updated inside the database
+
+73
+00:05:12,000 --> 00:05:13,000
+table.
+
+74
+00:05:13,000 --> 00:05:20,000
+I don't want this column to be considered by the Spring Data JPA to populate the value and to update
+
+75
+00:05:20,000 --> 00:05:27,000
+the value, which means this field will not be updated whenever I'm trying to update my record, because
+
+76
+00:05:27,000 --> 00:05:34,000
+I only want to maintain this created at time to represent the what is the original time when my record
+
+77
+00:05:34,000 --> 00:05:37,000
+is inserted, let me do the same for created by also.
+
+78
+00:05:37,000 --> 00:05:44,000
+Now very similarly for the updated at, I'm going to mention the insert table is equal to false.
+
+79
+00:05:44,000 --> 00:05:49,000
+Just like how we have updatable is equal to false, we also have inserted will is equal to false.
+
+80
+00:05:49,000 --> 00:05:52,000
+This tells to my Spring Data JPA framework.
+
+81
+00:05:52,000 --> 00:06:00,000
+Please do not populate our update these two columns whenever it is trying to insert a very new record
+
+82
+00:06:00,000 --> 00:06:01,000
+inside the database.
+
+83
+00:06:01,000 --> 00:06:06,000
+Of course, this makes sense because while we are trying to insert the record very first time, why
+
+84
+00:06:06,000 --> 00:06:08,000
+do we want to update these two columns?
+
+85
+00:06:08,000 --> 00:06:10,000
+We need to maintain them as null values.
+
+86
+00:06:10,000 --> 00:06:12,000
+So now my base entity class is ready.
+
+87
+00:06:12,000 --> 00:06:15,000
+Let me go to the entity package.
+
+88
+00:06:15,000 --> 00:06:20,000
+And here I'm going to create a new class which represents customer table.
+
+89
+00:06:20,000 --> 00:06:24,000
+That's why I'm trying to create a class with the same name customer.
+
+90
+00:06:24,000 --> 00:06:28,000
+So here the very first annotation that I need to mention is at the rate entity.
+
+91
+00:06:28,000 --> 00:06:31,000
+So this delta my Spring Data JPA framework.
+
+92
+00:06:31,000 --> 00:06:39,000
+Please treat this Pojo class as a entity representation or an Pojo representation for my table with
+
+93
+00:06:39,000 --> 00:06:40,000
+the name customer.
+
+94
+00:06:40,000 --> 00:06:44,000
+So if you see the table name will match with the class name that we have.
+
+95
+00:06:44,000 --> 00:06:51,000
+So this is matching if it is not matching, and if you are trying to use a different class name, then
+
+96
+00:06:51,000 --> 00:06:54,000
+you can use the annotation which is at the rate table.
+
+97
+00:06:54,000 --> 00:07:00,000
+And to this table annotation you can pass the name parameter, to which you can mention whatever table
+
+98
+00:07:00,000 --> 00:07:02,000
+name that you have inside the database.
+
+99
+00:07:02,000 --> 00:07:08,000
+Since right now the class name and table name is matching, I don't want to use at the rate table annotation
+
+100
+00:07:08,000 --> 00:07:09,000
+was that.
+
+101
+00:07:09,000 --> 00:07:14,000
+First I want to create a field with the name private long customer ID.
+
+102
+00:07:14,000 --> 00:07:22,000
+So this is going to hold the primary key value inside my database followed by private string name.
+
+103
+00:07:22,000 --> 00:07:26,000
+And this name field is going to hold the name of the customer.
+
+104
+00:07:26,000 --> 00:07:33,000
+And very similarly private string email followed by private string mobile number.
+
+105
+00:07:33,000 --> 00:07:39,000
+So with this we have created the all the fields with the same names like we mentioned inside the table
+
+106
+00:07:39,000 --> 00:07:42,000
+like customer ID name, email, mobile number.
+
+107
+00:07:42,000 --> 00:07:48,000
+Now, since we also have metadata related columns inside our entity, we need to extend the entity class
+
+108
+00:07:48,000 --> 00:07:52,000
+that we have created previously, which is base entity.
+
+109
+00:07:52,000 --> 00:07:57,000
+So once we define these details, all the fields that we have inside the base entity will be considered
+
+110
+00:07:57,000 --> 00:07:59,000
+by the Spring Data JPA framework.
+
+111
+00:07:59,000 --> 00:08:05,000
+Whenever it is trying to insert a new record, or update a record, or delete a record as a next step,
+
+112
+00:08:05,000 --> 00:08:12,000
+we need to also mention the Lombok annotations like getter, setter, two string and very similarly.
+
+113
+00:08:12,000 --> 00:08:17,000
+I'm also going to mention all args constructor and no args constructor.
+
+114
+00:08:17,000 --> 00:08:25,000
+With the help of all args constructor, my Lombok is going to generate a constructor which accepts all
+
+115
+00:08:25,000 --> 00:08:31,000
+the fields that we have inside this Pojo class, and very similarly with no args constructor, it is
+
+116
+00:08:31,000 --> 00:08:33,000
+going to generate an empty constructor.
+
+117
+00:08:33,000 --> 00:08:39,000
+The reason why I'm mentioning these two annotations is in future, when we are trying to leverage this
+
+118
+00:08:39,000 --> 00:08:43,000
+customer entity class, we need to create the object of this entity class.
+
+119
+00:08:43,000 --> 00:08:49,000
+And when we are trying to create the object, obviously we need the constructor like all args constructor
+
+120
+00:08:49,000 --> 00:08:50,000
+and no arcs constructor.
+
+121
+00:08:50,000 --> 00:08:51,000
+That's why I'm mentioning here.
+
+122
+00:08:51,000 --> 00:08:56,000
+Now like I said, this is going to be a primary key column value.
+
+123
+00:08:56,000 --> 00:08:59,000
+But how do I communicate that to the Spring Data JPA framework?
+
+124
+00:08:59,000 --> 00:09:01,000
+There are four fields inside this class.
+
+125
+00:09:01,000 --> 00:09:04,000
+But this field is going to represent the primary key value.
+
+126
+00:09:04,000 --> 00:09:09,000
+So to communicate the same we need to use the annotation which which is at the rate ID.
+
+127
+00:09:09,000 --> 00:09:15,000
+Now I told to my Spring Data JPA that this field is going to represent as a primary key, but are we
+
+128
+00:09:15,000 --> 00:09:19,000
+going to provide the primary key value manually to the Spring Data JPA framework?
+
+129
+00:09:19,000 --> 00:09:25,000
+Are we want the Spring Data JPA framework to automatically generate a primary key value whenever it
+
+130
+00:09:25,000 --> 00:09:30,000
+is trying to insert a new record into the table, it is a good idea to give the responsibility to the
+
+131
+00:09:30,000 --> 00:09:32,000
+Spring Data JPA framework.
+
+132
+00:09:32,000 --> 00:09:37,000
+For the same, we need to mention two annotations like you can see here these two annotations, which
+
+133
+00:09:37,000 --> 00:09:41,000
+is at the generated value and at the rate generic generator.
+
+134
+00:09:41,000 --> 00:09:47,000
+Using these two annotations, we are trying to tell to the Spring Data JPA framework, please automatically
+
+135
+00:09:47,000 --> 00:09:49,000
+generate the primary key values.
+
+136
+00:09:49,000 --> 00:09:54,000
+That's why I'm mentioning the strategy as generation type dot auto.
+
+137
+00:09:54,000 --> 00:09:55,000
+Auto indicates automatic.
+
+138
+00:09:55,000 --> 00:09:58,000
+And what is the generator value?
+
+139
+00:09:58,000 --> 00:09:59,000
+Generator value that I'm mentioning.
+
+140
+00:09:59,000 --> 00:10:06,000
+Is near to the same native name I have created here, with the help of a generic generator annotation.
+
+141
+00:10:06,000 --> 00:10:09,000
+For the second annotation, I'm passing the strategy as native.
+
+142
+00:10:09,000 --> 00:10:13,000
+With the native strategy, I'm telling to the Spring Data JPA framework.
+
+143
+00:10:13,000 --> 00:10:19,000
+Whatever database that I'm using, please try to generate the sequence number or the primary key value
+
+144
+00:10:19,000 --> 00:10:22,000
+based upon the native style of my database.
+
+145
+00:10:22,000 --> 00:10:28,000
+For example, if I use my SQL database as my back end database, my Spring Data JPA framework is going
+
+146
+00:10:28,000 --> 00:10:33,000
+to leverage a native strategy which is specific to my SQL database.
+
+147
+00:10:33,000 --> 00:10:36,000
+So this is what we are communicating with these two annotations.
+
+148
+00:10:36,000 --> 00:10:41,000
+So please make sure you are mentioning these two annotations inside your code as well.
+
+149
+00:10:41,000 --> 00:10:47,000
+And like I said before, we can also mention at the rate column annotation.
+
+150
+00:10:47,000 --> 00:10:54,000
+And to this column annotation we can pass the what is our column name here the column name is customer
+
+151
+00:10:54,000 --> 00:10:57,000
+ID, so the field name and the column name is matching.
+
+152
+00:10:57,000 --> 00:11:01,000
+I'm again mentioning this so that you will have a reference in future.
+
+153
+00:11:01,000 --> 00:11:03,000
+I'll also mention the same for mobile number.
+
+154
+00:11:03,000 --> 00:11:10,000
+Like I said, even if we don't mention this at the rate column annotation, it is going to work perfectly
+
+155
+00:11:10,000 --> 00:11:14,000
+because the column names and field names are matching in our scenario.
+
+156
+00:11:14,000 --> 00:11:20,000
+I'm just mentioning for your reference so that in future you are aware of these at the rate column annotation.
+
+157
+00:11:20,000 --> 00:11:26,000
+So now I need to create one more entity class representing the second table that I have which is accounts.
+
+158
+00:11:26,000 --> 00:11:31,000
+So let me copy this customer entity and paste inside the same package.
+
+159
+00:11:31,000 --> 00:11:35,000
+For this new entity I'm going to keep the name as accounts.
+
+160
+00:11:35,000 --> 00:11:37,000
+So let me create this new class.
+
+161
+00:11:37,000 --> 00:11:41,000
+So to this accounts entity class we are fine extending the base entity.
+
+162
+00:11:41,000 --> 00:11:43,000
+And we are fine with all those annotations.
+
+163
+00:11:43,000 --> 00:11:49,000
+And inside this entity class customer ID is not going to be the primary key value.
+
+164
+00:11:49,000 --> 00:11:54,000
+It is only present to establish the link between accounts table and customer table.
+
+165
+00:11:54,000 --> 00:11:56,000
+So let me remove all those ID values.
+
+166
+00:11:56,000 --> 00:12:03,000
+Post that I'm going to create a new field with the name private long account number.
+
+167
+00:12:03,000 --> 00:12:07,000
+And account number is going to act as a primary key value inside my table.
+
+168
+00:12:07,000 --> 00:12:11,000
+That's why I need to mention at the rate ID and on top of this field.
+
+169
+00:12:11,000 --> 00:12:17,000
+Also, I can mention at the rate column just for your reference, like this is going to retrain the
+
+170
+00:12:17,000 --> 00:12:20,000
+database column which is count underscore number.
+
+171
+00:12:20,000 --> 00:12:23,000
+Let's check if this is matching with the schema dot SQL.
+
+172
+00:12:23,000 --> 00:12:24,000
+Yes.
+
+173
+00:12:24,000 --> 00:12:25,000
+This is matching.
+
+174
+00:12:25,000 --> 00:12:29,000
+The next field that I want to create is account type to this field.
+
+175
+00:12:29,000 --> 00:12:34,000
+Also I'll mention at the rate column the strategy that I'm using right now to mention this at the rate
+
+176
+00:12:34,000 --> 00:12:38,000
+column is where the column names has underscore inside them.
+
+177
+00:12:38,000 --> 00:12:41,000
+I'm just mentioning the at the rate column.
+
+178
+00:12:41,000 --> 00:12:43,000
+But like I said this is completely optional.
+
+179
+00:12:43,000 --> 00:12:46,000
+If the column name and field names are matching.
+
+180
+00:12:46,000 --> 00:12:48,000
+Ignoring the underscore value.
+
+181
+00:12:48,000 --> 00:12:49,000
+But this is matching with the account type.
+
+182
+00:12:49,000 --> 00:12:52,000
+Now let me do the same for branch address.
+
+183
+00:12:52,000 --> 00:12:56,000
+So the field name is going to be branch address.
+
+184
+00:12:56,000 --> 00:13:03,000
+And here I'm not mentioning any annotations related to generate the primary key value automatically.
+
+185
+00:13:03,000 --> 00:13:09,000
+The reason is I am going to write a small logic inside my rest API service to generate the account number
+
+186
+00:13:09,000 --> 00:13:12,000
+manually and assign the same into the database.
+
+187
+00:13:12,000 --> 00:13:17,000
+We don't want our bank account numbers to start with sequence numbers like one, two, three, four.
+
+188
+00:13:17,000 --> 00:13:18,000
+That won't look good.
+
+189
+00:13:18,000 --> 00:13:21,000
+Account number usually will be ten digit number.
+
+190
+00:13:21,000 --> 00:13:25,000
+That's why as a developer, it is my responsibility to generate the account number.
+
+191
+00:13:25,000 --> 00:13:31,000
+And with that reason I have not mentioned the annotations related to primary key generation like we
+
+192
+00:13:31,000 --> 00:13:33,000
+mentioned inside the customer table.
+
+193
+00:13:33,000 --> 00:13:35,000
+I hope this is clear.
+
+194
+00:13:35,000 --> 00:13:41,000
+With this, we have successfully created entity classes representing each of the table that we have
+
+195
+00:13:41,000 --> 00:13:43,000
+created inside our database.
+
+196
+00:13:43,000 --> 00:13:49,000
+Now, as a next step, we should also create the repository classes representing each of the table.
+
+197
+00:13:49,000 --> 00:13:54,000
+Because with these entity classes, we can only store our data into the entity Pojo class.
+
+198
+00:13:54,000 --> 00:14:01,000
+But we need some logic that will take the object of these entity classes and interact with the database
+
+199
+00:14:01,000 --> 00:14:03,000
+tables that we have created by the same.
+
+200
+00:14:03,000 --> 00:14:08,000
+We need to create the repository interfaces inside our web application.
+
+201
+00:14:08,000 --> 00:14:10,000
+So I'm trying to create a new package here.
+
+202
+00:14:10,000 --> 00:14:17,000
+The package name is going to be com dot easy bytes dot accounts dot repository.
+
+203
+00:14:17,000 --> 00:14:21,000
+Inside this repository package I'm going to create a new interface.
+
+204
+00:14:21,000 --> 00:14:24,000
+And the interface name is going to be Customer repository.
+
+205
+00:14:24,000 --> 00:14:30,000
+And using this repository I'm going to interact with my customer database table with the help of Spring
+
+206
+00:14:30,000 --> 00:14:31,000
+Data JPA framework.
+
+207
+00:14:31,000 --> 00:14:33,000
+So let me create this customer repository.
+
+208
+00:14:33,000 --> 00:14:39,000
+Now on top of this interface I'm going to mention an annotation which is repository.
+
+209
+00:14:39,000 --> 00:14:44,000
+Whenever I'm mentioning this annotation on top of my interface class behind the scenes, my Spring Data
+
+210
+00:14:44,000 --> 00:14:50,000
+JPA framework will create a bean implementation of this interface based upon the configurations that
+
+211
+00:14:50,000 --> 00:14:51,000
+I'm going to provide.
+
+212
+00:14:51,000 --> 00:14:53,000
+So this just an empty interface.
+
+213
+00:14:53,000 --> 00:14:59,000
+The Spring Data JPA framework cannot create an object or bean from it in order to bring the.
+
+214
+00:14:59,000 --> 00:15:06,000
+Magic of Spring Data JPA into this interface, we need to extend a class from the Spring Data JPA framework,
+
+215
+00:15:06,000 --> 00:15:11,000
+which is JPA repository, to this JPA repository.
+
+216
+00:15:11,000 --> 00:15:13,000
+It is going to accept two parameters.
+
+217
+00:15:13,000 --> 00:15:19,000
+One is what is the entity class, which is going to be handled by this repository class.
+
+218
+00:15:19,000 --> 00:15:25,000
+And the second parameter is what is the data type of your primary key field inside your entity.
+
+219
+00:15:25,000 --> 00:15:29,000
+So if you open this customer table the primary key data type is long.
+
+220
+00:15:29,000 --> 00:15:31,000
+That's why we need to mention the same here.
+
+221
+00:15:31,000 --> 00:15:38,000
+So whenever I'm creating a interface with other repository annotation that is extending JPA repository
+
+222
+00:15:38,000 --> 00:15:45,000
+behind the scenes, my Spring Data JPA framework is going to generate the runtime code by providing
+
+223
+00:15:45,000 --> 00:15:46,000
+large many methods.
+
+224
+00:15:46,000 --> 00:15:53,000
+If you see all these methods are coming from the framework, like I can execute Crud operations like
+
+225
+00:15:53,000 --> 00:15:56,000
+find, delete, update and insert.
+
+226
+00:15:56,000 --> 00:16:01,000
+So these are all find methods will help me to find the records from the database.
+
+227
+00:16:01,000 --> 00:16:06,000
+Similarly, we have saved methods to insert and update the records inside the database.
+
+228
+00:16:06,000 --> 00:16:13,000
+This way I'm able to get all these methods from the Spring Data JPA framework without writing any SQL
+
+229
+00:16:13,000 --> 00:16:13,000
+manually.
+
+230
+00:16:13,000 --> 00:16:19,000
+Inside my business logic, I'm going to show you the demo of these repository interfaces in the coming
+
+231
+00:16:19,000 --> 00:16:20,000
+lectures.
+
+232
+00:16:20,000 --> 00:16:24,000
+For now, please note that that these JPA repository is coming from the Spring Data JPA framework.
+
+233
+00:16:24,000 --> 00:16:31,000
+And this internally extends list of paging and sorting repository and other interface like query by
+
+234
+00:16:31,000 --> 00:16:32,000
+example executor.
+
+235
+00:16:32,000 --> 00:16:38,000
+Like I said, if you're not aware of these spring Data JPA framework in detail, please look for and
+
+236
+00:16:38,000 --> 00:16:42,000
+spring course that explain more about these Spring Data JPA framework.
+
+237
+00:16:42,000 --> 00:16:48,000
+For now, please note that with the help of this JPA repository, we don't have to write any code to
+
+238
+00:16:48,000 --> 00:16:52,000
+execute the Crud operations on our table, which is customer.
+
+239
+00:16:52,000 --> 00:16:57,000
+So now very similarly I'm going to create a one more repository interface.
+
+240
+00:16:57,000 --> 00:17:01,000
+And this repository interface is going to be accounts repository.
+
+241
+00:17:01,000 --> 00:17:06,000
+The only change that we need to do here is to update the entity class name.
+
+242
+00:17:06,000 --> 00:17:08,000
+So the entity class name is accounts.
+
+243
+00:17:08,000 --> 00:17:12,000
+And it is also having a primary key value that supports long.
+
+244
+00:17:12,000 --> 00:17:15,000
+So we should be good with this long parameter value.
+
+245
+00:17:15,000 --> 00:17:19,000
+So like you can see these interface are empty as of now.
+
+246
+00:17:19,000 --> 00:17:25,000
+And with the help of these interfaces we can invoke the methods from the framework to perform the Crud
+
+247
+00:17:25,000 --> 00:17:29,000
+operations, which I'm going to show you the demo in the coming lectures with this.
+
+248
+00:17:29,000 --> 00:17:34,000
+Inside this lecture we have created the entity classes for our database tables.
+
+249
+00:17:34,000 --> 00:17:40,000
+And also we have created the repository interfaces using which we can interact with the database tables
+
+250
+00:17:40,000 --> 00:17:45,000
+by using the methods available inside these Spring Data JPA framework.
+
+251
+00:17:45,000 --> 00:17:46,000
+I hope this is all clear to you.
+
+252
+00:17:46,000 --> 00:17:49,000
+Thank you and I'll catch you in the next lecture by.
+

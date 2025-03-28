@@ -1,0 +1,560 @@
+1
+00:00:00,000 --> 00:00:02,000
+Inside this lecture,
+
+2
+00:00:02,000 --> 00:00:06,000
+let's try to enhance documentation related to our schema objects.
+
+3
+00:00:06,000 --> 00:00:11,000
+So using certain annotations, we can enhance this documentation further.
+
+4
+00:00:11,000 --> 00:00:16,000
+Just like how we made some changes inside the controller class and on top of the Java methods inside
+
+5
+00:00:16,000 --> 00:00:17,000
+controller class.
+
+6
+00:00:17,000 --> 00:00:21,000
+Very similarly, we need to visit these dto classes that we have.
+
+7
+00:00:21,000 --> 00:00:26,000
+Like first let me try to visit this CustomerDto. Here inside my CustomerDto.
+
+8
+00:00:26,000 --> 00:00:32,000
+Since I don't want to display this technical name, I can choose a different name which which is going
+
+9
+00:00:32,000 --> 00:00:33,000
+to be more business friendly.
+
+10
+00:00:33,000 --> 00:00:38,000
+So for the same, I'm going to use a annotation which is @Schema.
+
+11
+00:00:38,000 --> 00:00:46,000
+Using this annotation, we can invoke name and to this name I'm going to mention just simply Customer.
+
+12
+00:00:46,000 --> 00:00:50,000
+The same name is going to be displayed inside my swagger UI as well.
+
+13
+00:00:50,000 --> 00:00:57,000
+Now, coming to the description here, I can mention a description explaining about what these schema
+
+14
+00:00:57,000 --> 00:00:58,000
+is going to hold.
+
+15
+00:00:58,000 --> 00:01:03,000
+That's why I'm telling schema to hold customer and account information.
+
+16
+00:01:03,000 --> 00:01:09,000
+So once we define these details, we can also define field level information as well, like whatever
+
+17
+00:01:09,000 --> 00:01:11,000
+schema that we have mentioned here.
+
+18
+00:01:11,000 --> 00:01:16,000
+Very similarly, we can also define these kind of information at the field level.
+
+19
+00:01:16,000 --> 00:01:20,000
+For example, I can define schema annotation on top of my name field.
+
+20
+00:01:20,000 --> 00:01:23,000
+I don't want to overwrite this name.
+
+21
+00:01:23,000 --> 00:01:25,000
+I'm fine with whatever field name that I'm going to show.
+
+22
+00:01:25,000 --> 00:01:30,000
+By default, the field name is going to be displayed in the open API documentation.
+
+23
+00:01:30,000 --> 00:01:32,000
+So now I have to update the description.
+
+24
+00:01:32,000 --> 00:01:33,000
+What is this field about?
+
+25
+00:01:33,000 --> 00:01:39,000
+So that's why I'm going to mention a description which is Name of the customer.
+
+26
+00:01:39,000 --> 00:01:42,000
+So this field is going to hold the name of the customer.
+
+27
+00:01:42,000 --> 00:01:49,000
+And very similarly, I can also invoke example. Using example, I can provide some example data.
+
+28
+00:01:49,000 --> 00:01:52,000
+So here I'm just going to mention a name like Eazy Byte.
+
+29
+00:01:52,000 --> 00:01:58,000
+So the same example data is going to be displayed inside our open API documentation.
+
+30
+00:01:58,000 --> 00:02:03,000
+So let me define similar schema details for remaining fields that we have here.
+
+31
+00:02:03,000 --> 00:02:08,000
+So I'm just mentioning on top of email like the description is going to be email address of the customer
+
+32
+00:02:08,000 --> 00:02:11,000
+and this is an example email value.
+
+33
+00:02:11,000 --> 00:02:14,000
+And similarly for mobile number also I can describe.
+
+34
+00:02:14,000 --> 00:02:19,000
+So this is what I'm mentioning for mobile number like description is mobile number of the customer and
+
+35
+00:02:19,000 --> 00:02:21,000
+this is a sample mobile number value.
+
+36
+00:02:21,000 --> 00:02:27,000
+Now here on top of accounts, I'm going to mention schema information saying that this is the description
+
+37
+00:02:27,000 --> 00:02:29,000
+like accounts details of the customer.
+
+38
+00:02:29,000 --> 00:02:34,000
+And here I don't want to pass the example information because anyway, I'm going to provide more details
+
+39
+00:02:34,000 --> 00:02:37,000
+about this data inside this class itself.
+
+40
+00:02:37,000 --> 00:02:43,000
+So inside AccountsDto first, I need to make sure I'm mentioning similar information like schema here.
+
+41
+00:02:43,000 --> 00:02:47,000
+So let me take this value and paste it here.
+
+42
+00:02:47,000 --> 00:02:53,000
+And the name that I want to consider here is accounts, and this is going to hold the account information.
+
+43
+00:02:53,000 --> 00:02:55,000
+So let me update the same here.
+
+44
+00:02:55,000 --> 00:03:00,000
+Now as a next step, I'm going to provide schema details on top of the accountNumber field.
+
+45
+00:03:00,000 --> 00:03:05,000
+Like this is the description Account Number of Easy Bank Account and example is not a mandatory.
+
+46
+00:03:05,000 --> 00:03:10,000
+That's why in order to show that I'm not giving any example information for accountNumber, people
+
+47
+00:03:10,000 --> 00:03:14,000
+should be able to easily understand by seeing these rejects expression.
+
+48
+00:03:14,000 --> 00:03:18,000
+So now coming to the account type, I'm going to mention the schema details.
+
+49
+00:03:18,000 --> 00:03:23,000
+So here I'm just mentioning schema details, saying that description Account Type of Easy Bank Account
+
+50
+00:03:23,000 --> 00:03:25,000
+and example is savings.
+
+51
+00:03:25,000 --> 00:03:28,000
+So let me do the same for branch address as well.
+
+52
+00:03:28,000 --> 00:03:32,000
+Here also, I'm not going to do any example data, I'm giving only description information.
+
+53
+00:03:32,000 --> 00:03:36,000
+So it is up to us whether we want to give example information or not.
+
+54
+00:03:36,000 --> 00:03:40,000
+Now, similarly, we need to go to the response that we have.
+
+55
+00:03:40,000 --> 00:03:47,000
+Like let me go to ResponseDto on top of this ResponsDto we need to invoke an annotation which is
+
+56
+00:03:47,000 --> 00:03:51,000
+schema, and to this annotation we need to invoke name.
+
+57
+00:03:51,000 --> 00:03:57,000
+And the name that I want to have here is response and post that we can also invoke description inside
+
+58
+00:03:57,000 --> 00:03:58,000
+the description.
+
+59
+00:03:58,000 --> 00:04:01,000
+I'm just mentioning schema to hold successful response information.
+
+60
+00:04:01,000 --> 00:04:06,000
+Now let me do the same for statusCode and statusMessage as well.
+
+61
+00:04:06,000 --> 00:04:11,000
+So I'm just mentioning schema description as statusCode in the response and example as 200.
+
+62
+00:04:11,000 --> 00:04:16,000
+So now for status message also I'm mentioning like description is status message in the response and
+
+63
+00:04:16,000 --> 00:04:20,000
+example is request to process successfully. As a next step
+
+64
+00:04:20,000 --> 00:04:28,000
+let's go to the ErrorResponseDto and here I'm going to mention @Schema annotation post
+
+65
+00:04:28,000 --> 00:04:29,000
+that I'm going to mention
+
+66
+00:04:29,000 --> 00:04:31,000
+what is the name of this DTO.
+
+67
+00:04:31,000 --> 00:04:34,000
+The name I just wanted to keep it as ErrorResponse.
+
+68
+00:04:34,000 --> 00:04:41,000
+Now post that, I can also pass the description and under this description I'm going to mention schema
+
+69
+00:04:41,000 --> 00:04:44,000
+to hold ErrorResponse information. As next step,
+
+70
+00:04:44,000 --> 00:04:47,000
+we can also mention schema details on top of this path.
+
+71
+00:04:47,000 --> 00:04:51,000
+Very similarly, we can mention for error code as well.
+
+72
+00:04:51,000 --> 00:04:55,000
+So for error code I'm just mentioning error code representing the error happened.
+
+73
+00:04:55,000 --> 00:04:59,000
+And similarly I'm going to mention for error message as well.
+
+74
+00:04:59,000 --> 00:05:00,000
+So here I'm not mentioning
+
+75
+00:05:00,000 --> 00:05:05,000
+any example values because these errors can keep change based upon the scenario.
+
+76
+00:05:05,000 --> 00:05:10,000
+But if you have such requirements, you can always mention example details as well.
+
+77
+00:05:10,000 --> 00:05:16,000
+So with this, all the dto are also well documented with the help of these Openapi specification
+
+78
+00:05:16,000 --> 00:05:18,000
+annotations which is @Schema.
+
+79
+00:05:18,000 --> 00:05:20,000
+So let me save these changes.
+
+80
+00:05:20,000 --> 00:05:21,000
+Do a build.
+
+81
+00:05:21,000 --> 00:05:26,000
+Once the build is completed, we can go to the swagger UI and try to understand how this information is
+
+82
+00:05:26,000 --> 00:05:28,000
+being reflected inside the UI.
+
+83
+00:05:28,000 --> 00:05:33,000
+As of now you can see the Dataverse has technical names, so let me try to refresh this page and you'll
+
+84
+00:05:33,000 --> 00:05:39,000
+be able to see that these schemas right now has a meaningful business name like accounts and this is
+
+85
+00:05:39,000 --> 00:05:42,000
+the overall information about the schema object.
+
+86
+00:05:42,000 --> 00:05:46,000
+And similarly, you can go to the field and there will be a description.
+
+87
+00:05:46,000 --> 00:05:49,000
+And for accounts you can see there is an example value also.
+
+88
+00:05:49,000 --> 00:05:54,000
+Very similarly, if you go to the Customer, there is a name and this is the example value and this
+
+89
+00:05:54,000 --> 00:05:55,000
+is a summary of the each field.
+
+90
+00:05:55,000 --> 00:06:01,000
+Now if you go and check any of the APIs, you can see the schema right now has example values populated.
+
+91
+00:06:01,000 --> 00:06:05,000
+Like this is a name, this is the email, this is a mobile number.
+
+92
+00:06:05,000 --> 00:06:08,000
+So this is looking good except this account number and branch address.
+
+93
+00:06:08,000 --> 00:06:13,000
+So let me try to mention that we'll go to AccountsDto and inside AccountsDto.
+
+94
+00:06:13,000 --> 00:06:17,000
+I'm just going to mention example and this example
+
+95
+00:06:17,000 --> 00:06:20,000
+I'm going to mention a ten digit account number.
+
+96
+00:06:20,000 --> 00:06:25,000
+Similarly, I'll mention a example value saying that 123NewYork.
+
+97
+00:06:25,000 --> 00:06:27,000
+So let me save this changes.
+
+98
+00:06:27,000 --> 00:06:28,000
+Do a build.
+
+99
+00:06:28,000 --> 00:06:29,000
+I'm refreshing this page this time
+
+100
+00:06:29,000 --> 00:06:31,000
+you can see the same examples
+
+101
+00:06:31,000 --> 00:06:33,000
+Information are being considered here.
+
+102
+00:06:33,000 --> 00:06:40,000
+This way we enhanced our documentation to a great extent and right now everything is looking very professional
+
+103
+00:06:40,000 --> 00:06:42,000
+inside our swagger UI.
+
+104
+00:06:42,000 --> 00:06:49,000
+And here there is a small bug as of now you can see and a schemas there is one dto missing which is
+
+105
+00:06:49,000 --> 00:06:50,000
+ErrorResponse.
+
+106
+00:06:50,000 --> 00:06:57,000
+Why this information is missing is we are going to throw this ErrorResponseDto only from our
+
+107
+00:06:57,000 --> 00:06:58,000
+GlobalExceptionLogic.
+
+108
+00:06:58,000 --> 00:07:04,000
+So inside our GlobalExceptionLogic, whenever an exception occurs here we are trying to populate this
+
+109
+00:07:04,000 --> 00:07:07,000
+ErrorResponseDto with an 500 status.
+
+110
+00:07:07,000 --> 00:07:14,000
+So since my open API documentation cannot scan these GlobalExceptionHandlerLogic automatically,
+
+111
+00:07:14,000 --> 00:07:18,000
+I need to provide that information inside my ApiResponse.
+
+112
+00:07:18,000 --> 00:07:22,000
+So let's try to understand how to mention this information. For the same,
+
+113
+00:07:22,000 --> 00:07:28,000
+what we can do is I'm going to show you for one of the API operations how to mention a schema object
+
+114
+00:07:28,000 --> 00:07:29,000
+inside your ApiResponse.
+
+115
+00:07:29,000 --> 00:07:35,000
+So after this description, I'm going to invoke content to this content.
+
+116
+00:07:35,000 --> 00:07:42,000
+I'm going to mention an annotation content, and inside this annotation I'm going to invoke schema parameter.
+
+117
+00:07:42,000 --> 00:07:48,000
+And to this schema parameter, I'm going to pass the schema annotation and inside this schema annotation
+
+118
+00:07:48,000 --> 00:07:51,000
+I'm going to mention implementation.
+
+119
+00:07:51,000 --> 00:07:53,000
+And what is the implementation class?
+
+120
+00:07:53,000 --> 00:07:57,000
+The implementation class is ErrorResponsDto.class.
+
+121
+00:07:57,000 --> 00:08:03,000
+This I'm telling to my spring dog for these update operation, there is a good chance a 500 error can
+
+122
+00:08:03,000 --> 00:08:04,000
+happen.
+
+123
+00:08:04,000 --> 00:08:06,000
+Whenever that 500 error happened.
+
+124
+00:08:06,000 --> 00:08:11,000
+I'm going to send the ErrorResponse by following the schema defined inside this ErrorResponseDto.
+
+125
+00:08:11,000 --> 00:08:13,000
+So let me save this changes.
+
+126
+00:08:13,000 --> 00:08:14,000
+Do a build.
+
+127
+00:08:14,000 --> 00:08:18,000
+Once the build is completed, we should be able to validate this inside our swagger UI.
+
+128
+00:08:18,000 --> 00:08:23,000
+So here, inside my swagger UI right now you can see there is an ErrorResponseDto appearing.
+
+129
+00:08:23,000 --> 00:08:30,000
+If I go to my update operation under this 500 you'll be able to see a schema with API path error code
+
+130
+00:08:30,000 --> 00:08:32,000
+and ErrorMessage and ErrorTime.
+
+131
+00:08:32,000 --> 00:08:39,000
+So this way we can define an schema object also for your ApiResponse with the help of these annotations
+
+132
+00:08:39,000 --> 00:08:42,000
+@Content and @Schema.
+
+133
+00:08:42,000 --> 00:08:48,000
+As of now inside our microservices we are sending these 500 event in the scenario of updation failed
+
+134
+00:08:48,000 --> 00:08:50,000
+or deletion failed.
+
+135
+00:08:50,000 --> 00:08:55,000
+So if it is confusion to your clients, you can choose some other error code or error response code
+
+136
+00:08:55,000 --> 00:09:02,000
+so that you can define multiple response codes so it's up to you based upon your requirements.
+
+137
+00:09:02,000 --> 00:09:04,000
+You can play with this schema definition.
+
+138
+00:09:04,000 --> 00:09:11,000
+With this, we enhanced our microservices with one of the standards which is documenting the REST APIs.
+
+139
+00:09:11,000 --> 00:09:12,000
+I hope this is clear.
+
+140
+00:09:12,000 --> 00:09:15,000
+Thank you and I'll catch you in the next lecture bye.
+
