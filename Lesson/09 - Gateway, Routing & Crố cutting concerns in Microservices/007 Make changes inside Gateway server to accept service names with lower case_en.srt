@@ -1,0 +1,160 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we are trying to send the request to the Gateway server by using the application name in
+
+2
+00:00:06,000 --> 00:00:10,000
+complete capital letters like you can see accounts, loans and cards.
+
+3
+00:00:10,000 --> 00:00:14,000
+If I try to send in a small case letter, it is not going to work.
+
+4
+00:00:14,000 --> 00:00:16,000
+I can show you the demo as well.
+
+5
+00:00:16,000 --> 00:00:23,000
+Here I'm going to change this accounts from capital letters to small letters post that I will try to invoke
+
+6
+00:00:23,000 --> 00:00:23,000
+these API.
+
+7
+00:00:23,000 --> 00:00:25,000
+So let me click on the send button.
+
+8
+00:00:25,000 --> 00:00:29,000
+You can see I'm getting an error, which is 404 not found.
+
+9
+00:00:29,000 --> 00:00:34,000
+If you are fine using completely capital letters, you should be good with the default behavior of the
+
+10
+00:00:34,000 --> 00:00:35,000
+gateway server.
+
+11
+00:00:35,000 --> 00:00:40,000
+But mentioning a value inside the path in complete capital letters is very odd.
+
+12
+00:00:40,000 --> 00:00:45,000
+Even we can't request our client applications to send only the application name or the microservice
+
+13
+00:00:45,000 --> 00:00:46,000
+name in capital letters.
+
+14
+00:00:46,000 --> 00:00:51,000
+That will be a very weird ask or weird behavior inside our application.
+
+15
+00:00:51,000 --> 00:00:57,000
+So to overcome this, we can introduce a new property inside the application.yml Gateway server.
+
+16
+00:00:57,000 --> 00:01:00,000
+So let me go to the IntelliJ idea.
+
+17
+00:01:00,000 --> 00:01:06,000
+Here inside my IntelliJ idea, I need to create a new property under this locator just in the same place
+
+18
+00:01:06,000 --> 00:01:09,000
+where we have enabled, in the same place
+
+19
+00:01:09,000 --> 00:01:13,000
+I'm going to mention a new property which is lowercase service ID.
+
+20
+00:01:13,000 --> 00:01:19,000
+With this, the property is going to be spring.cloud.gateway.discovery.locator.
+
+21
+00:01:19,000 --> 00:01:22,000
+lowercase serviceId to this property
+
+22
+00:01:22,000 --> 00:01:25,000
+I want to mention the value as true.
+
+23
+00:01:25,000 --> 00:01:26,000
+With this we are telling to our gateway server.
+
+24
+00:01:26,000 --> 00:01:30,000
+Please accept the service name with the completely lowercase.
+
+25
+00:01:30,000 --> 00:01:32,000
+So now I have made this changes
+
+26
+00:01:32,000 --> 00:01:33,000
+let me do a build.
+
+27
+00:01:33,000 --> 00:01:36,000
+Once the build is completed, we can try to validate the same inside the postman.
+
+28
+00:01:36,000 --> 00:01:42,000
+This time you can see we have completely small letters inside the service name or inside the application
+
+29
+00:01:42,000 --> 00:01:42,000
+name.
+
+30
+00:01:42,000 --> 00:01:47,000
+So let me click on the send button and you can see I'm getting a successful response.
+
+31
+00:01:47,000 --> 00:01:50,000
+Very similarly, we can also try to test the fetch API for the same
+
+32
+00:01:50,000 --> 00:01:56,000
+we need to take the mobile number and go to the other request and mention the same mobile number here.
+
+33
+00:01:56,000 --> 00:01:58,000
+First, let me check with completely capital letters.
+
+34
+00:01:58,000 --> 00:02:04,000
+So if I try to click on the send button, you can see now this time I'm getting a not found error,
+
+35
+00:02:04,000 --> 00:02:08,000
+so I'm going to make this as completely small letters. With this
+
+36
+00:02:08,000 --> 00:02:12,000
+If I try to send the response, you will get a successful response.
+
+37
+00:02:12,000 --> 00:02:16,000
+I'm going to continue this way only because this looks very professional to me.
+
+38
+00:02:16,000 --> 00:02:21,000
+And ideally we should never use complete capital letters inside a URL path.
+
+39
+00:02:21,000 --> 00:02:24,000
+I hope you are clear about this small change that we have done.
+
+40
+00:02:24,000 --> 00:02:27,000
+Thank you and I'll catch you in the next lecture bye.
+

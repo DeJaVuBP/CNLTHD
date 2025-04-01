@@ -1,0 +1,744 @@
+1
+00:00:00,000 --> 00:00:05,000
+In the previous lecture, we discussed that service discovery, along with the service registration
+
+2
+00:00:05,000 --> 00:00:09,000
+is going to solve the problem that we may face inside microservices
+
+3
+00:00:09,000 --> 00:00:15,000
+while we are trying to establish the internal communication in the same discussion, I told you that
+
+4
+00:00:15,000 --> 00:00:19,000
+there are two different approaches on how we can implement this service discovery.
+
+5
+00:00:19,000 --> 00:00:25,000
+One is with the help of client side service discovery, and the other one is with the help of server
+
+6
+00:00:25,000 --> 00:00:26,000
+side service Discovery.
+
+7
+00:00:26,000 --> 00:00:31,000
+Inside this lecture, let me share more details about what is this client side service discovery and
+
+8
+00:00:31,000 --> 00:00:32,000
+how it is going to work.
+
+9
+00:00:32,000 --> 00:00:37,000
+Once we are clear about this approach, we are going to implement the same inside our microservices.
+
+10
+00:00:37,000 --> 00:00:43,000
+Inside this client side Service Discovery approach, applications are responsible for registering themselves
+
+11
+00:00:43,000 --> 00:00:48,000
+with the service registry during the startup. And similarly they need to unregister themselves when shutting
+
+12
+00:00:48,000 --> 00:00:53,000
+down, like all the microservices during the startup and during the shutting down
+
+13
+00:00:53,000 --> 00:00:58,000
+they need to make sure that they are updating their details with the service registry, either by adding
+
+14
+00:00:58,000 --> 00:01:00,000
+the details or by removing the details.
+
+15
+00:01:00,000 --> 00:01:06,000
+And once the service registry is updated, when an application or a microservice want to communicate
+
+16
+00:01:06,000 --> 00:01:12,000
+with a backing service like an accounts microservice want to communicate with the loans microservice.
+
+17
+00:01:12,000 --> 00:01:18,000
+In such scenarios, the account microservice will queries the service registry for the associated IP
+
+18
+00:01:18,000 --> 00:01:20,000
+addresses of loans
+
+19
+00:01:20,000 --> 00:01:25,000
+microservice. If multiple instances of the loan service are available inside the registry, the registry
+
+20
+00:01:25,000 --> 00:01:29,000
+is going to return the list of IP addresses to the accounts
+
+21
+00:01:29,000 --> 00:01:30,000
+microservice.
+
+22
+00:01:30,000 --> 00:01:37,000
+Now the responsibility of selecting one of the IP address of the backing service or IP address of the
+
+23
+00:01:37,000 --> 00:01:42,000
+loan service is on to the client microservice, which is accounts microservice.
+
+24
+00:01:42,000 --> 00:01:49,000
+Since the responsibility is on the client side to decide to which instance of the backing service it
+
+25
+00:01:49,000 --> 00:01:51,000
+needs to redirect the request
+
+26
+00:01:51,000 --> 00:01:54,000
+that's why we call this approach as client side service discovery.
+
+27
+00:01:54,000 --> 00:01:59,000
+Let me try to show how this flow works with a detailed explanation.
+
+28
+00:01:59,000 --> 00:02:01,000
+In the very first step, we will have the service registry.
+
+29
+00:02:01,000 --> 00:02:07,000
+So before we try to start all our microservices, first we need to make sure the service registry is
+
+30
+00:02:07,000 --> 00:02:08,000
+started.
+
+31
+00:02:08,000 --> 00:02:12,000
+So this is a very separate server running inside your microservice network.
+
+32
+00:02:12,000 --> 00:02:19,000
+Now inside my microservice network, I'm trying to start two instances of loans microservice. And each
+
+33
+00:02:19,000 --> 00:02:27,000
+of them has two different IP addresses. during the startup of these respective instances of loans microservice,
+
+34
+00:02:27,000 --> 00:02:34,000
+these instances will connect with the service registry and update their IP addresses, hostname or port
+
+35
+00:02:34,000 --> 00:02:35,000
+number.
+
+36
+00:02:35,000 --> 00:02:38,000
+All those details will be registered with the service registry.
+
+37
+00:02:38,000 --> 00:02:44,000
+And apart from the startup, they should also send the regular heartbeat signals to the service registry
+
+38
+00:02:44,000 --> 00:02:46,000
+confirming their health status.
+
+39
+00:02:46,000 --> 00:02:51,000
+So once we have these details of loans, microservice inside the service registry.
+
+40
+00:02:51,000 --> 00:02:57,000
+Now I have my client, microservice with the name accounts microservice because this microservice want
+
+41
+00:02:57,000 --> 00:02:59,000
+to connect with the loans.
+
+42
+00:02:59,000 --> 00:03:03,000
+Microservice So now my accounts, microservice has a problem here.
+
+43
+00:03:03,000 --> 00:03:10,000
+It don't know what are the details of loans microservice and how many instances of loans microservice
+
+44
+00:03:10,000 --> 00:03:11,000
+are running.
+
+45
+00:03:11,000 --> 00:03:16,000
+That's why it is simply going to ask the service registry, Hey dude, what are the address
+
+46
+00:03:16,000 --> 00:03:17,000
+details of loans
+
+47
+00:03:17,000 --> 00:03:17,000
+microservice.
+
+48
+00:03:17,000 --> 00:03:19,000
+I want to know those details now.
+
+49
+00:03:19,000 --> 00:03:20,000
+The service registry
+
+50
+00:03:20,000 --> 00:03:27,000
+after validating the accounts microservice request, it is going to return the Hey buddy, these are
+
+51
+00:03:27,000 --> 00:03:31,000
+the IP addresses of loans instances, so it will give the list of IP addresses.
+
+52
+00:03:31,000 --> 00:03:38,000
+So now my account microservice has a problem here, so it receives multiple IP addresses of loans
+
+53
+00:03:38,000 --> 00:03:44,000
+instance. In real prod applications, we may receive more than ten IPS because more than ten instances
+
+54
+00:03:44,000 --> 00:03:46,000
+of loans microservice might be running.
+
+55
+00:03:46,000 --> 00:03:47,000
+In this kind of situations.
+
+56
+00:03:47,000 --> 00:03:54,000
+My account microservice is going to follow a load balancing strategy and based upon this load balancing
+
+57
+00:03:54,000 --> 00:03:59,000
+strategy, it is going to forward the request to one of the loans microservice instance.
+
+58
+00:03:59,000 --> 00:04:08,000
+So if you see here the responsibility of load balancing and service discovery is on the client microservice
+
+59
+00:04:08,000 --> 00:04:10,000
+itself, which is account microservice.
+
+60
+00:04:10,000 --> 00:04:13,000
+So the account microservice has to look for the service details.
+
+61
+00:04:13,000 --> 00:04:18,000
+So we call that as service discovery, which is happening in the step two and step three.
+
+62
+00:04:18,000 --> 00:04:24,000
+And once the service discovery is completed, the load balancing also is going to be taken care by the
+
+63
+00:04:24,000 --> 00:04:30,000
+client microservice itself and post that the invocation to the actual microservice will happen.
+
+64
+00:04:30,000 --> 00:04:36,000
+Since this responsibility is on the client side, we call this pattern as client side service discovery
+
+65
+00:04:36,000 --> 00:04:37,000
+and load balancing.
+
+66
+00:04:37,000 --> 00:04:38,000
+I hope this is clear.
+
+67
+00:04:38,000 --> 00:04:42,000
+The same information I tried to mention inside the next slide.
+
+68
+00:04:42,000 --> 00:04:45,000
+What is a client side service discovery,
+
+69
+00:04:45,000 --> 00:04:47,000
+what will happen during the service registration,
+
+70
+00:04:47,000 --> 00:04:52,000
+what will happen during the service Discovery and what will happen during the load balancing. 
+
+71
+00:04:52,000 --> 00:04:59,000
+So the main advantage with these client side service discovery is, you have an option to follow multiple
+
+72
+00:04:59,000 --> 00:04:59,000
+strategies
+
+73
+00:04:59,000 --> 00:05:01,000
+around the load balancing.
+
+74
+00:05:01,000 --> 00:05:07,000
+You can follow the algorithm of round robin, which will take care of forwarding the request on a round
+
+75
+00:05:07,000 --> 00:05:08,000
+robin fashion.
+
+76
+00:05:08,000 --> 00:05:13,000
+And very similarly, we can also follow the weighted round robin or if needed, we can also follow the
+
+77
+00:05:13,000 --> 00:05:17,000
+strategy like least connections, like whichever instance has least connections to the same,
+
+78
+00:05:17,000 --> 00:05:21,000
+I want to forward the request. So that is called least connection strategy.
+
+79
+00:05:21,000 --> 00:05:24,000
+Or you can write your own custom algorithms.
+
+80
+00:05:24,000 --> 00:05:28,000
+So that's a primary advantage that we have with the client side service discovery.
+
+81
+00:05:28,000 --> 00:05:34,000
+Whereas the drawback with these client side service discovery is, it assigns more responsibility to the
+
+82
+00:05:34,000 --> 00:05:35,000
+developers.
+
+83
+00:05:35,000 --> 00:05:41,000
+The reason is inside our individual microservices, we need to make some code changes so that they can
+
+84
+00:05:41,000 --> 00:05:45,000
+talk with the service registration, they can perform some load balancing.
+
+85
+00:05:45,000 --> 00:05:51,000
+So since there is a responsibility on the developers to achieve these client side service discovery,
+
+86
+00:05:51,000 --> 00:05:53,000
+it is considered as its drawback.
+
+87
+00:05:53,000 --> 00:05:58,000
+And at the same time, whenever we want to use client side service discovery, we need to maintain a
+
+88
+00:05:58,000 --> 00:06:04,000
+centralized server which is going to maintain the service registration and support the service discovery.
+
+89
+00:06:04,000 --> 00:06:07,000
+To overcome these challenges of client side service discovery.
+
+90
+00:06:07,000 --> 00:06:13,000
+We also have server side discovery solution, which we can implement whenever we are trying to deploy
+
+91
+00:06:13,000 --> 00:06:16,000
+our microservices inside a Kubernetes environment.
+
+92
+00:06:16,000 --> 00:06:21,000
+Again, maintaining your microservices inside Kubernetes, deploying them into Kubernetes cluster.
+
+93
+00:06:21,000 --> 00:06:28,000
+It involves a lot of team effort and you may need separate operations team and platform team who has
+
+94
+00:06:28,000 --> 00:06:29,000
+a knowledge around the Kubernetes.
+
+95
+00:06:29,000 --> 00:06:34,000
+And even mentioning the Kubernetes cluster inside the cloud is not going to be free.
+
+96
+00:06:34,000 --> 00:06:37,000
+It is going to require a lot of budget on your project side.
+
+97
+00:06:37,000 --> 00:06:41,000
+So if you ask me who will use client side and who will use server side, I would say the projects who
+
+98
+00:06:41,000 --> 00:06:46,000
+can afford Kubernetes cluster and maintaining them inside the cloud environments.
+
+99
+00:06:46,000 --> 00:06:53,000
+They can use server side discovery, whereas if projects they cannot afford the costly maintenance of
+
+100
+00:06:53,000 --> 00:06:57,000
+Kubernetes clusters, they can go with the client side service discovery where they can develop their
+
+101
+00:06:57,000 --> 00:07:03,000
+own centralized server that is responsible for service, registration and service discovery.
+
+102
+00:07:03,000 --> 00:07:09,000
+But here it may sounds like very complex for you developing these separate server and implementing these
+
+103
+00:07:09,000 --> 00:07:15,000
+service registration, service discovery and load balancing with the help of client side service discovery
+
+104
+00:07:15,000 --> 00:07:15,000
+approach.
+
+105
+00:07:15,000 --> 00:07:18,000
+But don't worry, it's not going to be super complex.
+
+106
+00:07:18,000 --> 00:07:22,000
+It is going to be super, super simple with the help of Spring Cloud.
+
+107
+00:07:22,000 --> 00:07:28,000
+So inside Spring Cloud, we have various options for incorporating these client side service discovery
+
+108
+00:07:28,000 --> 00:07:30,000
+inside our spring boot based microservices.
+
+109
+00:07:30,000 --> 00:07:35,000
+So more details I'm going to discuss in the coming lectures Before I try to close this lecture, let
+
+110
+00:07:35,000 --> 00:07:40,000
+me show you the different perspective how these client side service discovery works. So that you will
+
+111
+00:07:40,000 --> 00:07:44,000
+have more details about the client side service discovery.
+
+112
+00:07:44,000 --> 00:07:50,000
+So whenever we are following the client side service, Discovery first will be your individual microservice
+
+113
+00:07:50,000 --> 00:07:53,000
+where they are trying to get started inside your microservices network.
+
+114
+00:07:53,000 --> 00:07:56,000
+Like you can see there are two instances of accounts microservice,
+
+115
+00:07:56,000 --> 00:08:01,000
+there are two instances of loans and cards microservice And just like how we have these microservices
+
+116
+00:08:01,000 --> 00:08:07,000
+as we'll also have a supporting component or a centralized server which is responsible to maintain the
+
+117
+00:08:07,000 --> 00:08:09,000
+service registry and service discovery.
+
+118
+00:08:09,000 --> 00:08:13,000
+So these centralized server, we call it as service discovery layer.
+
+119
+00:08:13,000 --> 00:08:19,000
+Inside this layer we can deploy any number of instances of service discovery node based upon the load
+
+120
+00:08:19,000 --> 00:08:20,000
+that you can expect.
+
+121
+00:08:20,000 --> 00:08:26,000
+We can create any number of instances and deploy them inside our microservices network.
+
+122
+00:08:26,000 --> 00:08:32,000
+And one of the beauty of this service discovery layer is no one has to maintain the IP addresses of
+
+123
+00:08:32,000 --> 00:08:37,000
+the microservices manually, like we discussed inside the traditional load balancer.
+
+124
+00:08:37,000 --> 00:08:40,000
+So that manual task we don't need to follow here.
+
+125
+00:08:40,000 --> 00:08:47,000
+Instead, my individual microservices during the startup they will communicate with the service discovery
+
+126
+00:08:47,000 --> 00:08:52,000
+layer and try to register themselves like, this is my IP address, this is my hostname, this is my
+
+127
+00:08:52,000 --> 00:08:53,000
+port number.
+
+128
+00:08:53,000 --> 00:08:59,000
+And the beauty here is, even if your individual microservice is trying to register the details with one
+
+129
+00:08:59,000 --> 00:09:06,000
+of the service discovery, the same details will be shared with the other service discovery nodes immediately
+
+130
+00:09:06,000 --> 00:09:08,000
+based upon the gossip protocol.
+
+131
+00:09:08,000 --> 00:09:14,000
+So based upon this gossip protocol, all your service discovery nodes inside your service discovery
+
+132
+00:09:14,000 --> 00:09:19,000
+layer, they are going to communicate regularly and they will keep themselves updated with all the details
+
+133
+00:09:19,000 --> 00:09:22,000
+that are being received from the individual microservices.
+
+134
+00:09:22,000 --> 00:09:28,000
+For example, whenever my account microservice is trying to register its details with the service node
+
+135
+00:09:28,000 --> 00:09:34,000
+one, the same details will be shared to the other service nodes also immediately.
+
+136
+00:09:34,000 --> 00:09:40,000
+And this is how all the nodes will have the same and updated information at any point of time.
+
+137
+00:09:40,000 --> 00:09:45,000
+And apart from the startup, my individual microservices, they are also going to send the heartbeat
+
+138
+00:09:45,000 --> 00:09:49,000
+signals regularly to the service discovery layer.
+
+139
+00:09:49,000 --> 00:09:51,000
+So once this setup is completed.
+
+140
+00:09:51,000 --> 00:09:58,000
+Now my other microservices like who want to communicate with my accounts microservice, loans microservice
+
+141
+00:09:58,000 --> 00:09:59,000
+or cards microservice.
+
+142
+00:09:59,000 --> 00:10:06,000
+They will send a request to the service discovery layer by using a logical path. Like you can see here,
+
+143
+00:10:06,000 --> 00:10:11,000
+whatever microservice who want to communicate with the accounts microservice, they are going to send
+
+144
+00:10:11,000 --> 00:10:15,000
+a logical path with a DNS name along with the Path accounts.
+
+145
+00:10:15,000 --> 00:10:21,000
+So based upon this logical name, my service discovery layer is going to return the list of IPS to the
+
+146
+00:10:21,000 --> 00:10:27,000
+client microservice and based upon those IP address, the load balancing will happen at the client side
+
+147
+00:10:27,000 --> 00:10:30,000
+and they will try to communicate with the actual microservice.
+
+148
+00:10:30,000 --> 00:10:34,000
+So this way my client applications are microservice.
+
+149
+00:10:34,000 --> 00:10:37,000
+They never have to worry about the direct IP details of the microservice.
+
+150
+00:10:37,000 --> 00:10:42,000
+They just invoke the service discovery layer with the logical service name and post that based upon
+
+151
+00:10:42,000 --> 00:10:47,000
+the actual IP address, they are going to invoke the actual microservices.
+
+152
+00:10:47,000 --> 00:10:52,000
+So now here you may have question like where is the client side load balancing is going to happen.
+
+153
+00:10:52,000 --> 00:10:56,000
+As of now, you can see inside this slide only the service discovery is right now happening.
+
+154
+00:10:56,000 --> 00:11:01,000
+So let's try to see how the client side load balancing will happen.
+
+155
+00:11:01,000 --> 00:11:06,000
+If you see inside this slide, there is a scenario where my accounts microservice is trying to connect
+
+156
+00:11:06,000 --> 00:11:09,000
+with the other microservices like loans and cards microservice.
+
+157
+00:11:09,000 --> 00:11:11,000
+So all the story is same.
+
+158
+00:11:11,000 --> 00:11:13,000
+Like all the individual microservices,
+
+159
+00:11:13,000 --> 00:11:18,000
+they will try to register with the service discovery layer and my accounts microservice whenever it
+
+160
+00:11:18,000 --> 00:11:19,000
+want to connect with the loans
+
+161
+00:11:19,000 --> 00:11:26,000
+microservice, first, it will check whether it has any details of the loans microservice in its own cache.
+
+162
+00:11:26,000 --> 00:11:32,000
+If there are no cache details available regarding the details of the loans microservice or cards microservice,
+
+163
+00:11:32,000 --> 00:11:38,000
+it is going to send a request to the service discovery layer which will return the list of IP addresses.
+
+164
+00:11:38,000 --> 00:11:45,000
+Now, at this point of time, my accounts microservice is going to cache them so that for each and every
+
+165
+00:11:45,000 --> 00:11:48,000
+request it don't have to rely on the service discovery layer.
+
+166
+00:11:48,000 --> 00:11:53,000
+This way we are also going to reduce the burden on the service discovery layer.
+
+167
+00:11:53,000 --> 00:11:57,000
+Think of a scenario where you have 100 different microservices and if they try to communicate with the
+
+168
+00:11:57,000 --> 00:12:03,000
+service discovery layer for each and every request, it is going to be a lot of burden on your service
+
+169
+00:12:03,000 --> 00:12:04,000
+discovery layer.
+
+170
+00:12:04,000 --> 00:12:09,000
+That's why all my client microservices applications, they are going to invoke the service discovery
+
+171
+00:12:09,000 --> 00:12:16,000
+layer very first time once they have the complete details of all the instances of loans microservice
+
+172
+00:12:16,000 --> 00:12:20,000
+or cards microservice, they are going to cast them inside their local memory.
+
+173
+00:12:20,000 --> 00:12:25,000
+And for all the future requests, they are going to use the IP addresses present inside the cache.
+
+174
+00:12:25,000 --> 00:12:29,000
+But here you may have question like what if the IP addresses change?
+
+175
+00:12:29,000 --> 00:12:35,000
+That's why to overcome this challenge behind the scenes, this client side service discovery makes sure
+
+176
+00:12:35,000 --> 00:12:41,000
+the cache is being refreshed for every few seconds like 10s or 15 seconds or 20s.
+
+177
+00:12:41,000 --> 00:12:43,000
+On top of that, whenever an exception happen.
+
+178
+00:12:43,000 --> 00:12:49,000
+If my accounts microservice is trying to communicate with other microservices with the help of client
+
+179
+00:12:49,000 --> 00:12:55,000
+side caching, then immediately it is going to invalidate the client cache and it will try to get the
+
+180
+00:12:55,000 --> 00:12:59,000
+latest IP address details from the service discovery layer.
+
+181
+00:12:59,000 --> 00:13:03,000
+So all this is going to happen behind the scenes automatically.
+
+182
+00:13:03,000 --> 00:13:05,000
+We don't have to code these as developers.
+
+183
+00:13:05,000 --> 00:13:10,000
+We just have to know what projects we have to use inside Spring Cloud and how to configure them inside
+
+184
+00:13:10,000 --> 00:13:12,000
+our microservices network.
+
+185
+00:13:12,000 --> 00:13:16,000
+I hope this is clear on how these client side service discovery is going to work.
+
+186
+00:13:16,000 --> 00:13:19,000
+Thank you and I'll catch you in the next lecture bye.
+

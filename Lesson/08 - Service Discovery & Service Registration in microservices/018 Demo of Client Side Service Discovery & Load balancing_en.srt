@@ -1,0 +1,376 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to start two instances of loans microservice and see the client side
+
+2
+00:00:06,000 --> 00:00:08,000
+load balancing in action.
+
+3
+00:00:08,000 --> 00:00:15,000
+As of now, we tested the Eureka related changes only with one instance of loans and cards microservice.
+
+4
+00:00:15,000 --> 00:00:19,000
+And here you may have a question like how the load balancing is working.
+
+5
+00:00:19,000 --> 00:00:24,000
+I am not able to see the load balancing demo because I'm using only one instance.
+
+6
+00:00:24,000 --> 00:00:24,000
+That's why
+
+7
+00:00:24,000 --> 00:00:27,000
+let's see the demo with two instances of loans Microservice.
+
+8
+00:00:27,000 --> 00:00:34,000
+So in order to create two instances of loans microservice, I need to copy the loans related configurations
+
+9
+00:00:34,000 --> 00:00:40,000
+inside my docker-compose.yml file and paste the same just below the existing loan service.
+
+10
+00:00:40,000 --> 00:00:46,000
+So inside Docker compose file, we need to make sure the service names are distinct because these loans
+
+11
+00:00:46,000 --> 00:00:49,000
+will act as a separate container compared to this loan service.
+
+12
+00:00:49,000 --> 00:00:51,000
+That's why we need to give different names.
+
+13
+00:00:51,000 --> 00:00:55,000
+I'll give the service name as loans1 for this new service.
+
+14
+00:00:55,000 --> 00:01:00,000
+After changing the service name, we should also change the container name because the container name
+
+15
+00:01:00,000 --> 00:01:01,000
+should be unique.
+
+16
+00:01:01,000 --> 00:01:03,000
+That's why I'm going to append a digit 1 here.
+
+17
+00:01:03,000 --> 00:01:04,000
+With this
+
+18
+00:01:04,000 --> 00:01:10,000
+my container name will be loans-ms1 and the port that we are trying to expose to the localhost
+
+19
+00:01:10,000 --> 00:01:11,000
+are the outside world.
+
+20
+00:01:11,000 --> 00:01:14,000
+We need to make sure we are using a different port
+
+21
+00:01:14,000 --> 00:01:18,000
+otherwise inside the local system we'll get the port to conflict error.
+
+22
+00:01:18,000 --> 00:01:19,000
+With this we should be good.
+
+23
+00:01:19,000 --> 00:01:22,000
+Let me try to run the docker compose up command.
+
+24
+00:01:22,000 --> 00:01:27,000
+So here I'm trying to run the command docker compose -d and let's wait for this to get completed.
+
+25
+00:01:27,000 --> 00:01:33,000
+It is going to take good amount of time, like 3 to 4 minutes because inside our local system, since
+
+26
+00:01:33,000 --> 00:01:36,000
+you are trying to create many containers, it will be very slow.
+
+27
+00:01:36,000 --> 00:01:42,000
+As of now you can see the config server is trying to start and in the top you can see the CPU usage
+
+28
+00:01:42,000 --> 00:01:46,000
+inside my system is 218%.
+
+29
+00:01:46,000 --> 00:01:50,000
+By default inside my system, 5 cores are allocated to the Docker server.
+
+30
+00:01:50,000 --> 00:01:56,000
+As we try to create more number of containers, you'll be able to see the higher CPU usage.
+
+31
+00:01:56,000 --> 00:02:01,000
+That's why inside the Docker compose file, I have created only one instance of loans microservice.
+
+32
+00:02:01,000 --> 00:02:05,000
+We can also create one more instance of cards microservice as well.
+
+33
+00:02:05,000 --> 00:02:11,000
+But even without creating one more instance of cards microservice we should be able to see the demo
+
+34
+00:02:11,000 --> 00:02:12,000
+of client side load balancing.
+
+35
+00:02:12,000 --> 00:02:16,000
+So here this time you can see the other containers are also trying to start.
+
+36
+00:02:16,000 --> 00:02:21,000
+Like for loans, we have two containers, loans-ms and loans-ms1.
+
+37
+00:02:21,000 --> 00:02:24,000
+This time you can see the container CPU usage.
+
+38
+00:02:24,000 --> 00:02:26,000
+It is around 498%.
+
+39
+00:02:26,000 --> 00:02:28,000
+It is almost trying to use my CPU.
+
+40
+00:02:28,000 --> 00:02:30,000
+That's why in local it is going to take some time.
+
+41
+00:02:30,000 --> 00:02:31,000
+Don't worry.
+
+42
+00:02:31,000 --> 00:02:37,000
+Meanwhile, I'll try to refresh the Eureka dashboard and see whether my other microservices are getting
+
+43
+00:02:37,000 --> 00:02:38,000
+started.
+
+44
+00:02:38,000 --> 00:02:40,000
+As of now you can see the dashboard is empty.
+
+45
+00:02:40,000 --> 00:02:43,000
+That means no microservice is not started yet.
+
+46
+00:02:43,000 --> 00:02:45,000
+So let me refresh again.
+
+47
+00:02:45,000 --> 00:02:51,000
+This time you can see there is a loans microservice instance created and the same is registered.
+
+48
+00:02:51,000 --> 00:02:53,000
+So let me keep refreshing this page.
+
+49
+00:02:53,000 --> 00:02:58,000
+And finally, we have accounts microservice  cards microservice and loans
+
+50
+00:02:58,000 --> 00:02:59,000
+two instances are registered.
+
+51
+00:02:59,000 --> 00:03:02,000
+That's why you are able to see two number inside the bracket.
+
+52
+00:03:02,000 --> 00:03:11,000
+If you go and try to access the URL, which is localhost 8070/eureka/apps inside this,
+
+53
+00:03:11,000 --> 00:03:14,000
+you should be able to see all the instances details under loans.
+
+54
+00:03:14,000 --> 00:03:17,000
+You can see there are two instance details.
+
+55
+00:03:17,000 --> 00:03:23,000
+This is the instance one and very similarly we also have second instance under the loans microservice,
+
+56
+00:03:23,000 --> 00:03:28,000
+whereas other microservices they have only one instance like for accounts and cards.
+
+57
+00:03:28,000 --> 00:03:33,000
+So this confirms multiple instances they are registering with with the Eureka Server.
+
+58
+00:03:33,000 --> 00:03:38,000
+Now let's try to test the client side load balancing. In order to test the changes.
+
+59
+00:03:38,000 --> 00:03:43,000
+First, I'm going to create the data using the Create account API and post that I'm going to create
+
+60
+00:03:43,000 --> 00:03:47,000
+the card details followed by loans details.
+
+61
+00:03:47,000 --> 00:03:52,000
+So here you can see right now I'm trying to create the loan details using the same mobile number by
+
+62
+00:03:52,000 --> 00:04:00,000
+using the port number 8090 with this, since we are using the separate H2 database for each instance,
+
+63
+00:04:00,000 --> 00:04:06,000
+whatever the loan details I have created just now will be available only in one of the instance, but
+
+64
+00:04:06,000 --> 00:04:07,000
+not in the other instance.
+
+65
+00:04:07,000 --> 00:04:14,000
+Whereas inside the real prod application, since we are going to use a MySQL or any other database for
+
+66
+00:04:14,000 --> 00:04:19,000
+all instance of loans microservice, the data is accessible for all instances of loans
+
+67
+00:04:19,000 --> 00:04:27,000
+microservice. I'm intentionally not creating the loans detail with the help of 8091 port so that whenever
+
+68
+00:04:27,000 --> 00:04:32,000
+we are trying to test the fetch customer details API, sometimes we'll get the successful response.
+
+69
+00:04:32,000 --> 00:04:37,000
+The other times we are going to get an exception saying that there are no loan details for the given
+
+70
+00:04:37,000 --> 00:04:38,000
+mobile number.
+
+71
+00:04:38,000 --> 00:04:41,000
+So to test the same, let's go to the fetchCustomerDetails. 
+
+72
+00:04:41,000 --> 00:04:43,000
+Here I'm going to send the request very first time.
+
+73
+00:04:43,000 --> 00:04:50,000
+You can see very first time the request went to the loans instance where we have not saved the loans
+
+74
+00:04:50,000 --> 00:04:50,000
+details.
+
+75
+00:04:50,000 --> 00:04:55,000
+That's why we are getting this error which is loan not found with the given input data.
+
+76
+00:04:55,000 --> 00:04:59,000
+If I try to send the request again this time the request went to the other instance
+
+77
+00:05:00,000 --> 00:05:05,000
+and that's why we're able to see the loans related information along with all the other information.
+
+78
+00:05:05,000 --> 00:05:10,000
+So if I try to invoke again, I'm getting a successful response, which means it went to the correct
+
+79
+00:05:10,000 --> 00:05:11,000
+instance.
+
+80
+00:05:11,000 --> 00:05:13,000
+Let me click on next again.
+
+81
+00:05:13,000 --> 00:05:15,000
+And this time you can see we are getting an error.
+
+82
+00:05:15,000 --> 00:05:21,000
+That means behind the scenes there is a load balancing is happening at the account service level itself.
+
+83
+00:05:21,000 --> 00:05:26,000
+By leveraging all the service registry details that is shared by the Eureka Server.
+
+84
+00:05:26,000 --> 00:05:30,000
+And here Open Fin Client Library is playing a very important role.
+
+85
+00:05:30,000 --> 00:05:34,000
+I hope you are clear on client side load balancing with this demo.
+
+86
+00:05:34,000 --> 00:05:40,000
+We're also going to discuss server side service discovery and load balancing when we try to deploy our
+
+87
+00:05:40,000 --> 00:05:43,000
+microservices into the Kubernetes environment.
+
+88
+00:05:43,000 --> 00:05:49,000
+With this, we can conclude this section related to the service discovery,  service registration and
+
+89
+00:05:49,000 --> 00:05:50,000
+load balancing.
+
+90
+00:05:50,000 --> 00:05:52,000
+We discussed a lot of concepts.
+
+91
+00:05:52,000 --> 00:05:57,000
+Please take some time, try to digest this information and please, please take a break and I'm going
+
+92
+00:05:57,000 --> 00:05:59,000
+to catch you in the new section.
+
+93
+00:05:59,000 --> 00:05:59,000
+Thank you,
+
+94
+00:05:59,000 --> 00:06:00,000
+Bye.
+

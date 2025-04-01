@@ -1,0 +1,688 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, our gateway server is able to accept the external traffic and it is able to forward the
+
+2
+00:00:06,000 --> 00:00:09,000
+same request to the actual microservices.
+
+3
+00:00:09,000 --> 00:00:14,000
+And how it is able to do is, with the help of these routing details that it fetched from the Eureka server.
+
+4
+00:00:14,000 --> 00:00:21,000
+So you can see here this is the default behavior by default, if someone is going to send the loans
+
+5
+00:00:21,000 --> 00:00:28,000
+inside the request to path with completely small case letters, then what our filter and the configurations
+
+6
+00:00:28,000 --> 00:00:30,000
+are present here will be triggered.
+
+7
+00:00:30,000 --> 00:00:31,000
+So this is the default behavior.
+
+8
+00:00:31,000 --> 00:00:36,000
+And with this default behavior, this is how our clients are external applications
+
+9
+00:00:36,000 --> 00:00:38,000
+they have to send the request to the gateway server.
+
+10
+00:00:38,000 --> 00:00:40,000
+So this is fine Perfectly.
+
+11
+00:00:40,000 --> 00:00:45,000
+As of now, I have given only three examples like create of accounts, loans and card.
+
+12
+00:00:45,000 --> 00:00:51,000
+The same kind of prefix we need to follow for all other APIs present inside the accounts microservice
+
+13
+00:00:51,000 --> 00:00:54,000
+followed by loans, microservice and cards microservice.
+
+14
+00:00:54,000 --> 00:00:58,000
+Sometimes these default behavior may not be suitable for the projects.
+
+15
+00:00:58,000 --> 00:01:05,000
+For example, here I have some custom requirement, which is, I want my client applications to send the
+
+16
+00:01:05,000 --> 00:01:09,000
+request to a path which is easybank/accounts.
+
+17
+00:01:09,000 --> 00:01:15,000
+So this will look more professional in front of my client applications that since they are going to
+
+18
+00:01:15,000 --> 00:01:19,000
+invoke the easybank related microservices, this is going to be make sense.
+
+19
+00:01:19,000 --> 00:01:21,000
+Like inside easybank organization,
+
+20
+00:01:21,000 --> 00:01:27,000
+we have a microservice with the name accounts and inside this accounts microservice we have this path.
+
+21
+00:01:27,000 --> 00:01:31,000
+So this is going to look more professional to me and this is my custom requirement here.
+
+22
+00:01:31,000 --> 00:01:38,000
+So the same way I want to follow for other microservice as well, like for all my microservices, I
+
+23
+00:01:38,000 --> 00:01:42,000
+want this prefix apart from this application name our microservice name.
+
+24
+00:01:42,000 --> 00:01:49,000
+So whenever you have these kind of custom or dynamic routing related requirements, then in such scenarios,
+
+25
+00:01:49,000 --> 00:01:55,000
+Spring Cloud Gateway also gives flexibility to developers to define their own routing configurations.
+
+26
+00:01:55,000 --> 00:01:57,000
+So let's try to understand how to do the same.
+
+27
+00:01:57,000 --> 00:02:03,000
+For the same, I need to go to the main class inside the Gateway server, which is Gateway server application.
+
+28
+00:02:03,000 --> 00:02:09,000
+So inside this class I'm going to create a new method which is going to return a bean.
+
+29
+00:02:09,000 --> 00:02:11,000
+Let me try to create a method here.
+
+30
+00:02:11,000 --> 00:02:13,000
+Public post that what is the return type,
+
+31
+00:02:13,000 --> 00:02:18,000
+the return type we need to mention as RouteLocator. And post that
+
+32
+00:02:18,000 --> 00:02:19,000
+what is the method name?
+
+33
+00:02:19,000 --> 00:02:23,000
+The method name I can keep it as easybank route config.
+
+34
+00:02:23,000 --> 00:02:25,000
+So this is the method name that I want to have.
+
+35
+00:02:25,000 --> 00:02:33,000
+And to this method we need to accept a parameter and the parameter is going to be RouteLocatorBuilder.
+
+36
+00:02:33,000 --> 00:02:39,000
+Once we have defined these parameter inside the body, we need to define our routing related configurations.
+
+37
+00:02:39,000 --> 00:02:45,000
+Before that, let me try to put an annotation which is @Bean on top of this method.
+
+38
+00:02:45,000 --> 00:02:49,000
+So this method is going to create a bean of type RouteLocator.
+
+39
+00:02:49,000 --> 00:02:55,000
+And inside this RouteLocator only we are going to send all our custom routing requirements.
+
+40
+00:02:55,000 --> 00:03:00,000
+For the same inside this method I'm going to write some logic which is return statement.
+
+41
+00:03:00,000 --> 00:03:05,000
+Post this return statement, I'm going to invoke the method parameter, which is RouteLocatorBuilder.
+
+42
+00:03:05,000 --> 00:03:12,000
+Using this RouteLocatorBuilder, I need to invoke the routes method and after invoking this route
+
+43
+00:03:12,000 --> 00:03:15,000
+method I need to invoke the route method.
+
+44
+00:03:15,000 --> 00:03:18,000
+So there is a plural form and there is also a singular form.
+
+45
+00:03:18,000 --> 00:03:24,000
+So first we need to invoke this method which is routes post that we need to invoke a route method which
+
+46
+00:03:24,000 --> 00:03:28,000
+will allow us to define the custom routing configurations.
+
+47
+00:03:28,000 --> 00:03:32,000
+So here I'm going to write a lambda expression P indicates path.
+
+48
+00:03:32,000 --> 00:03:36,000
+After this P variable, I'm going to invoke a method which is path.
+
+49
+00:03:36,000 --> 00:03:43,000
+And to this path method we need to provide the what is the path that my external client applications
+
+50
+00:03:43,000 --> 00:03:46,000
+is going to invoke. The path that they are going to invoke for accounts
+
+51
+00:03:46,000 --> 00:03:53,000
+microservice is, easybank/accounts and after this prefix, easybank/accounts, there can
+
+52
+00:03:53,000 --> 00:03:54,000
+be any kind of path.
+
+53
+00:03:54,000 --> 00:03:56,000
+That's why I'm giving double asterisks here.
+
+54
+00:03:56,000 --> 00:04:03,000
+So whenever a request is being received for these kind of path, I want to execute some filters.
+
+55
+00:04:03,000 --> 00:04:07,000
+That's why we need to invoke these filters method. To this filters method
+
+56
+00:04:07,000 --> 00:04:13,000
+we should again write the lambda expression, which is using a variable f, f indicate filter.
+
+57
+00:04:13,000 --> 00:04:19,000
+So using the same f variable, I'm going to invoke a filter which is rewrite path.
+
+58
+00:04:19,000 --> 00:04:26,000
+So using rewrite path, we are going to rewrite whatever path that we have received to some other microservice
+
+59
+00:04:26,000 --> 00:04:27,000
+specific path.
+
+60
+00:04:27,000 --> 00:04:30,000
+So inside this rewrite path we need to provide some configurations.
+
+61
+00:04:30,000 --> 00:04:32,000
+The same I'm trying to mention here.
+
+62
+00:04:32,000 --> 00:04:39,000
+You can see here what I'm saying is after this prefix path, like easybank/accounts, whatever
+
+63
+00:04:39,000 --> 00:04:45,000
+path is available, please assume that as an segment. Using the same segment value are using the same
+
+64
+00:04:45,000 --> 00:04:45,000
+path.
+
+65
+00:04:45,000 --> 00:04:50,000
+I want the request to be forwarded to the actual microservice.
+
+66
+00:04:50,000 --> 00:04:55,000
+So this kind of configurations you can also see inside the actuator routes.
+
+67
+00:04:55,000 --> 00:04:57,000
+So here you can see using the rewrite filter
+
+68
+00:04:57,000 --> 00:04:59,000
+we are trying to do the same.
+
+69
+00:04:59,000 --> 00:05:00,000
+Like here we have variable
+
+70
+00:05:00,000 --> 00:05:03,000
+name remaining. Instead of this remaining variable name.
+
+71
+00:05:03,000 --> 00:05:06,000
+Here, I'm trying to use a variable name as segment.
+
+72
+00:05:06,000 --> 00:05:11,000
+So whatever comes after these accounts, I'm calling that as a segment and whatever path I have inside
+
+73
+00:05:11,000 --> 00:05:18,000
+this segment variable, I'm trying to consider that as a base path when I'm trying to invoke the actual
+
+74
+00:05:18,000 --> 00:05:18,000
+microservice.
+
+75
+00:05:18,000 --> 00:05:20,000
+I hope this is clear.
+
+76
+00:05:20,000 --> 00:05:27,000
+After mentioning these filter related information, we need to invoke a method which is dot uri.
+
+77
+00:05:27,000 --> 00:05:33,000
+Using this, we are going to provide the configurations to which microservice
+
+78
+00:05:33,000 --> 00:05:35,000
+the request has to be redirected. For the same,
+
+79
+00:05:35,000 --> 00:05:39,000
+we need to mention lb, lb indicates load balancer.
+
+80
+00:05:39,000 --> 00:05:41,000
+I'm trying to tell to my spring cloud gateway,
+
+81
+00:05:41,000 --> 00:05:47,000
+please do the client side load balancer with the help of spring cloud load balancer.  And post that we
+
+82
+00:05:47,000 --> 00:05:53,000
+need to mention the application name at the microservice name that is registered with the Eureka Server.
+
+83
+00:05:53,000 --> 00:05:57,000
+So that's why we need to make sure the same name here, which is accounts.
+
+84
+00:05:57,000 --> 00:06:02,000
+So please don't mention in small letters because if you go and check the Eureka dashboard here, the
+
+85
+00:06:02,000 --> 00:06:06,000
+accounts application name has all completely capital letters.
+
+86
+00:06:06,000 --> 00:06:10,000
+That's why we need to make sure the same inside the routing configurations.
+
+87
+00:06:10,000 --> 00:06:16,000
+So once we have defined this information, we should be good from accounts microservice perspective.
+
+88
+00:06:16,000 --> 00:06:22,000
+As a next step, I want to define similar kind of routing configurations for other microservice.
+
+89
+00:06:22,000 --> 00:06:28,000
+For the same, you can simply try to copy the routing configurations to the accounts microservice before
+
+90
+00:06:28,000 --> 00:06:34,000
+that, let me try to bring this dot to the next line and make sure this entire dot and route is present
+
+91
+00:06:34,000 --> 00:06:35,000
+in the same line.
+
+92
+00:06:35,000 --> 00:06:41,000
+So with this now my routing configurations related to the accounts microservice looks good.
+
+93
+00:06:41,000 --> 00:06:47,000
+I can copy this entire accounts configurations and try to introduce one more route configurations here.
+
+94
+00:06:47,000 --> 00:06:51,000
+And very similarly I will create one more configuration.
+
+95
+00:06:51,000 --> 00:06:53,000
+So now we are going to make some changes.
+
+96
+00:06:53,000 --> 00:06:55,000
+The change is going to be very simple.
+
+97
+00:06:55,000 --> 00:07:01,000
+So instead of accounts I'm going to mention as loans very similarly, we have to mention here as well,
+
+98
+00:07:01,000 --> 00:07:07,000
+followed by here, we need to mention the microservice name, our application name in completely capital
+
+99
+00:07:07,000 --> 00:07:07,000
+letters.
+
+100
+00:07:07,000 --> 00:07:09,000
+Now let me do the same for cards.
+
+101
+00:07:09,000 --> 00:07:15,000
+So the same cards we need to mention here followed by what is the microservice name in complete capital
+
+102
+00:07:15,000 --> 00:07:16,000
+letters.
+
+103
+00:07:16,000 --> 00:07:22,000
+Once we have defined all the routing related configurations, at last we can invoke the method build.
+
+104
+00:07:22,000 --> 00:07:28,000
+And with this build method, an object of type RouteLocator is going to be created which will be converted
+
+105
+00:07:28,000 --> 00:07:34,000
+as a bean with the help of this @Bean annotation. With this, my gateway server is going to
+
+106
+00:07:34,000 --> 00:07:41,000
+identify a bean of type RouteLocator during the startup and with that it can easily recognize that my
+
+107
+00:07:41,000 --> 00:07:46,000
+developer has some custom routing configurations, so I need to follow the same. With this,
+
+108
+00:07:46,000 --> 00:07:47,000
+we should be good with these changes.
+
+109
+00:07:47,000 --> 00:07:50,000
+Let me save these changes and do a build.
+
+110
+00:07:50,000 --> 00:07:57,000
+Once the build is completed, we can go to the postman and try to invoke the microservices with this
+
+111
+00:07:57,000 --> 00:07:58,000
+prefix, which is easybank/accounts
+
+112
+00:07:58,000 --> 00:08:01,000
+or easybank/loans or
+
+113
+00:08:01,000 --> 00:08:01,000
+eazybank/cards.
+
+114
+00:08:01,000 --> 00:08:07,000
+Here inside the Postman under the Gateway folder, you will be able to see a new request with the name
+
+115
+00:08:07,000 --> 00:08:08,000
+Gateway server_03.
+
+116
+00:08:08,000 --> 00:08:08,000
+.
+
+117
+00:08:08,000 --> 00:08:14,000
+If you try to click on that, you can see I'm trying to send a post request with the path localhost:8007
+
+118
+00:08:14,000 --> 00:08:19,000
+to easybank/accounts/api/create.
+
+119
+00:08:19,000 --> 00:08:23,000
+So this matches with our custom route that we have introduced.
+
+120
+00:08:23,000 --> 00:08:28,000
+So with this now if I try to send the request, you can see here I'm getting an error
+
+121
+00:08:28,000 --> 00:08:32,000
+let me try to see what is this error inside the console of Gateway server.
+
+122
+00:08:32,000 --> 00:08:39,000
+I got an error saying that invalid hostname whenever my gateway server is trying to forward the request
+
+123
+00:08:39,000 --> 00:08:40,000
+to the accounts microservice.
+
+124
+00:08:40,000 --> 00:08:46,000
+So I made a mistake inside the routing configurations after this colon we should make sure there are
+
+125
+00:08:46,000 --> 00:08:48,000
+two forward slashes.
+
+126
+00:08:48,000 --> 00:08:50,000
+The same was missing previously.
+
+127
+00:08:50,000 --> 00:08:57,000
+Let me try to update these configurations and after making these changes I can save and do a maven build.
+
+128
+00:08:57,000 --> 00:09:01,000
+Now I'll go to the postman and try to invoke the API again.
+
+129
+00:09:01,000 --> 00:09:03,000
+So I'm clicking on the send button.
+
+130
+00:09:03,000 --> 00:09:09,000
+This time you can see I'm getting an error which is customer already registered with so and so mobile
+
+131
+00:09:09,000 --> 00:09:09,000
+number.
+
+132
+00:09:09,000 --> 00:09:14,000
+So what I can do is I can try to give some other mobile number.
+
+133
+00:09:14,000 --> 00:09:18,000
+So here I'm trying to replace with a new mobile number and trying to send the request. This time
+
+134
+00:09:18,000 --> 00:09:25,000
+also I'm getting a customer already registered error, so let me change the mobile number to 88.
+
+135
+00:09:25,000 --> 00:09:25,000
+.
+
+136
+00:09:25,000 --> 00:09:29,000
+So this time you can see I'm getting an successful response.
+
+137
+00:09:29,000 --> 00:09:35,000
+Now very similarly, I can also go to the gatewayserver_04 and here I can mention the
+
+138
+00:09:35,000 --> 00:09:41,000
+mobile number and click on the send button. So you can see I'm getting a successful response. This way
+
+139
+00:09:41,000 --> 00:09:45,000
+you can also test the loans and card specific REST APIs as well.
+
+140
+00:09:45,000 --> 00:09:51,000
+Now if you try to refresh this actuator path, you will be able to see many routing configurations.
+
+141
+00:09:51,000 --> 00:09:59,000
+So whatever you see with the prefix easybank, these are our own defined custom configurations, whereas
+
+142
+00:09:59,000 --> 00:10:00,000
+you can also see that
+
+143
+00:10:00,000 --> 00:10:06,000
+default configurations without any prefix like loans, gateway server accounts and cards.
+
+144
+00:10:06,000 --> 00:10:09,000
+So this is going to create a lot of confusion for my clients.
+
+145
+00:10:09,000 --> 00:10:13,000
+It is always a good idea to follow a single routing configurations.
+
+146
+00:10:13,000 --> 00:10:19,000
+For me, this looks very professional because we have a organization name as a prefix along with the
+
+147
+00:10:19,000 --> 00:10:21,000
+microservice name.
+
+148
+00:10:21,000 --> 00:10:27,000
+So that's why what we can do is, we can try to disable all these default behavior, for the same inside
+
+149
+00:10:27,000 --> 00:10:33,000
+the application.yml here we have mentioned the discovery locator enabled as true.
+
+150
+00:10:33,000 --> 00:10:36,000
+Instead I'm going to mention this value as false.
+
+151
+00:10:36,000 --> 00:10:38,000
+With this we should be good.
+
+152
+00:10:38,000 --> 00:10:41,000
+Let me save this changes and do a build.
+
+153
+00:10:41,000 --> 00:10:43,000
+Here I'll try to refresh this page.
+
+154
+00:10:43,000 --> 00:10:47,000
+You can see this time I have simply three configurations.
+
+155
+00:10:47,000 --> 00:10:53,000
+I don't have any other configurations which my gateway server fetch from the Eureka Server.
+
+156
+00:10:53,000 --> 00:10:55,000
+So this looks very professional to me.
+
+157
+00:10:55,000 --> 00:11:01,000
+As a next step, we can try to test one negative scenario, so I'll go to the gatewayserver_01
+
+158
+00:11:01,000 --> 00:11:02,000
+Here
+
+159
+00:11:02,000 --> 00:11:08,000
+we don't have any prefix of easybank, which means I'm trying to go with the default routing locations
+
+160
+00:11:08,000 --> 00:11:11,000
+of my gateway server, which it fetched from the Eureka server.
+
+161
+00:11:11,000 --> 00:11:17,000
+So if I try to click on the send button this time, you can see I'm getting a 404 error because we have
+
+162
+00:11:17,000 --> 00:11:23,000
+disabled that default behavior and right now we want to go with the our own custom path with the prefix
+
+163
+00:11:23,000 --> 00:11:25,000
+easybank and the application name.
+
+164
+00:11:25,000 --> 00:11:28,000
+I hope you are clear what all changes we have done inside this method.
+
+165
+00:11:28,000 --> 00:11:31,000
+This is going to be super, super simple.
+
+166
+00:11:31,000 --> 00:11:36,000
+Spring Cloud Gateway also supports defining these configurations inside the application.yml.
+
+167
+00:11:37,000 --> 00:11:42,000
+Please look inside the official documentation for more details, but I would always recommend you to
+
+168
+00:11:42,000 --> 00:11:48,000
+go with the Java based configurations because this will allow you to define more complex routing configurations
+
+169
+00:11:48,000 --> 00:11:51,000
+and to define more number of filters.
+
+170
+00:11:51,000 --> 00:11:57,000
+Whereas with the properties inside the application.yml that has some limitations with that reason,
+
+171
+00:11:57,000 --> 00:11:59,000
+always go with the Java based configurations.
+
+172
+00:11:59,000 --> 00:12:02,000
+Thank you and I'll catch you in the next lecture bye.
+

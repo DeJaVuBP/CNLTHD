@@ -1,0 +1,532 @@
+1
+00:00:00,000 --> 00:00:01,000
+Behind the scenes,
+
+2
+00:00:01,000 --> 00:00:06,000
+I pushed all my Docker images related to the Section9 into my Docker hub.
+
+3
+00:00:06,000 --> 00:00:09,000
+You can see there is a gateway server right now.
+
+4
+00:00:09,000 --> 00:00:15,000
+Just pushed a few seconds back and very similarly all the images I pushed a few minutes back.
+
+5
+00:00:15,000 --> 00:00:20,000
+If you try to open any of these microservice like accounts microservice, you should be able to see
+
+6
+00:00:20,000 --> 00:00:23,000
+a new tag name, which is S9.
+
+7
+00:00:23,000 --> 00:00:28,000
+So this S9 tag will have all the changes that we have discussed inside this section.
+
+8
+00:00:28,000 --> 00:00:34,000
+As a next step, let's try to update the Docker compose file and try to run the same post that we can
+
+9
+00:00:34,000 --> 00:00:40,000
+validate all our edge server or gateway server related changes using Docker containers. Inside our
+
+10
+00:00:40,000 --> 00:00:41,000
+workspace location.
+
+11
+00:00:41,000 --> 00:00:43,000
+There is a folder docker-compose.
+
+12
+00:00:43,000 --> 00:00:48,000
+We can go to that default folder and open that Docker-compose.yaml file.
+
+13
+00:00:48,000 --> 00:00:53,000
+Here just like other services, we need to create gateway server related service.
+
+14
+00:00:53,000 --> 00:00:58,000
+So let me create the Gateway server related service just after the cards
+
+15
+00:00:58,000 --> 00:01:05,000
+microservice I'm going to paste the same card service here and rename these card service to Gateway
+
+16
+00:01:05,000 --> 00:01:05,000
+Server.
+
+17
+00:01:05,000 --> 00:01:10,000
+Once we have mentioned this name, we should also mention what is the image name?
+
+18
+00:01:10,000 --> 00:01:16,000
+The image name we are following right now is, gatewayserver and the tag name should be S9. So please
+
+19
+00:01:16,000 --> 00:01:21,000
+make sure you are searching for S8 inside your Docker
+
+20
+00:01:21,000 --> 00:01:25,000
+compose and replace this S8 with S9.
+
+21
+00:01:25,000 --> 00:01:27,000
+So I'm just trying to click on this replace all.
+
+22
+00:01:27,000 --> 00:01:32,000
+So that will replace all S8 with S9. As a next step
+
+23
+00:01:32,000 --> 00:01:38,000
+I need to change this container name, so instead of cards-ms I'm going to make it as gatewayserver-ms.
+
+24
+00:01:38,000 --> 00:01:44,000
+And the port where we want our gateway server to start is 8072:9000
+
+25
+00:01:44,000 --> 00:01:51,000
+So that's why we need to update these port mapping and the application name is going to be gateway server.
+
+26
+00:01:51,000 --> 00:01:57,000
+With this we should be good because under the common config file we have a service with the name microservice-eureka
+
+27
+00:01:57,000 --> 00:01:59,000
+.
+
+28
+00:01:59,000 --> 00:02:05,000
+So if I go and check that service, we are passing the Eureka related details along with the config
+
+29
+00:02:05,000 --> 00:02:12,000
+server details because this service is extending the parent service which is microservice-configserver-config
+
+30
+00:02:12,000 --> 00:02:14,000
+.
+
+31
+00:02:14,000 --> 00:02:20,000
+Now as a next step, we need to define the health checks for all our accounts, loans and cards
+
+32
+00:02:20,000 --> 00:02:22,000
+microservice. For the same,
+
+33
+00:02:22,000 --> 00:02:27,000
+let me copy the health check related information from Eureka Server.
+
+34
+00:02:27,000 --> 00:02:34,000
+So I'm trying to copy these configurations and I'll go to the accounts microservice, here just after
+
+35
+00:02:34,000 --> 00:02:37,000
+the ports, I'm going to paste the health check related information.
+
+36
+00:02:37,000 --> 00:02:42,000
+So under this health check we need to mention what is our port number of accounts Microservice.
+
+37
+00:02:42,000 --> 00:02:44,000
+The port number is 8080.
+
+38
+00:02:44,000 --> 00:02:51,000
+As a next step, I need to define very similar health check related configurations under the loans microservice
+
+39
+00:02:51,000 --> 00:02:51,000
+as well.
+
+40
+00:02:51,000 --> 00:02:57,000
+Just after the ports, I'm going to paste the health check related configurations and change this port
+
+41
+00:02:57,000 --> 00:03:00,000
+number from 8080:8090.
+
+42
+00:03:00,000 --> 00:03:03,000
+Let me go to the cards microservice configurations also.
+
+43
+00:03:03,000 --> 00:03:08,000
+also here we have another instance, details of loans, microservice.
+
+44
+00:03:08,000 --> 00:03:14,000
+I don't want to carry forward this into the section9, so let me delete this service and post that
+
+45
+00:03:14,000 --> 00:03:20,000
+under cards after ports configuration, I'm going to provide the health check related information.
+
+46
+00:03:20,000 --> 00:03:23,000
+So the port number here it is going to be 9000.
+
+47
+00:03:23,000 --> 00:03:30,000
+As a next step, we can go to the gateway server and here after the ports, I'm going to mention the
+
+48
+00:03:30,000 --> 00:03:36,000
+element which is depends on after mentioning the depends on we can mention what is the service name,
+
+49
+00:03:36,000 --> 00:03:40,000
+which is like accounts and the condition is service healthy.
+
+50
+00:03:40,000 --> 00:03:47,000
+Very similarly, I also have dependency on loans microservice with the condition service healthy and
+
+51
+00:03:47,000 --> 00:03:48,000
+after loans.
+
+52
+00:03:48,000 --> 00:03:52,000
+I'm going to mention cards with the condition service healthy.
+
+53
+00:03:52,000 --> 00:03:53,000
+With this we should be good.
+
+54
+00:03:53,000 --> 00:03:58,000
+Let me try to run the Docker compose command and see if we get any errors.
+
+55
+00:03:58,000 --> 00:04:01,000
+Right now I'm into the section9 folder inside my terminal.
+
+56
+00:04:01,000 --> 00:04:05,000
+Let me navigate into the Docker compose and default folder.
+
+57
+00:04:05,000 --> 00:04:12,000
+Once we entered into this default folder, I'm going to run the command, which is docker compose app -d
+
+58
+00:04:12,000 --> 00:04:13,000
+.
+
+59
+00:04:13,000 --> 00:04:16,000
+This will try to start all our containers.
+
+60
+00:04:16,000 --> 00:04:22,000
+The very first service that we are going to start is config server followed by Eureka Server.
+
+61
+00:04:22,000 --> 00:04:26,000
+After the Eureka server is started, we are going to start accounts, loans and cards.
+
+62
+00:04:26,000 --> 00:04:33,000
+Once all the individual microservices health is good, then my gateway server is going to start towards
+
+63
+00:04:33,000 --> 00:04:33,000
+the end.
+
+64
+00:04:33,000 --> 00:04:36,000
+So this is going to take at least one two minutes.
+
+65
+00:04:36,000 --> 00:04:38,000
+So let's wait for this to get complete.
+
+66
+00:04:38,000 --> 00:04:43,000
+After two minutes, all my containers started successfully inside my local system.
+
+67
+00:04:43,000 --> 00:04:46,000
+Let me validate the same inside the Docker desktop.
+
+68
+00:04:46,000 --> 00:04:51,000
+Here under the containers you can see all my containers are in running status.
+
+69
+00:04:51,000 --> 00:04:56,000
+If I try to click on the gatewayserver-ms, I will be able to see the logs related to the gatewayserver
+
+70
+00:04:56,000 --> 00:04:57,000
+.
+
+71
+00:04:57,000 --> 00:05:00,000
+Here you can see the gateway started successfully.
+
+72
+00:05:00,000 --> 00:05:07,000
+Let me try to clean all the logs inside the containers of gateway server cards, microservice followed
+
+73
+00:05:07,000 --> 00:05:12,000
+by loans microservice and at last inside the accounts microservice as well.
+
+74
+00:05:12,000 --> 00:05:19,000
+So that we can see our correlation logs very clearly as a next step to test these edge server related
+
+75
+00:05:19,000 --> 00:05:20,000
+changes,
+
+76
+00:05:20,000 --> 00:05:24,000
+First, I need to create the data inside my microservices. For the same,
+
+77
+00:05:24,000 --> 00:05:30,000
+first, let's try to execute the create API available inside the accounts microservice with the help
+
+78
+00:05:30,000 --> 00:05:32,000
+of Gateway server.
+
+79
+00:05:32,000 --> 00:05:34,000
+So let me send this request.
+
+80
+00:05:34,000 --> 00:05:39,000
+I'm getting a successful response post that I'm going to create a new card with the same mobile number.
+
+81
+00:05:39,000 --> 00:05:39,000
+Here
+
+82
+00:05:39,000 --> 00:05:45,000
+also, I'm getting a successful response and at last I'm going to create a new loan with the same mobile
+
+83
+00:05:45,000 --> 00:05:45,000
+number.
+
+84
+00:05:45,000 --> 00:05:48,000
+And here also we are getting the successful response.
+
+85
+00:05:48,000 --> 00:05:52,000
+As a next step, I'll go to the fetchCustomerDetails().
+
+86
+00:05:52,000 --> 00:05:56,000
+Here I'm going to invoke the fetchCustomerDetails() with the same mobile number.
+
+87
+00:05:56,000 --> 00:05:59,000
+Let me clean the body here.
+
+88
+00:05:59,000 --> 00:06:02,000
+Now I'm clicking on the send button with this
+
+89
+00:06:02,000 --> 00:06:07,000
+now you can expect a successful response like you can see accounts, loans and cards related information
+
+90
+00:06:07,000 --> 00:06:08,000
+we have received.
+
+91
+00:06:08,000 --> 00:06:13,000
+We can also validate the headers that we have inside the response.
+
+92
+00:06:13,000 --> 00:06:18,000
+Here we have a new header with the name easybank-correlationId and this is the correlation
+
+93
+00:06:18,000 --> 00:06:22,000
+ID that my Gateway server initially generated.
+
+94
+00:06:22,000 --> 00:06:28,000
+So let me copy this correlationId and the same I'm going to search inside my accounts microservice
+
+95
+00:06:28,000 --> 00:06:30,000
+and there is a log inside my accounts
+
+96
+00:06:30,000 --> 00:06:34,000
+microservice. Now let me go to the loans microservice here
+
+97
+00:06:34,000 --> 00:06:37,000
+also I have a log with the same traceId as a next step
+
+98
+00:06:37,000 --> 00:06:39,000
+I will check inside cards microservice.
+
+99
+00:06:39,000 --> 00:06:43,000
+Here also, we should have two logs and I have two logs here.
+
+100
+00:06:43,000 --> 00:06:48,000
+One is from the RequestTraceFilter and the other one is from the ResponseTraceFilter.
+
+101
+00:06:48,000 --> 00:06:55,000
+With this we successfully validated the changes inside the Docker environment by executing this Docker
+
+102
+00:06:55,000 --> 00:06:55,000
+compose file.
+
+103
+00:06:55,000 --> 00:07:04,000
+Now let me try to run the command which is docker compose down, which will stop all my running containers.
+
+104
+00:07:04,000 --> 00:07:06,000
+While these containers are getting stopped.
+
+105
+00:07:06,000 --> 00:07:12,000
+I can try to copy the same content into the other Docker compose files, so let me copy this Docker
+
+106
+00:07:12,000 --> 00:07:18,000
+compose file and mention the same inside the prod docker-compose.yml file and post that I'm going to
+
+107
+00:07:18,000 --> 00:07:23,000
+mention the same inside the qa/docker-compose.yml file.
+
+108
+00:07:23,000 --> 00:07:27,000
+I believe we didn't make any changes inside the commonconfig.yml.
+
+109
+00:07:27,000 --> 00:07:31,000
+That's why we don't need to update anything inside the commonconfig.yml.
+
+110
+00:07:31,000 --> 00:07:35,000
+So please make sure in the respective folders we have the correct profile and inside the qa 
+
+111
+00:07:35,000 --> 00:07:38,000
+also we have spring profiles active as qa profile.
+
+112
+00:07:38,000 --> 00:07:44,000
+With this we are done with all the discussion about the edge server. In the coming sections, we are
+
+113
+00:07:44,000 --> 00:07:50,000
+going to come back again to the gatewayserver and try to implement that many business logic related
+
+114
+00:07:50,000 --> 00:07:53,000
+to security, fault tolerance and resilience.
+
+115
+00:07:53,000 --> 00:08:00,000
+But this is a very good start for us in terms of building a API gateway or an edge server for our microservice
+
+116
+00:08:00,000 --> 00:08:00,000
+network.
+
+117
+00:08:00,000 --> 00:08:06,000
+Now all my external clients, they don't have to invoke different, different individual microservice
+
+118
+00:08:06,000 --> 00:08:07,000
+API URLs.
+
+119
+00:08:07,000 --> 00:08:11,000
+Instead, they can simply rely on one edge server, which is gateway server.
+
+120
+00:08:12,000 --> 00:08:16,000
+I'm super, super happy here with the progress that we are making inside this course.
+
+121
+00:08:16,000 --> 00:08:19,000
+I'm also assuming you are also feeling very happy here.
+
+122
+00:08:19,000 --> 00:08:22,000
+Before we try to close this lecture, I have a request for you.
+
+123
+00:08:22,000 --> 00:08:29,000
+Please spend 1 or 2 minutes and provide your valuable feedback by providing your review inside the Udemy.
+
+124
+00:08:29,000 --> 00:08:34,000
+This will help me to understand your feedback and try to improvise this course further.
+
+125
+00:08:34,000 --> 00:08:39,000
+If you like sharing the feedback personally, please send an email to me or you can also send a message
+
+126
+00:08:39,000 --> 00:08:41,000
+inside LinkedIn.
+
+127
+00:08:41,000 --> 00:08:44,000
+All the contact details like email and LinkedIn.
+
+128
+00:08:44,000 --> 00:08:48,000
+You can find inside my official website, which is eazybytes.com.
+
+129
+00:08:48,000 --> 00:08:53,000
+If you are also interested in other courses that are created by me inside this website, you will be
+
+130
+00:08:53,000 --> 00:08:54,000
+able to see them.
+
+131
+00:08:54,000 --> 00:08:57,000
+So please enroll them if you are interested.
+
+132
+00:08:57,000 --> 00:08:59,000
+Thank you and I'll catch you in the next section.
+
+133
+00:08:59,000 --> 00:08:59,000
+Bye.
+

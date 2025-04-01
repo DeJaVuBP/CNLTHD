@@ -1,0 +1,368 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to update the Docker compose file so that we can test Eureka related
+
+2
+00:00:06,000 --> 00:00:08,000
+changes inside that Docker environment.
+
+3
+00:00:08,000 --> 00:00:10,000
+So inside that Docker compose folder.
+
+4
+00:00:10,000 --> 00:00:15,000
+First I'm going to open the Docker compose file present inside the default profile.
+
+5
+00:00:15,000 --> 00:00:21,000
+Here first, we need to delete the Rabbitmq related service because we no more need it.
+
+6
+00:00:21,000 --> 00:00:21,000
+After this,
+
+7
+00:00:21,000 --> 00:00:26,000
+I'm also going to remove these depends on under the config server.
+
+8
+00:00:26,000 --> 00:00:31,000
+Since we don't have any rabbitmq service, we can remove the same followed by.
+
+9
+00:00:31,000 --> 00:00:38,000
+I'm going to update these image from S6 to S8 and now I'm going to copy this config server service
+
+10
+00:00:38,000 --> 00:00:41,000
+and paste the same just above the account service.
+
+11
+00:00:41,000 --> 00:00:45,000
+So this service name, I'm going to keep it as Eureka server.
+
+12
+00:00:45,000 --> 00:00:50,000
+So once we update the service name, we should also make sure we are mentioning that what is the Docker
+
+13
+00:00:50,000 --> 00:00:57,000
+image name, which is like eazybytes/eurekaserver:s8 and the container name.
+
+14
+00:00:57,000 --> 00:01:01,000
+I want to keep it as eurekaserver-ms.
+
+15
+00:01:01,000 --> 00:01:04,000
+Next, we need to update the port mapping like we know by default
+
+16
+00:01:04,000 --> 00:01:08,000
+Eureka server is going to start at the port 8070.
+
+17
+00:01:08,000 --> 00:01:13,000
+That's why I'm going to change this port mapping to 8070. After the port mapping
+
+18
+00:01:13,000 --> 00:01:18,000
+we should also provide the health check details for the Eureka Server because we want our accounts
+
+19
+00:01:18,000 --> 00:01:25,000
+microservice, loans microservice and card microservice to get started only after the config server
+
+20
+00:01:25,000 --> 00:01:27,000
+and Eureka server started successfully.
+
+21
+00:01:27,000 --> 00:01:31,000
+That's why we need to provide the health check details for the Eureka server as well.
+
+22
+00:01:31,000 --> 00:01:39,000
+So here the command is going to be same, but we just need to change the port number from 8071 to 8070.
+
+23
+00:01:39,000 --> 00:01:46,000
+We already mentioned the properties related to the health readiness and liveness inside the eureka server
+
+24
+00:01:46,000 --> 00:01:47,000
+application.yml file.
+
+25
+00:01:47,000 --> 00:01:52,000
+With this command, we should be good from health check perspective and after the health check you can
+
+26
+00:01:52,000 --> 00:01:55,000
+see we are going to extend the commonconfig.yml.
+
+27
+00:01:55,000 --> 00:01:59,000
+Under this we are going to use the microservice based config.
+
+28
+00:01:59,000 --> 00:02:03,000
+So let's see what is there inside the microservice based config.
+
+29
+00:02:03,000 --> 00:02:10,000
+So under the microservice based config we have deploy instructions and network related instructions
+
+30
+00:02:10,000 --> 00:02:13,000
+and we have an environment variable which is related to Rabbitmq.
+
+31
+00:02:13,000 --> 00:02:17,000
+We can delete this Rabbitmq related property here.
+
+32
+00:02:17,000 --> 00:02:23,000
+As a next step, I'll go to the Docker compose file and here I need to mention that depends on.
+
+33
+00:02:23,000 --> 00:02:24,000
+Using this depends on
+
+34
+00:02:24,000 --> 00:02:31,000
+I'm going to mention that my Eureka server is going to depend on config server because since my Eureka
+
+35
+00:02:31,000 --> 00:02:36,000
+server is going to load the properties with the help of config server, we need to make sure we are
+
+36
+00:02:36,000 --> 00:02:38,000
+mentioning this service as healthy.
+
+37
+00:02:38,000 --> 00:02:40,000
+After mentioning these depends on details, 
+
+38
+00:02:40,000 --> 00:02:47,000
+I should also provide an environment variable under the Eureka server providing the spring application
+
+39
+00:02:47,000 --> 00:02:48,000
+name details.
+
+40
+00:02:48,000 --> 00:02:54,000
+So let me take this value from accounts microservice and paste the same value inside the Eureka Server.
+
+41
+00:02:54,000 --> 00:03:00,000
+So here you can see I have created a new environment variable and inside this property, which is spring
+
+42
+00:03:00,000 --> 00:03:07,000
+application name, I'm going to mention my Eureka server name, which is Eureka Server. Using the same
+
+43
+00:03:07,000 --> 00:03:07,000
+name,
+
+44
+00:03:07,000 --> 00:03:10,000
+we have created a file name inside the config server.
+
+45
+00:03:10,000 --> 00:03:11,000
+With this we should be good.
+
+46
+00:03:11,000 --> 00:03:16,000
+There are no other environment variables that I need to provide for my Eureka server.
+
+47
+00:03:16,000 --> 00:03:22,000
+It does not depend on any other microservices or database, so we should be good As a next step,
+
+48
+00:03:22,000 --> 00:03:25,000
+I can look at what details I need to mention
+
+49
+00:03:25,000 --> 00:03:28,000
+under accounts, loans and cards.
+
+50
+00:03:28,000 --> 00:03:30,000
+We know our individual microservice.
+
+51
+00:03:30,000 --> 00:03:31,000
+They need to connect with the Eureka server.
+
+52
+00:03:31,000 --> 00:03:34,000
+That's why we need to mention an environment variable.
+
+53
+00:03:34,000 --> 00:03:40,000
+And since the environment variable is going to common for all microservices, we can mention that inside
+
+54
+00:03:40,000 --> 00:03:46,000
+the commonconfig.yml and at the same time all our individual microservices they are going to depend
+
+55
+00:03:46,000 --> 00:03:48,000
+on Eureka Server.
+
+56
+00:03:48,000 --> 00:03:55,000
+And since this depends configuration is also common for all microservice, we can mention that under
+
+57
+00:03:55,000 --> 00:03:57,000
+the common-config.yml.
+
+58
+00:03:57,000 --> 00:04:03,000
+So here we have a service name with the name microservice-configserver-config.
+
+59
+00:04:03,000 --> 00:04:07,000
+Under this service I'm going to add one more depends on details.
+
+60
+00:04:07,000 --> 00:04:10,000
+Like just like how we have config server.
+
+61
+00:04:10,000 --> 00:04:12,000
+I'm going to add Eureka server.
+
+62
+00:04:12,000 --> 00:04:17,000
+So this is the service name that we have created inside the Docker compose file.
+
+63
+00:04:17,000 --> 00:04:21,000
+And for this service we need to mention the condition as service healthy.
+
+64
+00:04:21,000 --> 00:04:27,000
+After mentioning these depends on details, we can go to the environment variables just like how we
+
+65
+00:04:27,000 --> 00:04:29,000
+have spring config import.
+
+66
+00:04:29,000 --> 00:04:33,000
+We should also mention the URL details of the Eureka server.
+
+67
+00:04:33,000 --> 00:04:36,000
+The same I'm trying to mention here.
+
+68
+00:04:36,000 --> 00:04:42,000
+The property name is Eureka_CLIENT_SERVICEURL_DEFAULTZONE and here
+
+69
+00:04:42,000 --> 00:04:44,000
+we should not mention localhost.
+
+70
+00:04:44,000 --> 00:04:48,000
+Instead we should mention the service name that we have mentioned inside the Docker compose file.
+
+71
+00:04:48,000 --> 00:04:55,000
+The service name is Eureka Server followed by what is the port number where it will start 8070 and after
+
+72
+00:04:55,000 --> 00:04:57,000
+the port we need to mention /eureka.
+
+73
+00:04:57,000 --> 00:04:59,000
+So with these updates, all the configurations that we
+
+74
+00:04:59,000 --> 00:05:06,000
+have updated under this service name will be utilized by the accounts, loans and cards micro services.
+
+75
+00:05:06,000 --> 00:05:13,000
+So as a next step, let's try to update the image related information for accounts from S6 to S8 and
+
+76
+00:05:13,000 --> 00:05:19,000
+very similar update I want to do for loans microservice, followed by cards microservice.
+
+77
+00:05:19,000 --> 00:05:22,000
+So with these changes we should be good.
+
+78
+00:05:22,000 --> 00:05:28,000
+I can quickly try to copy the same docker-compose.yml file into other profiles like prod.
+
+79
+00:05:28,000 --> 00:05:35,000
+I'm trying to copy these latest docker compose Yaml file and very similarly I'm going to open the profile
+
+80
+00:05:35,000 --> 00:05:39,000
+and here also I'm going to paste the content from the default profile.
+
+81
+00:05:39,000 --> 00:05:46,000
+Now very similar thing I'm going to do for commonconfig.yml and paste the same under the prod
+
+82
+00:05:46,000 --> 00:05:48,000
+and here the spring profiles active.
+
+83
+00:05:48,000 --> 00:05:50,000
+I'll change from default to prod.
+
+84
+00:05:50,000 --> 00:05:53,000
+Let me do the same for QA as well.
+
+85
+00:05:53,000 --> 00:05:59,000
+You might be wondering why I'm trying to duplicate the same kind of compose and common config in different
+
+86
+00:05:59,000 --> 00:06:00,000
+folders.
+
+87
+00:06:00,000 --> 00:06:06,000
+Like I said before, this will give you a flexibility in future whenever you want to go with different
+
+88
+00:06:06,000 --> 00:06:12,000
+different requirements in different environments, then you can update the respective Yaml file.
+
+89
+00:06:12,000 --> 00:06:17,000
+So with these changes we have updated the Docker compose file. In the next lecture,
+
+90
+00:06:17,000 --> 00:06:22,000
+let's try to start all the containers with the help of Docker, compose command and try to validate
+
+91
+00:06:22,000 --> 00:06:26,000
+the Eureka changes that we have developed inside the Docker environment.
+
+92
+00:06:26,000 --> 00:06:29,000
+Thank you and I'll catch you in the next lecture bye.
+

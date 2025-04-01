@@ -1,0 +1,404 @@
+1
+00:00:00,000 --> 00:00:06,000
+Hope you are successful at making the Eureka related changes inside the loans and cards microservice.
+
+2
+00:00:06,000 --> 00:00:11,000
+If not, don't worry, we are going to revise again very quickly the very first change that we have
+
+3
+00:00:11,000 --> 00:00:13,000
+to make inside cards and loans
+
+4
+00:00:13,000 --> 00:00:15,000
+microservice is and the pom.xml.
+
+5
+00:00:15,000 --> 00:00:21,000
+Please make sure you are adding a new dependency which is spring-cloud-starter-netflix-eureka-client.
+
+6
+00:00:21,000 --> 00:00:23,000
+So please make sure you have added this.
+
+7
+00:00:23,000 --> 00:00:28,000
+I have added this inside the cards very similarly, if we can validate inside the loans microservice
+
+8
+00:00:28,000 --> 00:00:35,000
+also I have added the same inside the pom.xml as a next step we need to go to the application.yml
+
+9
+00:00:35,000 --> 00:00:38,000
+file of cards microservice.
+
+10
+00:00:38,000 --> 00:00:45,000
+So if I can open the application.yml file here you can see I already added all the required dependencies
+
+11
+00:00:45,000 --> 00:00:50,000
+like shut down enable, info env enable true, endpoint shut down enable true.
+
+12
+00:00:50,000 --> 00:00:55,000
+And after that eureka instance prefer IP address as true, client fetch registry as true, register with
+
+13
+00:00:55,000 --> 00:00:57,000
+Eureka as true and service url
+
+14
+00:00:57,000 --> 00:01:05,000
+I have mentioned the localhost 8070 Eureka. And at last I also mentioned the info related properties,
+
+15
+00:01:05,000 --> 00:01:07,000
+but here there is a copy paste mistake.
+
+16
+00:01:07,000 --> 00:01:13,000
+The name should be cards and description should be Eazy Bank Cards Application.
+
+17
+00:01:13,000 --> 00:01:15,000
+So with this I should be good.
+
+18
+00:01:15,000 --> 00:01:21,000
+Now let me validate the changes I have done inside the application.yml of loans microservice.
+
+19
+00:01:21,000 --> 00:01:23,000
+So inside this application.yml file also
+
+20
+00:01:23,000 --> 00:01:30,000
+I have added very similar properties and here the info name looks good like loans and description
+
+21
+00:01:30,000 --> 00:01:32,000
+also looks good like Easy Bank Loans Application.
+
+22
+00:01:32,000 --> 00:01:36,000
+So after making these changes, save all your changes and do a build.
+
+23
+00:01:36,000 --> 00:01:41,000
+Once the build is completed, start your loans microservice and cards microservice.
+
+24
+00:01:41,000 --> 00:01:47,000
+So before you try to start this applications, please make sure your config server Eureka Server is
+
+25
+00:01:47,000 --> 00:01:52,000
+running inside your local system. So they are already in running status inside my system.
+
+26
+00:01:52,000 --> 00:01:56,000
+Now I will also go to the cards microservice and try to start the same.
+
+27
+00:01:56,000 --> 00:02:00,000
+So let me open the cards application that I have here.
+
+28
+00:02:00,000 --> 00:02:02,000
+So I'm just trying to start in a debug mode.
+
+29
+00:02:02,000 --> 00:02:08,000
+As a next step, I will go to my Eureka dashboard and validate if my cards and loans microservices are
+
+30
+00:02:08,000 --> 00:02:10,000
+registered successfully or not.
+
+31
+00:02:10,000 --> 00:02:12,000
+As of now, you can see there is only accounts
+
+32
+00:02:12,000 --> 00:02:13,000
+microservice.
+
+33
+00:02:13,000 --> 00:02:15,000
+I'm trying to refresh this page.
+
+34
+00:02:15,000 --> 00:02:19,000
+As soon as I refresh, you can see we have cards and loans related
+
+35
+00:02:19,000 --> 00:02:24,000
+microservices also registered themselves with the Eureka Service Discovery agent.
+
+36
+00:02:24,000 --> 00:02:28,000
+I can also click on this and validate the info details.
+
+37
+00:02:28,000 --> 00:02:29,000
+They are accurate.
+
+38
+00:02:29,000 --> 00:02:35,000
+Like at 9000 port, we have deployed cards microservice and we are able to see the cards related information.
+
+39
+00:02:35,000 --> 00:02:39,000
+Very similarly, let's validate loans microservice information.
+
+40
+00:02:39,000 --> 00:02:41,000
+So here also this looks good.
+
+41
+00:02:41,000 --> 00:02:43,000
+So let me close this information.
+
+42
+00:02:43,000 --> 00:02:44,000
+I hope you are clear.
+
+43
+00:02:44,000 --> 00:02:49,000
+We are trying to implement this service discovery and service registration along with the load balancing
+
+44
+00:02:49,000 --> 00:02:50,000
+step by step.
+
+45
+00:02:50,000 --> 00:02:54,000
+The very first step that we need to make sure is, we should have a separate centralized server which
+
+46
+00:02:54,000 --> 00:03:00,000
+is responsible for storing all the service registry details and act as a service discovery agent.
+
+47
+00:03:00,000 --> 00:03:06,000
+That's why we have built the Eureka Server and post that we should make sure all our accounts microservice,
+
+48
+00:03:06,000 --> 00:03:11,000
+they are registering their details during the startup and that's what we have done by making the changes
+
+49
+00:03:11,000 --> 00:03:14,000
+inside the respective individual microservices.
+
+50
+00:03:14,000 --> 00:03:17,000
+Here I'm going to show you a interesting URL of Eureka Server.
+
+51
+00:03:17,000 --> 00:03:23,000
+So the URL is localhost:8070/eureka/aps.
+
+52
+00:03:23,000 --> 00:03:29,000
+If you try to access this, you can see you should be able to see all the apps and the instances that
+
+53
+00:03:29,000 --> 00:03:31,000
+are registered with the Eureka Server.
+
+54
+00:03:31,000 --> 00:03:35,000
+So under application you can see the application name is loans.
+
+55
+00:03:35,000 --> 00:03:39,000
+So under this loans, as of now, we have only one instance registered.
+
+56
+00:03:39,000 --> 00:03:45,000
+If you have multiple instances of loans microservice registered, you will be able to see multiple instances
+
+57
+00:03:45,000 --> 00:03:46,000
+information.
+
+58
+00:03:46,000 --> 00:03:49,000
+So as of now we are able to see only one instance information.
+
+59
+00:03:49,000 --> 00:03:55,000
+So this is the instance ID, this is the hostname, this is the app name, IP address,
+
+60
+00:03:55,000 --> 00:03:58,000
+what is the status and what is the port number?
+
+61
+00:03:58,000 --> 00:04:03,000
+And if you can scroll down, there is also some good information on what is the default renewal interval
+
+62
+00:04:03,000 --> 00:04:09,000
+in seconds and what is the registration time, what is the last renewal timestamp and what is the service
+
+63
+00:04:09,000 --> 00:04:10,000
+up timestamp?
+
+64
+00:04:10,000 --> 00:04:14,000
+And very similarly, what is the home page URL, what is the status page URL?
+
+65
+00:04:14,000 --> 00:04:15,000
+What is the health check?
+
+66
+00:04:15,000 --> 00:04:21,000
+This way we have lot of information about our instance that is registered with the Eureka Server.
+
+67
+00:04:21,000 --> 00:04:27,000
+Very similarly, we also have here accounts related information and this application name accounts.
+
+68
+00:04:27,000 --> 00:04:30,000
+We have one instance registered and the similar lines.
+
+69
+00:04:30,000 --> 00:04:33,000
+You will also see cards microservice and its instance details.
+
+70
+00:04:33,000 --> 00:04:39,000
+So if you have multiple instances under a microservice, you should be able to see all of them inside
+
+71
+00:04:39,000 --> 00:04:40,000
+the response
+
+72
+00:04:40,000 --> 00:04:46,000
+whenever someone is trying to invoke this URL. Using this URL, only anyone can connect with my Eureka
+
+73
+00:04:46,000 --> 00:04:51,000
+server and they can try to get the service registration details.
+
+74
+00:04:51,000 --> 00:04:56,000
+As of now, you can see by default the response is coming in an XML format.
+
+75
+00:04:56,000 --> 00:04:58,000
+But what if you want in Json format?
+
+76
+00:04:58,000 --> 00:04:58,000
+So the
+
+77
+00:04:59,000 --> 00:05:02,000
+Eureka Server supports the Json format also.
+
+78
+00:05:02,000 --> 00:05:07,000
+So to get the response in a Json format, please take this URL and go to the postman.
+
+79
+00:05:07,000 --> 00:05:13,000
+So inside the postman I already have the folder with the request name Eureka Apps, so you should be
+
+80
+00:05:13,000 --> 00:05:14,000
+also have this,
+
+81
+00:05:14,000 --> 00:05:20,000
+If you have imported my postman collection that I have provided inside the GitHub repo.
+
+82
+00:05:20,000 --> 00:05:21,000
+So if you click on this request.
+
+83
+00:05:21,000 --> 00:05:27,000
+So this is the same URL that we tried to invoke before you try to send this request, please make sure
+
+84
+00:05:27,000 --> 00:05:32,000
+you are creating a new header with the name, accept and inside the value.
+
+85
+00:05:32,000 --> 00:05:35,000
+Please make sure you are mentioning application slash Json.
+
+86
+00:05:35,000 --> 00:05:43,000
+So if you try to uncheck this you can see by default I get in an XML format, but if I try to send this
+
+87
+00:05:43,000 --> 00:05:49,000
+header with the value application slash Json, I am getting all the response in a Json format.
+
+88
+00:05:49,000 --> 00:05:56,000
+For some reason, if you are looking for only accounts related information, then you can just mention
+
+89
+00:05:56,000 --> 00:06:01,000
+accounts inside the URL and you will get only accounts related information.
+
+90
+00:06:01,000 --> 00:06:06,000
+And similarly, if you are looking for parts, then mention the same cards inside the URL, you will
+
+91
+00:06:06,000 --> 00:06:10,000
+get only cards related information along with the instance details of cards
+
+92
+00:06:10,000 --> 00:06:11,000
+microservice.
+
+93
+00:06:11,000 --> 00:06:17,000
+I hope you are seeing and realizing the power of Eureka Server, which is acting as a discovery agent.
+
+94
+00:06:17,000 --> 00:06:19,000
+So we have only three microservices here.
+
+95
+00:06:19,000 --> 00:06:26,000
+But think of if you have 100 microservice, how useful this Eureka server for any internal communication
+
+96
+00:06:26,000 --> 00:06:30,000
+where one microservice is trying to connect with other microservice.
+
+97
+00:06:30,000 --> 00:06:35,000
+We are not doing any manual job of updating the IP address details into the registry.
+
+98
+00:06:35,000 --> 00:06:40,000
+All of these details are getting registered automatically during the startup of the microservices.
+
+99
+00:06:40,000 --> 00:06:46,000
+I hope you are successful at creating an Eureka server and registering all your microservice details
+
+100
+00:06:46,000 --> 00:06:50,000
+with the Eureka Server during the startup of the microservices.
+
+101
+00:06:50,000 --> 00:06:53,000
+Thank you and I'll catch you in the next lecture bye.
+

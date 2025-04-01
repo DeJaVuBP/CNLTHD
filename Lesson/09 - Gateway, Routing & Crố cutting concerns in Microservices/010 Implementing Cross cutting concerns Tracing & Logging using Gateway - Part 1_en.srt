@@ -1,0 +1,756 @@
+1
+00:00:00,000 --> 00:00:05,000
+Now, inside this lecture, let's try to create our own custom filters inside the Gateway server.
+
+2
+00:00:05,000 --> 00:00:11,000
+Before we try to create these custom filters, let's try to decide on what business logic we want to
+
+3
+00:00:11,000 --> 00:00:13,000
+implement with the help of these custom filters.
+
+4
+00:00:13,000 --> 00:00:19,000
+I want to take a business scenario where as soon as my gateway server receives an external traffic or
+
+5
+00:00:19,000 --> 00:00:23,000
+external request, it has to generate a correlation ID.
+
+6
+00:00:23,000 --> 00:00:30,000
+So here ID is a randomly generated value and the same correlation ID I want to send for all the further
+
+7
+00:00:30,000 --> 00:00:33,000
+microservices that my request is going to travel.
+
+8
+00:00:33,000 --> 00:00:38,000
+Maybe if I'm trying to send a request from Gateway server to accounts, from accounts to loans and cards,
+
+9
+00:00:38,000 --> 00:00:45,000
+then I want to make sure the same trace ID are the correlation ID to be sent to all the respective microservices.
+
+10
+00:00:45,000 --> 00:00:51,000
+And using the same correlation ID and the trace ID, I'm going to add some logger statements inside
+
+11
+00:00:51,000 --> 00:00:52,000
+my microservices.
+
+12
+00:00:52,000 --> 00:00:57,000
+While I'm sending the response back to the client, I want to add the same correlation ID inside the
+
+13
+00:00:57,000 --> 00:01:03,000
+response header so that in future, whenever my client has some issues with a particular request saying
+
+14
+00:01:03,000 --> 00:01:07,000
+that the data is not correct or there is an exception happened.
+
+15
+00:01:07,000 --> 00:01:15,000
+So using that correlation ID my developer, he can look at the logs and identify up to which microservice
+
+16
+00:01:15,000 --> 00:01:20,000
+the request has travelled and if there is an exception under which microservice the exception received.
+
+17
+00:01:20,000 --> 00:01:24,000
+So this is what we are trying to achieve with the help of these custom filters.
+
+18
+00:01:24,000 --> 00:01:26,000
+If something is not clear, don't worry.
+
+19
+00:01:26,000 --> 00:01:30,000
+When I'm showing you the demo it will be more clear for you.
+
+20
+00:01:30,000 --> 00:01:34,000
+So for this business logic, I want to create some custom filters inside the gateway server.
+
+21
+00:01:34,000 --> 00:01:41,000
+So for the same, I'm going to create a new package with the name com.eazybytes.gatewayserver.filters.
+
+22
+00:01:41,000 --> 00:01:42,000
+.
+
+23
+00:01:42,000 --> 00:01:46,000
+So inside this package only I'm going to create all my custom filters.
+
+24
+00:01:46,000 --> 00:01:51,000
+So first I'm going to create a new filter with the name RequestTraceFilter.
+
+25
+00:01:51,000 --> 00:01:59,000
+This filter is responsible to generate a trace ID or correlation ID whenever a new request came to my
+
+26
+00:01:59,000 --> 00:02:02,000
+gateway server from the external client applications.
+
+27
+00:02:02,000 --> 00:02:08,000
+And very similarly, I want to add one more filter and the filter name is going to be ResponseTraceFilter
+
+28
+00:02:08,000 --> 00:02:08,000
+.
+
+29
+00:02:08,000 --> 00:02:14,000
+The purpose of this filter is it is going to add the trace ID or the correlation ID into the response
+
+30
+00:02:14,000 --> 00:02:20,000
+so that my client also is aware about that trace ID that is associated with a particular request.
+
+31
+00:02:20,000 --> 00:02:26,000
+After creating these two filters, I also want to create one more class inside this filter package with
+
+32
+00:02:26,000 --> 00:02:28,000
+the name filter utility.
+
+33
+00:02:28,000 --> 00:02:34,000
+So all the logic which is common to these request and response trace filter, I want to define inside
+
+34
+00:02:34,000 --> 00:02:35,000
+this filter utility class.
+
+35
+00:02:35,000 --> 00:02:39,000
+So we need to write some good amount of logic inside these three filters.
+
+36
+00:02:39,000 --> 00:02:44,000
+What I'm going to do is, I will pass the video and I'll try to implement all these business logic behind
+
+37
+00:02:44,000 --> 00:02:47,000
+the scenes post that I'm going to explain you
+
+38
+00:02:47,000 --> 00:02:47,000
+the same.
+
+39
+00:02:47,000 --> 00:02:53,000
+Why I'm doing this is, if I start typing all this code in front of you, it is going to take hours.
+
+40
+00:02:53,000 --> 00:02:55,000
+To save your valuable time,
+
+41
+00:02:55,000 --> 00:03:00,000
+I'm going to code this behind the scenes and post that I'm going to explain each and every line.
+
+42
+00:03:00,000 --> 00:03:03,000
+Don't worry, I'm going to make it these filters very, very clear for you.
+
+43
+00:03:03,000 --> 00:03:08,000
+And off course, you can always refer to the code present inside the GitHub repo and you can copy the
+
+44
+00:03:08,000 --> 00:03:13,000
+code from the GitHub repo or you can type the code by looking at the code inside the GitHub repo.
+
+45
+00:03:13,000 --> 00:03:14,000
+Welcome back
+
+46
+00:03:14,000 --> 00:03:18,000
+after spending few minutes, I'm able to complete all this code behind the scenes.
+
+47
+00:03:18,000 --> 00:03:22,000
+So let's try to understand all the code that we have inside these filters.
+
+48
+00:03:22,000 --> 00:03:26,000
+The very first filter that we have is RequestTraceFilter.
+
+49
+00:03:26,000 --> 00:03:32,000
+And this filter I'm trying to define as a bean with the help of this Component annotation, then only
+
+50
+00:03:32,000 --> 00:03:35,000
+my filter will be recognized by my gateway server.
+
+51
+00:03:35,000 --> 00:03:39,000
+And on top of this you can also see there is an Order annotation with the value one.
+
+52
+00:03:39,000 --> 00:03:45,000
+Sometimes you may want to define any number of filters and in such scenarios, if you want to define
+
+53
+00:03:45,000 --> 00:03:51,000
+an order of execution for your filters, then you can use this Order annotation and mention the value
+
+54
+00:03:51,000 --> 00:03:52,000
+like one, two, three, four.
+
+55
+00:03:52,000 --> 00:03:58,000
+So based upon the order that you have mentioned, using the same order, all the filters will be executed.
+
+56
+00:03:58,000 --> 00:04:04,000
+So this order with the value one will make sure always this filter will be executed first inside my
+
+57
+00:04:04,000 --> 00:04:05,000
+gateway server.
+
+58
+00:04:05,000 --> 00:04:11,000
+And after defining this order, you can also see this class implements a GlobalFilter whenever you
+
+59
+00:04:11,000 --> 00:04:17,000
+want your filter to be executed for all kinds of traffic that is going to be received by your gateway
+
+60
+00:04:17,000 --> 00:04:17,000
+server
+
+61
+00:04:17,000 --> 00:04:22,000
+then we need to make sure we are implementing this interface, which is GlobalFilter.
+
+62
+00:04:22,000 --> 00:04:27,000
+Whenever you are implementing this interface, we need to override a method and implement with the name
+
+63
+00:04:27,000 --> 00:04:28,000
+filter.
+
+64
+00:04:28,000 --> 00:04:34,000
+And to this method you can see we have an server web exchange as an input along with the gateway filter
+
+65
+00:04:34,000 --> 00:04:35,000
+chain.
+
+66
+00:04:35,000 --> 00:04:40,000
+Please note that the project of Spring Cloud Gateway Server is built based upon the spring reactive
+
+67
+00:04:40,000 --> 00:04:43,000
+module, but not based upon the traditional servlet module.
+
+68
+00:04:43,000 --> 00:04:48,000
+That's why you will be able to see some different code like server web exchange, mono avoid.
+
+69
+00:04:48,000 --> 00:04:50,000
+So these are all related to react to module.
+
+70
+00:04:50,000 --> 00:04:55,000
+If you're not clear about these reactive, don't worry, I'm going to explain and make this code pretty
+
+71
+00:04:55,000 --> 00:04:55,000
+clear for you.
+
+72
+00:04:55,000 --> 00:04:59,000
+Using this server web exchange inside the reactive project we can access
+
+73
+00:05:00,000 --> 00:05:04,000
+the request and response associated with an exchange. Inside Gateway
+
+74
+00:05:04,000 --> 00:05:08,000
+there can be any number of filters that we can configure.
+
+75
+00:05:08,000 --> 00:05:12,000
+We'll configure our custom filters and there'll be some predefined filters inside the gateway.
+
+76
+00:05:12,000 --> 00:05:16,000
+So all those filters will be executed in a chain manner.
+
+77
+00:05:16,000 --> 00:05:24,000
+That's why whenever I'm done executing my own particular filter, I need to invoke the next filter inside
+
+78
+00:05:24,000 --> 00:05:28,000
+the chain with the help of this chain.filter() method along with this exchange variable.
+
+79
+00:05:28,000 --> 00:05:32,000
+So that's what we are trying to return here, like chain.filter().
+
+80
+00:05:32,000 --> 00:05:36,000
+And to this filter method, I have to pass the same exchange that I have received.
+
+81
+00:05:36,000 --> 00:05:40,000
+So that's why we need to make sure we are mentioning these at the end with the help of this return.
+
+82
+00:05:40,000 --> 00:05:46,000
+Since we are not returning anything specifically, we need to make sure we are mentioning these 
+
+83
+00:05:46,000 --> 00:05:46,000
+Mono
+
+84
+00:05:46,000 --> 00:05:51,000
+So void means we are not returning anything specifically from this method.
+
+85
+00:05:51,000 --> 00:05:54,000
+We are just trying to invoke the next filter. Inside the reactive
+
+86
+00:05:54,000 --> 00:05:56,000
+we should always use mono or flux.
+
+87
+00:05:56,000 --> 00:06:02,000
+Mono indicates a single object, whereas flux indicates a collection of objects.
+
+88
+00:06:02,000 --> 00:06:08,000
+So here, since we don't have collection of objects and we are not returning anything, we should use
+
+89
+00:06:08,000 --> 00:06:08,000
+mono.
+
+90
+00:06:08,000 --> 00:06:14,000
+And inside this mono we should say void, which indicates I'm not returning anything from this method.
+
+91
+00:06:14,000 --> 00:06:19,000
+Now if you try to understand what is present inside this filter method first, I'm trying to get the
+
+92
+00:06:19,000 --> 00:06:23,000
+request from the exchange and from the request I'm trying to get the headers.
+
+93
+00:06:23,000 --> 00:06:31,000
+So inside all my Http request headers, I'm checking if there is any header already available with this
+
+94
+00:06:31,000 --> 00:06:34,000
+method, which is is correlation id present.
+
+95
+00:06:34,000 --> 00:06:37,000
+If you can go to this method which is present inside the same class.
+
+96
+00:06:37,000 --> 00:06:43,000
+So here, inside this method, again I'm trying to invoke the method present inside the FilterUtility.
+
+97
+00:06:43,000 --> 00:06:47,000
+Let me open this method which is present inside the FilterUtility.
+
+98
+00:06:47,000 --> 00:06:49,000
+So here you can see inside the request headers
+
+99
+00:06:49,000 --> 00:06:53,000
+we are checking if there is any header with the name
+
+100
+00:06:53,000 --> 00:06:55,000
+easybank-correlation id.
+
+101
+00:06:55,000 --> 00:07:00,000
+If there is a header available, we are going to return the value of that header.
+
+102
+00:07:00,000 --> 00:07:03,000
+If not, we are going to simply return the null value.
+
+103
+00:07:03,000 --> 00:07:09,000
+So based upon these output from this method inside my RequestTraceFilter, we are going to decide
+
+104
+00:07:09,000 --> 00:07:12,000
+whether the boolean is going to be true or false.
+
+105
+00:07:12,000 --> 00:07:18,000
+And based upon I'm returning a true or false inside this filter method, I'm going to execute this if
+
+106
+00:07:18,000 --> 00:07:19,000
+and else condition.
+
+107
+00:07:19,000 --> 00:07:25,000
+Whenever I get a true output, it indicates there is already a header with the same name inside the
+
+108
+00:07:25,000 --> 00:07:26,000
+request.
+
+109
+00:07:26,000 --> 00:07:32,000
+In such scenarios I don't want to generate the correlation ID again and this check is going to be super
+
+110
+00:07:32,000 --> 00:07:38,000
+useful in scenarios like my gateway server initially received the request and it generated a correlation
+
+111
+00:07:38,000 --> 00:07:44,000
+ID and added the header, but later on due to some redirections, again my gateway server received the
+
+112
+00:07:44,000 --> 00:07:44,000
+request.
+
+113
+00:07:44,000 --> 00:07:50,000
+So in such scenarios, if my gateway server tried to generate the header and its value again, I will
+
+114
+00:07:50,000 --> 00:07:53,000
+be overwriting the previously generated value which I want to avoid.
+
+115
+00:07:53,000 --> 00:07:58,000
+That's why we need to have this if check inside the else you can see we have a logic to generate the
+
+116
+00:07:58,000 --> 00:08:02,000
+correlation ID and set the same inside the request.
+
+117
+00:08:02,000 --> 00:08:07,000
+So with the help of this generate correlation ID method, we are trying to generate a random correlation
+
+118
+00:08:07,000 --> 00:08:12,000
+ID by using these randomUUID() method available inside the Java.
+
+119
+00:08:12,000 --> 00:08:18,000
+Once we generated these correlationId, we are trying to invoke the setCorrelationId() method present
+
+120
+00:08:18,000 --> 00:08:23,000
+inside the FilterUtility along with the exchange and the newly generated correlationId.
+
+121
+00:08:23,000 --> 00:08:25,000
+So let me open this method.
+
+122
+00:08:25,000 --> 00:08:31,000
+So here, simply inside this method we are just trying to create a new request header.
+
+123
+00:08:31,000 --> 00:08:32,000
+Inside this exchange.
+
+124
+00:08:32,000 --> 00:08:37,000
+The header name will be the value that we have mentioned against to this constraint, which is easybank-
+
+125
+00:08:37,000 --> 00:08:42,000
+correlation ID and the value which we have passed from the RequestTraceFilter.
+
+126
+00:08:42,000 --> 00:08:49,000
+Simply, this filter is generating a new correlation ID or trace ID and setting the same inside the
+
+127
+00:08:49,000 --> 00:08:50,000
+request header.
+
+128
+00:08:50,000 --> 00:08:54,000
+Along with that, we also have logger statements like inside
+
+129
+00:08:54,000 --> 00:08:59,000
+if we are generating a logger statement saying that easybank-correlation id found in
+
+130
+00:08:59,000 --> 00:09:04,000
+RequestTraceFilter and inside else block we added a different logger statement saying that easy bank correlation
+
+131
+00:09:04,000 --> 00:09:07,000
+ID generated in request filter.
+
+132
+00:09:07,000 --> 00:09:09,000
+So this is what we have written inside this
+
+133
+00:09:09,000 --> 00:09:11,000
+RequestTraceFilter and FilterUtility.
+
+134
+00:09:12,000 --> 00:09:16,000
+Now let's go to the ResponseTraceFilter inside this ResponseTraceFilter.
+
+135
+00:09:16,000 --> 00:09:20,000
+I have used a different flavor of defining the GlobalFilter.
+
+136
+00:09:20,000 --> 00:09:24,000
+So previously we have implemented the class, which is GlobalFilter.
+
+137
+00:09:24,000 --> 00:09:31,000
+Instead of this, we can also define our own custom filter by creating a bean of type GlobalFilter.
+
+138
+00:09:31,000 --> 00:09:36,000
+So you can see here I have simply created a class and on top of this class I have put this annotation
+
+139
+00:09:36,000 --> 00:09:38,000
+which is @Configuration.
+
+140
+00:09:38,000 --> 00:09:40,000
+And inside this class I have created this logger variable.
+
+141
+00:09:40,000 --> 00:09:46,000
+Along with that, I also injected this FilterUtility into this ResponseTraceFilter.
+
+142
+00:09:46,000 --> 00:09:52,000
+Now if you see here, I have created a method which is going to return an object of GlobalFilter.
+
+143
+00:09:52,000 --> 00:09:56,000
+Since we want to convert this GlobalFilter object as a bean, we need to make sure we are mentioning
+
+144
+00:09:56,000 --> 00:09:58,000
+this @bean annotation.
+
+145
+00:09:58,000 --> 00:09:59,000
+The method name can be anything
+
+146
+00:09:59,000 --> 00:10:03,000
+but here I have mentioned as post GlobalFilter.
+
+147
+00:10:03,000 --> 00:10:09,000
+So if you see here inside this method, I have written a logic which is I'm accepting the same server
+
+148
+00:10:09,000 --> 00:10:12,000
+web exchange and the same gateway filter chain.
+
+149
+00:10:12,000 --> 00:10:17,000
+And inside this method I have written some lambda expression with the code that we have written, which
+
+150
+00:10:17,000 --> 00:10:19,000
+is chain.filter.exchange.
+
+151
+00:10:19,000 --> 00:10:26,000
+then with this code, my ResponseTraceFilter is going to be executed only after the given request is
+
+152
+00:10:26,000 --> 00:10:32,000
+sent to the respective microservice and a response is received from the respective microservice.
+
+153
+00:10:32,000 --> 00:10:34,000
+So that's the purpose of then method here.
+
+154
+00:10:34,000 --> 00:10:42,000
+So once we receive the response from a respective microservice, we are trying to get the request headers
+
+155
+00:10:42,000 --> 00:10:47,000
+and using these request headers, we are trying to fetch the correlation ID with the help of this get
+
+156
+00:10:47,000 --> 00:10:50,000
+correlation ID method available inside the FilterUtility.
+
+157
+00:10:50,000 --> 00:10:57,000
+So this will give me the correlation ID value and the same correlation ID value I'm trying to set inside
+
+158
+00:10:57,000 --> 00:11:03,000
+the response header and the response header name is going to be the same, which is easybank-
+
+159
+00:11:03,000 --> 00:11:08,000
+correlation ID and the value whatever we have set initially inside the request headers.
+
+160
+00:11:08,000 --> 00:11:14,000
+And there is also a logger here saying that updated the correlation ID to the outbound headers.
+
+161
+00:11:14,000 --> 00:11:19,000
+This way once all our request is processed and while we are sending back the response to the client, my
+
+162
+00:11:19,000 --> 00:11:25,000
+ResponseTraceFilter is going to act as a post filter and it is going to intercept the response and
+
+163
+00:11:25,000 --> 00:11:27,000
+add a new header into the response.
+
+164
+00:11:27,000 --> 00:11:32,000
+So inside our filters, totally, we have added three loggers, one inside the ResponseTraceFilter
+
+165
+00:11:32,000 --> 00:11:34,000
+and inside the RequestTraceFilter.
+
+166
+00:11:34,000 --> 00:11:38,000
+We have added two loggers here and all these loggers of type debug.
+
+167
+00:11:38,000 --> 00:11:44,000
+So in order to print the debug loggers, we need to activate them by mentioning a property inside the
+
+168
+00:11:44,000 --> 00:11:45,000
+application.yml.
+
+169
+00:11:46,000 --> 00:11:53,000
+So let me go to the application.yml and here I'm going to mention a property which is logging and
+
+170
+00:11:53,000 --> 00:11:59,000
+after logging I'm going to mention as level and under this level I'm going to mention the package which
+
+171
+00:11:59,000 --> 00:12:03,000
+is com.easybytes followed by gateway server.
+
+172
+00:12:03,000 --> 00:12:05,000
+After the gateway server,
+
+173
+00:12:05,000 --> 00:12:08,000
+I want to mention a value which is debug.
+
+174
+00:12:08,000 --> 00:12:14,000
+With this what we are trying to tell to the Springboot framework is, whatever logger statements that you see inside
+
+175
+00:12:14,000 --> 00:12:15,000
+the packages
+
+176
+00:12:15,000 --> 00:12:21,000
+com.easybytes.gatewayserver  please print them, all of them if they are of type debug.
+
+177
+00:12:21,000 --> 00:12:24,000
+That's what we are trying to achieve with this property.
+
+178
+00:12:24,000 --> 00:12:29,000
+With this now we have created all the required filters for our business scenario.
+
+179
+00:12:29,000 --> 00:12:35,000
+Now, as a next step, we need to make changes inside the individual microservices because my gateway
+
+180
+00:12:35,000 --> 00:12:40,000
+server, whenever it is trying to forward the request, it is also going to send the a new request header
+
+181
+00:12:40,000 --> 00:12:42,000
+with the correlation ID value.
+
+182
+00:12:42,000 --> 00:12:48,000
+The same header my microservices has to accept and read the value and using the same value they can
+
+183
+00:12:48,000 --> 00:12:52,000
+try to add some logger statements inside their own business logic.
+
+184
+00:12:52,000 --> 00:12:58,000
+So let's try to make these changes in the next lecture. Before you try to come to the next lecture
+
+185
+00:12:58,000 --> 00:13:03,000
+my request here is, to understand all this code that we have written here, and if you have any questions,
+
+186
+00:13:03,000 --> 00:13:07,000
+please try to rewatch the video and that will bring some clarity to you.
+
+187
+00:13:07,000 --> 00:13:10,000
+The remaining changes we can continue in the next lecture.
+
+188
+00:13:10,000 --> 00:13:11,000
+Thank you
+
+189
+00:13:11,000 --> 00:13:12,000
+Bye.
+

@@ -1,0 +1,284 @@
+1
+00:00:00,000 --> 00:00:04,000
+In the previous section, we focused on the challenges that we may face,
+
+2
+00:00:04,000 --> 00:00:11,000
+while my microservices, they are trying to communicate internally within the same microservice network.
+
+3
+00:00:11,000 --> 00:00:15,000
+So we focus more on internal communication and the challenges around it.
+
+4
+00:00:15,000 --> 00:00:21,000
+Now inside this section, let's try to focus on the challenges that we may face while we are trying
+
+5
+00:00:21,000 --> 00:00:25,000
+to accept the external traffic into our microservices.
+
+6
+00:00:25,000 --> 00:00:31,000
+Like I said before, we should always have a single entry point into our microservice network.
+
+7
+00:00:31,000 --> 00:00:37,000
+We should not allow different, different external clients talking with our microservices directly.
+
+8
+00:00:37,000 --> 00:00:43,000
+Instead, we should have a single entry point into our microservices by using the products like API
+
+9
+00:00:43,000 --> 00:00:43,000
+Gateway.
+
+10
+00:00:43,000 --> 00:00:48,000
+So let's try to understand what are the challenges that we may face While we are trying to accept the
+
+11
+00:00:48,000 --> 00:00:55,000
+external communication into our microservice, we are into a new section and we are going to talk about
+
+12
+00:00:55,000 --> 00:01:01,000
+challenge number 6 that we may face while building microservices. As part of this challenge 6,
+
+13
+00:01:01,000 --> 00:01:08,000
+we are going to focus more on how we can perform routing, cross-cutting concerns inside our microservice
+
+14
+00:01:08,000 --> 00:01:12,000
+whenever we are receiving the external traffic into our microservice network.
+
+15
+00:01:12,000 --> 00:01:17,000
+To understand more details about this challenge, let me ask you some questions here.
+
+16
+00:01:17,000 --> 00:01:22,000
+The very first question that I have here is, how we are going to maintain a single entry point into your
+
+17
+00:01:22,000 --> 00:01:24,000
+microservice network.
+
+18
+00:01:24,000 --> 00:01:28,000
+Here you may have a question like what is the problem if I don't maintain a single entry point?
+
+19
+00:01:28,000 --> 00:01:33,000
+What if I allow all my external clients to communicate directly with my microservice?
+
+20
+00:01:33,000 --> 00:01:36,000
+There will be multiple challenges and drawbacks.
+
+21
+00:01:36,000 --> 00:01:41,000
+If you are not maintaining a single entry point into your microservice network, we are going to discuss
+
+22
+00:01:41,000 --> 00:01:42,000
+about them in few minutes.
+
+23
+00:01:42,000 --> 00:01:48,000
+But the primary reason why we should maintain a single entry point is all your external clients, they
+
+24
+00:01:48,000 --> 00:01:52,000
+can communicate with a single component inside your microservices network.
+
+25
+00:01:52,000 --> 00:01:57,000
+Otherwise your external clients, they need to keep a track of all the different services that you have
+
+26
+00:01:57,000 --> 00:01:59,000
+inside your microservice network.
+
+27
+00:01:59,000 --> 00:02:01,000
+What are their endpoint URLs?
+
+28
+00:02:01,000 --> 00:02:02,000
+What are their port numbers?
+
+29
+00:02:02,000 --> 00:02:08,000
+So to overcome this challenge, we need to make sure there is a single entry point into our microservice
+
+30
+00:02:08,000 --> 00:02:08,000
+network.
+
+31
+00:02:08,000 --> 00:02:12,000
+But the question is how we are going to build that and how we are going to maintain it.
+
+32
+00:02:12,000 --> 00:02:15,000
+So we are going to answer that question in few seconds.
+
+33
+00:02:15,000 --> 00:02:21,000
+The next question that I have here is, how we are going to handle the cross-cutting concerns like logging,
+
+34
+00:02:21,000 --> 00:02:27,000
+auditing, tracing and security whenever the external traffic is coming into your microservice network,
+
+35
+00:02:27,000 --> 00:02:30,000
+like in any other web application inside microservices
+
+36
+00:02:30,000 --> 00:02:37,000
+also, we need to make sure the incoming external request is properly authenticated and authorized,
+
+37
+00:02:37,000 --> 00:02:42,000
+and we need to make sure we are doing enough logging, auditing and tracing, which will help us to
+
+38
+00:02:42,000 --> 00:02:46,000
+identify the defects inside our code as part of debugging.
+
+39
+00:02:46,000 --> 00:02:50,000
+So the question is how we are going to handle all these cross-cutting concerns.
+
+40
+00:02:50,000 --> 00:02:56,000
+Obviously, it will not be a good decision to implement all these logic inside the each of the microservices
+
+41
+00:02:56,000 --> 00:02:57,000
+that we are going to build.
+
+42
+00:02:57,000 --> 00:03:02,000
+If you start building all these cross-cutting concerns inside all of your hundreds of microservice,
+
+43
+00:03:02,000 --> 00:03:06,000
+you will end up with a lot of duplicate code inconsistency behavior.
+
+44
+00:03:06,000 --> 00:03:12,000
+So that's why it's always recommended to implement all these cross-cutting concerns in a single place.
+
+45
+00:03:12,000 --> 00:03:15,000
+So the question here is, how we are going to implement that.
+
+46
+00:03:15,000 --> 00:03:20,000
+And the next question that I want to ask you here is, how we are going to do the routing based upon your
+
+47
+00:03:20,000 --> 00:03:21,000
+custom requirements.
+
+48
+00:03:21,000 --> 00:03:27,000
+Sometimes we may want to do some dynamic routing inside our microservice network, like if some external
+
+49
+00:03:27,000 --> 00:03:34,000
+client is trying to invoke a particular path, I want to redirect that request to the particular microservice.
+
+50
+00:03:34,000 --> 00:03:39,000
+And very similarly, if someone is having some Http header inside their request based upon the header
+
+51
+00:03:39,000 --> 00:03:44,000
+value, like inside the header, we can have some information like version 1 or version 2, which
+
+52
+00:03:44,000 --> 00:03:49,000
+indicates that my external client, they want to invoke a microservice with a particular version.
+
+53
+00:03:49,000 --> 00:03:55,000
+So how we are going to achieve all these dynamic routing capabilities inside your microservice network.
+
+54
+00:03:55,000 --> 00:04:01,000
+So these are all the most common questions or challenges that we may face while we are trying to accept
+
+55
+00:04:01,000 --> 00:04:05,000
+the external communication into our microservices network.
+
+56
+00:04:05,000 --> 00:04:07,000
+So let me show you the solution.
+
+57
+00:04:07,000 --> 00:04:13,000
+Are you excited to see what is the solution or what is the standard that we need to follow to overcome
+
+58
+00:04:13,000 --> 00:04:13,000
+these challenges?
+
+59
+00:04:13,000 --> 00:04:15,000
+I know you are super excited.
+
+60
+00:04:15,000 --> 00:04:17,000
+Let me show you the solution here.
+
+61
+00:04:17,000 --> 00:04:22,000
+These challenges in microservice can be solved using a edge server.
+
+62
+00:04:22,000 --> 00:04:26,000
+We can call it as Edge server or API Gateway.
+
+63
+00:04:26,000 --> 00:04:32,000
+So whatever the name it is, since this server is going to sit on the edge of your microservice network
+
+64
+00:04:32,000 --> 00:04:36,000
+and monitor all the incoming and outgoing requests.
+
+65
+00:04:36,000 --> 00:04:38,000
+That's why we call this as Edge server.
+
+66
+00:04:38,000 --> 00:04:42,000
+Some people, they'll also call it as API, Gateway or Gateway.
+
+67
+00:04:42,000 --> 00:04:44,000
+I hope you are clear with this discussion.
+
+68
+00:04:44,000 --> 00:04:49,000
+I know you may still have some questions here like why we should maintain a separate server which is
+
+69
+00:04:49,000 --> 00:04:52,000
+going to act as an edge server or API gateway.
+
+70
+00:04:52,000 --> 00:04:56,000
+So let me try to answer this question in the next lecture.
+
+71
+00:04:56,000 --> 00:04:58,000
+Thank you and I'll catch you in the next lecture bye.
+

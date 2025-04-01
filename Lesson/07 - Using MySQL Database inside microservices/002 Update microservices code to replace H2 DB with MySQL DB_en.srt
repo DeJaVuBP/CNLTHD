@@ -1,0 +1,900 @@
+1
+00:00:00,000 --> 00:00:07,000
+Inside this lecture, let's try to connect our microservices with the local running MySQL database.
+
+2
+00:00:07,000 --> 00:00:13,000
+So first I'm going to make changes inside the accounts microservice. So let me go to the pom.xml and
+
+3
+00:00:13,000 --> 00:00:20,000
+here first we need to delete the H2 related dependency because whenever my spring boot sees H2 database
+
+4
+00:00:20,000 --> 00:00:26,000
+inside the pom.xml, it is going to do some initializations during the startup and it will try to use
+
+5
+00:00:26,000 --> 00:00:27,000
+the same.
+
+6
+00:00:27,000 --> 00:00:30,000
+So that's why let me delete these dependency.
+
+7
+00:00:30,000 --> 00:00:37,000
+Instead of this dependency, we need to use a dependency which is com.mysql and the artifactId
+
+8
+00:00:37,000 --> 00:00:41,000
+is going to be mysql-connector-j.
+
+9
+00:00:41,000 --> 00:00:46,000
+So this is the groupId and this is the artifactId  we need to mention whenever we are trying to use
+
+10
+00:00:46,000 --> 00:00:50,000
+MySQL related database inside our spring boot application.
+
+11
+00:00:50,000 --> 00:00:55,000
+So once I have mentioned these changes, so let me save them and load the maven changes.
+
+12
+00:00:55,000 --> 00:01:02,000
+I'll try to copy the same dependency inside other microservices like I'll go to the cards microservice
+
+13
+00:01:02,000 --> 00:01:05,000
+and open the pom.xml in the place of H2 database.
+
+14
+00:01:05,000 --> 00:01:11,000
+I'm going to mention the new dependency and load the Maven changes and let me do the same for loans
+
+15
+00:01:11,000 --> 00:01:12,000
+as well.
+
+16
+00:01:12,000 --> 00:01:19,000
+So here also we have H2 database, so I'm going to delete the same and replace it with the MySQL database
+
+17
+00:01:19,000 --> 00:01:22,000
+and our config server is not using any database.
+
+18
+00:01:22,000 --> 00:01:24,000
+That's why we're not going to make any changes.
+
+19
+00:01:24,000 --> 00:01:30,000
+As a next step, I need to go to my application.Yml file of accounts microservice.
+
+20
+00:01:30,000 --> 00:01:32,000
+So inside the application.Yml file.
+
+21
+00:01:32,000 --> 00:01:37,000
+As of now we have mentioned properties related to the H2 database.
+
+22
+00:01:37,000 --> 00:01:42,000
+Like as of now you can see the URL, everything, they are pointing to the H2 database.
+
+23
+00:01:42,000 --> 00:01:47,000
+Now instead of this URL, I'm going to mention my own URL related to MySQL database.
+
+24
+00:01:47,000 --> 00:01:54,000
+So for the same the prefix should be Jdbc colon and in the place of H2, I'm going to mention MySQL
+
+25
+00:01:54,000 --> 00:01:59,000
+followed by Colon, and after the colon I'm going to mention two forward slashes
+
+26
+00:01:59,000 --> 00:02:04,000
+and what is our hostname. Since we have the database running inside our local system, we need to mention
+
+27
+00:02:04,000 --> 00:02:07,000
+the hostname as localhost. For the accounts database,
+
+28
+00:02:07,000 --> 00:02:13,000
+the port number is going to be 3306 and after the port number we need to mention what is the database
+
+29
+00:02:13,000 --> 00:02:19,000
+schema name or what is the database name that we want our application to connect with or to use to store
+
+30
+00:02:19,000 --> 00:02:20,000
+the data.
+
+31
+00:02:20,000 --> 00:02:24,000
+Like we know we have created a database with the name accounts DB.
+
+32
+00:02:24,000 --> 00:02:29,000
+So some people, they call it as database and some people they call it as schema name.
+
+33
+00:02:29,000 --> 00:02:34,000
+So regardless of what name we use, I'm trying to mention the same value here which we have mentioned
+
+34
+00:02:34,000 --> 00:02:36,000
+while trying to create that Docker container.
+
+35
+00:02:36,000 --> 00:02:38,000
+So the name is accounts DB.
+
+36
+00:02:38,000 --> 00:02:44,000
+After this, we don't have to mention these driver class name, we can remove these and username is
+
+37
+00:02:44,000 --> 00:02:46,000
+going to be root and the password is going to be root.
+
+38
+00:02:46,000 --> 00:02:54,000
+So in real microservices you can use that database credentials of development, database or qa database,
+
+39
+00:02:54,000 --> 00:02:59,000
+but no one is going to expose the actual credentials of your production database by hardcoding them
+
+40
+00:02:59,000 --> 00:03:05,000
+inside the application.yml, instead they're going to use the externalized approaches like environment
+
+41
+00:03:05,000 --> 00:03:10,000
+variable, CLI arguments, JVM system variables or inside the docker compose
+
+42
+00:03:10,000 --> 00:03:15,000
+also, they have an option to mention these URL username and password.
+
+43
+00:03:15,000 --> 00:03:18,000
+The approach when we use Kubernetes is going to be different.
+
+44
+00:03:18,000 --> 00:03:23,000
+So inside Kubernetes there are concepts like config maps and secrets. Using them
+
+45
+00:03:23,000 --> 00:03:29,000
+we are going to provide the sensitive credentials like database credentials to the container during
+
+46
+00:03:29,000 --> 00:03:30,000
+the startup.
+
+47
+00:03:30,000 --> 00:03:35,000
+For now, since we are using the local database hardcoding the username and password along with the
+
+48
+00:03:35,000 --> 00:03:39,000
+URL details inside the application.yml should be fine.
+
+49
+00:03:39,000 --> 00:03:45,000
+Later on I'll show you how to provide these values using environment variables and Docker compose.
+
+50
+00:03:45,000 --> 00:03:50,000
+After mentioning the password, I can remove all these history related properties followed by.
+
+51
+00:03:50,000 --> 00:03:56,000
+We can remove this database platform and after this we can also remove hibernate:ddl-auto:update.
+
+52
+00:03:56,000 --> 00:04:02,000
+We don't need that for MySQL database, but we can keep show SQL as true so that we can see the executed
+
+53
+00:04:02,000 --> 00:04:04,000
+SQL inside the console.
+
+54
+00:04:04,000 --> 00:04:06,000
+So now with this we should be good.
+
+55
+00:04:06,000 --> 00:04:09,000
+But there is one more property which we need to mention.
+
+56
+00:04:09,000 --> 00:04:15,000
+Like if you see, as of now we have mentioned the database table related information inside the schema.sql
+
+57
+00:04:15,000 --> 00:04:15,000
+.
+
+58
+00:04:15,000 --> 00:04:22,000
+In the case of H2 database during the startup, my spring boot automatically look for the SQL file with
+
+59
+00:04:22,000 --> 00:04:27,000
+the name schema.sql and execute all the tables that we have mentioned inside this SQL file.
+
+60
+00:04:27,000 --> 00:04:34,000
+But with the MySQL database or any other real database, the spring boot will not follow the same behavior.
+
+61
+00:04:34,000 --> 00:04:40,000
+It will expect the developers to have the completely created database available by the time the spring
+
+62
+00:04:40,000 --> 00:04:41,000
+boot application is trying to start.
+
+63
+00:04:41,000 --> 00:04:47,000
+But at the same time here, we don't want these scripts or tables to be executed manually.
+
+64
+00:04:47,000 --> 00:04:50,000
+Whenever I'm trying to create a new container or a new database.
+
+65
+00:04:50,000 --> 00:04:53,000
+So to overcome this challenge, there is a property that we can mention.
+
+66
+00:04:53,000 --> 00:04:55,000
+The property is, under the JPA
+
+67
+00:04:55,000 --> 00:04:59,000
+I'm going to mention a new element which is SQL under the
+
+68
+00:05:00,000 --> 00:05:07,000
+SQL init,  after the init I'm going to mention the element mode and to this mode I'm going to pass a value
+
+69
+00:05:07,000 --> 00:05:10,000
+which is always. So with this I'm telling to my spring boot.
+
+70
+00:05:10,000 --> 00:05:16,000
+Please always try to execute the scripts that I have mentioned inside the schema.sql.
+
+71
+00:05:16,000 --> 00:05:21,000
+You can see here I'm trying to use a script which is if not exist, so my spring boot framework will
+
+72
+00:05:21,000 --> 00:05:26,000
+only create the table if it is not available inside my MySQL database.
+
+73
+00:05:26,000 --> 00:05:31,000
+Maybe during the very first time the table will be created and from next time onwards, if I'm using
+
+74
+00:05:31,000 --> 00:05:36,000
+the same Docker container, my spring boot is not going to create these tables because I have mentioned
+
+75
+00:05:36,000 --> 00:05:36,000
+these
+
+76
+00:05:36,000 --> 00:05:38,000
+If not exist.
+
+77
+00:05:38,000 --> 00:05:43,000
+If you don't have this, if not exist, then you are going to get an error during the startup that it
+
+78
+00:05:43,000 --> 00:05:46,000
+tried to create the tables, but they are already present.
+
+79
+00:05:46,000 --> 00:05:49,000
+So to avoid that, please make sure your script has this if not exist.
+
+80
+00:05:49,000 --> 00:05:57,000
+So now we have made all the changes inside the MySQL database, so let me save these changes as a next
+
+81
+00:05:57,000 --> 00:05:57,000
+step.
+
+82
+00:05:57,000 --> 00:06:01,000
+I'll go to the loans Micro service and cards microservice.
+
+83
+00:06:01,000 --> 00:06:06,000
+Before that, I'll try to copy all this data source and JPA related properties
+
+84
+00:06:06,000 --> 00:06:09,000
+So let me copy these properties.
+
+85
+00:06:09,000 --> 00:06:14,000
+Now I'll go to the cards microservice and open the application.yml.
+
+86
+00:06:14,000 --> 00:06:21,000
+So here I'm going to select the data source and all the JPA related properties and delete them.
+
+87
+00:06:21,000 --> 00:06:27,000
+Instead, I'm going to mention the copied values from the accounts database, but here we need to make
+
+88
+00:06:27,000 --> 00:06:29,000
+sure they are well formatted.
+
+89
+00:06:29,000 --> 00:06:31,000
+Like in the accounts database.
+
+90
+00:06:31,000 --> 00:06:33,000
+The format seems looks good to me.
+
+91
+00:06:33,000 --> 00:06:36,000
+As a next step, we just need to change the data source URL.
+
+92
+00:06:36,000 --> 00:06:44,000
+So for the cads microservice we are using the port 3308 and the database name is going to be cards DB.
+
+93
+00:06:44,000 --> 00:06:51,000
+So now as a next step, let me go to the loans microservice and open the application.yml.
+
+94
+00:06:51,000 --> 00:06:54,000
+So here also I'm going to follow the same procedure.
+
+95
+00:06:54,000 --> 00:07:00,000
+So I'll try to select all the data source, H2 and JPA related properties and delete them and paste
+
+96
+00:07:00,000 --> 00:07:03,000
+the new properties that we have created.
+
+97
+00:07:03,000 --> 00:07:09,000
+And here the port number should be 3307 and the database name is going to be loans database.
+
+98
+00:07:09,000 --> 00:07:12,000
+So with these changes we should be good.
+
+99
+00:07:12,000 --> 00:07:18,000
+Let me do a bill after the bill first, I'll try to start the config server because our micro service
+
+100
+00:07:18,000 --> 00:07:20,000
+has dependency on the config server.
+
+101
+00:07:20,000 --> 00:07:26,000
+That's why I'm going to first trying to start the config server once the config server is started successfully.
+
+102
+00:07:26,000 --> 00:07:29,000
+So here I'm trying to start the accounts application.
+
+103
+00:07:29,000 --> 00:07:36,000
+Now let me go to the cards application and try to start the same inside the debug mode after the carts
+
+104
+00:07:36,000 --> 00:07:37,000
+application.
+
+105
+00:07:37,000 --> 00:07:42,000
+Obviously the next microservice that we need to start is loans microservice.
+
+106
+00:07:42,000 --> 00:07:42,000
+Here
+
+107
+00:07:42,000 --> 00:07:46,000
+I'm trying to start my loans application in a debug mode.
+
+108
+00:07:46,000 --> 00:07:50,000
+Now all my microservices are started successfully.
+
+109
+00:07:50,000 --> 00:07:54,000
+First, let me go and check how the database is looking like.
+
+110
+00:07:54,000 --> 00:07:55,000
+Here I have three different connections.
+
+111
+00:07:55,000 --> 00:07:58,000
+First, let me try to connect to the accounts database.
+
+112
+00:07:58,000 --> 00:08:02,000
+Now, under this accounts database, our accounts DB schema,
+
+113
+00:08:02,000 --> 00:08:05,000
+we should have that tables created during the startup.
+
+114
+00:08:05,000 --> 00:08:06,000
+So let me open this.
+
+115
+00:08:06,000 --> 00:08:12,000
+But to my surprise, there are no tables, so let me see what is the issue inside our application.yml file.
+
+116
+00:08:12,000 --> 00:08:13,000
+Here
+
+117
+00:08:13,000 --> 00:08:14,000
+I made a mistake.
+
+118
+00:08:14,000 --> 00:08:21,000
+This sql.init.mode always should be under the data source element, so I need to move these
+
+119
+00:08:21,000 --> 00:08:23,000
+elements one step back.
+
+120
+00:08:23,000 --> 00:08:29,000
+So now you can see these SQL is present under the data source, so please make sure the property key
+
+121
+00:08:29,000 --> 00:08:34,000
+is spring.datasource.sql.init.mode
+
+122
+00:08:34,000 --> 00:08:35,000
+as always.
+
+123
+00:08:35,000 --> 00:08:37,000
+Previously it was present inside the JPA.
+
+124
+00:08:37,000 --> 00:08:40,000
+That's why my spring boot didn't recognize that.
+
+125
+00:08:40,000 --> 00:08:42,000
+So with this the issue should get resolved.
+
+126
+00:08:42,000 --> 00:08:49,000
+So let me save these changes and do the similar set of change inside cards application.yml and
+
+127
+00:08:49,000 --> 00:08:51,000
+loans application.yml.
+
+128
+00:08:51,000 --> 00:08:55,000
+So now I have corrected these inside all my microservices.
+
+129
+00:08:55,000 --> 00:08:59,000
+Let me do a build and I'll try to restart all of my microservices.
+
+130
+00:08:59,000 --> 00:09:06,000
+So first I'll try to restart my AccountsApplication post that I will try to restart my LoansApplication
+
+131
+00:09:06,000 --> 00:09:08,000
+followed by CardsApplication.
+
+132
+00:09:08,000 --> 00:09:12,000
+We don't have to restart the config server because there are no changes inside it.
+
+133
+00:09:12,000 --> 00:09:15,000
+Now I'll go to my database and I'll try to reconnect again.
+
+134
+00:09:15,000 --> 00:09:21,000
+First, I'm trying to connect to the local accounts database and here if I open this, this time you
+
+135
+00:09:21,000 --> 00:09:27,000
+can see we have the two tables created like accounts and customer, which we have defined inside the
+
+136
+00:09:27,000 --> 00:09:30,000
+schema.sql of Accounts Microservice.
+
+137
+00:09:30,000 --> 00:09:35,000
+Now let me log off and try to connect to this local loans database.
+
+138
+00:09:35,000 --> 00:09:38,000
+The same behavior we should be seeing here, inside the loans database
+
+139
+00:09:38,000 --> 00:09:44,000
+you can see there is a table created with the name loans, the same we can confirm now inside the local
+
+140
+00:09:44,000 --> 00:09:46,000
+cards database, inside the cards database
+
+141
+00:09:46,000 --> 00:09:49,000
+also, we have a table created. With these our microservices,
+
+142
+00:09:49,000 --> 00:09:53,000
+they are connected to the local MySQL database.
+
+143
+00:09:53,000 --> 00:09:56,000
+So let me test a few scenarios inside my postman.
+
+144
+00:09:56,000 --> 00:09:59,000
+So here, inside my postman under Microservices, I'm going to open
+
+145
+00:10:00,000 --> 00:10:01,000
+the account.
+
+146
+00:10:01,000 --> 00:10:03,000
+And inside this we have create account.
+
+147
+00:10:03,000 --> 00:10:06,000
+So I'm trying to create a new account with this mobile number.
+
+148
+00:10:06,000 --> 00:10:12,000
+So let me submit this request and getting a successful response and using the same mobile number, I'm
+
+149
+00:10:12,000 --> 00:10:17,000
+going to create a new card by using the createCard API.
+
+150
+00:10:17,000 --> 00:10:19,000
+So I'm trying to submit this request.
+
+151
+00:10:19,000 --> 00:10:21,000
+A new card is created.
+
+152
+00:10:21,000 --> 00:10:24,000
+I'll also do the same for loans microservice.
+
+153
+00:10:24,000 --> 00:10:29,000
+So here I'm trying to click the Create loan and this one also, you can see we are getting a successful
+
+154
+00:10:29,000 --> 00:10:29,000
+response.
+
+155
+00:10:29,000 --> 00:10:33,000
+Let's try to validate if these changes are saved into the database.
+
+156
+00:10:33,000 --> 00:10:38,000
+As of now, I'm inside the cards database, so let me try to click on this cards and you can see these
+
+157
+00:10:38,000 --> 00:10:42,000
+are the card details that we have submitted and all of them are getting saved here.
+
+158
+00:10:42,000 --> 00:10:46,000
+As a next step, I can confirm the same for loans database.
+
+159
+00:10:46,000 --> 00:10:51,000
+Also inside the loans database, we have loans table and if I try to run this, you can see we have
+
+160
+00:10:51,000 --> 00:10:54,000
+the data saved into the database.
+
+161
+00:10:54,000 --> 00:10:58,000
+Now, let me confirm for accounts database and the accounts database
+
+162
+00:10:58,000 --> 00:10:59,000
+also, we have two tables.
+
+163
+00:10:59,000 --> 00:11:05,000
+First is customer where the customer details are stored followed by account details.
+
+164
+00:11:05,000 --> 00:11:07,000
+So let me confirm the accounts details also.
+
+165
+00:11:07,000 --> 00:11:10,000
+So the account also created successfully.
+
+166
+00:11:10,000 --> 00:11:16,000
+This confirms our microservices are able to talk with the local running database containers and they're
+
+167
+00:11:16,000 --> 00:11:21,000
+able to save the data. Since right now we are using the Docker containers.
+
+168
+00:11:21,000 --> 00:11:26,000
+Whenever you delete this container, all the data that you saved inside this particular database will
+
+169
+00:11:27,000 --> 00:11:31,000
+be lost forever because this works very similar to local installation.
+
+170
+00:11:31,000 --> 00:11:37,000
+Whenever you install your MySQL inside your local system and stored data, you will be able to see it.
+
+171
+00:11:37,000 --> 00:11:42,000
+But someday, if you try to uninstall your MySQL installation, then all the data will be lost.
+
+172
+00:11:42,000 --> 00:11:46,000
+Very similarly, you need to make sure these containers you're not deleting them.
+
+173
+00:11:46,000 --> 00:11:49,000
+You can stop them but don't delete them.
+
+174
+00:11:49,000 --> 00:11:52,000
+If you delete them, you will lose the data.
+
+175
+00:11:52,000 --> 00:11:53,000
+So that's a catch here.
+
+176
+00:11:53,000 --> 00:11:56,000
+I can also show a demo if you want,
+
+177
+00:11:56,000 --> 00:12:00,000
+for example, first let me stop all the running microservice.
+
+178
+00:12:00,000 --> 00:12:06,000
+So I'm trying to stop accounts application and similarly I'm trying to stop loans application followed
+
+179
+00:12:06,000 --> 00:12:08,000
+by cards application.
+
+180
+00:12:08,000 --> 00:12:14,000
+Now here I'm going to stop the accounts database loans, database and cards database.
+
+181
+00:12:14,000 --> 00:12:17,000
+As of now, all my containers are in stopped status.
+
+182
+00:12:18,000 --> 00:12:23,000
+Now, if I try to start my microservices, definitely they will throw an error that they are not able
+
+183
+00:12:23,000 --> 00:12:26,000
+to connect to my container to show you a demo.
+
+184
+00:12:26,000 --> 00:12:30,000
+What I can do here is I can try to delete the cards database container.
+
+185
+00:12:30,000 --> 00:12:32,000
+So let me hard delete this.
+
+186
+00:12:32,000 --> 00:12:35,000
+And this means I'm losing this container forever.
+
+187
+00:12:35,000 --> 00:12:40,000
+Whereas the other two containers I will try to restart them.
+
+188
+00:12:40,000 --> 00:12:42,000
+Like right now they are in stop status.
+
+189
+00:12:42,000 --> 00:12:45,000
+I'm trying to start them, but we don't have cards database.
+
+190
+00:12:45,000 --> 00:12:46,000
+We need to create it again.
+
+191
+00:12:46,000 --> 00:12:48,000
+So let me go to the terminal.
+
+192
+00:12:48,000 --> 00:12:54,000
+Here I'm trying to run the command related to cards database and it is going to expose at the port 3308.
+
+193
+00:12:54,000 --> 00:12:59,000
+So let me execute this and this will create a new container with the name cards database.
+
+194
+00:12:59,000 --> 00:13:00,000
+And now all of them are running.
+
+195
+00:13:00,000 --> 00:13:06,000
+The output that we can expect here is, all the data related to accounts, database loans database should
+
+196
+00:13:06,000 --> 00:13:09,000
+be there, whereas cards database data will not be there.
+
+197
+00:13:09,000 --> 00:13:13,000
+So I can also show you that physically inside the SQL Electron.
+
+198
+00:13:13,000 --> 00:13:18,000
+So let me log out first let me show you the cards database and connect to the cards database.
+
+199
+00:13:18,000 --> 00:13:20,000
+You can see there are no tables itself.
+
+200
+00:13:20,000 --> 00:13:26,000
+The data, the tables, all that we have created will be lost because we had deleted the container.
+
+201
+00:13:26,000 --> 00:13:32,000
+Whereas if you go and check any of the accounts or loans database, you should be able to see that data
+
+202
+00:13:32,000 --> 00:13:35,000
+still because you just restarted the containers.
+
+203
+00:13:35,000 --> 00:13:39,000
+The data that you stored inside the container is never lost.
+
+204
+00:13:39,000 --> 00:13:45,000
+As long as you are maintaining that inside your Docker server, even if you restart your laptop or Docker
+
+205
+00:13:45,000 --> 00:13:49,000
+server, the data and the container will not be lost.
+
+206
+00:13:49,000 --> 00:13:51,000
+So now let's try to start our microservices.
+
+207
+00:13:51,000 --> 00:13:58,000
+So here I'm trying to start accounts application followed by cards application and at last I'm trying
+
+208
+00:13:58,000 --> 00:14:00,000
+to start loans application.
+
+209
+00:14:00,000 --> 00:14:02,000
+So let me go to the Postman Inside the Postman.
+
+210
+00:14:02,000 --> 00:14:05,000
+This time I'm going to run only the fetch API.
+
+211
+00:14:05,000 --> 00:14:07,000
+And at the accounts there is a fetch account details.
+
+212
+00:14:07,000 --> 00:14:14,000
+So let me open that and try to send the same mobile number and you should get the response because the
+
+213
+00:14:14,000 --> 00:14:15,000
+data is stored inside the database.
+
+214
+00:14:15,000 --> 00:14:17,000
+I can run this fetch card details.
+
+215
+00:14:17,000 --> 00:14:23,000
+This time I will not get any output because all the data that we saved is lost because we had deleted
+
+216
+00:14:23,000 --> 00:14:28,000
+the container, whereas with loans it should work perfectly.
+
+217
+00:14:28,000 --> 00:14:29,000
+You can see we are getting the output.
+
+218
+00:14:29,000 --> 00:14:34,000
+I hope you are seeing the drawback that we have whenever we are using the Docker containers inside our
+
+219
+00:14:34,000 --> 00:14:36,000
+local system.
+
+220
+00:14:36,000 --> 00:14:38,000
+It has both advantages and disadvantages.
+
+221
+00:14:38,000 --> 00:14:44,000
+You can always spin up the database very quickly, but we need to make sure the container is never deleted.
+
+222
+00:14:44,000 --> 00:14:47,000
+Even if you delete by mistake, you are going to lose the data forever.
+
+223
+00:14:47,000 --> 00:14:54,000
+So please have this information and accordingly use the docker MySQL containers.
+
+224
+00:14:54,000 --> 00:14:55,000
+I hope you are clear.
+
+225
+00:14:55,000 --> 00:14:57,000
+Thank you and I'll catch you in the next lecture bye.
+

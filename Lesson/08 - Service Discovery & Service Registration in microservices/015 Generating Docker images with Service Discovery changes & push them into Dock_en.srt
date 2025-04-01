@@ -1,0 +1,353 @@
+1
+00:00:00,000 --> 00:00:04,000
+As of now, we discuss everything about the Eureka Server as a next step,
+
+2
+00:00:04,000 --> 00:00:10,000
+let's try to generate the Docker images of our microservices along with the config server and Eureka
+
+3
+00:00:10,000 --> 00:00:11,000
+server.
+
+4
+00:00:11,000 --> 00:00:16,000
+And once we generate the Docker images, we can update our Docker compose file and validate the service
+
+5
+00:00:16,000 --> 00:00:21,000
+discovery and registration related changes inside the Docker environment as well.
+
+6
+00:00:21,000 --> 00:00:26,000
+So for the same first, make sure your Docker server is running inside your local system.
+
+7
+00:00:26,000 --> 00:00:32,000
+And before I try to start the generating of the Docker images, I need to make sure I'm adding the jib
+
+8
+00:00:32,000 --> 00:00:36,000
+related plugin details inside the pom.xml of Eureka Server.
+
+9
+00:00:36,000 --> 00:00:42,000
+So this Eureka server project we have generated inside this section only by default, you can see we
+
+10
+00:00:42,000 --> 00:00:46,000
+have the plugin details related to the Spring boot maven plugin.
+
+11
+00:00:46,000 --> 00:00:49,000
+So here we need to add jib related plugin.
+
+12
+00:00:49,000 --> 00:00:53,000
+For the same you can open the pom.xml of any of the other microservice.
+
+13
+00:00:53,000 --> 00:01:01,000
+So inside the config server I'm trying to open the same and here I'm trying to copy the plugin details
+
+14
+00:01:01,000 --> 00:01:03,000
+related to the Google jib.
+
+15
+00:01:03,000 --> 00:01:07,000
+So let me copy this details and mention the same inside the Eureka server.
+
+16
+00:01:07,000 --> 00:01:13,000
+After mentioning these plugin details, I'm going to change this tag name from S6 to S8 because right
+
+17
+00:01:13,000 --> 00:01:15,000
+now we are into the section 8.
+
+18
+00:01:15,000 --> 00:01:20,000
+I need to update that tag related information inside other microservices also.
+
+19
+00:01:20,000 --> 00:01:24,000
+So inside my config server I'm trying to update the same.
+
+20
+00:01:24,000 --> 00:01:31,000
+After loading the maven changes, I'll open the pom.xml inside accounts microservice and update the
+
+21
+00:01:31,000 --> 00:01:34,000
+tag information here from S6 to S8.
+
+22
+00:01:34,000 --> 00:01:41,000
+I hope you are clear on why we have S6 here, but not S7 because we copied the code from the section 6
+
+23
+00:01:41,000 --> 00:01:42,000
+but not the section 7.
+
+24
+00:01:42,000 --> 00:01:47,000
+So that's why we are seeing the tag name as S6, which we need to update to S8.
+
+25
+00:01:47,000 --> 00:01:51,000
+Let's do the same for cards microservice also.
+
+26
+00:01:51,000 --> 00:01:56,000
+So at the end of the file here, we need to update the tag information to S8.
+
+27
+00:01:56,000 --> 00:02:00,000
+At last, we need to make the similar change inside the loans
+
+28
+00:02:00,000 --> 00:02:01,000
+microservice also.
+
+29
+00:02:01,000 --> 00:02:05,000
+So right now I'm into the pom.xml file of loans
+
+30
+00:02:05,000 --> 00:02:10,000
+microservice and I have made the required changes and loaded the maven changes.
+
+31
+00:02:10,000 --> 00:02:14,000
+So with this we can do a complete clean build of all the microservices.
+
+32
+00:02:14,000 --> 00:02:16,000
+Once the build is completed.
+
+33
+00:02:16,000 --> 00:02:21,000
+Please make sure you are stopping any running instances inside your IntelliJ idea.
+
+34
+00:02:21,000 --> 00:02:23,000
+As a next step, I'll go to the terminal.
+
+35
+00:02:23,000 --> 00:02:25,000
+So right now I'm into the section 8
+
+36
+00:02:25,000 --> 00:02:29,000
+inside my terminal I can navigate first to the config server.
+
+37
+00:02:29,000 --> 00:02:35,000
+Technically, we don't have to regenerate the docker image of config server because we didn't make any
+
+38
+00:02:35,000 --> 00:02:37,000
+changes inside the config server.
+
+39
+00:02:37,000 --> 00:02:42,000
+But like I said before, to be consistent with other Docker images, let's try to generate the Docker
+
+40
+00:02:42,000 --> 00:02:45,000
+image of config server that is specific to the section 8.
+
+41
+00:02:45,000 --> 00:02:53,000
+So to generate the Docker image, the command is mvn 
+compile jib:dockerBuild
+
+42
+00:02:53,000 --> 00:02:54,000
+with B capital.
+
+43
+00:02:54,000 --> 00:02:56,000
+So I'm trying to execute this command.
+
+44
+00:02:56,000 --> 00:03:02,000
+This will generate the new docker image for the config server with the tag name S8.
+
+45
+00:03:02,000 --> 00:03:05,000
+So it is going to take few seconds here.
+
+46
+00:03:05,000 --> 00:03:08,000
+So you can see right now the process is completed.
+
+47
+00:03:08,000 --> 00:03:12,000
+Let me clear the console and navigate back to the parent folder after this.
+
+48
+00:03:12,000 --> 00:03:16,000
+And now I will try to navigate to the Eureka server. For the Eureka Server
+
+49
+00:03:16,000 --> 00:03:19,000
+also, I'm going to generate the Docker image for the same
+
+50
+00:03:19,000 --> 00:03:25,000
+we need to run the same command, which is mvn compile jib:dockerBuild after Eureka Server.
+
+51
+00:03:25,000 --> 00:03:31,000
+We need to follow the similar process to generate the Docker image for accounts microservice.
+
+52
+00:03:31,000 --> 00:03:35,000
+So let me generate the accounts Micro service Docker image.
+
+53
+00:03:35,000 --> 00:03:40,000
+After the accounts microservice, we need to generate the Docker image for loans microservice.
+
+54
+00:03:40,000 --> 00:03:43,000
+You can generate these Docker images in any order.
+
+55
+00:03:43,000 --> 00:03:46,000
+The order that you follow here does not matter.
+
+56
+00:03:46,000 --> 00:03:51,000
+So now the generation of loans microservice docker image is completed.
+
+57
+00:03:51,000 --> 00:03:55,000
+Let me clean the console and navigate back to the parent folder.
+
+58
+00:03:55,000 --> 00:04:01,000
+Now I'll navigate into the cards folder and run the command, which is mvn compile jib:dockerBuild.
+
+59
+00:04:01,000 --> 00:04:07,000
+So this is the last Docker image that we need to generate inside our local system that is specific to
+
+60
+00:04:07,000 --> 00:04:08,000
+the Section 8.
+
+61
+00:04:08,000 --> 00:04:15,000
+As a next step, I'll go to the Docker dashboard and try to delete all the images related to the S7.
+
+62
+00:04:15,000 --> 00:04:17,000
+So all these images we no more needed.
+
+63
+00:04:17,000 --> 00:04:20,000
+I already pushed them into the Docker hub for your reference.
+
+64
+00:04:20,000 --> 00:04:26,000
+Since I want to save some space inside my local system, I'm trying to delete these unused images,
+
+65
+00:04:26,000 --> 00:04:28,000
+so let me click on this delete forever.
+
+66
+00:04:28,000 --> 00:04:33,000
+So with that, my Docker images related to S7 are deleted.
+
+67
+00:04:33,000 --> 00:04:40,000
+Now, if you search for S8, you will be able to see all five Docker images that we have generated right
+
+68
+00:04:40,000 --> 00:04:40,000
+now.
+
+69
+00:04:40,000 --> 00:04:46,000
+As a next step, I'm going to push all my Docker images into the remote Docker hub.
+
+70
+00:04:46,000 --> 00:04:53,000
+Like, you know, the command that we need to use here is docker image push docker.io and what is
+
+71
+00:04:53,000 --> 00:04:55,000
+your Docker account username?
+
+72
+00:04:55,000 --> 00:04:58,000
+In my case it is easybytes followed by configserver.
+
+73
+00:04:58,000 --> 00:04:59,000
+And what is a tag name.
+
+74
+00:04:59,000 --> 00:05:02,000
+Tag name is the S8.
+
+75
+00:05:02,000 --> 00:05:09,000
+We are going to push our config server Docker image from our local system to the remote hub Docker repository.
+
+76
+00:05:09,000 --> 00:05:09,000
+Behind the scenes
+
+77
+00:05:09,000 --> 00:05:13,000
+I'm going to push all my Docker images and come back.
+
+78
+00:05:13,000 --> 00:05:18,000
+I pushed all my Docker images related to section 8 into my Docker hub successfully.
+
+79
+00:05:18,000 --> 00:05:24,000
+You can see here right now, inside my Docker hub, we have a new Docker image with the name Eureka
+
+80
+00:05:24,000 --> 00:05:24,000
+Server.
+
+81
+00:05:24,000 --> 00:05:30,000
+Very similarly, we have other type of Docker images related to cards, loans, accounts and config
+
+82
+00:05:30,000 --> 00:05:30,000
+server.
+
+83
+00:05:30,000 --> 00:05:36,000
+If you try to open any of these under accounts, you should be able to see multiple Docker images with
+
+84
+00:05:36,000 --> 00:05:40,000
+different tag names like S4, S6, S7 and S8.
+
+85
+00:05:40,000 --> 00:05:45,000
+With this, we successfully generated the Docker images specific to Section8.
+
+86
+00:05:45,000 --> 00:05:50,000
+Inside the next lecture, let's try to update that Docker compose file and try to start all the services
+
+87
+00:05:50,000 --> 00:05:52,000
+with a single Docker compose command.
+
+88
+00:05:52,000 --> 00:05:55,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,436 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now inside this lecture, let's try to start all the microservices and config server, Eureka server with
+
+2
+00:00:07,000 --> 00:00:08,000
+a single docker compose command.
+
+3
+00:00:08,000 --> 00:00:15,000
+For the same, I need to navigate to the Docker compose folder inside the Section8 and once I'm
+
+4
+00:00:15,000 --> 00:00:21,000
+into this Docker compose folder, I'm going to navigate further into default profile. And inside this
+
+5
+00:00:21,000 --> 00:00:27,000
+default profile only we have the Docker compose yml file which is specific to the default environment.
+
+6
+00:00:27,000 --> 00:00:34,000
+So from this location I'm going to run the command which is Docker compose app followed by -d.
+
+7
+00:00:34,000 --> 00:00:39,000
+Before you try to execute this command, please make sure you don't have any other running containers
+
+8
+00:00:39,000 --> 00:00:44,000
+or stopped containers so that you are giving enough memory to the Docker compose command.
+
+9
+00:00:44,000 --> 00:00:47,000
+So here you can see there are no running containers.
+
+10
+00:00:47,000 --> 00:00:52,000
+So I'm trying to run this command and post that we can try to validate our Eureka changes.
+
+11
+00:00:52,000 --> 00:00:57,000
+So this is going to take 1 to 2 minutes, so let's wait for this to get completed.
+
+12
+00:00:57,000 --> 00:01:03,000
+You can see first my config server microservice only is trying to start until my config server microservice
+
+13
+00:01:03,000 --> 00:01:04,000
+health is good.
+
+14
+00:01:04,000 --> 00:01:08,000
+No other microservice container is not going to start.
+
+15
+00:01:08,000 --> 00:01:15,000
+Once the config server is healthy, then my eureka server microservice is starting so you can see for
+
+16
+00:01:15,000 --> 00:01:17,000
+config server it is declared as healthy.
+
+17
+00:01:17,000 --> 00:01:20,000
+Then only my eureka server is trying to start.
+
+18
+00:01:20,000 --> 00:01:24,000
+I have waited for a few minutes and eventually my Eureka server failed to start.
+
+19
+00:01:24,000 --> 00:01:28,000
+Let's try to understand what is the exception that we have here.
+
+20
+00:01:28,000 --> 00:01:33,000
+Inside my containers I can click on my Eureka Server -ms.
+
+21
+00:01:33,000 --> 00:01:38,000
+Here you can see it seems it is not able to connect with my config server
+
+22
+00:01:38,000 --> 00:01:40,000
+that's why I'm able to see this exceptions.
+
+23
+00:01:40,000 --> 00:01:43,000
+So let's try to understand what is the issue here.
+
+24
+00:01:43,000 --> 00:01:49,000
+Inside my Docker compose file for Eureka Server, we are extending the service which is
+
+25
+00:01:49,000 --> 00:01:51,000
+microservice-base-config.
+
+26
+00:01:51,000 --> 00:01:56,000
+So for whenever we are using microservice base config, we're only going to get the network related
+
+27
+00:01:56,000 --> 00:01:59,000
+configurations and these deployment related configurations.
+
+28
+00:01:59,000 --> 00:02:04,000
+So can we use this microservice-configserver-config.
+
+29
+00:02:04,000 --> 00:02:10,000
+Off course we can't use this because this configuration has one more environment variable extra which
+
+30
+00:02:10,000 --> 00:02:16,000
+is eureka client service URL underscore default zone, which is not required for the Eureka server.
+
+31
+00:02:16,000 --> 00:02:22,000
+That's why I'm going to simply take these environment variables like SPRING_PROFILES_ACTIVE along with
+
+32
+00:02:22,000 --> 00:02:27,000
+the spring config import and mention the same under the Docker compose file.
+
+33
+00:02:27,000 --> 00:02:31,000
+Instead of this, we can try to create one more service here.
+
+34
+00:02:31,000 --> 00:02:36,000
+Let me try to create one more service which is going to have Eureka specific details.
+
+35
+00:02:36,000 --> 00:02:43,000
+So the service name I'm going to keep it as micro service-ureka-config and this is going
+
+36
+00:02:43,000 --> 00:02:47,000
+to extend microservices config server config.
+
+37
+00:02:47,000 --> 00:02:48,000
+So let me mention the same.
+
+38
+00:02:48,000 --> 00:02:54,000
+And inside this depends on we can remove this config server related dependency details since this information
+
+39
+00:02:54,000 --> 00:02:57,000
+is already available inside this service.
+
+40
+00:02:57,000 --> 00:03:03,000
+Now, as a next step I can remove these spring profiles active and spring config import since that is
+
+41
+00:03:03,000 --> 00:03:05,000
+already available in the top service.
+
+42
+00:03:05,000 --> 00:03:12,000
+So now you can see this is going to have simply the details related to the Eureka server and the dependency
+
+43
+00:03:12,000 --> 00:03:13,000
+on the Eureka server.
+
+44
+00:03:13,000 --> 00:03:20,000
+Now from the config server service, I'm going to delete the dependency details of Eureka Server and
+
+45
+00:03:20,000 --> 00:03:27,000
+under the environment I'm going to delete the Eureka client related information. Because that information
+
+46
+00:03:27,000 --> 00:03:30,000
+we have under this eureka config related service.
+
+47
+00:03:30,000 --> 00:03:36,000
+So with these changes we need to go to the Docker compose file under accounts microservice, we should
+
+48
+00:03:36,000 --> 00:03:44,000
+use the microservice-eureka-config and let me do the same for loans microservice and
+
+49
+00:03:44,000 --> 00:03:45,000
+cards microservice.
+
+50
+00:03:45,000 --> 00:03:52,000
+After mentioning these details inside the respective microservices for the Eureka Server, I'm going
+
+51
+00:03:52,000 --> 00:03:56,000
+to extend the microservice config server config.
+
+52
+00:03:56,000 --> 00:04:01,000
+So let me take the service name and mention the same here under the Eureka server.
+
+53
+00:04:01,000 --> 00:04:07,000
+With that, we don't have to mention these depends on we can remove this since this is already present
+
+54
+00:04:07,000 --> 00:04:09,000
+inside the commonconfig.yml.
+
+55
+00:04:09,000 --> 00:04:15,000
+Now we have spring application name here and other environment properties like spring profile active
+
+56
+00:04:15,000 --> 00:04:17,000
+and spring config import details here.
+
+57
+00:04:17,000 --> 00:04:20,000
+So with this I'm assuming we should be good.
+
+58
+00:04:20,000 --> 00:04:24,000
+Let me save this changes and try to run the Docker compose command again.
+
+59
+00:04:24,000 --> 00:04:29,000
+So let me clean the console here and run the command which is docker compose down.
+
+60
+00:04:29,000 --> 00:04:35,000
+After running this command, all my running containers and stopped containers will be removed.
+
+61
+00:04:35,000 --> 00:04:40,000
+As a next step, I will try to run the command which is Docker compose app -d, So let's hope
+
+62
+00:04:40,000 --> 00:04:41,000
+for the best this time.
+
+63
+00:04:41,000 --> 00:04:48,000
+This time also, unfortunately, the Docker compose command didn't start my Eureka service successfully.
+
+64
+00:04:48,000 --> 00:04:51,000
+Don't hate me here, let me try to identify what's the issue.
+
+65
+00:04:51,000 --> 00:04:56,000
+So let me check what mistake I have done inside my config.yml.
+
+66
+00:04:56,000 --> 00:04:59,000
+The issue here is, if you see here under the environment
+
+67
+00:05:00,000 --> 00:05:06,000
+we need to mention these properties just inside as child elements, but previously I have mentioned
+
+68
+00:05:06,000 --> 00:05:09,000
+them just under the environment element.
+
+69
+00:05:09,000 --> 00:05:15,000
+So that's why since I missed a Tab space while mentioning these environment variables, my Eureka server
+
+70
+00:05:15,000 --> 00:05:21,000
+is not able to connect with the config server, so please make sure these environment variables always
+
+71
+00:05:21,000 --> 00:05:25,000
+under this environment property as a child elements.
+
+72
+00:05:25,000 --> 00:05:30,000
+With this, I'm hoping for the last time that our Docker compose command is going to work.
+
+73
+00:05:30,000 --> 00:05:33,000
+So let me save these changes and run the command clear
+
+74
+00:05:33,000 --> 00:05:37,000
+and after that I'm going to run docker compose -d command.
+
+75
+00:05:37,000 --> 00:05:41,000
+So let me pray God here and press enter.
+
+76
+00:05:41,000 --> 00:05:41,000
+This time
+
+77
+00:05:41,000 --> 00:05:44,000
+you can see my Eureka server started successfully.
+
+78
+00:05:44,000 --> 00:05:47,000
+That's why my other microservices are trying to get started.
+
+79
+00:05:47,000 --> 00:05:51,000
+So let's try to validate the same inside the Docker dashboard.
+
+80
+00:05:51,000 --> 00:05:55,000
+Here first, I'll check Eureka server logs like you can see here
+
+81
+00:05:55,000 --> 00:06:02,000
+my Eureka server started successfully followed by my loans Microservice is trying to get started,
+
+82
+00:06:02,000 --> 00:06:06,000
+so let's give more time for our microservices to get started.
+
+83
+00:06:06,000 --> 00:06:10,000
+Meanwhile, I'll go to the browser and try to access the Eureka dashboard.
+
+84
+00:06:10,000 --> 00:06:14,000
+So the Eureka dashboard we can access at 8070.
+
+85
+00:06:14,000 --> 00:06:15,000
+So let me try to access the same.
+
+86
+00:06:15,000 --> 00:06:18,000
+You can see here all our microservices
+
+87
+00:06:18,000 --> 00:06:22,000
+they started successfully and registered themselves with the Eureka Server.
+
+88
+00:06:22,000 --> 00:06:26,000
+Now, as a next step, let me go to the postman and try to test the APIs. Inside the postman,
+
+89
+00:06:26,000 --> 00:06:31,000
+first, we need to create the account details with the help of this create API followed by
+
+90
+00:06:31,000 --> 00:06:34,000
+we need to create the card details using the same mobile number.
+
+91
+00:06:34,000 --> 00:06:39,000
+And at last I'm also going to create the loans details using the same mobile number.
+
+92
+00:06:39,000 --> 00:06:43,000
+Now, the next API that we need to test is fetch customer details.
+
+93
+00:06:43,000 --> 00:06:49,000
+so behind the scenes, whenever we try to invoke this API, the Feign client will leverage the Eureka
+
+94
+00:06:49,000 --> 00:06:53,000
+server and try to invoke the other microservices like loans and cards.
+
+95
+00:06:53,000 --> 00:06:58,000
+You can see we got a successful response like these are the customer details, account details, loans
+
+96
+00:06:58,000 --> 00:07:00,000
+details and card details.
+
+97
+00:07:00,000 --> 00:07:00,000
+Hooray!
+
+98
+00:07:00,000 --> 00:07:06,000
+With this, our Eureka changes are working inside the Docker containers as well, so let me copy these
+
+99
+00:07:06,000 --> 00:07:13,000
+docker-compose.yml file into other profile folders because we made some changes compared to last lecture.
+
+100
+00:07:13,000 --> 00:07:17,000
+I'm going to do the same inside the qa/docker-compose.yml as well.
+
+101
+00:07:17,000 --> 00:07:24,000
+Now I'm going to take the common-config.yml file and copy the same inside the prod profile and change
+
+102
+00:07:24,000 --> 00:07:28,000
+the profile from default to prod followed by
+
+103
+00:07:28,000 --> 00:07:34,000
+I'm going to paste the changes inside the qa profile and change this profile name from default to qa.
+
+104
+00:07:34,000 --> 00:07:40,000
+With this all the Docker compose files that we have inside the default prod and profile should work without
+
+105
+00:07:40,000 --> 00:07:41,000
+any issues.
+
+106
+00:07:41,000 --> 00:07:47,000
+Please test from your side also and let me know for any issues before I'm trying to close this lecture,
+
+107
+00:07:47,000 --> 00:07:54,000
+let me run the Docker compose command so that all the running containers will be stopped and deleted.
+
+108
+00:07:54,000 --> 00:07:55,000
+I hope you are clear.
+
+109
+00:07:55,000 --> 00:07:58,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,628 @@
+1
+00:00:00,000 --> 00:00:03,000
+We have our Eureka Server running successfully.
+
+2
+00:00:03,000 --> 00:00:08,000
+As a next step, let's try to make the changes inside the accounts microservice to connect with the
+
+3
+00:00:08,000 --> 00:00:09,000
+Eureka Server.
+
+4
+00:00:09,000 --> 00:00:14,000
+So with the changes that we are going to make my accounts microservice during the startup, it is going
+
+5
+00:00:14,000 --> 00:00:21,000
+to register with the Eureka Server and at the same time it is also going to send the heartbeats regularly
+
+6
+00:00:21,000 --> 00:00:23,000
+by default every 30s.
+
+7
+00:00:23,000 --> 00:00:29,000
+Please follow the steps that I'm going to discuss because I want you to try the similar changes inside
+
+8
+00:00:29,000 --> 00:00:30,000
+the loans and cards
+
+9
+00:00:30,000 --> 00:00:35,000
+microservice. So the very first change that we need to do inside the accounts microservice is, to add
+
+10
+00:00:35,000 --> 00:00:38,000
+the dependency related to the Eureka client.
+
+11
+00:00:38,000 --> 00:00:40,000
+So for the same, let me go to the pom.xml.
+
+12
+00:00:40,000 --> 00:00:42,000
+So here I need to add a dependency.
+
+13
+00:00:42,000 --> 00:00:47,000
+So to understand what are the dependency details, you can click on these, add dependencies and search
+
+14
+00:00:47,000 --> 00:00:48,000
+for Eureka.
+
+15
+00:00:48,000 --> 00:00:52,000
+And this time please select Eureka Discovery Client.
+
+16
+00:00:52,000 --> 00:00:54,000
+Please do not select Eureka Server.
+
+17
+00:00:54,000 --> 00:01:00,000
+So let me add this dependency and before that I will try to delete all other dependencies that we have
+
+18
+00:01:00,000 --> 00:01:01,000
+here.
+
+19
+00:01:01,000 --> 00:01:07,000
+Now I'll click on this explore button and with that there will be only a single dependency with the
+
+20
+00:01:07,000 --> 00:01:10,000
+name Spring Cloud starter Netflix Eureka Client.
+
+21
+00:01:10,000 --> 00:01:12,000
+So let me copy these values.
+
+22
+00:01:12,000 --> 00:01:17,000
+And the same I'm trying to mention here just after the spring cloud starter config.
+
+23
+00:01:17,000 --> 00:01:20,000
+So let me save these changes and load the maven changes.
+
+24
+00:01:20,000 --> 00:01:27,000
+Now as a next step, we need to add few set of properties inside the application.yml of accounts
+
+25
+00:01:27,000 --> 00:01:28,000
+microservice.
+
+26
+00:01:28,000 --> 00:01:34,000
+So let me open the application.yml file here inside my applications.yml file.
+
+27
+00:01:34,000 --> 00:01:41,000
+First, I need to provide the eureka related properties like what is the URL of Eureka server to which
+
+28
+00:01:41,000 --> 00:01:44,000
+my accounts microservice can try to communicate with?
+
+29
+00:01:44,000 --> 00:01:49,000
+So for the same, most of the properties are going to be very similar to what we have mentioned for
+
+30
+00:01:49,000 --> 00:01:51,000
+the Eureka Server.
+
+31
+00:01:51,000 --> 00:01:56,000
+So for the Eureka server inside the eazybytes-config, we have mentioned these properties,
+
+32
+00:01:56,000 --> 00:02:01,000
+so let's copy these properties the same I'm going to mention here, but here instead of false, we are
+
+33
+00:02:01,000 --> 00:02:03,000
+going to mention true.
+
+34
+00:02:03,000 --> 00:02:09,000
+Just to make sure our accounts microservice will try to fetch the registry details whenever it is trying
+
+35
+00:02:09,000 --> 00:02:11,000
+to connect with other microservices.
+
+36
+00:02:11,000 --> 00:02:16,000
+And very similarly, since we want our account microservice to be registered with the Eureka server,
+
+37
+00:02:16,000 --> 00:02:17,000
+I'm trying to mention the value
+
+38
+00:02:17,000 --> 00:02:18,000
+true.
+
+39
+00:02:18,000 --> 00:02:25,000
+Now under the service URL we can mention the hardcoded value like localhost and the port number of Eureka
+
+40
+00:02:25,000 --> 00:02:34,000
+server is going to be 8070 slash Eureka, the same URL we have mentioned inside the Eureka server as
+
+41
+00:02:34,000 --> 00:02:34,000
+well.
+
+42
+00:02:34,000 --> 00:02:37,000
+We need to make sure we are using the same URL here.
+
+43
+00:02:37,000 --> 00:02:42,000
+After mentioning these properties, we don't need to mention these hostname as localhost here because
+
+44
+00:02:42,000 --> 00:02:47,000
+this is not the Eureka server, this is the client microservice which will connect with the Eureka server.
+
+45
+00:02:47,000 --> 00:02:52,000
+With that reason we don't need these property, but after removing the property we need to mention a
+
+46
+00:02:52,000 --> 00:02:58,000
+new property here which is prefer IP address and the value I'm going to mention as true.
+
+47
+00:02:58,000 --> 00:03:03,000
+So we are trying to create a property which is eureka.instance.prefer IP address as true.
+
+48
+00:03:03,000 --> 00:03:09,000
+The reason why I'm setting this prefer IP address as true is whenever my accounts microservice is trying
+
+49
+00:03:09,000 --> 00:03:14,000
+to register with the Eureka server by default, it will try to register with the host name.
+
+50
+00:03:14,000 --> 00:03:20,000
+The host names will make sense whenever you are trying to use DNS mappings inside your microservices
+
+51
+00:03:20,000 --> 00:03:21,000
+network.
+
+52
+00:03:21,000 --> 00:03:25,000
+But inside our local system, we don't have any DNS mapping set up.
+
+53
+00:03:25,000 --> 00:03:31,000
+We should use prefer IP address as true so that my accounts microservice will register with my Eureka
+
+54
+00:03:31,000 --> 00:03:34,000
+server by using the IP address.
+
+55
+00:03:34,000 --> 00:03:39,000
+So behind the scenes, whenever my other microservice, they are trying to connect with the accounts
+
+56
+00:03:39,000 --> 00:03:40,000
+microservice.
+
+57
+00:03:40,000 --> 00:03:46,000
+My Eureka server is going to share the IP address details of accounts microservice so that the other
+
+58
+00:03:46,000 --> 00:03:48,000
+microservices, they can connect with my accounts
+
+59
+00:03:48,000 --> 00:03:51,000
+microservice. So that's the purpose of this property.
+
+60
+00:03:51,000 --> 00:03:57,000
+Once we mention these properties, now my accounts microservice can connect with my Eureka server.
+
+61
+00:03:57,000 --> 00:04:03,000
+Apart from these properties, we should also add some other properties related to the actuator and info.
+
+62
+00:04:03,000 --> 00:04:06,000
+So let's try to understand what are those.
+
+63
+00:04:06,000 --> 00:04:12,000
+Here I'm going to create new property with the parent element as info, Under the info element, I'm going
+
+64
+00:04:12,000 --> 00:04:15,000
+to mention one more element, which is app.
+
+65
+00:04:15,000 --> 00:04:21,000
+And inside this app I'm going to mention an element which is name to this name, I'm going to give a
+
+66
+00:04:21,000 --> 00:04:27,000
+name value, which is accounts because this belongs to the accounts microservice and post that I'm going
+
+67
+00:04:27,000 --> 00:04:32,000
+to mention the element which is description. To this description element,
+
+68
+00:04:32,000 --> 00:04:36,000
+I'm going to mention the value as EazyBankAccounts application.
+
+69
+00:04:36,000 --> 00:04:41,000
+It is just a description that we are trying to use to explain about this app.
+
+70
+00:04:41,000 --> 00:04:48,000
+And at last we can also mention one more element here, which is version and the version I'm going to
+
+71
+00:04:48,000 --> 00:04:51,000
+mention values something like 1.0.0.
+
+72
+00:04:51,000 --> 00:04:58,000
+So the purpose and why we are adding these info related information is the same information we can see
+
+73
+00:04:58,000 --> 00:05:00,000
+inside the Eureka dashboard.
+
+74
+00:05:00,000 --> 00:05:05,000
+Because there will be multiple microservices will be registered with the Eureka dashboard.
+
+75
+00:05:05,000 --> 00:05:11,000
+If you want to know some details about those microservices, this info information will be useful and
+
+76
+00:05:11,000 --> 00:05:14,000
+the same we can try to understand with the Eureka dashboard.
+
+77
+00:05:14,000 --> 00:05:19,000
+When I show you the Eureka dashboard, it will make more sense to you how these info related information
+
+78
+00:05:19,000 --> 00:05:26,000
+is being displayed and these info information will be exposed as part of an actuator endpoint url.
+
+79
+00:05:26,000 --> 00:05:31,000
+And by default the info related actuator URL is not enabled.
+
+80
+00:05:31,000 --> 00:05:37,000
+We need to enable the same by adding a property under management followed by info.
+
+81
+00:05:37,000 --> 00:05:45,000
+So just under the management, I'm going to create one new element which is info under this info I'm going
+
+82
+00:05:45,000 --> 00:05:51,000
+to mention env environment and post that enable followed by what is the value which is true.
+
+83
+00:05:51,000 --> 00:05:57,000
+So I'm trying to enable the environment info related information with the help of this property.
+
+84
+00:05:58,000 --> 00:06:02,000
+As a next step, I'm going to add the properties related to the shutdown.
+
+85
+00:06:02,000 --> 00:06:08,000
+Like I said before, whenever the account's microservice is trying to shut down, it will deregister
+
+86
+00:06:08,000 --> 00:06:12,000
+the details from the Eureka server to demo you the same in the coming lectures.
+
+87
+00:06:12,000 --> 00:06:19,000
+I need to enable an actuator URL which will allow me to shut down my accounts microservice gracefully.
+
+88
+00:06:19,000 --> 00:06:24,000
+So for the same I'm going to mention a new element under the management.
+
+89
+00:06:24,000 --> 00:06:26,000
+So just under the same position where we have endpoints.
+
+90
+00:06:26,000 --> 00:06:31,000
+I'm going to mention a new element which is endpoint, singular form.
+
+91
+00:06:31,000 --> 00:06:35,000
+And at this endpoint I'm going to mention shutdown.
+
+92
+00:06:35,000 --> 00:06:39,000
+Under the shutdown, I'm going to mention enabled as true.
+
+93
+00:06:39,000 --> 00:06:46,000
+Once we enable these shutdown related endpoint, we should also expose the shutdown related APIs by
+
+94
+00:06:46,000 --> 00:06:48,000
+mentioning a property to mention the same property,
+
+95
+00:06:48,000 --> 00:06:52,000
+I'm going to mention a new element at the root location.
+
+96
+00:06:52,000 --> 00:06:55,000
+You can see this is the starting element.
+
+97
+00:06:55,000 --> 00:06:58,000
+Here I'm going to mention end points under end points
+
+98
+00:06:58,000 --> 00:07:05,000
+I'm going to mention shutdown and post that I'm going to mention enabled as true.
+
+99
+00:07:05,000 --> 00:07:10,000
+So please make sure these end points is different from what we have under management.endpoints.
+
+100
+00:07:10,000 --> 00:07:14,000
+So this endpoints should be at the starting position of your line.
+
+101
+00:07:14,000 --> 00:07:16,000
+So please make sure this portion is very important.
+
+102
+00:07:16,000 --> 00:07:19,000
+You can refer to the GitHub repo if you have any questions.
+
+103
+00:07:19,000 --> 00:07:21,000
+So we have made all the required changes.
+
+104
+00:07:21,000 --> 00:07:25,000
+Now I can save these changes and do a build.
+
+105
+00:07:25,000 --> 00:07:31,000
+Once the build is completed, I can try to start my accounts microservice. So for the same I'm going
+
+106
+00:07:31,000 --> 00:07:36,000
+to open the accounts application class and try to start the application in debug mode.
+
+107
+00:07:36,000 --> 00:07:42,000
+But please note that before you try to start the accounts microservice, please make sure config server
+
+108
+00:07:42,000 --> 00:07:45,000
+and Eureka server is started inside your local system.
+
+109
+00:07:45,000 --> 00:07:48,000
+Now here you can see my accounts
+
+110
+00:07:48,000 --> 00:07:55,000
+microservice started at the 8080 and immediately it registered itself with the Eureka Server.
+
+111
+00:07:55,000 --> 00:07:59,000
+That's why you're able to see these registration status as 204.
+
+112
+00:07:59,000 --> 00:08:05,000
+That means it tried to register with Eureka Server and it got a response 204 from the Eureka Server.
+
+113
+00:08:05,000 --> 00:08:11,000
+You can also see other kind of information like starting Heartbeat Executor renewal interval is 30s,
+
+114
+00:08:11,000 --> 00:08:18,000
+which means my Eureka server by default, it is going to expect a heartbeat every 30s from my accounts
+
+115
+00:08:18,000 --> 00:08:19,000
+microservice.
+
+116
+00:08:19,000 --> 00:08:25,000
+Now let me go to the Eureka dashboard and confirm if my accounts microservice is registered with the
+
+117
+00:08:25,000 --> 00:08:26,000
+Eureka server.
+
+118
+00:08:26,000 --> 00:08:33,000
+The URL that we need to access here is, localhost 8070 which will display the Eureka dashboard.
+
+119
+00:08:33,000 --> 00:08:39,000
+You can see here right now, under the instances currently registered with Eureka, there is an application
+
+120
+00:08:39,000 --> 00:08:40,000
+with the name accounts.
+
+121
+00:08:40,000 --> 00:08:46,000
+So whatever name you have defined inside the application.yml file under the property which is
+
+122
+00:08:46,000 --> 00:08:53,000
+spring.application name, the same name is going to be considered and registered with the Eureka Server.
+
+123
+00:08:53,000 --> 00:08:55,000
+So as of now we have only one instance.
+
+124
+00:08:55,000 --> 00:09:02,000
+That's why you're able to see only one here in the Eureka dashboard and the status of these one instance
+
+125
+00:09:02,000 --> 00:09:02,000
+of accounts
+
+126
+00:09:02,000 --> 00:09:04,000
+microservice is up.
+
+127
+00:09:04,000 --> 00:09:09,000
+If you try to click on this link, it will show you the more details about these accounts
+
+128
+00:09:09,000 --> 00:09:14,000
+microservice like what is the app name, what is the description and what is the version?
+
+129
+00:09:14,000 --> 00:09:20,000
+Now I'm assuming you are clear on how the info related information that we have configured inside the
+
+130
+00:09:20,000 --> 00:09:21,000
+application.yml.
+
+131
+00:09:21,000 --> 00:09:27,000
+The same is linked inside our Eureka dashboard and whenever we click on this you can see against the
+
+132
+00:09:27,000 --> 00:09:34,000
+accounts microservice instance it is trying to invoke actuator/info path at the port 8080 and
+
+133
+00:09:34,000 --> 00:09:40,000
+since we registered our accounts microservice using IP address it is using my local IP address.
+
+134
+00:09:40,000 --> 00:09:44,000
+But here you can see it is showing some different hostname.
+
+135
+00:09:44,000 --> 00:09:50,000
+This is because inside our local system, whenever we install Docker and other type of softwares, they're
+
+136
+00:09:50,000 --> 00:09:54,000
+going to make some host entries against the local host IP address.
+
+137
+00:09:54,000 --> 00:09:57,000
+So that's why instead of local host it is showing some other hostname.
+
+138
+00:09:57,000 --> 00:09:59,000
+So don't worry about this host name now here
+
+139
+00:09:59,000 --> 00:10:03,000
+you see, we are able to see an error, which is like emergency
+
+140
+00:10:03,000 --> 00:10:07,000
+eureka may be incorrectly claiming the instances, so there is some error.
+
+141
+00:10:07,000 --> 00:10:09,000
+Don't worry about this error.
+
+142
+00:10:09,000 --> 00:10:14,000
+We are going to discuss about this beautiful concept why we are seeing this error in the coming lectures.
+
+143
+00:10:14,000 --> 00:10:17,000
+But for next few lectures, please ignore this error.
+
+144
+00:10:17,000 --> 00:10:18,000
+This is not an error.
+
+145
+00:10:18,000 --> 00:10:20,000
+It's a warning about the Eureka dashboard.
+
+146
+00:10:20,000 --> 00:10:27,000
+So with this we are able to successfully connect our accounts Microservice to the Eureka server with
+
+147
+00:10:27,000 --> 00:10:27,000
+that.
+
+148
+00:10:27,000 --> 00:10:29,000
+Now my accounts microservice.
+
+149
+00:10:29,000 --> 00:10:35,000
+During the startup it resisted itself with the Eureka server and at the same time it is also going to
+
+150
+00:10:35,000 --> 00:10:37,000
+send the heartbeat signal every 30s.
+
+151
+00:10:37,000 --> 00:10:41,000
+I hope you are clear about all the changes that we have done inside this accounts
+
+152
+00:10:41,000 --> 00:10:45,000
+microservice I'm giving an assignment to you here.
+
+153
+00:10:45,000 --> 00:10:50,000
+By the time you come to the next lecture, please make the similar changes inside loans and cards.
+
+154
+00:10:50,000 --> 00:10:51,000
+microservice.
+
+155
+00:10:51,000 --> 00:10:53,000
+If you are facing any issues, don't worry.
+
+156
+00:10:53,000 --> 00:10:59,000
+I'm going to show you a demo quickly about loans and cards changes inside the next lecture.
+
+157
+00:10:59,000 --> 00:11:02,000
+Thank you and I'll catch you in the next lecture bye.
+

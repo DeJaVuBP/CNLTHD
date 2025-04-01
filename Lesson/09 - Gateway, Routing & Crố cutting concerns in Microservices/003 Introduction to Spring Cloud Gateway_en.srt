@@ -1,0 +1,356 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to understand how Spring Cloud is going to help us in implementing the
+
+2
+00:00:06,000 --> 00:00:09,000
+Edge server inside our microservices network.
+
+3
+00:00:09,000 --> 00:00:14,000
+You can see here we have a heading for this slide, which is Spring Cloud Gateway.
+
+4
+00:00:14,000 --> 00:00:20,000
+So that gives a clue to you that there is a project inside a spring cloud with the name Spring Cloud
+
+5
+00:00:20,000 --> 00:00:21,000
+Gateway.
+
+6
+00:00:21,000 --> 00:00:27,000
+Using this Spring Cloud Gateway, we can create the edge service very easily, which is of production
+
+7
+00:00:27,000 --> 00:00:29,000
+standard and production ready.
+
+8
+00:00:29,000 --> 00:00:34,000
+Moreover, the Spring Cloud Gateway is built based upon the spring reactive framework.
+
+9
+00:00:34,000 --> 00:00:41,000
+Due to that, it is going to seamlessly process any amount of workload that you can receive inside your
+
+10
+00:00:41,000 --> 00:00:42,000
+microservices network.
+
+11
+00:00:42,000 --> 00:00:48,000
+Since this gateway is going to be the front face to receive all external communication, we can
+
+12
+00:00:48,000 --> 00:00:52,000
+expect a lot of traffic to be handled by this gateway.
+
+13
+00:00:52,000 --> 00:00:58,000
+That's why to make this work efficiently with very less memory and with very less amount of threads,
+
+14
+00:00:58,000 --> 00:01:02,000
+the spring team, they build this project based upon the spring reactive framework.
+
+15
+00:01:02,000 --> 00:01:05,000
+Let's try to understand more details about this Spring Cloud Gateway.
+
+16
+00:01:05,000 --> 00:01:11,000
+Whenever we built an application with the help of Spring Cloud Gateway, it is going to sit as an gatekeeper
+
+17
+00:01:11,000 --> 00:01:16,000
+for all the inbound traffic that your microservices can expect.
+
+18
+00:01:16,000 --> 00:01:22,000
+Since this is going to sit in between your client applications and the actual microservices, your client
+
+19
+00:01:22,000 --> 00:01:28,000
+applications, they can never directly interact with your actual individual microservices because they
+
+20
+00:01:28,000 --> 00:01:34,000
+never know what is the actual physical address location of an particular microservice instance.
+
+21
+00:01:34,000 --> 00:01:37,000
+On top of that, you might have enforced some security.
+
+22
+00:01:37,000 --> 00:01:38,000
+With all these restrictions.
+
+23
+00:01:38,000 --> 00:01:45,000
+It will be impossible for my external applications to directly invoke my microservices and with that
+
+24
+00:01:45,000 --> 00:01:50,000
+there is no option for them except sending the traffic to the gatekeeper, which is Spring Cloud Gateway.
+
+25
+00:01:50,000 --> 00:01:54,000
+Here you may think like building these gatekeeper using Spring Cloud
+
+26
+00:01:54,000 --> 00:02:00,000
+Gateway is super, super complex process, but believe me, this is going to be building like any other
+
+27
+00:02:00,000 --> 00:02:02,000
+spring boot application.
+
+28
+00:02:02,000 --> 00:02:07,000
+If you are a spring developer who regularly build projects based upon spring boot, then you are going
+
+29
+00:02:07,000 --> 00:02:12,000
+to feel very, very easy to build the gateway server with the help of this project, which is Spring
+
+30
+00:02:12,000 --> 00:02:13,000
+Cloud Gateway.
+
+31
+00:02:13,000 --> 00:02:18,000
+So you need to write very few lines of code, you need to do some few configurations and add some dependencies.
+
+32
+00:02:18,000 --> 00:02:20,000
+And with that you should be good.
+
+33
+00:02:20,000 --> 00:02:23,000
+We're going to see this in demo in the coming lectures.
+
+34
+00:02:23,000 --> 00:02:29,000
+Apart from just sitting in between the clients and the microservices, whatever application you are
+
+35
+00:02:29,000 --> 00:02:34,000
+going to build with the help of Spring Cloud Gateway, it is capable of executing a lot of non-functional
+
+36
+00:02:34,000 --> 00:02:37,000
+requirements and cross-cutting concerns.
+
+37
+00:02:37,000 --> 00:02:42,000
+For example, you can dynamically route the incoming request based upon the context.
+
+38
+00:02:42,000 --> 00:02:46,000
+Maybe inside an request header you have an API version value.
+
+39
+00:02:46,000 --> 00:02:53,000
+So based upon this version value, your gateway server is capable of routing that request to the appropriate
+
+40
+00:02:53,000 --> 00:02:55,000
+versioned backend microservice.
+
+41
+00:02:55,000 --> 00:02:59,000
+It can also handle complex requirements like sticky sessions.
+
+42
+00:02:59,000 --> 00:03:04,000
+If you want to make sure that a particular user request or client request should always go to the same
+
+43
+00:03:04,000 --> 00:03:07,000
+instance where the initial request is processed.
+
+44
+00:03:07,000 --> 00:03:10,000
+So this kind of sticky sessions or user sessions
+
+45
+00:03:10,000 --> 00:03:13,000
+we can also achieve with the help of Gateway Server.
+
+46
+00:03:13,000 --> 00:03:19,000
+And please note that Spring Cloud Gateway is not the only option for the Java developers to implement
+
+47
+00:03:19,000 --> 00:03:21,000
+these Gateway or the Edge server.
+
+48
+00:03:22,000 --> 00:03:23,000
+Apart from Spring Cloud Gateway.
+
+49
+00:03:23,000 --> 00:03:30,000
+We also have Jewel, which is another famous project which we can use to build a gateway at the Edge
+
+50
+00:03:30,000 --> 00:03:30,000
+server.
+
+51
+00:03:30,000 --> 00:03:36,000
+But Spring Cloud Gateway is the most preferred API gateway compared to Jewel, because Spring Cloud
+
+52
+00:03:36,000 --> 00:03:41,000
+Gateway built on the spring reactor, which and it also has integration with Circuit Breaker, Service
+
+53
+00:03:41,000 --> 00:03:44,000
+discovery and it is non-blocking in nature.
+
+54
+00:03:44,000 --> 00:03:50,000
+With all these advantages, your spring cloud gateway is going to perform better compared to the jewel.
+
+55
+00:03:50,000 --> 00:03:54,000
+That's why inside this course also we are going to use Spring Cloud Gateway.
+
+56
+00:03:54,000 --> 00:03:59,000
+The key takeaway from this lecture is, whatever service that you are going to build with the help of
+
+57
+00:03:59,000 --> 00:04:06,000
+Spring Cloud Gateway, it is going to sit between your client applications and the individual microservices
+
+58
+00:04:06,000 --> 00:04:10,000
+and act as an central policy enforcement point.
+
+59
+00:04:10,000 --> 00:04:16,000
+So at this centralized location, we can enforce any kind of policy requirements like routing both static
+
+60
+00:04:16,000 --> 00:04:20,000
+and dynamic security, logging, auditing, metric collection, whatnot.
+
+61
+00:04:20,000 --> 00:04:26,000
+Let's try to understand more details about this Spring Cloud gateway by looking the official website
+
+62
+00:04:26,000 --> 00:04:26,000
+of spring.
+
+63
+00:04:26,000 --> 00:04:30,000
+So this is the official website which is spring.io. here,
+
+64
+00:04:30,000 --> 00:04:36,000
+If you can click on this project and open the spring cloud project under the Spring cloud there are
+
+65
+00:04:36,000 --> 00:04:37,000
+many other sub projects.
+
+66
+00:04:37,000 --> 00:04:40,000
+The project that right now we are interested is Spring Cloud Gateway.
+
+67
+00:04:40,000 --> 00:04:43,000
+So please click on this Spring Cloud Gateway.
+
+68
+00:04:43,000 --> 00:04:48,000
+Here there is a brief summary about Spring Cloud Gateway, what it is capable of and how it is going to help
+
+69
+00:04:48,000 --> 00:04:48,000
+you.
+
+70
+00:04:48,000 --> 00:04:54,000
+So you can see here Spring Cloud Gateway aims to provide simple and effective way to route to APIs and
+
+71
+00:04:54,000 --> 00:04:59,000
+providing cross-cutting concerns such as security monitoring and resiliency.
+
+72
+00:04:59,000 --> 00:04:59,000
+Apart from
+
+73
+00:04:59,000 --> 00:05:01,000
+this spring Cloud gateway features
+
+74
+00:05:01,000 --> 00:05:07,000
+also you can see here it is built upon the Spring project reactor and it is capable to match the roots
+
+75
+00:05:07,000 --> 00:05:09,000
+on any request attribute.
+
+76
+00:05:09,000 --> 00:05:12,000
+It can use predicates and filters that are specific to roots.
+
+77
+00:05:12,000 --> 00:05:17,000
+It has a good integration with the circuit breaker and spring cloud discovery client like Eureka Server.
+
+78
+00:05:17,000 --> 00:05:20,000
+We can easily implement predicates and filters.
+
+79
+00:05:20,000 --> 00:05:23,000
+We can request rate limiting path rewriting.
+
+80
+00:05:23,000 --> 00:05:28,000
+So there are many advantages with Spring Cloud Gateway, but here there are many jargons like predicates,
+
+81
+00:05:28,000 --> 00:05:29,000
+filters.
+
+82
+00:05:29,000 --> 00:05:34,000
+That's why let's try to understand the internal architecture of Spring Cloud Gateway, how it is going
+
+83
+00:05:34,000 --> 00:05:38,000
+to implement all these complex business requirements.
+
+84
+00:05:38,000 --> 00:05:43,000
+That way you will be clear about all these jargons like predicate filters and what they are going to
+
+85
+00:05:43,000 --> 00:05:44,000
+do internally.
+
+86
+00:05:44,000 --> 00:05:46,000
+I hope this is clear.
+
+87
+00:05:46,000 --> 00:05:52,000
+Let's continue the discussion about Spring Cloud gateway internal architecture in the next lecture.
+
+88
+00:05:52,000 --> 00:05:52,000
+Thank you.
+
+89
+00:05:52,000 --> 00:05:53,000
+Bye.
+

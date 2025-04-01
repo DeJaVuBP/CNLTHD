@@ -1,0 +1,1024 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we made the required changes inside the accounts microservice to connect with the loans,
+
+2
+00:00:06,000 --> 00:00:08,000
+microservice and cards microservice.
+
+3
+00:00:08,000 --> 00:00:15,000
+So we have created these LoansFeignClient and very similarly, we also created CardsFeignClient as well.
+
+4
+00:00:15,000 --> 00:00:21,000
+Now as a next step, let's try to use them inside our accounts microservice to communicate with
+
+5
+00:00:21,000 --> 00:00:26,000
+the other microservices and we should accept the response and we should consolidate all the response
+
+6
+00:00:26,000 --> 00:00:30,000
+from three microservices and send the same to the client application.
+
+7
+00:00:30,000 --> 00:00:35,000
+Since we want to send the consolidate response from accounts, cards and loans microservice, we need
+
+8
+00:00:35,000 --> 00:00:43,000
+to make sure we are creating a dto supporting these consolidated information. For the same inside my accounts
+
+9
+00:00:43,000 --> 00:00:52,000
+microservice I'm going to create a new dto with the name CustomerDetailsDto. So this is going to hold
+
+10
+00:00:52,000 --> 00:00:59,000
+all the details about a customer like accounts, cards, loans along with their personal details.
+
+11
+00:00:59,000 --> 00:01:01,000
+So let me create this class.
+
+12
+00:01:01,000 --> 00:01:05,000
+Instead of typing all the fields, what I can do is, I'll go to the CustomerDto
+
+13
+00:01:05,000 --> 00:01:11,000
+since all the information that we are going to send inside the CustomerDetailsDto is very
+
+14
+00:01:11,000 --> 00:01:16,000
+similar to what we have inside these CustomerDto I'm going to copy the content from this class, so
+
+15
+00:01:16,000 --> 00:01:22,000
+let me take this @Data and @Schema the same I'll try to mention inside the CustomerDetailsDto.
+
+16
+00:01:22,000 --> 00:01:22,000
+.
+
+17
+00:01:23,000 --> 00:01:28,000
+So here the schema name, I'll just keep it as customer details and the description
+
+18
+00:01:28,000 --> 00:01:36,000
+I will change it as schema to hold customer, account, cards and loans information.
+
+19
+00:01:36,000 --> 00:01:42,000
+So this is the schema that is going to hold all the information related to the customer, accounts, cards
+
+20
+00:01:42,000 --> 00:01:43,000
+and loans.
+
+21
+00:01:43,000 --> 00:01:49,000
+First, let me get the details of customer from the CustomerDto.  So I'm going to take all these fields
+
+22
+00:01:49,000 --> 00:01:54,000
+here and paste the same inside the CustomerDetailsDto. Once we have pasted these details
+
+23
+00:01:54,000 --> 00:01:59,000
+right now you can see there is customer related information like what is the name, what is the email,
+
+24
+00:01:59,000 --> 00:02:00,000
+what is the mobile number?
+
+25
+00:02:00,000 --> 00:02:02,000
+And what are his account details?
+
+26
+00:02:02,000 --> 00:02:08,000
+Very similarly, we should also pass cards details and loans details .For the same, just like how
+
+27
+00:02:08,000 --> 00:02:11,000
+we have mentioned the AccountsDto very similarly
+
+28
+00:02:11,000 --> 00:02:19,000
+I'm going to mention CardsDto and LoansDto. So let me import the LoansDto here and post that I will change
+
+29
+00:02:19,000 --> 00:02:22,000
+the variable name to LoansDto and here the description
+
+30
+00:02:22,000 --> 00:02:26,000
+I'm going to keep it as Loans Details of the Customer.
+
+31
+00:02:26,000 --> 00:02:28,000
+And now I'm going to change this AccountDto
+
+32
+00:02:28,000 --> 00:02:35,000
+to CardsDto like you can expect the field name I'm trying to change and the description also,
+
+33
+00:02:35,000 --> 00:02:38,000
+I'll try to change with cards details of the customer.
+
+34
+00:02:38,000 --> 00:02:41,000
+So with this now we have the CustomerDetailsDto.
+
+35
+00:02:41,000 --> 00:02:47,000
+is ready and this is going to hold the consolidated data of my customer.
+
+36
+00:02:47,000 --> 00:02:53,000
+As a next step, I'm going to open the controller package and here I'll create a new controller and
+
+37
+00:02:53,000 --> 00:02:56,000
+the controller name is going to be CustomerController.
+
+38
+00:02:56,000 --> 00:02:59,000
+Inside this controller, I'm going to create a new REST API.
+
+39
+00:03:00,000 --> 00:03:02,000
+First, let me mention RestController.
+
+40
+00:03:02,000 --> 00:03:09,000
+On top of this, I will try to copy other open API specification related information from AccountsController.
+
+41
+00:03:09,000 --> 00:03:15,000
+So let me take all these tag information RequestMapping, @Validated and mention the same
+
+42
+00:03:15,000 --> 00:03:18,000
+inside the new controller that we have created.
+
+43
+00:03:18,000 --> 00:03:22,000
+So I'm trying to paste here, post that I'm going to update this name and description.
+
+44
+00:03:22,000 --> 00:03:30,000
+I'll mention the name as REST API for Customers in EasyBank and post that, I'm going to update this
+
+45
+00:03:30,000 --> 00:03:32,000
+description with a new description.
+
+46
+00:03:32,000 --> 00:03:38,000
+So the description is going to be REST APIs in EasyBank to fetch customer details and RequestMapping
+
+47
+00:03:38,000 --> 00:03:39,000
+path API.
+
+48
+00:03:39,000 --> 00:03:42,000
+It should be fine and produces media type application
+
+49
+00:03:42,000 --> 00:03:47,000
+Json value should be fine, RestController and @Validated, everything is fine.
+
+50
+00:03:47,000 --> 00:03:50,000
+Now inside this controller, I'm going to create a method.
+
+51
+00:03:50,000 --> 00:03:54,000
+The method is public responseEntity().
+
+52
+00:03:54,000 --> 00:04:01,000
+And to this responseEntity() I'm going to pass CustomerDetailsDto and the method name I'm going to
+
+53
+00:04:01,000 --> 00:04:09,000
+mention as fetchCustomerDetails() to this method, we are going to accept the mobileNumber of my customer
+
+54
+00:04:09,000 --> 00:04:11,000
+on top of the mobile number.
+
+55
+00:04:11,000 --> 00:04:16,000
+We are also going to do some validations like rejects, validations and make sure that mobile number
+
+56
+00:04:16,000 --> 00:04:18,000
+is a ten digit mobile number.
+
+57
+00:04:18,000 --> 00:04:23,000
+We already have such validations defined inside the AccountsController under fetch API.
+
+58
+00:04:23,000 --> 00:04:27,000
+So if you can scroll to the fetch API, we have this information here.
+
+59
+00:04:27,000 --> 00:04:32,000
+So let me copy this value and mention the same inside the CustomerController.
+
+60
+00:04:32,000 --> 00:04:37,000
+So now inside this method I can write the business logic, but before that I'm going to mention what
+
+61
+00:04:37,000 --> 00:04:40,000
+is the REST API path that this method is going to support.
+
+62
+00:04:40,000 --> 00:04:44,000
+So this method is going to support Http method.
+
+63
+00:04:44,000 --> 00:04:50,000
+That's why I need to mention get mapping along with the path, which is fetchCustomerDetails.
+
+64
+00:04:50,000 --> 00:04:54,000
+I'm going to have the API path as fetchCustomerDetails.
+
+65
+00:04:54,000 --> 00:04:59,000
+So whenever someone is trying to invoke API class, fetchCustomerDetails this method
+
+66
+00:04:59,000 --> 00:05:00,000
+will get invoked.
+
+67
+00:05:00,000 --> 00:05:07,000
+So to this method we can also mention open API specification related annotations so we can copy the
+
+68
+00:05:07,000 --> 00:05:11,000
+same from here which we have inside the AccountsController.
+
+69
+00:05:11,000 --> 00:05:13,000
+The same I can mention here.
+
+70
+00:05:13,000 --> 00:05:20,000
+Once we pasted these annotations, we can try to change the summary description like Fetch Customer
+
+71
+00:05:20,000 --> 00:05:29,000
+Details REST API and here I can mention REST API to fetch Customer details based upon a mobile number
+
+72
+00:05:29,000 --> 00:05:35,000
+and post that under the API responses we should mention these API response like 200, 500 which we are
+
+73
+00:05:35,000 --> 00:05:39,000
+going to send in case of success scenario and failure scenario.
+
+74
+00:05:39,000 --> 00:05:45,000
+Now I need to write the business logic inside this method. To write the business logic,
+
+75
+00:05:45,000 --> 00:05:49,000
+we are going to leverage the service layer for the same inside the service package,
+
+76
+00:05:49,000 --> 00:05:54,000
+let me create a new interface just like how we have IAccountsMicroservice.
+
+77
+00:05:54,000 --> 00:06:01,000
+I'm going to create a new interface with the name ICustomerService inside this interface, I'm going
+
+78
+00:06:01,000 --> 00:06:08,000
+to create an abstract method which is going to return CustomerDetailsDto and the method name is going
+
+79
+00:06:08,000 --> 00:06:14,000
+to be fetchCustomerDetails() and this method will accept mobile number as an input.
+
+80
+00:06:14,000 --> 00:06:16,000
+So this is an abstract method.
+
+81
+00:06:16,000 --> 00:06:20,000
+I'm going to mention few method Java comments here.
+
+82
+00:06:20,000 --> 00:06:25,000
+Now, as a next step, I'm going to create an implementation of this interface. For the same, let's
+
+83
+00:06:25,000 --> 00:06:32,000
+go to the Impl package and here I'm going to create a new Java class with the name CustomerServiceImpl.
+
+84
+00:06:33,000 --> 00:06:39,000
+Inside this class, we are going to implement the interface, which is a customer service.
+
+85
+00:06:39,000 --> 00:06:41,000
+So I'll get a compilation error.
+
+86
+00:06:41,000 --> 00:06:47,000
+So let me click on this and implement methods and, and override this method, which is fetchCustomerDetails().
+
+87
+00:06:47,000 --> 00:06:49,000
+Inside this method,
+
+88
+00:06:49,000 --> 00:06:53,000
+as of now you can see I have empty logic before I try to write some logic.
+
+89
+00:06:53,000 --> 00:06:58,000
+First, let me try to inject all the dependencies into this ServiceImpl class.
+
+90
+00:06:58,000 --> 00:07:05,000
+So the dependencies that I have here is first, I am going to use AccountsRepository to fetch all the
+
+91
+00:07:05,000 --> 00:07:10,000
+accounts related information from the database that these accounts microservice is trying to use.
+
+92
+00:07:10,000 --> 00:07:18,000
+Very similarly, I'm going to require CustomerRepository to fetch all the customer related information
+
+93
+00:07:18,000 --> 00:07:25,000
+from the database that this accounts microservice is right now using, coming to the loans and cards
+
+94
+00:07:25,000 --> 00:07:26,000
+related information.
+
+95
+00:07:26,000 --> 00:07:30,000
+In order to get those details, we need to invoke the other microservices.
+
+96
+00:07:30,000 --> 00:07:36,000
+So whenever we want to invoke the other microservices, we need to make sure we are using the feign client
+
+97
+00:07:36,000 --> 00:07:38,000
+related interfaces that we have created.
+
+98
+00:07:38,000 --> 00:07:43,000
+That's why I'm trying to inject those interfaces to this service class.
+
+99
+00:07:43,000 --> 00:07:45,000
+So let me mention the object name here.
+
+100
+00:07:45,000 --> 00:07:47,000
+Post that very similarly,
+
+101
+00:07:47,000 --> 00:07:51,000
+I'm going to mention LoansFeignClient along with an object name.
+
+102
+00:07:51,000 --> 00:07:55,000
+So these are the four dependencies that I have mentioned inside my CustomerServiceImpl.
+
+103
+00:07:56,000 --> 00:08:01,000
+So on top of this class I'm going to mention two annotation, which is @Service and
+
+104
+00:08:01,000 --> 00:08:03,000
+@AllArgsConstructor.
+
+105
+00:08:03,000 --> 00:08:08,000
+Since I have mentioned @AllArgsConstructor, my Lombok is going to generate an constructor
+
+106
+00:08:08,000 --> 00:08:14,000
+with all the fields that we have defined inside the class like AccountsRepository, CustomerRepository,
+
+107
+00:08:14,000 --> 00:08:16,000
+CardsFeignClient and LoansFieldClient.
+
+108
+00:08:16,000 --> 00:08:22,000
+So whenever we have only single constructor inside your class, the autowiring is going to happen automatically
+
+109
+00:08:22,000 --> 00:08:27,000
+without the need of mentioning @Autowire annotation on each of these fields.
+
+110
+00:08:27,000 --> 00:08:32,000
+So now, as a next step, I need to write some logic inside my fetchCustomerDetails().
+
+111
+00:08:32,000 --> 00:08:38,000
+We already wrote some business logic to fetch the accounts and customer related information from the
+
+112
+00:08:38,000 --> 00:08:41,000
+database inside the AccountServiceImpl.
+
+113
+00:08:41,000 --> 00:08:43,000
+So let me open the same.
+
+114
+00:08:43,000 --> 00:08:48,000
+And here under the fetch account you can see there is some logic that we can use.
+
+115
+00:08:48,000 --> 00:08:53,000
+So let me take this code and mention the same inside the new method that we have created.
+
+116
+00:08:53,000 --> 00:08:58,000
+As of now, you can see from the database we are trying to fetch the customer data based upon the mobile
+
+117
+00:08:58,000 --> 00:08:59,000
+number that we have received.
+
+118
+00:08:59,000 --> 00:09:04,000
+In case if we don't have any records, then we are going to throw this an exception.
+
+119
+00:09:04,000 --> 00:09:09,000
+Very similarly, we are trying to fetch the accounts related information based upon the customerId
+
+120
+00:09:09,000 --> 00:09:11,000
+that we retrieved from the customer table.
+
+121
+00:09:11,000 --> 00:09:17,000
+So now as a next step, I need to map this customer data and accounts data to this CustomerDetailsDto.
+
+122
+00:09:18,000 --> 00:09:24,000
+So as of now we don't have any mapper method that will convert customer and accounts data into the customer
+
+123
+00:09:24,000 --> 00:09:25,000
+details.
+
+124
+00:09:25,000 --> 00:09:30,000
+So that's why we need to write a new method inside the CustomerMapper.
+
+125
+00:09:30,000 --> 00:09:36,000
+Inside this CustomerMapper, I'm going to create a method very similar to mapToCustomer(). So let
+
+126
+00:09:36,000 --> 00:09:41,000
+me copy this method and rename this to mapToCustomerDetailsDto.
+
+127
+00:09:42,000 --> 00:09:48,000
+And the return type from this method is going to be CustomerDetailsDto, and the input parameters for
+
+128
+00:09:48,000 --> 00:09:50,000
+this method will be Customer.
+
+129
+00:09:50,000 --> 00:09:54,000
+And the second parameter we need to change to CustomerDetailsDto.
+
+130
+00:09:54,000 --> 00:09:59,000
+And now inside the method we need to map all the data from the customer()
+
+131
+00:09:59,000 --> 00:10:01,000
+to these CustomerDetailsDto.
+
+132
+00:10:02,000 --> 00:10:06,000
+For the same, we just need to update these reference inside the method.
+
+133
+00:10:06,000 --> 00:10:12,000
+With that, we have a method ready which will map all the data from Customer to CustomerDetailsDto. 
+
+134
+00:10:12,000 --> 00:10:20,000
+So I can go to my CustomerServiceImpl and here I'm going to use the customerMapper() method like
+
+135
+00:10:20,000 --> 00:10:27,000
+customer.mapToCustomerDetailsDto and to this method I'm going to pass the object of customer comma new
+
+136
+00:10:27,000 --> 00:10:31,000
+object of customer details to the output from this method
+
+137
+00:10:31,000 --> 00:10:36,000
+I'm going to catch on the left hand side with the return type, which is CustomerDetailsDto and a
+
+138
+00:10:36,000 --> 00:10:41,000
+variable name CustomerDetailsDto. Now using these CustomerDetailsDto,
+
+139
+00:10:41,000 --> 00:10:48,000
+I can try to invoke a method which is setAccountsDto() and I can pass the AccountsDto, but in order
+
+140
+00:10:48,000 --> 00:10:51,000
+to pass the AccountsDto first we need to convert these Accounts to the AccountsDto.
+
+141
+00:10:52,000 --> 00:11:01,000
+For the same, we can invoke a class which is AccountsMapper.mapToAccountsDto and to this method
+
+142
+00:11:01,000 --> 00:11:05,000
+we need to pass this accounts, new AccountsDto.
+
+143
+00:11:05,000 --> 00:11:11,000
+With this we have populated all the customer and accounts related information inside the
+
+144
+00:11:11,000 --> 00:11:11,000
+CustomerDetailsDto.
+
+145
+00:11:12,000 --> 00:11:14,000
+Now coming to the interesting part.
+
+146
+00:11:14,000 --> 00:11:20,000
+We need to populate very similarly loans related and cards related information inside this DTO, but
+
+147
+00:11:20,000 --> 00:11:27,000
+unfortunately we are not storing that information inside the database of AccountsMicroservice we are
+
+148
+00:11:27,000 --> 00:11:29,000
+storing inside the other microservices.
+
+149
+00:11:29,000 --> 00:11:34,000
+That's why we need to leverage the FeignClient interfaces that we have created and using them, we need
+
+150
+00:11:34,000 --> 00:11:40,000
+to invoke the methods we have defined inside them and post that we need to catch the response back and
+
+151
+00:11:40,000 --> 00:11:42,000
+populate the same into the CustomerDetailsDto.
+
+152
+00:11:42,000 --> 00:11:48,000
+So here, let me first try to invoke the loans related microservice. For the same,
+
+153
+00:11:48,000 --> 00:11:54,000
+we need to use the object that we have injected into this class with the name LoansFeignClient.
+
+154
+00:11:54,000 --> 00:11:59,000
+Against this object reference, we have a method which is fetchLoanDetails().
+
+155
+00:11:59,000 --> 00:12:05,000
+So this fetchLoanDetails() method we need to pass the mobile number that we have received and the output
+
+156
+00:12:05,000 --> 00:12:10,000
+from this method is going to be ResponseEntity of LoansDto.
+
+157
+00:12:10,000 --> 00:12:16,000
+So let me catch those details on the left hand side with the variable name, which is loansDtoResponseEntity.
+
+158
+00:12:16,000 --> 00:12:18,000
+.
+
+159
+00:12:18,000 --> 00:12:18,000
+Here
+
+160
+00:12:18,000 --> 00:12:24,000
+with this line behind the scenes, my FeignClient will connect with the Eureka Server and try to get
+
+161
+00:12:24,000 --> 00:12:30,000
+the loans instance details and it will perform some load balancing and invoke the actual microservice
+
+162
+00:12:30,000 --> 00:12:33,000
+REST API and we'll get the response.
+
+163
+00:12:33,000 --> 00:12:38,000
+As a next step, I can populate these loans related information into the CustomerDetailsDto.
+
+164
+00:12:38,000 --> 00:12:45,000
+So from this LoansDtoResponseEntity, I'm going to invoke the get body method.
+
+165
+00:12:45,000 --> 00:12:50,000
+So with the get body method, we are going to get the object which is LoansDto the same.
+
+166
+00:12:50,000 --> 00:12:54,000
+We are trying to get into the CustomerDetailsDto very similarly.
+
+167
+00:12:54,000 --> 00:12:56,000
+We can also do for cards microservice also.
+
+168
+00:12:56,000 --> 00:12:58,000
+So let me copy the same code.
+
+169
+00:12:58,000 --> 00:13:03,000
+And instead of loans feign client, we should use cards feign client and we should invoke the method
+
+170
+00:13:03,000 --> 00:13:05,000
+which is fetchCardDetails().
+
+171
+00:13:05,000 --> 00:13:10,000
+And here also we need to change to CardsDto and the variable name
+
+172
+00:13:10,000 --> 00:13:17,000
+also I'm going to change to CardsDtoResponseEntity post that we can set the CardsDto into the 
+
+173
+00:13:17,000 --> 00:13:21,000
+CustomerDetailsDto by using these CardsDtoResponseEntity.
+
+174
+00:13:21,000 --> 00:13:27,000
+So let me copy this here with this all the information we have populated into the CustomerDetails.
+
+175
+00:13:27,000 --> 00:13:33,000
+So the same I'm going to return from this method with this, we have completed all the business logic
+
+176
+00:13:33,000 --> 00:13:34,000
+inside our ServiceImpl.
+
+177
+00:13:35,000 --> 00:13:39,000
+As a next step, I will go to the CustomerController here
+
+178
+00:13:39,000 --> 00:13:46,000
+first, I need to make sure that I am injecting the CustomerService implementation into this controller
+
+179
+00:13:46,000 --> 00:13:47,000
+class.
+
+180
+00:13:47,000 --> 00:13:51,000
+So the interface that we have for CustomerService is ICustomerService.
+
+181
+00:13:51,000 --> 00:13:57,000
+So I'll just mention as private final ICustomerService with the variable name ICustomerService.
+
+182
+00:13:57,000 --> 00:14:04,000
+After defining these variable, I'm going to create an constructor for these class which is CustomerController.
+
+183
+00:14:04,000 --> 00:14:05,000
+.
+
+184
+00:14:05,000 --> 00:14:12,000
+So to this constructor I'm going to pass ICustomerService as an input parameter and inside the constructor
+
+185
+00:14:12,000 --> 00:14:18,000
+I'm going to write the code, which is this.ICustomerService = ICustomerService.
+
+186
+00:14:18,000 --> 00:14:24,000
+Since there is only one constructor inside this class, we don't have to mention @Autowiring
+
+187
+00:14:24,000 --> 00:14:25,000
+on top of this constructor.
+
+188
+00:14:25,000 --> 00:14:31,000
+Now using this ICustomerService, we need to write the business logic inside this method.
+
+189
+00:14:31,000 --> 00:14:33,000
+The business logic is going to be very simple.
+
+190
+00:14:33,000 --> 00:14:38,000
+First, by using ICustomerService, I'm going to invoke the method which is fetchCustomerDetails().
+
+191
+00:14:38,000 --> 00:14:43,000
+And to this method I'm going to pass the mobile number that we are going to receive.
+
+192
+00:14:43,000 --> 00:14:50,000
+And on the left hand side, I'm going to catch the output with the help of CustomerDetailsDto and with
+
+193
+00:14:50,000 --> 00:14:52,000
+the variable name customerDetailsDto.
+
+194
+00:14:52,000 --> 00:14:59,000
+At last I need to return the same to the client application with the help of ResponseEntity using this
+
+195
+00:14:59,000 --> 00:14:59,000
+ResponseEntity,
+
+196
+00:14:59,000 --> 00:15:07,000
+I'm going to invoke the status and the status that we are going to send here is HttpStatus.OK.
+
+197
+00:15:07,000 --> 00:15:07,000
+.
+
+198
+00:15:07,000 --> 00:15:12,000
+So once we mention this HttpStatus, we are going to invoke the body method.
+
+199
+00:15:12,000 --> 00:15:16,000
+And to this body method we are going to pass the CustomerDetailsDto object.
+
+200
+00:15:16,000 --> 00:15:17,000
+With this,
+
+201
+00:15:17,000 --> 00:15:19,000
+we have made all the required changes.
+
+202
+00:15:19,000 --> 00:15:22,000
+So let me do a clean build here.
+
+203
+00:15:22,000 --> 00:15:26,000
+Once the build is completed, we can try to start all our microservices.
+
+204
+00:15:26,000 --> 00:15:26,000
+First
+
+205
+00:15:26,000 --> 00:15:29,000
+let me start the config server.
+
+206
+00:15:29,000 --> 00:15:30,000
+So my config server started.
+
+207
+00:15:30,000 --> 00:15:32,000
+So let me start Eureka server.
+
+208
+00:15:32,000 --> 00:15:38,000
+Now, after the Eureka server is started, I'm going to start other microservices like accounts, loans
+
+209
+00:15:38,000 --> 00:15:39,000
+and cards microservice.
+
+210
+00:15:39,000 --> 00:15:41,000
+So let me start the accounts
+
+211
+00:15:41,000 --> 00:15:47,000
+microservice first, followed by cards microservice and at last I'm going to start the loans
+
+212
+00:15:47,000 --> 00:15:53,000
+microservice I'll go to the Eureka dashboard and make sure all my microservices registered their details
+
+213
+00:15:53,000 --> 00:15:55,000
+with the Eureka Server.
+
+214
+00:15:55,000 --> 00:15:58,000
+So here I'm trying to refresh my Eureka dashboard.
+
+215
+00:15:58,000 --> 00:16:04,000
+You can see all the microservices instances are currently registered with Eureka.
+
+216
+00:16:04,000 --> 00:16:07,000
+As a next step, I'll go to the postman. Inside the Postman, 
+
+217
+00:16:07,000 --> 00:16:12,000
+first, we need to make sure we are creating the data inside accounts, loans and cards
+
+218
+00:16:12,000 --> 00:16:17,000
+microservice with the same mobile number. Like you know we are right now using H2 database.
+
+219
+00:16:17,000 --> 00:16:22,000
+That's why we need to create the data again. For the same, it is going to be super quick and simple.
+
+220
+00:16:22,000 --> 00:16:25,000
+First, using create account, I will send this request.
+
+221
+00:16:25,000 --> 00:16:31,000
+Please make sure we are using the same mobile number in all microservices now using the same mobile
+
+222
+00:16:31,000 --> 00:16:31,000
+number,
+
+223
+00:16:31,000 --> 00:16:37,000
+I'm going to create a new card followed by new loan using the same mobile number.
+
+224
+00:16:37,000 --> 00:16:39,000
+Now all these APIs are successful.
+
+225
+00:16:39,000 --> 00:16:46,000
+As a next step, I'll go to the accounts folder and here you have an request with the name FetchCustomerDetails.
+
+226
+00:16:46,000 --> 00:16:46,000
+.
+
+227
+00:16:46,000 --> 00:16:54,000
+You can see this supports Http get method and the path is localhost:8080/API/fetchCustomerDetails
+
+228
+00:16:54,000 --> 00:16:57,000
+and mobile number is whatever we have used.
+
+229
+00:16:57,000 --> 00:17:02,000
+Now, if I try to invoke this request behind the scenes, my accounts microservice is going to connect
+
+230
+00:17:02,000 --> 00:17:08,000
+with the loans and cards microservice and will give me a consolidated response.
+
+231
+00:17:08,000 --> 00:17:09,000
+Are you ready
+
+232
+00:17:09,000 --> 00:17:12,000
+here, let me click on this send and hope for the best.
+
+233
+00:17:12,000 --> 00:17:18,000
+You can see we are getting a successful response and inside the response there is customer related information,
+
+234
+00:17:18,000 --> 00:17:24,000
+there is accounts information, there is loans, information, and we also have cards information.
+
+235
+00:17:24,000 --> 00:17:30,000
+If you see the beauty here, we didn't hard code the API or DNS names anywhere inside the accounts microservice.
+
+236
+00:17:30,000 --> 00:17:37,000
+we just given what is the logical name that other microservices they are going to use to register themselves
+
+237
+00:17:37,000 --> 00:17:38,000
+with the Eureka Server.
+
+238
+00:17:38,000 --> 00:17:44,000
+So whenever my accounts microservice is trying to connect with other microservices, it will go and
+
+239
+00:17:44,000 --> 00:17:47,000
+check with the service Discovery agent, which is Eureka!
+
+240
+00:17:47,000 --> 00:17:51,000
+Like, Hey, Eureka, please give me the details of loans
+
+241
+00:17:51,000 --> 00:17:55,000
+microservice. Eureka Server will say, okay buddy, please wait for a few seconds.
+
+242
+00:17:55,000 --> 00:17:57,000
+Let me check my registry details.
+
+243
+00:17:57,000 --> 00:18:02,000
+After checking the registry details, my Eureka server is going to provide all the instance details
+
+244
+00:18:02,000 --> 00:18:05,000
+along with their information to my accounts
+
+245
+00:18:05,000 --> 00:18:11,000
+microservice. If there are multiple instance details received behind the scenes, my feign client is going
+
+246
+00:18:11,000 --> 00:18:18,000
+to use the spring cloud load balancer and after performing the load balancing strategy, my feign client
+
+247
+00:18:18,000 --> 00:18:22,000
+is going to invoke one of the instance of loans or cards microservice.
+
+248
+00:18:22,000 --> 00:18:28,000
+Behind the scenes there is a lot of work went and all this work is right now being taken care by the
+
+249
+00:18:28,000 --> 00:18:30,000
+feign client Eureka Server.
+
+250
+00:18:30,000 --> 00:18:36,000
+We as developers, we wrote some configurations, we wrote some interfaces and methods, and with that
+
+251
+00:18:36,000 --> 00:18:39,000
+the communication between the microservices is happening perfectly.
+
+252
+00:18:39,000 --> 00:18:42,000
+I hope you are clear with all the information that we have discussed.
+
+253
+00:18:42,000 --> 00:18:46,000
+If there is some confusion, don't worry, please take your time.
+
+254
+00:18:46,000 --> 00:18:52,000
+Try to rewatch the video and try to check all the code changes that we have done and test in your local
+
+255
+00:18:52,000 --> 00:18:55,000
+and with that it will be super, super clear for you.
+
+256
+00:18:55,000 --> 00:18:57,000
+Thank you and I'll catch you in the next lecture bye.
+

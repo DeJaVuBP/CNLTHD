@@ -1,0 +1,1092 @@
+1
+00:00:00,000 --> 00:00:03,000
+Welcome back to the new section.
+
+2
+00:00:03,000 --> 00:00:08,000
+Inside this section, we are not going to discuss any challenge related to microservices development.
+
+3
+00:00:08,000 --> 00:00:14,000
+Instead, I'm going to fix our code to point to the real database like MySQL database.
+
+4
+00:00:14,000 --> 00:00:22,000
+As of now, we are using H2 database and this internal H2 database is not recommended for real projects
+
+5
+00:00:22,000 --> 00:00:23,000
+or production applications.
+
+6
+00:00:23,000 --> 00:00:31,000
+That's why inside this section I'm going to focus on how to use MySQL as a backend for our microservices.
+
+7
+00:00:31,000 --> 00:00:36,000
+As of now we have three different microservices like accounts, loans and cards.
+
+8
+00:00:36,000 --> 00:00:42,000
+I'll make code changes so that these microservices will utilize MySQL database.
+
+9
+00:00:42,000 --> 00:00:45,000
+So let's try to take a pass from challenges for some time.
+
+10
+00:00:45,000 --> 00:00:49,000
+I know you might have get overwhelmed by looking at all the challenges.
+
+11
+00:00:49,000 --> 00:00:55,000
+That's why I want to give a temporary small break and inside this section we are going to focus on purely
+
+12
+00:00:55,000 --> 00:00:56,000
+MySQL database.
+
+13
+00:00:56,000 --> 00:01:00,000
+With that quick introduction, let me go to my workspace folder location.
+
+14
+00:01:00,000 --> 00:01:05,000
+As of now, you can see inside section 6, we have two types of folders v1 and v2.
+
+15
+00:01:05,000 --> 00:01:12,000
+Now, since we are into a new section, I want to create a new folder with the name section 7.
+
+16
+00:01:12,000 --> 00:01:14,000
+Inside this section 7 only
+
+17
+00:01:14,000 --> 00:01:18,000
+I'm going to make all the changes that we are going to discuss inside this section.
+
+18
+00:01:18,000 --> 00:01:24,000
+So the code that I have to copy for this Section 7 is, definitely I have to take the code from 
+
+19
+00:01:24,000 --> 00:01:27,000
+v2-spring-cloud-config.
+
+20
+00:01:27,000 --> 00:01:29,000
+So let me take all these projects and folders.
+
+21
+00:01:29,000 --> 00:01:36,000
+After copying this and going back to my Section 7 and I'm going to paste the projects and folders
+
+22
+00:01:36,000 --> 00:01:37,000
+that we have created.
+
+23
+00:01:37,000 --> 00:01:41,000
+So let me make sure there are no hidden files related to idea.
+
+24
+00:01:41,000 --> 00:01:43,000
+So there are no hidden files here.
+
+25
+00:01:43,000 --> 00:01:48,000
+As a next step, I'm going to open this Section 7 related code inside my IntelliJ idea.
+
+26
+00:01:48,000 --> 00:01:54,000
+So for the same first I am going to close this existing workspace post that I'm going to click on this
+
+27
+00:01:54,000 --> 00:02:00,000
+open button and navigate to my workspace location like storage, workspaces, microservices and the new
+
+28
+00:02:00,000 --> 00:02:03,000
+folder that we have created, which is Section 7.
+
+29
+00:02:03,000 --> 00:02:08,000
+As soon as I click open, all my Maven projects will try to load into my IntelliJ idea.
+
+30
+00:02:08,000 --> 00:02:14,000
+So to make sure they are getting loaded as Maven project, I need to make sure I'm clicking on this
+
+31
+00:02:14,000 --> 00:02:14,000
+load button.
+
+32
+00:02:14,000 --> 00:02:19,000
+So with that all my projects might have loaded as maven projects.
+
+33
+00:02:19,000 --> 00:02:21,000
+So Docker Compose is not a Maven project.
+
+34
+00:02:21,000 --> 00:02:26,000
+It is a simple folder where we are trying to store all the Docker compose files.
+
+35
+00:02:26,000 --> 00:02:32,000
+For now let's not worry about it. As a next step before I try to make some MySQL related changes.
+
+36
+00:02:32,000 --> 00:02:38,000
+I want to delete all the changes that we have done regarding Spring cloudburst and spring cloud config
+
+37
+00:02:38,000 --> 00:02:39,000
+monitor.
+
+38
+00:02:39,000 --> 00:02:45,000
+The reason I don't want to carry the spring cloud bus and config monitor related changes inside our
+
+39
+00:02:45,000 --> 00:02:52,000
+config server and other microservices is, I want to get rid of rabbitmq container as a dependency inside
+
+40
+00:02:52,000 --> 00:02:53,000
+our microservices.
+
+41
+00:02:53,000 --> 00:02:55,000
+There is no harm you carrying that dependency.
+
+42
+00:02:55,000 --> 00:03:01,000
+But since we are trying to learn by building these projects and running these projects inside local
+
+43
+00:03:01,000 --> 00:03:07,000
+system or running many containers and many dependencies inside your local system may not be a good idea.
+
+44
+00:03:07,000 --> 00:03:12,000
+Because there are more containers, more services we are going to onboard in the coming sections.
+
+45
+00:03:12,000 --> 00:03:18,000
+And if I try to start them, all of them, with the help of Docker compose or inside my local host,
+
+46
+00:03:18,000 --> 00:03:21,000
+it is going to make my system slow.
+
+47
+00:03:21,000 --> 00:03:26,000
+And I face some issues like when I'm trying to use all these containers inside my system, like my system
+
+48
+00:03:26,000 --> 00:03:27,000
+gets load.
+
+49
+00:03:27,000 --> 00:03:34,000
+My worry is more about the students who are going to use 8 GB Ram laptops, so their laptop is going
+
+50
+00:03:34,000 --> 00:03:37,000
+to be slower, even more compared to 16 GB Ram.
+
+51
+00:03:37,000 --> 00:03:43,000
+That's why since we are already clear about spring Cloud bus and Spring Cloud Monitor, we don't need
+
+52
+00:03:43,000 --> 00:03:49,000
+to carry that rabbitmq dependency to all the future sections that we are going to discuss.
+
+53
+00:03:49,000 --> 00:03:50,000
+I hope you are with me.
+
+54
+00:03:50,000 --> 00:03:55,000
+So to remove the spring cloud config bus and config monitor related changes.
+
+55
+00:03:55,000 --> 00:03:58,000
+First let's go to the config server pom.xml.
+
+56
+00:03:58,000 --> 00:04:06,000
+Here look for the dependencies with the name spring-cloud-starter-bus-amqp and spring-cloud-config-monster.
+
+57
+00:04:06,000 --> 00:04:09,000
+So let's remove both of them with that.
+
+58
+00:04:09,000 --> 00:04:12,000
+We should be good from this pom.xml perspective.
+
+59
+00:04:12,000 --> 00:04:13,000
+So let me load the maven changes.
+
+60
+00:04:13,000 --> 00:04:18,000
+Now I'll go to the application.yml file of config server.
+
+61
+00:04:18,000 --> 00:04:23,000
+So here I'm going to remove certain properties like you can scroll down
+
+62
+00:04:23,000 --> 00:04:27,000
+there are rabbitmq related connection details which you have mentioned.
+
+63
+00:04:27,000 --> 00:04:28,000
+There is no need of them,
+
+64
+00:04:28,000 --> 00:04:34,000
+we can remove them. And apart from that we also have actuator management related properties.
+
+65
+00:04:34,000 --> 00:04:40,000
+We can keep these properties because if needed we can refresh our configurations by manually invoking
+
+66
+00:04:40,000 --> 00:04:44,000
+the actuator refresh API against each instance.
+
+67
+00:04:44,000 --> 00:04:50,000
+And on top of that anyway, we need these readiness and liveness probe related configurations, so we
+
+68
+00:04:50,000 --> 00:04:51,000
+should not be deleting them.
+
+69
+00:04:51,000 --> 00:04:57,000
+Now I'll go to the accounts microservice pom.xml and I'll delete the dependency related to the
+
+70
+00:04:57,000 --> 00:05:00,000
+spring-cloud-starter-bus-amqp after
+
+71
+00:05:00,000 --> 00:05:03,000
+this I'm going to load the map changes as a next step,
+
+72
+00:05:03,000 --> 00:05:07,000
+I'll go to my application.yml of accounts microservice.
+
+73
+00:05:07,000 --> 00:05:13,000
+So here also I'm going to delete the properties related to the rabbitmq.
+
+74
+00:05:13,000 --> 00:05:16,000
+Here we have rabbitmq properties so let me delete them.
+
+75
+00:05:16,000 --> 00:05:20,000
+Now as a next step I'll do the similar changes inside the cards
+
+76
+00:05:20,000 --> 00:05:27,000
+microservice. So let me go to the pom.xml and here delete the dependency related to the 
+
+77
+00:05:27,000 --> 00:05:32,000
+spring-cloud-starter-bus-ampq post that I'll load the maven changes followed by
+
+78
+00:05:32,000 --> 00:05:39,000
+I'll open the application.yml file here and delete the properties related to the rabbitmq.
+
+79
+00:05:39,000 --> 00:05:41,000
+So I have deleted the changes.
+
+80
+00:05:41,000 --> 00:05:47,000
+Now let me do the same kind of changes inside the loans microservice.
+
+81
+00:05:47,000 --> 00:05:54,000
+So I'm opening the pom.xml and here looking for a dependency with the name spring-cloud-starter-bus-ampq
+
+82
+00:05:54,000 --> 00:05:54,000
+.
+
+83
+00:05:54,000 --> 00:06:01,000
+So I have deleted this trying to load the maven changes post that I'll go to the application.yml file
+
+84
+00:06:01,000 --> 00:06:06,000
+and here also I'm going to delete the rabbitmq related changes.
+
+85
+00:06:06,000 --> 00:06:12,000
+So now with these changes we don't need to run the rabbitmq container inside our local system because
+
+86
+00:06:12,000 --> 00:06:18,000
+we don't want the automatic refresh of the properties with the help of bus refresh or with the help
+
+87
+00:06:18,000 --> 00:06:21,000
+of GitHub webhooks process that we have discussed.
+
+88
+00:06:21,000 --> 00:06:27,000
+So now let me do a build here and it will ask me to enable the annotation processing.
+
+89
+00:06:27,000 --> 00:06:28,000
+So I'm going to enable that.
+
+90
+00:06:28,000 --> 00:06:34,000
+So as a next step, now if I want to delete the H2 database inside my microservices first I need to
+
+91
+00:06:34,000 --> 00:06:38,000
+have a running MySQL database inside my local system.
+
+92
+00:06:38,000 --> 00:06:44,000
+If you are a traditional developer or if you are working in a monolithic application, the obvious approach
+
+93
+00:06:44,000 --> 00:06:51,000
+is you will install a MySQL server inside your local system by following all the steps and post that
+
+94
+00:06:51,000 --> 00:06:53,000
+you will try to create that database.
+
+95
+00:06:53,000 --> 00:06:57,000
+Once you have created the database, you will start the server and after starting the server only you
+
+96
+00:06:57,000 --> 00:07:00,000
+can start integrating into the microservice application.
+
+97
+00:07:00,000 --> 00:07:02,000
+But now we are smart developers.
+
+98
+00:07:02,000 --> 00:07:05,000
+We are microservices developer who know Docker.
+
+99
+00:07:05,000 --> 00:07:11,000
+Like I said, one of the primary advantage of Docker is, we don't have to install any component or software
+
+100
+00:07:11,000 --> 00:07:12,000
+inside our system.
+
+101
+00:07:12,000 --> 00:07:17,000
+With the help of Docker images, we can run any component or any dependency inside our local system
+
+102
+00:07:17,000 --> 00:07:18,000
+as a container.
+
+103
+00:07:18,000 --> 00:07:24,000
+And once we are done using with that software component, you can simply stop the container or delete
+
+104
+00:07:24,000 --> 00:07:26,000
+the docker container associated to it.
+
+105
+00:07:26,000 --> 00:07:33,000
+So that's why now I don't recommend you to installing the MySQL server manually by downloading it because
+
+106
+00:07:33,000 --> 00:07:36,000
+it is going to take a lot of space inside your system.
+
+107
+00:07:36,000 --> 00:07:38,000
+Then how to have a running MySQL database
+
+108
+00:07:38,000 --> 00:07:44,000
+for my three different microservices, like I said, the best practice is to have a separate database
+
+109
+00:07:44,000 --> 00:07:45,000
+for each of the microservice.
+
+110
+00:07:45,000 --> 00:07:53,000
+For the same, I'm going to show you how to create a local running MySQL database inside your system
+
+111
+00:07:53,000 --> 00:07:54,000
+with the help of Docker.
+
+112
+00:07:54,000 --> 00:08:00,000
+So please make sure you have started the Docker because I'm going to run a Docker command, for the same
+
+113
+00:08:00,000 --> 00:08:03,000
+we need the Docker to be running inside our local system.
+
+114
+00:08:04,000 --> 00:08:06,000
+As a next step, I'll open the terminal.
+
+115
+00:08:06,000 --> 00:08:12,000
+Inside the terminal, I'm going to run the command, which is Docker Run and I'm going to provide the
+
+116
+00:08:12,000 --> 00:08:13,000
+port mapping.
+
+117
+00:08:13,000 --> 00:08:19,000
+We know, like by default, the MySQL database is going to start at the port 3306.
+
+118
+00:08:19,000 --> 00:08:25,000
+So the same port I want to expose to the local microservice, which is running inside my system.
+
+119
+00:08:25,000 --> 00:08:31,000
+When I try to create a Docker container like we know it is going to run inside its own network in order
+
+120
+00:08:31,000 --> 00:08:33,000
+to get that expose to our local network.
+
+121
+00:08:33,000 --> 00:08:38,000
+Inside our system, we need to make sure we are exposing that with the port number like 3306.
+
+122
+00:08:38,000 --> 00:08:44,000
+After this port mapping, I'm going to provide a name to this database that we are going to create.
+
+123
+00:08:44,000 --> 00:08:51,000
+The name that I want to keep it here is, accounts DB because we are going to create two more DBS like
+
+124
+00:08:51,000 --> 00:08:52,000
+loans DB and cards DB.
+
+125
+00:08:52,000 --> 00:08:57,000
+So to differentiate between the DBS, I want to give a name here, and the name that I'm trying to give
+
+126
+00:08:57,000 --> 00:08:58,000
+is accountsDB.
+
+127
+00:08:58,000 --> 00:09:06,000
+Now whenever we are trying to use a MySQL Docker image to create a MySQL Docker container, we need
+
+128
+00:09:06,000 --> 00:09:12,000
+to provide certain properties like what is the root password that you want the Docker to be considered
+
+129
+00:09:12,000 --> 00:09:14,000
+while creating the container.
+
+130
+00:09:14,000 --> 00:09:20,000
+So that's why by using -e, so -e indicates that I'm trying to provide an environment variable
+
+131
+00:09:20,000 --> 00:09:22,000
+to this Docker run command.
+
+132
+00:09:22,000 --> 00:09:26,000
+So here I'm going to mention MySQL root_password.
+
+133
+00:09:26,000 --> 00:09:33,000
+So to this environment variable, I'm giving the value as root, which means I want the password for
+
+134
+00:09:33,000 --> 00:09:35,000
+the root user as a root itself.
+
+135
+00:09:35,000 --> 00:09:38,000
+So by default the root username is going to be root.
+
+136
+00:09:38,000 --> 00:09:43,000
+I don't want to change that, but since we want to define our own password, I'm providing this environment
+
+137
+00:09:43,000 --> 00:09:44,000
+variable.
+
+138
+00:09:44,000 --> 00:09:50,000
+After this, I'm going to provide one more environment variable and this environment variable name is
+
+139
+00:09:50,000 --> 00:09:53,000
+MySQL database.
+
+140
+00:09:53,000 --> 00:10:00,000
+So like we know whenever we install a MySQL database server, you will get an empty server by default
+
+141
+00:10:00,000 --> 00:10:04,000
+while there won't be any database or schema installed inside that database server.
+
+142
+00:10:04,000 --> 00:10:12,000
+So that's why I want to create an my own database or schema inside this MySQL Docker container that
+
+143
+00:10:12,000 --> 00:10:13,000
+we are going to create.
+
+144
+00:10:13,000 --> 00:10:20,000
+So by the time my Docker container of MySQL is ready inside that I'm going to have an database with
+
+145
+00:10:20,000 --> 00:10:21,000
+the name accounts DB.
+
+146
+00:10:21,000 --> 00:10:24,000
+So that's why we need to mention the same.
+
+147
+00:10:24,000 --> 00:10:28,000
+After mentioning these environment variable, I'm going to mention a flag which is -d.
+
+148
+00:10:29,000 --> 00:10:35,000
+-d indicates I want to start this command in a detached mode and at last we need to mention what
+
+149
+00:10:35,000 --> 00:10:38,000
+is the Docker image name of MySQL.
+
+150
+00:10:38,000 --> 00:10:42,000
+So the Docker image name of MySQL is MySQL itself.
+
+151
+00:10:42,000 --> 00:10:45,000
+So I hope you are clear with this command.
+
+152
+00:10:45,000 --> 00:10:46,000
+So let me execute this command.
+
+153
+00:10:46,000 --> 00:10:50,000
+You can see I got a containerId as an output.
+
+154
+00:10:50,000 --> 00:10:57,000
+Now if I go and check my Docker desktop, I will be able to see a running container inside my local
+
+155
+00:10:57,000 --> 00:10:59,000
+system with the name accounts DB.
+
+156
+00:10:59,000 --> 00:11:07,000
+So this using MySQL Docker image and it exposes the traffic to the outside with the port 3306.
+
+157
+00:11:07,000 --> 00:11:12,000
+Now I can connect to this database and see if my database is properly created.
+
+158
+00:11:12,000 --> 00:11:15,000
+So to connect to this database, we need some client.
+
+159
+00:11:15,000 --> 00:11:20,000
+So I'm going to show you here a simple client that you can use inside your laptop.
+
+160
+00:11:20,000 --> 00:11:25,000
+There is a client with the name SqlElectron, so this is going to be a super, super lightweight application
+
+161
+00:11:25,000 --> 00:11:26,000
+inside your system.
+
+162
+00:11:26,000 --> 00:11:32,000
+You can click on this Download GUI option and you can download these client application into your local
+
+163
+00:11:32,000 --> 00:11:38,000
+system and you can connect to the any database, not only the database present inside your local system,
+
+164
+00:11:38,000 --> 00:11:42,000
+you can connect to the any database, even the database present inside the cloud
+
+165
+00:11:42,000 --> 00:11:43,000
+also you can connect.
+
+166
+00:11:43,000 --> 00:11:47,000
+So this SQL electron I already installed inside my system.
+
+167
+00:11:47,000 --> 00:11:51,000
+So let me open the same, so you can see this is how it is going to look like when you open.
+
+168
+00:11:51,000 --> 00:11:54,000
+And I'm trying to create a new connection here.
+
+169
+00:11:54,000 --> 00:12:00,000
+So for the same, we need to click on this add and the name that I'm going to keep it here is local
+
+170
+00:12:00,000 --> 00:12:01,000
+accounts DB.
+
+171
+00:12:01,000 --> 00:12:04,000
+So this is the name that I want to give for this connection.
+
+172
+00:12:04,000 --> 00:12:10,000
+You can give any name now you can see under the database type there are many databases supported by
+
+173
+00:12:10,000 --> 00:12:11,000
+this client application.
+
+174
+00:12:11,000 --> 00:12:17,000
+So as of now, since we are using MySQL database, I'm selecting the MySQL here and it will ask you
+
+175
+00:12:17,000 --> 00:12:19,000
+what is the server address?
+
+176
+00:12:19,000 --> 00:12:22,000
+So here we need to mention localhost.
+
+177
+00:12:22,000 --> 00:12:28,000
+The reason is the database container which is running it expose itself to the outside world at the port
+
+178
+00:12:28,000 --> 00:12:35,000
+3306 and since it exposed into my localhost through this port I need to mention the server address as
+
+179
+00:12:35,000 --> 00:12:36,000
+localhost.
+
+180
+00:12:36,000 --> 00:12:42,000
+Now after giving this localhost 3306 username we should give by default the root username which is
+
+181
+00:12:42,000 --> 00:12:46,000
+root and password we have mentioned as root inside the docker run command.
+
+182
+00:12:46,000 --> 00:12:48,000
+The same I'm trying to mention here.
+
+183
+00:12:48,000 --> 00:12:53,000
+After this you can click on this test button which will show whether the connection is successful or
+
+184
+00:12:53,000 --> 00:12:53,000
+not.
+
+185
+00:12:53,000 --> 00:12:55,000
+So now I'm clicking on the Save.
+
+186
+00:12:55,000 --> 00:12:59,000
+After this, I'm going to click on this connect button.
+
+187
+00:12:59,000 --> 00:13:06,000
+Now you can see I have an accounts database created inside that Docker container MySQL database server.
+
+188
+00:13:06,000 --> 00:13:10,000
+As of now, this database is empty, does not have any tables.
+
+189
+00:13:10,000 --> 00:13:13,000
+We're going to create those tables, don't worry.
+
+190
+00:13:13,000 --> 00:13:21,000
+So now I have a MySQL database ready inside my local system that supports my accounts microservice.
+
+191
+00:13:21,000 --> 00:13:23,000
+With a single command, I'm able to achieve this.
+
+192
+00:13:23,000 --> 00:13:25,000
+It didn't even take 10s.
+
+193
+00:13:25,000 --> 00:13:30,000
+Whereas if you compare with the traditional approach, it is going to take a lot of time and a lot of
+
+194
+00:13:30,000 --> 00:13:32,000
+space inside your local system.
+
+195
+00:13:32,000 --> 00:13:37,000
+In real projects we usually don't install a MySQL inside our local system.
+
+196
+00:13:37,000 --> 00:13:43,000
+The project infra team, they will deploy into a dev server or QA server and they'll ask us to use the
+
+197
+00:13:43,000 --> 00:13:45,000
+same inside our local code.
+
+198
+00:13:45,000 --> 00:13:49,000
+But since right now we are trying to learn the microservice everything on our own.
+
+199
+00:13:49,000 --> 00:13:57,000
+So I want to show you a way on how you can create these MySQL databases very easily with the help of
+
+200
+00:13:57,000 --> 00:13:57,000
+Docker.
+
+201
+00:13:57,000 --> 00:13:59,000
+So that's what I'm trying to achieve here.
+
+202
+00:13:59,000 --> 00:14:03,000
+So now my accounts microservice database is ready.
+
+203
+00:14:03,000 --> 00:14:07,000
+As a next step, I want to create database for crads microservice and loans
+
+204
+00:14:07,000 --> 00:14:08,000
+microservice.
+
+205
+00:14:08,000 --> 00:14:10,000
+Do you know what is the process?
+
+206
+00:14:10,000 --> 00:14:13,000
+We need to run the same command, but this time we need to change certain variables.
+
+207
+00:14:13,000 --> 00:14:21,000
+So first I want to change the MySQL database from accounts DB to loans DB because I want this container
+
+208
+00:14:21,000 --> 00:14:25,000
+to act as a database for the loans microservice.
+
+209
+00:14:25,000 --> 00:14:31,000
+After this MySQL root password, I'll keep it as root only and the name I'm going to change is to loans.
+
+210
+00:14:31,000 --> 00:14:33,000
+DB the container name.
+
+211
+00:14:33,000 --> 00:14:36,000
+Now if I try to run this command, I'll get an error.
+
+212
+00:14:36,000 --> 00:14:37,000
+Let's see what is the error.
+
+213
+00:14:37,000 --> 00:14:45,000
+You can see it failed to start because inside my local system, 3306 port is already being used by the
+
+214
+00:14:45,000 --> 00:14:46,000
+accounts database.
+
+215
+00:14:46,000 --> 00:14:53,000
+So that's why I should expose the loans database into my local system with a different port number.
+
+216
+00:14:53,000 --> 00:14:56,000
+So let's try to change my port number here.
+
+217
+00:14:56,000 --> 00:14:59,000
+The port number I'm going to mention here is 3307.
+
+218
+00:14:59,000 --> 00:15:05,000
+So now if I try to start this container, it is throwing me an error saying that container name already
+
+219
+00:15:05,000 --> 00:15:06,000
+exists.
+
+220
+00:15:06,000 --> 00:15:11,000
+It seems the previous command created a container, but it never exposed the traffic to the outside
+
+221
+00:15:11,000 --> 00:15:14,000
+world because 3306 is already being used.
+
+222
+00:15:14,000 --> 00:15:20,000
+So what we can do here is we can delete this container which is created with the previous command.
+
+223
+00:15:20,000 --> 00:15:21,000
+So let me delete this.
+
+224
+00:15:21,000 --> 00:15:23,000
+Now I can execute my Docker command.
+
+225
+00:15:23,000 --> 00:15:26,000
+So the command this time is going to be successful.
+
+226
+00:15:26,000 --> 00:15:30,000
+Like you can see, I'm getting the container ID as an output.
+
+227
+00:15:30,000 --> 00:15:36,000
+With this, you may have some question like I'm using the same 3306 for loans and accounts microservice.
+
+228
+00:15:36,000 --> 00:15:38,000
+Then why Docker is not complaining?
+
+229
+00:15:38,000 --> 00:15:45,000
+Like you said, each container will have its own ecosystem, will have its own isolated network.
+
+230
+00:15:45,000 --> 00:15:50,000
+That's why since these loans DB and accounts DB They are two different containers.
+
+231
+00:15:50,000 --> 00:15:52,000
+It is going to work perfectly.
+
+232
+00:15:52,000 --> 00:15:58,000
+Whereas when we try to expose to the outside world, the outside world is our local system. Inside the
+
+233
+00:15:58,000 --> 00:16:03,000
+local system, 3306 we are already using for accounts DB and we cannot use the same file loans DB.
+
+234
+00:16:03,000 --> 00:16:05,000
+That's why we need to correct that
+
+235
+00:16:05,000 --> 00:16:11,000
+only the first port number and we don't have to correct the second port number, which is Docker internal
+
+236
+00:16:11,000 --> 00:16:12,000
+port number.
+
+237
+00:16:12,000 --> 00:16:14,000
+I hope you are clear with this discussion.
+
+238
+00:16:14,000 --> 00:16:18,000
+Now let's try to create the cards related database.
+
+239
+00:16:18,000 --> 00:16:25,000
+So I'm going to change the MySQL database to cards database and after that the password, I'm going
+
+240
+00:16:25,000 --> 00:16:29,000
+to keep it as same value like root and the name of the container,
+
+241
+00:16:29,000 --> 00:16:31,000
+I'm going to change to cards DB.
+
+242
+00:16:31,000 --> 00:16:34,000
+And here we need to change to a different port number.
+
+243
+00:16:34,000 --> 00:16:37,000
+So this time I'm going to use 3308.
+
+244
+00:16:37,000 --> 00:16:42,000
+So if I try to run this command, you can see I have a new container running inside my local system,
+
+245
+00:16:42,000 --> 00:16:46,000
+which is cards database related to cards microservice.
+
+246
+00:16:46,000 --> 00:16:49,000
+Here we have three different MySQL databases running.
+
+247
+00:16:49,000 --> 00:16:55,000
+Let me try to create the connection of these loans database and cards database inside my SQL Electron.
+
+248
+00:16:55,000 --> 00:17:00,000
+For the same, I'm going to click on this logout option and post that I'm going to click on Add.
+
+249
+00:17:00,000 --> 00:17:07,000
+And the name of the connection is going to be local loans database and database type is going to be
+
+250
+00:17:07,000 --> 00:17:10,000
+MySQL and the host is going to be localhost.
+
+251
+00:17:10,000 --> 00:17:18,000
+And the port number we need to mention 3307 because the loans database container it exports to the outside
+
+252
+00:17:18,000 --> 00:17:20,000
+world at the port 3307.
+
+253
+00:17:20,000 --> 00:17:25,000
+After this, the user is going to be root and the password also is going to be root.
+
+254
+00:17:25,000 --> 00:17:30,000
+And I can click on this test and the test connection is successful post that I'm going to click on the
+
+255
+00:17:30,000 --> 00:17:31,000
+save button.
+
+256
+00:17:31,000 --> 00:17:37,000
+Now, if I try to connect to the database, you can see the loans database is created during the creation
+
+257
+00:17:37,000 --> 00:17:38,000
+of the Docker container.
+
+258
+00:17:38,000 --> 00:17:43,000
+Very similarly, I'm going to create a new connection for cards database also.
+
+259
+00:17:43,000 --> 00:17:49,000
+So LocalCardsDatabase, database type is MySQL and host is going to be localhost.
+
+260
+00:17:49,000 --> 00:17:50,000
+And the port.
+
+261
+00:17:50,000 --> 00:17:51,000
+What is the value?
+
+262
+00:17:51,000 --> 00:17:53,000
+Tell me what is the port number we need to mention here?
+
+263
+00:17:53,000 --> 00:17:56,000
+3306 or 3308.
+
+264
+00:17:56,000 --> 00:17:58,000
+Yeah, we need to mention 3308.
+
+265
+00:17:58,000 --> 00:18:02,000
+Now the username is going to be root and the password is going to be root.
+
+266
+00:18:02,000 --> 00:18:04,000
+And I'm clicking on this test.
+
+267
+00:18:04,000 --> 00:18:09,000
+The connection is successful and post that I'm saving the connection and I'll confirm whether the cards
+
+268
+00:18:09,000 --> 00:18:10,000
+database is created,
+
+269
+00:18:10,000 --> 00:18:16,000
+it is created. With this we have three different MySQL containers running inside our local system.
+
+270
+00:18:16,000 --> 00:18:22,000
+As a next step, we need to make code changes inside our microservice to use these MySQL containers
+
+271
+00:18:22,000 --> 00:18:24,000
+instead of H2 database.
+
+272
+00:18:24,000 --> 00:18:27,000
+So let's try to discuss the same inside the next lecture.
+
+273
+00:18:27,000 --> 00:18:30,000
+Thank you and I'll catch you in the next lecture bye.
+

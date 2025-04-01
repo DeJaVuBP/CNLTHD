@@ -1,0 +1,244 @@
+1
+00:00:00,000 --> 00:00:03,000
+Welcome back to the new section.
+
+2
+00:00:03,000 --> 00:00:08,000
+Inside this section we are going to discuss about the new challenge that we may face while we are trying
+
+3
+00:00:08,000 --> 00:00:11,000
+to build microservices applications.
+
+4
+00:00:11,000 --> 00:00:18,000
+But before I try to introduce this new challenge, let me explain about few concepts and jargons inside
+
+5
+00:00:18,000 --> 00:00:20,000
+the microservices applications.
+
+6
+00:00:20,000 --> 00:00:27,000
+As of now, inside our microservices network, we built three different types of microservices.
+
+7
+00:00:27,000 --> 00:00:35,000
+The very first microservice that we have here is accounts and similar to accounts we also have loans
+
+8
+00:00:35,000 --> 00:00:39,000
+microservice followed by cards microservice.
+
+9
+00:00:39,000 --> 00:00:45,000
+So as of now you can see these are the three different microservices that are holding my business logic.
+
+10
+00:00:45,000 --> 00:00:49,000
+So these microservices are responsible to store my data, to fetch my data
+
+11
+00:00:49,000 --> 00:00:55,000
+and if some application is trying to send a request to these microservice, they should execute the
+
+12
+00:00:55,000 --> 00:00:57,000
+business logic and send the proper response.
+
+13
+00:00:57,000 --> 00:01:03,000
+So in real world, our microservices applications, they won't get deployed in a different,different
+
+14
+00:01:03,000 --> 00:01:04,000
+servers.
+
+15
+00:01:04,000 --> 00:01:12,000
+It will not be a scenario like suppose there is an external client with the name C1, C2 and C3.
+
+16
+00:01:12,000 --> 00:01:13,000
+.
+
+17
+00:01:13,000 --> 00:01:19,000
+If my C1 is dependent on the accounts microservice, it's not like they will be directly calling
+
+18
+00:01:19,000 --> 00:01:20,000
+your accounts.
+
+19
+00:01:20,000 --> 00:01:25,000
+And very similarly, it's not like C2 will be calling your loans microservice followed by cards
+
+20
+00:01:25,000 --> 00:01:26,000
+microservice.
+
+21
+00:01:26,000 --> 00:01:30,000
+So this type of communication is not allowed.
+
+22
+00:01:30,000 --> 00:01:37,000
+So the process that we are going to follow here is, first we will deploy all our microservices into
+
+23
+00:01:37,000 --> 00:01:39,000
+a common microservice network.
+
+24
+00:01:39,000 --> 00:01:47,000
+Like you can see, this is all the microservice network where I will deploy all of my microservices
+
+25
+00:01:47,000 --> 00:01:52,000
+so we can call this network as microservice network or you can call with your own name.
+
+26
+00:01:52,000 --> 00:01:56,000
+So there is a firewall that I will build around my microservices.
+
+27
+00:01:56,000 --> 00:02:05,000
+So for any external clients who want to connect with my microservices, they need to enter using a single
+
+28
+00:02:05,000 --> 00:02:06,000
+entry point.
+
+29
+00:02:06,000 --> 00:02:12,000
+So if you see, we can assume this can be as a single entry point and they should not be any other entry
+
+30
+00:02:12,000 --> 00:02:18,000
+points on how the external network traffic can enter into our microservices network.
+
+31
+00:02:18,000 --> 00:02:25,000
+The purpose on why we need to maintain a single entry point is, it will allow us to perform any checks
+
+32
+00:02:25,000 --> 00:02:30,000
+related to security and auditing, logging.
+
+33
+00:02:30,000 --> 00:02:37,000
+So all kind of non-functional requirements we can perform at this single entry point that we have right
+
+34
+00:02:37,000 --> 00:02:38,000
+now.
+
+35
+00:02:38,000 --> 00:02:43,000
+So this single entry point is responsible to accept the external traffic.
+
+36
+00:02:43,000 --> 00:02:47,000
+And we usually call this single entry points as gateway.
+
+37
+00:02:48,000 --> 00:02:54,000
+And some people, they will also call it as API gateway. Because to access your APIs, this is the only
+
+38
+00:02:54,000 --> 00:02:59,000
+gateway for the external clients to enter into your microservice network.
+
+39
+00:02:59,000 --> 00:03:07,000
+So whatever requests that we are getting from the external clients like C1, C2, C3, they has to come
+
+40
+00:03:07,000 --> 00:03:12,000
+through this API gateway and we call these traffic as external traffic.
+
+41
+00:03:12,000 --> 00:03:17,000
+So you can see I'm trying to annotate here this traffic we call it as external traffic.
+
+42
+00:03:17,000 --> 00:03:22,000
+So API gateway is going to take care of validating all the external traffic.
+
+43
+00:03:22,000 --> 00:03:27,000
+So this is one of the component that we need to build inside our microservices.
+
+44
+00:03:27,000 --> 00:03:31,000
+We're going to discuss about this API gateway in the coming sections.
+
+45
+00:03:31,000 --> 00:03:36,000
+But right now the focus inside this section is, the internal communication
+
+46
+00:03:36,000 --> 00:03:41,000
+sometimes a microservice can be depend on the other microservice.
+
+47
+00:03:41,000 --> 00:03:47,000
+Suppose think like an external request came to my accounts microservice through this API gateway.
+
+48
+00:03:47,000 --> 00:03:54,000
+Now, in order to send the response to these external application my accounts microservice, it has
+
+49
+00:03:54,000 --> 00:04:00,000
+to connect with the loans microservice and at the same time it also has to connect with the cards
+
+50
+00:04:00,000 --> 00:04:05,000
+microservice. So these communication, we call it as internal communication.
+
+51
+00:04:05,000 --> 00:04:14,000
+So whatever communication is happening inside your microservice network, we call this as internal communication.
+
+52
+00:04:14,000 --> 00:04:21,000
+So there are two types of traffic like external traffic or external communication or internal traffic
+
+53
+00:04:21,000 --> 00:04:23,000
+or internal communication.
+
+54
+00:04:23,000 --> 00:04:28,000
+Inside this section, we are going to focus on what are the challenges that we may face.
+
+55
+00:04:28,000 --> 00:04:35,000
+While my microservice, they are trying to communicate with each other inside this microservice network.
+
+56
+00:04:35,000 --> 00:04:37,000
+We're not going to talk about external traffic.
+
+57
+00:04:37,000 --> 00:04:43,000
+Inside this section we will talk about gateway and external traffic in the coming sections.
+
+58
+00:04:43,000 --> 00:04:48,000
+But right now let's focus on internal communication and what are the challenges that we may face and
+
+59
+00:04:48,000 --> 00:04:50,000
+how to overcome that.
+
+60
+00:04:50,000 --> 00:04:52,000
+I hope you are clear with these concepts.
+
+61
+00:04:52,000 --> 00:04:54,000
+Thank you and I'll catch you in the next lecture bye.
+

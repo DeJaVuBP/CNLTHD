@@ -1,0 +1,672 @@
+1
+00:00:00,000 --> 00:00:06,000
+As a next step, let's try to explore more about service discovery and how the client side load balancing
+
+2
+00:00:06,000 --> 00:00:11,000
+is going to work whenever we are using Eureka Server inside our microservices network.
+
+3
+00:00:11,000 --> 00:00:17,000
+To show a demo about these concepts, we are going to build a new REST API inside the accounts microservice.
+
+4
+00:00:17,000 --> 00:00:24,000
+The responsibility of these new REST API is, it has to accumulate account related information, loans
+
+5
+00:00:24,000 --> 00:00:31,000
+related information and cards related information based upon a given mobile number and it should consolidate
+
+6
+00:00:31,000 --> 00:00:36,000
+all the response from the other microservices like loans and cards along with the accounts related data.
+
+7
+00:00:36,000 --> 00:00:43,000
+So all the data of a given customer, it has to respond back to the client whoever is invoking these
+
+8
+00:00:43,000 --> 00:00:44,000
+new REST API.
+
+9
+00:00:44,000 --> 00:00:49,000
+So here you can see we have a scenario where my accounts microservice does not have any information
+
+10
+00:00:49,000 --> 00:00:55,000
+related to cards and loans. So it has to connect with the cards and loans microservice to get that
+
+11
+00:00:55,000 --> 00:00:55,000
+data.
+
+12
+00:00:55,000 --> 00:01:01,000
+And that's how we are going to have a scenario where accounts microservice is trying to communicate
+
+13
+00:01:01,000 --> 00:01:06,000
+with the other microservices internally inside our microservice network.
+
+14
+00:01:06,000 --> 00:01:11,000
+So to establish the internal communication between the microservices like we discussed previously,
+
+15
+00:01:11,000 --> 00:01:15,000
+we need to use open feign client library.
+
+16
+00:01:15,000 --> 00:01:21,000
+So before I try to implement those changes, let me stop all the running instances inside my local system.
+
+17
+00:01:21,000 --> 00:01:26,000
+Now, here under the start.spring.io, please make sure you have selected Maven.
+
+18
+00:01:26,000 --> 00:01:31,000
+After that, I'm going to click on this Add dependency and search for open feign.
+
+19
+00:01:31,000 --> 00:01:35,000
+So you can see there is an starter project with the name OpenFeign.
+
+20
+00:01:35,000 --> 00:01:40,000
+After selecting this dependency, I'm going to click on this explore button and here we are going to
+
+21
+00:01:40,000 --> 00:01:42,000
+copy the dependency details.
+
+22
+00:01:42,000 --> 00:01:49,000
+So let me copy this value. As a next step, I'll open the pom.xml of accounts microservice just after
+
+23
+00:01:49,000 --> 00:01:50,000
+Netflix Eureka Client,
+
+24
+00:01:50,000 --> 00:01:55,000
+I'm going to add this dependency and post that I'm going to click on this load Maven changes.
+
+25
+00:01:55,000 --> 00:02:01,000
+With this, we should have all the open feign related libraries downloaded into the accounts
+
+26
+00:02:01,000 --> 00:02:07,000
+microservice After making these changes inside the pom.xml let's go to the spring boot main class inside
+
+27
+00:02:07,000 --> 00:02:10,000
+the accounts microservice. So inside my accounts
+
+28
+00:02:10,000 --> 00:02:13,000
+microservice the main class is AccountsApplication.
+
+29
+00:02:13,000 --> 00:02:20,000
+Here I'm going to put an annotation which which is @EnableFeignClients.
+
+30
+00:02:20,000 --> 00:02:26,000
+So the purpose on why we need to mention this annotation is this will enable the feign clients related
+
+31
+00:02:26,000 --> 00:02:28,000
+functionality inside my accounts
+
+32
+00:02:28,000 --> 00:02:28,000
+microservice.
+
+33
+00:02:28,000 --> 00:02:34,000
+With that my account microservice can connect with other microservices like loans and cards.
+
+34
+00:02:34,000 --> 00:02:35,000
+So let me save this changes.
+
+35
+00:02:35,000 --> 00:02:41,000
+Now here in order to connect with the loans and cards microservice in a traditional approach, we will
+
+36
+00:02:41,000 --> 00:02:48,000
+use some rest template or web client and to those REST template and web client classes are interfaces.
+
+37
+00:02:48,000 --> 00:02:49,000
+We are going to pass,
+
+38
+00:02:49,000 --> 00:02:50,000
+what is the URL,
+
+39
+00:02:50,000 --> 00:02:51,000
+what is the request data,
+
+40
+00:02:51,000 --> 00:02:53,000
+what is the port number,
+
+41
+00:02:53,000 --> 00:02:54,000
+what is the exception handling ?
+
+42
+00:02:54,000 --> 00:03:01,000
+So we need to write all the implementation code or actual logic to invoke the loans and cards
+
+43
+00:03:01,000 --> 00:03:01,000
+microservice.
+
+44
+00:03:01,000 --> 00:03:06,000
+But whenever we are using open feign client, we don't have to write the implementation code.
+
+45
+00:03:06,000 --> 00:03:09,000
+We just have to write that declarative code.
+
+46
+00:03:09,000 --> 00:03:15,000
+We are already following this kind of approach inside the spring data JPA. For suppose if you go to the
+
+47
+00:03:15,000 --> 00:03:18,000
+repository package. Here we have accounts repository.
+
+48
+00:03:19,000 --> 00:03:24,000
+Did I write any implementation code here for to fetch the records based upon the customerId ?
+
+49
+00:03:24,000 --> 00:03:25,000
+No,
+
+50
+00:03:25,000 --> 00:03:31,000
+I have written only that declarative code, which means I only created an interface along with the abstract
+
+51
+00:03:31,000 --> 00:03:37,000
+methods and behind the scenes my spring data JPA framework is going to generate the implementation code
+
+52
+00:03:37,000 --> 00:03:38,000
+at the runtime.
+
+53
+00:03:38,000 --> 00:03:43,000
+Very similarly, whenever we are trying to use open feign client, we don't have to write the implementation
+
+54
+00:03:43,000 --> 00:03:43,000
+code.
+
+55
+00:03:43,000 --> 00:03:47,000
+We just need to create the interfaces along with the abstract methods.
+
+56
+00:03:47,000 --> 00:03:53,000
+So let's try to understand how to develop the same. For the same here, just under the services, I'm
+
+57
+00:03:53,000 --> 00:03:55,000
+going to create a new package with the name
+
+58
+00:03:55,000 --> 00:04:02,000
+com.eazybytes.accounts.service.client under this client package
+
+59
+00:04:02,000 --> 00:04:05,000
+I'm going to create a new interface.
+
+60
+00:04:05,000 --> 00:04:07,000
+So let me create a new interface here.
+
+61
+00:04:07,000 --> 00:04:13,000
+So the interface name, I'm going to keep it as CardsFeignClient because this interface is going to
+
+62
+00:04:13,000 --> 00:04:14,000
+help my accounts
+
+63
+00:04:14,000 --> 00:04:16,000
+microservice, to connect with the cards
+
+64
+00:04:16,000 --> 00:04:19,000
+microservice. So let me create this new interface.
+
+65
+00:04:19,000 --> 00:04:24,000
+So now I have an empty interface. To use the open Feign libraries,
+
+66
+00:04:24,000 --> 00:04:29,000
+we need to make sure we are mentioning an annotation here which is @FeignClient.
+
+67
+00:04:29,000 --> 00:04:30,000
+To this @FeignClient,
+
+68
+00:04:30,000 --> 00:04:38,000
+we need to mention a value which is cards because the same value, which is cards we have used to register
+
+69
+00:04:38,000 --> 00:04:40,000
+with the Eureka Server.
+
+70
+00:04:40,000 --> 00:04:45,000
+If you can recall inside the Eureka dashboard, all the cards related instances, they will register
+
+71
+00:04:45,000 --> 00:04:47,000
+with the logical name cards.
+
+72
+00:04:47,000 --> 00:04:53,000
+So the same cards we need to mention here so that my feign client will connect with the Eureka server
+
+73
+00:04:53,000 --> 00:04:59,000
+at the runtime and it will try to get all the instance details with the logical name cards.
+
+74
+00:04:59,000 --> 00:05:00,000
+So that's the purpose of this
+
+75
+00:05:00,000 --> 00:05:02,000
+annotation and the value that we have mentioned here.
+
+76
+00:05:02,000 --> 00:05:08,000
+Now, inside this interface, I'm going to create a new abstract method and whatever abstract method
+
+77
+00:05:08,000 --> 00:05:14,000
+that we are going to create inside this interface, this method signature has to match with the actual
+
+78
+00:05:14,000 --> 00:05:18,000
+REST API method that we have defined inside the card microservice.
+
+79
+00:05:18,000 --> 00:05:24,000
+If you go to the cards controller, inside the cards controller, we have a method with the name fetch
+
+80
+00:05:24,000 --> 00:05:25,000
+card details.
+
+81
+00:05:25,000 --> 00:05:31,000
+So I need to create the very similar method inside my CardsFeignclient interface.
+
+82
+00:05:31,000 --> 00:05:35,000
+So let me copy this method details and mention the same here.
+
+83
+00:05:35,000 --> 00:05:40,000
+But here inside this interface we are not going to write any implementation code.
+
+84
+00:05:40,000 --> 00:05:43,000
+We are just going to define them as abstract methods.
+
+85
+00:05:43,000 --> 00:05:49,000
+Once we define these abstract method, we can remove these validations related code because the validations
+
+86
+00:05:49,000 --> 00:05:53,000
+will be performed at the REST API level but not here.
+
+87
+00:05:53,000 --> 00:05:55,000
+That's why we don't have to mention the validations.
+
+88
+00:05:55,000 --> 00:06:01,000
+Now you can see here we are following the same method name like we have inside the CardsController.
+
+89
+00:06:01,000 --> 00:06:01,000
+The method name
+
+90
+00:06:01,000 --> 00:06:07,000
+you can choose whatever name inside this FeignClient interface, but please make sure the method signature
+
+91
+00:06:07,000 --> 00:06:13,000
+like method input parameters, return parameters along with the method access type should be same as
+
+92
+00:06:13,000 --> 00:06:16,000
+what we have defined inside the actual microservice.
+
+93
+00:06:16,000 --> 00:06:22,000
+So once we define this here, you can see we don't have the CardsDto inside the accounts microservic.
+
+94
+00:06:22,000 --> 00:06:25,000
+So let's try to create the CardsDto inside the accounts
+
+95
+00:06:25,000 --> 00:06:30,000
+microservice. So for the same, I'm going to copy the DTO from the cards
+
+96
+00:06:30,000 --> 00:06:37,000
+microservice. So if I go to the cards microservice I'll be having a package and the dto package I need
+
+97
+00:06:37,000 --> 00:06:39,000
+to copy the CardsDto class.
+
+98
+00:06:39,000 --> 00:06:44,000
+So let me copy the same into the dto package of accounts microservice.
+
+99
+00:06:44,000 --> 00:06:51,000
+And very similarly, I also need LoansDto because we are going to develop a new interface for
+
+100
+00:06:51,000 --> 00:06:52,000
+LoansFeignClient as well.
+
+101
+00:06:52,000 --> 00:06:53,000
+So let me copy the LoansDto
+
+102
+00:06:53,000 --> 00:07:01,000
+also. So here under the loans project and going into the dto package and inside this DTO package
+
+103
+00:07:01,000 --> 00:07:01,000
+we have LoansDto.
+
+104
+00:07:02,000 --> 00:07:07,000
+So let me copy these LoansDto into the AccountsDto package.
+
+105
+00:07:07,000 --> 00:07:12,000
+So with this we have copied all the required DTOs into the accounts
+
+106
+00:07:12,000 --> 00:07:15,000
+microservice. Now I'll open the
+
+107
+00:07:15,000 --> 00:07:17,000
+CardsFeignClient the error should get resolved,
+
+108
+00:07:17,000 --> 00:07:21,000
+If not, let's try to resolve these by importing these cards.
+
+109
+00:07:21,000 --> 00:07:25,000
+So with this now we have declared the abstract method.
+
+110
+00:07:25,000 --> 00:07:32,000
+On top of this method we need to mention the REST API path details that my actual method inside the
+
+111
+00:07:32,000 --> 00:07:34,000
+CardsController is going to support.
+
+112
+00:07:34,000 --> 00:07:37,000
+You can see it is going to support get mapping fetch.
+
+113
+00:07:37,000 --> 00:07:42,000
+So let me copy this value and paste the same inside the CradsFeignClient
+
+114
+00:07:42,000 --> 00:07:42,000
+.
+
+115
+00:07:42,000 --> 00:07:47,000
+But apart from this fetch, if you see inside the CardsController, we also have some path which is
+
+116
+00:07:47,000 --> 00:07:49,000
+specific to entire controller.
+
+117
+00:07:49,000 --> 00:07:51,000
+The path is /api.
+
+118
+00:07:51,000 --> 00:07:56,000
+So that's why we need to mention the exact path, which is /api/fetch.
+
+119
+00:07:56,000 --> 00:07:59,000
+With this we should be good if needed
+
+120
+00:07:59,000 --> 00:08:04,000
+we can also mention like consumes as application/json.
+
+121
+00:08:04,000 --> 00:08:10,000
+We are trying to communicate to the FeignClient that these API which we have inside the cards microservice,
+
+122
+00:08:10,000 --> 00:08:12,000
+it is going to accept that Json input data.
+
+123
+00:08:12,000 --> 00:08:19,000
+So now if you see this abstract method is matching exactly with what we have defined inside the cards
+
+124
+00:08:19,000 --> 00:08:22,000
+microservice. So that's the one primary rule that we need to follow.
+
+125
+00:08:22,000 --> 00:08:27,000
+On top of that, we need to make sure we are mentioning this annotation along with the logical name
+
+126
+00:08:27,000 --> 00:08:31,000
+that cards microservice is going to register with the Eureka Server.
+
+127
+00:08:31,000 --> 00:08:37,000
+So behind the scenes, my cards FeignClient will connect with the Eureka Server and try to fetch all
+
+128
+00:08:37,000 --> 00:08:41,000
+the instances that are registered with the logical name cards.
+
+129
+00:08:41,000 --> 00:08:48,000
+And once it receives 1 or 2 or any other instance details, it will try to cache those details for 30s,
+
+130
+00:08:48,000 --> 00:08:49,000
+which is the default period.
+
+131
+00:08:49,000 --> 00:08:56,000
+And within these 30s it is not going to connect again with the Eureka Server, but instead it is going
+
+132
+00:08:56,000 --> 00:08:58,000
+to leverage the details present inside the cache.
+
+133
+00:08:58,000 --> 00:09:06,000
+So based upon the IP details inside the cache, it is going to invoke this API along with the request which
+
+134
+00:09:06,000 --> 00:09:07,000
+is mobile number.
+
+135
+00:09:07,000 --> 00:09:12,000
+So behind the scenes, all the implementation code will be generated by the open feign client.
+
+136
+00:09:12,000 --> 00:09:15,000
+So here you can see we have not written any business logic.
+
+137
+00:09:15,000 --> 00:09:19,000
+We are just telling to our feign client how to connect to other microservice.
+
+138
+00:09:19,000 --> 00:09:21,000
+What is the method signature,
+
+139
+00:09:21,000 --> 00:09:22,000
+what is the request parameter,
+
+140
+00:09:22,000 --> 00:09:23,000
+what is the request structure,
+
+141
+00:09:23,000 --> 00:09:25,000
+what is the response structure,
+
+142
+00:09:25,000 --> 00:09:26,000
+what is the rest API path ?
+
+143
+00:09:26,000 --> 00:09:31,000
+So if you define those meta details, the remaining magic will be taken care by the feign client.
+
+144
+00:09:31,000 --> 00:09:37,000
+Now let me try to create a very similar feign client interface for loans microservice API
+
+145
+00:09:37,000 --> 00:09:44,000
+also. For the same, I'm going to copy these interface, which is CardsFeignClient and paste the same
+
+146
+00:09:44,000 --> 00:09:45,000
+inside the same package.
+
+147
+00:09:45,000 --> 00:09:49,000
+And I'm going to rename this to LoansFeignClient.
+
+148
+00:09:49,000 --> 00:09:50,000
+So let me click on this
+
+149
+00:09:50,000 --> 00:09:51,000
+ok.
+
+150
+00:09:51,000 --> 00:09:56,000
+Inside this LoansFeignClient, we need to make sure for this LoansFeignClient we are passing the logical name
+
+151
+00:09:56,000 --> 00:10:00,000
+of loans microservice the loans microservice logical name that
+
+152
+00:10:00,000 --> 00:10:01,000
+we are following is loans itself.
+
+153
+00:10:01,000 --> 00:10:03,000
+So let me save this.
+
+154
+00:10:03,000 --> 00:10:06,000
+After this, the response, it is going to send LoansDto's.
+
+155
+00:10:06,000 --> 00:10:13,000
+That's why we need to mention LoansDto inside the return type of the method and the request param it is
+
+156
+00:10:13,000 --> 00:10:15,000
+going to be the same which is mobile number.
+
+157
+00:10:15,000 --> 00:10:20,000
+So let's try to confirm the same inside the LoansController which is present inside the loans microservice.
+
+158
+00:10:20,000 --> 00:10:26,000
+So here if you look for the fetch API inside the fetch API, the method name is fetch loan details and
+
+159
+00:10:26,000 --> 00:10:29,000
+it is going to accept the request to param, which is mobile number.
+
+160
+00:10:29,000 --> 00:10:32,000
+So we are trying to pass the same from the Feignclient interface
+
+161
+00:10:32,000 --> 00:10:36,000
+also, I can also copy this method name and mention the same here.
+
+162
+00:10:36,000 --> 00:10:42,000
+With this we should be good to leverage these FeignClient interfaces inside our accounts
+
+163
+00:10:42,000 --> 00:10:46,000
+microservice to interact with the other microservices like loans and cards
+
+164
+00:10:46,000 --> 00:10:47,000
+microservice.
+
+165
+00:10:47,000 --> 00:10:52,000
+I hope you are clear with all the steps that we have followed till now. In the next lecture, let's try
+
+166
+00:10:52,000 --> 00:10:53,000
+to continue this discussion.
+
+167
+00:10:53,000 --> 00:10:54,000
+Thank you,
+
+168
+00:10:54,000 --> 00:10:55,000
+Bye.
+

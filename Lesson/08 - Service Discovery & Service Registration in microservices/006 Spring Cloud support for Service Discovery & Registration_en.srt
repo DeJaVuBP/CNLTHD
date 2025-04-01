@@ -1,0 +1,488 @@
+1
+00:00:00,000 --> 00:00:06,000
+We discussed a lot about client side service discovery, and right now we have complete theory knowledge.
+
+2
+00:00:06,000 --> 00:00:13,000
+The next immediate question that you may have here is, how I can implement this client side service discovery
+
+3
+00:00:13,000 --> 00:00:15,000
+inside my microservices network.
+
+4
+00:00:15,000 --> 00:00:20,000
+Like I said before, we have a friend Spring Cloud, so let's try to tap into our friend and see what
+
+5
+00:00:20,000 --> 00:00:23,000
+are the options that our friend is going to provide here.
+
+6
+00:00:23,000 --> 00:00:29,000
+With the help of Spring Cloud project, implementing service discovery and registration inside a microservice
+
+7
+00:00:29,000 --> 00:00:32,000
+network is going to be super, super simple.
+
+8
+00:00:32,000 --> 00:00:36,000
+We are going to implement the same in the coming lectures and in the same process you will realize how
+
+9
+00:00:36,000 --> 00:00:37,000
+easy it is.
+
+10
+00:00:37,000 --> 00:00:41,000
+So there are multiple components we need to use from the spring cloud project.
+
+11
+00:00:41,000 --> 00:00:45,000
+So the very first component that we need to use is Spring Cloud Netflix's Eureka!
+
+12
+00:00:45,000 --> 00:00:51,000
+So this is a service which will act as a central server, which is responsible for service registration
+
+13
+00:00:51,000 --> 00:00:52,000
+and service discovery.
+
+14
+00:00:52,000 --> 00:00:56,000
+In simple words, we can call this as a service discovery agent.
+
+15
+00:00:56,000 --> 00:01:02,000
+Now for the load balancing, we are going to use Spring Cloud Load Balancer library and using the same
+
+16
+00:01:02,000 --> 00:01:07,000
+library, we are going to perform the client side load balancing. And at last we are also going to use
+
+17
+00:01:07,000 --> 00:01:09,000
+Netflix Feign client.
+
+18
+00:01:09,000 --> 00:01:15,000
+Once we identify actual service details with the help of Eureka Agent and Load Balancer, we need some
+
+19
+00:01:15,000 --> 00:01:21,000
+library to communicate with the other service, just like how we have REST template and web client inside
+
+20
+00:01:21,000 --> 00:01:22,000
+the spring core framework.
+
+21
+00:01:22,000 --> 00:01:29,000
+Very similarly, we can use this library which is Netflix Feign client to perform the actual invocation of
+
+22
+00:01:29,000 --> 00:01:33,000
+REST APIs whenever we are trying to have a communication between the microservices.
+
+23
+00:01:33,000 --> 00:01:37,000
+So these components are the mostly used components by the industry.
+
+24
+00:01:37,000 --> 00:01:40,000
+That's why we are going to use the same inside the course.
+
+25
+00:01:40,000 --> 00:01:46,000
+But apart from these components, we also have other projects inside the industry.
+
+26
+00:01:46,000 --> 00:01:53,000
+For example, instead of Eureka, we can also use other products like Etcd, Consul and Apache Zookeeper.
+
+27
+00:01:53,000 --> 00:01:55,000
+So these products are also good.
+
+28
+00:01:55,000 --> 00:02:00,000
+But since we are right now building the microservices with the help of Spring Boot, it will be a wise
+
+29
+00:02:00,000 --> 00:02:07,000
+decision to choose one of the project within the same ecosystem, so that the integration with the other
+
+30
+00:02:07,000 --> 00:02:10,000
+projects inside the same ecosystem is going to be super, super easy.
+
+31
+00:02:10,000 --> 00:02:16,000
+And right now we decided to use spring cloud load balancer for client side load balancing. In some old
+
+32
+00:02:16,000 --> 00:02:21,000
+projects or in some projects where they are using the older versions of Spring Boot.
+
+33
+00:02:21,000 --> 00:02:26,000
+You may see they are using Netflix Ribbon for client side load balancing.
+
+34
+00:02:26,000 --> 00:02:32,000
+This is also good and stable product, but we're not going to use that because, the Netflix Ribbon library
+
+35
+00:02:32,000 --> 00:02:38,000
+right now, it is in the maintenance mode and unfortunately there are no new enhancements or upgrades
+
+36
+00:02:38,000 --> 00:02:38,000
+are happening.
+
+37
+00:02:38,000 --> 00:02:45,000
+The reason is we have a latest library, which is Spring Cloud Load Balancer, which came as a replacement
+
+38
+00:02:45,000 --> 00:02:47,000
+for the Netflix Ribbon client.
+
+39
+00:02:47,000 --> 00:02:50,000
+So that's why we are going to use Spring Cloud load Balancer, anytime
+
+40
+00:02:50,000 --> 00:02:55,000
+if you listen about Netflix Ribbon or any other products, don't worry on why we have not used them
+
+41
+00:02:55,000 --> 00:03:02,000
+inside our microservices network because we are trying to use the most stable and most recent products
+
+42
+00:03:02,000 --> 00:03:03,000
+inside this course.
+
+43
+00:03:03,000 --> 00:03:09,000
+So on a high level, whenever we try to implement these client side service discovery inside our microservices
+
+44
+00:03:09,000 --> 00:03:11,000
+applications, we are going to get a lot of benefits,
+
+45
+00:03:11,000 --> 00:03:14,000
+like there are no limitations on availability.
+
+46
+00:03:14,000 --> 00:03:20,000
+We can have multiple nodes of service discovery nodes we can deploy inside the service discovery layer
+
+47
+00:03:20,000 --> 00:03:26,000
+and post that the peer to peer communication we can achieve with the help of service discovery agent.
+
+48
+00:03:26,000 --> 00:03:31,000
+And next, the most important advantage, which is all the IPS configurations and load balancers, they
+
+49
+00:03:31,000 --> 00:03:37,000
+can change dynamically, but still the microservices communication is going to happen because all these
+
+50
+00:03:37,000 --> 00:03:43,000
+configurations and IPS are going to be updated dynamically behind the scenes by my service discovery
+
+51
+00:03:43,000 --> 00:03:45,000
+and service registration components.
+
+52
+00:03:45,000 --> 00:03:50,000
+And apart from these advantages, whenever we follow these client side service discovery, the communication
+
+53
+00:03:50,000 --> 00:03:56,000
+between the microservices is going to be fault tolerant and resilient in nature.
+
+54
+00:03:56,000 --> 00:04:01,000
+We are going to discuss in the coming lectures how we can make the communication between the microservice
+
+55
+00:04:01,000 --> 00:04:03,000
+as fault tolerant and resilient.
+
+56
+00:04:03,000 --> 00:04:08,000
+So let me quickly show you about these projects inside the official spring website.
+
+57
+00:04:08,000 --> 00:04:11,000
+So here I came to the spring.io project.
+
+58
+00:04:11,000 --> 00:04:17,000
+If you can run this projects here we have Spring Cloud project and this spring cloud project we have
+
+59
+00:04:17,000 --> 00:04:18,000
+many other sub projects.
+
+60
+00:04:18,000 --> 00:04:22,000
+The projects right now we are interested is, Spring Cloud Netflix.
+
+61
+00:04:22,000 --> 00:04:26,000
+If you can click on this Spring Cloud Netflix, it will open in a new tab.
+
+62
+00:04:26,000 --> 00:04:30,000
+And very similarly, we are also interested on Spring Cloud, Open Feign.
+
+63
+00:04:30,000 --> 00:04:36,000
+So like I said, Spring Cloud Open Feign we can use to communicate with the other REST APIs just like
+
+64
+00:04:36,000 --> 00:04:38,000
+rest template and web client.
+
+65
+00:04:38,000 --> 00:04:40,000
+So more details to follow around this Open Feign.
+
+66
+00:04:40,000 --> 00:04:43,000
+And very similarly, we also have Spring Cloud Netflix.
+
+67
+00:04:43,000 --> 00:04:48,000
+So inside the Spring Cloud Netflix, there are many components like Eureka Server which will act as
+
+68
+00:04:48,000 --> 00:04:54,000
+a service discovery agent and at the same time it is also going to provide the load balancer with the
+
+69
+00:04:54,000 --> 00:04:56,000
+help of spring cloud load balancer.
+
+70
+00:04:56,000 --> 00:05:00,000
+So if we can scroll down, you can see Spring Cloud Netflix features like it is
+
+71
+00:05:00,000 --> 00:05:03,000
+going to support the service discovery with the help of Eureka Server.
+
+72
+00:05:03,000 --> 00:05:08,000
+So here you may have a question like why there is a name Netflix, we all know what is Netflix?
+
+73
+00:05:08,000 --> 00:05:12,000
+So it's a ott platform where we see our favorite movies and web series.
+
+74
+00:05:12,000 --> 00:05:17,000
+So there is a story on why we have this Netflix name here. To tell this story
+
+75
+00:05:17,000 --> 00:05:22,000
+let me go to the blog, which is written by the official tech team from the Netflix.
+
+76
+00:05:22,000 --> 00:05:29,000
+So inside this blog you can see all the history is present like back in the 2007 when Netflix is trying
+
+77
+00:05:29,000 --> 00:05:33,000
+to build a lot of services that can run on the cloud infrastructure.
+
+78
+00:05:33,000 --> 00:05:39,000
+They build a lot of libraries internally, like Ribbon for Load balancing, Eureka for service discovery
+
+79
+00:05:39,000 --> 00:05:43,000
+and Hystrix for the fault tolerance and to stitch all these components
+
+80
+00:05:43,000 --> 00:05:46,000
+they also used another library with the name generator.
+
+81
+00:05:46,000 --> 00:05:53,000
+But around 2012 they open sourced all these components by donating them to the spring community.
+
+82
+00:05:53,000 --> 00:05:59,000
+So with all the libraries donated by the Netflix team to the Spring community, a new project came into
+
+83
+00:05:59,000 --> 00:06:03,000
+picture in 2015 with the name Spring Cloud Netflix.
+
+84
+00:06:03,000 --> 00:06:08,000
+So this project developed by the spring team itself, based upon the libraries donated by the Netflix
+
+85
+00:06:08,000 --> 00:06:10,000
+since the spring team.
+
+86
+00:06:10,000 --> 00:06:13,000
+They want to acknowledge the contributions by the Netflix team.
+
+87
+00:06:13,000 --> 00:06:18,000
+They have mentioned these Netflix inside the project name. After 2015,
+
+88
+00:06:18,000 --> 00:06:21,000
+there are many updates came to the spring cloud Netflix.
+
+89
+00:06:21,000 --> 00:06:25,000
+As of now you can see we have the version which is 4.0.2.
+
+90
+00:06:25,000 --> 00:06:30,000
+So from 2015 to the present day, there are many updates happen inside the Spring Cloud Netflix.
+
+91
+00:06:30,000 --> 00:06:36,000
+Since these updates are happening based upon the latest trends and in the right direction.
+
+92
+00:06:36,000 --> 00:06:37,000
+Netflix team
+
+93
+00:06:37,000 --> 00:06:43,000
+also, they started using Spring Boot as their core Java framework from 2018. And along with the Spring
+
+94
+00:06:43,000 --> 00:06:49,000
+boot framework, they also leverage Spring Cloud Netflix to a great extent from 2018.
+
+95
+00:06:49,000 --> 00:06:54,000
+So if you can scroll down here, initially the setup inside the Netflix used to be like you can see
+
+96
+00:06:54,000 --> 00:06:56,000
+on the left hand side.
+
+97
+00:06:56,000 --> 00:07:00,000
+So there used to be a governator which can monitor all the components.
+
+98
+00:07:00,000 --> 00:07:05,000
+So for client side load balancing, there used to use ribbon and service discovery, Eureka and fault
+
+99
+00:07:05,000 --> 00:07:06,000
+tolerance
+
+100
+00:07:06,000 --> 00:07:07,000
+they used to use hystrix.
+
+101
+00:07:07,000 --> 00:07:12,000
+But now with the latest trends happening, there are many advancements happened on the spring cloud
+
+102
+00:07:12,000 --> 00:07:13,000
+project.
+
+103
+00:07:13,000 --> 00:07:18,000
+That's why the Netflix team, they are using Spring boot and along with the spring cloud load balancer
+
+104
+00:07:18,000 --> 00:07:21,000
+instead of Ribbon, followed by Spring Cloud Eureka.
+
+105
+00:07:21,000 --> 00:07:23,000
+And for fault tolerance.
+
+106
+00:07:23,000 --> 00:07:26,000
+They are not using Hystrix because it is outdated.
+
+107
+00:07:26,000 --> 00:07:30,000
+Now we have Resilience4j to implement fault tolerance.
+
+108
+00:07:30,000 --> 00:07:34,000
+So if you see we are going to use the same tech stack inside our course
+
+109
+00:07:34,000 --> 00:07:36,000
+also, we are going to use spring cloud load balancer.
+
+110
+00:07:36,000 --> 00:07:38,000
+We are also going to use Resiliency4j.
+
+111
+00:07:39,000 --> 00:07:45,000
+And on top of that, we are also going to use Spring Cloud, Open feign to establish the communications
+
+112
+00:07:45,000 --> 00:07:46,000
+between the microservices.
+
+113
+00:07:46,000 --> 00:07:52,000
+So I'm going to mention these URL inside the GitHub repo and at the same time I'm also going to attach
+
+114
+00:07:52,000 --> 00:07:54,000
+this URL details to this lecture.
+
+115
+00:07:54,000 --> 00:08:00,000
+So please try to refer the same and try to read this story in detail and this gives you some confidence
+
+116
+00:08:00,000 --> 00:08:03,000
+that you're not learning something very old.
+
+117
+00:08:03,000 --> 00:08:09,000
+You are learning mostly used, mostly stable, and most latest components inside this course.
+
+118
+00:08:09,000 --> 00:08:15,000
+If Netflix itself is using, then any project can use because the traffic handled by the Netflix is
+
+119
+00:08:15,000 --> 00:08:16,000
+very huge.
+
+120
+00:08:16,000 --> 00:08:22,000
+So I'm assuming you are clear on what components we are going to use to build the client side service
+
+121
+00:08:22,000 --> 00:08:24,000
+discovery inside our microservices.
+
+122
+00:08:24,000 --> 00:08:27,000
+Thank you and I'll catch you in the next lecture bye.
+

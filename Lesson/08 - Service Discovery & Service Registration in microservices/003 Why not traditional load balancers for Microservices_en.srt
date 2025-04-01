@@ -1,0 +1,616 @@
+1
+00:00:00,000 --> 00:00:02,000
+For a few seconds
+
+2
+00:00:02,000 --> 00:00:07,000
+let's think like we don't have concepts like service discovery and service registration, and we are
+
+3
+00:00:07,000 --> 00:00:13,000
+forced to use that traditional approaches inside microservices environment.
+
+4
+00:00:13,000 --> 00:00:18,000
+So with that assumption, let's try to see what are the challenges or disadvantages that we may face
+
+5
+00:00:18,000 --> 00:00:25,000
+if we follow that traditional monolithic approaches inside microservices, internal communication.
+
+6
+00:00:25,000 --> 00:00:31,000
+Usually inside a web network, whenever a service or an application want to communicate with another
+
+7
+00:00:31,000 --> 00:00:37,000
+service or application, it must be given the necessary information to locate it, such as IP address
+
+8
+00:00:37,000 --> 00:00:39,000
+or instead of IP address,
+
+9
+00:00:39,000 --> 00:00:43,000
+we can also give that DNS name or the domain name. With this information
+
+10
+00:00:43,000 --> 00:00:49,000
+now let's try to see the scenario of two microservices like accounts and loans are trying to communicate
+
+11
+00:00:49,000 --> 00:00:51,000
+with each other. For simplicity reason
+
+12
+00:00:51,000 --> 00:00:57,000
+let's assume there is only one instance of loans and one instance of accounts inside my microservices
+
+13
+00:00:57,000 --> 00:00:58,000
+network.
+
+14
+00:00:58,000 --> 00:01:04,000
+Like you can see first I have my accounts microservice installed or deployed inside a server and we
+
+15
+00:01:04,000 --> 00:01:09,000
+call this as upstream service. Because this is the service which is dependent on the another service.
+
+16
+00:01:09,000 --> 00:01:11,000
+That's why we call this as upstream service.
+
+17
+00:01:11,000 --> 00:01:17,000
+And the other side, we also have another microservice which is loans microservice, and we call this
+
+18
+00:01:17,000 --> 00:01:24,000
+service as downstream service. Because this loans microservice is acting as a dependent service for the
+
+19
+00:01:24,000 --> 00:01:24,000
+accounts
+
+20
+00:01:24,000 --> 00:01:29,000
+microservice. Like you can see here, the loans microservice is deployed at an IP number.
+
+21
+00:01:29,000 --> 00:01:33,000
+127.54.37.23.
+
+22
+00:01:33,000 --> 00:01:39,000
+Now if my accounts microservice want to communicate with the loans microservice, there are two options.
+
+23
+00:01:39,000 --> 00:01:40,000
+One is inside my accounts
+
+24
+00:01:40,000 --> 00:01:46,000
+microservice I can hardcode the IP details where my loans microservice is deployed.
+
+25
+00:01:46,000 --> 00:01:52,000
+Or we can also mention that domain details are DNS name inside the accounts microservice code.
+
+26
+00:01:52,000 --> 00:01:59,000
+So with that, the internal communication between microservices will use either the hostname DNS or
+
+27
+00:01:59,000 --> 00:02:00,000
+IP address.
+
+28
+00:02:00,000 --> 00:02:04,000
+So there is no service discovery at the load balancing involved here.
+
+29
+00:02:04,000 --> 00:02:07,000
+In this kind of situations we call loans.
+
+30
+00:02:07,000 --> 00:02:13,000
+microservice will be acting as a backing service with respect to the accounts microservice. Because without
+
+31
+00:02:13,000 --> 00:02:19,000
+the loans microservice my accounts microservice cannot send a successful response to the clients who
+
+32
+00:02:19,000 --> 00:02:24,000
+is trying to get the consolidated information of accounts and loans microservice.
+
+33
+00:02:24,000 --> 00:02:29,000
+So that's why loans microservice will act as a backing service to the accounts
+
+34
+00:02:29,000 --> 00:02:36,000
+microservice. So mentioning the IP address or DNS name at the hostname will work perfectly.
+
+35
+00:02:36,000 --> 00:02:42,000
+When we have only one instance of loans microservice running inside our microservice network. And even
+
+36
+00:02:42,000 --> 00:02:48,000
+managing the DNS name and its corresponding IP address mapping is going to be straightforward. If you
+
+37
+00:02:48,000 --> 00:02:49,000
+are not clear about what is DNS.
+
+38
+00:02:49,000 --> 00:02:54,000
+So DNS is like using a domain name instead of IP address.
+
+39
+00:02:54,000 --> 00:03:00,000
+So behind the scenes, your platform team or operations team members, they will do a mapping of your
+
+40
+00:03:00,000 --> 00:03:02,000
+DNS name to the correspondent IP address.
+
+41
+00:03:02,000 --> 00:03:09,000
+So this way in future, if my loans microservice IP address changes, I'm going to change the mapping
+
+42
+00:03:09,000 --> 00:03:15,000
+between the DNS and IP address and there won't be any code changes on the accounts microservice if they
+
+43
+00:03:15,000 --> 00:03:16,000
+are using that DNS name.
+
+44
+00:03:16,000 --> 00:03:22,000
+Whereas if they hardcode the IP address, whenever the loans microservice IP address is being changed,
+
+45
+00:03:22,000 --> 00:03:24,000
+the same needs to be changed on the accounts
+
+46
+00:03:24,000 --> 00:03:30,000
+microservice. So to avoid these kind of situations, usually inside the web applications, communications,
+
+47
+00:03:30,000 --> 00:03:32,000
+we rely on that DNS names.
+
+48
+00:03:32,000 --> 00:03:34,000
+So here there is a single IP address.
+
+49
+00:03:34,000 --> 00:03:40,000
+Someone will map this IP address to a DNS name and using the same DNS name, my accounts microservice
+
+50
+00:03:40,000 --> 00:03:47,000
+can connect with the loans microservice, but in a cloud environment where we are going to deploy multiple
+
+51
+00:03:47,000 --> 00:03:53,000
+instances of a service with each instance having its own unique IP address, this is not going to work.
+
+52
+00:03:53,000 --> 00:03:58,000
+Because someone has to maintain the mapping between the DNS and the list of IP addresses where we have
+
+53
+00:03:58,000 --> 00:03:59,000
+deployed.
+
+54
+00:03:59,000 --> 00:04:05,000
+To some extent, we can overcome this challenge like we can have someone updating these DNS records
+
+55
+00:04:05,000 --> 00:04:11,000
+with the multiple IP address and we can also rely on the algorithms like round Robin to load balance
+
+56
+00:04:11,000 --> 00:04:15,000
+the traffic between multiple instances of loans microservice.
+
+57
+00:04:15,000 --> 00:04:22,000
+So updating that DNS records with the multiple IP addresses will work perfectly for monolithic applications
+
+58
+00:04:22,000 --> 00:04:28,000
+or soa applications because we will have very limited number of services in traditional applications.
+
+59
+00:04:28,000 --> 00:04:35,000
+But inside the microservices network, this approach may not be suitable because we are going to use
+
+60
+00:04:35,000 --> 00:04:40,000
+a containers and these containers deployment will keep changing frequently.
+
+61
+00:04:40,000 --> 00:04:48,000
+So this rapid change make it difficult to maintain the accurate DNS records and ensure efficient communication
+
+62
+00:04:48,000 --> 00:04:49,000
+between the microservices.
+
+63
+00:04:49,000 --> 00:04:54,000
+So like I said before, whenever we are getting more traffic, we are going to onboard the more instances
+
+64
+00:04:54,000 --> 00:05:00,000
+of loans microservice. And the same when the traffic is down, we are going to delete the few of the
+
+65
+00:05:00,000 --> 00:05:00,000
+running
+
+66
+00:05:00,000 --> 00:05:02,000
+instances of loans microservice.
+
+67
+00:05:02,000 --> 00:05:07,000
+And very similarly, if one of the loans microservice instance is not responding, we are going to delete
+
+68
+00:05:07,000 --> 00:05:10,000
+it and replace it with a new instance.
+
+69
+00:05:10,000 --> 00:05:16,000
+So when you are doing all these rapid changes inside the cloud environment, it is an impossible task
+
+70
+00:05:16,000 --> 00:05:23,000
+to maintain the accurate mapping between your DNS and the multiple IP addresses of your loans
+
+71
+00:05:23,000 --> 00:05:24,000
+microservice instances.
+
+72
+00:05:24,000 --> 00:05:29,000
+Because unlike monolithic applications where we are going to deploy the applications inside a physical
+
+73
+00:05:29,000 --> 00:05:36,000
+machine or a long running virtual machines, in such scenarios, the IP address will be static and it
+
+74
+00:05:36,000 --> 00:05:39,000
+will never change until unless you are trying to change it.
+
+75
+00:05:39,000 --> 00:05:45,000
+Whereas with cloud native applications and microservices, the instances are the containers will have
+
+76
+00:05:45,000 --> 00:05:51,000
+shorter life spans like we discussed during the auto scaling scenario or whenever the container is not
+
+77
+00:05:51,000 --> 00:05:52,000
+responding.
+
+78
+00:05:52,000 --> 00:05:57,000
+In all such scenarios, we're going to bring new containers and new instances which will have new IP
+
+79
+00:05:57,000 --> 00:05:58,000
+addresses.
+
+80
+00:05:58,000 --> 00:06:04,000
+With all these problems, the primary challenge that we are going to face here is, the DNS records will
+
+81
+00:06:04,000 --> 00:06:11,000
+not be up to the date with the latest IP address details of the banking services like loans microservice
+
+82
+00:06:11,000 --> 00:06:12,000
+Inside
+
+83
+00:06:12,000 --> 00:06:14,000
+the next slide, I tried to explain this visually.
+
+84
+00:06:14,000 --> 00:06:21,000
+For example, first we are going to have certain client applications, our client services who are trying
+
+85
+00:06:21,000 --> 00:06:26,000
+to invoke other microservices with the help of DNS name.
+
+86
+00:06:26,000 --> 00:06:29,000
+Like you can see here, someone is trying to invoke the accounts microservice.
+
+87
+00:06:29,000 --> 00:06:34,000
+Similarly, someone is trying to invoke the cards microservice and loans microservice with a different
+
+88
+00:06:34,000 --> 00:06:36,000
+different DNS names.
+
+89
+00:06:36,000 --> 00:06:43,000
+Whenever the request received to this DNS behind the scenes, there will be a traditional load balancer.
+
+90
+00:06:43,000 --> 00:06:49,000
+Try to monitor the request and based upon the incoming requests along with the DNS names, it will try
+
+91
+00:06:49,000 --> 00:06:53,000
+to look for the what are the exact details.
+
+92
+00:06:53,000 --> 00:06:59,000
+So you can see there is a primary load balancer here which is responsible to process all the requests
+
+93
+00:06:59,000 --> 00:07:03,000
+coming to the DNS with the name services.easybank.com.
+
+94
+00:07:03,000 --> 00:07:09,000
+So based upon the path that it sees inside the request, it will try to look for the corresponding physical
+
+95
+00:07:09,000 --> 00:07:13,000
+IP address by looking into the routing tables.
+
+96
+00:07:13,000 --> 00:07:17,000
+So someone might have configured all the details inside the routing tables.
+
+97
+00:07:17,000 --> 00:07:24,000
+Once my load balancer identifies what are the exact details, the same request will be forwarded to
+
+98
+00:07:24,000 --> 00:07:30,000
+the actual services, so there will be also secondary load balancer which will keep checking the health
+
+99
+00:07:30,000 --> 00:07:32,000
+status of the primary load balancer.
+
+100
+00:07:32,000 --> 00:07:37,000
+For some reason, if my primary load balancer is not responding, then immediately my secondary load
+
+101
+00:07:37,000 --> 00:07:40,000
+balancer will act as a primary load balancer.
+
+102
+00:07:40,000 --> 00:07:45,000
+This way we are trying to overcome the scenarios where the primary load balancer is down, so there
+
+103
+00:07:45,000 --> 00:07:50,000
+is always a backup load balancer. But there are certain problems with these traditional load balancer
+
+104
+00:07:50,000 --> 00:07:53,000
+because we are using in between traditional load balancer.
+
+105
+00:07:53,000 --> 00:07:56,000
+Let's try to understand what are those disadvantages.
+
+106
+00:07:56,000 --> 00:08:03,000
+Usually inside that traditional applications, each instance of a microservice are service will be deployed
+
+107
+00:08:03,000 --> 00:08:05,000
+in one or more application servers.
+
+108
+00:08:05,000 --> 00:08:11,000
+The number of these application servers usually will be static, and even in the case of restoration,
+
+109
+00:08:11,000 --> 00:08:16,000
+it would be restored to the same state with the same IP and other configurations.
+
+110
+00:08:16,000 --> 00:08:22,000
+This type of setup will work perfectly for monolithic applications and soa based applications, where
+
+111
+00:08:22,000 --> 00:08:28,000
+they have a relatively small number of services running with a group of static servers and static IP
+
+112
+00:08:28,000 --> 00:08:28,000
+address.
+
+113
+00:08:28,000 --> 00:08:35,000
+But like I said, this is not going to work for the cloud based microservices applications, because the
+
+114
+00:08:35,000 --> 00:08:36,000
+IP addresses are going to change.
+
+115
+00:08:36,000 --> 00:08:41,000
+That means your traditional load balancer will not be able to manage the traffic if the IP addresses
+
+116
+00:08:41,000 --> 00:08:43,000
+are keep changing dynamically.
+
+117
+00:08:43,000 --> 00:08:49,000
+So with this limitation inside the traditional load balancers, there are many disadvantages.
+
+118
+00:08:49,000 --> 00:08:54,000
+The very first one is limited horizontal scalability and license cost.
+
+119
+00:08:54,000 --> 00:08:58,000
+Whenever we want to use the traditional load balancers, we should definitely know the,
+
+120
+00:08:58,000 --> 00:09:01,000
+what are the IP address well ahead.
+
+121
+00:09:01,000 --> 00:09:07,000
+So the same we need to configure inside the routing tables and using the same routing tables, my traditional
+
+122
+00:09:07,000 --> 00:09:12,000
+load balancer can forward the traffic to the corresponding services. Since we need to maintain those
+
+123
+00:09:12,000 --> 00:09:19,000
+IP address details manually inside the routing table, we cannot really perform a lot of scalability
+
+124
+00:09:19,000 --> 00:09:21,000
+like dynamic scale up and scale down.
+
+125
+00:09:21,000 --> 00:09:24,000
+We cannot perform inside our microservices.
+
+126
+00:09:24,000 --> 00:09:30,000
+So that will be a huge limitation if you follow the traditional load balancer and at the same time these
+
+127
+00:09:30,000 --> 00:09:33,000
+traditional load balancer, they are not free of cost.
+
+128
+00:09:33,000 --> 00:09:38,000
+Every cloud provider, they provide these traditional load balancer with few licensing costs.
+
+129
+00:09:38,000 --> 00:09:42,000
+So they will also request some budget to set up inside your microservices network.
+
+130
+00:09:42,000 --> 00:09:46,000
+And the next disadvantage that we have here is single point of failure.
+
+131
+00:09:46,000 --> 00:09:49,000
+We saw in the previous slide there are two load balancers.
+
+132
+00:09:49,000 --> 00:09:55,000
+If my primary load balancer fail, then my backup load balancer like secondary load balancer will come
+
+133
+00:09:55,000 --> 00:09:56,000
+into picture.
+
+134
+00:09:56,000 --> 00:09:59,000
+What if both of them fail whenever we use this traditional load balancers,
+
+135
+00:09:59,000 --> 00:10:00,000
+we
+
+136
+00:10:00,000 --> 00:10:03,000
+can't scale them easily like inside a cluster environment.
+
+137
+00:10:03,000 --> 00:10:07,000
+So with these reasons, it is going to be a single point of failure.
+
+138
+00:10:07,000 --> 00:10:12,000
+And with that, all your incoming requests will be choked at a centralized location.
+
+139
+00:10:12,000 --> 00:10:19,000
+And the next major disadvantage that we have is someone has to manually manage the updating the IPs
+
+140
+00:10:19,000 --> 00:10:26,000
+configurations inside the traditional load balancer, which is an impossible scenario inside microservices
+
+141
+00:10:26,000 --> 00:10:27,000
+applications.
+
+142
+00:10:27,000 --> 00:10:32,000
+On top of these advantages, these traditional load balancers are complex in nature.
+
+143
+00:10:32,000 --> 00:10:37,000
+Someone has to maintain them manually and they are not container friendly.
+
+144
+00:10:37,000 --> 00:10:42,000
+Whenever we are using Docker containers, we can't use traditional load balancers with the primary reason
+
+145
+00:10:42,000 --> 00:10:47,000
+that Docker containers can be created or destroyed at any point of time.
+
+146
+00:10:47,000 --> 00:10:53,000
+So the summary from this discussion is, whenever you are using traditional load balancer, the biggest
+
+147
+00:10:53,000 --> 00:11:00,000
+challenge will be that someone has to manually maintain the routing tables, which is an impossible
+
+148
+00:11:00,000 --> 00:11:07,000
+task inside the microservices network. Because containers and microservices are ephemeral in nature.
+
+149
+00:11:07,000 --> 00:11:08,000
+So what is ephemeral?
+
+150
+00:11:08,000 --> 00:11:14,000
+Ephemeral means they are short lived and they will be disposed at any point of time.
+
+151
+00:11:14,000 --> 00:11:19,000
+I hope you are clear with the discussion about the traditional load balancers. Inside the next lecture,
+
+152
+00:11:19,000 --> 00:11:25,000
+let's try to understand how to overcome this challenge for cloud native applications and microservices
+
+153
+00:11:25,000 --> 00:11:26,000
+applications.
+
+154
+00:11:26,000 --> 00:11:29,000
+Thank you and I'll catch you in the next lecture bye.
+

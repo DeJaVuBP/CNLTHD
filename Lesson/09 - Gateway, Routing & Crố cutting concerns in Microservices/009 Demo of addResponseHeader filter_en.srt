@@ -1,0 +1,404 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, inside our Gateway server, we have defined these routing related configurations.
+
+2
+00:00:06,000 --> 00:00:12,000
+Inside these configurations, if you observe first we wrote a predicate with the help of this path predicate.
+
+3
+00:00:12,000 --> 00:00:18,000
+Using this path predicate where we are trying to validate if the given request path matches to this
+
+4
+00:00:18,000 --> 00:00:19,000
+predicate value.
+
+5
+00:00:19,000 --> 00:00:25,000
+If it matches, then we are trying to invoke one of the predefined filter available inside the Spring
+
+6
+00:00:25,000 --> 00:00:28,000
+Cloud Gateway server, which is rewrite path.
+
+7
+00:00:28,000 --> 00:00:34,000
+Using this rewrite path, we are trying to rewrite the path that we have received before we try to forward
+
+8
+00:00:34,000 --> 00:00:36,000
+the request to the actual microservice.
+
+9
+00:00:36,000 --> 00:00:42,000
+And once the rewrite path filter is executed, I am trying to forward the request to the actual microservice.
+
+10
+00:00:42,000 --> 00:00:46,000
+Now, inside this lecture, let me show you a demo of how to add more filters.
+
+11
+00:00:46,000 --> 00:00:52,000
+Like as of now we have only one filter, but in real projects we may want to define multiple filters.
+
+12
+00:00:52,000 --> 00:00:58,000
+That's why to demo the same scenario, I want to introduce one more filter which is responsible to send
+
+13
+00:00:58,000 --> 00:01:04,000
+a header inside the response that we are going to send to the client applications. For the same,
+
+14
+00:01:04,000 --> 00:01:07,000
+first, let's try to refer to the official documentation.
+
+15
+00:01:07,000 --> 00:01:10,000
+So this is the link of official documentation.
+
+16
+00:01:10,000 --> 00:01:15,000
+Before I try to explain about the new filter that we are going to implement inside this lecture, first
+
+17
+00:01:15,000 --> 00:01:19,000
+let me try to give more details on how you need to approach anytime.
+
+18
+00:01:19,000 --> 00:01:22,000
+If you have some question about the Spring Cloud Gateway or any other framework.
+
+19
+00:01:22,000 --> 00:01:26,000
+As of now, you can see here I have defined some routing configurations.
+
+20
+00:01:26,000 --> 00:01:31,000
+You may have a question like how this fell or know that we need to define the configurations in the
+
+21
+00:01:31,000 --> 00:01:33,000
+format that we are seeing here.
+
+22
+00:01:33,000 --> 00:01:34,000
+So that's a very valid question.
+
+23
+00:01:34,000 --> 00:01:36,000
+Many times you may have such questions.
+
+24
+00:01:36,000 --> 00:01:38,000
+Let me try to answer you the same.
+
+25
+00:01:38,000 --> 00:01:43,000
+First, we need to read the complete official documentation and usually inside these official documentation
+
+26
+00:01:43,000 --> 00:01:45,000
+we'll have complete details.
+
+27
+00:01:45,000 --> 00:01:51,000
+For example, if you click on this Fluent Java Routes API here, you can see we have a Java method.
+
+28
+00:01:51,000 --> 00:01:57,000
+On top of this, we have a bean annotation which is accepting a return type of RouteLocator.
+
+29
+00:01:57,000 --> 00:02:01,000
+So this is an official example from the Spring Cloud Gateway team.
+
+30
+00:02:01,000 --> 00:02:06,000
+Very similarly, based upon our own business requirements, we need to change the content of this method.
+
+31
+00:02:06,000 --> 00:02:08,000
+That's what we have done here.
+
+32
+00:02:08,000 --> 00:02:14,000
+Now if you have a question like how we can define routing related configurations with the help of Yaml
+
+33
+00:02:14,000 --> 00:02:16,000
+configurations. That's a very valid question,
+
+34
+00:02:16,000 --> 00:02:20,000
+obviously you need to search inside the official documentation.
+
+35
+00:02:20,000 --> 00:02:23,000
+Suppose if you see here there is a route predicate factories.
+
+36
+00:02:23,000 --> 00:02:26,000
+If you click on this, there are many predicate factories.
+
+37
+00:02:26,000 --> 00:02:30,000
+The route predicate factory that we have used is related to the path.
+
+38
+00:02:30,000 --> 00:02:36,000
+If you click here, there is an example configuration that we can follow whenever we are trying to use
+
+39
+00:02:36,000 --> 00:02:37,000
+dot yaml file.
+
+40
+00:02:37,000 --> 00:02:43,000
+You can see here, by using these properties we can define the same kind of information like what is
+
+41
+00:02:43,000 --> 00:02:45,000
+the ID, what is the what is the predicate?
+
+42
+00:02:45,000 --> 00:02:49,000
+And inside this predicate we need to invoke the path filter.
+
+43
+00:02:49,000 --> 00:02:55,000
+So this is another approach on how we can define routing related configurations inside the gateway server.
+
+44
+00:02:55,000 --> 00:03:01,000
+But like I said, always prefer using the Java style configurations because this will give a lot of
+
+45
+00:03:01,000 --> 00:03:02,000
+flexibility.
+
+46
+00:03:02,000 --> 00:03:07,000
+And with these configurations you can implement any complex requirements.
+
+47
+00:03:07,000 --> 00:03:11,000
+Now coming to the topic that we are trying to discuss inside this lecture, which is we are trying to
+
+48
+00:03:11,000 --> 00:03:16,000
+add a new filter that is responsible to send the header inside the response.
+
+49
+00:03:16,000 --> 00:03:20,000
+So for the same you can always search for the official documentation.
+
+50
+00:03:20,000 --> 00:03:24,000
+So here we have section with the name Gateway Filter Factories.
+
+51
+00:03:24,000 --> 00:03:30,000
+If you can click on that and search for response, there is a gateway filter factory with the name
+
+52
+00:03:30,000 --> 00:03:33,000
+AddResponseHeader, GatewayFilter Factory.
+
+53
+00:03:33,000 --> 00:03:39,000
+So using this Gateway filter factory, we can add a header inside the response and here they have given
+
+54
+00:03:39,000 --> 00:03:42,000
+the configuration with the help of .yml.
+
+55
+00:03:42,000 --> 00:03:47,000
+But since we are using the Java based configurations, we need to look for something very similar.
+
+56
+00:03:47,000 --> 00:03:53,000
+So let's go to the Java configurations and remember these filter name which is add response header.
+
+57
+00:03:53,000 --> 00:03:56,000
+So here as of now we have defined one filter.
+
+58
+00:03:56,000 --> 00:04:01,000
+If I want to define one more filter, I need to press dot post that here
+
+59
+00:04:01,000 --> 00:04:07,000
+there are many filters that you can see which are available as part of the Spring Cloud Gateway server.
+
+60
+00:04:07,000 --> 00:04:11,000
+The filter that we are looking here is add response header.
+
+61
+00:04:11,000 --> 00:04:14,000
+So you can see there is a filter to this filter
+
+62
+00:04:14,000 --> 00:04:18,000
+we need to mention what is the header name and what is the header value.
+
+63
+00:04:18,000 --> 00:04:21,000
+Here first I'm going to provide what is the header name?
+
+64
+00:04:21,000 --> 00:04:26,000
+The header name that I want to consider here is X-Response-Time.
+
+65
+00:04:26,000 --> 00:04:33,000
+So with this header I'm trying to send, what is the time at which I'm trying to send the response to
+
+66
+00:04:33,000 --> 00:04:34,000
+my client applications?
+
+67
+00:04:34,000 --> 00:04:39,000
+So this is going to help them to understand when the response is received and at the same time, if
+
+68
+00:04:39,000 --> 00:04:44,000
+they are looking for some performance related information, they can always calculate when they send
+
+69
+00:04:44,000 --> 00:04:47,000
+the request and when they received the response.
+
+70
+00:04:47,000 --> 00:04:52,000
+And that will give some rough estimate on how much time a particular request has taken to go to the
+
+71
+00:04:52,000 --> 00:04:56,000
+Gateway server and from Gateway server to the microservice and come back to the client.
+
+72
+00:04:56,000 --> 00:05:00,000
+So here obviously we need to send the current date
+
+73
+00:05:00,000 --> 00:05:05,000
+Time, for the same since we are trying to send the current date and time, I'm going to invoke
+
+74
+00:05:05,000 --> 00:05:07,000
+LocalDateTime.now after
+
+75
+00:05:07,000 --> 00:05:11,000
+now I'm going to convert this to toString() value.
+
+76
+00:05:11,000 --> 00:05:17,000
+With this you can see we have added a new filter that is responsible to send the header inside the response.
+
+77
+00:05:17,000 --> 00:05:22,000
+So let me add the similar filter for other microservices as well.
+
+78
+00:05:22,000 --> 00:05:26,000
+So under loans, I'm going to introduce a new filter and very similarly under cards
+
+79
+00:05:26,000 --> 00:05:29,000
+also I'm going to introduce a new filter.
+
+80
+00:05:29,000 --> 00:05:34,000
+So with this we have added the filter in all the microservice related configurations.
+
+81
+00:05:34,000 --> 00:05:37,000
+So let me save these changes and do a build.
+
+82
+00:05:37,000 --> 00:05:41,000
+Now here inside the postman, I'm going to invoke these request.
+
+83
+00:05:41,000 --> 00:05:46,000
+As of now, you can see previously we used to get the only three headers inside the response.
+
+84
+00:05:46,000 --> 00:05:53,000
+Now if I try to send this request to my gateway server this time you can see we are getting a custom
+
+85
+00:05:53,000 --> 00:05:59,000
+header that we have defined inside the response with the name X-Response-Time.
+
+86
+00:05:59,000 --> 00:06:03,000
+And inside this we will get what is the current date and time value.
+
+87
+00:06:03,000 --> 00:06:07,000
+This way we can add any number of filters like based upon your business requirements.
+
+88
+00:06:07,000 --> 00:06:11,000
+Always come here and look for what are the filters that are available.
+
+89
+00:06:11,000 --> 00:06:18,000
+Like there is an filter to add the request header to add the request parameter change request to cache
+
+90
+00:06:18,000 --> 00:06:21,000
+RequestBody, circuit breaker, fallback headers.
+
+91
+00:06:21,000 --> 00:06:27,000
+And similarly there is a header for JsonToGrpc conversion local response cache map request header
+
+92
+00:06:27,000 --> 00:06:33,000
+modify RequestBody and if you can scroll down, there is a modified response body prefix path redirect.
+
+93
+00:06:33,000 --> 00:06:37,000
+So there are good amount of filters available inside the gateway server.
+
+94
+00:06:37,000 --> 00:06:41,000
+So based upon your business requirements, always try to leverage them.
+
+95
+00:06:41,000 --> 00:06:46,000
+And with these filters you should be able to achieve majority of the business requirements.
+
+96
+00:06:46,000 --> 00:06:52,000
+But what if there is no predefined filter inside the gateway server matching with my business logic
+
+97
+00:06:52,000 --> 00:06:53,000
+in such scenarios
+
+98
+00:06:53,000 --> 00:06:56,000
+definitely we need to define our own custom filters.
+
+99
+00:06:56,000 --> 00:06:59,000
+Let's try to understand the same in the next lecture.
+
+100
+00:06:59,000 --> 00:07:01,000
+Thank you and I'll catch you in the next lecture.
+
+101
+00:07:01,000 --> 00:07:01,000
+Bye.
+

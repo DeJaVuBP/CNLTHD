@@ -1,0 +1,300 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let me introduce about the new challenge that we are going to discuss inside this
+
+2
+00:00:06,000 --> 00:00:06,000
+section.
+
+3
+00:00:06,000 --> 00:00:13,000
+As of now, we discussed about four different challenges and how to overcome them while building microservices.
+
+4
+00:00:13,000 --> 00:00:16,000
+So we are right now into the challenge number 5.
+
+5
+00:00:16,000 --> 00:00:18,000
+So let's try to discuss the same before that
+
+6
+00:00:18,000 --> 00:00:24,000
+just a reminder, since we are into a new section, I'm trying to use a new color for my slides just
+
+7
+00:00:24,000 --> 00:00:27,000
+to keep you engaged with the discussions.
+
+8
+00:00:27,000 --> 00:00:34,000
+The challenge that we are going to discuss inside this section is, how microservices discover other microservices
+
+9
+00:00:34,000 --> 00:00:38,000
+and how they register themselves into the microservices network.
+
+10
+00:00:38,000 --> 00:00:41,000
+So let's try to understand more details about this challenge.
+
+11
+00:00:41,000 --> 00:00:43,000
+For the same, I'm going to ask some questions here.
+
+12
+00:00:43,000 --> 00:00:50,000
+The very first question is how a microservice is going to locate other microservices inside a network.
+
+13
+00:00:50,000 --> 00:00:55,000
+like we discussed in the previous lecture, all our microservices will be deployed inside a microservice
+
+14
+00:00:55,000 --> 00:00:56,000
+network.
+
+15
+00:00:56,000 --> 00:01:02,000
+If one instance of a microservice want to connect with other instance of a microservice, how it is
+
+16
+00:01:02,000 --> 00:01:04,000
+going to connect with it.
+
+17
+00:01:04,000 --> 00:01:10,000
+You may answer here saying that every microservice will have its own endpoint, will have its own port
+
+18
+00:01:10,000 --> 00:01:10,000
+number.
+
+19
+00:01:10,000 --> 00:01:14,000
+Why can't my other microservice can use those details and try to connect with it?
+
+20
+00:01:14,000 --> 00:01:15,000
+I agree with that.
+
+21
+00:01:15,000 --> 00:01:22,000
+But this approach may work to some extent inside monolithic applications, but inside microservices
+
+22
+00:01:22,000 --> 00:01:27,000
+will be creating and destroying the containers based upon our own requirements.
+
+23
+00:01:27,000 --> 00:01:34,000
+That means the endpoints will keep changing dynamically whenever we try to scale up our microservice
+
+24
+00:01:34,000 --> 00:01:39,000
+instance or whenever we are trying to destroy a particular microservice container because it's not responding.
+
+25
+00:01:39,000 --> 00:01:40,000
+In such scenarios,
+
+26
+00:01:40,000 --> 00:01:45,000
+how other microservice will know what is the IP address of a specific microservice.
+
+27
+00:01:45,000 --> 00:01:48,000
+So it is going to be impossible to track such details.
+
+28
+00:01:48,000 --> 00:01:49,000
+So there is a challenge here.
+
+29
+00:01:49,000 --> 00:01:56,000
+The next question that I want to ask here is, how a new service instance can enter into the Microservice
+
+30
+00:01:56,000 --> 00:01:57,000
+network.
+
+31
+00:01:57,000 --> 00:02:02,000
+For example, while the production deployment we might have started with a one instance of account,
+
+32
+00:02:02,000 --> 00:02:06,000
+one instance of loans and one instance of cards microservice.
+
+33
+00:02:06,000 --> 00:02:12,000
+But later on we felt that the traffic is very high and we decided to increase the number of instances
+
+34
+00:02:12,000 --> 00:02:14,000
+from 1 to 5 for all the microservices.
+
+35
+00:02:14,000 --> 00:02:20,000
+So when this scale up is happening, runtime inside the production, how they are going to enter into
+
+36
+00:02:20,000 --> 00:02:25,000
+the network and how they will communicate about their details to the other microservices.
+
+37
+00:02:25,000 --> 00:02:32,000
+So my accounts microservice might be thinking there is only one lone microservice instance inside
+
+38
+00:02:32,000 --> 00:02:39,000
+the Microservice network. But behind the scenes we created four new microservice instances of loans,
+
+39
+00:02:39,000 --> 00:02:41,000
+microservice and cards microservice.
+
+40
+00:02:41,000 --> 00:02:44,000
+How these details will get communicated to accounts microservice.
+
+41
+00:02:44,000 --> 00:02:52,000
+This scenario we may also face whenever we are trying to replace an unhealthy instance with a new microservice
+
+42
+00:02:52,000 --> 00:02:52,000
+container.
+
+43
+00:02:52,000 --> 00:02:57,000
+Since we are trying to create a new container, definitely there will be a new IP address will be assigned
+
+44
+00:02:57,000 --> 00:02:57,000
+to it.
+
+45
+00:02:57,000 --> 00:03:03,000
+So with all these dynamic conditions or dynamic situations inside the microservices network, it's very
+
+46
+00:03:03,000 --> 00:03:10,000
+challenge how a new service can enter into the microservice network and communicate about its details
+
+47
+00:03:10,000 --> 00:03:12,000
+to the other microservices.
+
+48
+00:03:12,000 --> 00:03:17,000
+If they're not able to communicate about themselves to the other microservice, then they will never
+
+49
+00:03:17,000 --> 00:03:18,000
+be invoked.
+
+50
+00:03:18,000 --> 00:03:24,000
+So there is no use of scaling up or replacing an unhealthy container. In the similar lines,
+
+51
+00:03:24,000 --> 00:03:31,000
+whenever we have multiple instances of a microservice deployed inside a environment, we need to also
+
+52
+00:03:31,000 --> 00:03:37,000
+think about how a load balancing will happen between the microservice instance.
+
+53
+00:03:37,000 --> 00:03:42,000
+For example, microservice instance is trying to call loads microservice but loans
+
+54
+00:03:42,000 --> 00:03:49,000
+microservice has five different parallel running containers available inside the same environment.
+
+55
+00:03:49,000 --> 00:03:55,000
+So how my accounts microservice will know which instance of the loans microservice has to be invoked.
+
+56
+00:03:55,000 --> 00:03:58,000
+So how that load balancing is going to work.
+
+57
+00:03:58,000 --> 00:04:03,000
+The scenario should not be like accounts microservice always forwarding the traffic to one instance
+
+58
+00:04:03,000 --> 00:04:09,000
+of the loans microservice and making it super busy while other instances they are enjoying their holidays.
+
+59
+00:04:09,000 --> 00:04:10,000
+So it should not be like that.
+
+60
+00:04:10,000 --> 00:04:16,000
+So with all these questions and challenges, we need to understand how to work on this.
+
+61
+00:04:16,000 --> 00:04:19,000
+So let me try to reveal the solution for these challenges.
+
+62
+00:04:19,000 --> 00:04:26,000
+So to overcome all these challenges, we have concepts and patterns or standards with the name service
+
+63
+00:04:26,000 --> 00:04:29,000
+discovery, service registration and load balancing.
+
+64
+00:04:29,000 --> 00:04:35,000
+So we need to make sure our microservice network and all the containers inside the network are following
+
+65
+00:04:35,000 --> 00:04:36,000
+are implemented.
+
+66
+00:04:36,000 --> 00:04:41,000
+These standards and concepts like service discovery, service registration and load balancing.
+
+67
+00:04:41,000 --> 00:04:47,000
+I know you might be scratching your head saying that this fellow again bring new jargons like service
+
+68
+00:04:47,000 --> 00:04:49,000
+discovery, service registration, load balancing.
+
+69
+00:04:49,000 --> 00:04:50,000
+I don't know what are those?
+
+70
+00:04:50,000 --> 00:04:51,000
+So don't worry.
+
+71
+00:04:51,000 --> 00:04:53,000
+I'm going to make them clear for you.
+
+72
+00:04:53,000 --> 00:04:59,000
+But for now, I'm assuming you are clear the challenges that we are going to discuss inside this section.
+
+73
+00:04:59,000 --> 00:04:59,000
+So,
+
+74
+00:04:59,000 --> 00:05:03,000
+take your time and try to read these questions and the challenges that we have.
+
+75
+00:05:03,000 --> 00:05:07,000
+And I'm going to catch you in the next lecture bye.
+

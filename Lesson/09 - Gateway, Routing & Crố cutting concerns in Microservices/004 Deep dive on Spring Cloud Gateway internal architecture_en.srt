@@ -1,0 +1,428 @@
+1
+00:00:00,000 --> 00:00:04,000
+This is the internal architecture of Spring Cloud Gateway.
+
+2
+00:00:04,000 --> 00:00:07,000
+Let's try to understand more details.
+
+3
+00:00:07,000 --> 00:00:12,000
+First we always receive the request from our external clients, and these client applications can be in the
+
+4
+00:00:12,000 --> 00:00:18,000
+form of mobile applications or website or it can be other REST based API as well.
+
+5
+00:00:18,000 --> 00:00:23,000
+So when my client applications, when they send the request to my gateway server, which is acting as
+
+6
+00:00:23,000 --> 00:00:30,000
+a edge server inside our microservices, it is going to take help from the gateway handler mapping.
+
+7
+00:00:30,000 --> 00:00:36,000
+So this is an important component which is going to help my gateway server to identify what is the path
+
+8
+00:00:36,000 --> 00:00:43,000
+that has been invoked by my client application and to which microservice it has to redirect the request.
+
+9
+00:00:43,000 --> 00:00:45,000
+And there is no artificial intelligence here.
+
+10
+00:00:45,000 --> 00:00:51,000
+My gateway handler mapping it can't take a decision to which microservice it has to forward the request.
+
+11
+00:00:51,000 --> 00:00:57,000
+To help my gateway handler Mapping my developer has to do some routing related configurations, saying
+
+12
+00:00:57,000 --> 00:01:04,000
+that if someone send a request to this particular path, please redirect that request to a particular
+
+13
+00:01:04,000 --> 00:01:05,000
+microservice.
+
+14
+00:01:05,000 --> 00:01:09,000
+I'm going to show you in the coming lectures how to perform those routing configurations.
+
+15
+00:01:09,000 --> 00:01:15,000
+For now, please note that this gateway handler mapping is an important and very first component inside
+
+16
+00:01:15,000 --> 00:01:21,000
+the Spring Cloud Gateway, which is going to help to identify the path and routing the request to the
+
+17
+00:01:21,000 --> 00:01:22,000
+corresponding microservice.
+
+18
+00:01:22,000 --> 00:01:28,000
+After my spring Cloud Gateway identifies to which microservice the request has to be forwarded first.
+
+19
+00:01:28,000 --> 00:01:34,000
+It will check if there are any predicates or pre filters configured by the developer.
+
+20
+00:01:34,000 --> 00:01:40,000
+So these two components will be executed before forwarding the request to the actual microservice.
+
+21
+00:01:40,000 --> 00:01:42,000
+So let's try to understand what are these components?
+
+22
+00:01:42,000 --> 00:01:46,000
+A predicate is a logic which will return a boolean value.
+
+23
+00:01:46,000 --> 00:01:51,000
+You can define some conditions to your spring cloud gateway, saying that if a particular condition
+
+24
+00:01:51,000 --> 00:01:54,000
+is met, then only forward the request to the microservices.
+
+25
+00:01:54,000 --> 00:01:57,000
+Otherwise simply reject it with whatever reason.
+
+26
+00:01:57,000 --> 00:02:02,000
+So such kind of conditions we can define with the help of predicates.
+
+27
+00:02:02,000 --> 00:02:07,000
+If you are familiar with functional interface and lambda expressions which are introduced in Java 8,
+
+28
+00:02:07,000 --> 00:02:09,000
+we have a functional interface with the name predicate.
+
+29
+00:02:09,000 --> 00:02:15,000
+So what that functional interface is going to do is, it is going to execute some business logic and will
+
+30
+00:02:15,000 --> 00:02:16,000
+return a boolean value
+
+31
+00:02:16,000 --> 00:02:22,000
+true or false. Based upon the boolean value, the next logic can be executed. Very similarly here
+
+32
+00:02:22,000 --> 00:02:29,000
+also, these predicates will help my Spring cloud gateway to decide whether the conditions defined by
+
+33
+00:02:29,000 --> 00:02:31,000
+my developer is met or not.
+
+34
+00:02:31,000 --> 00:02:36,000
+If they are not met, then it is not going to forward the request and simply deny the request with a
+
+35
+00:02:36,000 --> 00:02:39,000
+proper error to the client application.
+
+36
+00:02:39,000 --> 00:02:45,000
+Let's assume all the predicates defined by the developer are passed and now Spring Cloud Gateway will
+
+37
+00:02:45,000 --> 00:02:46,000
+look for
+
+38
+00:02:46,000 --> 00:02:51,000
+are there any pre filters configured by the developer. Inside these pre filters
+
+39
+00:02:51,000 --> 00:02:57,000
+we can execute any business logic like you can do some request validations, you can do some auditing,
+
+40
+00:02:57,000 --> 00:03:01,000
+logging, you can modify the request, you can perform some security checks.
+
+41
+00:03:01,000 --> 00:03:06,000
+So your requirement can be anything and you may have any number of requirements.
+
+42
+00:03:06,000 --> 00:03:10,000
+All such non-functional requirements are cross-cutting requirements.
+
+43
+00:03:10,000 --> 00:03:14,000
+You can implement using any number of pre filters.
+
+44
+00:03:14,000 --> 00:03:16,000
+Once all these pre filters are executed.
+
+45
+00:03:16,000 --> 00:03:23,000
+Finally, your request will be forwarded to the actual microservice like loans, cards or accounts
+
+46
+00:03:23,000 --> 00:03:23,000
+microservice.
+
+47
+00:03:23,000 --> 00:03:30,000
+Once my microservice processes the request, it is going to send the response and the response will
+
+48
+00:03:30,000 --> 00:03:32,000
+be intercepted by the post filters.
+
+49
+00:03:32,000 --> 00:03:34,000
+The pre filters will act on the request.
+
+50
+00:03:34,000 --> 00:03:38,000
+Very similarly, the post filters, they will act on the response.
+
+51
+00:03:38,000 --> 00:03:44,000
+So before you try to send the response to the actual client application, you may want to modify some
+
+52
+00:03:44,000 --> 00:03:47,000
+response or you may want to perform some validations.
+
+53
+00:03:47,000 --> 00:03:54,000
+All such validations and business logic you can define inside the post filters and after executing all
+
+54
+00:03:54,000 --> 00:04:00,000
+the post filters configured by the developer, the same response will be sent back to the gateway handler
+
+55
+00:04:00,000 --> 00:04:05,000
+mapping and from gateway handler mapping it will send to the actual client application.
+
+56
+00:04:05,000 --> 00:04:07,000
+So this is the internal architecture.
+
+57
+00:04:07,000 --> 00:04:14,000
+I know you may have lot of questions how to configure a predicate, how I can do a routing configuration,
+
+58
+00:04:14,000 --> 00:04:17,000
+how I can define pre filters and post filters.
+
+59
+00:04:17,000 --> 00:04:20,000
+Don't worry, it's my job to make it clear for you.
+
+60
+00:04:20,000 --> 00:04:25,000
+In the coming lectures we are going to define all these components inside the gateway server that we
+
+61
+00:04:25,000 --> 00:04:29,000
+are going to create with the help of Spring Cloud Gateway Project.
+
+62
+00:04:29,000 --> 00:04:33,000
+And one more beauty of the Spring Cloud Gateway is, Spring Cloud team
+
+63
+00:04:33,000 --> 00:04:39,000
+they have done a very good job in defining some predefined filters based upon the most common scenarios
+
+64
+00:04:39,000 --> 00:04:43,000
+that we may face inside the Microservices network.
+
+65
+00:04:43,000 --> 00:04:46,000
+So let's try to understand more details about these predefined filters.
+
+66
+00:04:46,000 --> 00:04:50,000
+For the same, we need to go to the official website of Spring Cloud Gateway.
+
+67
+00:04:50,000 --> 00:04:55,000
+So here inside this Spring Cloud Gateway, you can click on this Learn option and post that click
+
+68
+00:04:55,000 --> 00:04:57,000
+on this reference documentation.
+
+69
+00:04:57,000 --> 00:04:59,000
+So I'm clicking on this, which will take you
+
+70
+00:04:59,000 --> 00:05:02,000
+to the official documentation page.
+
+71
+00:05:02,000 --> 00:05:05,000
+Here there is a lot of information about the spring Cloud gateway.
+
+72
+00:05:05,000 --> 00:05:12,000
+Whenever you have some question on how to implement a particular filter or on how to handle a particular
+
+73
+00:05:12,000 --> 00:05:16,000
+scenario with the help of Spring Cloud Gateway, this is your go to place.
+
+74
+00:05:16,000 --> 00:05:22,000
+Since it is not possible for me to discuss everything about Spring Cloud Gateway, I'm showing you this
+
+75
+00:05:22,000 --> 00:05:27,000
+official documentation, but I'll give you enough details for you on how to create a gateway server
+
+76
+00:05:27,000 --> 00:05:32,000
+with the help of Spring Cloud Gateway, how to create filters, how to configure them, how to define
+
+77
+00:05:32,000 --> 00:05:33,000
+predicates.
+
+78
+00:05:33,000 --> 00:05:35,000
+So we're going to discuss all those in the coming lectures.
+
+79
+00:05:35,000 --> 00:05:39,000
+For now, let's try to understand what are the predefined filters available.
+
+80
+00:05:39,000 --> 00:05:45,000
+If you click on this route predicate factories, you will be able to see how to configure a route based
+
+81
+00:05:45,000 --> 00:05:52,000
+upon various parameters like header value, cookie, host based route configurations, method based,
+
+82
+00:05:52,000 --> 00:05:55,000
+path based, query based, remote addressed based, weightage based.
+
+83
+00:05:55,000 --> 00:05:58,000
+So these are all the factors that you can use.
+
+84
+00:05:58,000 --> 00:06:04,000
+And very similarly, if you click on these gateway factories here, there are many predefined filters.
+
+85
+00:06:04,000 --> 00:06:09,000
+Like if you want to add some request header inside your gateway filter, you can use this filter.
+
+86
+00:06:09,000 --> 00:06:13,000
+And very similarly, you can also add some request to parameter for the same
+
+87
+00:06:13,000 --> 00:06:14,000
+you can use this filter.
+
+88
+00:06:14,000 --> 00:06:21,000
+There is an AddResponseHeaderFilter, CircuitBreakerFilter, CacheRequestBodyFilter, FallbackHeadersFliter
+
+89
+00:06:21,000 --> 00:06:28,000
+JsonToGrpcGatewayFilter, which means you can convert the request from JsonToGrpc if needed
+
+90
+00:06:28,000 --> 00:06:30,000
+You can also modify the RequestBody
+
+91
+00:06:30,000 --> 00:06:34,000
+using this filter, we can modify the ResponseBody using this filter.
+
+92
+00:06:34,000 --> 00:06:40,000
+So there is also a RetryGatewayFilter, TokenRelayGatewayFilter which will help you while you are
+
+93
+00:06:40,000 --> 00:06:42,000
+trying to secure your microservices.
+
+94
+00:06:42,000 --> 00:06:47,000
+Apart from that, we also have other global filters inside these global filters
+
+95
+00:06:47,000 --> 00:06:49,000
+also, we have many other filters.
+
+96
+00:06:49,000 --> 00:06:52,000
+For example, this gateway matrix filter will help you to collect the metrics.
+
+97
+00:06:52,000 --> 00:06:58,000
+There is also a section related to TLS and SSL, which will help you to perform TLS handshake.
+
+98
+00:06:58,000 --> 00:07:04,000
+So there is a lot of information available on this official documentation.
+
+99
+00:07:04,000 --> 00:07:11,000
+So in future when you have some issues, always refer to this documentation, but this introduction
+
+100
+00:07:11,000 --> 00:07:16,000
+should be good enough for us in implementing a gateway server with the help of Spring Cloud Gateway.
+
+101
+00:07:16,000 --> 00:07:20,000
+Let's start the journey of Gateway Server from the next lecture.
+
+102
+00:07:20,000 --> 00:07:25,000
+In the same process, I will also show you few of the features provided by the Spring Cloud Gateway.
+
+103
+00:07:25,000 --> 00:07:27,000
+I hope this is clear,
+
+104
+00:07:27,000 --> 00:07:28,000
+If not, don't worry.
+
+105
+00:07:28,000 --> 00:07:33,000
+While we try to create this gateway server and see the demos, then it is going to be super, super
+
+106
+00:07:33,000 --> 00:07:34,000
+clear for you.
+
+107
+00:07:34,000 --> 00:07:37,000
+Thank you and I'll catch you in the next lecture bye.
+

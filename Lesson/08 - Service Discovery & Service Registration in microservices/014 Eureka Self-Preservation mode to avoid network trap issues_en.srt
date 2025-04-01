@@ -1,0 +1,680 @@
+1
+00:00:00,000 --> 00:00:07,000
+Inside this lecture, let's try to understand why we are seeing this error or warning inside the Eureka
+
+2
+00:00:07,000 --> 00:00:07,000
+dashboard.
+
+3
+00:00:07,000 --> 00:00:12,000
+As of now, if you try to read this message, it is not going to make any sense.
+
+4
+00:00:12,000 --> 00:00:18,000
+Once I explain a beautiful concept available inside the Eureka Server, then this warning is going to
+
+5
+00:00:18,000 --> 00:00:19,000
+make more sense to you.
+
+6
+00:00:19,000 --> 00:00:25,000
+So whatever warning that we are seeing on the Eureka dashboard, that is because due to a concept called
+
+7
+00:00:25,000 --> 00:00:33,000
+self-preservation inside the Eureka Server. Sometimes Eureka Server will enter or will activate a self-preservation
+
+8
+00:00:33,000 --> 00:00:33,000
+mode.
+
+9
+00:00:33,000 --> 00:00:38,000
+So let's try to understand what is the self-preservation and when this will be activated inside the
+
+10
+00:00:38,000 --> 00:00:39,000
+Eureka Server.
+
+11
+00:00:39,000 --> 00:00:47,000
+In a normal working microservice network, Eureka Server will expert heartbeats from the microservice
+
+12
+00:00:47,000 --> 00:00:49,000
+instances that are registered with it.
+
+13
+00:00:49,000 --> 00:00:55,000
+So for some reason, if the Eureka Server does not receiving a heartbeat from a particular microservice
+
+14
+00:00:55,000 --> 00:01:02,000
+instance within a certain time frame, then it assumes that the instance has become unresponsive, crashed
+
+15
+00:01:02,000 --> 00:01:04,000
+or it became unhealthy.
+
+16
+00:01:04,000 --> 00:01:11,000
+So based upon this assumption, my Eureka server is going to delete the details of that particular instance,
+
+17
+00:01:11,000 --> 00:01:17,000
+which is not responding from the service registry details. So that it cannot be discovered by the other
+
+18
+00:01:17,000 --> 00:01:17,000
+services.
+
+19
+00:01:17,000 --> 00:01:25,000
+So this default behavior helps a Eureka server to maintain up to date view of all the registered healthy
+
+20
+00:01:25,000 --> 00:01:26,000
+service instances.
+
+21
+00:01:26,000 --> 00:01:30,000
+But sometimes network issues can happen, in real life
+
+22
+00:01:30,000 --> 00:01:36,000
+also, sometimes we see a particular website may not work for a few seconds or few minutes After few
+
+23
+00:01:36,000 --> 00:01:36,000
+minutes.
+
+24
+00:01:36,000 --> 00:01:41,000
+Once the network issue is resolved, the website we can access without any issues.
+
+25
+00:01:41,000 --> 00:01:47,000
+The similar kind of network related glitches can happen inside the Microservice network as well.
+
+26
+00:01:47,000 --> 00:01:53,000
+So in these kind of situations, whenever there are some temporary system delays or network glitches
+
+27
+00:01:53,000 --> 00:01:59,000
+inside your network, Eureka Server will definitely miss few heartbeats from the microservices
+
+28
+00:01:59,000 --> 00:02:05,000
+instances leading to a false expiration or false removal of the service instances.
+
+29
+00:02:05,000 --> 00:02:12,000
+And this can result into unnecessary evictions of healthy service instances from the registry, causing
+
+30
+00:02:12,000 --> 00:02:16,000
+instability and disruption inside your microservice network.
+
+31
+00:02:16,000 --> 00:02:21,000
+For example, think like there is a network glitch happen for five minutes inside your microservice
+
+32
+00:02:21,000 --> 00:02:27,000
+network. And due to this network glitch for a total period of five minutes, my Eureka server is not
+
+33
+00:02:27,000 --> 00:02:31,000
+going to receive any heartbeats from any of the microservice instance.
+
+34
+00:02:31,000 --> 00:02:37,000
+And if it starts expiring all the instances from the Eureka Server Registry, then the Eureka server
+
+35
+00:02:37,000 --> 00:02:38,000
+will be empty.
+
+36
+00:02:38,000 --> 00:02:43,000
+And once the service registry is empty and if someone is trying to invoke the other microservices with
+
+37
+00:02:43,000 --> 00:02:49,000
+the help of service discovery and client side load balancing, then definitely they will get an exception
+
+38
+00:02:49,000 --> 00:02:53,000
+because there are no registered instances with the Eureka Server.
+
+39
+00:02:53,000 --> 00:02:59,000
+So how to overcome these false alarms are temporary or short network glitches that can happen inside
+
+40
+00:02:59,000 --> 00:03:01,000
+your microservice network.
+
+41
+00:03:01,000 --> 00:03:08,000
+So to mitigate this risk, Eureka Server is going to enter a self-preservation mode.
+
+42
+00:03:08,000 --> 00:03:14,000
+As soon as my Eureka Server realizes that majority of the microservices instances are not sending the
+
+43
+00:03:14,000 --> 00:03:21,000
+heartbeat, then it is not going to react and remove all the service instance details from the registry.
+
+44
+00:03:21,000 --> 00:03:28,000
+Instead, it is going to enter into a self-preservation mode and once the Eureka Server enters into
+
+45
+00:03:28,000 --> 00:03:33,000
+this mode, even if it is not receiving the heartbeat signals from the service instances, it is not
+
+46
+00:03:33,000 --> 00:03:36,000
+going to remove the service details from the service registry.
+
+47
+00:03:36,000 --> 00:03:43,000
+So this prevents the Eureka server from evicting all the instances due to some temporary network delays
+
+48
+00:03:43,000 --> 00:03:45,000
+or temporary network glitches.
+
+49
+00:03:45,000 --> 00:03:52,000
+Many times the network issues can be on the internet provider or it can be on the cloud provider side,
+
+50
+00:03:52,000 --> 00:03:56,000
+or it can be within the microservice network regardless of where the issue is,
+
+51
+00:03:56,000 --> 00:04:01,000
+after few minutes or few seconds, the network related issue will get automatically resolved.
+
+52
+00:04:01,000 --> 00:04:07,000
+So for these kind of scenarios only, we have these Eureka self-preservation mode.
+
+53
+00:04:07,000 --> 00:04:08,000
+Inside this self-preservation mode.
+
+54
+00:04:08,000 --> 00:04:14,000
+The Eureka Server continues to serve the registered instances to client applications.
+
+55
+00:04:14,000 --> 00:04:18,000
+Even it suspects that some instances are no longer available.
+
+56
+00:04:18,000 --> 00:04:24,000
+Maybe the network glitch might be present only between the Eureka Server and actual running instances.
+
+57
+00:04:24,000 --> 00:04:30,000
+So with that assumption, it will keep running and keep providing the instance details that it has to
+
+58
+00:04:30,000 --> 00:04:32,000
+the client microservices.
+
+59
+00:04:32,000 --> 00:04:38,000
+And this way it will try to maintain the stability and availability of the service registry, ensuring
+
+60
+00:04:38,000 --> 00:04:43,000
+that clients can still discover and interact with the available instances.
+
+61
+00:04:43,000 --> 00:04:50,000
+And once the self-preservation mode is activated, it is not going to be expired or deactivated until
+
+62
+00:04:50,000 --> 00:04:57,000
+unless a particular threshold of healthy instances is reached or the down services are brought back
+
+63
+00:04:57,000 --> 00:04:59,000
+to online or the network glitch is resolved.
+
+64
+00:04:59,000 --> 00:05:00,000
+On high level
+
+65
+00:05:00,000 --> 00:05:06,000
+the summary is, Eureka Server is not going to panic whenever it is not receiving heartbeats from the
+
+66
+00:05:06,000 --> 00:05:08,000
+majority of the instances.
+
+67
+00:05:08,000 --> 00:05:15,000
+Instead, it will be calm and enter into the self-preservation mode and it will do the meditation.
+
+68
+00:05:15,000 --> 00:05:21,000
+So during the self-preservation mode or during this meditation process, it is not going to evict all
+
+69
+00:05:21,000 --> 00:05:24,000
+the instances from the service registry.
+
+70
+00:05:24,000 --> 00:05:32,000
+So this feature is a savior where the network glitches are common and help us to handle the false positive
+
+71
+00:05:32,000 --> 00:05:32,000
+alarms.
+
+72
+00:05:32,000 --> 00:05:37,000
+Let me explain these Eureka self-preservation mode with a visual explanation.
+
+73
+00:05:37,000 --> 00:05:44,000
+Like you can see here, initially there are five loans microservice instances, all these five instances
+
+74
+00:05:44,000 --> 00:05:46,000
+of loans microservice.
+
+75
+00:05:46,000 --> 00:05:51,000
+They registered themselves with the Eureka Server during the startup and they are also sending the heartbeat
+
+76
+00:05:51,000 --> 00:05:53,000
+for every 30s.
+
+77
+00:05:53,000 --> 00:05:57,000
+So in this initial scenario, you can see all the five instances of loans
+
+78
+00:05:57,000 --> 00:06:04,000
+microservice are working without any issues and this is the scenario before encountering the network
+
+79
+00:06:04,000 --> 00:06:04,000
+problem.
+
+80
+00:06:04,000 --> 00:06:11,000
+You can see here under Eureka, we have all the instance details saying that instance one is up and
+
+81
+00:06:11,000 --> 00:06:12,000
+very similarly one, two, three, four, five.
+
+82
+00:06:12,000 --> 00:06:18,000
+Now assume like there is a network problem between the Eureka and microservices instances.
+
+83
+00:06:18,000 --> 00:06:25,000
+In such scenario, my instance four and instance five will stop sending the heartbeat signals and here
+
+84
+00:06:25,000 --> 00:06:30,000
+my Eureka server is not going to remove them from the service registry immediately.
+
+85
+00:06:30,000 --> 00:06:36,000
+Instead, it is going to give you three chances for my instance four and instance five, which means
+
+86
+00:06:36,000 --> 00:06:43,000
+it is going to wait for total 90s and if the heartbeat signal is not received for continuous three attempts
+
+87
+00:06:43,000 --> 00:06:49,000
+with a total period of 90s, then my Eureka server will assume that instance four and instance five
+
+88
+00:06:49,000 --> 00:06:55,000
+are not healthy and it is going to remove the instance four and instance five details from the service
+
+89
+00:06:55,000 --> 00:06:56,000
+registry.
+
+90
+00:06:56,000 --> 00:07:01,000
+That's why you can see here we have right now one, two, three instance details only under the Eureka
+
+91
+00:07:01,000 --> 00:07:02,000
+Server.
+
+92
+00:07:02,000 --> 00:07:09,000
+With this Now my Eureka server is going to enter the self-preservation mode since it met the default
+
+93
+00:07:09,000 --> 00:07:17,000
+threshold, which is 85%, which means once my Eureka server realizes 15% of the total instances of
+
+94
+00:07:17,000 --> 00:07:21,000
+loans microservice are expired, then it is not going to expire
+
+95
+00:07:21,000 --> 00:07:24,000
+the other loans microservice instance.
+
+96
+00:07:24,000 --> 00:07:27,000
+So right now we are into a self-preservation mode.
+
+97
+00:07:27,000 --> 00:07:30,000
+Let's see what is going to happen in the next slide.
+
+98
+00:07:30,000 --> 00:07:34,000
+You can see here now my instance three also not sending the heartbeats.
+
+99
+00:07:34,000 --> 00:07:41,000
+But right now, since my Eureka server is in the self-preservation mode, it is not going to remove
+
+100
+00:07:41,000 --> 00:07:42,000
+the instance
+
+101
+00:07:42,000 --> 00:07:45,000
+three related details from the service Registry.
+
+102
+00:07:45,000 --> 00:07:50,000
+I hope you are clear like how this self-preservation mode is going to work.
+
+103
+00:07:50,000 --> 00:07:55,000
+Like you can see here, these are few of the properties that will impact the self-preservation mode
+
+104
+00:07:55,000 --> 00:07:58,000
+behavior directly or indirectly.
+
+105
+00:07:58,000 --> 00:08:04,000
+The very first property, which is eureka.instance.lease-renewal-interval-in-seconds, will
+
+106
+00:08:04,000 --> 00:08:10,000
+have a default value 30s. With this property and its corresponding value, the Eureka Server is going
+
+107
+00:08:10,000 --> 00:08:17,000
+to expect the heartbeat signals from the client  microservices for every 30s. And the next property
+
+108
+00:08:17,000 --> 00:08:23,000
+which is eureka.instance.lease-expiration-duration-in-seconds, which will have a default value
+
+109
+00:08:23,000 --> 00:08:32,000
+of 90s. With this property, my Eureka server is going to wait a maximum of 90s to receive a heartbeat
+
+110
+00:08:32,000 --> 00:08:36,000
+signal from a particular microservice instance. Within this 90s,
+
+111
+00:08:36,000 --> 00:08:41,000
+If it is not going to receive the heartbeat, then it can evict the instance from the service registry.
+
+112
+00:08:41,000 --> 00:08:48,000
+And the next property that we have here is, eureka.server.eviction-interval-timer
+
+113
+00:08:48,000 --> 00:08:53,000
+-milliseconds, and the default value here is 60*1000 milliseconds.
+
+114
+00:08:53,000 --> 00:08:56,000
+With that the total value will be 60s.
+
+115
+00:08:56,000 --> 00:09:03,000
+So the purpose of this property is, like I said, the Eureka server is going to evict the unhealthy
+
+116
+00:09:03,000 --> 00:09:08,000
+service details from the service registry and this is not going to happen
+
+117
+00:09:08,000 --> 00:09:14,000
+every second there is going to be a scheduler which will run behind the scenes and we can set the frequency
+
+118
+00:09:14,000 --> 00:09:15,000
+for this scheduler.
+
+119
+00:09:15,000 --> 00:09:19,000
+So by default, this scheduler is going to run every 60s.
+
+120
+00:09:19,000 --> 00:09:25,000
+So whenever it is trying to run this task, it will check if the self-preservation mode is activated
+
+121
+00:09:25,000 --> 00:09:25,000
+or not.
+
+122
+00:09:25,000 --> 00:09:29,000
+If it is not activated, then it will perform the eviction process.
+
+123
+00:09:29,000 --> 00:09:35,000
+If the self-preservation mode is activated, then it will not do any further evictions from the service
+
+124
+00:09:35,000 --> 00:09:42,000
+registry and the next property, which is eureka.server.renewal-percent-threshold.
+
+125
+00:09:42,000 --> 00:09:49,000
+So this property and its value is used to calculate the expected percentage of heartbeats per minute
+
+126
+00:09:49,000 --> 00:09:51,000
+Eureka is expecting.
+
+127
+00:09:51,000 --> 00:09:58,000
+If my Eureka did not receive at least a minimum 85% of the heartbeats from the instances, then it is
+
+128
+00:09:58,000 --> 00:10:00,000
+going to enter into the
+
+129
+00:10:00,000 --> 00:10:01,000
+Self-preservation mode.
+
+130
+00:10:01,000 --> 00:10:07,000
+And here you may have a question like how my Eureka server will know what are the total number of heartbeats
+
+131
+00:10:07,000 --> 00:10:08,000
+that it is going to expect.
+
+132
+00:10:08,000 --> 00:10:15,000
+Maybe during the startup of the Eureka Server, we may have total ten instances of microservices running
+
+133
+00:10:15,000 --> 00:10:22,000
+and with ten instances my Eureka server will expect at least nine instances to send the heartbeat signal.
+
+134
+00:10:22,000 --> 00:10:27,000
+But later on after one hour, we may onboard 20 more instances.
+
+135
+00:10:27,000 --> 00:10:33,000
+So how my Eureka server will know how to calculate these correct threshold heartbeats that it is going
+
+136
+00:10:33,000 --> 00:10:33,000
+to expect.
+
+137
+00:10:33,000 --> 00:10:36,000
+The answer for this question is the next property.
+
+138
+00:10:36,000 --> 00:10:40,000
+Like you can see using the next property and its value,
+
+139
+00:10:40,000 --> 00:10:46,000
+a scheduler will run behind the scenes to calculate the expected total number of heartbeats that my
+
+140
+00:10:46,000 --> 00:10:49,000
+Eureka server should expect per minute.
+
+141
+00:10:49,000 --> 00:10:54,000
+And by default, this scheduler is going to run for every 15 minutes.
+
+142
+00:10:54,000 --> 00:11:00,000
+So every 15 minutes this task will run behind the scenes and my Eureka server will know what are the
+
+143
+00:11:00,000 --> 00:11:06,000
+total number of heartbeats that it should expect and based upon the total value, it is going to calculate
+
+144
+00:11:06,000 --> 00:11:12,000
+the threshold value and based upon the threshold value, it is going to activate the self-preservation
+
+145
+00:11:12,000 --> 00:11:12,000
+mode.
+
+146
+00:11:12,000 --> 00:11:19,000
+For some reason, if your project don't like the self-preservation mode of Eureka Server, you can permanently
+
+147
+00:11:19,000 --> 00:11:25,000
+disable it by using the last property, and this property by default will have true value.
+
+148
+00:11:25,000 --> 00:11:31,000
+If you want to disable the self-preservation mode, please set this property with the value false.
+
+149
+00:11:31,000 --> 00:11:36,000
+When you disable the self-preservation mode and if your microservice network has a network glitch, then
+
+150
+00:11:36,000 --> 00:11:42,000
+no one can save your microservice network because all the service details will be deleted from the service
+
+151
+00:11:42,000 --> 00:11:47,000
+registry and your service registry will be empty, which may result into some stability issues inside
+
+152
+00:11:47,000 --> 00:11:49,000
+your microservice network.
+
+153
+00:11:49,000 --> 00:11:50,000
+I hope you are clear
+
+154
+00:11:50,000 --> 00:11:52,000
+like what is the self-preservation mode?
+
+155
+00:11:52,000 --> 00:11:58,000
+Now let's try to read the warning inside the Eureka dashboard and this time it is going to make sense
+
+156
+00:11:58,000 --> 00:11:58,000
+to you.
+
+157
+00:11:58,000 --> 00:12:00,000
+So the warning is emergency.
+
+158
+00:12:00,000 --> 00:12:05,000
+Eureka may be incorrectly claiming instances are up when they are not.
+
+159
+00:12:05,000 --> 00:12:12,000
+Renewals are lesser than threshold and hence the instances are not being expired just to be safe.
+
+160
+00:12:12,000 --> 00:12:17,000
+So it is telling whatever instance details that we are seeing here, they may be wrong.
+
+161
+00:12:17,000 --> 00:12:24,000
+This is because renewals, which is like heartbeats or lesser than threshold and hence the instances
+
+162
+00:12:24,000 --> 00:12:26,000
+are not being expired just to be safe.
+
+163
+00:12:26,000 --> 00:12:32,000
+So it is saying since heartbeats are lesser than expected, it is not deleting the instance details
+
+164
+00:12:32,000 --> 00:12:34,000
+from the service registry
+
+165
+00:12:34,000 --> 00:12:35,000
+just to be safe.
+
+166
+00:12:35,000 --> 00:12:37,000
+I hope you are super, super clear.
+
+167
+00:12:37,000 --> 00:12:40,000
+So in future, whenever you see this warning, don't panic.
+
+168
+00:12:40,000 --> 00:12:47,000
+Once the network issue is resolved and all your microservice instances are starting sending the heartbeat
+
+169
+00:12:47,000 --> 00:12:52,000
+signal, then automatically this warning will disappear from the Eureka dashboard.
+
+170
+00:12:52,000 --> 00:12:54,000
+Thank you and I'll catch you in the next lecture bye.
+

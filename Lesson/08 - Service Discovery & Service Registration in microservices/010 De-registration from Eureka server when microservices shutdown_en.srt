@@ -1,0 +1,320 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we saw the demo that our individual microservice, they are able to connect with the Eureka
+
+2
+00:00:06,000 --> 00:00:09,000
+Server during the startup and register themselves.
+
+3
+00:00:09,000 --> 00:00:15,000
+That's why we are able to see the details of our microservices inside the dashboard of Eureka Server.
+
+4
+00:00:15,000 --> 00:00:21,000
+Now, inside this lecture, I'm going to show you a demo of how our microservices, they are going to
+
+5
+00:00:21,000 --> 00:00:26,000
+deregister themselves during the shutdown process. In order to see the same,
+
+6
+00:00:26,000 --> 00:00:29,000
+we should not shut down our applications
+
+7
+00:00:29,000 --> 00:00:32,000
+or microservices using IntelliJ idea.
+
+8
+00:00:32,000 --> 00:00:36,000
+So here we have an option to shut down our stop our microservices.
+
+9
+00:00:36,000 --> 00:00:42,000
+But we should not use this because this is going to kill your application instantly.
+
+10
+00:00:42,000 --> 00:00:48,000
+And usually we will not follow this approach inside higher environments like dev, qa and prod.
+
+11
+00:00:48,000 --> 00:00:54,000
+We are going to shut down our applications, our microservices using some scripts or by using the shutdown
+
+12
+00:00:54,000 --> 00:00:57,000
+path available inside the actuator.
+
+13
+00:00:57,000 --> 00:01:02,000
+Previously, we added some shutdown related properties inside loans, cards and accounts
+
+14
+00:01:02,000 --> 00:01:03,000
+microservice.
+
+15
+00:01:03,000 --> 00:01:09,000
+If you can scroll up here, we have enabled the shutdown related endpoints and at the same time, we
+
+16
+00:01:09,000 --> 00:01:13,000
+also mentioned these properties under management.
+
+17
+00:01:13,000 --> 00:01:19,000
+So with these properties now there will be an shutdown endpoint exposed inside the actuator of your
+
+18
+00:01:19,000 --> 00:01:25,000
+microservices. To know more details about the shutdown path available inside the actuator.
+
+19
+00:01:25,000 --> 00:01:31,000
+I'm going to invoke this path which is localhost:8080/actuator/shutdown.
+
+20
+00:01:31,000 --> 00:01:35,000
+So this is the actuator URL available inside my accounts microservice.
+
+21
+00:01:35,000 --> 00:01:41,000
+So if you try to invoke this, you can see here right now it is throwing an error saying that we cannot
+
+22
+00:01:41,000 --> 00:01:43,000
+invoke this API with the help of Http get().
+
+23
+00:01:43,000 --> 00:01:45,000
+We should use only http post().
+
+24
+00:01:45,000 --> 00:01:51,000
+So that's why let's take this URL and try to invoke this API path from our postman.
+
+25
+00:01:51,000 --> 00:01:56,000
+So here inside the postman under the accounts microservice, you should be able to see a request with
+
+26
+00:01:56,000 --> 00:01:57,000
+the name shutdown.
+
+27
+00:01:57,000 --> 00:02:02,000
+So if we can open that, you can see this one we are trying to invoke with the help of post method and
+
+28
+00:02:02,000 --> 00:02:03,000
+this is the URL.
+
+29
+00:02:03,000 --> 00:02:10,000
+So if I try to send the request to this API path by clicking on this send button, my account service
+
+30
+00:02:10,000 --> 00:02:15,000
+will try to shut down itself and the shutdown process is not going to be immediate,
+
+31
+00:02:15,000 --> 00:02:21,000
+It is going to take some grace period and make sure it is performing some task before it is trying to
+
+32
+00:02:21,000 --> 00:02:21,000
+shut down.
+
+33
+00:02:21,000 --> 00:02:26,000
+One of such task is to deregister the details with the Eureka Server.
+
+34
+00:02:26,000 --> 00:02:28,000
+So let's try to see this in the demo.
+
+35
+00:02:28,000 --> 00:02:30,000
+I'm clicking on this send button.
+
+36
+00:02:30,000 --> 00:02:33,000
+You can see I got a message saying that shutting down, Bye bye.
+
+37
+00:02:33,000 --> 00:02:35,000
+So this is our response that we got.
+
+38
+00:02:35,000 --> 00:02:42,000
+Now let's go to the Eureka dashboard and see if our accounts microservice details are available.
+
+39
+00:02:42,000 --> 00:02:44,000
+So here I will try to refresh this page.
+
+40
+00:02:44,000 --> 00:02:50,000
+You can see here right now, AccountsApplication related information is not present inside this Eureka
+
+41
+00:02:50,000 --> 00:02:51,000
+dashboard.
+
+42
+00:02:51,000 --> 00:02:53,000
+That means my accounts microservice
+
+43
+00:02:53,000 --> 00:02:58,000
+during the shutdown process, it deregistered itself from the Eureka server.
+
+44
+00:02:58,000 --> 00:03:05,000
+And with that, there won't be any details about accounts microservice inside the service registry that
+
+45
+00:03:05,000 --> 00:03:08,000
+is maintained by the Eureka Server. Inside the logs,
+
+46
+00:03:08,000 --> 00:03:09,000
+we can also see this.
+
+47
+00:03:09,000 --> 00:03:15,000
+If we can open the logs related to AccountsApplication, you should be able to see some logs here.
+
+48
+00:03:15,000 --> 00:03:22,000
+You can see here stopping service and there is a log related to Unregistering and there is a message
+
+49
+00:03:22,000 --> 00:03:23,000
+also.
+
+50
+00:03:23,000 --> 00:03:29,000
+So and so account is de-registered and the status from the Eureka server is 200 confirming that all
+
+51
+00:03:29,000 --> 00:03:35,000
+the details about these accounts microservice instance is removed from the service registry.
+
+52
+00:03:35,000 --> 00:03:39,000
+So let's try to confirm the same by testing loans and cards
+
+53
+00:03:39,000 --> 00:03:44,000
+microservice also. Before that I will try to clean the console of loans and cards.
+
+54
+00:03:44,000 --> 00:03:50,000
+Now inside the postman, I'm going to open the cards folder and open this request which is shut down.
+
+55
+00:03:50,000 --> 00:03:55,000
+So here we need to invoke the same path, but this time the port number should be 9000 as we are trying
+
+56
+00:03:55,000 --> 00:04:00,000
+to shut down the cards microservice. So as soon as I click on the send button you can see I'm getting
+
+57
+00:04:00,000 --> 00:04:01,000
+a response.
+
+58
+00:04:01,000 --> 00:04:03,000
+Now let me do the same for loans
+
+59
+00:04:03,000 --> 00:04:07,000
+microservice also, under loans folder there is a shutdown related request.
+
+60
+00:04:07,000 --> 00:04:10,000
+So let me click on that and post that.
+
+61
+00:04:10,000 --> 00:04:15,000
+I'm going to submit this request by clicking on the send button and I will get a response.
+
+62
+00:04:15,000 --> 00:04:17,000
+I'll go to my Eureka dashboard now.
+
+63
+00:04:17,000 --> 00:04:20,000
+Inside the Eureka dashboard, I'm going to refresh this page.
+
+64
+00:04:20,000 --> 00:04:27,000
+And you see, there are no instances available right now inside my dashboard because all the microservices,
+
+65
+00:04:27,000 --> 00:04:31,000
+they unregistered themselves from the service registry.
+
+66
+00:04:31,000 --> 00:04:36,000
+So if there are no details inside the service registry, then there is no concept of service discovery.
+
+67
+00:04:36,000 --> 00:04:42,000
+So now let's validate the un-registration process inside the console of loans and cards
+
+68
+00:04:42,000 --> 00:04:48,000
+microservice. So here under the CardsApplication, you can see here there is a message saying that and
+
+69
+00:04:48,000 --> 00:04:49,000
+registering and post that
+
+70
+00:04:49,000 --> 00:04:53,000
+we also received 200 status from the Eureka Server.
+
+71
+00:04:53,000 --> 00:04:55,000
+So the same we can confirm under loans
+
+72
+00:04:55,000 --> 00:04:58,000
+also here also we have these kind of logs.
+
+73
+00:04:58,000 --> 00:04:59,000
+So this confirms
+
+74
+00:04:59,000 --> 00:05:06,000
+the behavior that all our applications, if they get stopped gracefully, they will deregister
+
+75
+00:05:06,000 --> 00:05:08,000
+themselves from the Eureka dashboard.
+
+76
+00:05:08,000 --> 00:05:14,000
+This way the registration process and the un-registration process is happening automatically during the
+
+77
+00:05:14,000 --> 00:05:19,000
+startup and shutting down of the application or the microservice. Inside the next lecture,
+
+78
+00:05:19,000 --> 00:05:26,000
+let's try to see the heartbeat behavior, how the heartbeats are going to be sent to Eureka Server from
+
+79
+00:05:26,000 --> 00:05:28,000
+our individual microservices.
+
+80
+00:05:28,000 --> 00:05:31,000
+Thank you and I'll catch you in the next lecture bye.
+

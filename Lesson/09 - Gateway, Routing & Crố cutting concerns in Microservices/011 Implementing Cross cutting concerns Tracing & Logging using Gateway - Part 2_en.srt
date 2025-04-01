@@ -1,0 +1,828 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now inside this lecture, let's try to make changes inside the individual microservices to accept the
+
+2
+00:00:07,000 --> 00:00:13,000
+request header that my gateway is going to forward along with the request. For the same
+
+3
+00:00:13,000 --> 00:00:15,000
+first, let me go to the accounts
+
+4
+00:00:15,000 --> 00:00:17,000
+microservice inside the accounts
+
+5
+00:00:17,000 --> 00:00:20,000
+microservice we have two different controller classes.
+
+6
+00:00:20,000 --> 00:00:24,000
+The very first one is AccountsController and the second one is CustomerController.
+
+7
+00:00:24,000 --> 00:00:30,000
+We don't have to make the changes in all the APIs available inside the microservices.
+
+8
+00:00:30,000 --> 00:00:36,000
+Instead, we can take a single API that is going to travel all the microservices.
+
+9
+00:00:36,000 --> 00:00:40,000
+We have such REST API inside the CustomerController.
+
+10
+00:00:40,000 --> 00:00:46,000
+Whenever my external client, they're trying to invoke my API path, which is fetch customer details
+
+11
+00:00:46,000 --> 00:00:52,000
+internally, my accounts microservice is going to forward the request to the loans and cards microservice
+
+12
+00:00:52,000 --> 00:00:53,000
+as well.
+
+13
+00:00:53,000 --> 00:01:00,000
+That's why let's try to make the changes related to the easybank correlation ID for this API only if
+
+14
+00:01:00,000 --> 00:01:01,000
+you are interested
+
+15
+00:01:01,000 --> 00:01:03,000
+you can do for the remaining REST APIs as well.
+
+16
+00:01:03,000 --> 00:01:09,000
+But inside this lecture I'm going to make the changes only for this API and post that I'm going to show
+
+17
+00:01:09,000 --> 00:01:10,000
+you a demo as well.
+
+18
+00:01:10,000 --> 00:01:18,000
+So here, just like request to param, we need to accept one more input method parameter and since we
+
+19
+00:01:18,000 --> 00:01:24,000
+want to accept a request header, we need to use the annotation which is request header. To this request
+
+20
+00:01:24,000 --> 00:01:27,000
+header we need to mention what is the header name.
+
+21
+00:01:27,000 --> 00:01:32,000
+So the header name that we have is easybank-correlation-d.
+
+22
+00:01:32,000 --> 00:01:39,000
+So whatever value that I have inside this header, I want to assign this to the a method param with
+
+23
+00:01:39,000 --> 00:01:41,000
+the name correlation id.
+
+24
+00:01:41,000 --> 00:01:43,000
+So let me create the same here.
+
+25
+00:01:43,000 --> 00:01:48,000
+So with this, this REST API which is present inside the accounts microservice will have access to
+
+26
+00:01:48,000 --> 00:01:52,000
+these request header that is being sent by my gateway server.
+
+27
+00:01:52,000 --> 00:01:59,000
+So now I'm going to create few lagers inside this controller and using those lagers and this correlation
+
+28
+00:01:59,000 --> 00:02:05,000
+ID value, I'm going to print some logger statements which will help us during the debugging for the
+
+29
+00:02:05,000 --> 00:02:05,000
+same.
+
+30
+00:02:05,000 --> 00:02:09,000
+First, let me create a logger variable in the top.
+
+31
+00:02:09,000 --> 00:02:13,000
+Here I'm going to create a new logger variable and it will have the class name.
+
+32
+00:02:13,000 --> 00:02:19,000
+Now using the same logger variable, I'm going to create few logger statements inside my fetch customer
+
+33
+00:02:19,000 --> 00:02:20,000
+details method.
+
+34
+00:02:20,000 --> 00:02:23,000
+So here I'm going to create a new logger statement.
+
+35
+00:02:23,000 --> 00:02:28,000
+You can see I'm trying to create a new logger statement that is going to print the correlationId.
+
+36
+00:02:28,000 --> 00:02:34,000
+My logger statement will be having the class name along with this statement which we are trying to print
+
+37
+00:02:34,000 --> 00:02:36,000
+like easybank-correlationId found
+
+38
+00:02:36,000 --> 00:02:38,000
+and what is the correlationId value.
+
+39
+00:02:38,000 --> 00:02:42,000
+We can make this e to small letter to be consistent with the gateway server.
+
+40
+00:02:42,000 --> 00:02:49,000
+Now if you see after leveraging this correlationId inside my accounts microservice, I want to forward
+
+41
+00:02:49,000 --> 00:02:52,000
+the same to my loans and cards microservice as well.
+
+42
+00:02:52,000 --> 00:02:58,000
+For the same, we need to pass this correlationId as a second parameter to the method present inside
+
+43
+00:02:58,000 --> 00:03:00,000
+this ICustomerService
+
+44
+00:03:00,000 --> 00:03:04,000
+fetchCustomerDetails. So let me open this fetchCustomerDetails method.
+
+45
+00:03:04,000 --> 00:03:10,000
+So here we are going to accept a new input parameter with the name correlationId.
+
+46
+00:03:10,000 --> 00:03:15,000
+As a next step, I can go to the implementation class of this service interface.
+
+47
+00:03:15,000 --> 00:03:18,000
+So the service implementation class is CustomerServiceImpl.
+
+48
+00:03:18,000 --> 00:03:21,000
+So here we are getting an compilation error.
+
+49
+00:03:21,000 --> 00:03:28,000
+I can fix that by introducing a new method parameter to this method with the name correlation ID, the
+
+50
+00:03:28,000 --> 00:03:33,000
+same correlation id I want to send to my loans and cards microservice.
+
+51
+00:03:33,000 --> 00:03:38,000
+So where we are trying to invoke the loans and cards microservice, we are trying to invoke the loans
+
+52
+00:03:38,000 --> 00:03:42,000
+and cards microservice with the help of this loans feign client and cards feign client.
+
+53
+00:03:42,000 --> 00:03:47,000
+So while we are trying to invoke these methods, we need to make sure we are passing the correlationId
+
+54
+00:03:47,000 --> 00:03:51,000
+as a first parameter followed by what is the mobile number.
+
+55
+00:03:51,000 --> 00:03:54,000
+So let me do the same for cards microservice as well.
+
+56
+00:03:54,000 --> 00:04:00,000
+So now as soon as we add these correlationId as a first method input parameter, I'll get a compilation
+
+57
+00:04:00,000 --> 00:04:00,000
+errors.
+
+58
+00:04:00,000 --> 00:04:05,000
+So to resolve this we need to go to the respective feign client related interfaces.
+
+59
+00:04:05,000 --> 00:04:12,000
+So here, just like how we have RequestParam with the String mobile number, very similarly, I'm going
+
+60
+00:04:12,000 --> 00:04:16,000
+to add the request header that is going to accept correlation ID value.
+
+61
+00:04:16,000 --> 00:04:19,000
+We already done this inside the CustomerController.
+
+62
+00:04:19,000 --> 00:04:22,000
+So inside the CustomerController we have this logic.
+
+63
+00:04:22,000 --> 00:04:27,000
+So let me take this logic and mention the same inside the loans feign client interface.
+
+64
+00:04:27,000 --> 00:04:29,000
+So I'm trying to mention the same here.
+
+65
+00:04:29,000 --> 00:04:33,000
+So let me do the same for cards feign client as well.
+
+66
+00:04:33,000 --> 00:04:40,000
+So let me open this method and here I'm going to accept a new method input parameter of type RequestHeader
+
+67
+00:04:40,000 --> 00:04:40,000
+.
+
+68
+00:04:40,000 --> 00:04:46,000
+With this all the changes inside the accounts microservice is completed. As a next step, we need to
+
+69
+00:04:46,000 --> 00:04:51,000
+make sure that these fetch APIs present inside the cards and loans microservice
+
+70
+00:04:51,000 --> 00:04:57,000
+they're also accepting the RequestHeader with the name as easybank correlationId so we know where
+
+71
+00:04:57,000 --> 00:04:58,000
+to make these changes.
+
+72
+00:04:58,000 --> 00:04:59,000
+So let me go
+
+73
+00:04:59,000 --> 00:05:01,000
+the LoansController.
+
+74
+00:05:01,000 --> 00:05:07,000
+Inside the LoansController there is a API that supports the path fetch to this method only.
+
+75
+00:05:07,000 --> 00:05:12,000
+I'm going to pass new request to input method parameter of type RequestHeader.
+
+76
+00:05:12,000 --> 00:05:15,000
+So here we have added the new input method parameter.
+
+77
+00:05:15,000 --> 00:05:21,000
+As a next step, we need to leverage this correlationId and try to log some statements inside these
+
+78
+00:05:21,000 --> 00:05:21,000
+LoansController
+
+79
+00:05:21,000 --> 00:05:22,000
+class.
+
+80
+00:05:22,000 --> 00:05:25,000
+First, let me create a logger variable here.
+
+81
+00:05:25,000 --> 00:05:31,000
+Here on top of the class, I'm going to create a new variable very similar to what we have created inside
+
+82
+00:05:31,000 --> 00:05:32,000
+the CustomerController.
+
+83
+00:05:32,000 --> 00:05:38,000
+So let me take this value and paste it inside the LoansController class.
+
+84
+00:05:38,000 --> 00:05:43,000
+But instead of CustomerController, we need to mention the correct class name, which is LoansController.
+
+85
+00:05:43,000 --> 00:05:47,000
+Now I'll go to the fetch related Java method here.
+
+86
+00:05:47,000 --> 00:05:50,000
+So under this method I'm going to create a new logger statement.
+
+87
+00:05:50,000 --> 00:05:55,000
+We can mention the same logger that we have mentioned inside the CustomerController.
+
+88
+00:05:55,000 --> 00:05:56,000
+Here we have a logger statement.
+
+89
+00:05:56,000 --> 00:06:02,000
+Let me copy this statement and go to the LoansController and inside the LoansController I'm going
+
+90
+00:06:02,000 --> 00:06:05,000
+to mention the same logger statement. As a next step,
+
+91
+00:06:05,000 --> 00:06:11,000
+let me go to the CardsController and inside the CardsController also, we need to make very similar
+
+92
+00:06:11,000 --> 00:06:11,000
+changes.
+
+93
+00:06:11,000 --> 00:06:16,000
+First, I'll make sure I'm adding these method input parameter of type RequestHeader.
+
+94
+00:06:16,000 --> 00:06:21,000
+So let me mention the same under the fetch related method.
+
+95
+00:06:21,000 --> 00:06:28,000
+So here we have a fetchCardDetails() method to this method I'm going to pass a new method input parameter
+
+96
+00:06:28,000 --> 00:06:33,000
+and using the same correlation ID, I'm going to introduce a new logger statement.
+
+97
+00:06:33,000 --> 00:06:38,000
+So let me copy this logger statement and mention the same inside the body of this method.
+
+98
+00:06:38,000 --> 00:06:42,000
+And since we have not defined the logger variable, we are getting an error.
+
+99
+00:06:42,000 --> 00:06:48,000
+So let me go to the top of the class and here I'm going to create a logger variable very similar to
+
+100
+00:06:48,000 --> 00:06:52,000
+how we have defined inside the other controller classes.
+
+101
+00:06:52,000 --> 00:06:58,000
+So let me copy this line of code and mention the same inside the CardsController post that I can replace
+
+102
+00:06:58,000 --> 00:07:01,000
+this LoansController with CardsController class.
+
+103
+00:07:01,000 --> 00:07:05,000
+With this, we have done all the Java changes. As a next step
+
+104
+00:07:05,000 --> 00:07:09,000
+let me go to the application.yml of Gateway Server.
+
+105
+00:07:09,000 --> 00:07:15,000
+So here you can see we have enabled the debugging logging for the package com.eazybytes.gatewayserver
+
+106
+00:07:15,000 --> 00:07:16,000
+.
+
+107
+00:07:16,000 --> 00:07:20,000
+Very similarly, we have to do inside the other microservices.
+
+108
+00:07:20,000 --> 00:07:25,000
+As of now we have created the debug loggers inside the accounts, loans and cards.
+
+109
+00:07:25,000 --> 00:07:31,000
+But if you don't enable them, you can't see the logger statements inside your console. For the same,
+
+110
+00:07:31,000 --> 00:07:37,000
+let me open the application.yml of my accounts microservice and here towards the end I'm going
+
+111
+00:07:37,000 --> 00:07:40,000
+to paste the same property that we have defined inside the gateway.
+
+112
+00:07:40,000 --> 00:07:45,000
+But here we need to make sure we are mentioning the correct package name, the route package that we
+
+113
+00:07:45,000 --> 00:07:46,000
+have inside the accounts
+
+114
+00:07:46,000 --> 00:07:52,000
+microservice is com.eazybytes.accounts, so I need to replace this gateway server with accounts.
+
+115
+00:07:52,000 --> 00:07:59,000
+So let me copy this value and go to the application.yml file of cards microservice.
+
+116
+00:07:59,000 --> 00:08:05,000
+So under the resources I have application.yml and towards the end I'm going to paste the same property
+
+117
+00:08:05,000 --> 00:08:08,000
+and replace this accounts with cards.
+
+118
+00:08:08,000 --> 00:08:11,000
+I need to do the same for loans microservice as well.
+
+119
+00:08:11,000 --> 00:08:18,000
+Let me open the application.yml file present inside the loans microservice and towards the end
+
+120
+00:08:18,000 --> 00:08:23,000
+I'm going to paste the same property and replace this cards with loans.
+
+121
+00:08:23,000 --> 00:08:25,000
+With this we are done with all the required changes.
+
+122
+00:08:25,000 --> 00:08:30,000
+Let me save this changes and do a clean build. Once the build is completed,
+
+123
+00:08:30,000 --> 00:08:36,000
+since we have done a good amount of changes, let's try to restart accounts, loans, cards and gateway
+
+124
+00:08:36,000 --> 00:08:37,000
+server. For the same,
+
+125
+00:08:37,000 --> 00:08:40,000
+first, I'm going to restart my accounts application.
+
+126
+00:08:40,000 --> 00:08:47,000
+Once I have restarted the accounts application, I'm also going to restart loans application followed
+
+127
+00:08:47,000 --> 00:08:48,000
+by cards application.
+
+128
+00:08:48,000 --> 00:08:54,000
+Once my accounts, cards and loans applications, they started completely and registered with the Eureka
+
+129
+00:08:54,000 --> 00:09:00,000
+server successfully then only I'm going to restart my gateway server application. After few seconds inside
+
+130
+00:09:00,000 --> 00:09:05,000
+my Eureka dashboard, I'm able to see all my accounts, cards and loans microservices.
+
+131
+00:09:05,000 --> 00:09:07,000
+They registered successfully. As a next step,
+
+132
+00:09:07,000 --> 00:09:10,000
+let me try to restart the gateway server.
+
+133
+00:09:10,000 --> 00:09:13,000
+Here I'm trying to restart my gateway server application.
+
+134
+00:09:13,000 --> 00:09:18,000
+Once this restart is completed, we can try to validate all the changes. In order to validate all our
+
+135
+00:09:18,000 --> 00:09:19,000
+changes
+
+136
+00:09:19,000 --> 00:09:27,000
+first, let me clean the console of cards, loans and accounts microservice along with the Gateway server
+
+137
+00:09:27,000 --> 00:09:28,000
+application as well.
+
+138
+00:09:28,000 --> 00:09:34,000
+So this will allow us to see our own custom logs that we have defined inside our custom filters.
+
+139
+00:09:34,000 --> 00:09:40,000
+Now I came to the postman to validate our changes here In order to test our filter related changes,
+
+140
+00:09:40,000 --> 00:09:46,000
+we can invoke the fetchCustomerDetails request present inside the Gateway server folder.
+
+141
+00:09:46,000 --> 00:09:52,000
+So this is going to send a request to the fetchCustomerDetails API presence inside the accounts microservice
+
+142
+00:09:52,000 --> 00:09:55,000
+by providing an input mobile number.
+
+143
+00:09:55,000 --> 00:09:59,000
+But as of now we don't have any data inside accounts, loans and cards microservices,
+
+144
+00:09:59,000 --> 00:10:02,000
+since we are using H2 database.
+
+145
+00:10:02,000 --> 00:10:02,000
+That's why
+
+146
+00:10:02,000 --> 00:10:06,000
+first, let's try to create the data inside the accounts, cards and loans.
+
+147
+00:10:06,000 --> 00:10:10,000
+So I have created respective request under the Gateway server.
+
+148
+00:10:10,000 --> 00:10:16,000
+First, I'm going to click on this accounts related request and I'm trying to invoke the create API
+
+149
+00:10:16,000 --> 00:10:19,000
+available inside the accounts microservice with the help of Gateway Server.
+
+150
+00:10:19,000 --> 00:10:23,000
+So I'm trying to pass the same mobile number inside the RequestBody.
+
+151
+00:10:23,000 --> 00:10:25,000
+So let me click on the send button.
+
+152
+00:10:25,000 --> 00:10:27,000
+I'm getting a successful response.
+
+153
+00:10:27,000 --> 00:10:32,000
+As a next step, I will invoke the cards microservice with the help of Gateway server.
+
+154
+00:10:32,000 --> 00:10:34,000
+Here also, I received that 201
+
+155
+00:10:34,000 --> 00:10:39,000
+let me go to the loans request and try to create a new loan with the same mobile number
+
+156
+00:10:39,000 --> 00:10:42,000
+and here also I received the successful response.
+
+157
+00:10:42,000 --> 00:10:46,000
+As a next step, I can go to the fetchCustomerDetails and try to invoke these APIs.
+
+158
+00:10:46,000 --> 00:10:51,000
+Let me click on this send button and see the output, what we are going to get.
+
+159
+00:10:51,000 --> 00:10:56,000
+So you can see we received the successful response like these are the account details, loan details
+
+160
+00:10:56,000 --> 00:10:57,000
+and card details.
+
+161
+00:10:57,000 --> 00:11:04,000
+And if you go and check the headers, there is a new header with the name EasyBank-correlationId
+
+162
+00:11:04,000 --> 00:11:05,000
+.
+
+163
+00:11:05,000 --> 00:11:11,000
+Now my client, they can use this correlationId in future whenever they want to reach out to the easybank
+
+164
+00:11:11,000 --> 00:11:16,000
+and saying that for so-and-so request with a so-and-so correlation id something is wrong,
+
+165
+00:11:16,000 --> 00:11:21,000
+please debug in the support ticket that they are going to rise to the easybank
+
+166
+00:11:21,000 --> 00:11:27,000
+they can mention these correlationId. Now using these correlationId, my developer can try to analyze
+
+167
+00:11:27,000 --> 00:11:28,000
+the log statements.
+
+168
+00:11:28,000 --> 00:11:31,000
+So first I'll go to the gateway server.
+
+169
+00:11:31,000 --> 00:11:36,000
+So inside the gateway server, if you try to search for the same traceId, you can see there are two
+
+170
+00:11:36,000 --> 00:11:37,000
+log statements
+
+171
+00:11:37,000 --> 00:11:43,000
+one, while we are trying to generate the traceId inside the RequestTraceFilter and very similarly the
+
+172
+00:11:43,000 --> 00:11:45,000
+second one inside the ResponseTraceFilter.
+
+173
+00:11:45,000 --> 00:11:51,000
+Whenever we are trying to create a new header inside the response that we are going to send for client
+
+174
+00:11:51,000 --> 00:11:52,000
+applications.
+
+175
+00:11:52,000 --> 00:11:56,000
+So this confirms that my gateway server has no issues.
+
+176
+00:11:56,000 --> 00:12:00,000
+Now let me go to the accounts application related log statements.
+
+177
+00:12:00,000 --> 00:12:02,000
+So here also I'm going to search for the same correlation ID.
+
+178
+00:12:02,000 --> 00:12:08,000
+You can see I have one correlationId saying that easybank correlation ID found with so and so value.
+
+179
+00:12:08,000 --> 00:12:14,000
+So this confirms that the request reached to the accounts microservice. In a scenarios where the request
+
+180
+00:12:14,000 --> 00:12:21,000
+never reached loans and cards microservice then definitely you can't find this trace related logs inside
+
+181
+00:12:21,000 --> 00:12:22,000
+loans and cards microservice.
+
+182
+00:12:22,000 --> 00:12:29,000
+But since in our scenario we received the successful response, we should be able to see the log statements
+
+183
+00:12:29,000 --> 00:12:35,000
+with the given trace ID inside the loans and very similarly inside the cards as well.
+
+184
+00:12:35,000 --> 00:12:40,000
+I hope you are seeing the power of Gateway Server, which is acting as an edge server.
+
+185
+00:12:40,000 --> 00:12:46,000
+Here I have taken some simple business logic, but in your real projects you may have some complex business
+
+186
+00:12:46,000 --> 00:12:46,000
+logic
+
+187
+00:12:46,000 --> 00:12:53,000
+also, you can implement any kind of cross-cutting concerns like logging, auditing, security inside
+
+188
+00:12:53,000 --> 00:12:54,000
+your edge server.
+
+189
+00:12:54,000 --> 00:13:00,000
+With the help of these filters available inside the Gateway server. I have a separate section where
+
+190
+00:13:00,000 --> 00:13:03,000
+I'm going to talk about the microservices security.
+
+191
+00:13:03,000 --> 00:13:10,000
+Inside that section, I'm going to leverage the Gateway server to implement the security so that only
+
+192
+00:13:10,000 --> 00:13:15,000
+authenticated and authorized users can invoke our microservices network.
+
+193
+00:13:15,000 --> 00:13:16,000
+I hope you are clear.
+
+194
+00:13:16,000 --> 00:13:18,000
+I know this is a lot of information for you.
+
+195
+00:13:18,000 --> 00:13:25,000
+Please try to understand all the changes by rewatching the videos for your reference inside the slides
+
+196
+00:13:25,000 --> 00:13:30,000
+I have mentioned all the important steps that we followed while we try to implement these Gateway server
+
+197
+00:13:30,000 --> 00:13:32,000
+with the help of Spring Cloud Gateway.
+
+198
+00:13:32,000 --> 00:13:37,000
+First, we have created a spring boot project by adding the respective dependencies post
+
+199
+00:13:37,000 --> 00:13:41,000
+we have added few properties inside the application.yml followed by
+
+200
+00:13:41,000 --> 00:13:48,000
+we have done some routing related configurations. Post that we try to invoke the microservices with the
+
+201
+00:13:48,000 --> 00:13:52,000
+help of Edge Server, which is hosted at the port 8072.
+
+202
+00:13:52,000 --> 00:13:56,000
+Please refer to these slides whenever you are trying to brush up these concepts.
+
+203
+00:13:56,000 --> 00:14:00,000
+Maybe whenever you are trying to attend an interview related to the microservices.
+
+204
+00:14:00,000 --> 00:14:03,000
+These slides are going to be super,super handy for you.
+
+205
+00:14:03,000 --> 00:14:04,000
+With this
+
+206
+00:14:04,000 --> 00:14:09,000
+I'm assuming your super, super clear about all the changes that we have discussed in this lecture.
+
+207
+00:14:09,000 --> 00:14:12,000
+Thank you and I'll catch you in the next lecture bye.
+

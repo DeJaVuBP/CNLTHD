@@ -1,0 +1,552 @@
+1
+00:00:00,000 --> 00:00:03,000
+Are you ready to see our gateway server in action.
+
+2
+00:00:03,000 --> 00:00:09,000
+I know you are super, super excited and ready before we try to start the gateway server, we need to
+
+3
+00:00:09,000 --> 00:00:16,000
+make sure we started all the remaining microservices config server and Eureka server. Behind the scenes
+
+4
+00:00:16,000 --> 00:00:19,000
+I have started all the services like you can see here.
+
+5
+00:00:19,000 --> 00:00:22,000
+As of now, five services are started.
+
+6
+00:00:22,000 --> 00:00:27,000
+If you are also trying to test the gateway server along with me, please pause this video and first
+
+7
+00:00:27,000 --> 00:00:33,000
+to start the config server followed by Eureka Server and after the Eureka server you can start accounts,
+
+8
+00:00:33,000 --> 00:00:36,000
+cards and loans microservice in any order.
+
+9
+00:00:36,000 --> 00:00:42,000
+Once all these services along with the config server and Eureka server is started, then only at the
+
+10
+00:00:42,000 --> 00:00:45,000
+end we need to start the gateway server.
+
+11
+00:00:45,000 --> 00:00:46,000
+The reason is very simple.
+
+12
+00:00:46,000 --> 00:00:52,000
+We want our gateway server to handle the traffic for all the internal microservices that we have built.
+
+13
+00:00:52,000 --> 00:00:53,000
+For the same,
+
+14
+00:00:53,000 --> 00:00:59,000
+It is going to connect with the Eureka Server to fetch all the details about all these microservices.
+
+15
+00:00:59,000 --> 00:01:05,000
+If you try to start the gateway server before the other microservices, then Eureka Server will not
+
+16
+00:01:05,000 --> 00:01:08,000
+share any information about these individual microservices.
+
+17
+00:01:08,000 --> 00:01:14,000
+That's why we need to always make sure the gateway server is the last server that we are starting
+
+18
+00:01:14,000 --> 00:01:18,000
+and during the startup, my gateway server is going to fetch all the details from the Eureka Server.
+
+19
+00:01:18,000 --> 00:01:24,000
+So let me start my gateway server since I have already started all the remaining services.
+
+20
+00:01:24,000 --> 00:01:26,000
+So I'm just trying to start in debug mode.
+
+21
+00:01:26,000 --> 00:01:30,000
+This will start my gateway server at the port 8072.
+
+22
+00:01:30,000 --> 00:01:33,000
+First, we can try to check the Eureka dashboard.
+
+23
+00:01:33,000 --> 00:01:35,000
+Inside the Eureka dashboard
+
+24
+00:01:35,000 --> 00:01:40,000
+you can see we have three microservices register like accounts, cards and loans.
+
+25
+00:01:40,000 --> 00:01:41,000
+Along with these microservices
+
+26
+00:01:41,000 --> 00:01:45,000
+we also have Gateway Server registered with the Eureka Server.
+
+27
+00:01:45,000 --> 00:01:51,000
+If you try to click on this link, you will be able to see the all the info related information that
+
+28
+00:01:51,000 --> 00:01:54,000
+we have mentioned inside the application.yml file.
+
+29
+00:01:54,000 --> 00:01:56,000
+So let me close this. As a next step,
+
+30
+00:01:56,000 --> 00:02:05,000
+I'll open a new tab and try to open the actuator of my gateway server so the URL will be localhost 8072/
+
+31
+00:02:05,000 --> 00:02:12,000
+actuator here you can see I'm getting a Json response and I'm able to see this json in a proper
+
+32
+00:02:12,000 --> 00:02:16,000
+format due to the plugin that I have installed inside my Chrome browser.
+
+33
+00:02:16,000 --> 00:02:18,000
+So this is the plugin which is Json view.
+
+34
+00:02:18,000 --> 00:02:24,000
+So please install the same if you want similar kind of formatted response. Here inside this response
+
+35
+00:02:24,000 --> 00:02:29,000
+towards the end we have an API path with the name actuator/gateway.
+
+36
+00:02:29,000 --> 00:02:32,000
+So let me copy this URL value.
+
+37
+00:02:32,000 --> 00:02:36,000
+Now I'll go to the new tab and paste the same value to this path
+
+38
+00:02:36,000 --> 00:02:40,000
+we need to append the path which is/routes.
+
+39
+00:02:40,000 --> 00:02:46,000
+Now if I try to invoke this/actuator/gateway/routes, you can see I'm getting a response
+
+40
+00:02:46,000 --> 00:02:47,000
+Inside this response
+
+41
+00:02:47,000 --> 00:02:53,000
+there is some information related to the each of the microservice. Like you can see if someone is going
+
+42
+00:02:53,000 --> 00:02:59,000
+to send a request to the gateway server, which has a path loans, then this predicate is going to become
+
+43
+00:02:59,000 --> 00:03:00,000
+true.
+
+44
+00:03:00,000 --> 00:03:06,000
+Then it is going to use all this information like it is going to forward the request to the port 8090,
+
+45
+00:03:06,000 --> 00:03:09,000
+which is the port number of loans microservice.
+
+46
+00:03:09,000 --> 00:03:13,000
+And here the port number alone is not going to be sufficient to forward the request.
+
+47
+00:03:13,000 --> 00:03:19,000
+It should also know where my actual loans microservice is running. For the same,
+
+48
+00:03:19,000 --> 00:03:25,000
+you can see under the URL we have lb, lb indicates load balancer and we are telling please redirect
+
+49
+00:03:25,000 --> 00:03:32,000
+the requests that we received to the Gateway server with the Path loans to an uri with the load balancer
+
+50
+00:03:32,000 --> 00:03:33,000
+and the app name as loans.
+
+51
+00:03:33,000 --> 00:03:40,000
+So these app name we have available inside the Eureka dashboard with the same name loans, which means
+
+52
+00:03:40,000 --> 00:03:46,000
+it is going to leverage the service Discovery agent and forward the request to one of the instance of
+
+53
+00:03:46,000 --> 00:03:47,000
+loans microservice
+
+54
+00:03:47,000 --> 00:03:53,000
+by following the load balancing strategy with the help of spring cloud load balancer.
+
+55
+00:03:53,000 --> 00:03:59,000
+Apart from this port number and redirect, you can also see there is a filter configured for all the
+
+56
+00:03:59,000 --> 00:04:00,000
+paths.
+
+57
+00:04:00,000 --> 00:04:02,000
+The filter purpose is rewrite the path.
+
+58
+00:04:02,000 --> 00:04:08,000
+So if you try to understand what is present inside this filter configuration, we are telling my gateway
+
+59
+00:04:08,000 --> 00:04:13,000
+server to leverage the rewrite path filter and this filter, what it is going to do is whenever someone
+
+60
+00:04:13,000 --> 00:04:20,000
+is trying to send a request with a path loans after the loans value, they can send any kind of path
+
+61
+00:04:20,000 --> 00:04:21,000
+value.
+
+62
+00:04:21,000 --> 00:04:26,000
+With the help of this rewrite path filter, we are going to rewrite this entire path that we have received
+
+63
+00:04:26,000 --> 00:04:32,000
+to this path, which means by the time it is forwarding my request to the actual loans microservice,
+
+64
+00:04:32,000 --> 00:04:39,000
+it is going to remove this prefix value, which is loans and simply forward the path, whatever it has
+
+65
+00:04:39,000 --> 00:04:40,000
+received after the loans
+
+66
+00:04:40,000 --> 00:04:45,000
+microservice. I'll show you this in demo in few seconds then it is going to make sense for you.
+
+67
+00:04:45,000 --> 00:04:50,000
+And very similarly, we have similar kind of information for accounts and cards microservice, and there
+
+68
+00:04:50,000 --> 00:04:55,000
+is also some random route ID it has given now coming to the Gateway server information.
+
+69
+00:04:55,000 --> 00:04:59,000
+If you see here, at the end of the day, my gateway server also is an application.
+
+70
+00:04:59,000 --> 00:05:05,000
+If someone wants to invoke some path which I can expose inside my gateway server, they need to send
+
+71
+00:05:05,000 --> 00:05:07,000
+a prefix path gateway server.
+
+72
+00:05:07,000 --> 00:05:13,000
+In such scenarios, my gateway server is going to redirect the request to itself with the help of the
+
+73
+00:05:13,000 --> 00:05:19,000
+Port 8072 and with the details available inside the Eureka Server with the name Gateway Server.
+
+74
+00:05:19,000 --> 00:05:21,000
+So the same name we have registered here.
+
+75
+00:05:21,000 --> 00:05:24,000
+You can see the same name available inside the Eureka dashboard.
+
+76
+00:05:24,000 --> 00:05:30,000
+Now let me show you a demo here quickly so that it will be more clear for you on how this routing is
+
+77
+00:05:30,000 --> 00:05:30,000
+going to work.
+
+78
+00:05:30,000 --> 00:05:35,000
+Inside our Postman, we have an folder with the name Gateway Server.
+
+79
+00:05:35,000 --> 00:05:40,000
+If we can open that, there is a request with the name Gateway server_1, so please try
+
+80
+00:05:40,000 --> 00:05:41,000
+to open the same.
+
+81
+00:05:41,000 --> 00:05:48,000
+Here I want to create a new account by invoking the create API available inside the accounts microservice.
+
+82
+00:05:48,000 --> 00:05:54,000
+But I don't want to directly invoke the accounts microservice because right now we have an edge server
+
+83
+00:05:54,000 --> 00:05:57,000
+which is sitting inside our microservice network.
+
+84
+00:05:57,000 --> 00:05:58,000
+The same I want to use.
+
+85
+00:05:58,000 --> 00:06:03,000
+You can see the port number that I have mentioned here is related to the gateway server.
+
+86
+00:06:03,000 --> 00:06:09,000
+After the port number, we need to mention what is the logical name or the app name that you microservice
+
+87
+00:06:09,000 --> 00:06:11,000
+registered inside the Eureka Server.
+
+88
+00:06:11,000 --> 00:06:17,000
+The name is ACCOUNTS, so please make sure you are mentioning everything in the capital letters because
+
+89
+00:06:17,000 --> 00:06:23,000
+by default, inside the Eureka Server, the application is going to be registered with all capital letters.
+
+90
+00:06:23,000 --> 00:06:27,000
+You can also see the same application name inside the gateway routes.
+
+91
+00:06:27,000 --> 00:06:29,000
+So here, if you can scroll down, this is the path.
+
+92
+00:06:29,000 --> 00:06:35,000
+If someone is going to send a request to my gateway server with a Path accounts, then it is going to
+
+93
+00:06:35,000 --> 00:06:40,000
+execute all the logic based upon the default configurations available here.
+
+94
+00:06:40,000 --> 00:06:42,000
+So let me go to the postman.
+
+95
+00:06:42,000 --> 00:06:49,000
+After mentioning this logical microservice name, we need to mention what is the actual path inside
+
+96
+00:06:49,000 --> 00:06:56,000
+your individual microservice like accounts microservice. So inside my accounts microservice the path
+
+97
+00:06:56,000 --> 00:07:02,000
+that I need to invoke is/api/create to this, we need to forward the RequestBody with
+
+98
+00:07:02,000 --> 00:07:04,000
+the name, email and mobile number.
+
+99
+00:07:04,000 --> 00:07:09,000
+Technically, if you see, I'm sending the request to the gateway server, but behind the scenes it
+
+100
+00:07:09,000 --> 00:07:14,000
+is going to look for the routing related configuration matching with with this path whenever it finds
+
+101
+00:07:14,000 --> 00:07:20,000
+some routing related information for this particular path, it is going to redirect the path by removing
+
+102
+00:07:20,000 --> 00:07:23,000
+these accounts and simply forward the remaining path
+
+103
+00:07:23,000 --> 00:07:28,000
+whatever we have received after the accounts prefix value and to where it is going to redirect the request
+
+104
+00:07:28,000 --> 00:07:33,000
+to this uri, which is load balancer accounts with the help of Eureka Server.
+
+105
+00:07:33,000 --> 00:07:37,000
+Let's try to test this and see if the redirection is going to happen.
+
+106
+00:07:37,000 --> 00:07:39,000
+So let me click on the send button.
+
+107
+00:07:39,000 --> 00:07:41,000
+You can see I'm getting a successful response.
+
+108
+00:07:41,000 --> 00:07:46,000
+Now very similarly, I can go to the gatewayserver_2 and here also I'm trying to send the
+
+109
+00:07:46,000 --> 00:07:48,000
+request to the gateway server.
+
+110
+00:07:48,000 --> 00:07:50,000
+You can see 8072 is the port and accounts
+
+111
+00:07:50,000 --> 00:07:54,000
+since I want to send the request to the accounts microservice post that.
+
+112
+00:07:54,000 --> 00:07:58,000
+What is the uri path that my accounts microservice expect.
+
+113
+00:07:58,000 --> 00:08:02,000
+So whenever we want to fetch the account details, we need to send the request to this path which is
+
+114
+00:08:02,000 --> 00:08:04,000
+api/fetch?
+
+115
+00:08:04,000 --> 00:08:07,000
+mobileNumber=what is the registered mobile number.
+
+116
+00:08:07,000 --> 00:08:09,000
+So let me click on the send button.
+
+117
+00:08:09,000 --> 00:08:14,000
+Here I'm getting an customer not found because I might have used an invalid mobile number.
+
+118
+00:08:14,000 --> 00:08:16,000
+Let me go back to the gatewayserver_1
+
+119
+00:08:16,000 --> 00:08:17,000
+.
+
+120
+00:08:17,000 --> 00:08:21,000
+This is the mobile number I have used, so I need to mention the same here.
+
+121
+00:08:21,000 --> 00:08:25,000
+So let me paste the value and click on this send button so you can see I'm getting a successful response.
+
+122
+00:08:25,000 --> 00:08:31,000
+Similarly, if you want to invoke the loans microservice related APIs, the external client, they need
+
+123
+00:08:31,000 --> 00:08:35,000
+to send the request with the prefix path which has loans.
+
+124
+00:08:35,000 --> 00:08:40,000
+So if I try to send the request to this, I'll get a not found error because we never created a loan
+
+125
+00:08:40,000 --> 00:08:41,000
+with this particular mobile number.
+
+126
+00:08:41,000 --> 00:08:48,000
+So this way now all my external traffic, I can request my client applications to send to my edge server
+
+127
+00:08:48,000 --> 00:08:54,000
+and my edge server is going to forward the request to the actual individual microservices.
+
+128
+00:08:54,000 --> 00:09:00,000
+So we're not exposing our individual microservices to the external client applications.
+
+129
+00:09:00,000 --> 00:09:05,000
+Here you may have a question like who is stopping our clients to directly invoking our loans microservice
+
+130
+00:09:05,000 --> 00:09:07,000
+and accounts microservice.
+
+131
+00:09:07,000 --> 00:09:13,000
+Off course, with this code setup my clients can invoke the direct URLs also, but in the coming sections
+
+132
+00:09:13,000 --> 00:09:19,000
+when we try to enhance this applications, my clients cannot invoke the microservices directly because
+
+133
+00:09:19,000 --> 00:09:24,000
+I'm going to enforce some security, so that they have to come only through the gateway server.
+
+134
+00:09:24,000 --> 00:09:31,000
+But with this simple setup of Gateway server, we are able to set up the edge server inside our microservices
+
+135
+00:09:31,000 --> 00:09:31,000
+network.
+
+136
+00:09:31,000 --> 00:09:34,000
+We can further try to optimize this gateway server.
+
+137
+00:09:34,000 --> 00:09:37,000
+For now, I'm assuming your super clear with whatever changes we have done.
+
+138
+00:09:37,000 --> 00:09:40,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,440 @@
+1
+00:00:00,000 --> 00:00:04,000
+Inside this lecture, I'm going to show you a demo of Docker network.
+
+2
+00:00:04,000 --> 00:00:11,000
+As of now, we make sure that all of our containers and services, they are getting started inside a
+
+3
+00:00:11,000 --> 00:00:12,000
+same network.
+
+4
+00:00:12,000 --> 00:00:18,000
+So if you see all our microservices, they are extending these network-deploy-service and the
+
+5
+00:00:18,000 --> 00:00:21,000
+network that we attach to all of our containers is EazyBank.
+
+6
+00:00:21,000 --> 00:00:28,000
+Now let me show you a demo where I will try to detach the databases from this network.
+
+7
+00:00:28,000 --> 00:00:32,000
+And with that I will show you a demo that the communication is failing. And post that,
+
+8
+00:00:32,000 --> 00:00:39,000
+I will also show a demo that the communication between your microservices and databases will fail.
+
+9
+00:00:39,000 --> 00:00:39,000
+For the same,
+
+10
+00:00:39,000 --> 00:00:42,000
+let me close all these files. Now inside this lecture,
+
+11
+00:00:42,000 --> 00:00:47,000
+I'm not going to use default profile because we already validated the default profile.
+
+12
+00:00:47,000 --> 00:00:52,000
+Let me pick the qa profile. So that we can also validate that the profile is also working fine.
+
+13
+00:00:52,000 --> 00:00:59,000
+So here I'm going to open the common-config.yaml profile. Inside this common-config.yml.
+
+14
+00:00:59,000 --> 00:01:06,000
+You can see as of now our microservices DB config is extending a service with the name network-deploy-service.
+
+15
+00:01:06,000 --> 00:01:07,000
+.
+
+16
+00:01:07,000 --> 00:01:11,000
+That means all the containers which is using this service.
+
+17
+00:01:11,000 --> 00:01:13,000
+They will get started inside this network.
+
+18
+00:01:13,000 --> 00:01:19,000
+So if I try to remove this here now my database containers, they will not start inside the network
+
+19
+00:01:19,000 --> 00:01:22,000
+of EasyBank and with that the communication will fail.
+
+20
+00:01:22,000 --> 00:01:24,000
+Let's see that in the demo.
+
+21
+00:01:24,000 --> 00:01:26,000
+So let me save this changes.
+
+22
+00:01:26,000 --> 00:01:28,000
+Here seems we have missed this Spring
+
+23
+00:01:28,000 --> 00:01:33,000
+Rabbitmq host we no more needed this so I can delete this entire environment variable.
+
+24
+00:01:33,000 --> 00:01:38,000
+Let me delete the same change inside the other common-config.yml.
+
+25
+00:01:38,000 --> 00:01:43,000
+So here I'm going to remove this rabbitmq related environment variable.
+
+26
+00:01:43,000 --> 00:01:47,000
+Let me do the same inside the default environment also.
+
+27
+00:01:47,000 --> 00:01:49,000
+So here also I should have the same.
+
+28
+00:01:49,000 --> 00:01:50,000
+So let me scroll down.
+
+29
+00:01:50,000 --> 00:01:50,000
+Yeah,
+
+30
+00:01:50,000 --> 00:01:51,000
+here I have this.
+
+31
+00:01:51,000 --> 00:01:53,000
+So let me delete this environment variable.
+
+32
+00:01:53,000 --> 00:01:55,000
+So we should be good now.
+
+33
+00:01:55,000 --> 00:01:59,000
+Now as an actor, first let me stop all the running containers.
+
+34
+00:01:59,000 --> 00:02:01,000
+Like with the help of docker compose down.
+
+35
+00:02:01,000 --> 00:02:07,000
+So with this, all the containers that we have started with the help of default profile will get stopped.
+
+36
+00:02:07,000 --> 00:02:11,000
+I will go back to the parent folder and navigate into the qa folder.
+
+37
+00:02:11,000 --> 00:02:16,000
+Now here I'm going to run the same command, which is docker compose up -d.
+
+38
+00:02:16,000 --> 00:02:21,000
+So let me start this and we can expect that accounts, loans and cards, microservice, they are not
+
+39
+00:02:21,000 --> 00:02:27,000
+going to start successfully because they will not be able to communicate with the database containers.
+
+40
+00:02:27,000 --> 00:02:32,000
+Now I can try to validate how my containers are getting started inside my Docker desktop.
+
+41
+00:02:32,000 --> 00:02:38,000
+So here under the profile you can see my loans, database accounts, database and cards database.
+
+42
+00:02:38,000 --> 00:02:40,000
+They started successfully.
+
+43
+00:02:40,000 --> 00:02:45,000
+Config server microservices also started successfully, but coming to the other containers like accounts
+
+44
+00:02:45,000 --> 00:02:48,000
+microservice, cards microservice and loans microservice.
+
+45
+00:02:48,000 --> 00:02:54,000
+They initially they are in the running status, but after some time they turned into exited status because
+
+46
+00:02:54,000 --> 00:03:00,000
+if you go and open them, the communication is failing with the database, they're not able to create
+
+47
+00:03:00,000 --> 00:03:00,000
+a connection.
+
+48
+00:03:00,000 --> 00:03:03,000
+I'm hoping you are understanding how the Docker network works.
+
+49
+00:03:03,000 --> 00:03:08,000
+We can also try to see the list of Docker networks created behind the scenes.
+
+50
+00:03:08,000 --> 00:03:13,000
+So let me clean the console here and try to run the command Docker network ls.
+
+51
+00:03:13,000 --> 00:03:18,000
+So this will list you all the Dockers networks that are created.
+
+52
+00:03:18,000 --> 00:03:24,000
+So you can see we have a network created with the name EasyBank with the qa profile, and at the same
+
+53
+00:03:24,000 --> 00:03:27,000
+time there is also other networks that got created.
+
+54
+00:03:27,000 --> 00:03:32,000
+We can try to understand to which network our container is attached. For the same,
+
+55
+00:03:32,000 --> 00:03:34,000
+first, let me run the docker ps.
+
+56
+00:03:34,000 --> 00:03:38,000
+So the container ID of my loans database is this is the one.
+
+57
+00:03:38,000 --> 00:03:45,000
+So what I can do is I can run docker inspect and give the containerId, which is aaff.
+
+58
+00:03:45,000 --> 00:03:51,000
+So here we should be able to see that networkId which is starting with 689.
+
+59
+00:03:51,000 --> 00:03:52,000
+So let me go to the top.
+
+60
+00:03:52,000 --> 00:03:58,000
+You can see there is a networkId which is starting with 689 with the name qa_default.
+
+61
+00:03:58,000 --> 00:04:01,000
+Which means inside a Docker compose network.
+
+62
+00:04:01,000 --> 00:04:07,000
+Whenever you are not mentioning any network, they will all get assigned to a default network, whereas
+
+63
+00:04:07,000 --> 00:04:11,000
+my accounts microservice and all other microservice.
+
+64
+00:04:11,000 --> 00:04:16,000
+Since we have created and attached a different network and since these are two different network, the
+
+65
+00:04:16,000 --> 00:04:18,000
+communication is not going to work.
+
+66
+00:04:18,000 --> 00:04:20,000
+So this is the power of Docker.
+
+67
+00:04:20,000 --> 00:04:26,000
+You will have complete isolation until unless you allow the network communication, the communication
+
+68
+00:04:26,000 --> 00:04:27,000
+will never happen.
+
+69
+00:04:27,000 --> 00:04:28,000
+I hope you are clear here.
+
+70
+00:04:28,000 --> 00:04:34,000
+So now as a next step, I can clean the console and bring my containers down.
+
+71
+00:04:34,000 --> 00:04:35,000
+So let me run the docker
+
+72
+00:04:35,000 --> 00:04:36,000
+compose down.
+
+73
+00:04:36,000 --> 00:04:44,000
+I'll go to my IntelliJ idea. Here inside my config.yml I'm going to bring back that extent changes.
+
+74
+00:04:44,000 --> 00:04:50,000
+So under this microservice db config we need to extend this network-deploy-service.
+
+75
+00:04:50,000 --> 00:04:54,000
+So let me take those values from the other config dot yaml we have here.
+
+76
+00:04:54,000 --> 00:04:59,000
+So let me take this values and mention the same inside the qa profile.
+
+77
+00:04:59,000 --> 00:04:59,000
+So
+
+78
+00:04:59,000 --> 00:05:01,000
+I'm trying to mention the same here.
+
+79
+00:05:01,000 --> 00:05:06,000
+So now if you try to start this time, the containers will get started successfully.
+
+80
+00:05:06,000 --> 00:05:08,000
+They will not be any surprise.
+
+81
+00:05:08,000 --> 00:05:11,000
+If you want, you can validate inside your local system. With this discussion,
+
+82
+00:05:11,000 --> 00:05:17,000
+I'm assuming you are clear on how to connect your microservices with a docker running database
+
+83
+00:05:17,000 --> 00:05:18,000
+containers.
+
+84
+00:05:18,000 --> 00:05:22,000
+It can be using Docker compose or it can be using your local host.
+
+85
+00:05:22,000 --> 00:05:24,000
+So both approaches we have discussed.
+
+86
+00:05:24,000 --> 00:05:27,000
+But here I'm going to give you a surprise. From the next section,
+
+87
+00:05:27,000 --> 00:05:30,000
+we are not going to use the MySQL database.
+
+88
+00:05:30,000 --> 00:05:34,000
+We're going to use the internal H2 database only.
+
+89
+00:05:34,000 --> 00:05:38,000
+You might be surprised here and you may ask me, Why are you doing that?
+
+90
+00:05:38,000 --> 00:05:41,000
+We already migrated our code from H2 database to MySQL.
+
+91
+00:05:41,000 --> 00:05:42,000
+Then why
+
+92
+00:05:42,000 --> 00:05:44,000
+we want to go back to the H2 database again.
+
+93
+00:05:44,000 --> 00:05:52,000
+The reason is, as of now you can see inside our Docker compose file whenever we want to start our microservices
+
+94
+00:05:52,000 --> 00:05:57,000
+applications along with the relevant dependencies, there will be three database containers, there will be
+
+95
+00:05:57,000 --> 00:06:02,000
+config server, they'll be loans, cards and accounts microservice.
+
+96
+00:06:02,000 --> 00:06:08,000
+In total, there will be seven running containers inside your local system and we are going to onboard
+
+97
+00:06:08,000 --> 00:06:13,000
+more number of other components inside the microservices like Eureka Server, Gateway Server.
+
+98
+00:06:13,000 --> 00:06:17,000
+We are going to bring grafana related containers.
+
+99
+00:06:17,000 --> 00:06:23,000
+With so many containers running inside your system, it is going to slow down your laptop and eventually
+
+100
+00:06:23,000 --> 00:06:24,000
+you will get demotivated.
+
+101
+00:06:24,000 --> 00:06:28,000
+If you see some runtime issues which you're not able to debug.
+
+102
+00:06:28,000 --> 00:06:34,000
+In fact, I observed in my system and I'm trying to run like 10 to 12 containers, I face some slowness
+
+103
+00:06:34,000 --> 00:06:40,000
+inside my system and I can easily expect this can happen to my students also, particularly who are
+
+104
+00:06:40,000 --> 00:06:42,000
+using eight 8 Ram laptops.
+
+105
+00:06:42,000 --> 00:06:48,000
+I hope you understand why we are going to use H2 database, but if you are confident that your laptop
+
+106
+00:06:48,000 --> 00:06:54,000
+is an high end laptop and it is going to work without any issues, please continue using the MySQL database.
+
+107
+00:06:54,000 --> 00:06:59,000
+It's up to you whether you want to follow with me along with the history database or whether you want
+
+108
+00:06:59,000 --> 00:07:01,000
+to go with the MySQL database.
+
+109
+00:07:01,000 --> 00:07:02,000
+I hope this is clear,
+
+110
+00:07:02,000 --> 00:07:05,000
+Thank you and I'll catch you in the next lecture bye.
+

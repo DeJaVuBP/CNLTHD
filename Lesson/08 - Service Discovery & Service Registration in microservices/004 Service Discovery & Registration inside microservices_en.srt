@@ -1,0 +1,308 @@
+1
+00:00:00,000 --> 00:00:05,000
+In the previous lecture we discussed about the traditional load balancer and what are the limitations
+
+2
+00:00:05,000 --> 00:00:11,000
+or disadvantages that we have whenever we try to use them inside the microservices or cloud native applications.
+
+3
+00:00:11,000 --> 00:00:17,000
+So now inside this lecture, let's try to understand how to solve this problem or how to overcome this
+
+4
+00:00:17,000 --> 00:00:17,000
+problem.
+
+5
+00:00:17,000 --> 00:00:23,000
+Whenever we are trying to build cloud native applications or microservices service-discovery pattern
+
+6
+00:00:23,000 --> 00:00:24,000
+is a perfect solution.
+
+7
+00:00:24,000 --> 00:00:26,000
+So what is a service discovery pattern?
+
+8
+00:00:27,000 --> 00:00:33,000
+This pattern involves tracking and storing all the information about the running service instances in
+
+9
+00:00:33,000 --> 00:00:35,000
+a service registry.
+
+10
+00:00:35,000 --> 00:00:39,000
+I know here it might be confusing, so let's try to understand more about these details.
+
+11
+00:00:39,000 --> 00:00:46,000
+So the purpose of service registry is, whenever a new instance is being created, it should register
+
+12
+00:00:46,000 --> 00:00:52,000
+inside the registry and at the same time, whenever it is terminated or being shut down or being deleted,
+
+13
+00:00:52,000 --> 00:00:55,000
+it should also appropriately removed automatically.
+
+14
+00:00:55,000 --> 00:01:01,000
+So if you started five different instances of loans microservice, all of them, they need to register
+
+15
+00:01:01,000 --> 00:01:08,000
+themselves inside a service registry and using the same service registry, my accounts microservice
+
+16
+00:01:08,000 --> 00:01:12,000
+can try to discover the loans microservice related information.
+
+17
+00:01:12,000 --> 00:01:16,000
+So that's why the name service Discovery comes to this pattern.
+
+18
+00:01:16,000 --> 00:01:22,000
+So here you may have a question like how my microservices, they can register themselves into a service
+
+19
+00:01:22,000 --> 00:01:28,000
+registry and at the same time how my other microservices like accounts microservice, they can try
+
+20
+00:01:28,000 --> 00:01:32,000
+to discover the other service details with the help of service registry.
+
+21
+00:01:32,000 --> 00:01:35,000
+So don't worry, we are going to discuss all those details for now.
+
+22
+00:01:35,000 --> 00:01:37,000
+Please hold on your question.
+
+23
+00:01:37,000 --> 00:01:42,000
+Apart from service discovery and service registry, the next challenge that we have is, load balancing.
+
+24
+00:01:42,000 --> 00:01:46,000
+So this load balancing challenge also addressed by these patterns.
+
+25
+00:01:46,000 --> 00:01:48,000
+So let's try to understand more details here.
+
+26
+00:01:48,000 --> 00:01:54,000
+The service registry, where it is going to maintain all the running service instances.
+
+27
+00:01:54,000 --> 00:02:00,000
+It acknowledged that multiple instances of the same application can be active simultaneously.
+
+28
+00:02:00,000 --> 00:02:06,000
+That's why whenever an other microservice it want to communicate with the backing service like loans
+
+29
+00:02:06,000 --> 00:02:12,000
+microservice, it performs a lookup in the registry to determine the IP address to connect to.
+
+30
+00:02:12,000 --> 00:02:18,000
+If multiple instances of a same microservice are available, then behind the scenes it is also going
+
+31
+00:02:18,000 --> 00:02:22,000
+to perform the load balancing strategy and using the same load balancing strategy.
+
+32
+00:02:22,000 --> 00:02:29,000
+It is going to eventually distribute the workload among all the running instances of a microservice
+
+33
+00:02:29,000 --> 00:02:31,000
+like loans microservice.
+
+34
+00:02:31,000 --> 00:02:36,000
+So this load balancing and service discovery can happen in two different styles.
+
+35
+00:02:36,000 --> 00:02:41,000
+One is client side service discovery, and the other one is server side service discovery.
+
+36
+00:02:41,000 --> 00:02:43,000
+So these are the two different approaches.
+
+37
+00:02:43,000 --> 00:02:48,000
+Inside this section we are going to focus on client side service discovery.
+
+38
+00:02:48,000 --> 00:02:54,000
+And towards the end of this course, when we are trying to use Kubernetes to deploy all our microservices
+
+39
+00:02:54,000 --> 00:02:58,000
+at that specific time, I'm going to show you a demo of server side Discovery.
+
+40
+00:02:58,000 --> 00:03:00,000
+So here you may have more questions.
+
+41
+00:03:00,000 --> 00:03:02,000
+So let's try to understand more details here.
+
+42
+00:03:02,000 --> 00:03:05,000
+Inside Microservices network are cloud native applications.
+
+43
+00:03:05,000 --> 00:03:12,000
+We know that the IP addresses will be dynamically changing because we are going to change the number
+
+44
+00:03:12,000 --> 00:03:17,000
+of instances whenever we want to perform auto scaling or in the scenarios of failures.
+
+45
+00:03:17,000 --> 00:03:24,000
+So in these kind of dynamic situations, microservices patterns like service discovery and registration
+
+46
+00:03:24,000 --> 00:03:29,000
+is a way for applications and microservices to locate each other on a network.
+
+47
+00:03:29,000 --> 00:03:33,000
+So let's try to understand what are the components involved inside these patterns.
+
+48
+00:03:33,000 --> 00:03:40,000
+The very first component is there will be a centralized server or a multiple servers that maintains
+
+49
+00:03:40,000 --> 00:03:46,000
+a global view of address, just like how we have config server which is responsible to maintain all
+
+50
+00:03:46,000 --> 00:03:49,000
+the configurations at a centralized location.
+
+51
+00:03:49,000 --> 00:03:55,000
+Very similarly, we are going to create a central server that maintains the details of all the running
+
+52
+00:03:55,000 --> 00:03:56,000
+services.
+
+53
+00:03:56,000 --> 00:04:02,000
+So how it is going to maintain is whenever a particular micro service instance is trying to get started
+
+54
+00:04:02,000 --> 00:04:08,000
+very first time, it is a responsibility of the microservice itself to connect to the central server
+
+55
+00:04:08,000 --> 00:04:12,000
+and to register their address when they start and ready.
+
+56
+00:04:12,000 --> 00:04:19,000
+So the microservice instance that started it has to communicate its IP address port details to the
+
+57
+00:04:19,000 --> 00:04:26,000
+central server and with that the central server will maintain that information inside a service registry.
+
+58
+00:04:26,000 --> 00:04:33,000
+And once the microservice is started, my central server also expects a regular heartbeats from my
+
+59
+00:04:33,000 --> 00:04:36,000
+individual microservices confirming about their health.
+
+60
+00:04:36,000 --> 00:04:42,000
+If my central server, which is acting as a service registry and service discovery, if it is not receiving
+
+61
+00:04:42,000 --> 00:04:48,000
+the regular heartbeats, then it assumes the health of a particular microservice instance is not good
+
+62
+00:04:48,000 --> 00:04:54,000
+and it is going to delete its IP details and all the address details from the service registry.
+
+63
+00:04:54,000 --> 00:04:59,000
+And very similarly, whenever the microservices are being shut down or  being
+
+64
+00:04:59,000 --> 00:05:00,000
+removed.
+
+65
+00:05:00,000 --> 00:05:04,000
+They should also re-register their address details from the central server.
+
+66
+00:05:04,000 --> 00:05:11,000
+So since my central server now has a global view of address, any other microservice which want to communicate
+
+67
+00:05:11,000 --> 00:05:17,000
+with the backing microservice, it can connect with the central server and ask what are the IP address
+
+68
+00:05:17,000 --> 00:05:19,000
+of so and so microservice.
+
+69
+00:05:19,000 --> 00:05:25,000
+So the summary here is the service discovery and service registrations deals with the problems about
+
+70
+00:05:25,000 --> 00:05:28,000
+how microservices talk with each other.
+
+71
+00:05:28,000 --> 00:05:34,000
+So how this pattern is going to be implemented is, we are going to create a separate central server which
+
+72
+00:05:34,000 --> 00:05:39,000
+is responsible to implement this service discovery and service registration.
+
+73
+00:05:39,000 --> 00:05:45,000
+Previously I said that the service discovery can happen at the client side and the server side.
+
+74
+00:05:45,000 --> 00:05:48,000
+Inside this section we are going to focus on client side service discovery.
+
+75
+00:05:48,000 --> 00:05:54,000
+So let's try to understand more details how this client, side service discovery is going to work in
+
+76
+00:05:54,000 --> 00:05:55,000
+the next lecture.
+
+77
+00:05:55,000 --> 00:05:57,000
+Thank you and I'll catch you in the next lecture bye.
+

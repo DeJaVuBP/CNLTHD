@@ -1,0 +1,192 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now inside this lecture, let's see the demo of heartbeats that will be sent by the microservices to
+
+2
+00:00:07,000 --> 00:00:08,000
+the Eureka Server.
+
+3
+00:00:08,000 --> 00:00:14,000
+So to get started with this discussion, first, I need to make sure all of my microservices are started.
+
+4
+00:00:14,000 --> 00:00:16,000
+So let me start all my microservices.
+
+5
+00:00:16,000 --> 00:00:21,000
+Like first I'm trying to start the loans followed by cards and at last I'll also start the accounts
+
+6
+00:00:21,000 --> 00:00:22,000
+microservice.
+
+7
+00:00:22,000 --> 00:00:29,000
+So by the time these microservices starts successfully. Behind the scenes, they will also register their
+
+8
+00:00:29,000 --> 00:00:31,000
+instance details with the Eureka Server.
+
+9
+00:00:31,000 --> 00:00:35,000
+So we can also validate the same by going into the Eureka dashboard.
+
+10
+00:00:35,000 --> 00:00:41,000
+So here I'm going to refresh this page and you can see this time, we are able to see all the instances currently
+
+11
+00:00:41,000 --> 00:00:48,000
+registered with Eureka. As a next step to show you that microservices are trying to attempt to send the
+
+12
+00:00:48,000 --> 00:00:51,000
+heartbeat every 30s, which is the default period.
+
+13
+00:00:51,000 --> 00:00:56,000
+I'm going to shut down the Eureka server. Here before I try to shut down the Eureka Server.
+
+14
+00:00:56,000 --> 00:01:00,000
+Let me clean all the console of accounts, loans and cards
+
+15
+00:01:00,000 --> 00:01:04,000
+microservice. Post that I'm going to stop the Eureka Server.
+
+16
+00:01:04,000 --> 00:01:11,000
+With that, we will be able to see some exceptions inside the console of our microservices. That they
+
+17
+00:01:11,000 --> 00:01:12,000
+are trying to send the heartbeat
+
+18
+00:01:12,000 --> 00:01:14,000
+but Eureka Server is not responding.
+
+19
+00:01:14,000 --> 00:01:21,000
+So let's wait for 30s. Post that we should be able to see some errors inside the microservices console.
+
+20
+00:01:21,000 --> 00:01:26,000
+So here you can see for AccountsApplication, a new exception is generated.
+
+21
+00:01:26,000 --> 00:01:31,000
+If you go and try to understand these exception, there will be details related to heartbeat.
+
+22
+00:01:31,000 --> 00:01:36,000
+Maybe what we can do is, we can try to search for a word heartbeat here.
+
+23
+00:01:36,000 --> 00:01:38,000
+So let me search for this
+
+24
+00:01:38,000 --> 00:01:43,000
+and there are so many matches with the word heartbeat, you should be able to see these kind of message
+
+25
+00:01:43,000 --> 00:01:47,000
+like was unable to send Heartbeat to Eureka Server.
+
+26
+00:01:47,000 --> 00:01:54,000
+You can see in the logs it is trying to send the request of type PUT to so and so URL of Eureka to
+
+27
+00:01:54,000 --> 00:01:55,000
+update the heartbeat details.
+
+28
+00:01:55,000 --> 00:02:01,000
+But since the Eureka server itself is down, we are seeing this exception inside the console of AccountsApplication.
+
+29
+00:02:01,000 --> 00:02:02,000
+.
+
+30
+00:02:02,000 --> 00:02:07,000
+The same we can see inside the LoansApplication also and followed by CardsApplication even inside
+
+31
+00:02:07,000 --> 00:02:09,000
+the CardsApplication console
+
+32
+00:02:09,000 --> 00:02:11,000
+also we have errors related to heartbeat.
+
+33
+00:02:11,000 --> 00:02:16,000
+So this confirms that our individual microservices, they are trying to send the heartbeat signal to
+
+34
+00:02:16,000 --> 00:02:17,000
+the Eureka server.
+
+35
+00:02:17,000 --> 00:02:22,000
+With this it should be clear for you, like during the startup, the registration will be taken care
+
+36
+00:02:22,000 --> 00:02:28,000
+by the individual microservices and once the services are started, even the heartbeat also will be
+
+37
+00:02:28,000 --> 00:02:34,000
+sent every 30s to the Eureka server to make sure that Eureka server is maintaining only the instance
+
+38
+00:02:34,000 --> 00:02:38,000
+details which are healthy and at last during the shutdown process
+
+39
+00:02:38,000 --> 00:02:44,000
+also our microservices, they are going to unregister themselves and all these steps are going to happen
+
+40
+00:02:44,000 --> 00:02:45,000
+automatically.
+
+41
+00:02:45,000 --> 00:02:51,000
+No where we are doing this manually, the communication between microservices and Eureka Server is
+
+42
+00:02:51,000 --> 00:02:52,000
+happening automatically.
+
+43
+00:02:52,000 --> 00:02:59,000
+So now we have the Eureka Server, which is acting as a service discovery agent and at the same time
+
+44
+00:02:59,000 --> 00:03:05,000
+our microservices are also communicating their instance details to the Eureka Service Registry.
+
+45
+00:03:05,000 --> 00:03:11,000
+As a next step, we need to understand how a microservice can rely on this Eureka server to discover
+
+46
+00:03:11,000 --> 00:03:16,000
+the other service details and in the same process how it is going to perform the load balancing.
+
+47
+00:03:16,000 --> 00:03:19,000
+So let's try to understand all these details from the next lecture.
+
+48
+00:03:19,000 --> 00:03:22,000
+Thank you and I'll catch you in the next lecture bye.
+
