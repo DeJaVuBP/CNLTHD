@@ -1,0 +1,492 @@
+1
+00:00:00,000 --> 00:00:05,000
+To test the changes related to the event driven microservices and rabbitmq
+
+2
+00:00:06,000 --> 00:00:12,000
+inside the Docker environment. I have created the Docker images with the tag name S13
+
+3
+00:00:12,000 --> 00:00:17,000
+behind the scenes. Like you can see these are all the s13 related images.
+
+4
+00:00:17,000 --> 00:00:18,000
+Right now
+
+5
+00:00:18,000 --> 00:00:23,000
+inside this section we have created a new microservice with the name message.
+
+6
+00:00:23,000 --> 00:00:28,000
+That's why you are able to see total seven Docker images. The same Docker images,
+
+7
+00:00:28,000 --> 00:00:30,000
+I also pushed them into the Docker hub.
+
+8
+00:00:30,000 --> 00:00:35,000
+Like you can see here, all the images are pushed just now in case
+
+9
+00:00:35,000 --> 00:00:42,000
+if you want to leverage my Docker images, feel free to use them by using the appropriate tag name based
+
+10
+00:00:42,000 --> 00:00:44,000
+upon the scenario that you are trying to test.
+
+11
+00:00:44,000 --> 00:00:48,000
+After generating the Docker images, I also updated the Docker compose file
+
+12
+00:00:48,000 --> 00:00:52,000
+behind the scenes. Let me walk you through the changes that I have done.
+
+13
+00:00:52,000 --> 00:00:58,000
+So here I'm going to open any of the Docker compose file available, so I'm trying to open the file
+
+14
+00:00:58,000 --> 00:01:00,000
+available inside the prod profile.
+
+15
+00:01:00,000 --> 00:01:04,000
+You can also get these Yaml files from the GitHub repo.
+
+16
+00:01:04,000 --> 00:01:07,000
+If you see here inside these docker compose yaml file.
+
+17
+00:01:07,000 --> 00:01:12,000
+First, I have created a rabbitmq related service with the service name Rabbit.
+
+18
+00:01:12,000 --> 00:01:13,000
+Inside this
+
+19
+00:01:13,000 --> 00:01:18,000
+you already know all these configurations like what is the image name and what is the host name at which
+
+20
+00:01:18,000 --> 00:01:21,000
+the rabbitmq is going to start?
+
+21
+00:01:21,000 --> 00:01:22,000
+And these are the port mappings.
+
+22
+00:01:22,000 --> 00:01:24,000
+These are the health check details.
+
+23
+00:01:24,000 --> 00:01:31,000
+And at last I'm trying to tag these rabbit service to the same network where the other microservices
+
+24
+00:01:31,000 --> 00:01:35,000
+are also going to start. After adding these rabbitmq related service
+
+25
+00:01:35,000 --> 00:01:42,000
+I went to the all the individual microservices like config server, Eureka server accounts, loans,
+
+26
+00:01:42,000 --> 00:01:44,000
+cards and gateway server.
+
+27
+00:01:44,000 --> 00:01:51,000
+In all these microservice related configurations, I change the tag name from s12 to s13.
+
+28
+00:01:51,000 --> 00:01:56,000
+After this change, I made the changes inside accounts microservice.
+
+29
+00:01:56,000 --> 00:02:03,000
+The changes are like adding these dependson details because right now my accounts microservice is going
+
+30
+00:02:03,000 --> 00:02:04,000
+to depend on rabbit service.
+
+31
+00:02:04,000 --> 00:02:10,000
+So that's why I'm trying to convey these depends upon information and under the environment variable,
+
+32
+00:02:10,000 --> 00:02:16,000
+I have created a new environment property with the name Spring Rabbitmq host and here we need to make
+
+33
+00:02:16,000 --> 00:02:22,000
+sure we are mentioning the service name that we have defined at the top of this file.
+
+34
+00:02:22,000 --> 00:02:23,000
+Using these service name only,
+
+35
+00:02:23,000 --> 00:02:29,000
+the communication between the accounts and Rabbitmq is going to happen, whereas other properties like
+
+36
+00:02:29,000 --> 00:02:35,000
+Rabbitmq username, password, port number, I left them with the default values that we have defined
+
+37
+00:02:35,000 --> 00:02:38,000
+inside the application.yml file.
+
+38
+00:02:38,000 --> 00:02:44,000
+Now at last, if you go to the end of this file you will be able to see a new service with the name
+
+39
+00:02:44,000 --> 00:02:45,000
+message.
+
+40
+00:02:45,000 --> 00:02:47,000
+And this is also going to depend on rabbit.
+
+41
+00:02:47,000 --> 00:02:54,000
+And here also I have defined a new environment variable with the name Spring Rabbitmq host and the value
+
+42
+00:02:54,000 --> 00:02:56,000
+is a service name which is rabbit.
+
+43
+00:02:56,000 --> 00:03:02,000
+And this service also, we are trying to start inside the same network where other microservices are
+
+44
+00:03:02,000 --> 00:03:03,000
+also going to start.
+
+45
+00:03:03,000 --> 00:03:09,000
+Now, as a next step, we can try to start all these containers with the help of Docker compose file.
+
+46
+00:03:09,000 --> 00:03:16,000
+Before I try to do that, let me try to stop all the running instances inside my local system, along
+
+47
+00:03:16,000 --> 00:03:21,000
+with the running containers that I have inside the Docker desktop. Inside the Docker desktop under
+
+48
+00:03:21,000 --> 00:03:24,000
+containers, you should be able to see two containers running.
+
+49
+00:03:24,000 --> 00:03:26,000
+One is related to keycloak.
+
+50
+00:03:26,000 --> 00:03:30,000
+Let me stop this and the other one related to the Rabbitmq.
+
+51
+00:03:30,000 --> 00:03:33,000
+So this one also, I'm trying to stop it. As a next step,
+
+52
+00:03:33,000 --> 00:03:37,000
+I'm going to start all my containers with the Docker compose command.
+
+53
+00:03:37,000 --> 00:03:42,000
+As of now, you can see inside my terminal I'm at the location where my Docker compose file present
+
+54
+00:03:42,000 --> 00:03:44,000
+inside the prod profile.
+
+55
+00:03:44,000 --> 00:03:49,000
+So let me try to run the command which is Docker compose up -d.
+
+56
+00:03:49,000 --> 00:03:52,000
+This will start all my containers. For some reason,
+
+57
+00:03:52,000 --> 00:04:00,000
+If your laptop is not cooperating to start all these containers, please remove any unnecessary containers
+
+58
+00:04:00,000 --> 00:04:04,000
+or configurations related to the grafana related services.
+
+59
+00:04:04,000 --> 00:04:09,000
+Since we are done with that discussion, you can safely remove them so that the remaining containers
+
+60
+00:04:09,000 --> 00:04:14,000
+which you are trying to focus inside this section will get started successfully.
+
+61
+00:04:14,000 --> 00:04:17,000
+So this is going to take two minutes time inside my local system.
+
+62
+00:04:17,000 --> 00:04:20,000
+So let me wait for this to complete.
+
+63
+00:04:20,000 --> 00:04:23,000
+After two minutes, all my containers started successfully.
+
+64
+00:04:23,000 --> 00:04:26,000
+Now let me go to the browser. Inside the browser,
+
+65
+00:04:26,000 --> 00:04:29,000
+first, I'm going to show you the Rabbitmq console.
+
+66
+00:04:29,000 --> 00:04:35,000
+So the username I'm going to use here is, guest and the password also is going to be guest. This time
+
+67
+00:04:35,000 --> 00:04:41,000
+this is a brand new container related to Rabbitmq, so we should be able to see the correct exchanges
+
+68
+00:04:41,000 --> 00:04:44,000
+so they will not be any orphan exchanges.
+
+69
+00:04:44,000 --> 00:04:48,000
+So there are two exchanges, communication-sent and send-communication.
+
+70
+00:04:48,000 --> 00:04:54,000
+Similarly, if you go to the queues, there will be two queues like we have defined inside our applications.
+
+71
+00:04:54,000 --> 00:04:59,000
+Now let me go to the keycloak. Inside the keycloak since it is a brand new container.
+
+72
+00:05:00,000 --> 00:05:04,000
+There won't be any client details or role details configured.
+
+73
+00:05:04,000 --> 00:05:09,000
+So to test my scenario, I need to create a client that supports client credentials
+
+74
+00:05:09,000 --> 00:05:10,000
+grant flow.
+
+75
+00:05:10,000 --> 00:05:16,000
+For the same, I'm going to click on this create client and give the client ID as EazyBankCallCenter-cc
+
+76
+00:05:16,000 --> 00:05:17,000
+.
+
+77
+00:05:17,000 --> 00:05:19,000
+I'll click on next and post that
+
+78
+00:05:19,000 --> 00:05:26,000
+I'll enable client authentication and disable the standard flow direct access grants and enable these
+
+79
+00:05:26,000 --> 00:05:28,000
+service account roles
+
+80
+00:05:28,000 --> 00:05:35,000
+and click on this next save and post that I'm going to take these credentials and mention the same Inside
+
+81
+00:05:35,000 --> 00:05:37,000
+my Postman. As a next step,
+
+82
+00:05:37,000 --> 00:05:42,000
+I should also assign a accounts related roles to this client.
+
+83
+00:05:42,000 --> 00:05:46,000
+For the same, let me create the role which is accounts.
+
+84
+00:05:46,000 --> 00:05:51,000
+I'm not going to create other roles like cards and loans, since we are not going to test them.
+
+85
+00:05:51,000 --> 00:05:53,000
+Now my accounts role is created,
+
+86
+00:05:53,000 --> 00:05:55,000
+let me go to the clients.
+
+87
+00:05:55,000 --> 00:05:57,000
+Click on this new client that we have created.
+
+88
+00:05:57,000 --> 00:06:04,000
+I'll go to service account roles and click on this assign role and try to assign these accounts role
+
+89
+00:06:04,000 --> 00:06:04,000
+with this,
+
+90
+00:06:04,000 --> 00:06:08,000
+now, my keycloak should give an valid access token.
+
+91
+00:06:08,000 --> 00:06:12,000
+So inside my postman first I will try to click on this Get access token.
+
+92
+00:06:12,000 --> 00:06:15,000
+You can see the authentication is complete.
+
+93
+00:06:15,000 --> 00:06:19,000
+I'm going to use the new access token that I have received. As a next step,
+
+94
+00:06:19,000 --> 00:06:25,000
+let me try to create an account and you can see the mobile number is ending with a value
+
+95
+00:06:25,000 --> 00:06:27,000
+six, eight, seven.
+
+96
+00:06:27,000 --> 00:06:29,000
+I'm trying to send this request.
+
+97
+00:06:29,000 --> 00:06:33,000
+As soon as I click on the send button, you can see I got a successful response.
+
+98
+00:06:33,000 --> 00:06:40,000
+Now let me go to the console of accounts and message microservice and show you what happened inside
+
+99
+00:06:40,000 --> 00:06:41,000
+the console.
+
+100
+00:06:41,000 --> 00:06:47,000
+I cannot really show you the H2 console because we didn't expose the accounts microservice to the outside
+
+101
+00:06:47,000 --> 00:06:49,000
+of the Docker network.
+
+102
+00:06:49,000 --> 00:06:52,000
+And with that reason I cannot access the H2 console.
+
+103
+00:06:52,000 --> 00:06:59,000
+So inside my Docker containers first I'll go to the message microservice and here you can see we have
+
+104
+00:06:59,000 --> 00:07:04,000
+two loggers, which is sending email with the details and sending sms with the details.
+
+105
+00:07:04,000 --> 00:07:08,000
+As a next step, let me go to the accounts microservice logs.
+
+106
+00:07:08,000 --> 00:07:11,000
+Here I have my accounts microservice container.
+
+107
+00:07:11,000 --> 00:07:17,000
+Let me click on that and I'll go to the logs and you'll be able to see multiple logs.
+
+108
+00:07:17,000 --> 00:07:24,000
+The very first log is sending communication requests to the details and post that we have an log, which
+
+109
+00:07:24,000 --> 00:07:28,000
+is the communication request successfully triggered, which is true.
+
+110
+00:07:28,000 --> 00:07:35,000
+And at last we also have a logger which is updating communication status for so and so account number.
+
+111
+00:07:35,000 --> 00:07:42,000
+With this, the changes related to rabbitmq that we have done inside our microservices to make them
+
+112
+00:07:42,000 --> 00:07:47,000
+event driven microservices or working perfectly inside the docker network as well.
+
+113
+00:07:47,000 --> 00:07:53,000
+I also want to confirm you that all the code that we have discussed inside this section, I have checked
+
+114
+00:07:53,000 --> 00:07:58,000
+in inside the GitHub repo with the folder name section_13.
+
+115
+00:07:58,000 --> 00:08:04,000
+You can see I have also mentioned the comment saying that event driven microservices using rabbitmq
+
+116
+00:08:04,000 --> 00:08:06,000
+spring cloud functions and stream.
+
+117
+00:08:06,000 --> 00:08:12,000
+I hope you are super, super clear with all the discussions that we have done inside this section, but
+
+118
+00:08:12,000 --> 00:08:18,000
+let me remind you that we are not completely done discussing about the challenge related to event driven
+
+119
+00:08:18,000 --> 00:08:19,000
+microservices.
+
+120
+00:08:19,000 --> 00:08:27,000
+Inside the next section, let me try to explain you how to use Kafka to implement event driven microservices
+
+121
+00:08:27,000 --> 00:08:29,000
+inside your microservices.
+
+122
+00:08:29,000 --> 00:08:32,000
+Thank you and I will see you in the next section.
+
+123
+00:08:32,000 --> 00:08:33,000
+Bye.
+

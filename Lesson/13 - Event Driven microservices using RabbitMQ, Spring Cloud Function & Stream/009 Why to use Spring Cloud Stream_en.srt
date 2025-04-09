@@ -1,0 +1,420 @@
+1
+00:00:00,000 --> 00:00:03,000
+We saw the demo of Spring cloud functions.
+
+2
+00:00:03,000 --> 00:00:09,000
+Now, inside this lecture, let's try to explore what is spring cloud stream and what are the advantages
+
+3
+00:00:09,000 --> 00:00:12,000
+or abilities that it is going to provide to us
+
+4
+00:00:12,000 --> 00:00:18,000
+Before I try to explain about Spring Cloud Stream, let me highlight you that I have highlighted all
+
+5
+00:00:18,000 --> 00:00:23,000
+the steps that we have followed to build the business logic with the help of spring cloud functions.
+
+6
+00:00:23,000 --> 00:00:30,000
+You can always refer these slides for a quick reference before you try to go to any interview or any
+
+7
+00:00:30,000 --> 00:00:31,000
+project discussion.
+
+8
+00:00:31,000 --> 00:00:34,000
+Now let's try to understand what is Spring cloud stream.
+
+9
+00:00:34,000 --> 00:00:40,000
+We know that with the help of spring cloud functions, we can build our business logic inside functions
+
+10
+00:00:40,000 --> 00:00:42,000
+and these functions if needed
+
+11
+00:00:42,000 --> 00:00:47,000
+we can expose them as REST APIs by just adding a dependency inside our pom.xml.
+
+12
+00:00:47,000 --> 00:00:55,000
+But what if you want to integrate your functions with the event brokers like Rabbitmq or Apache Kafka?
+
+13
+00:00:55,000 --> 00:01:00,000
+So in all such scenarios, we need to use this Spring Cloud Stream project.
+
+14
+00:01:00,000 --> 00:01:07,000
+So Spring Cloud Stream is a framework designed for creating scalable event driven and streaming applications.
+
+15
+00:01:07,000 --> 00:01:14,000
+By using these project, we can convert our messaging microservice as an event driven or streaming application.
+
+16
+00:01:14,000 --> 00:01:21,000
+The main purpose on why this Spring cloud stream project is developed is, to allow developers to focus
+
+17
+00:01:21,000 --> 00:01:23,000
+on the business logic.
+
+18
+00:01:23,000 --> 00:01:29,000
+While this framework takes care of infrastructure related tasks like such as integrating with a message
+
+19
+00:01:29,000 --> 00:01:31,000
+broker or a Apache Kafka.
+
+20
+00:01:31,000 --> 00:01:38,000
+In other words, Spring Cloud Stream is going to act as an abstraction layer and provide a consistent
+
+21
+00:01:38,000 --> 00:01:44,000
+experience to developers, regardless of which middleware that you are using behind the scenes.
+
+22
+00:01:44,000 --> 00:01:51,000
+If you are using Rabbitmq, you simply add the dependency related to Rabbitmq inside your pom.xml.
+
+23
+00:01:51,000 --> 00:01:57,000
+And very similarly, if you are using Apache Kafka, you can simply add that dependency related to the
+
+24
+00:01:57,000 --> 00:01:59,000
+same inside your pom.xml.
+
+25
+00:01:59,000 --> 00:02:05,000
+In both these scenarios, the developer experience is going to be same because he don't have to change
+
+26
+00:02:05,000 --> 00:02:10,000
+anything inside his business logic or inside his Java logic.
+
+27
+00:02:10,000 --> 00:02:16,000
+He just need to add the dependency inside pom.xml and after that he just need to change a few properties.
+
+28
+00:02:16,000 --> 00:02:18,000
+With that, he should be good.
+
+29
+00:02:18,000 --> 00:02:23,000
+And this spring cloud stream is going to take care of all infrastructural headaches like integration
+
+30
+00:02:23,000 --> 00:02:26,000
+with the event broker. Behind the scenes this spring
+
+31
+00:02:26,000 --> 00:02:33,000
+Cloud Stream supports many integrations, like with Rabbitmq, Apache Kafka, Kafka Streams, Amazon
+
+32
+00:02:33,000 --> 00:02:39,000
+Kinesis and we also have integrations that are maintained by the partners for Google pub/sub, solace
+
+33
+00:02:39,000 --> 00:02:42,000
+pub/sub, Azure Event Hubs, Apache RocketMQ.
+
+34
+00:02:42,000 --> 00:02:48,000
+So regardless of which message broker or event broker that you use inside your projects, you don't
+
+35
+00:02:48,000 --> 00:02:50,000
+have to make any changes.
+
+36
+00:02:50,000 --> 00:02:56,000
+So today you might be using Rabbitmq but in future you may move to Apache Kafka or Google Pub/Sub.
+
+37
+00:02:56,000 --> 00:03:02,000
+In this kind of scenarios, the transition from one product to other product is going to be seamless.
+
+38
+00:03:02,000 --> 00:03:05,000
+Before Spring cloud stream and spring cloud functions.
+
+39
+00:03:05,000 --> 00:03:11,000
+All the developers they used to expose their business logic by writing REST APIs with the help of 
+
+40
+00:03:11,000 --> 00:03:14,000
+RestController, GetMapping, PostMapping annotations.
+
+41
+00:03:14,000 --> 00:03:20,000
+After defining the REST APIs, they used to add a lot of dependencies related to Rabbitmq and use a
+
+42
+00:03:20,000 --> 00:03:25,000
+lot of classes or interfaces which are specific to RabbitMQ. In future,
+
+43
+00:03:25,000 --> 00:03:31,000
+if they want to move to the Apache Kafka, they need to delete a lot of interfaces and classes related
+
+44
+00:03:31,000 --> 00:03:36,000
+to RabbitMQ and Post that they need to leverage the classes and interfaces of Apache Kafka.
+
+45
+00:03:36,000 --> 00:03:43,000
+And during this transition you can also see the developers has to learn a lot about the new product
+
+46
+00:03:43,000 --> 00:03:48,000
+that they are trying to move. Until unless they don't know what is the interface and the classes that
+
+47
+00:03:48,000 --> 00:03:50,000
+they have to use inside the new product.
+
+48
+00:03:50,000 --> 00:03:53,000
+They cannot really have a seamless transition.
+
+49
+00:03:53,000 --> 00:03:57,000
+So all these challenges are going to be handled by the spring cloud stream.
+
+50
+00:03:57,000 --> 00:04:04,000
+So this magic of spring cloud stream, it is going to achieve with the help of three important components.
+
+51
+00:04:04,000 --> 00:04:07,000
+The very first one is destination binders.
+
+52
+00:04:07,000 --> 00:04:13,000
+This is the component which is responsible to provide the actual integration with the external messaging
+
+53
+00:04:13,000 --> 00:04:15,000
+system. Using the destination binders
+
+54
+00:04:15,000 --> 00:04:23,000
+only, the spring cloud stream is going to integrate your microservice or your application with the Rabbitmq
+
+55
+00:04:23,000 --> 00:04:27,000
+or Apache Kafka or whatever product that you are trying to use.
+
+56
+00:04:27,000 --> 00:04:30,000
+The next component is destination bindings.
+
+57
+00:04:30,000 --> 00:04:35,000
+The names are looking very similar but there is a difference between binders and bindings.
+
+58
+00:04:35,000 --> 00:04:42,000
+Once the actual integration with the messaging system is taken care by the destination binders behind
+
+59
+00:04:42,000 --> 00:04:49,000
+the scenes, it is also going to create channels or destination bindings which are going to act as a
+
+60
+00:04:49,000 --> 00:04:55,000
+bridge between the external messaging system and the application code written by the developer.
+
+61
+00:04:55,000 --> 00:04:57,000
+And the third component is, Message.
+
+62
+00:04:57,000 --> 00:05:00,000
+Using this component only we can
+
+63
+00:05:00,000 --> 00:05:06,000
+define the data structure that can be used by the producers and consumers to communicate with each other.
+
+64
+00:05:06,000 --> 00:05:12,000
+As of now, inside message microservice, we are accepting the input in the format of account messages.
+
+65
+00:05:13,000 --> 00:05:17,000
+So that is going to act as a message component in our scenario.
+
+66
+00:05:17,000 --> 00:05:22,000
+I know this definition is very short for Destination Binder's,  Destination Bindings.
+
+67
+00:05:22,000 --> 00:05:23,000
+You might be looking for more details.
+
+68
+00:05:23,000 --> 00:05:30,000
+That's why in the next slide I have mentioned details about what is a destination binder and what is
+
+69
+00:05:30,000 --> 00:05:31,000
+a destination binding.
+
+70
+00:05:31,000 --> 00:05:32,000
+So if you try to read them,
+
+71
+00:05:32,000 --> 00:05:38,000
+so whatever I have explained just now, I have mentioned the same for your reference inside this slide.
+
+72
+00:05:38,000 --> 00:05:41,000
+Now let's try to visualize this discussion.
+
+73
+00:05:41,000 --> 00:05:46,000
+Like you can see, first I will create a spring boot application and inside the spring boot application
+
+74
+00:05:46,000 --> 00:05:52,000
+the developer will define his own functions whenever he add the dependency of spring cloud stream between
+
+75
+00:05:52,000 --> 00:05:58,000
+your application and functions, there will be a layer will be created with the name destination bindings.
+
+76
+00:05:58,000 --> 00:06:05,000
+So with the help of this destination binders only, the actual integration with the message systems
+
+77
+00:06:05,000 --> 00:06:07,000
+and event brokers will happen.
+
+78
+00:06:07,000 --> 00:06:14,000
+So once the integration happens behind the scenes, it is also going to create the destination binding.
+
+79
+00:06:14,000 --> 00:06:20,000
+So with the help of destination binding only the actual integration between your application code
+
+80
+00:06:20,000 --> 00:06:23,000
+and the messaging systems will happen.
+
+81
+00:06:23,000 --> 00:06:29,000
+So the destination binding can be of two types input destination binding and output destination binding.
+
+82
+00:06:30,000 --> 00:06:31,000
+Output destination binding,
+
+83
+00:06:31,000 --> 00:06:36,000
+we need to use whenever we are trying to trigger an event from our microservice.
+
+84
+00:06:36,000 --> 00:06:42,000
+Like you can see with the help of output destination binding, we are going to send our message to the
+
+85
+00:06:42,000 --> 00:06:46,000
+exchange and exchange based upon the routing rules that we have defined,
+
+86
+00:06:46,000 --> 00:06:52,000
+it is going to send the message to one of the queue, whereas input destination binding is responsible
+
+87
+00:06:52,000 --> 00:06:54,000
+to read the messages from the queue.
+
+88
+00:06:54,000 --> 00:07:00,000
+So someone is going to send the message to the exchange and from exchange it will come to the queue
+
+89
+00:07:00,000 --> 00:07:06,000
+and from the queue with the help of input destination binding, your functions are going to read the
+
+90
+00:07:06,000 --> 00:07:08,000
+message and process the same.
+
+91
+00:07:08,000 --> 00:07:09,000
+I hope this is clear.
+
+92
+00:07:09,000 --> 00:07:12,000
+Let me show you quickly the website of Spring Cloud Stream.
+
+93
+00:07:12,000 --> 00:07:15,000
+So this is website of spring cloud stream.
+
+94
+00:07:15,000 --> 00:07:21,000
+And at the spring cloud you should be able to see a sub project with the name Spring Cloud Stream.
+
+95
+00:07:21,000 --> 00:07:22,000
+Here is the link that we have.
+
+96
+00:07:22,000 --> 00:07:28,000
+If you try to read the overview details of this spring cloud stream, they're clearly telling that with
+
+97
+00:07:28,000 --> 00:07:33,000
+the help of Spring Cloud stream we can build highly scalable event driven microservices.
+
+98
+00:07:33,000 --> 00:07:39,000
+The main information that I want you to understand here is, you can see Spring Cloud Stream supports
+
+99
+00:07:39,000 --> 00:07:46,000
+a variety of binder implementations like Rabbitmq, Kafka, Stream, Kinesis, Google Pub/Sub, Azure
+
+100
+00:07:46,000 --> 00:07:50,000
+Event Hub, Azure Service Bus, AWS SQS, AWS SNS.
+
+101
+00:07:50,000 --> 00:07:57,000
+So behind the scenes it is going to support all these binder implementations by simply adding the dependencies.
+
+102
+00:07:57,000 --> 00:08:01,000
+And like we discussed, these are the core building blocks of spring cloud stream.
+
+103
+00:08:01,000 --> 00:08:06,000
+I hope you are super clear about what is the purpose of Spring Cloud stream and why we are trying to
+
+104
+00:08:06,000 --> 00:08:07,000
+use the same.
+
+105
+00:08:07,000 --> 00:08:10,000
+Thank you and I'll catch you in the next lecture bye.
+

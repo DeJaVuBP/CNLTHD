@@ -1,0 +1,792 @@
+1
+00:00:00,000 --> 00:00:01,000
+Do you remember this slide?
+
+2
+00:00:01,000 --> 00:00:07,000
+As of now, we have only implemented one, two, three, four steps.
+
+3
+00:00:07,000 --> 00:00:12,000
+That means the event streaming is happening from accounts to message service.
+
+4
+00:00:12,000 --> 00:00:18,000
+As a next step, we should also try to stream an event from message to the accounts micro service.
+
+5
+00:00:18,000 --> 00:00:22,000
+So that the business flow that we have is going to be complete.
+
+6
+00:00:22,000 --> 00:00:28,000
+In order to send an event from message microservice to the accounts micro service, we need to follow
+
+7
+00:00:28,000 --> 00:00:32,000
+very similar kind of steps that we have discussed previously.
+
+8
+00:00:32,000 --> 00:00:39,000
+So as of now you can see we have a binding with the name emailsms-in-0.
+
+9
+00:00:39,000 --> 00:00:47,000
+So this is an input binding where my message microservice always will keep looking for a message inside
+
+10
+00:00:47,000 --> 00:00:51,000
+a queue with the name send-communication.message.
+
+11
+00:00:51,000 --> 00:00:56,000
+But what if my message microservice want to stream an event to one of the exchange.
+
+12
+00:00:56,000 --> 00:01:02,000
+We need to make very similar changes like we did inside accounts microservice.
+
+13
+00:01:02,000 --> 00:01:09,000
+So inside the accounts application.yml you can see we have created a binding of type output binding.
+
+14
+00:01:09,000 --> 00:01:15,000
+So we need to create very similar one inside the application.yml of message as well.
+
+15
+00:01:15,000 --> 00:01:17,000
+So let me try to create the same.
+
+16
+00:01:17,000 --> 00:01:23,000
+For the same I'm going to copy the same values that we have here, just in the same position where we have input
+
+17
+00:01:23,000 --> 00:01:24,000
+binding details,
+
+18
+00:01:24,000 --> 00:01:27,000
+we need to mention the output binding details as well.
+
+19
+00:01:27,000 --> 00:01:35,000
+So here the output binding details I'm going to provide is, emailsms-out-O.
+
+20
+00:01:35,000 --> 00:01:40,000
+So please make sure your cloud function definition is mentioned here as a prefix.
+
+21
+00:01:40,000 --> 00:01:44,000
+So what is a spring cloud definition name, emailsms.
+
+22
+00:01:44,000 --> 00:01:50,000
+Since we try to compose them with this pipe symbol and post that we need to mention out indicating this
+
+23
+00:01:50,000 --> 00:01:56,000
+is an output binding and zero, which is the starting index value that we need to follow as an standard.
+
+24
+00:01:57,000 --> 00:02:03,000
+Now under the destination, I'm going to mention a new destination which is going to act as an exchange
+
+25
+00:02:03,000 --> 00:02:09,000
+inside my Rabbitmq. The destination name is going to be communication-sent.
+
+26
+00:02:09,000 --> 00:02:12,000
+So this is the exchange name that will be created behind the scenes.
+
+27
+00:02:12,000 --> 00:02:19,000
+With this, we should be done with all the changes inside the message Microservice to send an event
+
+28
+00:02:19,000 --> 00:02:22,000
+to the channel communication-sent.
+
+29
+00:02:22,000 --> 00:02:24,000
+So here you may have many questions.
+
+30
+00:02:24,000 --> 00:02:30,000
+You didn't made any changes inside message microservice like we did inside the AccountServiceImpl.
+
+31
+00:02:30,000 --> 00:02:37,000
+To send the message with the help of this stream bridge bean and invoking the send method and
+
+32
+00:02:37,000 --> 00:02:39,000
+mentioning what is the output binding.
+
+33
+00:02:39,000 --> 00:02:43,000
+We don't need to follow all these steps whenever we are using spring cloud functions.
+
+34
+00:02:43,000 --> 00:02:46,000
+That is one of the advantage that we have.
+
+35
+00:02:46,000 --> 00:02:51,000
+So behind the scenes, how it is going to work is, my spring cloud stream
+
+36
+00:02:51,000 --> 00:03:00,000
+know that an output from these function combination, which is emailsms can be sent as a message to
+
+37
+00:03:00,000 --> 00:03:03,000
+the exchange with the name communication-send.
+
+38
+00:03:03,000 --> 00:03:09,000
+So what is the output from these emailsms, whatever return type that we are going to return from
+
+39
+00:03:09,000 --> 00:03:12,000
+the second function, which is sms.
+
+40
+00:03:12,000 --> 00:03:17,000
+So what we are trying to return inside the second function, if you see here, we are trying to return
+
+41
+00:03:17,000 --> 00:03:20,000
+the long data type, which is the accountNumber.
+
+42
+00:03:20,000 --> 00:03:27,000
+With this, my message microservice is going to trigger a message with an account number value and
+
+43
+00:03:27,000 --> 00:03:33,000
+using this account number value my accounts microservice is going to fetch the account details from
+
+44
+00:03:33,000 --> 00:03:41,000
+the database and it is going to update a database column saying that communication is sent successfully
+
+45
+00:03:41,000 --> 00:03:42,000
+for this account.
+
+46
+00:03:42,000 --> 00:03:46,000
+So did you see how much work we have avoided with the help of spring cloud functions?
+
+47
+00:03:46,000 --> 00:03:51,000
+So that's a beauty of spring cloud functions and spring cloud streams.
+
+48
+00:03:51,000 --> 00:03:52,000
+I still see many students
+
+49
+00:03:52,000 --> 00:03:58,000
+they are using older approaches without using spring cloud functions and spring cloud stream.
+
+50
+00:03:58,000 --> 00:04:03,000
+I feel pretty sad for them because they need to make a lot of changes whenever they are trying to migrate
+
+51
+00:04:03,000 --> 00:04:05,000
+from one product to other product.
+
+52
+00:04:05,000 --> 00:04:08,000
+The transition experience is not going to be seamless.
+
+53
+00:04:08,000 --> 00:04:12,000
+So now we have made all the required changes on the message microservice.
+
+54
+00:04:12,000 --> 00:04:19,000
+As a next step, we need to make changes on the accounts microservice to accept the message that is
+
+55
+00:04:19,000 --> 00:04:23,000
+sent by the message microservice. For the same,
+
+56
+00:04:23,000 --> 00:04:29,000
+let me go to the Accounts Microservice project and here first I'm going to create a new package and
+
+57
+00:04:29,000 --> 00:04:36,000
+the package name is going to be com.eazybytes.accounts.functions. Inside these functions
+
+58
+00:04:36,000 --> 00:04:37,000
+package,
+
+59
+00:04:37,000 --> 00:04:44,000
+I'm going to create a new Java class with the name AccountsFunctions and inside these AccountsFunctions,
+
+60
+00:04:44,000 --> 00:04:51,000
+I'm going to define a function that is responsible to accept the message from the message microservice.
+
+61
+00:04:51,000 --> 00:04:58,000
+So let me try to define an annotation which is @Configuration and post that I'm going to
+
+62
+00:04:58,000 --> 00:04:59,000
+introduce a logger variable.
+
+63
+00:04:59,000 --> 00:05:03,000
+Because I'm going to perform some logging. As a next step,
+
+64
+00:05:03,000 --> 00:05:05,000
+I need to create a function here.
+
+65
+00:05:05,000 --> 00:05:10,000
+We have three types of functional interfaces like Consumer, Supplier and Function.
+
+66
+00:05:10,000 --> 00:05:14,000
+So what is a type of functional interface that we need to use here?
+
+67
+00:05:14,000 --> 00:05:15,000
+Please think about it.
+
+68
+00:05:15,000 --> 00:05:22,000
+The business scenario that we have here is this function is responsible to take the message from the
+
+69
+00:05:22,000 --> 00:05:28,000
+message microservice, which is of type long as soon as it receives, it needs to update the status
+
+70
+00:05:28,000 --> 00:05:29,000
+value inside the database.
+
+71
+00:05:29,000 --> 00:05:34,000
+Apart from that, it is not going to respond anything back to my message microservice that means it
+
+72
+00:05:34,000 --> 00:05:40,000
+is always going to accept the input, but it is not going to send any output. In such scenarios
+
+73
+00:05:40,000 --> 00:05:45,000
+we need to use the Consumer functional interface, so let's try to use the same.
+
+74
+00:05:45,000 --> 00:05:49,000
+So I'll just mention public Consumer to this Consumer interface,
+
+75
+00:05:49,000 --> 00:05:53,000
+we are going to accept the input parameter of type Long.
+
+76
+00:05:53,000 --> 00:06:01,000
+I'll keep this function name as updateCommunication and inside this method we need to write a lambda
+
+77
+00:06:01,000 --> 00:06:07,000
+method which is going to act as an implementation logic for this Consumer functional interface.
+
+78
+00:06:07,000 --> 00:06:14,000
+So let me try to write a return statement since we need to return the lambda expression, I'll have
+
+79
+00:06:14,000 --> 00:06:19,000
+the variable name, which is accountNumber, which is going to act as an input parameter for my lambda
+
+80
+00:06:19,000 --> 00:06:26,000
+expression. Post that I'm going to mention the lambda symbol followed by curly braces and I'll put a
+
+81
+00:06:26,000 --> 00:06:30,000
+semicolon here and inside this method I need to write all my business logic.
+
+82
+00:06:30,000 --> 00:06:36,000
+So first let me try to create a log statement here which is Updating Communication status for the account
+
+83
+00:06:36,000 --> 00:06:37,000
+number.
+
+84
+00:06:37,000 --> 00:06:42,000
+Whatever account number we have received, that means we are just printing a statement saying that right
+
+85
+00:06:42,000 --> 00:06:46,000
+now I'm trying to update the communication status for so-and-so account number.
+
+86
+00:06:46,000 --> 00:06:52,000
+So in order to update these communication status inside the database, first we need to create an column
+
+87
+00:06:52,000 --> 00:06:54,000
+inside the accounts table.
+
+88
+00:06:54,000 --> 00:07:00,000
+For the same, let's go to the schema.sql file available inside the resources folder.
+
+89
+00:07:00,000 --> 00:07:02,000
+Inside the schema.sql,
+
+90
+00:07:02,000 --> 00:07:07,000
+you can see we are trying to create tables like customer and accounts whenever we are trying to start
+
+91
+00:07:07,000 --> 00:07:08,000
+our microservice.
+
+92
+00:07:08,000 --> 00:07:14,000
+Since we are using H2 database, the table is going to be created every time we restart or start our
+
+93
+00:07:14,000 --> 00:07:15,000
+application.
+
+94
+00:07:15,000 --> 00:07:23,000
+So here, just after the branch address, I'm going to introduce a new column with the name Communication
+
+95
+00:07:23,000 --> 00:07:24,000
+Switch.
+
+96
+00:07:24,000 --> 00:07:26,000
+And the data type of this switch is going to be Boolean.
+
+97
+00:07:26,000 --> 00:07:30,000
+That means this is going to hold that true or false value.
+
+98
+00:07:30,000 --> 00:07:32,000
+So let me save these changes.
+
+99
+00:07:32,000 --> 00:07:36,000
+Now as a next step, I should go to the accounts entity class.
+
+100
+00:07:36,000 --> 00:07:42,000
+So inside these AccountsEntity class, I need to add the details related to the new field that I
+
+101
+00:07:42,000 --> 00:07:43,000
+have created.
+
+102
+00:07:43,000 --> 00:07:47,000
+Here like you can see, I have created a new field with the name communicationSwitch,
+
+103
+00:07:47,000 --> 00:07:52,000
+that map it to the column communication_switch. The data type of this field is going
+
+104
+00:07:52,000 --> 00:07:54,000
+to be Boolean. As a next step,
+
+105
+00:07:54,000 --> 00:08:02,000
+we need to write some logic inside our accounts microservice to update these column for a given account
+
+106
+00:08:02,000 --> 00:08:03,000
+number for the same,
+
+107
+00:08:03,000 --> 00:08:07,000
+let me go to the IAccountService interface.
+
+108
+00:08:07,000 --> 00:08:10,000
+Here first, I'm going to create a new abstract method.
+
+109
+00:08:10,000 --> 00:08:17,000
+The abstract method is going to be Boolean updateCommunication status and it is going to accept account
+
+110
+00:08:17,000 --> 00:08:18,000
+number as an input.
+
+111
+00:08:18,000 --> 00:08:19,000
+For this method,
+
+112
+00:08:19,000 --> 00:08:26,000
+we need to write implementation logic inside the AccountServiceImpl. So you can see we are getting an error
+
+113
+00:08:26,000 --> 00:08:27,000
+immediately.
+
+114
+00:08:27,000 --> 00:08:33,000
+Let me go to the end of this class and put my cursor here and post that
+
+115
+00:08:33,000 --> 00:08:39,000
+I'll go to the top of the class and here I'll hold on the class name and select these implement methods
+
+116
+00:08:39,000 --> 00:08:40,000
+option.
+
+117
+00:08:40,000 --> 00:08:42,000
+So let me click on this okay button.
+
+118
+00:08:42,000 --> 00:08:46,000
+This will create an empty method inside my ServiceImpl.
+
+119
+00:08:46,000 --> 00:08:50,000
+Let me paste a few lines of code just to save some time.
+
+120
+00:08:50,000 --> 00:08:53,000
+Like you can see, this is super simple business logic.
+
+121
+00:08:53,000 --> 00:08:58,000
+First we are going to have a Boolean which is going to be defaulted to a value false and we are checking
+
+122
+00:08:58,000 --> 00:09:00,000
+if the account number is not null.
+
+123
+00:09:00,000 --> 00:09:07,000
+If it is not null, we are trying to fetch the account details using the findById because inside my
+
+124
+00:09:07,000 --> 00:09:10,000
+accounts table the account number is a primary key.
+
+125
+00:09:10,000 --> 00:09:16,000
+If there is no account number, we are simply throwing an exception which is ResourceNotFoundException.
+
+126
+00:09:16,000 --> 00:09:21,000
+Otherwise we are trying to use the same Accounts object that we fetched from the database using the same
+
+127
+00:09:21,000 --> 00:09:22,000
+object
+
+128
+00:09:22,000 --> 00:09:27,000
+we are trying to invoke this setter method which is set communication switch and we are setting a value
+
+129
+00:09:27,000 --> 00:09:32,000
+true and post that we are trying to invoke the save method which will update this switch value to the
+
+130
+00:09:32,000 --> 00:09:34,000
+true behind the scenes.
+
+131
+00:09:34,000 --> 00:09:37,000
+And at last we are just updating the boolean value as true and the same
+
+132
+00:09:37,000 --> 00:09:40,000
+we are trying to return from this method. As a next step,
+
+133
+00:09:40,000 --> 00:09:44,000
+I need to use this logic inside my function that I have written.
+
+134
+00:09:44,000 --> 00:09:47,000
+So let me go to the accounts function to this method,
+
+135
+00:09:47,000 --> 00:09:53,000
+first, I need to make sure I am injecting the dependency of IAccountService.
+
+136
+00:09:53,000 --> 00:09:55,000
+So let me mention the parameter here.
+
+137
+00:09:55,000 --> 00:09:59,000
+The parameter is going to be the IAccountService and since we are going to
+
+138
+00:09:59,000 --> 00:10:05,000
+mention @Bean on top of this function, whatever input parameter that we define to this
+
+139
+00:10:05,000 --> 00:10:12,000
+method, it is going to be automatically injected or autowired by the spring framework.
+
+140
+00:10:12,000 --> 00:10:13,000
+at runtime.
+
+141
+00:10:13,000 --> 00:10:16,000
+We don't need to mention any @Autowired annotation.
+
+142
+00:10:16,000 --> 00:10:19,000
+Now the next step is going to be super simple.
+
+143
+00:10:19,000 --> 00:10:25,000
+After the lock statement, I'm just going to invoke the new method that we have created, which is update
+
+144
+00:10:25,000 --> 00:10:26,000
+updateCommunicationStatus.
+
+145
+00:10:26,000 --> 00:10:28,000
+So I'm assuming this is clear to you.
+
+146
+00:10:28,000 --> 00:10:34,000
+We have created a function which is responsible to accept the message that we are going to receive from
+
+147
+00:10:34,000 --> 00:10:40,000
+the message microservice and the input data type is going to be the long inside that message.
+
+148
+00:10:40,000 --> 00:10:43,000
+We are going to have the account number using the same account number,
+
+149
+00:10:43,000 --> 00:10:47,000
+we are trying to update the communication status inside the database.
+
+150
+00:10:47,000 --> 00:10:50,000
+So let me save these changes. As a next step,
+
+151
+00:10:50,000 --> 00:10:56,000
+we need to define some properties inside the application.yml of AccountsMicroservice.
+
+152
+00:10:56,000 --> 00:11:00,000
+Here we need to define some properties related to our function definition.
+
+153
+00:11:00,000 --> 00:11:08,000
+So I'll just mention a new property at the same position where I can have the spring cloud as a parent.
+
+154
+00:11:08,000 --> 00:11:13,000
+So here I'm trying to mention spring.cloud.function and definition.
+
+155
+00:11:13,000 --> 00:11:18,000
+The definition is going to be your function name, which is updateCommunication.
+
+156
+00:11:18,000 --> 00:11:24,000
+If you go and check your accounts functions, the function name we have here is updateCommunication.
+
+157
+00:11:24,000 --> 00:11:29,000
+The same we need to use inside the application.yml file.
+
+158
+00:11:29,000 --> 00:11:31,000
+So the same we have used here.
+
+159
+00:11:31,000 --> 00:11:36,000
+Since we have only a single function, we need to mention the same single function and we don't have
+
+160
+00:11:36,000 --> 00:11:40,000
+any requirements to compose multiple functions.
+
+161
+00:11:40,000 --> 00:11:44,000
+That's why I'm just leaving by mentioning a single function name.
+
+162
+00:11:44,000 --> 00:11:50,000
+What if we have a requirement where you want to define multiple independent function definitions.
+
+163
+00:11:50,000 --> 00:11:55,000
+In such scenarios, you can separate all your function definitions with a semicolon value.
+
+164
+00:11:55,000 --> 00:11:57,000
+Post the semicolon
+
+165
+00:11:57,000 --> 00:11:59,000
+you can try to mention one more definition.
+
+166
+00:11:59,000 --> 00:12:03,000
+So both these two function definitions, they are going to work independently.
+
+167
+00:12:03,000 --> 00:12:04,000
+So let me roll back this change.
+
+168
+00:12:04,000 --> 00:12:11,000
+Once you have defined the function details with the spring.cloud.function definition, the spring
+
+169
+00:12:11,000 --> 00:12:18,000
+cloud stream project, it is automatically generate the input bindings and output bindings based upon
+
+170
+00:12:18,000 --> 00:12:19,000
+the function name that you have.
+
+171
+00:12:19,000 --> 00:12:23,000
+So the function name that we have here is updateCommunication.
+
+172
+00:12:23,000 --> 00:12:26,000
+So using these function name, we need to create a new binding.
+
+173
+00:12:26,000 --> 00:12:30,000
+The binding name format that we need to follow is what is your function name?
+
+174
+00:12:30,000 --> 00:12:39,000
+And in-0 because using input binding, we can always read the message from a queue value.
+
+175
+00:12:39,000 --> 00:12:43,000
+So after these input binding we need to mention destination.
+
+176
+00:12:43,000 --> 00:12:47,000
+The destination value is going to be communication-sent.
+
+177
+00:12:47,000 --> 00:12:55,000
+So this is the queue name where my accounts microservice is always going to look for an message after
+
+178
+00:12:55,000 --> 00:12:55,000
+the destination.
+
+179
+00:12:55,000 --> 00:13:02,000
+We need to mention the group value also so that the queue name is not going to have a randomly generated
+
+180
+00:13:02,000 --> 00:13:03,000
+suffix value.
+
+181
+00:13:03,000 --> 00:13:05,000
+So let me save these changes.
+
+182
+00:13:05,000 --> 00:13:10,000
+With these changes we should be good if you try to see the process inside message application.yml.
+
+183
+00:13:10,000 --> 00:13:15,000
+First, we have defined the output binding with the help of this output binding,
+
+184
+00:13:15,000 --> 00:13:21,000
+the message is going to be always sent to this destination which is communication-send.
+
+185
+00:13:21,000 --> 00:13:24,000
+So this is going to be your exchange name.
+
+186
+00:13:24,000 --> 00:13:29,000
+So how the message will come to this exchange, the return type of this sms function.
+
+187
+00:13:29,000 --> 00:13:35,000
+As soon as this communication-sent exchange receives the message, it is going to forward the
+
+188
+00:13:35,000 --> 00:13:38,000
+request to the queue that we have configured.
+
+189
+00:13:38,000 --> 00:13:44,000
+So please make sure the destination is same here, like we have mentioned inside the application.yml
+
+190
+00:13:44,000 --> 00:13:45,000
+as well.
+
+191
+00:13:45,000 --> 00:13:48,000
+So you can see the destination here is same.
+
+192
+00:13:48,000 --> 00:13:54,000
+That's how the spring cloud stream is going to establish the link between the two different microservices
+
+193
+00:13:54,000 --> 00:13:57,000
+and the format of your queue name is going to be your destination dot
+
+194
+00:13:57,000 --> 00:13:58,000
+.
+
+195
+00:13:58,000 --> 00:13:59,000
+what is your group name?
+
+196
+00:13:59,000 --> 00:14:02,000
+I hope this is all clear to you. In the next lecture,
+
+197
+00:14:02,000 --> 00:14:06,000
+let's try to see the demo of this changes.
+
+198
+00:14:06,000 --> 00:14:09,000
+Thank you and I'll catch you in the next lecture bye.
+

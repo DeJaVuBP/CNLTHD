@@ -1,0 +1,180 @@
+1
+00:00:00,000 --> 00:00:07,000
+We decided to build event driven microservices wherever possible inside our microservice network.
+
+2
+00:00:07,000 --> 00:00:11,000
+In order to build event driven microservices inside the industry
+
+3
+00:00:11,000 --> 00:00:16,000
+there are two majorly used event driven models available.
+
+4
+00:00:16,000 --> 00:00:19,000
+The very first one is, publisher subscriber model.
+
+5
+00:00:19,000 --> 00:00:23,000
+In short form, we can also call it as pub/sub model.
+
+6
+00:00:23,000 --> 00:00:27,000
+This model revolves around subscriptions.
+
+7
+00:00:27,000 --> 00:00:35,000
+P roducers they will generate the events and that are distributed to all the interested subscribers for consumption.
+
+8
+00:00:35,000 --> 00:00:36,000
+Inside this model,
+
+9
+00:00:36,000 --> 00:00:43,000
+once an event is received and consumed by the consumers, it cannot be replayed again and again, which
+
+10
+00:00:43,000 --> 00:00:49,000
+means any new subscribers joining later will not have access to the past events.
+
+11
+00:00:49,000 --> 00:00:51,000
+Very similar to this pub/sub model,
+
+12
+00:00:51,000 --> 00:00:54,000
+we also have event streaming model. Inside this model
+
+13
+00:00:54,000 --> 00:01:02,000
+also the producers will be produce the events and the consumers will consume the events.
+
+14
+00:01:02,000 --> 00:01:05,000
+But there is a clear difference between these two models.
+
+15
+00:01:05,000 --> 00:01:10,000
+So let's try to understand what is this difference. Inside event streaming model events will be written
+
+16
+00:01:10,000 --> 00:01:13,000
+into a log in a sequential manner.
+
+17
+00:01:13,000 --> 00:01:19,000
+Producers publish the events as they occur and these events are stored in a well ordered fashion.
+
+18
+00:01:19,000 --> 00:01:25,000
+Now coming to the consumers instead of subscribing to the events, the consumers, they will have the
+
+19
+00:01:25,000 --> 00:01:32,000
+ability to read from any part of the event stream, which means the events can be replayed, allowing
+
+20
+00:01:32,000 --> 00:01:37,000
+the clients to join at any time and receive all the past events as well.
+
+21
+00:01:37,000 --> 00:01:43,000
+So this is one of the major difference and you need to choose one of them based upon your business scenario.
+
+22
+00:01:43,000 --> 00:01:50,000
+If your business scenario is not expecting your consumers to read the past events, then pub pubsub
+
+23
+00:01:50,000 --> 00:01:51,000
+is a ideal model.
+
+24
+00:01:51,000 --> 00:01:58,000
+Whereas if you want to give flexibility to your consumers or subscribers to read the past events or
+
+25
+00:01:58,000 --> 00:02:05,000
+to replay the past events also, then definitely in such scenarios you need to choose event streaming
+
+26
+00:02:05,000 --> 00:02:06,000
+model. If needed
+
+27
+00:02:06,000 --> 00:02:12,000
+inside event streaming model we can disable the replaying of the events feature, so there is no good
+
+28
+00:02:12,000 --> 00:02:14,000
+or bad inside these two approaches.
+
+29
+00:02:14,000 --> 00:02:17,000
+Please choose based upon your business scenarios.
+
+30
+00:02:17,000 --> 00:02:23,000
+Now these are the two models but you may have a question like how can I follow these models or how
+
+31
+00:02:23,000 --> 00:02:30,000
+can I implement these models inside my microservices. For the same both of these models, they have various
+
+32
+00:02:30,000 --> 00:02:32,000
+products available.
+
+33
+00:02:32,000 --> 00:02:37,000
+If you see here, the pub/sub model is frequently implemented with the Rabbitmq.
+
+34
+00:02:38,000 --> 00:02:39,000
+So this is a very popular option.
+
+35
+00:02:39,000 --> 00:02:47,000
+On the other hand, Apache Kafka is a robust platform widely utilized for event streaming processing.
+
+36
+00:02:47,000 --> 00:02:48,000
+Inside this course
+
+37
+00:02:48,000 --> 00:02:53,000
+also, we are going to leverage these products since these are two different products, completely different
+
+38
+00:02:53,000 --> 00:02:56,000
+from each other, providing various capabilities.
+
+39
+00:02:56,000 --> 00:03:01,000
+I'm going to completely discuss them in two different sections. Inside this section
+
+40
+00:03:01,000 --> 00:03:06,000
+first, we are going to focus on building event driven microservices with the help of Rabbitmq.
+
+41
+00:03:06,000 --> 00:03:12,000
+Whereas in the next section we are going to focus on building event driven microservices with the help
+
+42
+00:03:12,000 --> 00:03:14,000
+of Apache Kafka.
+
+43
+00:03:14,000 --> 00:03:17,000
+I hope you are clear with these two event driven models.
+
+44
+00:03:17,000 --> 00:03:23,000
+From the next lecture we can try to explore the pub/sub model with the help of Rabbitmq.
+
+45
+00:03:23,000 --> 00:03:25,000
+Thank you and I'll catch you in the next lecture bye.
+

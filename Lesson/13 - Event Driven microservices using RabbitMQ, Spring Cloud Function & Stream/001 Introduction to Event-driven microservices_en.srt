@@ -1,0 +1,412 @@
+1
+00:00:00,000 --> 00:00:06,000
+We are into a new section and inside this section we are going to discuss about challenge number 10.
+
+2
+00:00:06,000 --> 00:00:09,000
+Let me try to reveal what is this challenge about?
+
+3
+00:00:09,000 --> 00:00:14,000
+This challenge is about building event driven microservices.
+
+4
+00:00:14,000 --> 00:00:19,000
+So let's try to understand more details about what are these event driven microservices and why should
+
+5
+00:00:19,000 --> 00:00:23,000
+we build these event driven microservices. For the same,
+
+6
+00:00:23,000 --> 00:00:25,000
+I'm going to ask you a few questions.
+
+7
+00:00:25,000 --> 00:00:31,000
+The very first question that I'm going to ask you is, how can we avoid temporal coupling whenever possible
+
+8
+00:00:31,000 --> 00:00:33,000
+inside our microservice network?
+
+9
+00:00:33,000 --> 00:00:39,000
+You might have heard loose coupling but temporal coupling might be a new word for you.
+
+10
+00:00:39,000 --> 00:00:45,000
+First, let me try to explain what is loose coupling and how it is different from temporal coupling.
+
+11
+00:00:45,000 --> 00:00:51,000
+As part of loose coupling, we will try to build our application's business logic in a separate microservices,
+
+12
+00:00:51,000 --> 00:00:56,000
+so that they can be developed, deployed and scaled independently.
+
+13
+00:00:56,000 --> 00:01:02,000
+That's what we are trying to achieve from the very start of this course, we separated all the logic
+
+14
+00:01:02,000 --> 00:01:07,000
+related to accounts into accounts microservice and similarly cards and loans related business logic,
+
+15
+00:01:07,000 --> 00:01:10,000
+we also separated into the respective microservices.
+
+16
+00:01:10,000 --> 00:01:12,000
+So with that, what did we achieve?
+
+17
+00:01:12,000 --> 00:01:14,000
+We achieved loose coupling.
+
+18
+00:01:14,000 --> 00:01:17,000
+Now let's try to understand what is temporal coupling.
+
+19
+00:01:17,000 --> 00:01:25,000
+Temporal coupling occurs whenever a caller service expects an immediate response from a calling service
+
+20
+00:01:25,000 --> 00:01:27,000
+before continuing its processing.
+
+21
+00:01:27,000 --> 00:01:34,000
+For example, think like you have microservice1 and microservice2. The microservice1 is dependent
+
+22
+00:01:34,000 --> 00:01:35,000
+on the microservice2.
+
+23
+00:01:35,000 --> 00:01:41,000
+So whenever microservice1 is trying to invoke the microservice2, the microservice1 is
+
+24
+00:01:41,000 --> 00:01:47,000
+going to continuously wait till it is going to get a response from the microservice2.
+
+25
+00:01:47,000 --> 00:01:52,000
+In this scenario, the microservice1 has a temporal coupling with the microservice2.
+
+26
+00:01:52,000 --> 00:01:59,000
+So any slow behavior of microservice2 is going to have an impact on the microservice1.
+
+27
+00:01:59,000 --> 00:02:06,000
+That's why wherever possible, we need to avoid temporal coupling between our microservices.
+
+28
+00:02:06,000 --> 00:02:12,000
+And this temporal coupling happens whenever we try to use synchronous communication between the services.
+
+29
+00:02:12,000 --> 00:02:17,000
+As of now, we are following the synchronous communication with the help of REST APIs.
+
+30
+00:02:17,000 --> 00:02:20,000
+How can we prevent this temporal coupling.
+
+31
+00:02:20,000 --> 00:02:21,000
+So let's try to understand the same.
+
+32
+00:02:21,000 --> 00:02:28,000
+In order to avoid the temporal coupling, we need to use asynchronous communication wherever possible
+
+33
+00:02:28,000 --> 00:02:31,000
+inside our microservice network.
+
+34
+00:02:31,000 --> 00:02:35,000
+Synchronous communication between the services is not always necessary.
+
+35
+00:02:35,000 --> 00:02:41,000
+In many real world scenarios, asynchronous communication can fulfill the requirements very effectively.
+
+36
+00:02:41,000 --> 00:02:47,000
+So wherever possible, we need to establish asynchronous communication between the services.
+
+37
+00:02:47,000 --> 00:02:51,000
+I know you may have questions like what is asynchronous communication.
+
+38
+00:02:51,000 --> 00:02:52,000
+Don't worry about it.
+
+39
+00:02:52,000 --> 00:02:54,000
+We are going to talk in few minutes.
+
+40
+00:02:54,000 --> 00:02:59,000
+But before that, let me try to clarify why we should not consider synchronous communication in all
+
+41
+00:02:59,000 --> 00:03:05,000
+type of scenarios inside the synchronous communication, there are two approaches majorly used by everyone.
+
+42
+00:03:05,000 --> 00:03:10,000
+The first one is imperative approach and the second one is reactive approach.
+
+43
+00:03:10,000 --> 00:03:12,000
+Inside the imperative approach,
+
+44
+00:03:12,000 --> 00:03:15,000
+whenever a microservice1 is trying to invoke the microservice2,
+
+45
+00:03:15,000 --> 00:03:22,000
+In such scenarios there will be a thread dedicatedly assigned to this communication and the thread
+
+46
+00:03:22,000 --> 00:03:28,000
+which is blocked for this operation is going to wait continuously for the response to come from the
+
+47
+00:03:28,000 --> 00:03:29,000
+microservice2.
+
+48
+00:03:29,000 --> 00:03:35,000
+So this is a very plain synchronous communication approach. Whereas in the reactive approach there
+
+49
+00:03:35,000 --> 00:03:42,000
+won't be any threads blocked on the microservice1 to wait for the response from the microservice2.
+
+50
+00:03:42,000 --> 00:03:47,000
+Instead what is going to happen is, there will be a thread while invoking the microservice2.
+
+51
+00:03:47,000 --> 00:03:54,000
+After the invocation the thread will go back to the thread pool and it will try to pick up the next
+
+52
+00:03:54,000 --> 00:03:59,000
+request that are coming towards the microservice. When the response from the microservice2 is received
+
+53
+00:03:59,000 --> 00:04:04,000
+by the microservice1 then only a thread from the thread pool is going to be assigned.
+
+54
+00:04:04,000 --> 00:04:10,000
+So if you see here inside the reactive approach, we are trying to use the threads more efficiently
+
+55
+00:04:10,000 --> 00:04:16,000
+compared to the imperative approach. Regardless of whether you are using imperative approach or reactive
+
+56
+00:04:16,000 --> 00:04:23,000
+approach, the communication between the two microservices are going to be synchronous communication,
+
+57
+00:04:23,000 --> 00:04:28,000
+which means until your microservice1 is going to receive the response from the microservice2,
+
+58
+00:04:28,000 --> 00:04:32,000
+it is not going to process the next business logic.
+
+59
+00:04:32,000 --> 00:04:38,000
+This kind of synchronous communication you may need for critical business scenarios inside your microservices,
+
+60
+00:04:38,000 --> 00:04:43,000
+where you want to show the immediate response to the end users.
+
+61
+00:04:43,000 --> 00:04:45,000
+Suppose think like inside your bank website,
+
+62
+00:04:45,000 --> 00:04:49,000
+the end user is trying to understand what is his current balance.
+
+63
+00:04:49,000 --> 00:04:53,000
+So he will click on a button which will reveal his current balance.
+
+64
+00:04:53,000 --> 00:04:59,000
+In such scenarios, the communication has to be synchronous because the end user is waiting to see the
+
+65
+00:04:59,000 --> 00:05:01,000
+response immediately on the screen.
+
+66
+00:05:01,000 --> 00:05:05,000
+But we should not use synchronous communication in all type scenarios.
+
+67
+00:05:05,000 --> 00:05:09,000
+Wherever possible, we need to leverage asynchronous communication.
+
+68
+00:05:09,000 --> 00:05:13,000
+So how to build these asynchronous communication between the microservices?
+
+69
+00:05:13,000 --> 00:05:15,000
+So let's try to understand the same.
+
+70
+00:05:15,000 --> 00:05:21,000
+In order to build a synchronous communication between the microservices, we need to build event driven
+
+71
+00:05:21,000 --> 00:05:21,000
+microservices.
+
+72
+00:05:21,000 --> 00:05:23,000
+So what is an event?
+
+73
+00:05:23,000 --> 00:05:30,000
+It is an incident that happens inside your microservices, which signifies a state transition or an
+
+74
+00:05:30,000 --> 00:05:32,000
+update inside your system.
+
+75
+00:05:32,000 --> 00:05:34,000
+Whenever an event takes place,
+
+76
+00:05:34,000 --> 00:05:37,000
+we need to alert the concerned parties.
+
+77
+00:05:37,000 --> 00:05:41,000
+For example, take an e-commerce application inside Amazon website,
+
+78
+00:05:41,000 --> 00:05:48,000
+whenever you place an order, the order microservice has to notify the delivery microservice, which
+
+79
+00:05:48,000 --> 00:05:50,000
+is deployed inside the Amazon network.
+
+80
+00:05:50,000 --> 00:05:54,000
+The communication between order microservice and the delivery microservice.
+
+81
+00:05:54,000 --> 00:05:57,000
+It don't have to be an synchronous communication.
+
+82
+00:05:57,000 --> 00:06:00,000
+Instead, the order microservice
+
+83
+00:06:00,000 --> 00:06:06,000
+as soon as the end user made a payment and order is confirmed, it is going to trigger an event which
+
+84
+00:06:06,000 --> 00:06:10,000
+will act as a notification to the delivery microservice.
+
+85
+00:06:10,000 --> 00:06:16,000
+In this scenario, the order microservice is just going to generate an event or trigger an notification.
+
+86
+00:06:16,000 --> 00:06:21,000
+Apart from that, the order microservice is not going to wait for that delivery process to complete
+
+87
+00:06:21,000 --> 00:06:25,000
+and the delivery microservice to give a successful response.
+
+88
+00:06:25,000 --> 00:06:31,000
+The order microservice responsibility is only to send a notification to the delivery microservice.
+
+89
+00:06:31,000 --> 00:06:35,000
+So this is a classic example of event driven microservice.
+
+90
+00:06:35,000 --> 00:06:40,000
+So if you see here, the communication is not going to happen synchronously.
+
+91
+00:06:40,000 --> 00:06:46,000
+Instead the communication is going to happen with the help of asynchronous communication. Because the
+
+92
+00:06:46,000 --> 00:06:52,000
+order microservice is not waiting for the successful response from the delivery microservice.
+
+93
+00:06:52,000 --> 00:06:57,000
+Instead, it simply send a notification or alert and its job is completed.
+
+94
+00:06:57,000 --> 00:06:58,000
+I hope you are clear.
+
+95
+00:06:58,000 --> 00:07:02,000
+Now you may have a question like how to build these event driven microservices.
+
+96
+00:07:02,000 --> 00:07:04,000
+Don't worry, I'm going to help you around this.
+
+97
+00:07:04,000 --> 00:07:11,000
+In order to build the event driven microservices, we need to follow event driven architecture, producing
+
+98
+00:07:11,000 --> 00:07:16,000
+and consuming events with the help of asynchronous communication event brokers
+
+99
+00:07:16,000 --> 00:07:22,000
+and in the same process, we can leverage to fascinating projects available inside the spring cloud
+
+100
+00:07:22,000 --> 00:07:26,000
+ecosystem, which are spring cloud function and spring cloud stream.
+
+101
+00:07:26,000 --> 00:07:31,000
+I hope you are clear with the challenge and you are super excited about the event driven microservices.
+
+102
+00:07:31,000 --> 00:07:35,000
+So let's explore the world of event driven microservices.
+
+103
+00:07:35,000 --> 00:07:38,000
+Thank you and I'll catch you in the next lecture bye.
+

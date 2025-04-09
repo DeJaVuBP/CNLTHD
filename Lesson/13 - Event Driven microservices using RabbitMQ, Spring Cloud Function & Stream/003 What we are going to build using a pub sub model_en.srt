@@ -1,0 +1,344 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:03,000
+let me try to explain you,
+
+3
+00:00:03,000 --> 00:00:08,000
+what is the scenario that we are going to build with the help of pub/sub model.
+
+4
+00:00:08,000 --> 00:00:14,000
+As of now, we have accounts, cards and loans, microservices and all the scenarios that we have
+
+5
+00:00:14,000 --> 00:00:17,000
+as of now we are leveraging synchronous communication.
+
+6
+00:00:17,000 --> 00:00:22,000
+We should not try to change them because the scenarios that we discussed, they are very critical to
+
+7
+00:00:22,000 --> 00:00:23,000
+the business.
+
+8
+00:00:23,000 --> 00:00:27,000
+We should not make them asynchronous. With the current scenarios inside our microservices.
+
+9
+00:00:28,000 --> 00:00:33,000
+My end user can perform crud operations on the accounts, cards and loans.
+
+10
+00:00:33,000 --> 00:00:38,000
+Once the execution of the logic is completed, we should give an immediate response to the end user
+
+11
+00:00:38,000 --> 00:00:41,000
+whether the request is processed successfully or not.
+
+12
+00:00:41,000 --> 00:00:44,000
+That's why we have followed the synchronous communication.
+
+13
+00:00:44,000 --> 00:00:50,000
+But now we decided to explore the asynchronous communication and to leverage the pub/sub model inside
+
+14
+00:00:50,000 --> 00:00:51,000
+this section.
+
+15
+00:00:51,000 --> 00:00:57,000
+So in order to build this asynchronous communication inside our microservices network, I'm going to
+
+16
+00:00:57,000 --> 00:00:58,000
+take a scenario.
+
+17
+00:00:58,000 --> 00:00:59,000
+Inside this lecture,
+
+18
+00:00:59,000 --> 00:01:01,000
+I'm going to explain the same scenario.
+
+19
+00:01:01,000 --> 00:01:02,000
+So let's try to understand the same.
+
+20
+00:01:02,000 --> 00:01:10,000
+In the very first step, someone will try to create a new account with the help of accounts microservice.
+
+21
+00:01:10,000 --> 00:01:11,000
+So inside our accounts
+
+22
+00:01:11,000 --> 00:01:17,000
+microservice we have a create API using which a new account can be created.
+
+23
+00:01:17,000 --> 00:01:24,000
+So this request will be received by my accounts microservice and behind the scenes my accounts microservice
+
+24
+00:01:24,000 --> 00:01:31,000
+is going to create the new account and at the same time it is also going to be responsible to send the
+
+25
+00:01:31,000 --> 00:01:38,000
+communication to the end user like through SMS or through email, saying that your account is successfully
+
+26
+00:01:38,000 --> 00:01:39,000
+created.
+
+27
+00:01:39,000 --> 00:01:43,000
+So if you see here, there are two parts inside the microservice logic.
+
+28
+00:01:43,000 --> 00:01:47,000
+One is creating a brand new account and storing the details inside the database.
+
+29
+00:01:47,000 --> 00:01:54,000
+And the second part is to trigger an event for a dependent microservice to send the communication.
+
+30
+00:01:54,000 --> 00:02:00,000
+I don't want to give my accounts microservice only to handle all the communication business logic as
+
+31
+00:02:00,000 --> 00:02:00,000
+well.
+
+32
+00:02:00,000 --> 00:02:07,000
+Instead, I'm going to build a new separate microservice, which is going to be responsible for sending
+
+33
+00:02:07,000 --> 00:02:09,000
+the communication to the end user.
+
+34
+00:02:09,000 --> 00:02:15,000
+So that's why as soon as the account details are created successfully, my accounts microservice is
+
+35
+00:02:15,000 --> 00:02:22,000
+going to respond to the end user immediately saying that your account is created successfully and in
+
+36
+00:02:22,000 --> 00:02:23,000
+the same step3
+
+37
+00:02:23,000 --> 00:02:30,000
+the accounts microservice is also going to send an event to the event broker and the event broker
+
+38
+00:02:30,000 --> 00:02:34,000
+is going to put that event into a queue from this queue
+
+39
+00:02:34,000 --> 00:02:40,000
+all the subscribers who subscribe to that queue will read the event details.
+
+40
+00:02:40,000 --> 00:02:46,000
+So in this scenario you can see in the step4 there will be an message microservice which will continuously
+
+41
+00:02:46,000 --> 00:02:50,000
+monitoring the queue present inside the event broker.
+
+42
+00:02:50,000 --> 00:02:53,000
+As soon as the event pushed into the queue.
+
+43
+00:02:53,000 --> 00:02:59,000
+This message microservice is going to read that event details and based upon the data present inside
+
+44
+00:02:59,000 --> 00:03:06,000
+the event, it is going to send an email or SMS to the end user saying that your account is successfully
+
+45
+00:03:06,000 --> 00:03:07,000
+created.
+
+46
+00:03:07,000 --> 00:03:12,000
+So if you see here, there is a middleman sitting between two microservices.
+
+47
+00:03:12,000 --> 00:03:15,000
+We call these middleman as event broker.
+
+48
+00:03:15,000 --> 00:03:22,000
+So this event broker can be rabbitmq in the scenario of pub/sub model or it can be Apache Kafka
+
+49
+00:03:22,000 --> 00:03:28,000
+in the scenario of event streaming model. I'm going to discuss more about these event broker and queues
+
+50
+00:03:28,000 --> 00:03:29,000
+in the coming lectures.
+
+51
+00:03:29,000 --> 00:03:35,000
+But for now, this is the sample flow that will happen during the account creation.
+
+52
+00:03:35,000 --> 00:03:39,000
+So there is a synchronous communication happening in the step 1, 2, 3.
+
+53
+00:03:39,000 --> 00:03:45,000
+And at the same time right now we have an asynchronous scenario where we are trying to send the communication
+
+54
+00:03:45,000 --> 00:03:47,000
+details to an end user.
+
+55
+00:03:47,000 --> 00:03:54,000
+So think like after 1 minute or 2 minutes, my message microservice send the communication details to
+
+56
+00:03:54,000 --> 00:03:57,000
+the end user in the form of SMS and email.
+
+57
+00:03:57,000 --> 00:04:03,000
+So now the same has to be communicated back to the accounts microservice. So that it can update that
+
+58
+00:04:03,000 --> 00:04:08,000
+database columns saying that the communication for this account is sent to the consumer.
+
+59
+00:04:08,000 --> 00:04:13,000
+So that's why we are also going to have a reverse asynchronous flow.
+
+60
+00:04:13,000 --> 00:04:14,000
+So let's try to understand the same.
+
+61
+00:04:14,000 --> 00:04:20,000
+So inside the step5 , once the message service process the communication, it is going to publish
+
+62
+00:04:20,000 --> 00:04:28,000
+an event asynchronously confirming the same to the event broker, saying that I process the communication
+
+63
+00:04:28,000 --> 00:04:30,000
+request and send the communication.
+
+64
+00:04:30,000 --> 00:04:36,000
+Now inside this event broker, there will be a queue where my accounts microservice might have subscribed.
+
+65
+00:04:36,000 --> 00:04:44,000
+So as soon as the message service pushes the event details to the event broker inside the step6 my
+
+66
+00:04:44,000 --> 00:04:51,000
+accounts microservice is going to receive the notification from the event broker and inside the step7
+
+67
+00:04:51,000 --> 00:04:58,000
+seven my account microservice is going to update that database columns saying that communication to
+
+68
+00:04:58,000 --> 00:04:59,000
+the customer is
+
+69
+00:04:59,000 --> 00:05:00,000
+completed.
+
+70
+00:05:00,000 --> 00:05:04,000
+So here you can see the communication between message and accounts
+
+71
+00:05:04,000 --> 00:05:07,000
+microservice is always asynchronous.
+
+72
+00:05:07,000 --> 00:05:12,000
+Even if my message microservice is performing slowly or even my message
+
+73
+00:05:12,000 --> 00:05:14,000
+microservice is completely down,
+
+74
+00:05:14,000 --> 00:05:19,000
+it is not going to impact my accounts microservice in any form.
+
+75
+00:05:19,000 --> 00:05:22,000
+In fact, my account microservice and message microservice,
+
+76
+00:05:22,000 --> 00:05:25,000
+they never know from where they are receiving the data.
+
+77
+00:05:25,000 --> 00:05:30,000
+What is the other side of the microservice who is trying to send the data or who is trying to receive
+
+78
+00:05:30,000 --> 00:05:30,000
+the data?
+
+79
+00:05:30,000 --> 00:05:32,000
+They never know such details.
+
+80
+00:05:32,000 --> 00:05:39,000
+They simply know to push the event to the event broker or to read the event details from the event broker.
+
+81
+00:05:39,000 --> 00:05:44,000
+So this is the scenario which we are going to build inside our accounts
+
+82
+00:05:44,000 --> 00:05:50,000
+microservice and at the same time we are also going to build a new microservice with the name message.
+
+83
+00:05:50,000 --> 00:05:55,000
+So as an event broker inside this section, we are going to use the pub/sub model with the help of the
+
+84
+00:05:55,000 --> 00:05:57,000
+Rabbitmq.
+
+85
+00:05:57,000 --> 00:05:58,000
+I hope this is clear.
+
+86
+00:05:58,000 --> 00:06:01,000
+Thank you and I'll catch you in the next lecture bye.
+

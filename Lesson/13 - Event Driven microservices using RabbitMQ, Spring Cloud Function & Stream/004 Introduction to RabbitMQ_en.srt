@@ -1,0 +1,416 @@
+1
+00:00:00,000 --> 00:00:07,000
+We decided to implement asynchronous communication between accounts and message microservice with the
+
+2
+00:00:07,000 --> 00:00:09,000
+help of event broker.
+
+3
+00:00:09,000 --> 00:00:13,000
+And this event broker can be Rabbitmq or Apache Kafka.
+
+4
+00:00:13,000 --> 00:00:17,000
+Inside this section we are going to leverage Rabbitmq.
+
+5
+00:00:17,000 --> 00:00:23,000
+Since we are going to leverage Rabbitmq inside this section, let me try to give you a very quick introduction
+
+6
+00:00:23,000 --> 00:00:24,000
+about what is Rabbitmq,
+
+7
+00:00:25,000 --> 00:00:27,000
+what is its internal process
+
+8
+00:00:27,000 --> 00:00:30,000
+or jargons that we need to be aware.
+
+9
+00:00:30,000 --> 00:00:38,000
+Rabbitmq is an open source message broker, which is widely recognized and utilized by majority of the
+
+10
+00:00:38,000 --> 00:00:38,000
+companies.
+
+11
+00:00:38,000 --> 00:00:43,000
+So these rabbitmq it is going to follow the Amqp protocol.
+
+12
+00:00:43,000 --> 00:00:52,000
+What is AMQP, Advanced Message Queuing Protocol and this Rabbitmq offers flexible asynchronous messaging
+
+13
+00:00:52,000 --> 00:00:55,000
+communication between two applications.
+
+14
+00:00:55,000 --> 00:01:02,000
+Previously, we discussed the major difference between pub/sub and event driven model are, inside pub/sub
+
+15
+00:01:02,000 --> 00:01:03,000
+model,
+
+16
+00:01:03,000 --> 00:01:09,000
+we cannot replay the events or messages whenever we use message broker like Rabbitmq.
+
+17
+00:01:09,000 --> 00:01:17,000
+But in the recent versions of Rabbitmq, event streaming capabilities are also provided with Rabbitmq
+
+18
+00:01:17,000 --> 00:01:24,000
+we can also replay the events or messages. But still majority of the people they uses Apache Kafka
+
+19
+00:01:24,000 --> 00:01:32,000
+for event streaming scenarios because by the time Rabbitmq team realizes and implement the same Apache
+
+20
+00:01:32,000 --> 00:01:34,000
+kafka acquired most of the market.
+
+21
+00:01:34,000 --> 00:01:40,000
+We are also going to discuss what is the difference between Rabbitmq and Apache Kafka in the coming
+
+22
+00:01:40,000 --> 00:01:41,000
+lectures in detail.
+
+23
+00:01:41,000 --> 00:01:44,000
+For now, let's try to focus on Rabbitmq.
+
+24
+00:01:44,000 --> 00:01:51,000
+So whenever we are using Rabbitmq, we need to be aware about few jargons or few terminologies.
+
+25
+00:01:51,000 --> 00:01:54,000
+The very first jargon is producer.
+
+26
+00:01:54,000 --> 00:01:55,000
+Who is the producer?
+
+27
+00:01:55,000 --> 00:02:02,000
+It is the entity or it is the service that is responsible to send the events or messages.
+
+28
+00:02:02,000 --> 00:02:08,000
+So whenever we are following pub/sub model, we we can also say these events as messages because Rabbitmq
+
+29
+00:02:08,000 --> 00:02:10,000
+is a message broker.
+
+30
+00:02:10,000 --> 00:02:16,000
+That's why in other words, we can call events as messages whenever we are trying to use a rabbitmq.
+
+31
+00:02:16,000 --> 00:02:18,000
+So I hope you are clear.
+
+32
+00:02:18,000 --> 00:02:19,000
+What is producer?
+
+33
+00:02:19,000 --> 00:02:25,000
+Sometimes people also call these producer as publisher because this service is responsible to publish
+
+34
+00:02:25,000 --> 00:02:29,000
+the messages into the message broker. After producer,
+
+35
+00:02:29,000 --> 00:02:31,000
+we also have consumer.
+
+36
+00:02:31,000 --> 00:02:32,000
+So who is a consumer,
+
+37
+00:02:32,000 --> 00:02:39,000
+It is the entity at the service that is responsible to receive the messages from the message broker
+
+38
+00:02:39,000 --> 00:02:40,000
+and process them.
+
+39
+00:02:40,000 --> 00:02:47,000
+In other words, we can also call these consumer as subscriber because these entities are subscribed
+
+40
+00:02:47,000 --> 00:02:51,000
+to the message broker to be notified whenever a message is received.
+
+41
+00:02:51,000 --> 00:02:54,000
+So we have producer and we have consumer.
+
+42
+00:02:54,000 --> 00:02:58,000
+So who is going to connect them and establish a synchronous communication?
+
+43
+00:02:58,000 --> 00:03:01,000
+The message broker is going to do that.
+
+44
+00:03:01,000 --> 00:03:07,000
+The middleware that receives messages from producers and directs them to the appropriate consumers.
+
+45
+00:03:07,000 --> 00:03:14,000
+We call that middleware component as message broker and Rabbitmq is one such message broker
+
+46
+00:03:14,000 --> 00:03:20,000
+similarly, we also have many other message brokers inside the industry. But Rabbitmq is a open source
+
+47
+00:03:20,000 --> 00:03:24,000
+message broker, which is majorly used by most of the organizations.
+
+48
+00:03:24,000 --> 00:03:26,000
+That's why I'm also trying to use the same.
+
+49
+00:03:26,000 --> 00:03:32,000
+So if you try to visualize the relation between producer, consumer and message broker, it is going to
+
+50
+00:03:32,000 --> 00:03:33,000
+look like this.
+
+51
+00:03:33,000 --> 00:03:38,000
+You can see on the very left hand side we have producer and the right hand side we have the consumer,
+
+52
+00:03:38,000 --> 00:03:40,000
+and in between we have the message broker.
+
+53
+00:03:40,000 --> 00:03:47,000
+The producer will send our producers messages into message broker and the other side, the consumer
+
+54
+00:03:47,000 --> 00:03:50,000
+who is going to subscribe to the message broker.
+
+55
+00:03:50,000 --> 00:03:55,000
+They are going to receive the messages from the message broker whenever it is available.
+
+56
+00:03:55,000 --> 00:04:02,000
+Here you may have a question like is message broker is capable of handling only one producer or one
+
+57
+00:04:02,000 --> 00:04:03,000
+consumer?
+
+58
+00:04:03,000 --> 00:04:04,000
+Off course not.
+
+59
+00:04:04,000 --> 00:04:08,000
+The message broker can handle any number of producers and consumers.
+
+60
+00:04:08,000 --> 00:04:13,000
+With that clarification, you may have one more question which is, how the message broker is going
+
+61
+00:04:13,000 --> 00:04:19,000
+to identify who is the producer is trying to send the message and to which consumer it has to send the
+
+62
+00:04:19,000 --> 00:04:21,000
+message. For the same,
+
+63
+00:04:21,000 --> 00:04:26,000
+let's try to understand what exactly is going to happen inside the message broker.
+
+64
+00:04:26,000 --> 00:04:31,000
+The messaging model of AMQP operates on two principles.
+
+65
+00:04:31,000 --> 00:04:34,000
+One is exchanges and queues.
+
+66
+00:04:34,000 --> 00:04:40,000
+So whenever a producer wants to send a message to the message broker, it has to send to the exchange
+
+67
+00:04:40,000 --> 00:04:47,000
+present inside the message broker and based upon the specified routing rules for an exchange, the Rabbitmq
+
+68
+00:04:47,000 --> 00:04:54,000
+is going to determine which queue should receive the copy of the message and from the queues the consumers
+
+69
+00:04:54,000 --> 00:04:55,000
+are going to read the message.
+
+70
+00:04:55,000 --> 00:04:57,000
+I know this may not be clear for you.
+
+71
+00:04:57,000 --> 00:04:59,000
+Let me try to show you the same inside a picture.
+
+72
+00:05:00,000 --> 00:05:02,000
+Like you can see here, first there'll be a producer.
+
+73
+00:05:02,000 --> 00:05:09,000
+Producer will always send the message to an exchange inside your message broker.
+
+74
+00:05:09,000 --> 00:05:17,000
+This exchange is going to identify to which queue it has to send the message details. Inside your message
+
+75
+00:05:17,000 --> 00:05:23,000
+broker you may have any number of exchanges and queues, and to these queues the consumers are going
+
+76
+00:05:23,000 --> 00:05:24,000
+to subscribe
+
+77
+00:05:24,000 --> 00:05:31,000
+and whenever a message is pushed into the Queue1 or Queue2, the corresponding consumer can receive the message.
+
+78
+00:05:31,000 --> 00:05:37,000
+For example, the producer can send a message to the exchange and based upon the exchange details,
+
+79
+00:05:37,000 --> 00:05:40,000
+the message can go to the Queue1 or Queue2.
+
+80
+00:05:40,000 --> 00:05:47,000
+If the message goes to the Queue1, then consumer one will be notified about this message as soon as it
+
+81
+00:05:47,000 --> 00:05:53,000
+reads, the message will be deleted from the queue and there is no rule that only one consumer has to
+
+82
+00:05:53,000 --> 00:05:55,000
+be subscribed to a single queue.
+
+83
+00:05:55,000 --> 00:06:01,000
+Any number of subscribers can be subscribed to a queue and very similarly, a consumer can be subscribed
+
+84
+00:06:01,000 --> 00:06:03,000
+to any number of queues.
+
+85
+00:06:03,000 --> 00:06:03,000
+With this,
+
+86
+00:06:03,000 --> 00:06:06,000
+I'm assuming you are clear about Rabbitmq.
+
+87
+00:06:06,000 --> 00:06:12,000
+What is the producers consumers queues exchanges inside the pub/sub model.
+
+88
+00:06:12,000 --> 00:06:18,000
+If you are interested to learn more about the rabbitmq, you can visit the official website of rabbitmq,
+
+89
+00:06:18,000 --> 00:06:20,000
+which is rabbitmq.com.
+
+90
+00:06:20,000 --> 00:06:26,000
+Inside this website there are good documentation and tutorials to learn about rabbitmq in detail.
+
+91
+00:06:26,000 --> 00:06:32,000
+For example, you can click on this Get started and here you have Rabbitmq tutorials and there is a
+
+92
+00:06:32,000 --> 00:06:36,000
+lot of information to read about the rabbitmq here.
+
+93
+00:06:36,000 --> 00:06:41,000
+And these Rabbitmq message broker is not something specific to Java only.
+
+94
+00:06:41,000 --> 00:06:48,000
+Regardless of what language you use, you can still use the Rabbitmq as a message broker, which means
+
+95
+00:06:48,000 --> 00:06:49,000
+your microservice1
+
+96
+00:06:49,000 --> 00:06:55,000
+can be written in Python, whereas the microservice2 can be written in Java.
+
+97
+00:06:55,000 --> 00:06:59,000
+So here you can see there are tutorials about hello world, queues, pubsub model.
+
+98
+00:06:59,000 --> 00:07:05,000
+And if you can scroll down, there are tutorials around how to implement routing and like I said previously,
+
+99
+00:07:05,000 --> 00:07:09,000
+recently they also implemented event streaming capabilities.
+
+100
+00:07:09,000 --> 00:07:14,000
+That's why you are able to see these topics and this request replay pattern tutorials here.
+
+101
+00:07:14,000 --> 00:07:18,000
+So please explore these official website if you are interested to learn more.
+
+102
+00:07:18,000 --> 00:07:25,000
+But I'm going to give a very good introduction about Rabbitmq and how to implement asynchronous communication
+
+103
+00:07:25,000 --> 00:07:28,000
+with the help of this message broker inside this section.
+
+104
+00:07:28,000 --> 00:07:31,000
+Thank you and I'll catch you in the next lecture bye.
+

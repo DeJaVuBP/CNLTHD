@@ -1,0 +1,236 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+let's see the complete demo of asynchronous communication between accounts and message microservice
+
+3
+00:00:08,000 --> 00:00:16,000
+with the help of Rabbitmq. For the same behind the scenes, I have restarted my accounts message and
+
+4
+00:00:16,000 --> 00:00:17,000
+GatewayserverApplications.
+
+5
+00:00:17,000 --> 00:00:18,000
+As a next step,
+
+6
+00:00:18,000 --> 00:00:24,000
+please make sure you are also restarting these applications because we have made the good amount of
+
+7
+00:00:24,000 --> 00:00:26,000
+changes inside accounts and messages
+
+8
+00:00:26,000 --> 00:00:27,000
+microservice.
+
+9
+00:00:27,000 --> 00:00:33,000
+Whenever we restart accounts microservice, we should also restart the dependent microservice, which
+
+10
+00:00:33,000 --> 00:00:35,000
+is GatewayserverApplication.
+
+11
+00:00:35,000 --> 00:00:38,000
+Now let me go to the Rabbitmq console.
+
+12
+00:00:38,000 --> 00:00:43,000
+Here I will go to the exchanges and this time you should be able to see two exchanges.
+
+13
+00:00:43,000 --> 00:00:47,000
+One is send communication and the other one is communication sent.
+
+14
+00:00:47,000 --> 00:00:53,000
+Please ignore these exchange which is emailsms-out-zero.
+
+15
+00:00:53,000 --> 00:01:00,000
+This is an orphan exchange that was created previously because previously we didn't define any destination
+
+16
+00:01:00,000 --> 00:01:02,000
+for these output binding.
+
+17
+00:01:02,000 --> 00:01:08,000
+That's why Spring Cloud stream project it tried to create an output stream binding and the same is present
+
+18
+00:01:08,000 --> 00:01:08,000
+here.
+
+19
+00:01:08,000 --> 00:01:14,000
+If you try to start a fresh container of your rabbitmq, you're not going to see this orphan exchange.
+
+20
+00:01:14,000 --> 00:01:20,000
+Now let me go to the queues and streams here inside this queues you can see there are two queues.
+
+21
+00:01:20,000 --> 00:01:25,000
+The very new queue that we have created is communication-sent.accounts.
+
+22
+00:01:25,000 --> 00:01:32,000
+So this is the queue where my accounts microservice will keep looking for message from message microservice.
+
+23
+00:01:32,000 --> 00:01:36,000
+So let's go to the postman and try to test this entire flow.
+
+24
+00:01:36,000 --> 00:01:39,000
+Here first, I'll try to get a new access token.
+
+25
+00:01:39,000 --> 00:01:46,000
+Once I receive the access token, I'm going to use the same and I'm going to create a new account with
+
+26
+00:01:46,000 --> 00:01:49,000
+the mobile number that is ending with six, eight, seven.
+
+27
+00:01:49,000 --> 00:01:51,000
+So let me click on the send button.
+
+28
+00:01:51,000 --> 00:01:57,000
+You can see I got a successful response, which is 201 account created successful.
+
+29
+00:01:57,000 --> 00:02:05,000
+I received the response within one second, but the breakpoint that I have put inside my message microservice
+
+30
+00:02:05,000 --> 00:02:06,000
+is stopped.
+
+31
+00:02:06,000 --> 00:02:10,000
+That means the communication to the end user is not completed.
+
+32
+00:02:10,000 --> 00:02:19,000
+Now if you try to go and check the table available inside the H2 console against the port number 8080,
+
+33
+00:02:19,000 --> 00:02:25,000
+which is our accounts microservice here, you should be able to see a new column under accounts.
+
+34
+00:02:25,000 --> 00:02:26,000
+So let me run the same.
+
+35
+00:02:26,000 --> 00:02:29,000
+You can see the communication switch as of it is null.
+
+36
+00:02:29,000 --> 00:02:35,000
+As soon as I try to release this breakpoint, the communication will be sent to the end user and my
+
+37
+00:02:35,000 --> 00:02:41,000
+message microservice is also going to stream an event or message to my accounts
+
+38
+00:02:41,000 --> 00:02:45,000
+microservice to update the status inside the accounts table.
+
+39
+00:02:45,000 --> 00:02:46,000
+So let me release this.
+
+40
+00:02:46,000 --> 00:02:46,000
+Now
+
+41
+00:02:46,000 --> 00:02:50,000
+I'll go to the H2 console and try to run this command again.
+
+42
+00:02:50,000 --> 00:02:52,000
+This time you can see the communication switch
+
+43
+00:02:52,000 --> 00:02:54,000
+right now we are able to see the value
+
+44
+00:02:54,000 --> 00:02:55,000
+true.
+
+45
+00:02:55,000 --> 00:03:02,000
+This means the entire flow is working asynchronously with the help of Rabbitmq. In the same process,
+
+46
+00:03:02,000 --> 00:03:09,000
+we also set up event streaming microservices inside our EasyBank microservice network.
+
+47
+00:03:09,000 --> 00:03:15,000
+This way, whenever possible, we need to make sure we are leveraging the event streaming capabilities
+
+48
+00:03:15,000 --> 00:03:17,000
+inside our microservices.
+
+49
+00:03:17,000 --> 00:03:22,000
+This will reduce the temporal coupling between our microservices.
+
+50
+00:03:22,000 --> 00:03:27,000
+I hope you are clear with all the steps that we have followed for your reference, I also mentioned
+
+51
+00:03:27,000 --> 00:03:33,000
+all the steps that we have followed inside these slides, which you can always refer whenever you want
+
+52
+00:03:33,000 --> 00:03:39,000
+to quickly refresh all the steps that we have discussed. As a next step, we need to test these changes
+
+53
+00:03:39,000 --> 00:03:41,000
+inside Docker network as well.
+
+54
+00:03:41,000 --> 00:03:47,000
+By the time I come to the next lecture, I'm going to generate the Docker images that are specific to
+
+55
+00:03:47,000 --> 00:03:49,000
+this section and post that,
+
+56
+00:03:49,000 --> 00:03:54,000
+I'm also going to push them into the Docker hub and update the Docker compose file as well.
+
+57
+00:03:54,000 --> 00:04:00,000
+Using the same Docker compose file, we can try to start all our containers and test this scenario end
+
+58
+00:04:00,000 --> 00:04:00,000
+to end.
+
+59
+00:04:00,000 --> 00:04:03,000
+Thank you and I'll catch you in the next lecture bye.
+

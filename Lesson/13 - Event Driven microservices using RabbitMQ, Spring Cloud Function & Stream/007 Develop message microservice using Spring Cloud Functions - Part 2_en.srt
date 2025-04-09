@@ -1,0 +1,516 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now, inside this lecture, let's try to define some business logic with the help of functions. For the
+
+2
+00:00:07,000 --> 00:00:07,000
+same,
+
+3
+00:00:07,000 --> 00:00:12,000
+as of now, I have created a class with the name MessageFunctions. Inside this class,
+
+4
+00:00:12,000 --> 00:00:19,000
+first, I'm going to create a logger variable with the name log because I want to perform some logging
+
+5
+00:00:19,000 --> 00:00:20,000
+inside my functions.
+
+6
+00:00:20,000 --> 00:00:24,000
+As a next step, I'm going to create my business logic with the help of functions.
+
+7
+00:00:24,000 --> 00:00:28,000
+For the same, I'm going to define a method public function.
+
+8
+00:00:28,000 --> 00:00:34,000
+And whenever I'm using this function, which is available inside the Java Core Library, like you can
+
+9
+00:00:34,000 --> 00:00:37,000
+see here, this function accepts two parameters.
+
+10
+00:00:37,000 --> 00:00:42,000
+The first one, which is T is an input and R indicates the output.
+
+11
+00:00:42,000 --> 00:00:49,000
+So whatever data that you mentioned in the very first place, it is going to be the input for your function.
+
+12
+00:00:49,000 --> 00:00:53,000
+Whereas the second parameter indicates the return type from your function.
+
+13
+00:00:53,000 --> 00:01:00,000
+So this function is an interface and you can see it also has an annotation which is @FunctionalInterface.
+
+14
+00:01:00,000 --> 00:01:01,000
+.
+
+15
+00:01:01,000 --> 00:01:07,000
+That means whenever we want to use this interface to implement our business logic, we need to provide
+
+16
+00:01:07,000 --> 00:01:12,000
+an lambda expression which is going to accept an input and return an output.
+
+17
+00:01:12,000 --> 00:01:15,000
+So let's try to define the lambda expression.
+
+18
+00:01:15,000 --> 00:01:23,000
+So here first for the function, the input parameter that I want to accept is AccountsMessageDto. Because
+
+19
+00:01:23,000 --> 00:01:29,000
+my account's microservice is going to send the message in the format of this dto to my message broker
+
+20
+00:01:29,000 --> 00:01:36,000
+and the message broker is going to forward the same input to my function. After the input parameter,
+
+21
+00:01:36,000 --> 00:01:42,000
+I'm also going to mention the output data type as AccountsMsgDto only.
+
+22
+00:01:42,000 --> 00:01:47,000
+I'll come to the point why I'm trying to send the same data type as an output from my function.
+
+23
+00:01:47,000 --> 00:01:52,000
+For now, please note that this is the input data type and this is the output data type.
+
+24
+00:01:52,000 --> 00:01:56,000
+As a next step, I need to provide the name to my function.
+
+25
+00:01:56,000 --> 00:01:59,000
+The name I'm going to give here is email.
+
+26
+00:01:59,000 --> 00:02:03,000
+After the function name, I'm going to open two curly braces.
+
+27
+00:02:03,000 --> 00:02:10,000
+Inside these curly braces, we are going to write a lambda method which is going to act as an implementation
+
+28
+00:02:10,000 --> 00:02:13,000
+logic for my FunctionalInterface of type Function.
+
+29
+00:02:13,000 --> 00:02:19,000
+So now I'm going to write a lambda method since we are going to return an empty lambda method as an
+
+30
+00:02:19,000 --> 00:02:23,000
+return type for this function, let me first mention the return keyword.
+
+31
+00:02:23,000 --> 00:02:29,000
+After the return keyword I'm going to mention a lambda expression variable name, which is I'm going
+
+32
+00:02:29,000 --> 00:02:30,000
+to accept as an input.
+
+33
+00:02:30,000 --> 00:02:36,000
+After this variable name, I'm going to mention my lambda symbol and post that I'm going to mention
+
+34
+00:02:36,000 --> 00:02:39,000
+curly braces. Inside these curly braces,
+
+35
+00:02:39,000 --> 00:02:43,000
+I need to write my business logic before I try to write my business logic,
+
+36
+00:02:43,000 --> 00:02:50,000
+let me mention colon here so you can see from this function we are trying to return the implementation
+
+37
+00:02:50,000 --> 00:02:52,000
+logic of my functional interface.
+
+38
+00:02:52,000 --> 00:02:56,000
+Now I can write my business logic inside my Lambda method.
+
+39
+00:02:56,000 --> 00:03:03,000
+So the business logic that you can see I have written is, I'm simply logging a message saying that sending
+
+40
+00:03:03,000 --> 00:03:09,000
+email with the details received and post that I'm going to print my object with the help of this log
+
+41
+00:03:09,000 --> 00:03:09,000
+statement.
+
+42
+00:03:09,000 --> 00:03:16,000
+So I'm not going to build the actual logic of sending email to the end user because that will deviate
+
+43
+00:03:16,000 --> 00:03:19,000
+all our discussion from microservices.
+
+44
+00:03:19,000 --> 00:03:24,000
+Since I want to focus more on spring cloud functions, spring cloud stream, asynchronous communication,
+
+45
+00:03:24,000 --> 00:03:30,000
+Rabbitmq. That's why I'm not going to implement a lot of business logic here just to make sure we are
+
+46
+00:03:30,000 --> 00:03:32,000
+not losing our focus.
+
+47
+00:03:32,000 --> 00:03:38,000
+So assume like whenever this log statement is printed, we are sending an email to the end user and
+
+48
+00:03:38,000 --> 00:03:42,000
+post that the same input object I'm trying to return from my lambda method.
+
+49
+00:03:42,000 --> 00:03:47,000
+So if you see here, this is matching with my functional interface of type function.
+
+50
+00:03:47,000 --> 00:03:55,000
+We are accepting a input of type AccountsMessageDto with this variable name and at the same time we are
+
+51
+00:03:55,000 --> 00:03:59,000
+also returning the same as an return type from this Lambda method.
+
+52
+00:03:59,000 --> 00:04:05,000
+So to understand more about this method, you need to be clear with the lambda expression functional
+
+53
+00:04:05,000 --> 00:04:09,000
+interfaces available inside Java8 if you are not comfortable with the same.
+
+54
+00:04:09,000 --> 00:04:14,000
+I do have a course focusing more on lambda expressions, streams, functional interfaces.
+
+55
+00:04:14,000 --> 00:04:17,000
+Please do check the same course and enroll into the same.
+
+56
+00:04:17,000 --> 00:04:24,000
+So now we have created an function and inside this function we have created a lambda expression or a
+
+57
+00:04:24,000 --> 00:04:30,000
+lambda method which is going to act as my business logic. As a next step in order to make sure that these
+
+58
+00:04:30,000 --> 00:04:33,000
+function is going to be monitored by the spring cloud functions.
+
+59
+00:04:33,000 --> 00:04:40,000
+We need to mention @Bean on top of this function, if you see here with this email function,
+
+60
+00:04:40,000 --> 00:04:42,000
+I'm only sending the email to the end user.
+
+61
+00:04:42,000 --> 00:04:45,000
+How about the SMS. For SMS,
+
+62
+00:04:45,000 --> 00:04:48,000
+I want to create one more function. For the same,
+
+63
+00:04:48,000 --> 00:04:54,000
+let me copy this function and I'm going to paste in the same class and this time the function name is
+
+64
+00:04:54,000 --> 00:04:58,000
+going to be SMS and post renaming the function name
+
+65
+00:04:58,000 --> 00:05:00,000
+I'm going to change the logger statement
+
+66
+00:05:00,000 --> 00:05:03,000
+also saying that sending SMS with the details
+
+67
+00:05:03,000 --> 00:05:08,000
+so this is the business logic that we want to follow to send the SMS.
+
+68
+00:05:08,000 --> 00:05:15,000
+Now to this function, I want to accept the AccountsMessageDto as an input and the return type I want
+
+69
+00:05:15,000 --> 00:05:17,000
+to mention as long variable.
+
+70
+00:05:17,000 --> 00:05:23,000
+So inside my business logic, you can see as soon as I change the return type data value, as long I
+
+71
+00:05:23,000 --> 00:05:29,000
+am getting an exception here because I'm trying to return the variable of data type AccountsMessageDto.
+
+72
+00:05:29,000 --> 00:05:29,000
+.
+
+73
+00:05:30,000 --> 00:05:35,000
+So to resolve this compilation issue, I'm going to invoke a method which is account number.
+
+74
+00:05:35,000 --> 00:05:42,000
+Since we have created the accounts message as an record class, we will not have getter methods with
+
+75
+00:05:42,000 --> 00:05:43,000
+the prefix value as get.
+
+76
+00:05:43,000 --> 00:05:48,000
+Instead, we are going to have the getter methods directly with the name of variable.
+
+77
+00:05:48,000 --> 00:05:54,000
+That's why we are trying to invoke the method accountNumber, which is a getter method to fetch my
+
+78
+00:05:54,000 --> 00:05:55,000
+accountNumber.
+
+79
+00:05:55,000 --> 00:06:01,000
+And since my accountNumber is of type long and it is matching with the return type of my functional
+
+80
+00:06:01,000 --> 00:06:04,000
+interface, it is not throwing any compilation issues.
+
+81
+00:06:04,000 --> 00:06:11,000
+Now let's try to understand why I'm trying to follow these input and output as AccountsMessageDto only,
+
+82
+00:06:11,000 --> 00:06:14,000
+and here why I'm using the long as an return type.
+
+83
+00:06:14,000 --> 00:06:19,000
+The business logic that I want to build with these two functions is, my accounts
+
+84
+00:06:19,000 --> 00:06:25,000
+microservice will send a message to my message broker and my message broker is going to invoke one of
+
+85
+00:06:25,000 --> 00:06:27,000
+the function, which is email.
+
+86
+00:06:27,000 --> 00:06:30,000
+And to this email the input is going to be AccountsMessageDto.
+
+87
+00:06:31,000 --> 00:06:37,000
+So whenever my message broker is invoking my email function behind the scenes, I also want to invoke
+
+88
+00:06:37,000 --> 00:06:39,000
+the sms function.
+
+89
+00:06:39,000 --> 00:06:46,000
+How I'm going to achieve this is, I'm going to compose both these two functions like email and sms as
+
+90
+00:06:46,000 --> 00:06:47,000
+a single logical unit.
+
+91
+00:06:47,000 --> 00:06:53,000
+I can simply write both these logic inside a single function but since I want to show you various
+
+92
+00:06:53,000 --> 00:06:57,000
+features available inside Spring Cloud function, I'm trying to build two different functions.
+
+93
+00:06:57,000 --> 00:07:03,000
+And here, since we are trying to compose two different functions, I'm making sure that my function
+
+94
+00:07:03,000 --> 00:07:08,000
+one is giving the input data that is required for my second function.
+
+95
+00:07:08,000 --> 00:07:13,000
+So my sms  function also need all the information that we received from the
+
+96
+00:07:13,000 --> 00:07:14,000
+AccountsMicroservice.
+
+97
+00:07:14,000 --> 00:07:18,000
+That's why I'm trying to return the same object as an return type from the email.
+
+98
+00:07:18,000 --> 00:07:25,000
+And when I compose these two functions, this return type is going to act as an input to my sms function.
+
+99
+00:07:25,000 --> 00:07:27,000
+And inside my SMS function,
+
+100
+00:07:27,000 --> 00:07:34,000
+once I executed all the business logic, I am trying to send an long value, which is my account number.
+
+101
+00:07:34,000 --> 00:07:40,000
+The reason why I'm trying to send my account number as an return type from this method is once my sending
+
+102
+00:07:40,000 --> 00:07:47,000
+communication details to the end user is completed, I want to let my accounts microservice know that
+
+103
+00:07:47,000 --> 00:07:48,000
+this process is completed.
+
+104
+00:07:48,000 --> 00:07:54,000
+That's why I'm going to send a message to my accounts microservice as a response asynchronously with
+
+105
+00:07:54,000 --> 00:07:57,000
+my account number as an input message value.
+
+106
+00:07:57,000 --> 00:08:03,000
+So using this account number, my accounts microservice can fetch the existing record in the database
+
+107
+00:08:03,000 --> 00:08:09,000
+and we are going to introduce a new column inside our accounts table to update whether the communication
+
+108
+00:08:09,000 --> 00:08:11,000
+is successfully sent or not.
+
+109
+00:08:11,000 --> 00:08:16,000
+I hope you are clear about these input and output parameters that we are trying to use here.
+
+110
+00:08:16,000 --> 00:08:18,000
+If something is not clear, don't worry.
+
+111
+00:08:18,000 --> 00:08:21,000
+When I show you the demo, it is going to be super clear for you.
+
+112
+00:08:21,000 --> 00:08:28,000
+Here you can see I have created my functions only with the help of Function interface. And similar to
+
+113
+00:08:28,000 --> 00:08:29,000
+Function interface,
+
+114
+00:08:29,000 --> 00:08:36,000
+we also have other functional interfaces which are supported by spring cloud function and these functional
+
+115
+00:08:36,000 --> 00:08:38,000
+interfaces are supplier.
+
+116
+00:08:38,000 --> 00:08:41,000
+So inside java.util.function we have the Supplier interface.
+
+117
+00:08:41,000 --> 00:08:49,000
+So here you can see these Function interface is going to have only one generic argument and this T indicates
+
+118
+00:08:49,000 --> 00:08:52,000
+the type of results supplied by this supplier.
+
+119
+00:08:52,000 --> 00:08:58,000
+So whenever you have scenario where you're not going to accept any input but you are going to send an
+
+120
+00:08:58,000 --> 00:09:03,000
+output, then please write your business logic with the help of these functional interface.
+
+121
+00:09:03,000 --> 00:09:09,000
+And very similarly, we also have Consumer interface, inside this Consumer interface,
+
+122
+00:09:09,000 --> 00:09:15,000
+these generic data type indicates what is the type of input that your functional interface is going
+
+123
+00:09:15,000 --> 00:09:15,000
+to accept.
+
+124
+00:09:15,000 --> 00:09:22,000
+So in scenarios where your business logic is simply going to accept the input, but it is not going
+
+125
+00:09:22,000 --> 00:09:27,000
+to return any output, then you can use this functional interface to write your business logic.
+
+126
+00:09:27,000 --> 00:09:29,000
+I hope you are clear with the two functions that we have created.
+
+127
+00:09:29,000 --> 00:09:33,000
+Let's try to test these changes in the next lecture.
+
+128
+00:09:33,000 --> 00:09:33,000
+Thank you.
+
+129
+00:09:33,000 --> 00:09:34,000
+Bye.
+

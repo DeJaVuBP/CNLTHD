@@ -1,0 +1,696 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now is the time to see the demo of triggering an event from accounts microservice to the message microservice
+
+2
+00:00:07,000 --> 00:00:10,000
+with the help of Rabbitmq.
+
+3
+00:00:10,000 --> 00:00:15,000
+To get started with the demo first, we need to make sure we started the Rabbitmq to start and set up
+
+4
+00:00:15,000 --> 00:00:16,000
+the rabbitmq,
+
+5
+00:00:16,000 --> 00:00:21,000
+we need to run a Docker command. So to know what is the Docker command that we need to run, we can visit
+
+6
+00:00:21,000 --> 00:00:27,000
+the Rabbitmq website and click on this get started and download and installation.
+
+7
+00:00:27,000 --> 00:00:29,000
+And here there is a docker run command.
+
+8
+00:00:29,000 --> 00:00:34,000
+So let me take this docker run command and try to run the same inside my terminal.
+
+9
+00:00:34,000 --> 00:00:40,000
+Before you try to run this command, please make sure you have the Docker running inside your local
+
+10
+00:00:40,000 --> 00:00:40,000
+system.
+
+11
+00:00:40,000 --> 00:00:42,000
+So these are Docker commands.
+
+12
+00:00:42,000 --> 00:00:49,000
+So let me try to run these in a detached mode so that my terminal will be free for me to run other commands
+
+13
+00:00:49,000 --> 00:00:49,000
+Here
+
+14
+00:00:49,000 --> 00:00:53,000
+I'm trying to give -d, now I'm executing this command.
+
+15
+00:00:53,000 --> 00:00:56,000
+You can see I got a containerId as an output.
+
+16
+00:00:56,000 --> 00:01:03,000
+I can also confirm if my rabbitmq started successfully or not by checking inside the Docker desktop.
+
+17
+00:01:03,000 --> 00:01:04,000
+So this is my Docker desktop.
+
+18
+00:01:04,000 --> 00:01:08,000
+You can see there is a rabbitmq container in running status.
+
+19
+00:01:08,000 --> 00:01:15,000
+As a next step, I can start my microservices. So inside my workspace first I'm going to start my config
+
+20
+00:01:15,000 --> 00:01:16,000
+server.
+
+21
+00:01:16,000 --> 00:01:24,000
+So to start my ConfigServer, I'll open the config server main class and run the application in a debug
+
+22
+00:01:24,000 --> 00:01:24,000
+mode.
+
+23
+00:01:24,000 --> 00:01:30,000
+Once the config server is started successfully, we need to go to Eureka Server and try to start the
+
+24
+00:01:30,000 --> 00:01:31,000
+same.
+
+25
+00:01:31,000 --> 00:01:35,000
+So let me start my Eureka server here.
+
+26
+00:01:35,000 --> 00:01:39,000
+I'm trying to start this Eureka server also in a debug mode. After the Eureka server,
+
+27
+00:01:39,000 --> 00:01:42,000
+we need to start the accounts microservice.
+
+28
+00:01:42,000 --> 00:01:48,000
+So to start the accounts microservice here, I'll go to the main class which is accounts application
+
+29
+00:01:48,000 --> 00:01:51,000
+and I will try to run this in a debug mode. Along with the accounts
+
+30
+00:01:51,000 --> 00:01:58,000
+microservice, we can also start message microservice with the help of these main class, which is Message
+
+31
+00:01:58,000 --> 00:01:59,000
+MessageApplication.
+
+32
+00:01:59,000 --> 00:02:05,000
+We don't need to start cards and loans microservice because we didn't make any changes inside them and
+
+33
+00:02:05,000 --> 00:02:09,000
+we are also not going to test any scenarios related to loans and cards.
+
+34
+00:02:09,000 --> 00:02:14,000
+Once AccountsApplication started, I'm going to start the GatewayServer.
+
+35
+00:02:14,000 --> 00:02:18,000
+So this GatewayServer is going to act as an resource server.
+
+36
+00:02:18,000 --> 00:02:22,000
+Since we have secured the gateway server with the help of spring security.
+
+37
+00:02:22,000 --> 00:02:28,000
+So to test my scenarios, I should also start my Keycloak server, which is going to act as my auth server.
+
+38
+00:02:28,000 --> 00:02:36,000
+So inside my Docker containers I have a keycloak container in a stopped mode, so I will try to start
+
+39
+00:02:36,000 --> 00:02:36,000
+the same.
+
+40
+00:02:36,000 --> 00:02:42,000
+Please don't try to delete the keycloak container inside your local system. If you delete it every time
+
+41
+00:02:42,000 --> 00:02:46,000
+you need to set up the client details, roles, information.
+
+42
+00:02:46,000 --> 00:02:52,000
+So to avoid that, we need to make sure we are only stopping it, but not deleting the container whenever
+
+43
+00:02:52,000 --> 00:02:52,000
+we don't need.
+
+44
+00:02:52,000 --> 00:02:56,000
+So now I have started my keycloak container. As a next step,
+
+45
+00:02:56,000 --> 00:03:03,000
+first, I will try to show you the Rabbitmq console, the URL that we need to access to check the rabbitmq
+
+46
+00:03:03,000 --> 00:03:07,000
+console is localhost 15672.
+
+47
+00:03:07,000 --> 00:03:08,000
+So let me try to access this.
+
+48
+00:03:08,000 --> 00:03:13,000
+The username is going to be guest and the password also is going to be guest.
+
+49
+00:03:13,000 --> 00:03:16,000
+So these are the default username and passwords.
+
+50
+00:03:16,000 --> 00:03:19,000
+So let me try to log in. Inside this UI,
+
+51
+00:03:19,000 --> 00:03:23,000
+we are more interested about the exchanges and queues.
+
+52
+00:03:23,000 --> 00:03:26,000
+First, let me try to click on this exchanges.
+
+53
+00:03:26,000 --> 00:03:33,000
+You can see there is an exchange created with the name sent communication, the same we have defined
+
+54
+00:03:33,000 --> 00:03:39,000
+inside the AccountsMicroservice application.yml as an destination.
+
+55
+00:03:39,000 --> 00:03:45,000
+So if you try to click on this send communication channel and try to open the bindings, you should
+
+56
+00:03:45,000 --> 00:03:49,000
+be able to see the queue name where the message will be redirected,
+
+57
+00:03:49,000 --> 00:03:55,000
+whenever this exchange receives a message, the queue name is sendCommunication.message.
+
+58
+00:03:55,000 --> 00:03:59,000
+You can also check whether the queue is created or not by going to the queues.
+
+59
+00:03:59,000 --> 00:04:04,000
+So here you can see there is a queue name, which is send-communication.message.
+
+60
+00:04:04,000 --> 00:04:10,000
+This name we have provided inside the application.yml of message microservice.
+
+61
+00:04:10,000 --> 00:04:12,000
+Let me show you the same very quickly.
+
+62
+00:04:12,000 --> 00:04:18,000
+So here you can see the destination is send communication and after that we are trying to append a group
+
+63
+00:04:18,000 --> 00:04:19,000
+name which is message.
+
+64
+00:04:19,000 --> 00:04:23,000
+If you see here, we only define the input binding.
+
+65
+00:04:23,000 --> 00:04:29,000
+With this input binding, we are trying to bind these input binding to the message queue with the name
+
+66
+00:04:29,000 --> 00:04:31,000
+send-communication.message.
+
+67
+00:04:31,000 --> 00:04:38,000
+But if you see the exchanges information inside Rabbitmq we also have output binding created with the
+
+68
+00:04:38,000 --> 00:04:42,000
+name emailsms-out-0.
+
+69
+00:04:42,000 --> 00:04:50,000
+This is because by default whenever you add the spring cloud stream to your microservice where you have
+
+70
+00:04:50,000 --> 00:04:55,000
+defined functions with the help of spring cloud function, the spring cloud stream is automatically
+
+71
+00:04:55,000 --> 00:05:00,000
+is going to create the input binding and output binding based upon
+
+72
+00:05:00,000 --> 00:05:01,000
+function definition.
+
+73
+00:05:01,000 --> 00:05:08,000
+So my function definition is going to be emailsms because I tried to compose them as a single function.
+
+74
+00:05:08,000 --> 00:05:13,000
+That's why using the same spring cloud definition name, it also created an output binding.
+
+75
+00:05:13,000 --> 00:05:15,000
+That's what we are able to see.
+
+76
+00:05:15,000 --> 00:05:21,000
+Whereas for the input binding, since we have defined the destination details inside the rabbitmq console,
+
+77
+00:05:21,000 --> 00:05:26,000
+it is binded to this queue, but coming to this emailsms-out-0.
+
+78
+00:05:26,000 --> 00:05:30,000
+We have not binded these to any of the rabbitmq component.
+
+79
+00:05:30,000 --> 00:05:34,000
+That's why you can see this exchange does not have any binding.
+
+80
+00:05:34,000 --> 00:05:38,000
+This is the default exchange created by the spring cloud stream,
+
+81
+00:05:38,000 --> 00:05:39,000
+as of now it is empty.
+
+82
+00:05:39,000 --> 00:05:45,000
+Later on we can try to update this, but right now the focus is on this queue, which is this send-communication.message
+
+83
+00:05:45,000 --> 00:05:49,000
+and the exchange is send-communication.
+
+84
+00:05:49,000 --> 00:05:55,000
+I hope you are clear. As a next step, we can try to invoke the Create account API available inside accounts
+
+85
+00:05:55,000 --> 00:05:56,000
+microservice.
+
+86
+00:05:56,000 --> 00:06:01,000
+So inside my postman I should go to the folder which is gateway security.
+
+87
+00:06:01,000 --> 00:06:07,000
+And here we have an API with the name Accounts_POST_ClientCredentials.
+
+88
+00:06:07,000 --> 00:06:11,000
+So using the client credentials approach, I'm going to create an account.
+
+89
+00:06:11,000 --> 00:06:14,000
+First, let me try to click on the send button.
+
+90
+00:06:14,000 --> 00:06:20,000
+Obviously I will get 401 unauthorized in order to get an access token, I need to make sure the client
+
+91
+00:06:20,000 --> 00:06:22,000
+ID and client secret I have mentioned properly.
+
+92
+00:06:22,000 --> 00:06:24,000
+So this is my client id.
+
+93
+00:06:24,000 --> 00:06:26,000
+Let me go and get the client secret.
+
+94
+00:06:26,000 --> 00:06:26,000
+For the same,
+
+95
+00:06:26,000 --> 00:06:34,000
+we need to access the keycloak URL which is localhost 7080 and click on this administration console.
+
+96
+00:06:34,000 --> 00:06:40,000
+I'm going to enter the admin credentials which are admin, admin post that I'll go to clients and I'll
+
+97
+00:06:40,000 --> 00:06:42,000
+open the EazyBankCallCenterCC.
+
+98
+00:06:43,000 --> 00:06:49,000
+I'll go to credentials and this is the secret which I'm going to copy and mention the same inside my
+
+99
+00:06:49,000 --> 00:06:49,000
+postman.
+
+100
+00:06:49,000 --> 00:06:52,000
+Now I'll try to get an access token.
+
+101
+00:06:52,000 --> 00:06:55,000
+You can see the authentication is successful.
+
+102
+00:06:55,000 --> 00:06:59,000
+Let me get an access token and use the same. As the next step,
+
+103
+00:06:59,000 --> 00:07:05,000
+I'm going to create an account with a mobile number which is ending 688.
+
+104
+00:07:05,000 --> 00:07:07,000
+So let me click on this send button.
+
+105
+00:07:07,000 --> 00:07:10,000
+You can see I got an immediate response.
+
+106
+00:07:10,000 --> 00:07:13,000
+You should be able to see inside the Rabbitmq console
+
+107
+00:07:13,000 --> 00:07:14,000
+also, there is a message received.
+
+108
+00:07:14,000 --> 00:07:18,000
+That's why inside the graph you are able to see a spike here.
+
+109
+00:07:18,000 --> 00:07:25,000
+If you go to the console of my AccountsApplication, you should be able to see a logger saying that
+
+110
+00:07:25,000 --> 00:07:31,000
+sending communication requests for the details and in between it is trying to connect to the rabbitmq
+
+111
+00:07:31,000 --> 00:07:33,000
+and send a message.
+
+112
+00:07:33,000 --> 00:07:39,000
+As soon as the message is sent, immediately we are receiving the response, which is, is the communication
+
+113
+00:07:39,000 --> 00:07:42,000
+request successfully processed. Since we received the boolean
+
+114
+00:07:42,000 --> 00:07:48,000
+true, we are printing the same here, so please note that when we say successfully process we are only
+
+115
+00:07:48,000 --> 00:07:53,000
+trying to convey that is the communication request successfully triggered. As a next step,
+
+116
+00:07:53,000 --> 00:07:59,000
+if you go to the MessageApplication console here, you will be having details saying that sending email
+
+117
+00:07:59,000 --> 00:08:03,000
+with the details and sending SMS with the details.
+
+118
+00:08:03,000 --> 00:08:04,000
+I hope you are clear.
+
+119
+00:08:04,000 --> 00:08:07,000
+Now let's try to see the demo in a slow motion.
+
+120
+00:08:07,000 --> 00:08:12,000
+Inside the slow motion, I'm going to show you the power of asynchronous communication or event streaming
+
+121
+00:08:12,000 --> 00:08:13,000
+microservices.
+
+122
+00:08:13,000 --> 00:08:20,000
+So let me clean all the console inside my MessageApplication and AccountsApplication post that I'm
+
+123
+00:08:20,000 --> 00:08:26,000
+going to keep breakpoint just inside my email function because this is the very first function which
+
+124
+00:08:26,000 --> 00:08:32,000
+is going to be triggered whenever a message is received inside my Rabbitmq. This time I'm going to create
+
+125
+00:08:32,000 --> 00:08:37,000
+an account with a mobile number which is ending six, eight, seven.
+
+126
+00:08:37,000 --> 00:08:39,000
+Let me click on this send button.
+
+127
+00:08:39,000 --> 00:08:42,000
+I'm getting unauthorized because the token might have expired.
+
+128
+00:08:42,000 --> 00:08:47,000
+Let me go to the authorization, get a new access token and use the same.
+
+129
+00:08:47,000 --> 00:08:49,000
+Now I'm going to click on the send button.
+
+130
+00:08:49,000 --> 00:08:55,000
+Before that, let me go to the body and make sure we are giving a mobile number which is ending with
+
+131
+00:08:55,000 --> 00:08:56,000
+six, eight, seven.
+
+132
+00:08:56,000 --> 00:08:57,000
+So I'm clicking on the send button.
+
+133
+00:08:57,000 --> 00:09:00,000
+You should be able to see a immediate response.
+
+134
+00:09:00,000 --> 00:09:07,000
+You see, we got an immediate response within 51 milliseconds, but we put a breakpoint inside message
+
+135
+00:09:07,000 --> 00:09:10,000
+Microservice. Let's try to see what happened there.
+
+136
+00:09:10,000 --> 00:09:14,000
+As of now the message microservice is not processed.
+
+137
+00:09:14,000 --> 00:09:16,000
+The input message received.
+
+138
+00:09:16,000 --> 00:09:22,000
+This confirms that my accounts microservice is not waiting for my message
+
+139
+00:09:22,000 --> 00:09:29,000
+microservice response. The responsibility of accounts microservice is to simply put a message into the
+
+140
+00:09:29,000 --> 00:09:34,000
+rabbitmq and with that it can continue with the remaining business logic.
+
+141
+00:09:34,000 --> 00:09:36,000
+That's what happened and we got an immediate response.
+
+142
+00:09:36,000 --> 00:09:41,000
+So this way we have established the asynchronous communication and my accounts
+
+143
+00:09:41,000 --> 00:09:46,000
+microservice has no clue about message microservice only
+
+144
+00:09:46,000 --> 00:09:52,000
+they are aware about the event broker or message broker which is sitting in the middle and my rabbitmq
+
+145
+00:09:52,000 --> 00:09:54,000
+is doing all the magic.
+
+146
+00:09:54,000 --> 00:09:59,000
+Now here I will not release the breakpoint, but I'll go to the accounts application inside the accounts
+
+147
+00:09:59,000 --> 00:09:59,000
+AccountsApplication.
+
+148
+00:10:00,000 --> 00:10:00,000
+Here,
+
+149
+00:10:00,000 --> 00:10:04,000
+you can see we are seeing the log statements, which is sending communication requests.
+
+150
+00:10:04,000 --> 00:10:08,000
+And is the communication request successfully processed, which is true.
+
+151
+00:10:08,000 --> 00:10:12,000
+So this confirms the complete request is processed successfully.
+
+152
+00:10:12,000 --> 00:10:16,000
+And we also saw the response here with the value 201.
+
+153
+00:10:16,000 --> 00:10:21,000
+Now under the message application console, as of now, there is no details here.
+
+154
+00:10:21,000 --> 00:10:28,000
+If I try to release the breakpoint, then you can see we are getting two new log statements which is
+
+155
+00:10:28,000 --> 00:10:32,000
+sending email with the details and sending sms with the details.
+
+156
+00:10:32,000 --> 00:10:35,000
+I hope you are clear with this demo. As a next step,
+
+157
+00:10:35,000 --> 00:10:43,000
+we should also let our message microservice to send a notification or an event to the accounts microservice
+
+158
+00:10:43,000 --> 00:10:47,000
+whenever it is done sending the email and SMS to the end user.
+
+159
+00:10:47,000 --> 00:10:50,000
+So it is going to be two way communication asynchronously.
+
+160
+00:10:51,000 --> 00:10:57,000
+First, my accounts microservice will trigger an event using which my message microservice is going
+
+161
+00:10:57,000 --> 00:10:59,000
+to send the communication.
+
+162
+00:10:59,000 --> 00:11:04,000
+Maybe after 1 minute or 2 minutes or maybe in the worst case scenario after one day
+
+163
+00:11:04,000 --> 00:11:11,000
+also, if my message is processed on the message microservice, it should send a notification or event
+
+164
+00:11:11,000 --> 00:11:12,000
+back to the accounts
+
+165
+00:11:12,000 --> 00:11:18,000
+microservice saying that I have processed communication successfully, so please update the details
+
+166
+00:11:18,000 --> 00:11:20,000
+on your side as well.
+
+167
+00:11:20,000 --> 00:11:22,000
+So that's what we need to implement as a next step.
+
+168
+00:11:22,000 --> 00:11:28,000
+I hope you are clear before I try to close this lecture, let me try to update the log statement that
+
+169
+00:11:28,000 --> 00:11:30,000
+we have inside the AccountServiceImpl.
+
+170
+00:11:30,000 --> 00:11:33,000
+I know this might look very confusing for you.
+
+171
+00:11:33,000 --> 00:11:39,000
+Like is a communication request successfully processed instead I will mention like is a communication
+
+172
+00:11:39,000 --> 00:11:42,000
+request successfully triggered. With this,
+
+173
+00:11:42,000 --> 00:11:44,000
+I'm assuming it is clear for you.
+
+174
+00:11:44,000 --> 00:11:47,000
+Thank you and I'll catch you in the next lecture bye.
+

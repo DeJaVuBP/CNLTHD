@@ -1,0 +1,560 @@
+1
+00:00:00,000 --> 00:00:06,000
+I know you might be hating me on why I'm using spring cloud functions and why this fellow is trying
+
+2
+00:00:06,000 --> 00:00:08,000
+to build the business logic with these functions.
+
+3
+00:00:09,000 --> 00:00:14,000
+I understand your frustration, but inside this lecture I'm going to show you the power of spring cloud
+
+4
+00:00:14,000 --> 00:00:14,000
+functions.
+
+5
+00:00:14,000 --> 00:00:18,000
+As of now, you can see I simply return functions.
+
+6
+00:00:18,000 --> 00:00:21,000
+And inside these functions I have written my business logic.
+
+7
+00:00:21,000 --> 00:00:23,000
+So these are very normal methods.
+
+8
+00:00:23,000 --> 00:00:28,000
+Any developer can write to convert these functions as an REST APIs.
+
+9
+00:00:28,000 --> 00:00:36,000
+I can simply go to my pom.xml and inside my pom.xml I'm going to add a new dependency.
+
+10
+00:00:36,000 --> 00:00:39,000
+So let me copy the spring cloud function context dependency.
+
+11
+00:00:39,000 --> 00:00:46,000
+And here in the place of spring cloud function context, I'm going to add a new dependency which is
+
+12
+00:00:46,000 --> 00:00:49,000
+spring cloud starter function web.
+
+13
+00:00:49,000 --> 00:00:53,000
+After adding this, let me reload the maven changes.
+
+14
+00:00:53,000 --> 00:00:57,000
+Once my maven dependencies are downloaded, I'm going to do a build.
+
+15
+00:00:57,000 --> 00:01:03,000
+Once the build is completed, I will go to my spring boot main class, which is MessageApplication
+
+16
+00:01:03,000 --> 00:01:07,000
+and I will try to start my application in a debug mode.
+
+17
+00:01:07,000 --> 00:01:09,000
+This will start my messages
+
+18
+00:01:09,000 --> 00:01:13,000
+microservice at the default port at 8080.
+
+19
+00:01:13,000 --> 00:01:18,000
+Here you can see all my functions are recognized by my spring cloud functions.
+
+20
+00:01:18,000 --> 00:01:22,000
+That's why you're able to see the log related to these functional catalogue.
+
+21
+00:01:22,000 --> 00:01:24,000
+Now are you ready to see the magic?
+
+22
+00:01:24,000 --> 00:01:26,000
+Let me go to the postman. Inside My postman,
+
+23
+00:01:26,000 --> 00:01:30,000
+you can see there is a folder that I have created with the name messages.
+
+24
+00:01:30,000 --> 00:01:33,000
+And inside these we have a request with the name email.
+
+25
+00:01:33,000 --> 00:01:41,000
+So I'm trying to invoke my API, which is available at the port 8080 and the path is going to be email.
+
+26
+00:01:41,000 --> 00:01:46,000
+So this path should match with your function name, which is email and to my function,
+
+27
+00:01:46,000 --> 00:01:53,000
+what is the input account's message which is going to accept these variables like account number, name,
+
+28
+00:01:53,000 --> 00:01:55,000
+email and mobile number.
+
+29
+00:01:55,000 --> 00:02:01,000
+So before I try to invoke this REST API, let me try to put a breakpoint inside my function.
+
+30
+00:02:01,000 --> 00:02:04,000
+Here I'm keeping a breakpoint in both my functions.
+
+31
+00:02:04,000 --> 00:02:11,000
+First, I'll try to invoke my email REST API as soon as I click send you can see the breakpoint stopped
+
+32
+00:02:11,000 --> 00:02:13,000
+inside my function that I have written.
+
+33
+00:02:13,000 --> 00:02:17,000
+I'm going to release this breakpoint as soon as I release,
+
+34
+00:02:17,000 --> 00:02:22,000
+if you go to the console, you will also have the log that we have mentioned, like sending email with
+
+35
+00:02:22,000 --> 00:02:26,000
+the details and all the details that we have sent inside the request.
+
+36
+00:02:26,000 --> 00:02:30,000
+That means the business logic mentioned inside the function is being executed.
+
+37
+00:02:30,000 --> 00:02:32,000
+Did I develop any REST APIs,
+
+38
+00:02:32,000 --> 00:02:39,000
+I simply wrote my business logic as functions by simply adding a dependency, all my functions will
+
+39
+00:02:39,000 --> 00:02:42,000
+get exposed as REST APIs automatically.
+
+40
+00:02:42,000 --> 00:02:44,000
+This is one of the feature of spring cloud functions.
+
+41
+00:02:44,000 --> 00:02:49,000
+Similarly, I can change my functions to work in different styles.
+
+42
+00:02:49,000 --> 00:02:55,000
+Maybe I can try to integrate these functions with the event brokers like Rabbitmq or Kafka 
+
+43
+00:02:55,000 --> 00:03:02,000
+or maybe I can simply deploy these functions as a standalone application inside any serverless platforms
+
+44
+00:03:02,000 --> 00:03:04,000
+like AWS Lambda.
+
+45
+00:03:04,000 --> 00:03:10,000
+So that's a power of spring cloud function, especially if you are building event driven microservices.
+
+46
+00:03:10,000 --> 00:03:16,000
+It is always advisable to build your business logic with the help of functions and this will give flexibility
+
+47
+00:03:16,000 --> 00:03:21,000
+to you to deploy your functions in whatever format that you want.
+
+48
+00:03:21,000 --> 00:03:27,000
+Let's try to test sms API as well. Before I try to invoke the sms API,
+
+49
+00:03:27,000 --> 00:03:33,000
+if you observe the response of this email API, we are getting whatever value we sent in the request
+
+50
+00:03:33,000 --> 00:03:38,000
+because we are sending the same object as an output from this function business logic.
+
+51
+00:03:38,000 --> 00:03:42,000
+Now let me go to the sms, for the sms under the body,
+
+52
+00:03:42,000 --> 00:03:48,000
+we need to make sure we are sending the same AccountsMsgDto in a Json format.
+
+53
+00:03:48,000 --> 00:03:52,000
+As soon as I click send I'm getting an error because the port number is wrong.
+
+54
+00:03:52,000 --> 00:03:54,000
+Let me change this to 8080.
+
+55
+00:03:54,000 --> 00:03:56,000
+Let me try to invoke again.
+
+56
+00:03:56,000 --> 00:04:03,000
+The breakpoint stopped and this also confirmed that sms function is exposed as an REST API.
+
+57
+00:04:03,000 --> 00:04:09,000
+So let me release this breakpoint post that you can also see inside the console there is a statement
+
+58
+00:04:09,000 --> 00:04:16,000
+saying that sending sms with the details with this, it confirms that our SMS business logic also is
+
+59
+00:04:16,000 --> 00:04:19,000
+getting executed. Inside the response,
+
+60
+00:04:19,000 --> 00:04:25,000
+you can see we are getting the account number that we sent in the request because the SMS function is
+
+61
+00:04:25,000 --> 00:04:29,000
+going to return the account number which is of type long as an output.
+
+62
+00:04:29,000 --> 00:04:32,000
+That's why we are getting this output value.
+
+63
+00:04:32,000 --> 00:04:39,000
+So with these functions it gives a flexibility to your clients to invoke email or SMS as an REST APIs.
+
+64
+00:04:39,000 --> 00:04:45,000
+Whenever you are client application or your microservice want to send only email communication, they
+
+65
+00:04:45,000 --> 00:04:51,000
+can simply invoke this email function or if they want to simply send the SMS related communication,
+
+66
+00:04:51,000 --> 00:04:55,000
+then they can invoke the REST API exposed by the sms function.
+
+67
+00:04:55,000 --> 00:04:59,000
+But apart from invoking these functions independently or
+
+68
+00:04:59,000 --> 00:05:01,000
+individually.
+
+69
+00:05:01,000 --> 00:05:07,000
+I also want to give flexibility to my clients to invoke a REST API, and these REST API is going to
+
+70
+00:05:07,000 --> 00:05:11,000
+invoke both of these two functions as a single logical unit.
+
+71
+00:05:11,000 --> 00:05:12,000
+So how to achieve that?
+
+72
+00:05:12,000 --> 00:05:19,000
+For the same, we need to compose our functions in order to compose our functions as a single logical
+
+73
+00:05:19,000 --> 00:05:19,000
+unit.
+
+74
+00:05:19,000 --> 00:05:22,000
+We need to go to the application.yml file.
+
+75
+00:05:22,000 --> 00:05:24,000
+As of now we have property file.
+
+76
+00:05:24,000 --> 00:05:32,000
+Let me try to rename this to application.yml and post that I'm going to open this and here I'm going
+
+77
+00:05:32,000 --> 00:05:41,000
+to first mention server after server port and the port value I'm going to give as 9010 because at the
+
+78
+00:05:41,000 --> 00:05:46,000
+default port, which is 8080, our accounts microservice is going to start.
+
+79
+00:05:46,000 --> 00:05:52,000
+So just to avoid the port to conflict issues, I'm trying to give a different port number for my Message
+
+80
+00:05:52,000 --> 00:05:59,000
+microservice. As a next step, I'm going to define spring and a spring application and a application
+
+81
+00:05:59,000 --> 00:06:04,000
+name and the application name I'm going to give as message.
+
+82
+00:06:04,000 --> 00:06:07,000
+Here we are just trying to give a name to our message Microservice.
+
+83
+00:06:07,000 --> 00:06:09,000
+The name is message itself.
+
+84
+00:06:09,000 --> 00:06:13,000
+Later on we are going to use this property. As a next step,
+
+85
+00:06:13,000 --> 00:06:20,000
+under spring, I'm going to mention cloud under cloud, I'm going to mention function under function,
+
+86
+00:06:20,000 --> 00:06:24,000
+I'm going to mention definition after definition
+
+87
+00:06:24,000 --> 00:06:30,000
+I'm going to mention my function names, which is email followed by pipe symbol.
+
+88
+00:06:30,000 --> 00:06:36,000
+And what is the second function name with this pipe symbol, I'm trying to compose both these two functions
+
+89
+00:06:36,000 --> 00:06:38,000
+into a single logical unit.
+
+90
+00:06:38,000 --> 00:06:43,000
+Similarly, you can try to compose any number of functions with the help of pipe symbol.
+
+91
+00:06:43,000 --> 00:06:46,000
+So now let's try to see what is going to happen.
+
+92
+00:06:46,000 --> 00:06:47,000
+For the same,
+
+93
+00:06:47,000 --> 00:06:48,000
+let me save this changes.
+
+94
+00:06:48,000 --> 00:06:53,000
+Do a build and post that I'm going to restart my messages application.
+
+95
+00:06:53,000 --> 00:06:56,000
+This time it is going to start at the port 9010.
+
+96
+00:06:56,000 --> 00:06:59,000
+So let me remove the breakpoints that I have here.
+
+97
+00:06:59,000 --> 00:07:00,000
+As a next step,
+
+98
+00:07:00,000 --> 00:07:05,000
+I can test the email and sms one more time at the port 9010.
+
+99
+00:07:05,000 --> 00:07:07,000
+So let me invoke my email function.
+
+100
+00:07:07,000 --> 00:07:09,000
+So email function is working fine.
+
+101
+00:07:09,000 --> 00:07:15,000
+Now let me go to the sms and here also I'm going to mention the port number as 9010.
+
+102
+00:07:15,000 --> 00:07:22,000
+And this also confirms that my sms REST API or sms function is also working fine, so there is no impact
+
+103
+00:07:22,000 --> 00:07:28,000
+to the individual REST APIs that are exposed due to the spring cloud function definition that we have
+
+104
+00:07:28,000 --> 00:07:29,000
+defined.
+
+105
+00:07:29,000 --> 00:07:31,000
+Now, are you ready for the new magic?
+
+106
+00:07:31,000 --> 00:07:34,000
+You can open the third request, which is emailsms.
+
+107
+00:07:34,000 --> 00:07:42,000
+So whenever you try to compose multiple functions, it is going to expose a REST API with the name by
+
+108
+00:07:42,000 --> 00:07:44,000
+combining all your functions.
+
+109
+00:07:44,000 --> 00:07:47,000
+So email is the first function and post that SMS.
+
+110
+00:07:47,000 --> 00:07:54,000
+So emailsms without any space or without any special character in between them we can invoke.
+
+111
+00:07:54,000 --> 00:08:01,000
+And for this emailsms, since it is going to first invoke the email function, we need to send the
+
+112
+00:08:01,000 --> 00:08:05,000
+request in the format that your email function is expecting.
+
+113
+00:08:05,000 --> 00:08:06,000
+So let me invoke this.
+
+114
+00:08:06,000 --> 00:08:10,000
+Before that, I will try to clean the console and see what is going to happen.
+
+115
+00:08:10,000 --> 00:08:15,000
+So this time I'm clicking on the send button. So you can see we are getting an output of account number.
+
+116
+00:08:15,000 --> 00:08:18,000
+So let's try to understand what happened behind the scenes.
+
+117
+00:08:18,000 --> 00:08:22,000
+So behind the scenes you can see two log statements you will be able to see.
+
+118
+00:08:22,000 --> 00:08:25,000
+One is sending email and the other one is sending SMS.
+
+119
+00:08:25,000 --> 00:08:32,000
+This confirms that both these two functions are being executed as a single logical unit because we tried
+
+120
+00:08:32,000 --> 00:08:37,000
+to compose them as a single logical unit with the help of these pipe symbol.
+
+121
+00:08:37,000 --> 00:08:40,000
+I hope you are seeing the power of spring cloud functions.
+
+122
+00:08:40,000 --> 00:08:48,000
+How you are able to expose our functions as a REST APIs by simply adding a dependency inside the pom.xml.
+
+123
+00:08:48,000 --> 00:08:52,000
+But we are not focusing building our functions as a REST APIs.
+
+124
+00:08:52,000 --> 00:08:58,000
+Instead, we want to integrate these functions with one of the event broker or message broker, which
+
+125
+00:08:58,000 --> 00:09:00,000
+is rabbitmq.
+
+126
+00:09:00,000 --> 00:09:08,000
+So to integrate your functions with the Rabbitmq or any other event streaming model, you need to use
+
+127
+00:09:08,000 --> 00:09:10,000
+spring cloud stream as well.
+
+128
+00:09:10,000 --> 00:09:12,000
+Along with the spring cloud functions.
+
+129
+00:09:12,000 --> 00:09:17,000
+From the next lecture, let's try to understand what is spring cloud stream and how we can leverage
+
+130
+00:09:17,000 --> 00:09:19,000
+that inside our message
+
+131
+00:09:19,000 --> 00:09:24,000
+microservice. Before that I will try to roll back all the REST API related changes.
+
+132
+00:09:24,000 --> 00:09:31,000
+So here I will just try to comment this dependency just for your reference because I don't want to expose
+
+133
+00:09:31,000 --> 00:09:33,000
+my functions as REST APIs.
+
+134
+00:09:33,000 --> 00:09:39,000
+That's why I'm commenting this dependency and we don't have to delete these properties anyway
+
+135
+00:09:39,000 --> 00:09:43,000
+we are going to use them when we try to integrate our functions with event brokers.
+
+136
+00:09:43,000 --> 00:09:47,000
+I hope your super, super clear and you liked spring cloud functions.
+
+137
+00:09:47,000 --> 00:09:52,000
+When I try to integrate this spring cloud functions with Spring Cloud Stream and Rabbitmq, you are
+
+138
+00:09:52,000 --> 00:09:54,000
+going to have wow feeling.
+
+139
+00:09:54,000 --> 00:09:56,000
+So let's continue this discussion.
+
+140
+00:09:56,000 --> 00:09:58,000
+Thank you and I'll catch you in the next lecture bye.
+
