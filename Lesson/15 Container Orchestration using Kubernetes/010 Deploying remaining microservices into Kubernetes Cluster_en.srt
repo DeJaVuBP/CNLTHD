@@ -1,0 +1,652 @@
+1
+00:00:00,000 --> 00:00:05,000
+Finally, we can deploy all our microservices into Kubernetes cluster.
+
+2
+00:00:05,000 --> 00:00:08,000
+So let's get started with the deployment. For the same,
+
+3
+00:00:08,000 --> 00:00:13,000
+I'm going to run the command, which is kubectl apply, after apply,
+
+4
+00:00:13,000 --> 00:00:16,000
+I'm going to mention -f and what is the file name?
+
+5
+00:00:16,000 --> 00:00:22,000
+The file name is going to be 1_keycloak.yaml first here I'm trying to set up my keycloak
+
+6
+00:00:22,000 --> 00:00:28,000
+service, so let me execute this command and behind the scenes this is going to create my keycloak
+
+7
+00:00:28,000 --> 00:00:29,000
+service.
+
+8
+00:00:29,000 --> 00:00:35,000
+The next file that I want to execute here is the second file which is related to the configmaps.yaml.
+
+9
+00:00:35,000 --> 00:00:36,000
+.
+
+10
+00:00:36,000 --> 00:00:41,000
+And here you may have question like we already created the config map in the previous lectures.
+
+11
+00:00:41,000 --> 00:00:43,000
+Why I'm trying to recreate again.
+
+12
+00:00:43,000 --> 00:00:45,000
+So here I want to show you the demo.
+
+13
+00:00:45,000 --> 00:00:51,000
+Like if you try to provide the same instructions to the Kubernetes, it is smart enough to detect there
+
+14
+00:00:51,000 --> 00:00:56,000
+are no new changes and it is going to give an output saying that unchanged.
+
+15
+00:00:56,000 --> 00:00:58,000
+That means there is nothing changed.
+
+16
+00:00:58,000 --> 00:01:01,000
+And I'm not doing anything based upon your instructions.
+
+17
+00:01:01,000 --> 00:01:04,000
+So this is one of the beauty of Kubernetes.
+
+18
+00:01:04,000 --> 00:01:08,000
+Now let's try to go and create config server. For the same,
+
+19
+00:01:08,000 --> 00:01:12,000
+I'm going to apply the third file, which is configserver.yaml.
+
+20
+00:01:12,000 --> 00:01:17,000
+Do you know what is the change inside the config server compared to the previous deployment that we
+
+21
+00:01:17,000 --> 00:01:18,000
+have done?
+
+22
+00:01:18,000 --> 00:01:25,000
+We have changed the image name from S14 to S12, so that's why if I try to execute this command, you
+
+23
+00:01:25,000 --> 00:01:32,000
+can see I'm getting an output saying that the new deployment is configured based upon the new image
+
+24
+00:01:32,000 --> 00:01:38,000
+name, whereas the service related to config server unchanged because there is no new change inside
+
+25
+00:01:38,000 --> 00:01:40,000
+my config server service.
+
+26
+00:01:40,000 --> 00:01:43,000
+So behind the scenes my config server might have setup.
+
+27
+00:01:43,000 --> 00:01:49,000
+We can confirm the same by going to the Kubernetes dashboard. Here inside my Kubernetes dashboard under
+
+28
+00:01:49,000 --> 00:01:50,000
+default namespace,
+
+29
+00:01:50,000 --> 00:01:57,000
+as of now I have two deployments running, so if I try to click on these pods and open this config server,
+
+30
+00:01:57,000 --> 00:02:03,000
+I can see the logs of my config server and this should be some statement saying that successfully started
+
+31
+00:02:03,000 --> 00:02:04,000
+my config server.
+
+32
+00:02:04,000 --> 00:02:10,000
+Always make sure you are deployment is completed successfully before you try to apply the next set of
+
+33
+00:02:10,000 --> 00:02:13,000
+instructions in the Kubernetes cluster.
+
+34
+00:02:13,000 --> 00:02:20,000
+So once we make sure that config server is successfully set up as a next step, I'm going to apply the
+
+35
+00:02:20,000 --> 00:02:26,000
+Kubernetes manifest file related to Eureka Server and this is going to deploy my Eureka server into
+
+36
+00:02:26,000 --> 00:02:27,000
+the Kubernetes cluster.
+
+37
+00:02:27,000 --> 00:02:33,000
+So let me check the pods related to the Eureka Server and post that I'm going to click on this logs.
+
+38
+00:02:33,000 --> 00:02:37,000
+As of now, you can see it is still getting started.
+
+39
+00:02:37,000 --> 00:02:39,000
+So let's wait for a few seconds here.
+
+40
+00:02:39,000 --> 00:02:45,000
+After few seconds I got the log saying that my Eureka server successfully started. As a next step,
+
+41
+00:02:45,000 --> 00:02:51,000
+I'll make sure I am deploying the instructions related to the accounts
+
+42
+00:02:51,000 --> 00:02:57,000
+microservice, with the help of this 5_accounts.yaml post that I'll also do the deployment
+
+43
+00:02:57,000 --> 00:03:04,000
+of 6th file which is 6_Launch.yaml followed by 7th file which is related to cards
+
+44
+00:03:04,000 --> 00:03:05,000
+microservice.
+
+45
+00:03:05,000 --> 00:03:11,000
+So once you have applied these accounts, loans and cards, please wait for these containers to get
+
+46
+00:03:11,000 --> 00:03:15,000
+started completely post that only you can start the gateway server.
+
+47
+00:03:15,000 --> 00:03:19,000
+So here you may have a question like inside Docker compose
+
+48
+00:03:19,000 --> 00:03:25,000
+we are able to achieve these depends on automatically with the help of health checks.
+
+49
+00:03:25,000 --> 00:03:34,000
+But unfortunately Kubernetes does not have any direct approaches or easy approaches to define the interdependency
+
+50
+00:03:34,000 --> 00:03:36,000
+between your Kubernetes services.
+
+51
+00:03:36,000 --> 00:03:42,000
+That's why whenever we are trying to start a microservice, we need to make sure all the dependent services
+
+52
+00:03:42,000 --> 00:03:45,000
+of that particular microservice is all started.
+
+53
+00:03:45,000 --> 00:03:47,000
+Otherwise nothing wrong is going to happen.
+
+54
+00:03:47,000 --> 00:03:55,000
+Your container will keep trying to restart multiple times and eventually your deployment will be successful.
+
+55
+00:03:55,000 --> 00:04:02,000
+So just to avoid that inconvenience, we can wait for these microservices to start completely.
+
+56
+00:04:02,000 --> 00:04:09,000
+I can confirm if the microservices they started successfully or not by going to the Eureka dashboard,
+
+57
+00:04:09,000 --> 00:04:14,000
+you can see all the three microservices they registered with the Eureka Server. As a next step,
+
+58
+00:04:14,000 --> 00:04:18,000
+I can try to set up the last file which is related to Gateway Server.
+
+59
+00:04:18,000 --> 00:04:22,000
+So this will deploy my gateway server also into the Kubernetes cluster.
+
+60
+00:04:22,000 --> 00:04:28,000
+In real production applications, your operations team members or DevOps team members, they will use
+
+61
+00:04:28,000 --> 00:04:34,000
+some advanced approaches to deploy your microservices in an predefined order.
+
+62
+00:04:34,000 --> 00:04:39,000
+But for now, as a developer, we don't need to understand all of them because inside this course we
+
+63
+00:04:39,000 --> 00:04:41,000
+are not focusing on Kubernetes concepts.
+
+64
+00:04:41,000 --> 00:04:44,000
+We are simply focusing on how to build microservices.
+
+65
+00:04:44,000 --> 00:04:46,000
+Let me try to refresh this page.
+
+66
+00:04:46,000 --> 00:04:50,000
+Like you can see, my Gateway server also registered successfully/ As a next step,
+
+67
+00:04:50,000 --> 00:04:54,000
+I can go to the postman and I can try to test the scenarios.
+
+68
+00:04:54,000 --> 00:04:55,000
+Before that,
+
+69
+00:04:55,000 --> 00:04:59,000
+we need to make sure inside the keycloak we have created client details which we can
+
+70
+00:04:59,000 --> 00:05:02,000
+use to get the token and the same
+
+71
+00:05:02,000 --> 00:05:04,000
+we can send the gateway server. For the same,
+
+72
+00:05:04,000 --> 00:05:10,000
+let me access the port, which is 7080 where my keycloak service is exposed.
+
+73
+00:05:10,000 --> 00:05:15,000
+I'm going to click on this administration console, the username is going to be admin and the password
+
+74
+00:05:15,000 --> 00:05:21,000
+is going to be the admin and post that I'll go to clients here I'll click on this create client and
+
+75
+00:05:21,000 --> 00:05:27,000
+I'll enter the client ID as easybank-callcenter-cc 
+
+76
+00:05:27,000 --> 00:05:33,000
+post that I'll click on this next followed by enabling client authentication and disabling standard flow direct
+
+77
+00:05:33,000 --> 00:05:34,000
+access grants.
+
+78
+00:05:34,000 --> 00:05:40,000
+And at last I'll enable the service account roles and click on this next followed by next.
+
+79
+00:05:40,000 --> 00:05:46,000
+And at last I will take the credentials and copy them and mention them inside my postman so that I can
+
+80
+00:05:46,000 --> 00:05:48,000
+try to get an access token.
+
+81
+00:05:48,000 --> 00:05:53,000
+And once we have created this client details, we should also create the roles for this client.
+
+82
+00:05:53,000 --> 00:05:58,000
+So let me click on this Create role and create the roles which is accounts,
+
+83
+00:05:58,000 --> 00:06:04,000
+once this role is created, I'm going to create one more role, which is cards.
+
+84
+00:06:04,000 --> 00:06:09,000
+After the cards role, I'm going to create one more role, which is loans.
+
+85
+00:06:09,000 --> 00:06:12,000
+So with this, we have created all the required roles.
+
+86
+00:06:12,000 --> 00:06:17,000
+As a next step, I should go to the clients and open our client that we have created.
+
+87
+00:06:17,000 --> 00:06:23,000
+Here I'll click on this service account roles and try to assign the roles that we have created to our client,
+
+88
+00:06:23,000 --> 00:06:25,000
+which is easybank-callcenter-cc.
+
+89
+00:06:25,000 --> 00:06:31,000
+So let me click on this assign, with this we set up everything on the Keycloak side.
+
+90
+00:06:31,000 --> 00:06:36,000
+Here first, I'll try to get an access token by using the secret that we have pasted previously.
+
+91
+00:06:36,000 --> 00:06:40,000
+So here I'm trying to click on this get new access token.
+
+92
+00:06:40,000 --> 00:06:46,000
+I got a new access token and I'll use the same and post that I'll click on this send button and with
+
+93
+00:06:46,000 --> 00:06:52,000
+that I will get an unsuccessful response saying that account details are successfully created.
+
+94
+00:06:52,000 --> 00:06:59,000
+Now, very similarly, I will try to create the cards, but before that let me copy the secret value.
+
+95
+00:06:59,000 --> 00:07:00,000
+The same secret value.
+
+96
+00:07:00,000 --> 00:07:03,000
+I'll also try to mention under cards request.
+
+97
+00:07:03,000 --> 00:07:08,000
+Once I have pasted the client secret, I will try to get an access token and post that
+
+98
+00:07:08,000 --> 00:07:14,000
+I'm going to click on the send button and with that I'll get an response saying that cards details are
+
+99
+00:07:14,000 --> 00:07:15,000
+created successfully.
+
+100
+00:07:15,000 --> 00:07:19,000
+Let me do the same for loans microservice as well.
+
+101
+00:07:19,000 --> 00:07:27,000
+First, let me mention the correct secret value here and post that I'm going to click on this get new
+
+102
+00:07:27,000 --> 00:07:32,000
+access token followed by using the token and click on this send button.
+
+103
+00:07:32,000 --> 00:07:37,000
+And now you can see I got a successful response. As a last step,
+
+104
+00:07:37,000 --> 00:07:43,000
+I will go and check if I'm able to fetch all these records by invoking these fetchCustomerDetails
+
+105
+00:07:43,000 --> 00:07:45,000
+available against accounts
+
+106
+00:07:45,000 --> 00:07:46,000
+microservice.
+
+107
+00:07:46,000 --> 00:07:50,000
+Since this is a get operation, we don't need to pass any authentication information.
+
+108
+00:07:50,000 --> 00:07:53,000
+We can simply click on this send button.
+
+109
+00:07:53,000 --> 00:07:57,000
+You can see I'm getting a customer not found with a given mobile number.
+
+110
+00:07:57,000 --> 00:08:01,000
+Let me check what is the mobile number that I have considered to create the account.
+
+111
+00:08:01,000 --> 00:08:05,000
+So the mobile number that I have considered here is 688.
+
+112
+00:08:05,000 --> 00:08:06,000
+So let me mention the same.
+
+113
+00:08:06,000 --> 00:08:12,000
+Once I have updated the mobile number, I can click on the send button and this will give me all the
+
+114
+00:08:12,000 --> 00:08:16,000
+details like accounts, but loans and cards I'm getting null.
+
+115
+00:08:16,000 --> 00:08:19,000
+Seems I have used a different mobile number there.
+
+116
+00:08:19,000 --> 00:08:21,000
+So here I have used six, eight, seven.
+
+117
+00:08:21,000 --> 00:08:27,000
+Let me try to create the details with the help of 688 I'm getting an unauthorized.
+
+118
+00:08:27,000 --> 00:08:30,000
+I should get a new access token post that
+
+119
+00:08:30,000 --> 00:08:33,000
+I'll use that and click on the send button.
+
+120
+00:08:33,000 --> 00:08:36,000
+Let me do the same for loans microservice also.
+
+121
+00:08:36,000 --> 00:08:40,000
+Here first, I'll try to get an new access token post that using the same,
+
+122
+00:08:40,000 --> 00:08:42,000
+I will try to send the request.
+
+123
+00:08:42,000 --> 00:08:47,000
+Before that, let me update the mobile number to six double and click on this send button.
+
+124
+00:08:47,000 --> 00:08:50,000
+Now let me invoke this fetchCustomerDetails API.
+
+125
+00:08:50,000 --> 00:08:55,000
+This time I should get complete details like accounts, loans and cards.
+
+126
+00:08:55,000 --> 00:09:01,000
+This confirms all our deployments are working perfectly inside Kubernetes cluster.
+
+127
+00:09:01,000 --> 00:09:07,000
+This is nothing new or nothing exciting compared to what we have done with the help of Docker Containers
+
+128
+00:09:07,000 --> 00:09:08,000
+and Docker Compose.
+
+129
+00:09:08,000 --> 00:09:09,000
+I agree with you.
+
+130
+00:09:09,000 --> 00:09:13,000
+I'm going to show you the magic of Kubernetes in the coming lectures.
+
+131
+00:09:13,000 --> 00:09:20,000
+But before that, we need to make sure we are aware about all these basics and we set up all our microservices
+
+132
+00:09:20,000 --> 00:09:22,000
+inside the Kubernetes cluster.
+
+133
+00:09:22,000 --> 00:09:28,000
+Before closing this lecture, let me highlight to you that I have provided all the instructions on how
+
+134
+00:09:28,000 --> 00:09:32,000
+to create a Kubernetes manifest file for various scenarios.
+
+135
+00:09:32,000 --> 00:09:37,000
+For example, to create a config map, you can always refer to this slide.
+
+136
+00:09:37,000 --> 00:09:44,000
+And very similarly, if you want to deploy a container with the help of deployment object, you can
+
+137
+00:09:44,000 --> 00:09:49,000
+always refer this slide on how to build Kubernetes manifest file to deploy a container.
+
+138
+00:09:49,000 --> 00:09:56,000
+So inside these slides I have explained about the purpose of each and every element that we have defined
+
+139
+00:09:56,000 --> 00:09:59,000
+inside the Kubernetes manifest files. After the deployment
+
+140
+00:09:59,000 --> 00:10:06,000
+instructions I also mentioned all the instructions related to how to define a service or how to expose
+
+141
+00:10:06,000 --> 00:10:10,000
+our container with the help of Service object inside Kubernetes.
+
+142
+00:10:10,000 --> 00:10:16,000
+Here also I have two different slides explaining all the elements of Service related configurations.
+
+143
+00:10:16,000 --> 00:10:23,000
+And at last I also have a slide explaining you about how the link between your deployment and Service
+
+144
+00:10:23,000 --> 00:10:27,000
+objects are going to be established by your Kubernetes.
+
+145
+00:10:27,000 --> 00:10:34,000
+Like you can see here, the binding between your accounts deployment and account service is happening
+
+146
+00:10:34,000 --> 00:10:37,000
+with the help of label app that we have created.
+
+147
+00:10:37,000 --> 00:10:43,000
+So here under the deployment metadata, I have mentioned the labels app as accounts, the same label
+
+148
+00:10:43,000 --> 00:10:48,000
+value I need to mention under the specification selector of Service object.
+
+149
+00:10:48,000 --> 00:10:51,000
+So the value of app is going to be same.
+
+150
+00:10:51,000 --> 00:10:55,000
+Here we are using the same name, which is accounts and accounts.
+
+151
+00:10:55,000 --> 00:11:00,000
+So as of now here you can see in the screenshot I'm using the cluster IP that means I don't want to
+
+152
+00:11:00,000 --> 00:11:04,000
+expose my microservices to the outside of the cluster.
+
+153
+00:11:04,000 --> 00:11:10,000
+In coming lectures, we are going to have a detailed explanation about LoadBalancer, cluster IP and
+
+154
+00:11:10,000 --> 00:11:12,000
+when to go with a specific service type.
+
+155
+00:11:12,000 --> 00:11:19,000
+So with this, I'm assuming you are super, super clear and confident to write your own Kubernetes manifest
+
+156
+00:11:19,000 --> 00:11:21,000
+files based upon your requirements.
+
+157
+00:11:21,000 --> 00:11:28,000
+If not, don't worry, you don't need to be a master of writing Kubernetes manifest files as long as
+
+158
+00:11:28,000 --> 00:11:35,000
+you are able to understand the manifest files provided by your DevOps team, then you should be good
+
+159
+00:11:35,000 --> 00:11:36,000
+with that knowledge.
+
+160
+00:11:36,000 --> 00:11:43,000
+You should be able to easily debug any kind of production issues inside your microservice network.
+
+161
+00:11:43,000 --> 00:11:45,000
+More magic about Kubernetes
+
+162
+00:11:45,000 --> 00:11:47,000
+we are going to explore in the coming lectures.
+
+163
+00:11:47,000 --> 00:11:50,000
+Thank you and I'll catch you in the next lecture bye.
+

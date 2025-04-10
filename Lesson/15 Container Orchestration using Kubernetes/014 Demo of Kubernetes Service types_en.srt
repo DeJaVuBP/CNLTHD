@@ -1,0 +1,348 @@
+1
+00:00:00,000 --> 00:00:05,000
+Inside this lecture, let's try to see the demo of Kubernetes service types that we have discussed.
+
+2
+00:00:05,000 --> 00:00:10,000
+So first, let's try to understand how we exposed our microservices. For the same,
+
+3
+00:00:10,000 --> 00:00:14,000
+we can try to run the command, which is kubectl get services.
+
+4
+00:00:14,000 --> 00:00:19,000
+If you see here, these are all the services that we have created, like for accounts microservice,
+
+5
+00:00:19,000 --> 00:00:24,000
+we have given the service name as accounts and the type is LoadBalancer.
+
+6
+00:00:24,000 --> 00:00:30,000
+So whenever we mention the LoadBalancer as a type, you should be able to see an external IP value.
+
+7
+00:00:30,000 --> 00:00:36,000
+But since right now we have the cluster inside a local system, we have the external IP as localhost.
+
+8
+00:00:36,000 --> 00:00:42,000
+Whereas if you see here there is an internal service exposed by the Kubernetes with the name Kubernetes
+
+9
+00:00:42,000 --> 00:00:45,000
+itself and the type is ClusterIP. For this,
+
+10
+00:00:45,000 --> 00:00:53,000
+the external IP is none and this is the internal cluster IP that other services they can use to communicate
+
+11
+00:00:53,000 --> 00:00:56,000
+with the service with the name Kubernetes.
+
+12
+00:00:56,000 --> 00:01:00,000
+Now going back to the accounts microservice, we have defined the type as LoadBalancer.
+
+13
+00:01:00,000 --> 00:01:05,000
+And behind the scenes, like we discussed, whenever we define the LoadBalancer as a type, my Kubernetes
+
+14
+00:01:05,000 --> 00:01:13,000
+is going to create a LoadBalancer with an external IP like localhost, and we can access that service
+
+15
+00:01:13,000 --> 00:01:20,000
+at the port 8080 and behind the scenes it is going to listen at the node port, which is randomly generated
+
+16
+00:01:20,000 --> 00:01:24,000
+in my case 30175. From this node port
+
+17
+00:01:24,000 --> 00:01:30,000
+the request will go to the cluster IP from the cluster IP, it will go to the actual microservice container.
+
+18
+00:01:30,000 --> 00:01:38,000
+We can also verify this behavior by directly accessing one of the API inside the accounts microservice.
+
+19
+00:01:38,000 --> 00:01:43,000
+So inside the browser you can see I'm trying to access an API available inside the accounts microservice
+
+20
+00:01:43,000 --> 00:01:48,000
+with the path localhost 8080 API contact-info.
+
+21
+00:01:48,000 --> 00:01:50,000
+This will give the following response.
+
+22
+00:01:50,000 --> 00:01:53,000
+If I try to refresh, you can see I'm getting a successful response.
+
+23
+00:01:53,000 --> 00:01:58,000
+That means our accounts microservice is exposed to the outside of the cluster.
+
+24
+00:01:58,000 --> 00:02:05,000
+So regardless of how many instances of accounts microservice I have deployed, I can always forward
+
+25
+00:02:05,000 --> 00:02:08,000
+the request to this public IP and to this port number.
+
+26
+00:02:08,000 --> 00:02:15,000
+And with that behind the scenes, my Kubernetes is going to take care of load balancing completely when
+
+27
+00:02:15,000 --> 00:02:19,000
+we try to deploy a microservice with a LoadBalancer type into a cloud environment.
+
+28
+00:02:19,000 --> 00:02:24,000
+Under the external IP, you'll be able to see a public IP address.
+
+29
+00:02:24,000 --> 00:02:29,000
+So inside the cloud environment, whenever they're assigning a public IP address to your microservice,
+
+30
+00:02:29,000 --> 00:02:35,000
+they're going to charge money because public IP address are not free inside any cloud environments.
+
+31
+00:02:35,000 --> 00:02:42,000
+That's why for two reasons, we should avoid exposing our microservices with the help of LoadBalancer.
+
+32
+00:02:42,000 --> 00:02:48,000
+The first reason is we need to secure our microservices so that no external clients, they can directly
+
+33
+00:02:48,000 --> 00:02:50,000
+communicate with a microservice.
+
+34
+00:02:50,000 --> 00:02:53,000
+They can always come through the edge server.
+
+35
+00:02:53,000 --> 00:03:00,000
+And the second reason is public IP address are usually attract some cloud bill which we need to avoid
+
+36
+00:03:00,000 --> 00:03:05,000
+If we have hundreds of microservices and if you try to expose them with a LoadBalancer type behind
+
+37
+00:03:05,000 --> 00:03:11,000
+the scenes, your cloud provider is going to create 100 difference of LoadBalancer with a public IP
+
+38
+00:03:11,000 --> 00:03:14,000
+address, which is going to attract a lot of bill.
+
+39
+00:03:14,000 --> 00:03:17,000
+I hope you are clear with the LoadBalancer service type.
+
+40
+00:03:17,000 --> 00:03:18,000
+This we are already using.
+
+41
+00:03:18,000 --> 00:03:23,000
+That's why we didn't make any changes inside our Kubernetes manifest file.
+
+42
+00:03:23,000 --> 00:03:30,000
+As a next step, I will try to make my accounts microservice as cluster IP by the same inside my accounts
+
+43
+00:03:30,000 --> 00:03:33,000
+micro service Kubernetes manifest file.
+
+44
+00:03:33,000 --> 00:03:36,000
+I'm going to change this type as cluster IP.
+
+45
+00:03:36,000 --> 00:03:39,000
+So I and P has to be capital letters.
+
+46
+00:03:39,000 --> 00:03:47,000
+Once I save this file, I will try to apply the same by using the command which is kubectl apply -f
+
+47
+00:03:47,000 --> 00:03:49,000
+and what is the file name of your accounts
+
+48
+00:03:49,000 --> 00:03:50,000
+Microservice.
+
+49
+00:03:50,000 --> 00:03:57,000
+So now my Kubernetes will try to expose my service of accounts, microservice as a cluster IP.
+
+50
+00:03:57,000 --> 00:04:01,000
+So let's try to execute the command, which is kubectl get services.
+
+51
+00:04:01,000 --> 00:04:08,000
+So here you can see the accounts right now has a cluster IP and there is no external IP and any other
+
+52
+00:04:08,000 --> 00:04:10,000
+application inside the cluster.
+
+53
+00:04:10,000 --> 00:04:15,000
+If they want to communicate with my accounts microservice, they are going to use this service name,
+
+54
+00:04:15,000 --> 00:04:19,000
+which is accounts are these cluster IP along with this cluster IP and service name.
+
+55
+00:04:19,000 --> 00:04:22,000
+They need to forward the request or the port 8080.
+
+56
+00:04:22,000 --> 00:04:29,000
+Now if I try to access the same API from my browser this time, I will not get any response.
+
+57
+00:04:29,000 --> 00:04:35,000
+You can see I got an error saying that the site cannot be reached because my Kubernetes is not allowing
+
+58
+00:04:35,000 --> 00:04:38,000
+the traffic into my Kubernetes cluster for these accounts
+
+59
+00:04:38,000 --> 00:04:39,000
+microservice
+
+60
+00:04:39,000 --> 00:04:41,000
+That's why we are not getting any response.
+
+61
+00:04:41,000 --> 00:04:45,000
+As a next step, let's try to mention the service type as NodePort.
+
+62
+00:04:45,000 --> 00:04:51,000
+Once we mention this  NodePort service type, you can see I'm not giving any node port value.
+
+63
+00:04:51,000 --> 00:04:54,000
+I'm fine with a randomly generated node port value for this demo.
+
+64
+00:04:54,000 --> 00:05:00,000
+So here I'm going to apply the file which is related to accounts microservice.
+
+65
+00:05:00,000 --> 00:05:06,000
+Now If I try to see that get services output this time the accounts microservice has a service type as NodePort
+
+66
+00:05:06,000 --> 00:05:12,000
+and it is exposed at the NodePort value which is 31182.
+
+67
+00:05:12,000 --> 00:05:18,000
+Now if we want to access our accounts microservice from outside of the Kubernetes cluster, we need
+
+68
+00:05:18,000 --> 00:05:22,000
+to send the traffic at this port which is 31182.
+
+69
+00:05:22,000 --> 00:05:24,000
+So let's try to validate the same.
+
+70
+00:05:24,000 --> 00:05:30,000
+So here inside my browser first I will try to send the traffic at the port 8080 and you should be able
+
+71
+00:05:30,000 --> 00:05:32,000
+to see that we are not receiving any response.
+
+72
+00:05:32,000 --> 00:05:40,000
+Now I will replace this port number with NodePort value which is 31182 and try to access the API.
+
+73
+00:05:40,000 --> 00:05:44,000
+And this time you can see we are getting the successful response.
+
+74
+00:05:44,000 --> 00:05:50,000
+That means I should be able to access my accounts microservice only through these NodePort that is
+
+75
+00:05:50,000 --> 00:05:53,000
+exposed by my Kubernetes cluster.
+
+76
+00:05:53,000 --> 00:06:00,000
+And in future, if my accounts microservice is deployed into different worker node, then then definitely
+
+77
+00:06:00,000 --> 00:06:05,000
+the IP address will change and I may face some issues accessing this API.
+
+78
+00:06:05,000 --> 00:06:11,000
+That's why it is always recommend to use LoadBalancer if you want to expose to the outside world
+
+79
+00:06:11,000 --> 00:06:17,000
+or you can simply go with the cluster IP so that you will restrict all the external traffic from the
+
+80
+00:06:17,000 --> 00:06:18,000
+outside world.
+
+81
+00:06:18,000 --> 00:06:24,000
+So I'm going to roll back the service type as LoadBalancer in the coming sections when we try to deploy
+
+82
+00:06:24,000 --> 00:06:29,000
+all the components like Kafka, Grafana components at the time.
+
+83
+00:06:29,000 --> 00:06:34,000
+I'm going to change these types as cluster IP for all the microservices except Gateway Server.
+
+84
+00:06:34,000 --> 00:06:40,000
+For now, I'll just keep this value as LoadBalancer. So that when you are getting started with the Kubernetes
+
+85
+00:06:40,000 --> 00:06:45,000
+deployments, based upon our discussion inside this section, things will be clear for you.
+
+86
+00:06:45,000 --> 00:06:47,000
+I hope you are super, super clear about this demo.
+
+87
+00:06:47,000 --> 00:06:50,000
+Thank you and I'll catch you in the next lecture bye.
+

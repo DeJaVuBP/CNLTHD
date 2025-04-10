@@ -1,0 +1,456 @@
+1
+00:00:00,000 --> 00:00:02,000
+Welcome back to the new section.
+
+2
+00:00:02,000 --> 00:00:09,000
+Inside this section, we're going to talk about a new challenge that we may face while building microservices.
+
+3
+00:00:09,000 --> 00:00:13,000
+So do you want to know what is the challenge about let me try to reveal the same.
+
+4
+00:00:13,000 --> 00:00:20,000
+This challenge is about the container orchestration. Before I try to explain what is this container orchestration?
+
+5
+00:00:20,000 --> 00:00:24,000
+First, let me try to give details about what is orchestration.
+
+6
+00:00:24,000 --> 00:00:28,000
+Like you can see here in the image there is a music orchestration going on.
+
+7
+00:00:28,000 --> 00:00:35,000
+And inside this music orchestration, there are many musicians who are trying to play the music.
+
+8
+00:00:35,000 --> 00:00:41,000
+If you have so many musicians playing at the same time, sometimes it may create some issues.
+
+9
+00:00:41,000 --> 00:00:46,000
+People should know when to stop or when to start again or when to pass the playing.
+
+10
+00:00:46,000 --> 00:00:53,000
+So to give such commands, we'll be having a person with the name conductor in the center of the stage.
+
+11
+00:00:53,000 --> 00:00:58,000
+Like you can see there is a person standing with a stick and he's trying to give instructions to the
+
+12
+00:00:58,000 --> 00:01:01,000
+musicians like who has to play next.
+
+13
+00:01:01,000 --> 00:01:07,000
+Inside the picture, you will be able to see easily that few musicians as of now, sitting ideally without
+
+14
+00:01:07,000 --> 00:01:13,000
+playing. Based upon the instructions given by these person, the musicians will accordingly play the
+
+15
+00:01:13,000 --> 00:01:15,000
+music whenever needed.
+
+16
+00:01:15,000 --> 00:01:20,000
+So this person who is controlling all these in between, we call him as an conductor.
+
+17
+00:01:20,000 --> 00:01:27,000
+So the same concept of orchestration is inspired even inside the microservices as well.
+
+18
+00:01:27,000 --> 00:01:32,000
+With this quick introduction about what is an orchestration inside music events.
+
+19
+00:01:32,000 --> 00:01:35,000
+Now let's try to understand what is container orchestration.
+
+20
+00:01:35,000 --> 00:01:42,000
+As of now, you are aware that we are trying to build lot many microservices and in the same journey,
+
+21
+00:01:42,000 --> 00:01:46,000
+first, we are building spring boot applications and the same application
+
+22
+00:01:46,000 --> 00:01:50,000
+we are trying to package it as a Docker image and post that with the help of Docker server
+
+23
+00:01:50,000 --> 00:01:58,000
+we are converting these images into running containers so that we can access all our microservice applications.
+
+24
+00:01:58,000 --> 00:02:05,000
+As of now, inside the course we built maximum of 6 or 7 microservices, but in real production applications,
+
+25
+00:02:05,000 --> 00:02:08,000
+sometimes you may have more than 100 microservices.
+
+26
+00:02:08,000 --> 00:02:13,000
+That means you may have more than 100 different containers running inside your production server.
+
+27
+00:02:13,000 --> 00:02:20,000
+So whenever you have such kind of large number of containers inside your organizations, we need a component
+
+28
+00:02:20,000 --> 00:02:24,000
+that is going to take care of container orchestration.
+
+29
+00:02:24,000 --> 00:02:31,000
+So just like how conductor inside the music orchestration is controlling the Latvian musicians Very
+
+30
+00:02:31,000 --> 00:02:37,000
+similarly, we need a component which can control our containers based upon the requirements that we
+
+31
+00:02:37,000 --> 00:02:38,000
+have.
+
+32
+00:02:38,000 --> 00:02:39,000
+So I hope you are clear with this.
+
+33
+00:02:39,000 --> 00:02:41,000
+Like what is container orchestration?
+
+34
+00:02:41,000 --> 00:02:47,000
+I'm going to tell you what is the product or component that is going to help us in doing the container
+
+35
+00:02:47,000 --> 00:02:48,000
+orchestration.
+
+36
+00:02:48,000 --> 00:02:53,000
+But before that, let me try to ask few questions which will give some clarity on why should we take
+
+37
+00:02:53,000 --> 00:02:58,000
+care of container orchestration inside our microservice network?
+
+38
+00:02:58,000 --> 00:03:04,000
+The very first question is how we are going to automate the deployments and rollouts and rollbacks. Inside
+
+39
+00:03:04,000 --> 00:03:05,000
+microservices
+
+40
+00:03:05,000 --> 00:03:12,000
+we should try to automate as much as possible because inside microservices we are going to deal hundreds
+
+41
+00:03:12,000 --> 00:03:16,000
+of applications, whereas with monolithic, there is only one application.
+
+42
+00:03:16,000 --> 00:03:21,000
+So even without automation, you can easily survive inside the monolithic application.
+
+43
+00:03:21,000 --> 00:03:27,000
+Whereas when you try to move to the microservices, you should try to automate each and every task,
+
+44
+00:03:27,000 --> 00:03:30,000
+like doing deployments, rollouts and rollbacks.
+
+45
+00:03:30,000 --> 00:03:37,000
+I know you might be familiar with the deployment, but let me try to give what is a meaning of rollout
+
+46
+00:03:37,000 --> 00:03:38,000
+and rollbacks.
+
+47
+00:03:38,000 --> 00:03:44,000
+Whenever you try to make some changes or whenever you try to build a new version of your microservices,
+
+48
+00:03:44,000 --> 00:03:48,000
+you need to push them or deploy them into the production server.
+
+49
+00:03:48,000 --> 00:03:54,000
+When you try to do that deployment, bigger organizations, they cannot afford a downtime.
+
+50
+00:03:54,000 --> 00:03:57,000
+So in such scenarios they will go with an option of rollout.
+
+51
+00:03:57,000 --> 00:04:05,000
+So as part of this rollout, they are going to replace the containers one by one with the latest Docker
+
+52
+00:04:05,000 --> 00:04:05,000
+image.
+
+53
+00:04:05,000 --> 00:04:08,000
+Think like for accounts microservice
+
+54
+00:04:08,000 --> 00:04:11,000
+you have three Docker containers running inside the production.
+
+55
+00:04:11,000 --> 00:04:17,000
+With the help of this rollout, we can first try to create a new container with the latest Docker image.
+
+56
+00:04:17,000 --> 00:04:25,000
+Once the new container is available, then only we can terminate the previous running containers.
+
+57
+00:04:25,000 --> 00:04:31,000
+So this will avoid any downtime that organizations may face while doing the deployment.
+
+58
+00:04:31,000 --> 00:04:37,000
+And on the similar lines, think like when you roll out a new feature or a new Docker image into your
+
+59
+00:04:37,000 --> 00:04:39,000
+containers, you face some issue.
+
+60
+00:04:39,000 --> 00:04:41,000
+There is a bug identified in the production server.
+
+61
+00:04:41,000 --> 00:04:47,000
+In such scenarios, you should also have a flexibility of automatic rollback to the previous running
+
+62
+00:04:47,000 --> 00:04:50,000
+version of the Docker image in case of any issues.
+
+63
+00:04:50,000 --> 00:04:53,000
+So how we are going to achieve all this automatically.
+
+64
+00:04:53,000 --> 00:04:59,000
+So that's a very first challenge that we will try to solve with the help of container orchestration.
+
+65
+00:04:59,000 --> 00:04:59,000
+Now moving on to
+
+66
+00:05:00,000 --> 00:05:05,000
+the second question, how are you going to make your microservices as self-healing capable?
+
+67
+00:05:05,000 --> 00:05:12,000
+That means if one of the microservice container is not responding properly or it is responding very
+
+68
+00:05:12,000 --> 00:05:19,000
+slowly, you need to have someone to regularly perform the health check on these running containers
+
+69
+00:05:19,000 --> 00:05:25,000
+and take an automatic decision by killing the containers, which is not responding properly and replacing
+
+70
+00:05:25,000 --> 00:05:27,000
+them with a new containers.
+
+71
+00:05:27,000 --> 00:05:32,000
+So how you are going to build these self-healing capability inside your microservice network?
+
+72
+00:05:32,000 --> 00:05:38,000
+And the last question that I have around container orchestration is, how are you going to make your services
+
+73
+00:05:39,000 --> 00:05:39,000
+auto scaling?
+
+74
+00:05:39,000 --> 00:05:41,000
+So what is scaling,
+
+75
+00:05:41,000 --> 00:05:46,000
+when are we seeing the increase of the traffic that is coming towards our application?
+
+76
+00:05:46,000 --> 00:05:50,000
+We can try to onboard more number of containers or more number of servers.
+
+77
+00:05:50,000 --> 00:05:52,000
+So that is vertical scaling.
+
+78
+00:05:52,000 --> 00:05:58,000
+But doing that manually for each and every microservice is going to be a super, super impossible task.
+
+79
+00:05:58,000 --> 00:06:06,000
+So that's why we need to look for options on how to do auto scaling of our microservices. Based upon
+
+80
+00:06:06,000 --> 00:06:10,000
+the CPU utilization or other metrics of the running containers.
+
+81
+00:06:10,000 --> 00:06:16,000
+We should be able to automatically take a decision whether to scale up or scale down the running containers.
+
+82
+00:06:16,000 --> 00:06:19,000
+For example, let's take an example of Netflix.
+
+83
+00:06:19,000 --> 00:06:25,000
+Usually there will be a lot of traffic to the Netflix on the Friday night, on the Saturday and Sunday.
+
+84
+00:06:25,000 --> 00:06:32,000
+So during these days the Netflix should automatically scale their number of microservice instances or
+
+85
+00:06:32,000 --> 00:06:36,000
+applications so that they can stream the content to their customers without any issues.
+
+86
+00:06:36,000 --> 00:06:43,000
+And similarly, there can be sudden spike in traffic sometimes, maybe due to some long weekend or due
+
+87
+00:06:43,000 --> 00:06:45,000
+to some holiday in between of the week.
+
+88
+00:06:45,000 --> 00:06:46,000
+So all such scenarios
+
+89
+00:06:47,000 --> 00:06:54,000
+Netflix should be able to automatically handle that by increasing more number of microservices at runtime
+
+90
+00:06:54,000 --> 00:06:55,000
+with the help of auto scaling.
+
+91
+00:06:55,000 --> 00:07:01,000
+Very similarly, we should also able to perform auto scaling on our microservices.
+
+92
+00:07:01,000 --> 00:07:04,000
+So how we are going to do that, that's a challenge here.
+
+93
+00:07:04,000 --> 00:07:12,000
+So to answer all these challenges or questions, we are going to use one of the container orchestration
+
+94
+00:07:12,000 --> 00:07:12,000
+product.
+
+95
+00:07:12,000 --> 00:07:14,000
+So let me try to reveal the solution here.
+
+96
+00:07:15,000 --> 00:07:17,000
+The solution is Kubernetes.
+
+97
+00:07:17,000 --> 00:07:23,000
+I know you might have heard about this Kubernetes lot many times, but you may not be clear like what
+
+98
+00:07:23,000 --> 00:07:27,000
+exactly Kubernetes is going to do inside microservices.
+
+99
+00:07:27,000 --> 00:07:33,000
+As a microservice developer, it is very important for you to understand what is Kubernetes is capable
+
+100
+00:07:33,000 --> 00:07:35,000
+of, what is Docker is capable of.
+
+101
+00:07:35,000 --> 00:07:42,000
+Without knowing about all these frameworks and products, you cannot really claim yourself as an microservice
+
+102
+00:07:42,000 --> 00:07:43,000
+developer.
+
+103
+00:07:43,000 --> 00:07:49,000
+Off course, in real projects you are not going to be responsible to handle the Kubernetes, but as a
+
+104
+00:07:49,000 --> 00:07:55,000
+developer you should have some basic knowledge on Kubernetes so that you can perform your job in a more
+
+105
+00:07:55,000 --> 00:07:56,000
+better manner.
+
+106
+00:07:57,000 --> 00:08:02,000
+That's why inside this course, I decided to talk about Kubernetes as well in detail.
+
+107
+00:08:02,000 --> 00:08:08,000
+I'm going to share you lot many good information that you need to know as a developer.
+
+108
+00:08:08,000 --> 00:08:09,000
+So what is a Kubernetes?
+
+109
+00:08:09,000 --> 00:08:16,000
+Kubernetes is an open source container orchestration platform that is capable of automating the deployments,
+
+110
+00:08:16,000 --> 00:08:21,000
+rollouts, scaling and managing all your containerized applications.
+
+111
+00:08:21,000 --> 00:08:27,000
+This Kubernetes is originally developed by Google, and later on they open sourced it and right now
+
+112
+00:08:27,000 --> 00:08:32,000
+it is being maintained by the Cloud Native Computing Foundation.
+
+113
+00:08:32,000 --> 00:08:36,000
+I hope you are clear with the challenge that we are going to focus inside this section.
+
+114
+00:08:36,000 --> 00:08:39,000
+Thank you and I'll catch you in the next lecture bye.
+

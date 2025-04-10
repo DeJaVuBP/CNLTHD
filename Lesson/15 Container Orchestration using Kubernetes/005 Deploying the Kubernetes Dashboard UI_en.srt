@@ -1,0 +1,1344 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we are trying to interact with our Kubernetes cluster only with the help of kubectl commands
+
+2
+00:00:06,000 --> 00:00:08,000
+from our local terminal.
+
+3
+00:00:08,000 --> 00:00:15,000
+But like I said before, we also have other approach, which is with the help of admin UI, we can also
+
+4
+00:00:15,000 --> 00:00:17,000
+interact with the Kubernetes cluster.
+
+5
+00:00:17,000 --> 00:00:20,000
+We can see the overall status of the Kubernetes cluster.
+
+6
+00:00:20,000 --> 00:00:28,000
+So having an access to the UI for your Kubernetes cluster is going to make your life super, super easy.
+
+7
+00:00:28,000 --> 00:00:34,000
+That's why inside this lecture I'm going to show you how to set up Kubernetes Dashboard, our Kubernetes
+
+8
+00:00:34,000 --> 00:00:35,000
+admin UI. For the same,
+
+9
+00:00:35,000 --> 00:00:43,000
+I came to this official website which will guide us on how to set up a Kubernetes dashboard inside a
+
+10
+00:00:43,000 --> 00:00:44,000
+Kubernetes cluster.
+
+11
+00:00:44,000 --> 00:00:50,000
+So this is the URL, the same URL I'm going to mention inside the GitHub repo as well for your reference.
+
+12
+00:00:50,000 --> 00:00:56,000
+Now let's try to explore this page and try to understand how to set up these Kubernetes dashboard.
+
+13
+00:00:56,000 --> 00:01:02,000
+So if you can scroll down, this is how the Kubernetes dashboard is going to look like in very few minutes
+
+14
+00:01:02,000 --> 00:01:08,000
+we're going to set up this kind of Kubernetes dashboard inside our local Kubernetes cluster as well.
+
+15
+00:01:08,000 --> 00:01:14,000
+So let me scroll down on this page so you can see there is a note here saying that that dashboard UI
+
+16
+00:01:14,000 --> 00:01:19,000
+is not deployed by default inside any Kubernetes cluster.
+
+17
+00:01:19,000 --> 00:01:26,000
+So we need to follow certain steps to install these Kubernetes dashboard inside our local Kubernetes
+
+18
+00:01:26,000 --> 00:01:27,000
+cluster.
+
+19
+00:01:27,000 --> 00:01:29,000
+Based upon the instructions
+
+20
+00:01:29,000 --> 00:01:35,000
+here you can see we can install the Kubernetes dashboard only with the help of helm.
+
+21
+00:01:35,000 --> 00:01:36,000
+So what is a helm?
+
+22
+00:01:36,000 --> 00:01:39,000
+Helm is a package manager for Kubernetes.
+
+23
+00:01:39,000 --> 00:01:43,000
+So just like how we have node for JavaScript world.
+
+24
+00:01:43,000 --> 00:01:50,000
+Very similarly for Kubernetes related installations, helm is a package manager using which we can install
+
+25
+00:01:50,000 --> 00:01:53,000
+any kind of components inside a Kubernetes cluster.
+
+26
+00:01:53,000 --> 00:01:57,000
+So there is a dedicated section regarding helm is available
+
+27
+00:01:57,000 --> 00:02:02,000
+inside this course we are going to discuss in detail about helm in the next section.
+
+28
+00:02:02,000 --> 00:02:05,000
+For now, let's not worry much about helm.
+
+29
+00:02:05,000 --> 00:02:09,000
+Let's try to set up the Kubernetes dashboard with the help of this helm.
+
+30
+00:02:09,000 --> 00:02:15,000
+So you can see here we have certain commands that we need to execute in order to set up the Kubernetes
+
+31
+00:02:15,000 --> 00:02:16,000
+dashboard.
+
+32
+00:02:16,000 --> 00:02:21,000
+But in order to execute these commands first we need to make sure we are installing the helm inside
+
+33
+00:02:21,000 --> 00:02:23,000
+our local system.
+
+34
+00:02:23,000 --> 00:02:28,000
+So to install the helm, we need to go to a website which is helm.sh.
+
+35
+00:02:28,000 --> 00:02:33,000
+Inside this website we can click on this get started and post that
+
+36
+00:02:33,000 --> 00:02:37,000
+on the left hand side there is an option which is installing helm.
+
+37
+00:02:37,000 --> 00:02:38,000
+If you can click on this
+
+38
+00:02:38,000 --> 00:02:43,000
+here we have details on how to install helm in various operating system.
+
+39
+00:02:43,000 --> 00:02:47,000
+And there are multiple approaches that they have provided the most easiest way
+
+40
+00:02:47,000 --> 00:02:52,000
+and the recommended approach from my side is, with the help of package managers.
+
+41
+00:02:52,000 --> 00:02:58,000
+So helm is a package manager, which we can install with the help of other package managers.
+
+42
+00:02:58,000 --> 00:03:03,000
+So for Mac OS, you should already have home brew, which is a package manager.
+
+43
+00:03:03,000 --> 00:03:09,000
+Using home brew you can install this command which is brew install helm and this is going to install
+
+44
+00:03:09,000 --> 00:03:11,000
+helm inside your local system.
+
+45
+00:03:11,000 --> 00:03:18,000
+Coming to the windows operating system users, first you need to install Chocolaty Package Manager.
+
+46
+00:03:18,000 --> 00:03:21,000
+If you can click on this chocolaty link, it will take you to this website.
+
+47
+00:03:21,000 --> 00:03:23,000
+So here there is an option of install.
+
+48
+00:03:23,000 --> 00:03:27,000
+So please try to follow the instructions present inside this page
+
+49
+00:03:27,000 --> 00:03:32,000
+to install chocolaty inside your system you need to select these individual option.
+
+50
+00:03:32,000 --> 00:03:39,000
+If you are looking for a detailed lecture on how to install helm, there is a lecture in the next section
+
+51
+00:03:39,000 --> 00:03:42,000
+on how to install helm in the local system.
+
+52
+00:03:42,000 --> 00:03:46,000
+You can look into that lecture as well, but I think this should be very easy.
+
+53
+00:03:46,000 --> 00:03:52,000
+So once you install this chocolaty inside your windows operating system you need to install these Chaco
+
+54
+00:03:52,000 --> 00:03:55,000
+install Kubernetes hyphen helm command.
+
+55
+00:03:55,000 --> 00:03:58,000
+So it's pretty easy to install helm Mac OS users
+
+56
+00:03:58,000 --> 00:04:02,000
+you can use this command which is brew install helm, whereas windows users
+
+57
+00:04:02,000 --> 00:04:06,000
+I would recommend you following installing helm with the help of chocolaty.
+
+58
+00:04:06,000 --> 00:04:11,000
+Once you install helm, you need to verify whether the installation is successful or not.
+
+59
+00:04:11,000 --> 00:04:12,000
+So how to verify it?
+
+60
+00:04:12,000 --> 00:04:13,000
+It's very simple.
+
+61
+00:04:13,000 --> 00:04:18,000
+We just need to execute a command which is helm space version.
+
+62
+00:04:18,000 --> 00:04:24,000
+As soon as you press enter, you should get a proper output which is going to convey what is the current
+
+63
+00:04:24,000 --> 00:04:27,000
+version of helm installed inside your system.
+
+64
+00:04:27,000 --> 00:04:32,000
+If you are able to see this kind of output inside your system, then it conveys that the helm installation
+
+65
+00:04:32,000 --> 00:04:33,000
+is successful.
+
+66
+00:04:33,000 --> 00:04:36,000
+As a next step, we need to take these very first command.
+
+67
+00:04:36,000 --> 00:04:41,000
+For now don't worry about what are these commands we are going to discuss in detail about helm in the
+
+68
+00:04:41,000 --> 00:04:42,000
+next section.
+
+69
+00:04:42,000 --> 00:04:47,000
+So I'm just trying to paste this command and execute inside my system.
+
+70
+00:04:47,000 --> 00:04:49,000
+Since I already executed this command previously.
+
+71
+00:04:49,000 --> 00:04:50,000
+I'm getting this output.
+
+72
+00:04:50,000 --> 00:04:55,000
+But for you, since you're going to execute this command very first time, you should get some other
+
+73
+00:04:55,000 --> 00:04:59,000
+output which conveys that adding a helm repo inside your system is is successful.
+
+74
+00:04:59,000 --> 00:05:06,000
+Now let me take the second command, the same command I'm going to paste inside my terminal and execute
+
+75
+00:05:06,000 --> 00:05:07,000
+this command.
+
+76
+00:05:07,000 --> 00:05:14,000
+So this is going to install Kubernetes dashboard inside my local Kubernetes cluster.
+
+77
+00:05:14,000 --> 00:05:19,000
+Once the installation is successful, you're going to get this kind of output saying that congratulations
+
+78
+00:05:19,000 --> 00:05:23,000
+you have just installed Kubernetes dashboard inside your cluster.
+
+79
+00:05:23,000 --> 00:05:29,000
+If you are getting any warnings or errors, please make sure you're having latest Docker Desktop.
+
+80
+00:05:29,000 --> 00:05:35,000
+On top of that, you should have a local Kubernetes cluster running inside your system.
+
+81
+00:05:35,000 --> 00:05:37,000
+And that is what we set up in the previous lecture.
+
+82
+00:05:37,000 --> 00:05:42,000
+So the installation of Kubernetes dashboard is going to take 2 to 3 minutes time.
+
+83
+00:05:42,000 --> 00:05:44,000
+So please wait for a couple of minutes.
+
+84
+00:05:44,000 --> 00:05:45,000
+Post that
+
+85
+00:05:45,000 --> 00:05:49,000
+in order to access that dashboard you need to run this command.
+
+86
+00:05:49,000 --> 00:05:55,000
+So we need to copy this entire command and run it here in the same terminal.
+
+87
+00:05:55,000 --> 00:06:01,000
+So as soon as I execute this command you will be able to see right now my Kubernetes cluster
+
+88
+00:06:01,000 --> 00:06:07,000
+it exposes that dashboard to the outside world at the port 8443.
+
+89
+00:06:07,000 --> 00:06:11,000
+So once you execute this command, don't try to disturb this terminal.
+
+90
+00:06:11,000 --> 00:06:17,000
+Because if you try to close this terminal or if you try to execute some other command, then this exposing
+
+91
+00:06:17,000 --> 00:06:19,000
+of the traffic is going to be stopped
+
+92
+00:06:19,000 --> 00:06:24,000
+and with that, you will not be able to access Kubernetes dashboard inside your system.
+
+93
+00:06:24,000 --> 00:06:31,000
+So once this command is executed, you can see this is the URL that you can use to access the Kubernetes
+
+94
+00:06:31,000 --> 00:06:33,000
+dashboard inside your system.
+
+95
+00:06:33,000 --> 00:06:36,000
+So let me copy this and paste it inside my browser.
+
+96
+00:06:36,000 --> 00:06:42,000
+So as soon as I press enter, since my connection is Https with a certificate which is generated by
+
+97
+00:06:42,000 --> 00:06:49,000
+my Kubernetes cluster, my browser is not considering that as a valid certificate, but for our local
+
+98
+00:06:49,000 --> 00:06:50,000
+testing this should be fine.
+
+99
+00:06:50,000 --> 00:06:57,000
+We can click on this show details and I can click on this link which is visit this website.
+
+100
+00:06:57,000 --> 00:07:03,000
+And with that I'll be able to see the login page for my Kubernetes dashboard.
+
+101
+00:07:03,000 --> 00:07:08,000
+So here it is expecting a token as an input.
+
+102
+00:07:08,000 --> 00:07:14,000
+So once we enter that token inside this page we'll be able to see that dashboard UI.
+
+103
+00:07:14,000 --> 00:07:17,000
+I'm going to show you how to get this token in few minutes.
+
+104
+00:07:17,000 --> 00:07:21,000
+But before that I just wanted to highlight one important note.
+
+105
+00:07:21,000 --> 00:07:26,000
+As of now, you can see I'm able to access the dashboard with 8443.
+
+106
+00:07:26,000 --> 00:07:31,000
+But in the videos that you're going to see in future, inside this course, you'll be able to see a
+
+107
+00:07:31,000 --> 00:07:34,000
+different port which is 8001.
+
+108
+00:07:34,000 --> 00:07:36,000
+So don't worry about the port number.
+
+109
+00:07:36,000 --> 00:07:42,000
+When I created this course very first time to set up the Kubernetes dashboard, we used to have a different
+
+110
+00:07:42,000 --> 00:07:43,000
+lengthy approach.
+
+111
+00:07:43,000 --> 00:07:50,000
+And in that legacy, our deprecated approach, the dashboard used to be deployed at 8001.
+
+112
+00:07:50,000 --> 00:07:55,000
+But with this latest approach or with the helm approach that we discussed so far, the Kubernetes dashboard
+
+113
+00:07:55,000 --> 00:07:59,000
+is going to be available at the port 8443.
+
+114
+00:07:59,000 --> 00:08:03,000
+So that's why my humble request is don't worry about the port number.
+
+115
+00:08:03,000 --> 00:08:07,000
+Whenever you are seeing the Kubernetes dashboard in the coming lectures.
+
+116
+00:08:07,000 --> 00:08:08,000
+I hope you're clear.
+
+117
+00:08:08,000 --> 00:08:11,000
+Now let me go to this official website.
+
+118
+00:08:11,000 --> 00:08:17,000
+Here we have a hyperlink which is going to help us on how to create a sample user.
+
+119
+00:08:17,000 --> 00:08:19,000
+So let me click on the same.
+
+120
+00:08:19,000 --> 00:08:21,000
+And this will take me to a GitHub page.
+
+121
+00:08:21,000 --> 00:08:25,000
+And here we have clear instructions on how to create a sample user.
+
+122
+00:08:25,000 --> 00:08:30,000
+So let's try to understand what are these instructions and follow the same inside our local system as
+
+123
+00:08:30,000 --> 00:08:30,000
+well.
+
+124
+00:08:30,000 --> 00:08:36,000
+So here first you can see we need to create a service account inside Kubernetes
+
+125
+00:08:36,000 --> 00:08:38,000
+we have a concept like service account.
+
+126
+00:08:38,000 --> 00:08:45,000
+So service account is nothing but is a credential that you are trying to create for a particular user.
+
+127
+00:08:45,000 --> 00:08:47,000
+So how to create this service account.
+
+128
+00:08:47,000 --> 00:08:51,000
+You need to write these Yaml configurations in one of the file.
+
+129
+00:08:51,000 --> 00:08:59,000
+And the same you need to provide to the Kubernetes cluster with the help of kubectl apply - f.
+
+130
+00:08:59,000 --> 00:09:00,000
+And what is a file name?
+
+131
+00:09:00,000 --> 00:09:03,000
+Here you can see the instructions are pretty clear.
+
+132
+00:09:03,000 --> 00:09:06,000
+First we need to mention what is the API version, which is v1.
+
+133
+00:09:06,000 --> 00:09:12,000
+So using this API version, we are telling to the Kubernetes cluster that we are trying to use the version
+
+134
+00:09:12,000 --> 00:09:16,000
+one of API to create an service account.
+
+135
+00:09:16,000 --> 00:09:23,000
+So under the kind I have mentioned, the service account service account is a predefined object inside
+
+136
+00:09:23,000 --> 00:09:24,000
+the Kubernetes.
+
+137
+00:09:24,000 --> 00:09:30,000
+So whenever my Kubernetes cluster see the value service account after the kind, it is going to create
+
+138
+00:09:30,000 --> 00:09:34,000
+a service account for me and the metadata we need to provide.
+
+139
+00:09:34,000 --> 00:09:36,000
+What is the name of the service account.
+
+140
+00:09:36,000 --> 00:09:40,000
+So the name of the service account that I want to create is admin hyphen user.
+
+141
+00:09:40,000 --> 00:09:43,000
+This is very similar to your username.
+
+142
+00:09:43,000 --> 00:09:50,000
+And by default if I don't mention the namespace where the service account has to be created, my Kubernetes
+
+143
+00:09:50,000 --> 00:09:54,000
+cluster is going to create it inside that default namespace.
+
+144
+00:09:54,000 --> 00:09:59,000
+But since we don't want the service account to be created inside a default namespace, we
+
+145
+00:09:59,000 --> 00:10:04,000
+need to provide what is the namespace and the namespace that we are trying to give here is Kubernetes
+
+146
+00:10:04,000 --> 00:10:05,000
+hyphen dashboard.
+
+147
+00:10:05,000 --> 00:10:08,000
+So what is the namespace inside Kubernetes cluster?
+
+148
+00:10:08,000 --> 00:10:13,000
+It is a kind of boundary or an isolated area inside your cluster.
+
+149
+00:10:13,000 --> 00:10:19,000
+So just like how we have dev environment QA environment or production environment, very similarly inside
+
+150
+00:10:19,000 --> 00:10:26,000
+the Kubernetes, also with the help of namespaces, we can create separate, separate isolated areas
+
+151
+00:10:26,000 --> 00:10:30,000
+under which we can try to create various objects like service account.
+
+152
+00:10:30,000 --> 00:10:33,000
+As a next step we need to copy these instructions.
+
+153
+00:10:33,000 --> 00:10:40,000
+And let's try to create a Yaml file with the name dashboard-adminuser.yaml. For the same,
+
+154
+00:10:40,000 --> 00:10:43,000
+inside my terminal, I'm going to open a new tab.
+
+155
+00:10:43,000 --> 00:10:50,000
+I'm not going to disturb this existing terminal because it is right now opened a proxy port using which
+
+156
+00:10:50,000 --> 00:10:53,000
+I can try to access my dashboard of Kubernetes.
+
+157
+00:10:53,000 --> 00:10:57,000
+So let me create a new terminal here inside my terminal
+
+158
+00:10:57,000 --> 00:11:00,000
+first I'll navigate to a folder inside my desktop.
+
+159
+00:11:00,000 --> 00:11:06,000
+So for the same I'm going to give a command which is cd /Users/eazybytes/desktop.
+
+160
+00:11:06,000 --> 00:11:12,000
+And inside my desktop I have created a folder with the name K8S which means Kubernetes.
+
+161
+00:11:12,000 --> 00:11:18,000
+Inside this I'm going to create a file with the name dashboard-adminuser.yaml.
+
+162
+00:11:18,000 --> 00:11:23,000
+So let me copy this value and mention the same here and post that I'm trying to execute this command.
+
+163
+00:11:23,000 --> 00:11:24,000
+Inside Mac,
+
+164
+00:11:24,000 --> 00:11:30,000
+whenever I try to issue this touch command, it is going to create a new file based upon the name that
+
+165
+00:11:30,000 --> 00:11:31,000
+I have given.
+
+166
+00:11:31,000 --> 00:11:33,000
+You can see here a new Yaml file is created.
+
+167
+00:11:33,000 --> 00:11:36,000
+Let me try to open this in text editor.
+
+168
+00:11:36,000 --> 00:11:38,000
+As of now it is empty
+
+169
+00:11:38,000 --> 00:11:41,000
+let me try to copy all the configurations from the GitHub repo.
+
+170
+00:11:41,000 --> 00:11:47,000
+So this is the Yaml configurations that will help us to create a service account with the name
+
+171
+00:11:47,000 --> 00:11:48,000
+admin-user.
+
+172
+00:11:48,000 --> 00:11:53,000
+Now as a next step, I need to provide these configurations to the Kubernetes cluster.
+
+173
+00:11:53,000 --> 00:11:54,000
+For the same,
+
+174
+00:11:54,000 --> 00:11:57,000
+we need to run the command which is kubectl
+
+175
+00:11:57,000 --> 00:12:05,000
+apply - f, f indicates what is the file name, and the file name is dashboard-adminuser.yml.
+
+176
+00:12:05,000 --> 00:12:06,000
+.
+
+177
+00:12:06,000 --> 00:12:08,000
+So let me try to execute this command.
+
+178
+00:12:08,000 --> 00:12:13,000
+You can see behind the scenes a service account with the name admin user created.
+
+179
+00:12:13,000 --> 00:12:14,000
+You can see here
+
+180
+00:12:14,000 --> 00:12:20,000
+for me it gives an output saying that unchanged that means nothing new happened.
+
+181
+00:12:20,000 --> 00:12:25,000
+This is because I already executed this command behind the scenes before recording this lecture.
+
+182
+00:12:25,000 --> 00:12:30,000
+But if you are trying to run this command very first time, you should get an output saying that so-and-so
+
+183
+00:12:30,000 --> 00:12:32,000
+admin user is created.
+
+184
+00:12:32,000 --> 00:12:36,000
+Now as a next step, we need to create a cluster role binding.
+
+185
+00:12:36,000 --> 00:12:38,000
+So as of now we have a service account.
+
+186
+00:12:38,000 --> 00:12:45,000
+But we need to provide privileges to this account with the help of this cluster role binding. For the
+
+187
+00:12:45,000 --> 00:12:46,000
+same,
+
+188
+00:12:46,000 --> 00:12:48,000
+first we need to create a new file.
+
+189
+00:12:48,000 --> 00:12:56,000
+So let me try to run the command which is touch dashboard-rolebinding.yaml.
+
+190
+00:12:56,000 --> 00:12:57,000
+The file name can be anything.
+
+191
+00:12:57,000 --> 00:13:01,000
+I'm just trying to give some dashboard-rolebinding.yaml.
+
+192
+00:13:01,000 --> 00:13:03,000
+As of now this file is empty.
+
+193
+00:13:03,000 --> 00:13:05,000
+Let me try to copy the content from the GitHub repo.
+
+194
+00:13:05,000 --> 00:13:10,000
+So here I'm trying to copy this content and paste the same here.
+
+195
+00:13:10,000 --> 00:13:15,000
+And this time you can see the kind is going to be cluster role binding.
+
+196
+00:13:15,000 --> 00:13:20,000
+Because we are trying to bind the cluster role to the service account that we have created previously.
+
+197
+00:13:20,000 --> 00:13:22,000
+Under the API version,
+
+198
+00:13:22,000 --> 00:13:26,000
+for this kind of cluster role binding, we have to mention this value.
+
+199
+00:13:26,000 --> 00:13:29,000
+Whereas for the service account it is going to be simply v1.
+
+200
+00:13:29,000 --> 00:13:34,000
+So all these values are going to be available inside the official Kubernetes documentation.
+
+201
+00:13:34,000 --> 00:13:38,000
+Please refer to the same if you have any questions after the kind
+
+202
+00:13:38,000 --> 00:13:43,000
+under the metadata we need to mention what is the name of this cluster role binding.
+
+203
+00:13:43,000 --> 00:13:49,000
+So the name I want to give here is, admin - user, just like how we have given for the service account.
+
+204
+00:13:49,000 --> 00:13:55,000
+So once we have defined this admin-user your cluster role binding will expect two information.
+
+205
+00:13:55,000 --> 00:14:01,000
+What is a cluster role that you want to bind and to which user or to which service account you want
+
+206
+00:14:01,000 --> 00:14:02,000
+to bind.
+
+207
+00:14:02,000 --> 00:14:06,000
+So that's why under this role ref we need to give this API group.
+
+208
+00:14:06,000 --> 00:14:08,000
+This is going to be always constant value.
+
+209
+00:14:08,000 --> 00:14:11,000
+You can see this is same as like what we have given under the API version.
+
+210
+00:14:11,000 --> 00:14:17,000
+The kind has to be cluster role because we are trying to bind a cluster role inside the Kubernetes cluster
+
+211
+00:14:17,000 --> 00:14:23,000
+all roles we should call it as cluster role and the name of the cluster is cluster-admin.
+
+212
+00:14:23,000 --> 00:14:27,000
+That means we're trying to assign a role cluster-admin.
+
+213
+00:14:27,000 --> 00:14:31,000
+So this is a predefined role inside the Kubernetes cluster.
+
+214
+00:14:31,000 --> 00:14:35,000
+So whoever has this role they will become an admin of the Kubernetes cluster.
+
+215
+00:14:35,000 --> 00:14:38,000
+So now I have mentioned which role I want to bind.
+
+216
+00:14:38,000 --> 00:14:42,000
+As a next step we need to tell to whom we want to assign this role.
+
+217
+00:14:42,000 --> 00:14:48,000
+That's why under the subjects we need to start a new array element inside Yaml
+
+218
+00:14:48,000 --> 00:14:53,000
+whenever we want to start an array element, our list element, we need to mention this hyphen.
+
+219
+00:14:53,000 --> 00:14:57,000
+So under subjects we can define any number of service accounts
+
+220
+00:14:57,000 --> 00:14:59,000
+or we can define any number of user
+
+221
+00:14:59,000 --> 00:15:00,000
+details.
+
+222
+00:15:00,000 --> 00:15:06,000
+But in our scenario, since we only have one account, we are mentioning only a single element under
+
+223
+00:15:06,000 --> 00:15:06,000
+the subjects.
+
+224
+00:15:06,000 --> 00:15:11,000
+So under each element of the subjects, we need to mention what is a kind, what is a name,
+
+225
+00:15:11,000 --> 00:15:12,000
+what is a namespace?
+
+226
+00:15:12,000 --> 00:15:16,000
+So the kind of user that we want to assign this role is service account.
+
+227
+00:15:16,000 --> 00:15:17,000
+That's why we need to mention the same.
+
+228
+00:15:17,000 --> 00:15:19,000
+And what is the service account name.
+
+229
+00:15:19,000 --> 00:15:22,000
+The service account name that we have given here is, admin-user.
+
+230
+00:15:22,000 --> 00:15:24,000
+The same we have to mention there.
+
+231
+00:15:24,000 --> 00:15:29,000
+And apart from that we should also mention the same namespace which is Kubernetes-dashboard.
+
+232
+00:15:29,000 --> 00:15:31,000
+So the same I'm trying to mention here.
+
+233
+00:15:31,000 --> 00:15:33,000
+So now our file is ready.
+
+234
+00:15:33,000 --> 00:15:40,000
+Let's try to apply this file also so that the role of cluster-admin will be binded to the user-admin
+
+235
+00:15:40,000 --> 00:15:41,000
+-user.
+
+236
+00:15:41,000 --> 00:15:46,000
+So here I'll try to run the same command which is kubectl apply - f.
+
+237
+00:15:46,000 --> 00:15:48,000
+And what is the file name.
+
+238
+00:15:48,000 --> 00:15:52,000
+The file name is going to be dashboard-rolebinding.yaml.
+
+239
+00:15:52,000 --> 00:15:53,000
+You can see here,
+
+240
+00:15:53,000 --> 00:15:59,000
+for me I got output as unchanged because I already executed these configurations for you
+
+241
+00:15:59,000 --> 00:16:04,000
+you should get an output saying that so and so role binding is created. As a next step,
+
+242
+00:16:04,000 --> 00:16:08,000
+we need to run this command to get a token for the admin user.
+
+243
+00:16:08,000 --> 00:16:10,000
+So let me try to run this command.
+
+244
+00:16:10,000 --> 00:16:14,000
+So kubectl - n, -n indicates what is the namespace.
+
+245
+00:16:14,000 --> 00:16:20,000
+The namespace where we have a service account is kubernetes-dashboard and create token.
+
+246
+00:16:20,000 --> 00:16:22,000
+And what is the service account name.
+
+247
+00:16:22,000 --> 00:16:26,000
+So this will create a token for my admin user.
+
+248
+00:16:26,000 --> 00:16:33,000
+So let me copy this value and mention the same inside my dashboard by selecting this option which is
+
+249
+00:16:33,000 --> 00:16:33,000
+token.
+
+250
+00:16:33,000 --> 00:16:37,000
+Once I pasted this token, I'm going to click on this sign in button.
+
+251
+00:16:37,000 --> 00:16:37,000
+So you can see
+
+252
+00:16:37,000 --> 00:16:40,000
+now I'm able to access my Kubernetes dashboard.
+
+253
+00:16:40,000 --> 00:16:44,000
+By default the namespace selected is going to be default.
+
+254
+00:16:44,000 --> 00:16:47,000
+If you go to the other namespace like Kubernetes dashboard.
+
+255
+00:16:47,000 --> 00:16:52,000
+As of now, you can see under the Kubernetes dashboard there are two deployments running with the two
+
+256
+00:16:52,000 --> 00:16:55,000
+different parts and two different replica sets.
+
+257
+00:16:55,000 --> 00:17:00,000
+Because even to see this dashboard behind the scenes, some code has to be deployed.
+
+258
+00:17:00,000 --> 00:17:02,000
+That's why we're able to see these deployments
+
+259
+00:17:02,000 --> 00:17:04,000
+pods and replica set.
+
+260
+00:17:04,000 --> 00:17:07,000
+Using this dashboard, we can explore a lot of information.
+
+261
+00:17:07,000 --> 00:17:09,000
+We're going to explore the same in the coming lectures.
+
+262
+00:17:09,000 --> 00:17:12,000
+Whenever we are trying to discuss about a particular topic.
+
+263
+00:17:12,000 --> 00:17:18,000
+As of now, we created a service account and a cluster role binding under the namespace Kubernetes dashboard.
+
+264
+00:17:18,000 --> 00:17:22,000
+So that's why I have selected the same namespace inside the same namespace
+
+265
+00:17:22,000 --> 00:17:26,000
+only the deployments related to this UI is created.
+
+266
+00:17:26,000 --> 00:17:31,000
+So that's why you are able to see these deployments, parts and replica set here on this page
+
+267
+00:17:31,000 --> 00:17:37,000
+if I can scroll down, there is an information which is related to the service account.
+
+268
+00:17:37,000 --> 00:17:39,000
+So let me try to click on the service accounts.
+
+269
+00:17:39,000 --> 00:17:45,000
+So like you can see here, there is a service account that we have created with the name admin - user
+
+270
+00:17:45,000 --> 00:17:45,000
+.
+
+271
+00:17:45,000 --> 00:17:52,000
+So to understand what role we have binded for this admin-user you can go to the cluster role bindings.
+
+272
+00:17:52,000 --> 00:17:56,000
+So here also we have given the same name which is admin-user.
+
+273
+00:17:56,000 --> 00:18:03,000
+If you try to open that here it is clearly highlighted for so-and-so subject which is admin-user
+
+274
+00:18:03,000 --> 00:18:06,000
+and the namespace which is of kind service account.
+
+275
+00:18:06,000 --> 00:18:10,000
+We have assigned a role with the name cluster-admin.
+
+276
+00:18:10,000 --> 00:18:14,000
+So if you try to click on this, you will go to the page related to cluster roles.
+
+277
+00:18:14,000 --> 00:18:20,000
+So whoever has this role assigned which is cluster-admin they will have these rules applicable.
+
+278
+00:18:20,000 --> 00:18:27,000
+So here under the rules you can see they can invoke all kind of resources with all kind of verbs and
+
+279
+00:18:27,000 --> 00:18:28,000
+API groups.
+
+280
+00:18:28,000 --> 00:18:30,000
+Very similarly under non resource URL
+
+281
+00:18:30,000 --> 00:18:33,000
+also there are asterisk marks mentioned.
+
+282
+00:18:33,000 --> 00:18:34,000
+This user is a super user.
+
+283
+00:18:34,000 --> 00:18:39,000
+He can perform any kind of operation inside Kubernetes cluster.
+
+284
+00:18:39,000 --> 00:18:41,000
+I hope you are clear here
+
+285
+00:18:41,000 --> 00:18:46,000
+you can see with this approach whenever you want to get a bearer token you need to run this command
+
+286
+00:18:46,000 --> 00:18:48,000
+and this token is going to be short lived.
+
+287
+00:18:48,000 --> 00:18:52,000
+That means if you don't use your dashboard, it is going to expire.
+
+288
+00:18:52,000 --> 00:18:57,000
+And every time you want to have an access token, you need to run this command.
+
+289
+00:18:57,000 --> 00:19:03,000
+Otherwise, if you are looking for a long lived bearer token, then you need to create a secret by using
+
+290
+00:19:03,000 --> 00:19:05,000
+these configurations.
+
+291
+00:19:05,000 --> 00:19:08,000
+So you can see the kind is mentioned as secret here.
+
+292
+00:19:08,000 --> 00:19:15,000
+So secret is a concept inside Kubernetes using which we can store our sensitive information like passwords.
+
+293
+00:19:15,000 --> 00:19:20,000
+So let's try to explore on how to create these long lived bearer token so that it will make our life
+
+294
+00:19:20,000 --> 00:19:22,000
+easy. For the same,
+
+295
+00:19:22,000 --> 00:19:28,000
+I'm going to copy this content, and here I'm going to create a new file by executing the command which
+
+296
+00:19:28,000 --> 00:19:32,000
+is touch secret.yaml.
+
+297
+00:19:32,000 --> 00:19:35,000
+So now I'll open my secret.yaml file.
+
+298
+00:19:35,000 --> 00:19:38,000
+And I'm going to paste the content that I have copied from the website.
+
+299
+00:19:38,000 --> 00:19:45,000
+So here you can see we are trying to create a secret with the name admin user and the namespace Kubernetes
+
+300
+00:19:45,000 --> 00:19:50,000
+- dashboard and whatever secret that we are using, we assigned to the service account with the
+
+301
+00:19:50,000 --> 00:19:52,000
+name admin-user.
+
+302
+00:19:52,000 --> 00:19:59,000
+That means we are creating a secret for the admin user that we have created previously.
+
+303
+00:19:59,000 --> 00:19:59,000
+Under
+
+304
+00:19:59,000 --> 00:20:06,000
+the type, you just need to mention these constant value which is kubernetes.io/service-account-token
+
+305
+00:20:06,000 --> 00:20:06,000
+.
+
+306
+00:20:06,000 --> 00:20:11,000
+Because what we're trying to create with the help of the secret, we're trying to create a token for
+
+307
+00:20:11,000 --> 00:20:12,000
+the service account.
+
+308
+00:20:12,000 --> 00:20:14,000
+That's why we need to mention this type value.
+
+309
+00:20:14,000 --> 00:20:15,000
+So let me save this file.
+
+310
+00:20:15,000 --> 00:20:19,000
+And I'm going to execute the command which is kubectl
+
+311
+00:20:19,000 --> 00:20:24,000
+apply - f and the file name is going to be secret.yaml.
+
+312
+00:20:24,000 --> 00:20:27,000
+Now you can see the secret is created successfully.
+
+313
+00:20:27,000 --> 00:20:30,000
+As a next step I can try to run this command.
+
+314
+00:20:30,000 --> 00:20:34,000
+And this is going to give me what is the token that it is generated behind the scenes.
+
+315
+00:20:34,000 --> 00:20:38,000
+So let me try to run this command and it will give me a token value.
+
+316
+00:20:38,000 --> 00:20:44,000
+And this token, whatever I received it is going to be the constant token all the time.
+
+317
+00:20:44,000 --> 00:20:50,000
+And with this approach, I don't have to get a new token every time with the help of this command,
+
+318
+00:20:50,000 --> 00:20:52,000
+which is create token for the admin user.
+
+319
+00:20:52,000 --> 00:20:58,000
+Since this is going to be super convenient, I'm going to use this token and use the same inside the
+
+320
+00:20:58,000 --> 00:20:59,000
+dashboard. For the same,
+
+321
+00:20:59,000 --> 00:21:02,000
+first, let me log out here and post that
+
+322
+00:21:02,000 --> 00:21:06,000
+I'm going to select the token and mention the same token value and click Sign in.
+
+323
+00:21:06,000 --> 00:21:10,000
+But here I'm getting an unauthorized error.
+
+324
+00:21:10,000 --> 00:21:13,000
+Let me see why I'm getting this error.
+
+325
+00:21:13,000 --> 00:21:19,000
+So inside the terminal whenever we try to run this command which is kubectl get secret in the output,
+
+326
+00:21:19,000 --> 00:21:24,000
+we are getting an percentage towards the end for some reason.
+
+327
+00:21:24,000 --> 00:21:30,000
+So whenever you try to copy this token, don't copy the last character which is percentage.
+
+328
+00:21:30,000 --> 00:21:35,000
+So without percentage please copy this value and mention the same
+
+329
+00:21:35,000 --> 00:21:37,000
+and with that we should be able to sign in.
+
+330
+00:21:37,000 --> 00:21:43,000
+So please make a note of your token in some place like you can see I'm trying to paste my token here.
+
+331
+00:21:43,000 --> 00:21:48,000
+So whenever my dashboard is going to ask me the token value, I'm going to give this
+
+332
+00:21:48,000 --> 00:21:48,000
+always.
+
+333
+00:21:48,000 --> 00:21:54,000
+If you don't follow this approach, you should always execute this command, which is create token command.
+
+334
+00:21:54,000 --> 00:21:58,000
+And it is going to give you different, different token at different, different times.
+
+335
+00:21:58,000 --> 00:22:03,000
+With this, I'm assuming your super, super clear on how to set up the Kubernetes dashboard.
+
+336
+00:22:03,000 --> 00:22:06,000
+Thank you and I'll catch you in the next lecture, bye.
+

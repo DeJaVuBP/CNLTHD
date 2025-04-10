@@ -1,0 +1,384 @@
+1
+00:00:00,000 --> 00:00:07,000
+In the previous lecture, we have prepared the required Kubernetes manifest file to deploy our config
+
+2
+00:00:07,000 --> 00:00:10,000
+server into the local Kubernetes cluster.
+
+3
+00:00:10,000 --> 00:00:17,000
+Inside this lecture, let's try to use the same and do the deployment of config server into Kubernetes
+
+4
+00:00:17,000 --> 00:00:18,000
+cluster.
+
+5
+00:00:18,000 --> 00:00:18,000
+For the same,
+
+6
+00:00:18,000 --> 00:00:21,000
+I'll go to the terminal. Inside my terminal,
+
+7
+00:00:21,000 --> 00:00:25,000
+First I'm going to show you there are no parts, there are no deployments and there are no services
+
+8
+00:00:25,000 --> 00:00:28,000
+as of now in the default namespace.
+
+9
+00:00:28,000 --> 00:00:35,000
+So for the same, I'm going to run few commands, which is kubectl get deployments.
+
+10
+00:00:35,000 --> 00:00:39,000
+So this will show me all the deployments inside my Kubernetes cluster.
+
+11
+00:00:39,000 --> 00:00:45,000
+Like you can see, as of now, there are no resources found in the default namespace.
+
+12
+00:00:45,000 --> 00:00:49,000
+Very similarly, I can also look for services.
+
+13
+00:00:49,000 --> 00:00:54,000
+So under services as of now, you can see there is one default service which is related to Kubernetes.
+
+14
+00:00:54,000 --> 00:01:00,000
+Cluster is available, but there is no service which is related to our microservices.
+
+15
+00:01:00,000 --> 00:01:05,000
+So the next command I'm going to run is Kubectl get replica set.
+
+16
+00:01:05,000 --> 00:01:07,000
+So let me try to run this command.
+
+17
+00:01:07,000 --> 00:01:14,000
+And as of now, you can see this also gives a output saying that no resources found in default namespace.
+
+18
+00:01:14,000 --> 00:01:18,000
+So this confirms as of now our default namespace is empty.
+
+19
+00:01:18,000 --> 00:01:22,000
+You can also confirm the same inside the Kubernetes dashboard as well.
+
+20
+00:01:22,000 --> 00:01:28,000
+So here inside my Kubernetes dashboard, please make sure you are selecting the namespace as default
+
+21
+00:01:28,000 --> 00:01:31,000
+and post that you can click on this deployments.
+
+22
+00:01:31,000 --> 00:01:33,000
+As of now, there is nothing to display here.
+
+23
+00:01:33,000 --> 00:01:37,000
+The same I will do for pods replica set and under services.
+
+24
+00:01:37,000 --> 00:01:41,000
+Also, as of now we have only one Kubernetes related service.
+
+25
+00:01:41,000 --> 00:01:48,000
+So now as a next step I will try to deploy my config server with the manifest file that we have created.
+
+26
+00:01:48,000 --> 00:01:50,000
+So what is the command that we need to run?
+
+27
+00:01:50,000 --> 00:01:56,000
+We need to make sure we are in the same folder location where we have our config server manifest file
+
+28
+00:01:56,000 --> 00:01:57,000
+is available.
+
+29
+00:01:57,000 --> 00:02:05,000
+So right now I'm at the same location and here I'm going to run the command which is kubectl apply hyphen
+
+30
+00:02:05,000 --> 00:02:06,000
+F and what is the file name?
+
+31
+00:02:06,000 --> 00:02:09,000
+The file name is config server dot yaml.
+
+32
+00:02:09,000 --> 00:02:14,000
+So don't worry about all these Kubernetes commands that I'm trying to run inside this course.
+
+33
+00:02:14,000 --> 00:02:17,000
+I'm going to mention all of them inside the GitHub repo.
+
+34
+00:02:17,000 --> 00:02:20,000
+You can always refer the same whenever you have some questions.
+
+35
+00:02:20,000 --> 00:02:23,000
+So now I'm going to execute this command.
+
+36
+00:02:23,000 --> 00:02:29,000
+As of now you can see I got a command immediately saying that so and so deployment is created and so
+
+37
+00:02:29,000 --> 00:02:29,000
+on.
+
+38
+00:02:29,000 --> 00:02:31,000
+So service also is created.
+
+39
+00:02:31,000 --> 00:02:37,000
+Now if I try to run the commands like Kubectl get deployments, you'll be able to see one deployment
+
+40
+00:02:37,000 --> 00:02:39,000
+with the name config server hyphen deployment.
+
+41
+00:02:39,000 --> 00:02:47,000
+As of now you can see it is showing you that to maintain only one container or one replica set and that's
+
+42
+00:02:47,000 --> 00:02:49,000
+why you are able to see these one by one.
+
+43
+00:02:49,000 --> 00:02:54,000
+That means desired state is one and the actual state is also one.
+
+44
+00:02:54,000 --> 00:02:58,000
+So there is no issue here, which means our container is in healthy status.
+
+45
+00:02:58,000 --> 00:03:02,000
+Now, very similarly, I'm going to run kubectl get services.
+
+46
+00:03:02,000 --> 00:03:09,000
+So this will show you the new service that got created of type load balancer and by default, each of
+
+47
+00:03:09,000 --> 00:03:16,000
+your container service is going to get an cluster IP address, which is going to make sense only within
+
+48
+00:03:16,000 --> 00:03:16,000
+the cluster.
+
+49
+00:03:16,000 --> 00:03:23,000
+But when you try to expose to the outside world, the external IP address will be available under the
+
+50
+00:03:23,000 --> 00:03:23,000
+external IP.
+
+51
+00:03:24,000 --> 00:03:27,000
+Since this is my local system, it is giving as localhost.
+
+52
+00:03:27,000 --> 00:03:34,000
+Whereas if you try to deploy into a cloud environment, you will get an real public IP address and you
+
+53
+00:03:34,000 --> 00:03:38,000
+can see as of now my container is exposed at the port 8071.
+
+54
+00:03:38,000 --> 00:03:44,000
+I will explain later on like why we are able to see this port which is 30153 when we try to discuss
+
+55
+00:03:44,000 --> 00:03:49,000
+about load balancer and other service types available inside the Kubernetes.
+
+56
+00:03:49,000 --> 00:03:57,000
+But now please note that our config server microservice is exposed at the localhost at the port 8071.
+
+57
+00:03:57,000 --> 00:04:02,000
+The next command that I want to run is kubectl get replica set.
+
+58
+00:04:02,000 --> 00:04:08,000
+So if I try to run this, you can see here, this is the replica set that is created for the config
+
+59
+00:04:08,000 --> 00:04:10,000
+server hyphen deployment.
+
+60
+00:04:10,000 --> 00:04:12,000
+The desired is one and the current is one.
+
+61
+00:04:12,000 --> 00:04:17,000
+And that's why my Kubernetes is going to be very happy for some reason.
+
+62
+00:04:17,000 --> 00:04:22,000
+If the current is zero, then immediately Kubernetes will come into picture and it will take care of
+
+63
+00:04:22,000 --> 00:04:26,000
+creating a new container in the place of defective container.
+
+64
+00:04:26,000 --> 00:04:32,000
+Very similarly, we can also try to run the command, which is kubectl get pods and this will show you
+
+65
+00:04:32,000 --> 00:04:34,000
+what is the pod name where you are.
+
+66
+00:04:34,000 --> 00:04:35,000
+Micro service is deployed.
+
+67
+00:04:35,000 --> 00:04:37,000
+So this is the pod name.
+
+68
+00:04:37,000 --> 00:04:39,000
+As of now, the status is running.
+
+69
+00:04:39,000 --> 00:04:42,000
+We can also validate all these inside the Kubernetes dashboard as well.
+
+70
+00:04:42,000 --> 00:04:48,000
+So here you can see under the services we have now a new service with the name config server of type
+
+71
+00:04:48,000 --> 00:04:54,000
+load balancer and the external endpoint is going to be localhost 8071.
+
+72
+00:04:54,000 --> 00:04:56,000
+Now I'll go and check under deployments.
+
+73
+00:04:56,000 --> 00:04:58,000
+As of now you can see there is a config server deployment.
+
+74
+00:04:58,000 --> 00:05:00,000
+Later on I'm going to click.
+
+75
+00:05:00,000 --> 00:05:01,000
+Come these parts.
+
+76
+00:05:01,000 --> 00:05:07,000
+This is the part where my container is deployed and it has used this image and this is the labels.
+
+77
+00:05:07,000 --> 00:05:13,000
+If I try to click on this pod, a detailed page about my pod will open and here there is an option also
+
+78
+00:05:13,000 --> 00:05:15,000
+to view the logs of this pod.
+
+79
+00:05:15,000 --> 00:05:22,000
+If you can see the logs here, you will be able to see all the spring boot logs of your config server.
+
+80
+00:05:22,000 --> 00:05:27,000
+So whenever you have some issue related to your container and you want to debug what is happening behind
+
+81
+00:05:27,000 --> 00:05:30,000
+the pod, this is the place where you need to check the logs.
+
+82
+00:05:30,000 --> 00:05:34,000
+Similarly, I can check the replica set and this is the replica set.
+
+83
+00:05:34,000 --> 00:05:39,000
+Inside this replica set you will be able to see what is the running, what is the desired and under
+
+84
+00:05:39,000 --> 00:05:43,000
+which pods the container is running, what is the service?
+
+85
+00:05:43,000 --> 00:05:48,000
+This way we can always check a lot of information with the help of Kubernetes dashboard as a next step,
+
+86
+00:05:48,000 --> 00:05:53,000
+let's try to validate if we are able to access our config server for the same.
+
+87
+00:05:53,000 --> 00:05:59,000
+I'm going to access the URL which is localhost 8071 and account slash prod.
+
+88
+00:05:59,000 --> 00:06:05,000
+So this is a random URL that I want to access and you can see I'm getting the accounts microservice
+
+89
+00:06:05,000 --> 00:06:10,000
+related properties both from production profile and default profile.
+
+90
+00:06:10,000 --> 00:06:15,000
+Very similarly, I can check for loans, I'll get loans related properties.
+
+91
+00:06:15,000 --> 00:06:19,000
+Let me check for Eureka Server post that.
+
+92
+00:06:19,000 --> 00:06:25,000
+I'll mention default because Eureka does not have any profile specific properties.
+
+93
+00:06:25,000 --> 00:06:30,000
+By default, all the properties of Eureka are going to available inside the default profile.
+
+94
+00:06:30,000 --> 00:06:36,000
+This confirms our config server is successfully deployed into the Kubernetes cluster.
+
+95
+00:06:36,000 --> 00:06:38,000
+I hope this is clear.
+
+96
+00:06:38,000 --> 00:06:41,000
+Thank you and I'll catch you in the next lecture by.
+

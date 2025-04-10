@@ -1,0 +1,284 @@
+1
+00:00:00,000 --> 00:00:07,000
+In the previous lecture, I told you that we are going to use Kubernetes as an container orchestration
+
+2
+00:00:07,000 --> 00:00:08,000
+product.
+
+3
+00:00:08,000 --> 00:00:14,000
+Now, inside this lecture, let me try to give you a very quick introduction about what is Kubernetes.
+
+4
+00:00:14,000 --> 00:00:21,000
+Like, we know Kubernetes is an open source system for automating the deployments, scaling and managing
+
+5
+00:00:21,000 --> 00:00:23,000
+the containerized applications.
+
+6
+00:00:23,000 --> 00:00:29,000
+It is the most famous orchestration platform that is available as of now in the market.
+
+7
+00:00:29,000 --> 00:00:34,000
+And one more advantage of Kubernetes is it is cloud neutral.
+
+8
+00:00:34,000 --> 00:00:41,000
+If you have Kubernetes cluster set up inside your local system or inside AWS, GCP, Azure, regardless of wherever
+
+9
+00:00:41,000 --> 00:00:45,000
+you set up, the Kubernetes concepts are going to be similar.
+
+10
+00:00:45,000 --> 00:00:49,000
+That's why we can call Kubernetes as a cloud neutral.
+
+11
+00:00:49,000 --> 00:00:55,000
+And this Kubernetes, like I said, it was developed and open sourced by Google.
+
+12
+00:00:55,000 --> 00:01:02,000
+Somewhere in 2015, Google decided to open source their one of the internal project that they have developed
+
+13
+00:01:02,000 --> 00:01:06,000
+over 15 years. With these Kubernetes concepts
+
+14
+00:01:06,000 --> 00:01:14,000
+only behind the scenes, Google tried to run their majority of the products like YouTube, Google Photos,
+
+15
+00:01:14,000 --> 00:01:15,000
+Gmail.
+
+16
+00:01:15,000 --> 00:01:22,000
+So many of the Google products leverages these Kubernetes kind of technology behind the scenes within
+
+17
+00:01:22,000 --> 00:01:23,000
+the Google.
+
+18
+00:01:23,000 --> 00:01:30,000
+And since this Kubernetes has a lot of potential, around 2015, Google decided to open source it so
+
+19
+00:01:30,000 --> 00:01:33,000
+that other organizations can also benefit from this framework.
+
+20
+00:01:33,000 --> 00:01:36,000
+Off course the name is not Kubernetes.
+
+21
+00:01:36,000 --> 00:01:42,000
+When they used within the Google, when they tried to open source the internal product to the outside
+
+22
+00:01:42,000 --> 00:01:45,000
+world, then they gave this name, which is Kubernetes.
+
+23
+00:01:45,000 --> 00:01:52,000
+So since this Kubernetes helped Google to run their internal applications for more than 15 years, we
+
+24
+00:01:52,000 --> 00:01:59,000
+can confidently say that that these products can help any organization and any amount of traffic. Because
+
+25
+00:01:59,000 --> 00:02:04,000
+there is no application in the world that is receiving more traffic than Google products.
+
+26
+00:02:04,000 --> 00:02:10,000
+That's why immediately, as soon as this is released to the open source, many organizations, they
+
+27
+00:02:10,000 --> 00:02:13,000
+have adopted this inside their microservices deployment.
+
+28
+00:02:13,000 --> 00:02:20,000
+So how this Kubernetes is going to help you is, it is going to help you to run distributed systems,
+
+29
+00:02:20,000 --> 00:02:25,000
+resiliently distributed systems like cloud native applications or microservices.
+
+30
+00:02:25,000 --> 00:02:32,000
+It is capable of taking care of automated scaling and handling the fail over for your application, providing
+
+31
+00:02:32,000 --> 00:02:36,000
+deployment patterns that will assure zero downtime for your applications.
+
+32
+00:02:36,000 --> 00:02:44,000
+So apart from these advantages, Kubernetes is also capable of to act as a service discovery agent and
+
+33
+00:02:44,000 --> 00:02:45,000
+provide load balancing.
+
+34
+00:02:45,000 --> 00:02:51,000
+When we are discussing about Eureka Server, I said with the help of Eureka Server, we are doing client
+
+35
+00:02:51,000 --> 00:02:57,000
+side load balancing, whereas with the help of Kubernetes we can get rid of Eureka Server and we can
+
+36
+00:02:57,000 --> 00:03:00,000
+hand over the load balancing to the Kubernetes.
+
+37
+00:03:00,000 --> 00:03:04,000
+And with that we are going to use server side load balancing.
+
+38
+00:03:04,000 --> 00:03:10,000
+I'm going to show you how to get rid of Eureka whenever we try to use Kubernetes Inside Microservices
+
+39
+00:03:10,000 --> 00:03:17,000
+network in the coming sections. And apart from service Discovery agent and load balancing, Kubernetes
+
+40
+00:03:17,000 --> 00:03:21,000
+is also capable of performing container and storage orchestration.
+
+41
+00:03:21,000 --> 00:03:27,000
+So with the help of Kubernetes, we can control any number of containers along with their storage requirements.
+
+42
+00:03:27,000 --> 00:03:33,000
+And this Kubernetes is also capable of automated rollouts and rollbacks like we discussed.
+
+43
+00:03:33,000 --> 00:03:35,000
+It also provides self-healing.
+
+44
+00:03:35,000 --> 00:03:41,000
+And on top of that, with the help of Kubernetes, we can also configure properties and secrets that
+
+45
+00:03:41,000 --> 00:03:44,000
+are required for our microservices.
+
+46
+00:03:44,000 --> 00:03:50,000
+And at last, I want to share you the information on how these name of Kubernetes is given to these
+
+47
+00:03:50,000 --> 00:03:51,000
+framework.
+
+48
+00:03:51,000 --> 00:03:54,000
+The word Kubernetes originates from Greek.
+
+49
+00:03:54,000 --> 00:03:56,000
+Inside Greek language,
+
+50
+00:03:56,000 --> 00:04:01,000
+the meaning of Kubernetes is helmsman or pilot who is going to handle the ship.
+
+51
+00:04:01,000 --> 00:04:04,000
+That's why we have this logo for Kubernetes.
+
+52
+00:04:04,000 --> 00:04:10,000
+So whenever you see this logo, please note that that is related to Kubernetes, just like how helmsman
+
+53
+00:04:10,000 --> 00:04:14,000
+control the entire ship on how to navigate the same.
+
+54
+00:04:14,000 --> 00:04:20,000
+Very similarly, with the help of Kubernetes, we can control all the containers that we have inside
+
+55
+00:04:20,000 --> 00:04:22,000
+our microservice network.
+
+56
+00:04:22,000 --> 00:04:28,000
+In real world, how the containers are going to be carried in a ship, in a ship all our containers
+
+57
+00:04:28,000 --> 00:04:31,000
+will be moved from one place to other place.
+
+58
+00:04:31,000 --> 00:04:36,000
+And how the ship is going to be controlled with the help of helmsman or ship captain.
+
+59
+00:04:36,000 --> 00:04:42,000
+So with that real world example, since we are going to control the containers that are developed with
+
+60
+00:04:42,000 --> 00:04:48,000
+the help of Docker or any other containerization technology, this Kubernetes name has given to this
+
+61
+00:04:48,000 --> 00:04:49,000
+project or product.
+
+62
+00:04:49,000 --> 00:04:58,000
+Sometimes people may call these Kubernetes in short form as K8 s, so this is the short form representation
+
+63
+00:04:58,000 --> 00:04:59,000
+of Kubernetes.
+
+64
+00:04:59,000 --> 00:05:00,000
+So how this short name,
+
+65
+00:05:00,000 --> 00:05:07,000
+if we try to see the number of letters between the initial letter K and the last letter S inside the
+
+66
+00:05:07,000 --> 00:05:10,000
+Kubernetes, there are going to be eight characters.
+
+67
+00:05:10,000 --> 00:05:14,000
+So that's why this name came into picture, which is K8S.
+
+68
+00:05:14,000 --> 00:05:21,000
+So any time you see the short name inside any blog or website, please note that they are referring
+
+69
+00:05:21,000 --> 00:05:23,000
+to the Kubernetes product.
+
+70
+00:05:23,000 --> 00:05:27,000
+I hope you are clear with this quick introduction about Kubernetes.
+
+71
+00:05:27,000 --> 00:05:30,000
+Thank you and I'll catch you in the next lecture bye.
+

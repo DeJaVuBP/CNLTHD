@@ -1,0 +1,520 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let's try to deploy all the remaining microservices into the Kubernetes
+
+2
+00:00:06,000 --> 00:00:08,000
+cluster. For the same,
+
+3
+00:00:08,000 --> 00:00:13,000
+first, we need to prepare the Kubernetes manifest files for the remaining microservices.
+
+4
+00:00:13,000 --> 00:00:15,000
+Since we are already familiar with this process.
+
+5
+00:00:15,000 --> 00:00:21,000
+Behind the scenes, I have created all the required Kubernetes manifest files. The same
+
+6
+00:00:21,000 --> 00:00:26,000
+you can identify them under the Section 15 folder and post that
+
+7
+00:00:26,000 --> 00:00:28,000
+you can go to Kubernetes.
+
+8
+00:00:28,000 --> 00:00:32,000
+And here I have mentioned all the manifest files required.
+
+9
+00:00:32,000 --> 00:00:35,000
+Previously we used to have config maps and config server only.
+
+10
+00:00:35,000 --> 00:00:42,000
+I have renamed them by adding a prefix value two and three with the help of this prefix like 1234
+
+11
+00:00:42,000 --> 00:00:43,000
+5678.
+
+12
+00:00:43,000 --> 00:00:49,000
+I'm giving a order that you need to apply these Yaml files inside your Kubernetes cluster.
+
+13
+00:00:49,000 --> 00:00:57,000
+So in future whenever you want to deploy all our microservices into a brand new cluster, first we need
+
+14
+00:00:57,000 --> 00:01:03,000
+to create the keycloak service post that we need to create the config map followed by config server,
+
+15
+00:01:03,000 --> 00:01:07,000
+Eureka server, accounts, loans, cards and Gateway.
+
+16
+00:01:07,000 --> 00:01:10,000
+So these are order that we can follow to make our life easy.
+
+17
+00:01:10,000 --> 00:01:16,000
+As a next step, I'm going to show you what I have written in all these files except configmaps and
+
+18
+00:01:16,000 --> 00:01:22,000
+configserver because you're already familiar with the content that we have written in these two files.
+
+19
+00:01:22,000 --> 00:01:27,000
+So let me go to the text editor and open all the Kubernetes manifest files.
+
+20
+00:01:27,000 --> 00:01:31,000
+Here first i will show you what is there inside keycloak.yaml file.
+
+21
+00:01:31,000 --> 00:01:38,000
+So here nothing new for every microservice or any service that we want to deploy into Kubernetes.
+
+22
+00:01:38,000 --> 00:01:43,000
+We need to first create a deployment object followed by what is the service object.
+
+23
+00:01:43,000 --> 00:01:49,000
+If you see under that deployment object, I'm trying to give a label name as Keycloak, the same label
+
+24
+00:01:49,000 --> 00:01:53,000
+app name we should mention under the services label apps.
+
+25
+00:01:53,000 --> 00:02:00,000
+That's how the Kubernetes is going to connect to this service with the deployment object of Keycloak
+
+26
+00:02:00,000 --> 00:02:00,000
+service.
+
+27
+00:02:00,000 --> 00:02:06,000
+So after this metadata name labels app under the specification, I'm mentioning the replicas as one
+
+28
+00:02:06,000 --> 00:02:10,000
+selector match labels app as keycloak under the specification.
+
+29
+00:02:10,000 --> 00:02:13,000
+If you see the container name is going to be keycloak.
+
+30
+00:02:13,000 --> 00:02:19,000
+And this is the image and these are the arguments that I want to consider while starting my container.
+
+31
+00:02:19,000 --> 00:02:25,000
+So since we want to start our Kubernetes cluster in a dev mode, we need to provide these args with
+
+32
+00:02:25,000 --> 00:02:26,000
+the value start - dev.
+
+33
+00:02:26,000 --> 00:02:33,000
+Now the new information that you may find here compared to config server is, we are trying to pass the
+
+34
+00:02:33,000 --> 00:02:36,000
+environment variables to this deployment instructions.
+
+35
+00:02:36,000 --> 00:02:43,000
+So to pass the environment variables, we need to mention the element E and V and this we can define
+
+36
+00:02:43,000 --> 00:02:47,000
+any number of environment variables. With the help of this hyphen.
+
+37
+00:02:47,000 --> 00:02:54,000
+So after hyphen we need to mention what is the name of your environment variable that you want to inject
+
+38
+00:02:54,000 --> 00:02:55,000
+to your container.
+
+39
+00:02:55,000 --> 00:03:00,000
+So the name of the property is KEYCLOAK_ADMIN to this environment variable.
+
+40
+00:03:00,000 --> 00:03:05,000
+I want to provide the value that I stored inside the config maps. For the same,
+
+41
+00:03:05,000 --> 00:03:08,000
+we need to mention this value from, but there is an error here.
+
+42
+00:03:08,000 --> 00:03:12,000
+We need to make sure that value from is just below the name.
+
+43
+00:03:12,000 --> 00:03:16,000
+So let me try to correct this in the remaining property as well.
+
+44
+00:03:16,000 --> 00:03:18,000
+So now this looks good.
+
+45
+00:03:18,000 --> 00:03:21,000
+And similarly this entire name has to come
+
+46
+00:03:21,000 --> 00:03:22,000
+exactly 
+
+47
+00:03:22,000 --> 00:03:26,000
+under the env, just like other environment.
+
+48
+00:03:26,000 --> 00:03:32,000
+So if I try to see here, this is present at the same location where my previous environment variable
+
+49
+00:03:32,000 --> 00:03:33,000
+is started, this looks good.
+
+50
+00:03:33,000 --> 00:03:37,000
+Now you can see under the name I'm trying to use value from.
+
+51
+00:03:37,000 --> 00:03:43,000
+So from where I want to fetch the value under this value from, we need to mention config map key ref
+
+52
+00:03:43,000 --> 00:03:47,000
+and what is a config map where we stored this value?
+
+53
+00:03:47,000 --> 00:03:54,000
+So the config map name is easybank - configmap the same name we have to give under the 
+
+54
+00:03:54,000 --> 00:04:01,000
+configMapKeyRef name element and at last inside our config map we may have many environment variables.
+
+55
+00:04:01,000 --> 00:04:05,000
+So which environment variable it has to consider.
+
+56
+00:04:05,000 --> 00:04:11,000
+That's why we need to give the key value so it will go and look for these key value inside the config
+
+57
+00:04:11,000 --> 00:04:11,000
+maps
+
+58
+00:04:11,000 --> 00:04:13,000
+and this is the  property.
+
+59
+00:04:13,000 --> 00:04:16,000
+So against this there is a value which is admin.
+
+60
+00:04:16,000 --> 00:04:22,000
+The same will be injected as a value to this property with the name KEYCLOAK_ADMIN. If needed,
+
+61
+00:04:22,000 --> 00:04:25,000
+here we can mention any property name here,
+
+62
+00:04:25,000 --> 00:04:28,000
+like I can mention something like username.
+
+63
+00:04:28,000 --> 00:04:33,000
+The same name I have to use inside the key of config map key rev.
+
+64
+00:04:33,000 --> 00:04:41,000
+But please don't mention this username here under the environment name because whatever you have mentioned
+
+65
+00:04:41,000 --> 00:04:48,000
+inside the environment name that will be feed as an input to your container or your spring boot applications.
+
+66
+00:04:48,000 --> 00:04:52,000
+So if you give some random property name, it is not going to work.
+
+67
+00:04:52,000 --> 00:04:57,000
+That's why always make sure you are giving the correct environment variable name under the Env, but
+
+68
+00:04:57,000 --> 00:04:59,000
+you have a flexibility to maintain any
+
+69
+00:04:59,000 --> 00:05:03,000
+nickname inside Configmap and under these configmap.
+
+70
+00:05:04,000 --> 00:05:11,000
+But to be consistent and to make our life easy, I'm going to maintain the key as same as property name
+
+71
+00:05:11,000 --> 00:05:17,000
+inside my configmap and inside my config map file as well. As next step,
+
+72
+00:05:17,000 --> 00:05:23,000
+I also injected one more environment variable with the name keycloak admin password and the same syntax
+
+73
+00:05:23,000 --> 00:05:25,000
+we have to follow here.
+
+74
+00:05:25,000 --> 00:05:28,000
+And at last I also provided what are the port configurations?
+
+75
+00:05:28,000 --> 00:05:33,000
+It has to start at the container port 8080.
+
+76
+00:05:33,000 --> 00:05:37,000
+After the deployment instructions, we have service related instructions as well.
+
+77
+00:05:37,000 --> 00:05:41,000
+Here also, we are trying to expose our keycloak service as a LoadBalancer.
+
+78
+00:05:41,000 --> 00:05:46,000
+That means anyone can access my keycloak server at the port 7080.
+
+79
+00:05:46,000 --> 00:05:52,000
+But please make sure that you are mentioning the target port as same as your container port because
+
+80
+00:05:52,000 --> 00:05:57,000
+under container port and target port we need to mention what is the port where your container is going
+
+81
+00:05:57,000 --> 00:06:01,000
+to start internally inside your Kubernetes cluster.
+
+82
+00:06:01,000 --> 00:06:06,000
+Now let me go and check what is present inside the EurekaServer.yaml.
+
+83
+00:06:06,000 --> 00:06:08,000
+Here also we followed the same syntax.
+
+84
+00:06:08,000 --> 00:06:11,000
+First we are going to provide that deployment instructions.
+
+85
+00:06:11,000 --> 00:06:13,000
+You can see here the image name
+
+86
+00:06:13,000 --> 00:06:18,000
+I have mentioned the Eureka Server, but the tag name I have mentioned that S12, but not the S14.
+
+87
+00:06:19,000 --> 00:06:20,000
+Do you know what is the reason?
+
+88
+00:06:20,000 --> 00:06:26,000
+The reason is, as of now, we decided to not go with the Kafka setup inside this section because there
+
+89
+00:06:26,000 --> 00:06:33,000
+is an easier approach that we can follow once we discuss about the helm charts in the coming sections.
+
+90
+00:06:33,000 --> 00:06:39,000
+And since my Section 13 and Section 14 has the changes related to event driven microservices, they'll
+
+91
+00:06:39,000 --> 00:06:42,000
+expect an Rabbitmq setup or Kafka setup.
+
+92
+00:06:42,000 --> 00:06:49,000
+So since I want to avoid that inside this section and focus on deploying our own developed microservices,
+
+93
+00:06:49,000 --> 00:06:56,000
+I'm trying to mention section12 tag name, which is S12, the same tag name I have mentioned inside
+
+94
+00:06:56,000 --> 00:06:57,000
+the config server as well.
+
+95
+00:06:57,000 --> 00:07:02,000
+As you can see here, the config server is going to use that tag name S12.
+
+96
+00:07:02,000 --> 00:07:08,000
+Now if you go back to Eureka Server here for Eureka Server, we need to feed the two environments.
+
+97
+00:07:08,000 --> 00:07:12,000
+One is what is the application name of Eureka Server?
+
+98
+00:07:12,000 --> 00:07:19,000
+So the Eureka server application name is present under the key name, which is Eureka application name.
+
+99
+00:07:19,000 --> 00:07:22,000
+So the same I can go and check inside the config maps.
+
+100
+00:07:22,000 --> 00:07:24,000
+So the value is going to be Eureka server.
+
+101
+00:07:24,000 --> 00:07:28,000
+The same will be injected into my Eureka server container.
+
+102
+00:07:28,000 --> 00:07:34,000
+Do you know why I'm not using the same key name which is spring application name under my config maps?
+
+103
+00:07:34,000 --> 00:07:40,000
+Because we need to define the same environment variable for all the remaining microservices.
+
+104
+00:07:40,000 --> 00:07:46,000
+With that reason I have mentioned different, different key names inside the config map.
+
+105
+00:07:46,000 --> 00:07:51,000
+The same I'm going to refer inside my Kubernetes manifest files. At last,
+
+106
+00:07:51,000 --> 00:07:55,000
+I'm also injecting what is a config server endpoint URL.
+
+107
+00:07:55,000 --> 00:08:01,000
+The config server endpoint URL is going to be config server 8071.
+
+108
+00:08:01,000 --> 00:08:06,000
+After the deployment instructions, we have service instructions also with the LoadBalancer.
+
+109
+00:08:06,000 --> 00:08:08,000
+This you are already familiar.
+
+110
+00:08:08,000 --> 00:08:13,000
+Now let me go and check what is present inside the accounts.yaml. So inside accounts.yaml,
+
+111
+00:08:13,000 --> 00:08:14,000
+nothing is new,
+
+112
+00:08:14,000 --> 00:08:15,000
+everything is same.
+
+113
+00:08:15,000 --> 00:08:20,000
+Like so we're using s12 tag for accounts microservice compared to Eureka Server,
+
+114
+00:08:20,000 --> 00:08:26,000
+there is a new environment variable that we are trying to inject, which is what is our Eureka client
+
+115
+00:08:26,000 --> 00:08:29,000
+service URL default zone.
+
+116
+00:08:29,000 --> 00:08:33,000
+Because my accounts microservice has to register itself with the Eureka server.
+
+117
+00:08:33,000 --> 00:08:39,000
+That's why we are trying to provide these environment variable and after deployment we also have service
+
+118
+00:08:39,000 --> 00:08:39,000
+instructions.
+
+119
+00:08:39,000 --> 00:08:46,000
+The same kind of setup you'll be able to see inside the loans and cards microservice and Gateway server
+
+120
+00:08:46,000 --> 00:08:46,000
+as well.
+
+121
+00:08:46,000 --> 00:08:50,000
+So for Gateway Server also here we are going to use S12.
+
+122
+00:08:50,000 --> 00:08:56,000
+If you can scroll down for Gateway Server, we are going to inject one more environment variable compared
+
+123
+00:08:56,000 --> 00:09:03,000
+to other microservice, which is what is the keycloak server URL where my resource server has to fetch
+
+124
+00:09:03,000 --> 00:09:04,000
+the certificate.
+
+125
+00:09:04,000 --> 00:09:07,000
+So the same I'm trying to fetch from the easybank config map.
+
+126
+00:09:07,000 --> 00:09:13,000
+So with this I'm assuming your super clear with all the Kubernetes manifest files that we have created
+
+127
+00:09:13,000 --> 00:09:19,000
+for the remaining microservices. In the next lecture, let's try to apply them into Kubernetes cluster
+
+128
+00:09:19,000 --> 00:09:26,000
+so that all our containers will get deployed into the cluster and post that we can also validate the
+
+129
+00:09:26,000 --> 00:09:26,000
+same.
+
+130
+00:09:26,000 --> 00:09:29,000
+Thank you and I'll catch you in the next lecture bye.
+

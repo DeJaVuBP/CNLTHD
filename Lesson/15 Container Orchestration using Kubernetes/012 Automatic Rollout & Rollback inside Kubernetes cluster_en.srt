@@ -1,0 +1,724 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+I'm going to show you one more feature of Kubernetes, which is how to deploy your new changes into
+
+3
+00:00:08,000 --> 00:00:10,000
+Kubernetes cluster without any downtime.
+
+4
+00:00:10,000 --> 00:00:16,000
+And at the same time, if you face any issues with your new changes, you can easily roll back without
+
+5
+00:00:16,000 --> 00:00:19,000
+any downtime or manual efforts.
+
+6
+00:00:19,000 --> 00:00:22,000
+But before that, let me clear the terminal.
+
+7
+00:00:22,000 --> 00:00:28,000
+Now I'm going to set the number of replicas for my accounts microservice to one, because in the previous
+
+8
+00:00:28,000 --> 00:00:30,000
+lecture we said the replicas to two.
+
+9
+00:00:30,000 --> 00:00:36,000
+Now I want to roll back to one so that I will not face any memory issues inside my local system.
+
+10
+00:00:36,000 --> 00:00:43,000
+So whenever we want to update the replicas for a particular microservice or for a particular deployment
+
+11
+00:00:43,000 --> 00:00:45,000
+instructions, there are two approaches.
+
+12
+00:00:45,000 --> 00:00:51,000
+One approach we already saw in the previous lecture, which is directly updating the replicas value
+
+13
+00:00:51,000 --> 00:00:53,000
+here inside your Kubernetes manifest file.
+
+14
+00:00:53,000 --> 00:00:56,000
+But this time I'm not going to follow this approach.
+
+15
+00:00:56,000 --> 00:00:58,000
+I'm going to show you a different approach.
+
+16
+00:00:58,000 --> 00:01:05,000
+And this approach is to run a command, which is kubectl scale deployment and what is the deployment
+
+17
+00:01:05,000 --> 00:01:07,000
+name of your accounts
+
+18
+00:01:07,000 --> 00:01:07,000
+microservice.
+
+19
+00:01:07,000 --> 00:01:13,000
+The accounts microservice deployment name is accounts - deployment.
+
+20
+00:01:13,000 --> 00:01:19,000
+And once you have mentioned that deployment name, you need to pass a flag which is replicas, to these
+
+21
+00:01:19,000 --> 00:01:20,000
+replicas
+
+22
+00:01:20,000 --> 00:01:22,000
+I'm going to pass a value which is one.
+
+23
+00:01:22,000 --> 00:01:27,000
+So with this, I'm trying to scale my account deployment to a replica value one.
+
+24
+00:01:27,000 --> 00:01:34,000
+So as soon as I execute this command, now I should be able to see only one part of my accounts
+
+25
+00:01:34,000 --> 00:01:34,000
+microservice.
+
+26
+00:01:34,000 --> 00:01:36,000
+I can also show you that.
+
+27
+00:01:36,000 --> 00:01:41,000
+So under the get pods you can see as of now I have only one accounts related part.
+
+28
+00:01:41,000 --> 00:01:48,000
+We can also confirm the same by running the kubectl get replica set and here you can see for accounts
+
+29
+00:01:48,000 --> 00:01:51,000
+deployment the desired is one and the current is one.
+
+30
+00:01:51,000 --> 00:01:56,000
+So you can follow any of the approach that we have discussed, but always make sure you are also updating
+
+31
+00:01:56,000 --> 00:02:02,000
+the Yaml file because in future whenever you try to apply this file then the replicas will become true.
+
+32
+00:02:02,000 --> 00:02:09,000
+That's why it is always recommended to maintain correct value inside your accounts.yaml as well.
+
+33
+00:02:09,000 --> 00:02:11,000
+So that's what I'm trying to do here.
+
+34
+00:02:11,000 --> 00:02:12,000
+So I roll back from 2 to 1.
+
+35
+00:02:12,000 --> 00:02:19,000
+So now as a next step, I want to show you the demo of how to deploy a new change into the Kubernetes
+
+36
+00:02:19,000 --> 00:02:21,000
+cluster without any downtime.
+
+37
+00:02:21,000 --> 00:02:25,000
+For the same, I'm going to select the Gateway Server Microservice.
+
+38
+00:02:25,000 --> 00:02:33,000
+As of now, if I try to run the command, which is Kubectl, describe Pod and what is the pod name of
+
+39
+00:02:33,000 --> 00:02:33,000
+Gateway Server?
+
+40
+00:02:33,000 --> 00:02:36,000
+So this is the pod name of Gateway Server.
+
+41
+00:02:36,000 --> 00:02:39,000
+Let me copy this value and mention the same here.
+
+42
+00:02:39,000 --> 00:02:46,000
+So if I try to run this command, you can see as of now, my pod of gateway server is using the Docker
+
+43
+00:02:46,000 --> 00:02:53,000
+image, which is easybytes, gatewayserver s12, which means right now our container is using
+
+44
+00:02:53,000 --> 00:02:55,000
+the tag of S12.
+
+45
+00:02:55,000 --> 00:03:00,000
+So think like I want to deploy my gateway server without any security.
+
+46
+00:03:00,000 --> 00:03:07,000
+As of now, my gateway server always expects a access token whenever we try to invoke any post API or
+
+47
+00:03:07,000 --> 00:03:09,000
+update or delete APIs.
+
+48
+00:03:09,000 --> 00:03:16,000
+So for the same, what I'm going to do is, I'm going to deploy a new image into my gateway server.
+
+49
+00:03:16,000 --> 00:03:17,000
+So as of now we are using S12.
+
+50
+00:03:18,000 --> 00:03:20,000
+S12 means, inside the section12
+
+51
+00:03:20,000 --> 00:03:27,000
+we have the changes related to Oauth2, whereas inside the section11 we don't have any security related
+
+52
+00:03:27,000 --> 00:03:28,000
+changes.
+
+53
+00:03:28,000 --> 00:03:32,000
+So I'll simply update the tag from S12 to S11.
+
+54
+00:03:32,000 --> 00:03:33,000
+So how to do that?
+
+55
+00:03:33,000 --> 00:03:34,000
+There are two ways.
+
+56
+00:03:34,000 --> 00:03:40,000
+One is by simply updating the image name inside your Kubernetes manifest file.
+
+57
+00:03:40,000 --> 00:03:44,000
+The other approach is you can also issue a kubectl command.
+
+58
+00:03:44,000 --> 00:03:45,000
+So let's try to issue the same.
+
+59
+00:03:45,000 --> 00:03:48,000
+So I want to run a command from my terminal.
+
+60
+00:03:48,000 --> 00:03:52,000
+So before I try to run this command, let me clean that terminal.
+
+61
+00:03:52,000 --> 00:03:55,000
+And the command that I want to run is, kubectl
+
+62
+00:03:55,000 --> 00:04:01,000
+set image for the deployment with the name Gateway Server - deployment inside this Gateway server
+
+63
+00:04:01,000 --> 00:04:05,000
+deployment, I have a container with the name Gateway server.
+
+64
+00:04:05,000 --> 00:04:10,000
+If you see inside the gateway.yaml, we have given the container name as gateway server the same
+
+65
+00:04:10,000 --> 00:04:14,000
+container name we have to use inside the kubectl command.
+
+66
+00:04:14,000 --> 00:04:21,000
+So for this gateway server container, I want to set a new image which is eazybytes/gatewayserver,
+
+67
+00:04:21,000 --> 00:04:27,000
+colon s11 and post that I'm going to give a flag, which is record.
+
+68
+00:04:27,000 --> 00:04:33,000
+With this record I'm telling to my Kubernetes cluster to record the reason on why we are deploying a
+
+69
+00:04:33,000 --> 00:04:34,000
+new image.
+
+70
+00:04:34,000 --> 00:04:41,000
+But before I try to run this command, I will intentionally give a invalid image. Instead of S11
+
+71
+00:04:41,000 --> 00:04:48,000
+I'll give S111 and this image is not available inside my Docker hub or inside my local system.
+
+72
+00:04:48,000 --> 00:04:50,000
+So let's try to see what is going to happen.
+
+73
+00:04:50,000 --> 00:04:54,000
+So you can see we got an output saying that deployment image update.
+
+74
+00:04:54,000 --> 00:05:00,000
+But if I go and check the all the pods, here you can see the Kubernetes tried to create
+
+75
+00:05:00,000 --> 00:05:06,000
+a new part of Gateway server, but it has a status saying that error image pull that means it is not
+
+76
+00:05:06,000 --> 00:05:09,000
+able to pull the image.
+
+77
+00:05:09,000 --> 00:05:15,000
+The beauty that I want you to observe here is, my Kubernetes cluster did not disturb the the other running
+
+78
+00:05:15,000 --> 00:05:22,000
+pod because first my Kubernetes want to validate whether it is able to set up with the new image that
+
+79
+00:05:22,000 --> 00:05:28,000
+we have provided post validating the same and post my pod is successfully set up then only it is going
+
+80
+00:05:28,000 --> 00:05:31,000
+to terminate the other running containers of Gateway server.
+
+81
+00:05:31,000 --> 00:05:37,000
+If you have three different gateway server containers, it is not going to kill all of them at once.
+
+82
+00:05:37,000 --> 00:05:44,000
+It is incrementally going to create multiple parts of your gateway server with the latest image and
+
+83
+00:05:44,000 --> 00:05:49,000
+post that only it is going to terminate and delete the previous old pods.
+
+84
+00:05:49,000 --> 00:05:52,000
+So I hope you are seeing the beauty here now as a next step
+
+85
+00:05:52,000 --> 00:05:59,000
+this time I'm going to give the correct image name, which is S11, So let me try to execute this command
+
+86
+00:05:59,000 --> 00:06:00,000
+along with the record flag.
+
+87
+00:06:00,000 --> 00:06:06,000
+As soon as I run this command, I can go and check my get pods and you should be able to see there is
+
+88
+00:06:06,000 --> 00:06:08,000
+a new container is getting created.
+
+89
+00:06:08,000 --> 00:06:14,000
+If I keep try to run this command at some point of time, this pod which we are trying to create, will
+
+90
+00:06:14,000 --> 00:06:16,000
+have a status of running.
+
+91
+00:06:16,000 --> 00:06:23,000
+So let me try to run the command of get pods again. So you can see right now the new pod has status as
+
+92
+00:06:23,000 --> 00:06:31,000
+running, which is having a age of 41 seconds, whereas the old pod, which has an age of one 132 minutes,
+
+93
+00:06:31,000 --> 00:06:32,000
+it is getting terminated.
+
+94
+00:06:32,000 --> 00:06:39,000
+So my Kubernetes is terminating my old pod only when the new pod is set up successfully.
+
+95
+00:06:39,000 --> 00:06:46,000
+If you have 50 different instances of your gateway server, Kubernetes cluster is going to deploy your
+
+96
+00:06:46,000 --> 00:06:53,000
+new changes in an incremental fashion so that your customers will not have any downtime.
+
+97
+00:06:53,000 --> 00:06:54,000
+I hope this is clear.
+
+98
+00:06:54,000 --> 00:06:59,000
+Whenever we want to deploy new changes into Kubernetes cluster, we can use this command.
+
+99
+00:06:59,000 --> 00:07:06,000
+But please note that since this record flag is deprecated and soon it may get removed when you try to
+
+100
+00:07:06,000 --> 00:07:10,000
+run this command, if you are getting some error due to this record flag, you can simply remove this
+
+101
+00:07:10,000 --> 00:07:16,000
+record flag and execute the remaining command and it should work perfectly without any issues.
+
+102
+00:07:16,000 --> 00:07:23,000
+Now, as a next step, I can try to clean the console and run the command which is related to kubectl
+
+103
+00:07:23,000 --> 00:07:25,000
+get events.
+
+104
+00:07:25,000 --> 00:07:28,000
+That's where we can see what are all the events happened behind the scenes.
+
+105
+00:07:28,000 --> 00:07:34,000
+If you try to see the list of events happened here first, my Kubernetes cluster tried to pull a new
+
+106
+00:07:34,000 --> 00:07:42,000
+image with the tag S11. Post that it tried to schedule a new pod with the name that is ending with 
+
+107
+00:07:42,000 --> 00:07:42,000
+xzjdk.
+
+108
+00:07:43,000 --> 00:07:45,000
+Here you can see the status changed to pulled.
+
+109
+00:07:45,000 --> 00:07:52,000
+That means the image name is completely pulled into this pod and using the same image name, it tried
+
+110
+00:07:52,000 --> 00:07:55,000
+to create the container and eventually it start.
+
+111
+00:07:55,000 --> 00:08:02,000
+And in the same process it also killed the old pod and all the containers inside the old pod.
+
+112
+00:08:02,000 --> 00:08:09,000
+Now we can try to validate if we are able to invoke Gateway Server without any security. For the same,
+
+113
+00:08:09,000 --> 00:08:14,000
+here inside my postman there is a request with the name Accounts_Post_NoAuth .
+
+114
+00:08:14,000 --> 00:08:16,000
+I'm going to open that.
+
+115
+00:08:16,000 --> 00:08:19,000
+Here I'm not providing any authentication details.
+
+116
+00:08:19,000 --> 00:08:25,000
+I'm simply going to invoke my gateway server and you can see I'm getting a successful response without
+
+117
+00:08:25,000 --> 00:08:26,000
+any authentication.
+
+118
+00:08:26,000 --> 00:08:32,000
+That means our new changes are deployed successfully into the Kubernetes cluster.
+
+119
+00:08:32,000 --> 00:08:37,000
+Now let's try to assume like there are some issues with the new changes that we have deployed.
+
+120
+00:08:37,000 --> 00:08:44,000
+We want to roll back to the previous working state of my gateway server, which is to the S12 tag from
+
+121
+00:08:44,000 --> 00:08:47,000
+the S11. So let's try to understand how to do the same.
+
+122
+00:08:47,000 --> 00:08:53,000
+So here inside my terminal, I'm going to first run a command which will show you the rollout history
+
+123
+00:08:53,000 --> 00:09:00,000
+that happened for the deployment with the name gateway server - deployment.
+
+124
+00:09:00,000 --> 00:09:06,000
+So if I try to execute this, you'll be able to see the revisions are the rollout history happened for
+
+125
+00:09:06,000 --> 00:09:08,000
+all the deployments that we tried.
+
+126
+00:09:08,000 --> 00:09:13,000
+So first you can see there was a first revision like where we initially deployed our Gateway server
+
+127
+00:09:13,000 --> 00:09:13,000
+post
+
+128
+00:09:13,000 --> 00:09:19,000
+that in the second revision we tried to give an invalid tag name which has S111.
+
+129
+00:09:19,000 --> 00:09:21,000
+So this second revision is also defective.
+
+130
+00:09:21,000 --> 00:09:27,000
+We don't want to go back to the revision two and right now we are using the revision three because inside
+
+131
+00:09:27,000 --> 00:09:32,000
+the revision three only we are using the gateway server tag, which is S11.
+
+132
+00:09:32,000 --> 00:09:38,000
+Now think like I want to go back to the previous working revision, which is one, the command that
+
+133
+00:09:38,000 --> 00:09:45,000
+I can run is kubectl rollout undo deployment and what is the deployment name, which is Gateway server
+
+134
+00:09:45,000 --> 00:09:48,000
+- deployment and to which revision I want to rollback.
+
+135
+00:09:48,000 --> 00:09:51,000
+I want to roll back to the revision one.
+
+136
+00:09:51,000 --> 00:09:56,000
+So as soon as I try to execute this command, the rollback operation will get initiated.
+
+137
+00:09:56,000 --> 00:10:00,000
+I can also confirm by looking at the get pods. You can
+
+138
+00:10:00,000 --> 00:10:06,000
+see, right now I have a pod with the name Gateway Server successfully created just 9 seconds back.
+
+139
+00:10:06,000 --> 00:10:08,000
+The other pod got deleted
+
+140
+00:10:08,000 --> 00:10:09,000
+behind the scenes.
+
+141
+00:10:09,000 --> 00:10:18,000
+Now, if I try to see the image name against this pod name by using the command which is kubectl, describe
+
+142
+00:10:18,000 --> 00:10:20,000
+pod and what is the pod name?
+
+143
+00:10:20,000 --> 00:10:24,000
+So this time you should be able to see the pod name, which is S12.
+
+144
+00:10:24,000 --> 00:10:27,000
+So here you can see the image name has S12.
+
+145
+00:10:27,000 --> 00:10:32,000
+So this confirms that our rollback operation is also successful.
+
+146
+00:10:32,000 --> 00:10:35,000
+As of now, we have only one container running.
+
+147
+00:10:35,000 --> 00:10:41,000
+And this may look very simple for you, but think like if you have 100 instances of gateway server running
+
+148
+00:10:41,000 --> 00:10:47,000
+inside your Kubernetes cluster, all the rollback are rolling out of the new changes is going to take
+
+149
+00:10:47,000 --> 00:10:50,000
+care by your Kubernetes cluster automatically.
+
+150
+00:10:50,000 --> 00:10:55,000
+We as an admin of Kubernetes cluster, we just have to issue a command.
+
+151
+00:10:55,000 --> 00:11:02,000
+So now we can go to the postman and try to test accounts, create operation without providing any authentication
+
+152
+00:11:02,000 --> 00:11:03,000
+details.
+
+153
+00:11:03,000 --> 00:11:10,000
+This time I should get an 401 error because we have pointed to a new tag, which is S12 that's why I'm
+
+154
+00:11:10,000 --> 00:11:12,000
+getting a 401 unauthorized error.
+
+155
+00:11:12,000 --> 00:11:18,000
+I hope you are completely clear on how we did the rolling of the new changes and rolling back of the
+
+156
+00:11:18,000 --> 00:11:23,000
+same to the previous working version automatically with the help of Kubernetes cluster.
+
+157
+00:11:23,000 --> 00:11:30,000
+Very similarly, Kubernetes is also capable of auto scaling your containers automatically based upon
+
+158
+00:11:30,000 --> 00:11:35,000
+some requirements that you have defined. Your Kubernetes admins
+
+159
+00:11:35,000 --> 00:11:40,000
+they can create an object of horizontal pod auto scaling.
+
+160
+00:11:40,000 --> 00:11:47,000
+With this object, they can define the requirements that I want to auto scale my pods based upon some
+
+161
+00:11:47,000 --> 00:11:50,000
+memory or CPU utilization of the pod.
+
+162
+00:11:50,000 --> 00:11:56,000
+This way, based upon the traffic that is coming towards your microservices, the number of containers
+
+163
+00:11:56,000 --> 00:12:02,000
+are going to be automatically scaled up or scaled down by the Kubernetes cluster.
+
+164
+00:12:02,000 --> 00:12:07,000
+I'm not going to show you the auto scaling feature of Kubernetes inside this course.
+
+165
+00:12:07,000 --> 00:12:09,000
+The reason is this is super advanced topic.
+
+166
+00:12:09,000 --> 00:12:16,000
+Your Kubernetes admins usually take care of this inside the production cluster, but if you are interested
+
+167
+00:12:16,000 --> 00:12:19,000
+on how to do this, please read these official documentation.
+
+168
+00:12:19,000 --> 00:12:26,000
+The reason why I'm not showing this inside this course is, this required a lot of discussion around Kubernetes
+
+169
+00:12:26,000 --> 00:12:33,000
+cluster, which I don't want to do because this is simply microservice course but not the Kubernetes course.
+
+170
+00:12:33,000 --> 00:12:37,000
+Now, before I try to close this lecture, let me show you a funny meme image.
+
+171
+00:12:37,000 --> 00:12:45,000
+So this is a funny image and this image is showing you the relation between your deployment replicaset
+
+172
+00:12:45,000 --> 00:12:48,000
+pod and container in a funny manner.
+
+173
+00:12:48,000 --> 00:12:55,000
+First, we'll give all our instructions or specifications with the help of deployment object, the same
+
+174
+00:12:55,000 --> 00:12:57,000
+deployment object behind the scenes.
+
+175
+00:12:57,000 --> 00:13:02,000
+It is going to create the replicaset based upon the number of replicas that we have mentioned.
+
+176
+00:13:02,000 --> 00:13:10,000
+So if I try to mention replicas as 2 or 5, my replica set is going to create so many pods behind the
+
+177
+00:13:10,000 --> 00:13:11,000
+scenes.
+
+178
+00:13:11,000 --> 00:13:15,000
+So if my replica set has value as two, it is going to create two parts.
+
+179
+00:13:15,000 --> 00:13:20,000
+And inside these two parts the actual microservice container will get deployed.
+
+180
+00:13:20,000 --> 00:13:23,000
+I hope you like this funny image.
+
+181
+00:13:23,000 --> 00:13:26,000
+Thank you and I'll catch you in the next lecture bye.
+

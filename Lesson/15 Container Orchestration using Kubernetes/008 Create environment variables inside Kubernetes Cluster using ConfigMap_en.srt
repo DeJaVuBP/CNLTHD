@@ -1,0 +1,432 @@
+1
+00:00:00,000 --> 00:00:06,000
+As a next step, I want to deploy all the remaining microservices into the Kubernetes cluster.
+
+2
+00:00:06,000 --> 00:00:13,000
+But before that, we need to create certain environment variables inside our Kubernetes cluster, which
+
+3
+00:00:13,000 --> 00:00:17,000
+we can inject into the microservices deployment.
+
+4
+00:00:17,000 --> 00:00:22,000
+Because if you try to see the Docker compose files that we have written, as of now, all our containers
+
+5
+00:00:22,000 --> 00:00:30,000
+are dependent on many environment variables like what is the activated profile, what is the spring
+
+6
+00:00:30,000 --> 00:00:33,000
+config import URL, what is the Eureka server URL?
+
+7
+00:00:33,000 --> 00:00:39,000
+So since all our microservices, they need these environment variables to get started, we need to look
+
+8
+00:00:39,000 --> 00:00:46,000
+for an option on how to create the same kind of environment variables inside the Kubernetes cluster
+
+9
+00:00:46,000 --> 00:00:46,000
+as well.
+
+10
+00:00:46,000 --> 00:00:52,000
+For the same, we are going to create an object of configmap inside Kubernetes.
+
+11
+00:00:52,000 --> 00:01:00,000
+Like you can see here, Configmap is an object used to store Non-confidential data in a key value pairs
+
+12
+00:01:00,000 --> 00:01:02,000
+parts and your containers
+
+13
+00:01:02,000 --> 00:01:09,000
+they can consume config maps as an environment variables or command line arguments or as an configuration
+
+14
+00:01:09,000 --> 00:01:10,000
+files in a volume.
+
+15
+00:01:10,000 --> 00:01:17,000
+So the same config map object we need to consider to define all our environment variables inside the
+
+16
+00:01:17,000 --> 00:01:18,000
+Kubernetes cluster.
+
+17
+00:01:18,000 --> 00:01:22,000
+So there is also a syntax on how we can create this.
+
+18
+00:01:22,000 --> 00:01:27,000
+We are going to follow the same and define a Kubernetes manifest file to create the config map that
+
+19
+00:01:27,000 --> 00:01:30,000
+is specific to our microservices.
+
+20
+00:01:30,000 --> 00:01:32,000
+We also have secrets object.
+
+21
+00:01:32,000 --> 00:01:36,000
+We need to use this whenever we want to store some confidential data.
+
+22
+00:01:36,000 --> 00:01:42,000
+Previously we created a secret object whenever we try to deploy the Kubernetes dashboard.
+
+23
+00:01:42,000 --> 00:01:46,000
+If you can scroll down here, the kind has to be secret, the same we have used previously.
+
+24
+00:01:46,000 --> 00:01:51,000
+But right now let's focus on config maps to create the environment variables.
+
+25
+00:01:51,000 --> 00:01:57,000
+For the same, I'm going to create a new file inside my Kubernetes folder and the file name is going
+
+26
+00:01:57,000 --> 00:02:01,000
+to be configmaps.yml.
+
+27
+00:02:01,000 --> 00:02:06,000
+So once I have created these Yaml file I'm going to open these inside an text editor.
+
+28
+00:02:06,000 --> 00:02:12,000
+So here inside my sublime text I'm going to open the file which is configmaps.yaml.
+
+29
+00:02:12,000 --> 00:02:14,000
+As of now it is empty.
+
+30
+00:02:14,000 --> 00:02:18,000
+So here let me paste few configurations which we can discuss in detail.
+
+31
+00:02:18,000 --> 00:02:22,000
+Like you can see I have pasted few lines of configurations.
+
+32
+00:02:22,000 --> 00:02:25,000
+So the very first element is API version.
+
+33
+00:02:25,000 --> 00:02:30,000
+For config maps we need to mention value as V1 and the kind has to be config map.
+
+34
+00:02:30,000 --> 00:02:36,000
+Under metadata, we need to give the name that we want to give for this config map configurations.
+
+35
+00:02:36,000 --> 00:02:41,000
+So the name that I'm trying to give here is easybank -config map.
+
+36
+00:02:41,000 --> 00:02:46,000
+After the metadata, we need to mention an element which is data.
+
+37
+00:02:46,000 --> 00:02:53,000
+And at this data element we can provide any number of environment properties with a key and value.
+
+38
+00:02:53,000 --> 00:02:54,000
+Like you can see,
+
+39
+00:02:54,000 --> 00:03:00,000
+I have mentioned these environment variables like what is the profile that I want to consider while
+
+40
+00:03:00,000 --> 00:03:02,000
+deploying my microservice.
+
+41
+00:03:02,000 --> 00:03:04,000
+And very similarly, what is our config server?
+
+42
+00:03:05,000 --> 00:03:07,000
+What is the Eureka server URL?
+
+43
+00:03:07,000 --> 00:03:13,000
+What is the application name of configserver, Eureka server, accounts, loans, cards, GatewayApplication
+
+44
+00:03:13,000 --> 00:03:14,000
+name and a class.
+
+45
+00:03:14,000 --> 00:03:16,000
+What is the keycloak admin username?
+
+46
+00:03:16,000 --> 00:03:22,000
+What is the admin password of keycloak and what is the keycloak URL where my resource server has to
+
+47
+00:03:22,000 --> 00:03:23,000
+fetch the certificate?
+
+48
+00:03:23,000 --> 00:03:30,000
+So all these environments I have mentioned here coming to the values the host names has to be your service
+
+49
+00:03:30,000 --> 00:03:31,000
+names.
+
+50
+00:03:31,000 --> 00:03:37,000
+I have created my config server with the service name as config server and similarly for the Eureka
+
+51
+00:03:37,000 --> 00:03:39,000
+Server, the service name is going to be Eureka Server.
+
+52
+00:03:39,000 --> 00:03:41,000
+That's why I have mentioned the same here.
+
+53
+00:03:41,000 --> 00:03:47,000
+Now coming to the keycloak URL details which we need to mention under the resource server.
+
+54
+00:03:47,000 --> 00:03:51,000
+I'm going to start my keycloak service with the name keycloak only.
+
+55
+00:03:51,000 --> 00:03:55,000
+That's why I'm going to mention the host name as keycloak.
+
+56
+00:03:55,000 --> 00:03:56,000
+Here I have some different value.
+
+57
+00:03:56,000 --> 00:03:59,000
+Let me remove this and my keycloak is going to get exposed
+
+58
+00:03:59,000 --> 00:04:02,000
+the service at the port 7080.
+
+59
+00:04:02,000 --> 00:04:04,000
+That's why I'm trying to mention a correct value here.
+
+60
+00:04:04,000 --> 00:04:06,000
+What is the host name and what is the port number?
+
+61
+00:04:06,000 --> 00:04:13,000
+So here I'm not defining any properties related to Kafka or Rabbitmq or Opentelemetry.
+
+62
+00:04:13,000 --> 00:04:19,000
+The reason is once I discussed about the helm charts, then only I'm going to show you how to set up
+
+63
+00:04:19,000 --> 00:04:25,000
+Kafka or Grafana related components inside Kubernetes, because writing all these Kubernetes manifest
+
+64
+00:04:25,000 --> 00:04:32,000
+files for industry provided components like Kafka, Grafana is unnecessary and it's over complicated.
+
+65
+00:04:32,000 --> 00:04:38,000
+That's why when we try to learn about helm charts using the same, I'm going to show you how easy it
+
+66
+00:04:38,000 --> 00:04:42,000
+is to set up these components like Kafka, Grafana components.
+
+67
+00:04:42,000 --> 00:04:47,000
+For now, inside this lecture, we're going to deploy only our microservices that we have developed,
+
+68
+00:04:47,000 --> 00:04:49,000
+along with the keycloak.
+
+69
+00:04:49,000 --> 00:04:50,000
+Keycloak is mandatory
+
+70
+00:04:50,000 --> 00:04:56,000
+we cannot skip it because as of now our gateway server is secured and without keycloak server, we
+
+71
+00:04:56,000 --> 00:04:59,000
+cannot access any of the APIs to create the data
+
+72
+00:05:00,000 --> 00:05:01,000
+inside our microservice.
+
+73
+00:05:01,000 --> 00:05:06,000
+So with this we have successfully created the config map Kubernetes manifest file.
+
+74
+00:05:06,000 --> 00:05:13,000
+As a next step, let me try to use this file and try to feed the same to my Kubernetes cluster.
+
+75
+00:05:13,000 --> 00:05:13,000
+For the same,
+
+76
+00:05:13,000 --> 00:05:17,000
+I'm going to run the command, which is cubectl.
+
+77
+00:05:17,000 --> 00:05:20,000
+apply -f and what is the file name?
+
+78
+00:05:20,000 --> 00:05:24,000
+The file name is config maps.yaml.
+
+79
+00:05:24,000 --> 00:05:29,000
+So as soon as I try to execute this you can see I got an output saying that so and so config map is
+
+80
+00:05:29,000 --> 00:05:30,000
+successfully created.
+
+81
+00:05:30,000 --> 00:05:36,000
+I can validate if it is created or not inside my kubernetes dashboard since my session is expired.
+
+82
+00:05:36,000 --> 00:05:38,000
+Let me get my token.
+
+83
+00:05:38,000 --> 00:05:40,000
+So I have my token pasted here.
+
+84
+00:05:40,000 --> 00:05:44,000
+Let me copy this and mention the same here and click on this sign in.
+
+85
+00:05:44,000 --> 00:05:49,000
+Now I'll make sure the namespace is default and I'll scroll down here.
+
+86
+00:05:49,000 --> 00:05:52,000
+There is a section with a value config Maps.
+
+87
+00:05:52,000 --> 00:05:57,000
+So let me click on this and you can see here I have a config map which I have created just now.
+
+88
+00:05:57,000 --> 00:06:00,000
+So let me click on this and this.
+
+89
+00:06:00,000 --> 00:06:06,000
+You'll be able to see all the environment variables that we have provided to the Kubernetes cluster.
+
+90
+00:06:06,000 --> 00:06:07,000
+As a next step,
+
+91
+00:06:07,000 --> 00:06:13,000
+by using these environment variables, we can try to deploy all the remaining microservices.
+
+92
+00:06:13,000 --> 00:06:17,000
+But before I close this lecture, let me show you the difference between config maps and secrets.
+
+93
+00:06:17,000 --> 00:06:24,000
+So inside config maps we can always see that data directly inside the Kubernetes dashboard, whereas
+
+94
+00:06:24,000 --> 00:06:28,000
+secrets, they will be base64 encoded as of now under default
+
+95
+00:06:28,000 --> 00:06:29,000
+there is no secret.
+
+96
+00:06:29,000 --> 00:06:35,000
+But if you go to the namespace which is Kubernetes dashboard, you'll have a secret with the name admin
+
+97
+00:06:35,000 --> 00:06:39,000
+user and here you will not be able to see that data.
+
+98
+00:06:39,000 --> 00:06:41,000
+It is by default.
+
+99
+00:06:41,000 --> 00:06:43,000
+It is hidden from the dashboard.
+
+100
+00:06:43,000 --> 00:06:48,000
+But if you want to see that, you can click on this view option that will show you that token value.
+
+101
+00:06:48,000 --> 00:06:52,000
+So this is not a super perfect way to secure your secrets.
+
+102
+00:06:52,000 --> 00:06:55,000
+That's why inside Kubernetes there is also a joke.
+
+103
+00:06:55,000 --> 00:06:59,000
+Your secrets in Kubernetes are not actually secrets.
+
+104
+00:06:59,000 --> 00:07:04,000
+There is always better approaches to store the secrets inside cloud environments.
+
+105
+00:07:04,000 --> 00:07:10,000
+Your platform team or DevOps team members, they should be able to setup them inside your microservice
+
+106
+00:07:10,000 --> 00:07:10,000
+network.
+
+107
+00:07:10,000 --> 00:07:16,000
+With this, I'm assuming your super clear on how to create a config map inside Kubernetes cluster.
+
+108
+00:07:16,000 --> 00:07:20,000
+Thank you and I'll catch you in the next lecture bye.
+

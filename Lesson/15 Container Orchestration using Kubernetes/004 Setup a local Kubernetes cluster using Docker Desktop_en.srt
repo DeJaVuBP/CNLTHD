@@ -1,0 +1,544 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now we have a basic understanding about what is Kubernetes. As a next step, we need to set up a Kubernetes
+
+2
+00:00:07,000 --> 00:00:11,000
+cluster and try to deploy all our microservices. For the same,
+
+3
+00:00:11,000 --> 00:00:15,000
+first, we are going to set up a Kubernetes cluster inside the local system.
+
+4
+00:00:15,000 --> 00:00:22,000
+And once we set up a local Kubernetes cluster, we are going to explore all the concepts of Kubernetes.
+
+5
+00:00:22,000 --> 00:00:28,000
+And once we are clear with all the concepts, I'm also going to show you a demo of creating a Kubernetes
+
+6
+00:00:28,000 --> 00:00:33,000
+cluster and deploying our microservices inside a cloud environment as well.
+
+7
+00:00:33,000 --> 00:00:38,000
+But first, let's try to clear all the concepts with the local Kubernetes cluster.
+
+8
+00:00:38,000 --> 00:00:43,000
+The reason is if you try to spend more time on cloud learning all these concepts, you need to make
+
+9
+00:00:43,000 --> 00:00:50,000
+sure your Kubernetes cluster is running a lot inside the cloud, and that is going to attract a good
+
+10
+00:00:50,000 --> 00:00:51,000
+amount of bill.
+
+11
+00:00:51,000 --> 00:00:55,000
+That's why to avoid that, first, let's explore local Kubernetes cluster.
+
+12
+00:00:55,000 --> 00:01:02,000
+If you are comfortable and if you want, you can also try the same inside the cloud environment as well.
+
+13
+00:01:02,000 --> 00:01:06,000
+So to set up a local Kubernetes cluster, we have various options.
+
+14
+00:01:06,000 --> 00:01:09,000
+We also have a installation with the name Minikube.
+
+15
+00:01:09,000 --> 00:01:10,000
+So what is Minikube?
+
+16
+00:01:10,000 --> 00:01:16,000
+With the help of Minikube installation, we can set up a small Kubernetes cluster inside local system.
+
+17
+00:01:16,000 --> 00:01:23,000
+But there are some drawbacks of Minikube installation because few of the commands that we give for the
+
+18
+00:01:23,000 --> 00:01:30,000
+Minikube will be different compared to the actual commands that we give to the Kubernetes cluster inside
+
+19
+00:01:30,000 --> 00:01:31,000
+the production environment.
+
+20
+00:01:31,000 --> 00:01:34,000
+So that's why I want to avoid the Minikube installation.
+
+21
+00:01:34,000 --> 00:01:40,000
+Instead, I'm going to deploy a local Kubernetes cluster with the help of Docker desktop.
+
+22
+00:01:40,000 --> 00:01:46,000
+And this local Kubernetes cluster is going to work very similar to production Kubernetes cluster. Since
+
+23
+00:01:46,000 --> 00:01:50,000
+we already have Docker desktop installed inside our local system.
+
+24
+00:01:50,000 --> 00:01:55,000
+Creating a Kubernetes cluster with the help of Docker desktop is not going to be super challenging.
+
+25
+00:01:55,000 --> 00:01:56,000
+It is going to be super easy.
+
+26
+00:01:56,000 --> 00:02:03,000
+Like you can see, you can come to this page, which is doc's.docker.com/desktop/kubernetes.
+
+27
+00:02:03,000 --> 00:02:06,000
+I'm also going to mention this URL inside the GitHub repo.
+
+28
+00:02:06,000 --> 00:02:13,000
+Inside this page you can see there are clear steps on how to turn on Kubernetes inside the Docker desktop.
+
+29
+00:02:13,000 --> 00:02:18,000
+So from the Docker dashboard, you need to select the settings, post that on the left side bar, you
+
+30
+00:02:18,000 --> 00:02:24,000
+need to select the Kubernetes and enable the Kubernetes and at last select the apply and restart.
+
+31
+00:02:24,000 --> 00:02:26,000
+So this will create a local Kubernetes cluster.
+
+32
+00:02:26,000 --> 00:02:30,000
+So let me try to show you the steps one by one. For the same,
+
+33
+00:02:30,000 --> 00:02:33,000
+I'm going to open the Docker dashboard.
+
+34
+00:02:33,000 --> 00:02:37,000
+Here there is a settings option we have on the top right corner.
+
+35
+00:02:37,000 --> 00:02:44,000
+If you can click on this settings, there is an option of Kubernetes in this left hand side bar and
+
+36
+00:02:44,000 --> 00:02:50,000
+in this page we need to select this one, which is enable Kubernetes and don't select the second option,
+
+37
+00:02:50,000 --> 00:02:52,000
+which is show system containers.
+
+38
+00:02:52,000 --> 00:02:57,000
+When you select this option, which is show system containers, whenever you try to run some Docker
+
+39
+00:02:57,000 --> 00:03:03,000
+commands like docker ps, it is also going to show you all the containers created by the Kubernetes
+
+40
+00:03:03,000 --> 00:03:05,000
+cluster as well.
+
+41
+00:03:05,000 --> 00:03:09,000
+Since we don't want that, we can disable this and post that
+
+42
+00:03:09,000 --> 00:03:12,000
+I'm going to click on this, apply and restart.
+
+43
+00:03:12,000 --> 00:03:15,000
+This will restart my Docker desktop.
+
+44
+00:03:15,000 --> 00:03:17,000
+So this is going to take few minutes.
+
+45
+00:03:17,000 --> 00:03:22,000
+Meanwhile, let's try to understand other goods information available inside this page.
+
+46
+00:03:22,000 --> 00:03:28,000
+They clearly highlighted it is going to create a single node cluster since inside the local system we
+
+47
+00:03:28,000 --> 00:03:32,000
+will not have large memory or CPU capacity.
+
+48
+00:03:32,000 --> 00:03:35,000
+Always local Kubernetes clusters
+
+49
+00:03:35,000 --> 00:03:37,000
+they are going to install a single node cluster.
+
+50
+00:03:38,000 --> 00:03:42,000
+A same single node is going to act as a both master node and worker node.
+
+51
+00:03:42,000 --> 00:03:47,000
+But when we try to create the same cluster inside the cloud environment, I'll show you how to create
+
+52
+00:03:47,000 --> 00:03:53,000
+a production ready Kubernetes cluster with at least three different worker nodes and one master node.
+
+53
+00:03:53,000 --> 00:03:56,000
+For now, for our local testing, this should be fine.
+
+54
+00:03:56,000 --> 00:04:02,000
+And if you can scroll down on this page, once you followed all these turn on Kubernetes steps, it
+
+55
+00:04:02,000 --> 00:04:08,000
+also provided some instructions like by default, Kubernetes containers are hidden from commands like
+
+56
+00:04:08,000 --> 00:04:08,000
+docker ps.
+
+57
+00:04:08,000 --> 00:04:15,000
+Because managing them manually is not supported, most users do not need this option, but for some
+
+58
+00:04:15,000 --> 00:04:21,000
+reason, if you want to see this internal containers, we need to select the option show system containers.
+
+59
+00:04:21,000 --> 00:04:22,000
+The same we discussed previously.
+
+60
+00:04:22,000 --> 00:04:28,000
+We didn't select this because we don't want to see the internal containers with the help of Docker commands.
+
+61
+00:04:28,000 --> 00:04:34,000
+And after that there is also information once Kubernetes is turned on and running and additional status
+
+62
+00:04:34,000 --> 00:04:39,000
+bar in the Docker desktop footer and the Docker menu displays.
+
+63
+00:04:39,000 --> 00:04:42,000
+So let's try to understand the same inside the Docker desktop.
+
+64
+00:04:42,000 --> 00:04:44,000
+I came to my Docker desktop here
+
+65
+00:04:44,000 --> 00:04:45,000
+let me close this window.
+
+66
+00:04:45,000 --> 00:04:51,000
+Now you can see at the bottom of the Docker desktop on the left hand side there are two symbols.
+
+67
+00:04:51,000 --> 00:04:55,000
+One is related to Docker, which is saying engine is running below that.
+
+68
+00:04:55,000 --> 00:04:59,000
+We also have one more status telling Kubernetes is running this indicates
+
+69
+00:04:59,000 --> 00:05:03,000
+that our Kubernetes cluster is right now set up.
+
+70
+00:05:03,000 --> 00:05:07,000
+We can also confirm that by going to the Docker desktop here
+
+71
+00:05:07,000 --> 00:05:11,000
+also right now, you'll be able to see one more option with the Kubernetes.
+
+72
+00:05:11,000 --> 00:05:17,000
+So under the Kubernetes, there are some options that that means the local Kubernetes cluster is created.
+
+73
+00:05:17,000 --> 00:05:21,000
+So now we have Kubernetes local cluster available.
+
+74
+00:05:21,000 --> 00:05:26,000
+As a next step, we need to make sure Kubectl is set up inside our local system.
+
+75
+00:05:26,000 --> 00:05:27,000
+What is kubectl,
+
+76
+00:05:27,000 --> 00:05:31,000
+it is one of the approach to interact with the Kubernetes cluster.
+
+77
+00:05:31,000 --> 00:05:33,000
+Like you can see at the top, there are two approaches.
+
+78
+00:05:33,000 --> 00:05:37,000
+One is with the UI, the other one is Kubectl CLI.
+
+79
+00:05:37,000 --> 00:05:44,000
+So to give instructions to our Kubernetes cluster, we need to make sure we have kubectl setup inside
+
+80
+00:05:44,000 --> 00:05:45,000
+our local system.
+
+81
+00:05:45,000 --> 00:05:52,000
+So here there are certain instructions saying that by default this kubectl is going to be set up by
+
+82
+00:05:52,000 --> 00:05:59,000
+your Docker desktop while it is trying to create the local Kubernetes cluster at this path inside your
+
+83
+00:05:59,000 --> 00:06:03,000
+Mac or if you are using Windows, this is the path where it is going to set up.
+
+84
+00:06:03,000 --> 00:06:06,000
+So try to run some kubectl command.
+
+85
+00:06:06,000 --> 00:06:12,000
+If it is not working, please make sure this location is set inside your path variable.
+
+86
+00:06:12,000 --> 00:06:17,000
+So just like how we do for the JAVA_HOME and MAVEN_HOME, very similarly we need to make sure that
+
+87
+00:06:17,000 --> 00:06:24,000
+these location are available under the path variable post that once this kubectl command is installed
+
+88
+00:06:24,000 --> 00:06:30,000
+and set up properly, you can try to run the command which is kubectl config, get context.
+
+89
+00:06:30,000 --> 00:06:33,000
+So I'm trying to run the same inside my terminal.
+
+90
+00:06:33,000 --> 00:06:40,000
+So kubectl is a command every time we need to use whenever we want to use some instructions to the Kubernetes
+
+91
+00:06:40,000 --> 00:06:41,000
+cluster.
+
+92
+00:06:41,000 --> 00:06:45,000
+So after kubectl I'm trying to mention config and get context.
+
+93
+00:06:45,000 --> 00:06:53,000
+So with this I will get what are the list of contexts available inside my local system.
+
+94
+00:06:53,000 --> 00:07:00,000
+So context is a kind of isolated environment using which my client application or my CLI can interact
+
+95
+00:07:00,000 --> 00:07:02,000
+with the Kubernetes cluster.
+
+96
+00:07:02,000 --> 00:07:07,000
+So as of now you can see by default there is a context created with the name Docker desktop.
+
+97
+00:07:07,000 --> 00:07:14,000
+Very similarly, you can also try to run one more command which is kubectl config get-clusters.
+
+98
+00:07:14,000 --> 00:07:20,000
+This will give you what are the list of Kubernetes clusters that are running inside your local system.
+
+99
+00:07:20,000 --> 00:07:25,000
+So as of now you can see I have only one Kubernetes cluster inside my local system.
+
+100
+00:07:25,000 --> 00:07:31,000
+It is perfectly possible that you can create any number of clusters with various approaches, but right
+
+101
+00:07:31,000 --> 00:07:36,000
+now, since we have only one Kubernetes cluster, the same is visible here.
+
+102
+00:07:36,000 --> 00:07:38,000
+The name of this cluster is Docker Desktop.
+
+103
+00:07:38,000 --> 00:07:41,000
+I hope you are clear about this Kubectl command instructions.
+
+104
+00:07:41,000 --> 00:07:48,000
+For some reason, if you have various context available inside your local system because you might have
+
+105
+00:07:48,000 --> 00:07:54,000
+installed Minikube or any other approaches to set up Kubernetes cluster in such scenarios
+
+106
+00:07:54,000 --> 00:08:00,000
+If you have various contexts, we need to make sure we are setting the Docker desktop as the default
+
+107
+00:08:00,000 --> 00:08:03,000
+context that we want to use for our local testing.
+
+108
+00:08:03,000 --> 00:08:09,000
+So that's why I'm trying to run the command, which is kubectl config use context docker desktop.
+
+109
+00:08:09,000 --> 00:08:16,000
+This is not going to have any effect in my local system because as of now I have only one context.
+
+110
+00:08:16,000 --> 00:08:21,000
+That's why you can see under the current there is an asterisk mark saying that this context is right
+
+111
+00:08:21,000 --> 00:08:24,000
+now activated in my local system.
+
+112
+00:08:24,000 --> 00:08:31,000
+This command use context is only going to help you if you have many contexts available inside your local
+
+113
+00:08:31,000 --> 00:08:31,000
+system.
+
+114
+00:08:31,000 --> 00:08:34,000
+So after running this command, let's go back to the browser.
+
+115
+00:08:34,000 --> 00:08:40,000
+Inside the browser, if we can scroll down, there is also a command which is kubectl get nodes which
+
+116
+00:08:40,000 --> 00:08:46,000
+will confirm you how many nodes are available inside your local system.
+
+117
+00:08:46,000 --> 00:08:49,000
+So let me try to run this command, which is kubectl.
+
+118
+00:08:49,000 --> 00:08:56,000
+So kubectl is going to be common for all commands that we are going to issue with the help of kubectl
+
+119
+00:08:56,000 --> 00:08:56,000
+terminal.
+
+120
+00:08:56,000 --> 00:08:58,000
+So kubectl get nodes.
+
+121
+00:08:58,000 --> 00:09:05,000
+So this will give you only a one node because as of now we have created a local Kubernetes cluster with
+
+122
+00:09:05,000 --> 00:09:06,000
+only a single node.
+
+123
+00:09:06,000 --> 00:09:11,000
+When we try to create the Kubernetes cluster inside the cloud environment at that time, I'm going to
+
+124
+00:09:11,000 --> 00:09:15,000
+show you that your cluster is going to have more than a single node.
+
+125
+00:09:15,000 --> 00:09:19,000
+For now, we should be good with this single node for our local testing.
+
+126
+00:09:19,000 --> 00:09:23,000
+With this, we have set up the local Kubernetes cluster.
+
+127
+00:09:23,000 --> 00:09:28,000
+Please make sure you have run all these commands and that will give you a confidence or assurance to
+
+128
+00:09:28,000 --> 00:09:33,000
+you that kubectl is properly set up inside your local system.
+
+129
+00:09:33,000 --> 00:09:39,000
+If not, please follow all the instructions that they have given here and post that restart your terminal
+
+130
+00:09:39,000 --> 00:09:42,000
+and you should be able to run all these commands. For some reasons
+
+131
+00:09:42,000 --> 00:09:50,000
+if you want to disable the Kubernetes cluster or turn off the Kubernetes cluster inside your local system,
+
+132
+00:09:50,000 --> 00:09:53,000
+you can follow the steps that they have mentioned here.
+
+133
+00:09:53,000 --> 00:09:59,000
+I hope you are clear and you set up your local Kubernetes cluster with the help of Docker
+
+134
+00:09:59,000 --> 00:09:59,000
+desktop.
+
+135
+00:09:59,000 --> 00:10:00,000
+Thank you.
+
+136
+00:10:00,000 --> 00:10:03,000
+And I'll catch you in the next lecture bye.
+

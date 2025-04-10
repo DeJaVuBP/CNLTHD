@@ -1,0 +1,336 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, we deployed all our microservices into Kubernetes cluster with the help of Kubernetes manifest
+
+2
+00:00:07,000 --> 00:00:08,000
+files.
+
+3
+00:00:08,000 --> 00:00:13,000
+By following the same steps, you can always deploy any number of microservices inside your real projects
+
+4
+00:00:13,000 --> 00:00:14,000
+as well.
+
+5
+00:00:14,000 --> 00:00:20,000
+With that as a developer, you will be happy and your DevOps team members will also happy with the successful
+
+6
+00:00:20,000 --> 00:00:22,000
+deployment of your microservices.
+
+7
+00:00:22,000 --> 00:00:30,000
+But there are few problems if you try to follow these basic approach of deploying microservices into
+
+8
+00:00:30,000 --> 00:00:31,000
+Kubernetes cluster.
+
+9
+00:00:31,000 --> 00:00:34,000
+So let me try to explain you what are those problems?
+
+10
+00:00:34,000 --> 00:00:39,000
+And I'm also going to give a quick introduction about what is the solution that we are going to use.
+
+11
+00:00:39,000 --> 00:00:40,000
+As of now,
+
+12
+00:00:40,000 --> 00:00:46,000
+if you go and see inside the Kubernetes folder that is available inside the Section15, inside this
+
+13
+00:00:46,000 --> 00:00:50,000
+folder, we are maintaining all the Kubernetes manifest files.
+
+14
+00:00:50,000 --> 00:00:57,000
+So there are eight different Kubernetes manifest files which will help us to create the config map to
+
+15
+00:00:57,000 --> 00:01:00,000
+deploy our microservices, to expose our microservices.
+
+16
+00:01:00,000 --> 00:01:03,000
+But don't you think there is a problem here as of now
+
+17
+00:01:03,000 --> 00:01:07,000
+think like I have only seven microservices or six microservices.
+
+18
+00:01:07,000 --> 00:01:13,000
+That's why I'm able to achieve this job very quickly by creating these manifest files inside these Kubernetes
+
+19
+00:01:13,000 --> 00:01:13,000
+folder.
+
+20
+00:01:13,000 --> 00:01:20,000
+But think like inside real projects, you may have hundreds of microservices preparing Kubernetes manifest
+
+21
+00:01:20,000 --> 00:01:22,000
+files and maintaining the same for all
+
+22
+00:01:22,000 --> 00:01:26,000
+your microservice is going to be a nightmare. For some time,
+
+23
+00:01:26,000 --> 00:01:32,000
+let's assume that you are somehow able to create manifest files for all your microservices and you are
+
+24
+00:01:32,000 --> 00:01:34,000
+able to proceed with your Kubernetes deployment.
+
+25
+00:01:34,000 --> 00:01:37,000
+But the problem is not ended there.
+
+26
+00:01:37,000 --> 00:01:39,000
+We have one more problem.
+
+27
+00:01:39,000 --> 00:01:45,000
+Once you have created all these Kubernetes manifest files to deploy your microservices into Kubernetes,
+
+28
+00:01:45,000 --> 00:01:48,000
+you need to apply all these manifest files one by one.
+
+29
+00:01:48,000 --> 00:01:54,000
+Like, you know, previously, whenever we are trying to deploy a particular microservice, we ran the
+
+30
+00:01:54,000 --> 00:01:59,000
+command, which is kubectl apply -f and what is a Kubernetes manifest file?
+
+31
+00:01:59,000 --> 00:02:05,000
+This way I need to apply all the manifest files for all my 100 microservices.
+
+32
+00:02:05,000 --> 00:02:08,000
+Let's assume you are also fine with this problem.
+
+33
+00:02:08,000 --> 00:02:15,000
+You are super patient to apply all the files one by one, but the problem is not going to end there.
+
+34
+00:02:15,000 --> 00:02:17,000
+We have more problems.
+
+35
+00:02:17,000 --> 00:02:23,000
+The problem is you may have multiple environments inside your organization development, qa, production.
+
+36
+00:02:23,000 --> 00:02:28,000
+So for all these environments you may have Kubernetes cluster and for different, different environments,
+
+37
+00:02:28,000 --> 00:02:30,000
+you may have different, different requirements.
+
+38
+00:02:30,000 --> 00:02:37,000
+Like inside Dev, you may want to have only one replica of accounts microservice and other microservices,
+
+39
+00:02:37,000 --> 00:02:44,000
+whereas in QA you want to have three replicas and inside prod you may want to deploy five replicas,
+
+40
+00:02:44,000 --> 00:02:47,000
+ten replicas based upon your incoming traffic.
+
+41
+00:02:47,000 --> 00:02:53,000
+So in such scenarios you need to maintain your Kubernetes manifest files according to your different
+
+42
+00:02:53,000 --> 00:02:55,000
+different environments that you may have.
+
+43
+00:02:55,000 --> 00:03:01,000
+So now imagine you have hundreds of manifest files which are going to be multiplied by number of your
+
+44
+00:03:01,000 --> 00:03:06,000
+environments that will triple or double your Kubernetes manifest files.
+
+45
+00:03:06,000 --> 00:03:08,000
+So are you fine facing these challenges?
+
+46
+00:03:08,000 --> 00:03:13,000
+Off course, no one will use this approach because this takes a lot of effort.
+
+47
+00:03:13,000 --> 00:03:19,000
+On top of that, even whenever we want to uninstall your microservices in such scenarios.
+
+48
+00:03:19,000 --> 00:03:27,000
+also, we need to run the commands like kubectl delete and provide the Kubernetes manifest file.
+
+49
+00:03:27,000 --> 00:03:28,000
+I can also show you that in the demo.
+
+50
+00:03:28,000 --> 00:03:32,000
+So here first I'll try to delete the gateway server.
+
+51
+00:03:32,000 --> 00:03:39,000
+So for the same I'll try to run the command, which is kubectl delete hyphen -f and what is my gateway
+
+52
+00:03:39,000 --> 00:03:40,000
+server Yaml file?
+
+53
+00:03:40,000 --> 00:03:44,000
+So this will delete my deployment and services of gateway server.
+
+54
+00:03:44,000 --> 00:03:51,000
+So the same I need to run for all the remaining microservices like for cards I have done just now.
+
+55
+00:03:51,000 --> 00:03:55,000
+And very similarly I'm going to do for loans,
+
+56
+00:03:55,000 --> 00:04:00,000
+now let me do the same for accounts microservice and post the accounts microservice,
+
+57
+00:04:00,000 --> 00:04:07,000
+I'm going to delete Eureka server followed by config server and after the config server I'm also going
+
+58
+00:04:07,000 --> 00:04:13,000
+to delete the config map that I have created and post that I'm also going to delete the keycloak as
+
+59
+00:04:13,000 --> 00:04:13,000
+well.
+
+60
+00:04:13,000 --> 00:04:19,000
+So if you see here how painful it is for me if I want to empty my cluster or if I want to uninstall
+
+61
+00:04:19,000 --> 00:04:25,000
+my applications from the Kubernetes cluster, think like if you are having hundreds of microservice,
+
+62
+00:04:25,000 --> 00:04:30,000
+then you need to run this command 100 different times, which is a challenge for anyone.
+
+63
+00:04:30,000 --> 00:04:37,000
+Now, if you see here inside my cluster, all of my deployments, parts, everything got deleted because
+
+64
+00:04:37,000 --> 00:04:42,000
+we deleted all our deployments and services with the help of this delete command.
+
+65
+00:04:42,000 --> 00:04:48,000
+Now, going back to the problems or challenges that we have with this approach, so how are we going
+
+66
+00:04:48,000 --> 00:04:52,000
+to solve these problems or challenges for the same we have a solution.
+
+67
+00:04:52,000 --> 00:04:54,000
+Let me show you the solution.
+
+68
+00:04:54,000 --> 00:04:55,000
+The solution is Helm.
+
+69
+00:04:55,000 --> 00:04:59,000
+So Helm is a package manager for Kubernetes.
+
+70
+00:04:59,000 --> 00:05:00,000
+So
+
+71
+00:05:00,000 --> 00:05:01,000
+it is a very quick introduction.
+
+72
+00:05:01,000 --> 00:05:08,000
+Inside the next section, we are going to focus on Helm how to set up our microservices with the help
+
+73
+00:05:08,000 --> 00:05:09,000
+of helm.
+
+74
+00:05:09,000 --> 00:05:13,000
+I'm sure you're going to like Helm because it is going to make our life super, super easy.
+
+75
+00:05:13,000 --> 00:05:19,000
+Before I try to close this section, let me confirm you that I'm going to check in this entire section15
+
+76
+00:05:19,000 --> 00:05:24,000
+folder inside which you will be able to see the Kubernetes manifest files.
+
+77
+00:05:24,000 --> 00:05:26,000
+So please refer them if you have any questions.
+
+78
+00:05:26,000 --> 00:05:32,000
+I'm not going to check in any microservice related code inside the section 15 because we didn't make
+
+79
+00:05:32,000 --> 00:05:33,000
+any code changes.
+
+80
+00:05:33,000 --> 00:05:39,000
+Throughout this section, we are exploring more about Kubernetes, so please refer to these files if
+
+81
+00:05:39,000 --> 00:05:42,000
+you have any questions inside the GitHub repo, please take a break.
+
+82
+00:05:42,000 --> 00:05:47,000
+After taking a break, come back and we can continue the discussion about Helm.
+
+83
+00:05:47,000 --> 00:05:47,000
+Thank you.
+
+84
+00:05:47,000 --> 00:05:48,000
+Bye.
+
