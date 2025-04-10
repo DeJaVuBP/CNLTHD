@@ -1,0 +1,372 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let me give a quick introduction about what is the circuit breaker pattern and
+
+2
+00:00:06,000 --> 00:00:12,000
+how it is going to help us in stopping the cascading failures inside our microservice network.
+
+3
+00:00:12,000 --> 00:00:19,000
+Before I try to explain about the circuit breaker pattern inside microservices, first let me give a
+
+4
+00:00:19,000 --> 00:00:25,000
+quick introduction about Circuit Breaker that we use as part of electrical system.
+
+5
+00:00:25,000 --> 00:00:29,000
+We all use many circuit breakers inside our house or office.
+
+6
+00:00:29,000 --> 00:00:31,000
+So what is the purpose of this circuit breaker?
+
+7
+00:00:31,000 --> 00:00:38,000
+It is a safety device designed to protect the electrical circuit from excessive current or any potential
+
+8
+00:00:38,000 --> 00:00:39,000
+fire hazards.
+
+9
+00:00:39,000 --> 00:00:45,000
+Whenever a circuit breaker detects that there is a fault in the flow of the electricity may be due to
+
+10
+00:00:45,000 --> 00:00:52,000
+the short circuit or overload of the electricity in such scenarios to ensure the safety and the stability
+
+11
+00:00:52,000 --> 00:00:59,000
+of your house or the office, it is going to automatically open or it is going to automatically trip
+
+12
+00:00:59,000 --> 00:01:00,000
+itself.
+
+13
+00:01:00,000 --> 00:01:06,000
+So there won't be any electricity passing towards the components that you use inside your house or office.
+
+14
+00:01:06,000 --> 00:01:14,000
+You can see here we also have one sample representation Since the circuit breaker is open now, my electric
+
+15
+00:01:14,000 --> 00:01:21,000
+components like bulb, it is going to get protected because there is a short circuit or there is a overload
+
+16
+00:01:21,000 --> 00:01:23,000
+detected by the circuit breaker.
+
+17
+00:01:23,000 --> 00:01:26,000
+So with this, my bulb is not going to get affected.
+
+18
+00:01:26,000 --> 00:01:31,000
+Think of a scenario if the circuit breaker is not there, the overloaded current at the short circuit
+
+19
+00:01:31,000 --> 00:01:38,000
+is going to travel to the bulb inside my electric system and eventually my bulb is going to get damaged.
+
+20
+00:01:38,000 --> 00:01:45,000
+The same concept is considered in building the circuit breaker pattern inside the software development.
+
+21
+00:01:45,000 --> 00:01:51,000
+Let's try to understand how this is relevant to the circuit breaker pattern inside software development,
+
+22
+00:01:51,000 --> 00:01:57,000
+just like inside electrical system, how the electricity is going to pass throughout the network.
+
+23
+00:01:57,000 --> 00:02:03,000
+Very similarly, in a distributed environment, the calls to the remote resources and services is going
+
+24
+00:02:03,000 --> 00:02:10,000
+to happen, and these remote calls may fail due to many reasons, maybe due to some transient faults
+
+25
+00:02:10,000 --> 00:02:16,000
+or due to some slow network or maybe due to some timeout or maybe due to resources being overcommitted
+
+26
+00:02:16,000 --> 00:02:19,000
+or maybe due to temporarily unavailable.
+
+27
+00:02:19,000 --> 00:02:21,000
+The reason can be anything but.
+
+28
+00:02:21,000 --> 00:02:26,000
+But most of the times these faults typically correct themselves after a short period of time.
+
+29
+00:02:26,000 --> 00:02:33,000
+Maybe if one of the microservice is responding very slowly, it is not going to be in such state forever.
+
+30
+00:02:33,000 --> 00:02:35,000
+At some point of time it is going to recover itself.
+
+31
+00:02:35,000 --> 00:02:40,000
+Or if you take the network problem itself, the network problem is going to be a temporary problem.
+
+32
+00:02:40,000 --> 00:02:42,000
+It is not going to be a permanent problem.
+
+33
+00:02:42,000 --> 00:02:48,000
+So since these kind of issues are going to get resolved for after a short period of time, we need to
+
+34
+00:02:48,000 --> 00:02:54,000
+be ready to face these kind of temporary issues inside our microservices network.
+
+35
+00:02:54,000 --> 00:02:59,000
+So let's try to understand how the circuit breaker pattern is going to help in these kind of scenarios.
+
+36
+00:02:59,000 --> 00:03:05,000
+The circuit breaker pattern, which is inspired from the electrical circuit breaker itself, it is going
+
+37
+00:03:05,000 --> 00:03:08,000
+to monitor all the remote calls happening to a particular service.
+
+38
+00:03:08,000 --> 00:03:15,000
+If a particular service like micro service, if it is taking too long to respond or if it is not responding
+
+39
+00:03:15,000 --> 00:03:20,000
+or if it is having some network issues, the circuit breaker is going to kill that call.
+
+40
+00:03:20,000 --> 00:03:26,000
+And at the same time, since it is monitoring all the calls that are going to the courts, microservice
+
+41
+00:03:26,000 --> 00:03:32,000
+and if the majority of the calls are failing due to the slow response or due to some network issue,
+
+42
+00:03:32,000 --> 00:03:37,000
+the circuit breaker implementation will pop up and it will make sure all the future requests coming
+
+43
+00:03:37,000 --> 00:03:43,000
+to the courts microservice are failing immediately, which means it will never allow the traffic to
+
+44
+00:03:43,000 --> 00:03:43,000
+the courts.
+
+45
+00:03:43,000 --> 00:03:49,000
+Microservice Instead it is going to tell to the client applications my cards, microservice is not working.
+
+46
+00:03:49,000 --> 00:03:53,000
+That's why I am sending the failure response immediately.
+
+47
+00:03:53,000 --> 00:03:59,000
+With that, my dependent microservices like accounts microservice and gateway server.
+
+48
+00:03:59,000 --> 00:04:01,000
+They don't have to wait for a longer time.
+
+49
+00:04:01,000 --> 00:04:09,000
+So by failing fast we are preventing the ripple effect on the gateway server and the accounts microservice.
+
+50
+00:04:09,000 --> 00:04:15,000
+With this approach, we are also making sure other rest APIs inside our microservices are not affected
+
+51
+00:04:15,000 --> 00:04:18,000
+just because courts microservice is down.
+
+52
+00:04:18,000 --> 00:04:24,000
+Maybe there are some microservices or rest APIs where only accounts and loans microservices they have
+
+53
+00:04:24,000 --> 00:04:25,000
+to work together.
+
+54
+00:04:25,000 --> 00:04:30,000
+All such remote calls will be successful because there is no ripple effect happened on my accounts.
+
+55
+00:04:30,000 --> 00:04:33,000
+Microservice with the help of this circuit breaker pattern.
+
+56
+00:04:33,000 --> 00:04:40,000
+So here you may have a very good question, which is I said my circuit breaker pattern is going to stop
+
+57
+00:04:40,000 --> 00:04:43,000
+all the future requests coming towards the courts.
+
+58
+00:04:43,000 --> 00:04:49,000
+Microservice And it is going to immediate failure response to the client microservices like accounts
+
+59
+00:04:49,000 --> 00:04:51,000
+microservice will this going to be forever?
+
+60
+00:04:51,000 --> 00:04:52,000
+Of course not.
+
+61
+00:04:52,000 --> 00:04:58,000
+At some point of time your courts microservice is going to get recovered because your circuit breaker
+
+62
+00:04:58,000 --> 00:05:00,000
+pattern stopped all the incoming.
+
+63
+00:05:00,000 --> 00:05:04,000
+Traffic and gave enough time for your car's microservice to recover.
+
+64
+00:05:04,000 --> 00:05:11,000
+That's why periodically the circuit breaker pattern also sends some partial traffic to the car's microservice
+
+65
+00:05:11,000 --> 00:05:15,000
+to check if my car's microservice is recovered or not.
+
+66
+00:05:15,000 --> 00:05:21,000
+If this partial traffic, which is allowed by the circuit breaker is successful, then my circuit breaker
+
+67
+00:05:21,000 --> 00:05:26,000
+pattern is going to allow all the incoming requests towards the car's microservice.
+
+68
+00:05:26,000 --> 00:05:32,000
+Whereas if this partial traffic, which it allowed previously is also failing, then again, it is going
+
+69
+00:05:32,000 --> 00:05:39,000
+to stop all the incoming requests for few more seconds or few more minutes based upon our configurations.
+
+70
+00:05:39,000 --> 00:05:41,000
+I'll show you this in demo inside our microservices.
+
+71
+00:05:41,000 --> 00:05:44,000
+Then it is going to be super, super clear for you.
+
+72
+00:05:44,000 --> 00:05:48,000
+So there are very good amount of advantages due to this circuit breaker pattern.
+
+73
+00:05:49,000 --> 00:05:54,000
+The primary advantages are it is going to fail your request very fastly instead of your accounts.
+
+74
+00:05:54,000 --> 00:06:01,000
+Microservice waiting for more than 10s and realize that my car's microservice is not working.
+
+75
+00:06:01,000 --> 00:06:07,000
+It is going to fail the incoming request to the cards microservice instantly with that my accounts microservice
+
+76
+00:06:07,000 --> 00:06:10,000
+never have to wait for 10s instead.
+
+77
+00:06:10,000 --> 00:06:15,000
+Now it is going to get the error response within a one second or even within a second.
+
+78
+00:06:15,000 --> 00:06:20,000
+And the next advantage that we have with the circuit breaker pattern is we can make our microservices
+
+79
+00:06:20,000 --> 00:06:21,000
+fail gracefully.
+
+80
+00:06:21,000 --> 00:06:28,000
+Maybe whenever my car's microservice is down or responding very slowly, I can write some fallback mechanism
+
+81
+00:06:28,000 --> 00:06:31,000
+which will fail the request gracefully.
+
+82
+00:06:31,000 --> 00:06:36,000
+I'll explain how to write a fallback mechanism with the help of Circuit Breaker in the coming lectures.
+
+83
+00:06:36,000 --> 00:06:42,000
+And the last primary advantage that we have is the circuit breaker is going to help microservices to
+
+84
+00:06:42,000 --> 00:06:49,000
+recover seamlessly because it is going to give them some rest for a short period of time, like 30s
+
+85
+00:06:49,000 --> 00:06:50,000
+or 90s.
+
+86
+00:06:50,000 --> 00:06:57,000
+Based upon your configurations within the 30s or 90s, your microservices will try to recover because
+
+87
+00:06:57,000 --> 00:06:59,000
+there is no incoming traffic.
+
+88
+00:06:59,000 --> 00:07:05,000
+And if there is some network problem within 30 or 90s, most of the time the network problems will also
+
+89
+00:07:05,000 --> 00:07:05,000
+get resolved.
+
+90
+00:07:05,000 --> 00:07:09,000
+So this is a very quick introduction about circuit breaker pattern.
+
+91
+00:07:09,000 --> 00:07:13,000
+In the next lecture, let me try to explain you how this is all going to happen.
+
+92
+00:07:13,000 --> 00:07:17,000
+Inside circuit breaker pattern with the help of a sample flow.
+
+93
+00:07:17,000 --> 00:07:19,000
+Thank you and I'll catch you in the next lecture by.
+

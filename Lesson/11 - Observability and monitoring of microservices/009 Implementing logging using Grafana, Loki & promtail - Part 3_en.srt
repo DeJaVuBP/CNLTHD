@@ -1,0 +1,732 @@
+1
+00:00:00,000 --> 00:00:01,000
+Behind the scenes
+
+2
+00:00:01,000 --> 00:00:06,000
+I have generated the Docker images by using the code present inside the section 11.
+
+3
+00:00:06,000 --> 00:00:14,000
+As of now, we have not made any changes inside our microservices related to log aggregation.
+
+4
+00:00:14,000 --> 00:00:20,000
+We are going to achieve the log aggregation without making any changes with the help of Grafana, Loki
+
+5
+00:00:20,000 --> 00:00:21,000
+and promptail.
+
+6
+00:00:21,000 --> 00:00:23,000
+So that's what we are trying to achieve here.
+
+7
+00:00:23,000 --> 00:00:30,000
+So as of now you can see all the six Docker images with the tag name s11 are ready.
+
+8
+00:00:30,000 --> 00:00:30,000
+As a next step,
+
+9
+00:00:30,000 --> 00:00:35,000
+I'm going to run the Docker, compose up command from the prod profile.
+
+10
+00:00:35,000 --> 00:00:39,000
+Like you can see here right now, I'm under the prod profile.
+
+11
+00:00:39,000 --> 00:00:46,000
+So here I'm going to run the command docker compose up -d. So this is the regular command which
+
+12
+00:00:46,000 --> 00:00:50,000
+you are already aware, so please make sure the docker is running behind the scenes.
+
+13
+00:00:50,000 --> 00:00:52,000
+Then only we can run this command.
+
+14
+00:00:52,000 --> 00:00:55,000
+So let me execute this command.
+
+15
+00:00:55,000 --> 00:00:56,000
+Here I'm getting an error.
+
+16
+00:00:56,000 --> 00:01:03,000
+Seems while we copied the docker compose file content, we messed up with the alignment in the Yaml
+
+17
+00:01:03,000 --> 00:01:04,000
+file, so let me check the same.
+
+18
+00:01:04,000 --> 00:01:09,000
+So we need to make sure all the service details are mentioned at the same location.
+
+19
+00:01:09,000 --> 00:01:11,000
+So right now I'm at the read location.
+
+20
+00:01:11,000 --> 00:01:17,000
+If I can scroll down, I should make sure the right is present at the same location, but seems you
+
+21
+00:01:17,000 --> 00:01:21,000
+can see this entire right is moved by one location.
+
+22
+00:01:21,000 --> 00:01:28,000
+So let me select these and press shift tab which will take me back one space.
+
+23
+00:01:28,000 --> 00:01:35,000
+So now if you see both my read and write are in the same position. So the issue might be the same for
+
+24
+00:01:35,000 --> 00:01:37,000
+other services also.
+
+25
+00:01:37,000 --> 00:01:44,000
+So let me select all the services till to the point where we have mentioned gateway related configurations.
+
+26
+00:01:44,000 --> 00:01:52,000
+So let me select all these and press shift tab and this will move all my services to the right location.
+
+27
+00:01:52,000 --> 00:01:55,000
+So with this, the issue should get resolved.
+
+28
+00:01:55,000 --> 00:01:57,000
+Let me go to the terminal.
+
+29
+00:01:57,000 --> 00:01:58,000
+Here I'm going to run the command again.
+
+30
+00:01:58,000 --> 00:02:04,000
+This time you can see all our containers are being created. Here under the containers
+
+31
+00:02:04,000 --> 00:02:12,000
+you should be able to see all the containers like Minio read, write, promptail, Grafana, gateway.
+
+32
+00:02:12,000 --> 00:02:16,000
+They started very quickly because all these are very lightweight containers.
+
+33
+00:02:16,000 --> 00:02:24,000
+They're not going to use a lot of CPU inside your local system or inside any Docker container environment.
+
+34
+00:02:24,000 --> 00:02:27,000
+So that's one more advantage that we have with these containers.
+
+35
+00:02:27,000 --> 00:02:33,000
+So now let's wait for 1 to 2 minutes for all our individual microservices to get started.
+
+36
+00:02:33,000 --> 00:02:36,000
+At last our gateway server is going to start.
+
+37
+00:02:36,000 --> 00:02:38,000
+So I'm going to wait for a minute here.
+
+38
+00:02:38,000 --> 00:02:41,000
+After two minutes, all my containers started successfully.
+
+39
+00:02:41,000 --> 00:02:48,000
+If I can open this gateway server related logs, you can see there is a statement started Gateway server
+
+40
+00:02:48,000 --> 00:02:49,000
+successfully.
+
+41
+00:02:49,000 --> 00:02:55,000
+So this confirms all my containers and microservices started successfully. For some reason
+
+42
+00:02:55,000 --> 00:03:02,000
+if the services are not getting started inside your local system due to any reason like low memory or
+
+43
+00:03:02,000 --> 00:03:09,000
+low CPU or low ram in such cases, you can try to increase this interval to 20sec and retrace to 20.
+
+44
+00:03:10,000 --> 00:03:16,000
+With this, you are going to give more time for your containers to get started and to prove their health.
+
+45
+00:03:16,000 --> 00:03:20,000
+But in my case, as of now, these configurations are working perfectly.
+
+46
+00:03:20,000 --> 00:03:23,000
+So now all of our containers started successfully.
+
+47
+00:03:23,000 --> 00:03:28,000
+Let me try to test a few scenarios, so that the logs will be generated behind the scenes.
+
+48
+00:03:28,000 --> 00:03:30,000
+So I came to the postman. 
+
+49
+00:03:30,000 --> 00:03:30,000
+Here first
+
+50
+00:03:30,000 --> 00:03:35,000
+I'm going to invoke this fetchCustomerDetails API available inside the accounts microservice.
+
+51
+00:03:35,000 --> 00:03:41,000
+You can see as expected, we are going to get NotFound like Customer not found with a given input data
+
+52
+00:03:41,000 --> 00:03:46,000
+mobile number. Because our container started just now with the help of H2 database.
+
+53
+00:03:46,000 --> 00:03:52,000
+There won't be any data, so let me try to create that data first with the help of this create API inside
+
+54
+00:03:52,000 --> 00:03:54,000
+the accounts microservice.
+
+55
+00:03:54,000 --> 00:03:56,000
+So the account is created.
+
+56
+00:03:56,000 --> 00:03:59,000
+Now let me do the same for cards as well
+
+57
+00:03:59,000 --> 00:04:02,000
+with the help of create API inside cards microservice.
+
+58
+00:04:02,000 --> 00:04:05,000
+So here I'm getting some timeout exception.
+
+59
+00:04:05,000 --> 00:04:11,000
+Maybe my container took longer time. So if I try to click on the send button, you can see we are getting
+
+60
+00:04:11,000 --> 00:04:12,000
+bad requests.
+
+61
+00:04:12,000 --> 00:04:17,000
+That means behind the scenes the card is registered successfully, so we should be fine.
+
+62
+00:04:17,000 --> 00:04:19,000
+Now I'll try to invoke the loans API.
+
+63
+00:04:19,000 --> 00:04:22,000
+So here we are getting 201.
+
+64
+00:04:22,000 --> 00:04:26,000
+As a next step, I'm going to invoke this fetchCustomerDetails API.
+
+65
+00:04:26,000 --> 00:04:30,000
+So here I'm getting some error from the Circuit breaker fallback.
+
+66
+00:04:30,000 --> 00:04:35,000
+This is because inside my local system there are too many containers running.
+
+67
+00:04:35,000 --> 00:04:38,000
+That is slowing the request to processing capacity of my containers.
+
+68
+00:04:38,000 --> 00:04:42,000
+That's why I'm going to send the request one more time.
+
+69
+00:04:42,000 --> 00:04:45,000
+And this time I got a successful response.
+
+70
+00:04:45,000 --> 00:04:51,000
+But in real production, since you are going to have very big servers, this should not be an any issue.
+
+71
+00:04:51,000 --> 00:04:56,000
+So now we might have generated a lot many logs inside our microservices.
+
+72
+00:04:56,000 --> 00:05:00,000
+First, I'll show you the very basic approach. If we don't have log aggregation
+
+73
+00:05:00,000 --> 00:05:00,000
+concept,
+
+74
+00:05:00,000 --> 00:05:07,000
+if there is an issue or an exception, my developer has to visit each of the container or each of the
+
+75
+00:05:07,000 --> 00:05:10,000
+location where the container logs are present.
+
+76
+00:05:10,000 --> 00:05:17,000
+For example, if I go to the gatewayserver-ms here, I should be able to see all the logs related
+
+77
+00:05:17,000 --> 00:05:22,000
+to my gateway server that got generated due to my actions that I have performed.
+
+78
+00:05:22,000 --> 00:05:29,000
+So the same thing he has to repeat for all the microservices like accounts, loans, cards.
+
+79
+00:05:29,000 --> 00:05:34,000
+So this is going to be super cumbersome process, but we are trying to avoid this with the help of Grafana,
+
+80
+00:05:34,000 --> 00:05:36,000
+loki and promptail.
+
+81
+00:05:36,000 --> 00:05:40,000
+So to show you the demo using the Grafana, let me go to the browser.
+
+82
+00:05:40,000 --> 00:05:47,000
+So here I'm going to open the URL localhost 3000 because our grafana is going to start at the port 3000
+
+83
+00:05:47,000 --> 00:05:54,000
+as soon as I try to access, you can see I got some beautiful UI page, so why I have opened the grafana.
+
+84
+00:05:54,000 --> 00:06:00,000
+Like I said before, using grafana, we can try to search the logs present inside the Loki system.
+
+85
+00:06:00,000 --> 00:06:04,000
+So how the link between the Grafana and Loki is established.
+
+86
+00:06:04,000 --> 00:06:06,000
+So let me show the connection details here.
+
+87
+00:06:06,000 --> 00:06:11,000
+So if I click on this toggle menu, there is a tab related to connections.
+
+88
+00:06:11,000 --> 00:06:13,000
+So click on this data sources.
+
+89
+00:06:13,000 --> 00:06:19,000
+As of now you can see by default a Loki related data source is created if I can open this.
+
+90
+00:06:19,000 --> 00:06:25,000
+So there is an URL configured using which my grafana can connect with my Loki.
+
+91
+00:06:25,000 --> 00:06:31,000
+There is some headers also created, so all these connection details we have mentioned inside our Docker
+
+92
+00:06:31,000 --> 00:06:32,000
+compose file.
+
+93
+00:06:32,000 --> 00:06:33,000
+So let me show you that.
+
+94
+00:06:33,000 --> 00:06:40,000
+So inside the Docker compose file, if you can go to the service details related to Grafana here under
+
+95
+00:06:40,000 --> 00:06:46,000
+the Grafana service, if you can scroll to the entry point command, you can see we are trying to create
+
+96
+00:06:46,000 --> 00:06:53,000
+a data sources with the name Loki of Type Loki and we have mentioned the same URL and we have provided
+
+97
+00:06:53,000 --> 00:06:57,000
+the same header and the value with the help of all these configurations.
+
+98
+00:06:57,000 --> 00:07:04,000
+So using the same data source configurations while my grafana service is getting created, the data
+
+99
+00:07:04,000 --> 00:07:05,000
+source details are connection.
+
+100
+00:07:05,000 --> 00:07:08,000
+Details to the Loki is automatically created.
+
+101
+00:07:08,000 --> 00:07:14,000
+If you don't configure this, you need to manually create these connection details inside your grafana
+
+102
+00:07:14,000 --> 00:07:17,000
+by using these add new data resource.
+
+103
+00:07:17,000 --> 00:07:23,000
+Since we want to avoid that, we have provided all such information inside the Docker compose file itself
+
+104
+00:07:23,000 --> 00:07:24,000
+as a next step.
+
+105
+00:07:24,000 --> 00:07:28,000
+I can go to the explore button that we have here.
+
+106
+00:07:28,000 --> 00:07:34,000
+So here under the Select label I am going to select the label, which is container.
+
+107
+00:07:34,000 --> 00:07:40,000
+So the same container label we have defined inside the prompt shell hyphen local config.
+
+108
+00:07:40,000 --> 00:07:43,000
+So you can see all the logs that are scraped by.
+
+109
+00:07:43,000 --> 00:07:49,000
+My prompt shell is going to be assigned to the target label container and the source label is going
+
+110
+00:07:49,000 --> 00:07:52,000
+to be what is a Docker container name.
+
+111
+00:07:52,000 --> 00:07:58,000
+Once I select this label filter, you can see under the value I have all my docker container names.
+
+112
+00:07:58,000 --> 00:08:04,000
+For example, if I want to see the logs related to accounts micro service, I can select the same and
+
+113
+00:08:04,000 --> 00:08:07,000
+post that I can click on this run query.
+
+114
+00:08:07,000 --> 00:08:13,000
+With that, you should be able to see all the logs related to the accounts micro service inside your
+
+115
+00:08:13,000 --> 00:08:15,000
+Grafana UI itself.
+
+116
+00:08:15,000 --> 00:08:22,000
+If needed, you can click on this live streaming with that any logs that are being generated behind
+
+117
+00:08:22,000 --> 00:08:29,000
+by your accounts micro service container, they will immediately come here after every five seconds.
+
+118
+00:08:29,000 --> 00:08:31,000
+So that's a power of grafana here.
+
+119
+00:08:31,000 --> 00:08:35,000
+So let me pass this live streaming and cancel this.
+
+120
+00:08:35,000 --> 00:08:41,000
+Now, similarly, the developer can look for any container like for Cod micro service.
+
+121
+00:08:41,000 --> 00:08:46,000
+He should be able to see the cards, micro service related logs and very similarly he should be able
+
+122
+00:08:46,000 --> 00:08:49,000
+to see the logs related to Eureka Server Micro Service.
+
+123
+00:08:49,000 --> 00:08:56,000
+If we can scroll down here, all the logs and there is also a information about the logs volume at what
+
+124
+00:08:56,000 --> 00:08:58,000
+time there are too many logs present.
+
+125
+00:08:58,000 --> 00:09:02,000
+So right now you can see just a few minutes back we tested many APIs.
+
+126
+00:09:02,000 --> 00:09:09,000
+That's why the logs at this point of time we have very high number of logs, whereas at the remaining
+
+127
+00:09:09,000 --> 00:09:13,000
+time we have very less number of logs apart from container logs.
+
+128
+00:09:13,000 --> 00:09:18,000
+We can also search for a specific text inside your micro service logs.
+
+129
+00:09:18,000 --> 00:09:26,000
+For example, if I go to the Gateway Server Micro Service here, we have so many logs, but I'm interested
+
+130
+00:09:26,000 --> 00:09:30,000
+with the logs that has these easy bank correlation ID.
+
+131
+00:09:30,000 --> 00:09:33,000
+So let me copy this and go to the top.
+
+132
+00:09:33,000 --> 00:09:40,000
+And here I'm going to select the option which is line contains and mention the same and click on this
+
+133
+00:09:40,000 --> 00:09:41,000
+run query.
+
+134
+00:09:41,000 --> 00:09:47,000
+Now you can see I have the logs only, which has a text which is easy bank correlation id.
+
+135
+00:09:48,000 --> 00:09:54,000
+Similarly, I have many other options like line does not contain line contains case sensitive case insensitive,
+
+136
+00:09:54,000 --> 00:09:58,000
+some regex match and line filter expression.
+
+137
+00:09:58,000 --> 00:10:00,000
+So there are many options and.
+
+138
+00:10:00,000 --> 00:10:00,000
+With this.
+
+139
+00:10:00,000 --> 00:10:03,000
+Now we are making our life easy.
+
+140
+00:10:03,000 --> 00:10:05,000
+Think of inside your production.
+
+141
+00:10:05,000 --> 00:10:09,000
+You have 100 microservices for all such microservices.
+
+142
+00:10:09,000 --> 00:10:17,000
+You can use Grafana Loki and promptly and with the help of Grafana, you can search any number of logs
+
+143
+00:10:17,000 --> 00:10:19,000
+in any microservice.
+
+144
+00:10:19,000 --> 00:10:23,000
+Have I done any changes inside my microservices?
+
+145
+00:10:23,000 --> 00:10:28,000
+As a developer, I didn't make even one line change inside my microservice.
+
+146
+00:10:28,000 --> 00:10:31,000
+All of these log aggregation are centralized.
+
+147
+00:10:31,000 --> 00:10:36,000
+Logging is happening automatically with the help of Grafana Loki and prompt.
+
+148
+00:10:37,000 --> 00:10:43,000
+And here you may have a question like We are able to use these tools like Grafana Loki and prompt cells
+
+149
+00:10:43,000 --> 00:10:45,000
+inside our containers.
+
+150
+00:10:45,000 --> 00:10:51,000
+How about inside my local system when I'm trying to do local development with the help of IntelliJ idea?
+
+151
+00:10:51,000 --> 00:10:56,000
+So for local development, you don't need to have all this complex setup because you know inside your
+
+152
+00:10:56,000 --> 00:11:03,000
+local system always you can find the logs inside the ID itself under the console tab and if needed,
+
+153
+00:11:03,000 --> 00:11:06,000
+you can put breakpoints, you can try to debug them.
+
+154
+00:11:06,000 --> 00:11:11,000
+So this solution, whatever we have implemented, this is not for the local development and of course
+
+155
+00:11:11,000 --> 00:11:14,000
+for local testing and debugging.
+
+156
+00:11:14,000 --> 00:11:17,000
+We have full control with the help of IntelliJ idea.
+
+157
+00:11:17,000 --> 00:11:24,000
+So that's why always set up these inside your dev environment, environment and production environment.
+
+158
+00:11:24,000 --> 00:11:29,000
+And of course when you try to setup this in production environment, you may need to take the help from
+
+159
+00:11:29,000 --> 00:11:32,000
+your platform team to configure some cloud storage.
+
+160
+00:11:32,000 --> 00:11:39,000
+As of now, all the logs that we generated is getting saved inside the Minio inside our local system
+
+161
+00:11:39,000 --> 00:11:40,000
+itself.
+
+162
+00:11:40,000 --> 00:11:41,000
+I can also show you the same.
+
+163
+00:11:41,000 --> 00:11:44,000
+So here you can see I came to my workspace location.
+
+164
+00:11:44,000 --> 00:11:50,000
+I'm going to navigate to the section, underscore 11 and post that Docker compose.
+
+165
+00:11:50,000 --> 00:11:55,000
+And after that I'm going to navigate into the prod because inside the prod profile only we have made
+
+166
+00:11:55,000 --> 00:11:59,000
+all the changes related to Grafana Loki and prompt.
+
+167
+00:11:59,000 --> 00:12:05,000
+So here you can see there is a folder created with the name Dot data and inside this and there are other
+
+168
+00:12:05,000 --> 00:12:08,000
+folders related to Loki data and Loki ruler.
+
+169
+00:12:08,000 --> 00:12:15,000
+So the same folder which is dot data we mounted into the Docker container using volumes.
+
+170
+00:12:15,000 --> 00:12:17,000
+So let me show you the same configuration.
+
+171
+00:12:17,000 --> 00:12:24,000
+So if you can search for Dot data, you can see under Minio service we have mounted the local folder
+
+172
+00:12:24,000 --> 00:12:30,000
+which is dot data Minio to the container by copying into your folder with the name data.
+
+173
+00:12:30,000 --> 00:12:37,000
+So whatever logs that are saved inside my local folder, they will get copied or mounted immediately
+
+174
+00:12:37,000 --> 00:12:40,000
+to this folder present inside my docker container.
+
+175
+00:12:40,000 --> 00:12:46,000
+But in real production applications we can leverage cloud storage systems like AWS, S3 or any other
+
+176
+00:12:46,000 --> 00:12:47,000
+cloud systems.
+
+177
+00:12:47,000 --> 00:12:53,000
+That way we can store any amount of logs for any number of microservices.
+
+178
+00:12:53,000 --> 00:12:55,000
+I hope you are clear with the demo that we discussed.
+
+179
+00:12:55,000 --> 00:13:01,000
+As of now, we targeted one of the pillar of observability and monitoring, which is logs.
+
+180
+00:13:01,000 --> 00:13:08,000
+So without making any changes inside my microservices, now I'm able to store all my logs inside a centralized
+
+181
+00:13:08,000 --> 00:13:15,000
+location which will help my developers in understanding the inner state of my microservices.
+
+182
+00:13:15,000 --> 00:13:18,000
+So let's try to focus on metrics from the next lecture.
+
+183
+00:13:18,000 --> 00:13:21,000
+Thank you and I'll catch you in the next lecture by.
+

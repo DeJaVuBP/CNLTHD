@@ -1,0 +1,448 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, we implemented and tested various resiliency patterns inside our local system. To test the
+
+2
+00:00:07,000 --> 00:00:10,000
+same changes using the Docker containers.
+
+3
+00:00:10,000 --> 00:00:16,000
+Behind the scenes I have created that Docker images of all the six services that we have with a new tag
+
+4
+00:00:16,000 --> 00:00:22,000
+which is s10, because since we are right now inside the section 10, I have created the Docker
+
+5
+00:00:22,000 --> 00:00:24,000
+images with these tags.
+
+6
+00:00:24,000 --> 00:00:26,000
+You can see the same here.
+
+7
+00:00:26,000 --> 00:00:29,000
+So just to save some time, I have done all these tasks behind the scenes.
+
+8
+00:00:29,000 --> 00:00:34,000
+Since you are already familiar with all these, I'm assuming you should be able to do these without
+
+9
+00:00:34,000 --> 00:00:35,000
+my help.
+
+10
+00:00:35,000 --> 00:00:36,000
+If needed
+
+11
+00:00:36,000 --> 00:00:41,000
+please pass the video and try to generate these Docker images inside your local system and push them
+
+12
+00:00:41,000 --> 00:00:42,000
+into the Docker hub.
+
+13
+00:00:42,000 --> 00:00:48,000
+But before that, please make sure inside the pom.xml of all your microservices, the tag name has to
+
+14
+00:00:48,000 --> 00:00:50,000
+be changed from S9 to S10.
+
+15
+00:00:50,000 --> 00:00:55,000
+After generating these Docker images, I also pushed them into the Docker hub.
+
+16
+00:00:55,000 --> 00:00:57,000
+This is my Docker hub page.
+
+17
+00:00:57,000 --> 00:01:04,000
+You will be able to see the tags related to s10 under all microservices under accounts microservice.
+
+18
+00:01:04,000 --> 00:01:06,000
+You can see there is a tag with the name S10.
+
+19
+00:01:06,000 --> 00:01:12,000
+So the commands that I have used to generate the Docker images and push these Docker images is, if you
+
+20
+00:01:12,000 --> 00:01:14,000
+can go to the GitHub repository
+
+21
+00:01:14,000 --> 00:01:18,000
+I have mentioned them inside these README document, scroll down here,
+
+22
+00:01:18,000 --> 00:01:23,000
+so this is the command that I have used to generate the Docker images with the help of Google jib.
+
+23
+00:01:23,000 --> 00:01:29,000
+And very similarly I have used this Docker image push command to push these images into the Docker hub.
+
+24
+00:01:29,000 --> 00:01:32,000
+You are already familiar with this process.
+
+25
+00:01:32,000 --> 00:01:37,000
+If you have some questions, you can always watch the previous sections videos. As a next step,
+
+26
+00:01:37,000 --> 00:01:42,000
+I also updated the Docker compose file, so let me show you the changes that I have made inside the
+
+27
+00:01:42,000 --> 00:01:45,000
+Docker compose file by opening one of the Docker compose file.
+
+28
+00:01:45,000 --> 00:01:53,000
+So here first I created a new ready service because to implement the RateLimiter pattern with the help
+
+29
+00:01:53,000 --> 00:01:55,000
+of Spring Cloud Gateway, we need this service.
+
+30
+00:01:55,000 --> 00:02:00,000
+The service name is Redis, the image is Redis and these are the port mappings.
+
+31
+00:02:00,000 --> 00:02:04,000
+And to perform the health check, this is the command that we need to use.
+
+32
+00:02:04,000 --> 00:02:08,000
+You can get this command from the official documentation of Redis as well, and these are the timeout
+
+33
+00:02:08,000 --> 00:02:15,000
+and retry configurations and post that I'm trying to extend the network deploy service present inside
+
+34
+00:02:15,000 --> 00:02:20,000
+the common config. So that my radius service also will start under the easy bank network.
+
+35
+00:02:20,000 --> 00:02:22,000
+Let me go back to the Docker compose file.
+
+36
+00:02:22,000 --> 00:02:28,000
+After mentioning Redis related configurations inside the Docker compose file, I straightaway went to
+
+37
+00:02:28,000 --> 00:02:30,000
+the gateway server.
+
+38
+00:02:30,000 --> 00:02:37,000
+So inside the gateway server under the dependencies, we need to add the new dependency which is related
+
+39
+00:02:37,000 --> 00:02:37,000
+to Redis.
+
+40
+00:02:37,000 --> 00:02:42,000
+This poor guy has a lot of dependencies and he has to start towards the end.
+
+41
+00:02:42,000 --> 00:02:45,000
+After defining these dependency related information.
+
+42
+00:02:45,000 --> 00:02:51,000
+Under the environment variables, I have defined the properties related to Redis.
+
+43
+00:02:51,000 --> 00:02:55,000
+So this is the connection timeout of Redis and this is the host name.
+
+44
+00:02:55,000 --> 00:02:57,000
+Hostname, we should not mention the localhost.
+
+45
+00:02:57,000 --> 00:03:02,000
+Instead we should mention what is the service name that we have defined for Redis.
+
+46
+00:03:02,000 --> 00:03:08,000
+So the service name is Redis itself and this is the port and this is the timeout configuration.
+
+47
+00:03:08,000 --> 00:03:12,000
+And at last I also made the changes related to the tags.
+
+48
+00:03:12,000 --> 00:03:14,000
+Like for all the microservices.
+
+49
+00:03:14,000 --> 00:03:15,000
+Previously it was S9.
+
+50
+00:03:15,000 --> 00:03:18,000
+Right now I changed to S10.
+
+51
+00:03:18,000 --> 00:03:24,000
+So after making all these changes I have copied the same docker compose file into the qa and default
+
+52
+00:03:24,000 --> 00:03:25,000
+profile as well.
+
+53
+00:03:25,000 --> 00:03:29,000
+There are no changes inside the common-config.yml.
+
+54
+00:03:29,000 --> 00:03:30,000
+I hope this is clear. As a next step
+
+55
+00:03:30,000 --> 00:03:35,000
+we can try to execute the docker compose up command for the protection profile.
+
+56
+00:03:35,000 --> 00:03:37,000
+I open the terminal.
+
+57
+00:03:37,000 --> 00:03:42,000
+Here inside the terminal I am into the prod profile location.
+
+58
+00:03:42,000 --> 00:03:44,000
+You can confirm the same here.
+
+59
+00:03:44,000 --> 00:03:52,000
+As a next step I'm going to run the command docker, compose up -d. So this will start all my containers
+
+60
+00:03:52,000 --> 00:03:57,000
+and post that we can test the resiliency related changes.
+
+61
+00:03:57,000 --> 00:04:02,000
+This is going to take 1 to 2 minutes, so let me wait for this to complete.
+
+62
+00:04:02,000 --> 00:04:06,000
+After two minutes, all my containers successfully started.
+
+63
+00:04:06,000 --> 00:04:09,000
+I got the same confirmation on my terminal console.
+
+64
+00:04:09,000 --> 00:04:12,000
+Let me also confirm the same by going to the Docker desktop.
+
+65
+00:04:12,000 --> 00:04:17,000
+Inside the Docker desktop, I'm going to see the logs of Gateway server.
+
+66
+00:04:17,000 --> 00:04:23,000
+So you can see here we have a confirmation saying that the GatewayserverApplication started successfully.
+
+67
+00:04:23,000 --> 00:04:24,000
+With this
+
+68
+00:04:24,000 --> 00:04:28,000
+we can try to test few changes related to the resiliency pattern.
+
+69
+00:04:28,000 --> 00:04:36,000
+The very first URL that I want to invoke here is, easy bank accounts API, Java hyphen version. Because
+
+70
+00:04:36,000 --> 00:04:42,000
+for these API only we implemented RateLimiter inside the accounts microservice.
+
+71
+00:04:42,000 --> 00:04:44,000
+So let me first invoke this API.
+
+72
+00:04:44,000 --> 00:04:51,000
+You can see I'm getting the Java related output, but now I will try to send multiple requests within
+
+73
+00:04:51,000 --> 00:04:51,000
+a second.
+
+74
+00:04:51,000 --> 00:04:58,000
+And with that I'm getting a response from the fallback mechanism that I have defined for my RateLimiter
+
+75
+00:04:58,000 --> 00:04:59,000
+pattern.
+
+76
+00:04:59,000 --> 00:05:02,000
+So you can see we are getting the output Java 17.
+
+77
+00:05:02,000 --> 00:05:06,000
+We have one more API that we can test with the help of Apache Benchmark.
+
+78
+00:05:06,000 --> 00:05:12,000
+The command that I'm going to run inside my terminal is, the same command that we have discussed previously.
+
+79
+00:05:12,000 --> 00:05:12,000
+With this
+
+80
+00:05:12,000 --> 00:05:17,000
+I'm trying to test the RateLimiter pattern that we have implemented inside the Gateway server with
+
+81
+00:05:17,000 --> 00:05:20,000
+the help of RedisRateLimiter.
+
+82
+00:05:20,000 --> 00:05:21,000
+So let me try to invoke this.
+
+83
+00:05:21,000 --> 00:05:27,000
+I got the output saying that there are total ten requests sent and out of them eight are fail.
+
+84
+00:05:27,000 --> 00:05:34,000
+So you can see for majority of them we are getting the response, which is 429 too many requests like
+
+85
+00:05:34,000 --> 00:05:35,000
+we expect. With this
+
+86
+00:05:35,000 --> 00:05:42,000
+it confirms that our resiliency pattern related changes, they are also working inside the Docker container
+
+87
+00:05:42,000 --> 00:05:43,000
+environment.
+
+88
+00:05:43,000 --> 00:05:49,000
+I'm not testing all other patterns like retry, circuit breaker because for that we need to intentionally
+
+89
+00:05:49,000 --> 00:05:53,000
+introduce some RuntimeExceptions which I don't want to follow.
+
+90
+00:05:53,000 --> 00:05:59,000
+If I want to test them, I need to generate the Docker images by introducing the RuntimeExceptions,
+
+91
+00:05:59,000 --> 00:06:05,000
+which is unnecessary because we already tested them inside the local and they are going to work very
+
+92
+00:06:05,000 --> 00:06:07,000
+similarly inside the Docker container as well.
+
+93
+00:06:07,000 --> 00:06:12,000
+Before we try to close this section, let me highlight you that this is the GitHub repo.
+
+94
+00:06:12,000 --> 00:06:15,000
+Like under microservices GitHub repo.
+
+95
+00:06:15,000 --> 00:06:20,000
+I checked in the code related to this section under this section underscore ten where you should be
+
+96
+00:06:20,000 --> 00:06:24,000
+able to see all the changes that we have discussed throughout this section.
+
+97
+00:06:24,000 --> 00:06:31,000
+Finally, we are done discussing on how to make our microservices fault tolerant and resilient in
+
+98
+00:06:31,000 --> 00:06:32,000
+nature.
+
+99
+00:06:32,000 --> 00:06:39,000
+We put a lot of efforts and right now our microservices are more matured compared to the previous section.
+
+100
+00:06:39,000 --> 00:06:44,000
+I'm assuming your super, super happy with the progress that we made inside this section.
+
+101
+00:06:44,000 --> 00:06:50,000
+I'm also very happy because right now our microservices are better than compared to previous section.
+
+102
+00:06:50,000 --> 00:06:51,000
+With this,
+
+103
+00:06:51,000 --> 00:06:52,000
+I'm going to take a break.
+
+104
+00:06:52,000 --> 00:06:58,000
+You can see the time right now for me is 11:38 p.m. I'm going to have some nice sleep.
+
+105
+00:06:58,000 --> 00:07:03,000
+Also request you to take break because we successfully completed a section.
+
+106
+00:07:03,000 --> 00:07:08,000
+It is very important to take the breaks whenever you are trying to learn new concepts.
+
+107
+00:07:08,000 --> 00:07:14,000
+Don't try to do a marathon with this course, with many concepts, with many jargons, you may feel
+
+108
+00:07:14,000 --> 00:07:16,000
+exhausted and you may lose interest.
+
+109
+00:07:16,000 --> 00:07:20,000
+That's why my humble request is to take a break here and come back.
+
+110
+00:07:20,000 --> 00:07:23,000
+I'm going to catch you in the next section.
+
+111
+00:07:23,000 --> 00:07:23,000
+Thank you.
+
+112
+00:07:23,000 --> 00:07:24,000
+Bye.
+

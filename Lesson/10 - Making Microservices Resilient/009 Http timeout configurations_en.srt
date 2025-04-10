@@ -1,0 +1,608 @@
+1
+00:00:00,000 --> 00:00:04,000
+As of now, we discussed about the circuit breaker pattern. Inside this lecture
+
+2
+00:00:04,000 --> 00:00:11,000
+let me show you one of the most common scenario that you may face inside your real projects and how
+
+3
+00:00:11,000 --> 00:00:16,000
+to handle the same with the help of Spring Cloud Gateway. To show you this problem, I'm going to invoke
+
+4
+00:00:16,000 --> 00:00:20,000
+this contact-info present inside the LoansController.
+
+5
+00:00:20,000 --> 00:00:25,000
+So I came to the postman and you can see this is the URL that I'm trying to invoke.
+
+6
+00:00:25,000 --> 00:00:30,000
+As soon as I click on the send button, you can see I'm getting the proper response, which means my
+
+7
+00:00:30,000 --> 00:00:34,000
+service is working perfectly without any performance issues.
+
+8
+00:00:34,000 --> 00:00:38,000
+But sometimes your services may respond very slowly.
+
+9
+00:00:38,000 --> 00:00:42,000
+Sometimes they may take more than 30s or one minute,
+
+10
+00:00:42,000 --> 00:00:45,000
+we never know what is happening on the server side.
+
+11
+00:00:45,000 --> 00:00:48,000
+Maybe the microservice is performing very slow. In such scenarios
+
+12
+00:00:48,000 --> 00:00:51,000
+you may not get the immediate response.
+
+13
+00:00:51,000 --> 00:00:53,000
+Let me show you a quick demo here. For the same,
+
+14
+00:00:53,000 --> 00:00:59,000
+I'm going to keep a breakpoint here and I will not release this breakpoint intentionally and I will
+
+15
+00:00:59,000 --> 00:01:03,000
+make my client application, which is postman to wait for this response.
+
+16
+00:01:03,000 --> 00:01:08,000
+So this time I'm trying to invoke this request one more time and you can see the breakpoint stopped
+
+17
+00:01:08,000 --> 00:01:09,000
+inside this method.
+
+18
+00:01:09,000 --> 00:01:15,000
+Now, if you go to the postman inside the postman you can see it is keep waiting for your response.
+
+19
+00:01:15,000 --> 00:01:21,000
+So if you don't release the breakpoint even for 10 minutes, the client application is going to keep
+
+20
+00:01:21,000 --> 00:01:21,000
+waiting for it.
+
+21
+00:01:21,000 --> 00:01:27,000
+So behind the scenes there is a thread waiting on the gateway server for the response to receive from
+
+22
+00:01:27,000 --> 00:01:31,000
+the loans microservice and at the same time on the loans microservice
+
+23
+00:01:31,000 --> 00:01:36,000
+also, there is a thread which will be waiting for the response from the REST API.
+
+24
+00:01:36,000 --> 00:01:42,000
+So unnecessarily you are making your threads and memory and other server resources to wait for these
+
+25
+00:01:42,000 --> 00:01:46,000
+response to come and we don't know when this response is going to come.
+
+26
+00:01:46,000 --> 00:01:50,000
+So to overcome these challenges we should define some timeout configurations.
+
+27
+00:01:50,000 --> 00:01:56,000
+Using these timeout configurations, we can wait for a maximum period of time beyond the configure time
+
+28
+00:01:56,000 --> 00:01:58,000
+we are not going to wait for the response.
+
+29
+00:01:58,000 --> 00:02:04,000
+We will simply try to invoke the request one more time or will take some fallback mechanism based upon
+
+30
+00:02:04,000 --> 00:02:05,000
+our business logic.
+
+31
+00:02:05,000 --> 00:02:06,000
+I hope you are clear.
+
+32
+00:02:06,000 --> 00:02:07,000
+What is the problem here?
+
+33
+00:02:07,000 --> 00:02:13,000
+We are unnecessarily making our resources to wait for this response, which we never know is going to
+
+34
+00:02:13,000 --> 00:02:14,000
+come.
+
+35
+00:02:14,000 --> 00:02:16,000
+So I'm going to release this breakpoint.
+
+36
+00:02:16,000 --> 00:02:20,000
+And now if you go to the postman here, we got the response.
+
+37
+00:02:20,000 --> 00:02:23,000
+You can see it took around two minutes, 26 seconds.
+
+38
+00:02:23,000 --> 00:02:27,000
+So ideally, we should not wait for such a long time in real projects.
+
+39
+00:02:27,000 --> 00:02:32,000
+Now I'll try to invoke the same for accounts microservice and see what is going to happen.
+
+40
+00:02:32,000 --> 00:02:35,000
+So inside the AccountsController, we have the same method.
+
+41
+00:02:35,000 --> 00:02:42,000
+I'm going to put a breakpoint and from the postman I'm going to invoke the request which is related
+
+42
+00:02:42,000 --> 00:02:42,000
+to the accounts
+
+43
+00:02:42,000 --> 00:02:46,000
+microservice. So this one, I'm going to click on the send button.
+
+44
+00:02:46,000 --> 00:02:51,000
+You can see the breakpoint stopped here, but my client application is not waiting here.
+
+45
+00:02:51,000 --> 00:02:54,000
+It's immediately got a response saying that an error occurred
+
+46
+00:02:54,000 --> 00:02:57,000
+please try after some time or contact support team.
+
+47
+00:02:57,000 --> 00:03:02,000
+So here you may have a question like why there is a different behavior for accounts and loans Microservice.
+
+48
+00:03:02,000 --> 00:03:08,000
+So let me clarify you that if you see the configurations inside the Gateway server application as of
+
+49
+00:03:08,000 --> 00:03:13,000
+now for the accounts microservice, we configured a filter circuit breaker. Internally
+
+50
+00:03:13,000 --> 00:03:19,000
+this circuit breaker is going to have the configurations related to timeout. By default,
+
+51
+00:03:19,000 --> 00:03:23,000
+circuit breaker timeout will wait maximum for one second. Beyond one second,
+
+52
+00:03:23,000 --> 00:03:27,000
+it will immediately go back to the fallback mechanism that you have mentioned.
+
+53
+00:03:27,000 --> 00:03:33,000
+But we may not be using the circuit breaker pattern throughout our microservices.
+
+54
+00:03:33,000 --> 00:03:39,000
+So to handle these problem in other places like loans and cards, microservice where we are not using
+
+55
+00:03:39,000 --> 00:03:45,000
+circuit breaker pattern, we need to configure that timeout to configurations so that my Gateway server
+
+56
+00:03:45,000 --> 00:03:50,000
+or any other microservices, they're not going to wait for the response for a long time.
+
+57
+00:03:50,000 --> 00:03:55,000
+So to understand how to achieve this, let's go to the official documentation of Spring Cloud Gateway.
+
+58
+00:03:55,000 --> 00:03:59,000
+So this is the URL of official documentation.
+
+59
+00:03:59,000 --> 00:04:05,000
+Here if you try to search for timeout, you'll be able to see a section related to timeout configurations.
+
+60
+00:04:05,000 --> 00:04:08,000
+So you can click on these Http timeouts configuration.
+
+61
+00:04:08,000 --> 00:04:13,000
+Inside this section, we have complete details on how to configure these timeouts.
+
+62
+00:04:13,000 --> 00:04:17,000
+And as a developer we should always configure these timeouts.
+
+63
+00:04:17,000 --> 00:04:22,000
+Otherwise you are going to introduce some performance issues inside your microservices. And configuring
+
+64
+00:04:22,000 --> 00:04:24,000
+these timeouts are very easy.
+
+65
+00:04:24,000 --> 00:04:30,000
+So to configure these timeouts we can mention these properties inside the application.yml of Gateway
+
+66
+00:04:30,000 --> 00:04:30,000
+server.
+
+67
+00:04:30,000 --> 00:04:37,000
+So when we mention these properties, these configurations are going to be global for all your microservices
+
+68
+00:04:37,000 --> 00:04:41,000
+that will receive the external traffic with the help of Gateway server.
+
+69
+00:04:41,000 --> 00:04:45,000
+So here we have two properties connection timeout and response timeout.
+
+70
+00:04:45,000 --> 00:04:46,000
+What is the difference between them?
+
+71
+00:04:46,000 --> 00:04:53,000
+Connection timeout is the time that your Gateway server is going to take to get a connection thread
+
+72
+00:04:53,000 --> 00:04:54,000
+from the other microservice.
+
+73
+00:04:54,000 --> 00:05:00,000
+Suppose if Gateway server is trying to send a request to the loans microservice, first it will try
+
+74
+00:05:00,000 --> 00:05:05,000
+to get a connection of loans microservice. Sometimes due to network problems,
+
+75
+00:05:05,000 --> 00:05:08,000
+the time to get the connection also may take longer time.
+
+76
+00:05:08,000 --> 00:05:15,000
+So that's why we are trying to configure 1000 milliseconds, which is one second. Within one second,
+
+77
+00:05:15,000 --> 00:05:21,000
+if my gateway server is not able to get a connection of loans microservice, we are not going to wait
+
+78
+00:05:21,000 --> 00:05:22,000
+and we are going to kill the request.
+
+79
+00:05:22,000 --> 00:05:26,000
+And the next property that we have here is response-timeout.
+
+80
+00:05:26,000 --> 00:05:33,000
+So this is the maximum time that your gateway server is going to wait to receive the response from the
+
+81
+00:05:33,000 --> 00:05:36,000
+respective microservice like loans microservice.
+
+82
+00:05:36,000 --> 00:05:38,000
+So we can try to configure these properties.
+
+83
+00:05:38,000 --> 00:05:44,000
+Let me copy these properties and go to the application.yml of Gateway server. Inside the application.yml
+
+84
+00:05:44,000 --> 00:05:45,000
+.
+
+85
+00:05:45,000 --> 00:05:50,000
+We already have properties with the name spring.cloud.gateway.
+
+86
+00:05:50,000 --> 00:05:57,000
+So just under the gateway I'm going to introduce these new properties, so I'll make sure I am introducing
+
+87
+00:05:57,000 --> 00:05:59,000
+the new element just in the same position
+
+88
+00:05:59,000 --> 00:06:04,000
+like Discovery, because discovery is also present under the Gateway parent.
+
+89
+00:06:04,000 --> 00:06:06,000
+So let me copy these values.
+
+90
+00:06:06,000 --> 00:06:11,000
+Now you can see the Http client is present inside the same position like discovery,
+
+91
+00:06:11,000 --> 00:06:17,000
+under this Http client, we have configured 1000 milliseconds and the response timeout is going to be
+
+92
+00:06:17,000 --> 00:06:18,000
+five seconds.
+
+93
+00:06:18,000 --> 00:06:21,000
+Maybe instead of five seconds, I'm going to keep it as two seconds.
+
+94
+00:06:21,000 --> 00:06:23,000
+I don't want to wait for five seconds.
+
+95
+00:06:23,000 --> 00:06:25,000
+It will be a too long time for me.
+
+96
+00:06:25,000 --> 00:06:29,000
+But based upon your business requirements, you can always change these values.
+
+97
+00:06:29,000 --> 00:06:32,000
+So let me save these changes and do a build.
+
+98
+00:06:32,000 --> 00:06:38,000
+Once the build is completed, I'm going to invoke the path of loans controller again.
+
+99
+00:06:38,000 --> 00:06:40,000
+So this is the path like contact-info.
+
+100
+00:06:40,000 --> 00:06:45,000
+So here I'm trying to send the request again. This time also the breakpoint stop.
+
+101
+00:06:45,000 --> 00:06:48,000
+I will not going to release this, but I'll go to the postman
+
+102
+00:06:48,000 --> 00:06:52,000
+and here this time you can see we are immediately getting the response
+
+103
+00:06:52,000 --> 00:06:53,000
+Gateway timeout.
+
+104
+00:06:53,000 --> 00:07:00,000
+My client application is not even waiting. It wait for a maximum time of two seconds and beyond two seconds
+
+105
+00:07:00,000 --> 00:07:03,000
+since it is not receiving the response.
+
+106
+00:07:03,000 --> 00:07:07,000
+My gateway server throws an error to the client saying that gateway timeout.
+
+107
+00:07:07,000 --> 00:07:13,000
+Since these timeout configurations that we have configured inside the Gateway server are global, they
+
+108
+00:07:13,000 --> 00:07:21,000
+are going to applicable for all kind of microservices and for all kind of paths that are traveling through
+
+109
+00:07:21,000 --> 00:07:22,000
+the gateway server.
+
+110
+00:07:22,000 --> 00:07:27,000
+But for accounts microservice, it may not be the scenario because inside account microservice, we
+
+111
+00:07:27,000 --> 00:07:33,000
+configured a pattern circuit breaker and this circuit breaker has its own internal timeout configurations.
+
+112
+00:07:33,000 --> 00:07:39,000
+So whenever we have these kind of scenarios, the global configurations will be ignored and whatever
+
+113
+00:07:39,000 --> 00:07:43,000
+configurations specific to circuit breaker will be followed.
+
+114
+00:07:43,000 --> 00:07:48,000
+Later on, I'll be showing you how to override the default timeout configurations provided by the circuit
+
+115
+00:07:48,000 --> 00:07:49,000
+breaker.
+
+116
+00:07:49,000 --> 00:07:55,000
+So now if you go to the application.yml, we have configured the timeout configurations which are
+
+117
+00:07:55,000 --> 00:07:59,000
+applicable for all kind of microservices and REST API paths.
+
+118
+00:07:59,000 --> 00:08:06,000
+Sometimes you may want to provide timeout configurations based upon a specific URL or based upon a specific
+
+119
+00:08:06,000 --> 00:08:07,000
+microservice.
+
+120
+00:08:07,000 --> 00:08:13,000
+So for such scenarios, if you see the official documentation, there is also a details about how to
+
+121
+00:08:13,000 --> 00:08:17,000
+define the timeouts per route like inside the Gateway
+
+122
+00:08:17,000 --> 00:08:20,000
+we are already defining some routing configurations.
+
+123
+00:08:20,000 --> 00:08:25,000
+If you are configuring routing configuration with the help of application.yml, you can mention these
+
+124
+00:08:25,000 --> 00:08:28,000
+metadata under your routing configuration.
+
+125
+00:08:28,000 --> 00:08:35,000
+But since we are using Java DSL style of configurations, you can see we can invoke the methods metadata
+
+126
+00:08:35,000 --> 00:08:40,000
+and to these methods we can pass these constants along with the respective values.
+
+127
+00:08:40,000 --> 00:08:47,000
+So this is how you can configure timeouts for each route inside your microservices. And the same page,
+
+128
+00:08:47,000 --> 00:08:50,000
+if you can scroll down, there is more interesting information.
+
+129
+00:08:50,000 --> 00:08:56,000
+Here you can see if you configure the response timeout with a negative value that will disable the global
+
+130
+00:08:56,000 --> 00:09:03,000
+response timeout configurations for a particular route. In case if you don't want to follow global timeout
+
+131
+00:09:03,000 --> 00:09:09,000
+configurations for your respective route, you can mention response timeout value as minus one with
+
+132
+00:09:09,000 --> 00:09:14,000
+this for this particular route, there won't be any timeout configurations.
+
+133
+00:09:14,000 --> 00:09:18,000
+It is going to wait indefinitely until you kill that thread.
+
+134
+00:09:18,000 --> 00:09:20,000
+I hope you are clear about these timeout configurations.
+
+135
+00:09:20,000 --> 00:09:25,000
+So Spring Cloud Gateway is a very powerful edge server.
+
+136
+00:09:25,000 --> 00:09:25,000
+Inside this
+
+137
+00:09:25,000 --> 00:09:29,000
+there are many configurations and filters available.
+
+138
+00:09:29,000 --> 00:09:35,000
+It will not be possible for me to discuss all these filters, but I'm trying to empower you with all
+
+139
+00:09:35,000 --> 00:09:40,000
+these official documentation, information and how to make some configurations inside the Gateway server
+
+140
+00:09:40,000 --> 00:09:43,000
+by showing you some examples. With this knowledge
+
+141
+00:09:43,000 --> 00:09:48,000
+in the future, if you have different requirement, you can easily come to this official documentation
+
+142
+00:09:48,000 --> 00:09:53,000
+and try to do the research and accordingly you can implement the same inside your projects.
+
+143
+00:09:53,000 --> 00:09:55,000
+As a mentor and instructor to you.
+
+144
+00:09:55,000 --> 00:10:00,000
+I always try to empower you by teaching the basics and by teaching the
+
+145
+00:10:00,000 --> 00:10:03,000
+concepts. With all the concepts that we discussed inside this section.
+
+146
+00:10:03,000 --> 00:10:08,000
+Now, I'm very confident that you can easily understand this official documentation.
+
+147
+00:10:08,000 --> 00:10:13,000
+Maybe, maybe without watching these videos, if you try to read the documentation, it is going to
+
+148
+00:10:13,000 --> 00:10:16,000
+be super, super tough for you to understand.
+
+149
+00:10:16,000 --> 00:10:20,000
+But with all the discussions that we are doing inside this section, it is going to be super, super
+
+150
+00:10:20,000 --> 00:10:21,000
+easy for you.
+
+151
+00:10:21,000 --> 00:10:24,000
+I hope you are clear with the discussions that we have done inside this lecture.
+
+152
+00:10:24,000 --> 00:10:27,000
+Thank you and I'll catch you in the next lecture bye.
+

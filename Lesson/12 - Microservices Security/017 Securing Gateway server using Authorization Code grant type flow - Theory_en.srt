@@ -1,0 +1,344 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let's try to understand how these authorization code grant flow will work
+
+2
+00:00:06,000 --> 00:00:09,000
+inside the easy bank microservices scenario.
+
+3
+00:00:09,000 --> 00:00:14,000
+First like you can see, there will be an UI web application or mobile application.
+
+4
+00:00:14,000 --> 00:00:20,000
+We call this application as an client application, and there will be an end user who is trying to use
+
+5
+00:00:20,000 --> 00:00:21,000
+this client application.
+
+6
+00:00:21,000 --> 00:00:28,000
+So the end user is going to perform some action which needs the response from our microservices network.
+
+7
+00:00:28,000 --> 00:00:35,000
+So since the Gateway server is going to act as a resource server, my client application first redirect
+
+8
+00:00:35,000 --> 00:00:40,000
+my end user to a login page of auth server.
+
+9
+00:00:40,000 --> 00:00:43,000
+So here the auth server that we are trying to use is Keycloak.
+
+10
+00:00:43,000 --> 00:00:48,000
+The end user has to enter his credentials and post a successful authentication.
+
+11
+00:00:48,000 --> 00:00:54,000
+The keycloak is going to issue an authorization code to my web application and behind the scenes it
+
+12
+00:00:54,000 --> 00:00:57,000
+is going to make a one more request to get an access token.
+
+13
+00:00:57,000 --> 00:01:03,000
+So let's assume eventually my client application has received the access token from the auth server.
+
+14
+00:01:03,000 --> 00:01:09,000
+So using the same access token, my client application is going to forward the request to the Gateway
+
+15
+00:01:09,000 --> 00:01:15,000
+server, which is acting as an edge server or resource server inside our microservices network.
+
+16
+00:01:15,000 --> 00:01:17,000
+The Gateway server as a next step,
+
+17
+00:01:17,000 --> 00:01:23,000
+it will try to validate if the access token provided by the client application is valid or not by connecting
+
+18
+00:01:23,000 --> 00:01:24,000
+with the keyclock.
+
+19
+00:01:24,000 --> 00:01:30,000
+Once the resource server receives the confirmation that the provided access token is valid, then it
+
+20
+00:01:30,000 --> 00:01:34,000
+is going to forward request to the individual microservices.
+
+21
+00:01:34,000 --> 00:01:39,000
+Now, my individual microservices, they are going to process the request and send the response back
+
+22
+00:01:39,000 --> 00:01:44,000
+to the Gateway and from Gateway it will eventually reach to the client application.
+
+23
+00:01:44,000 --> 00:01:50,000
+The client application will try to display that information on the UI web page or inside the mobile application.
+
+24
+00:01:50,000 --> 00:01:55,000
+And now that information my end user can see on the screen.
+
+25
+00:01:55,000 --> 00:02:01,000
+So this is a very high level flow that may happen inside the easy bank microservices whenever we try
+
+26
+00:02:01,000 --> 00:02:04,000
+to implement authorization code, grant type flow.
+
+27
+00:02:04,000 --> 00:02:09,000
+And just to highlight one more time when we have to implement this authorization code grant flow,
+
+28
+00:02:09,000 --> 00:02:15,000
+whenever an end user is involved, then only we need to use this authorization code grant type flow.
+
+29
+00:02:15,000 --> 00:02:21,000
+Now let me try to explain this authorization code grant type flow with a different perspective. For the
+
+30
+00:02:21,000 --> 00:02:22,000
+same,
+
+31
+00:02:22,000 --> 00:02:27,000
+you can see here we have the client and the end user sitting on the very left hand side.
+
+32
+00:02:27,000 --> 00:02:33,000
+So inside this box you will be able to see there is a UI web page which is being used by my end user.
+
+33
+00:02:33,000 --> 00:02:38,000
+So there will be an resource server which is Spring Cloud Gateway and there will be keycloak auth server.
+
+34
+00:02:38,000 --> 00:02:41,000
+So let's try to understand how this flow is going to work.
+
+35
+00:02:41,000 --> 00:02:47,000
+In the very first step, the client application, which is an innocent client application, trying to
+
+36
+00:02:47,000 --> 00:02:52,000
+invoke the API directly on the spring cloud gateway without any authentication.
+
+37
+00:02:52,000 --> 00:02:55,000
+So it is trying to invoke on behalf of the end user.
+
+38
+00:02:55,000 --> 00:03:01,000
+But the response from my resource server is going to be sorry buddy, I can only process the request.
+
+39
+00:03:01,000 --> 00:03:06,000
+Who provide me an access token, go and get an access token from the auth server.
+
+40
+00:03:06,000 --> 00:03:11,000
+So that's a response from Spring Cloud gateway to the client application and the end user.
+
+41
+00:03:11,000 --> 00:03:17,000
+So now the client application immediately went and asked the auth server, please give me my access token.
+
+42
+00:03:17,000 --> 00:03:23,000
+The response from the auth server will be It laughed and says, I can't give access token just like that.
+
+43
+00:03:23,000 --> 00:03:25,000
+Not to get an access token from me,
+
+44
+00:03:25,000 --> 00:03:29,000
+you and your partner in crime who is end user.
+
+45
+00:03:29,000 --> 00:03:34,000
+Both of you has to register with me and the same needs to be approved by my admin.
+
+46
+00:03:34,000 --> 00:03:38,000
+So now my client application and end user understand the story.
+
+47
+00:03:38,000 --> 00:03:43,000
+So behind the scenes they went and registered with the keycloak and they got enough approvals.
+
+48
+00:03:43,000 --> 00:03:48,000
+Now they have their own credentials set up inside the keycloak. As a next step,
+
+49
+00:03:48,000 --> 00:03:54,000
+this time my client application is going to forward the end user to the login page of keycloak.
+
+50
+00:03:54,000 --> 00:03:59,000
+So in the same process it is only going to forward the client ID but not the client secret.
+
+51
+00:03:59,000 --> 00:04:01,000
+Inside the login page,
+
+52
+00:04:01,000 --> 00:04:05,000
+the end user will enter his credentials and he will give his consent.
+
+53
+00:04:05,000 --> 00:04:14,000
+So once my end user sees this login page, my end user is going to enter his credentials and also is
+
+54
+00:04:14,000 --> 00:04:19,000
+going to provide his consent, saying that please let this client application to access the resource
+
+55
+00:04:19,000 --> 00:04:20,000
+on my behalf.
+
+56
+00:04:20,000 --> 00:04:28,000
+So once my auth server validated all the details, it is going to send the authorization code as a response
+
+57
+00:04:28,000 --> 00:04:29,000
+to the client application.
+
+58
+00:04:29,000 --> 00:04:34,000
+With that, my client should not be happy because the story is not ended now.
+
+59
+00:04:34,000 --> 00:04:40,000
+As a next step, the client application has to invoke the auth server behind the scenes with the client
+
+60
+00:04:40,000 --> 00:04:43,000
+ID, client secret and the authorization code.
+
+61
+00:04:43,000 --> 00:04:50,000
+So if all the details are correct, my auth server eventually will issue an access token to my client
+
+62
+00:04:50,000 --> 00:04:55,000
+application. So the response from that server will be, Hey, congratulations buddy, your details
+
+63
+00:04:55,000 --> 00:04:58,000
+are correct and here is your end user access token.
+
+64
+00:04:58,000 --> 00:04:59,000
+Please don't misuse it.
+
+65
+00:05:00,000 --> 00:05:02,000
+Because this access token is not belongs to you.
+
+66
+00:05:02,000 --> 00:05:04,000
+This access token belongs to the end user.
+
+67
+00:05:04,000 --> 00:05:07,000
+So the end user is believing in you.
+
+68
+00:05:07,000 --> 00:05:13,000
+So please don't misuse that data that you fetch related to the end user.
+
+69
+00:05:13,000 --> 00:05:17,000
+So the client understand the warning and it will make sure it is not misusing.
+
+70
+00:05:17,000 --> 00:05:23,000
+So as a next step, my client application is going to invoke one of the secured API available inside
+
+71
+00:05:23,000 --> 00:05:26,000
+the Spring Cloud Gateway. In the same process,
+
+72
+00:05:26,000 --> 00:05:30,000
+it is also going to send the access token that it has received in the Step nine.
+
+73
+00:05:30,000 --> 00:05:36,000
+So now as a next step, my resource server behind the scenes, it will validate if the access token
+
+74
+00:05:36,000 --> 00:05:39,000
+is valid or not by connecting with the Keycloak auth server.
+
+75
+00:05:39,000 --> 00:05:45,000
+Once my resource server receives confirmation from the server saying that the given access token is
+
+76
+00:05:45,000 --> 00:05:51,000
+valid behind the scenes, my spring cloud gateway is going to forward the request to the individual
+
+77
+00:05:51,000 --> 00:05:58,000
+microservices and once my individual microservices responded with a proper successful response, my
+
+78
+00:05:58,000 --> 00:06:04,000
+gateway or my resource server is going to forward the same to the client application in the step 13.
+
+79
+00:06:04,000 --> 00:06:10,000
+So inside the client application they will display the data in the UI where my end user can see the
+
+80
+00:06:10,000 --> 00:06:10,000
+data.
+
+81
+00:06:10,000 --> 00:06:16,000
+With this, we have discussed totally authorization code grant flow total four times with different,
+
+82
+00:06:16,000 --> 00:06:19,000
+different perspective, with different, different details.
+
+83
+00:06:19,000 --> 00:06:22,000
+We also saw a demo inside the OAuth Playground website.
+
+84
+00:06:22,000 --> 00:06:28,000
+With all these information, I'm assuming your super clear about what is authorization code grant flow.
+
+85
+00:06:28,000 --> 00:06:35,000
+As a next step, let's try to implement this grant type flow inside our microservices network.
+
+86
+00:06:35,000 --> 00:06:38,000
+Thank you and I'll catch you in the next lecture bye.
+

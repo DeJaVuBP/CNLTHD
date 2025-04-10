@@ -1,0 +1,532 @@
+1
+00:00:00,000 --> 00:00:02,000
+Are you excited about the new challenge?
+
+2
+00:00:02,000 --> 00:00:08,000
+I know you are super excited about the challenges and you are always ready to face challenges.
+
+3
+00:00:08,000 --> 00:00:12,000
+Now is the time to discuss a new challenge inside this new section.
+
+4
+00:00:12,000 --> 00:00:15,000
+So let's try to understand what is this challenge about?
+
+5
+00:00:15,000 --> 00:00:21,000
+As part of this Challenge7, we are going to talk about how to make our microservices to be resilient.
+
+6
+00:00:21,000 --> 00:00:24,000
+What is the meaning of resiliency or resilient?
+
+7
+00:00:24,000 --> 00:00:31,000
+The meaning of resiliency is something is capable of withstanding the tough times and bouncing back.
+
+8
+00:00:31,000 --> 00:00:34,000
+We as a humankind, we face the challengetimes
+
+9
+00:00:34,000 --> 00:00:35,000
+like Covid.
+
+10
+00:00:35,000 --> 00:00:41,000
+We all together face the challenge and we bounced back right now to a normal life.
+
+11
+00:00:41,000 --> 00:00:47,000
+Very similarly, we should also make our microservices resilient in nature so that they can withstand
+
+12
+00:00:47,000 --> 00:00:51,000
+tough times like network problem or any performance issues.
+
+13
+00:00:51,000 --> 00:00:55,000
+So these kind of challenges my microservices, they can face on day to day basis.
+
+14
+00:00:55,000 --> 00:01:01,000
+So to understand more about these resiliency in microservices, first we need to question ourselves
+
+15
+00:01:01,000 --> 00:01:01,000
+few questions.
+
+16
+00:01:01,000 --> 00:01:08,000
+The very first question I want to ask you here is, how do we avoid cascading failures inside our microservices
+
+17
+00:01:08,000 --> 00:01:09,000
+network?
+
+18
+00:01:09,000 --> 00:01:15,000
+We all know that inside a microservice network, when my client application or my application sending
+
+19
+00:01:15,000 --> 00:01:21,000
+a request to the Microservice network, many microservices they will work together and they will send
+
+20
+00:01:21,000 --> 00:01:27,000
+a combined response to the client application in such scenarios, how we are going to handle a scenario
+
+21
+00:01:27,000 --> 00:01:31,000
+where one of the service is failing or responding very slowly.
+
+22
+00:01:31,000 --> 00:01:36,000
+So how do we make sure that it is not having a ripple effect on the other microservices?
+
+23
+00:01:36,000 --> 00:01:42,000
+For example, previously we saw a scenario where a client application, they can invoke one of the REST
+
+24
+00:01:42,000 --> 00:01:44,000
+API available inside the accounts
+
+25
+00:01:44,000 --> 00:01:50,000
+microservice, my accounts microservice is going to work together with the loans and cards
+
+26
+00:01:50,000 --> 00:01:56,000
+microservice. Once the response from loans and cards microservice is received, the total response will
+
+27
+00:01:56,000 --> 00:02:00,000
+be aggregated at the account microservice and the same will be sent back to the client.
+
+28
+00:02:00,000 --> 00:02:06,000
+So in these kind of scenarios, think like loans or cards, microservice is failing or they are responding
+
+29
+00:02:06,000 --> 00:02:07,000
+very slowly.
+
+30
+00:02:07,000 --> 00:02:13,000
+If one of the service is failing or working very slowly, all the dependent services like Accounts
+
+31
+00:02:13,000 --> 00:02:18,000
+Gateway Server, they will keep waiting for the response and it will eventually have a ripple effect
+
+32
+00:02:18,000 --> 00:02:25,000
+on other microservices which will consume all the threads and memory inside these dependent microservices.
+
+33
+00:02:25,000 --> 00:02:31,000
+So we need to make sure that the entire chain of microservices does not fail if one of the participating
+
+34
+00:02:31,000 --> 00:02:35,000
+microservice is failing or is responding very slowly.
+
+35
+00:02:35,000 --> 00:02:38,000
+So this is the very first problem that we need to think about.
+
+36
+00:02:38,000 --> 00:02:42,000
+Coming to the next question, how do we handle failures gracefully with the fallbacks?
+
+37
+00:02:42,000 --> 00:02:48,000
+In the same example where multiple microservices work together to send a response to the client application,
+
+38
+00:02:48,000 --> 00:02:54,000
+how we are going to build a fallback mechanism if one of the microservice is not working. If my cards
+
+39
+00:02:54,000 --> 00:03:00,000
+microservice is not working properly, at least I should be able to send the accounts and loans information
+
+40
+00:03:00,000 --> 00:03:05,000
+to my client application instead of sending a exception saying that we are not able to send any kind
+
+41
+00:03:05,000 --> 00:03:06,000
+of information.
+
+42
+00:03:06,000 --> 00:03:10,000
+So these kind of scenarios will be very common inside your microservices.
+
+43
+00:03:10,000 --> 00:03:13,000
+That's why we should always have a fallback mechanism.
+
+44
+00:03:13,000 --> 00:03:19,000
+Like if one of the participating microservice is not able to respond successfully, we should have some
+
+45
+00:03:19,000 --> 00:03:25,000
+fallback mechanism that will return a default value or return a value from the cache, or try to invoke
+
+46
+00:03:25,000 --> 00:03:29,000
+other service or try to fetch the details from another database.
+
+47
+00:03:29,000 --> 00:03:34,000
+So the fallback mechanism can be anything, but at least you should make sure there is some fallback
+
+48
+00:03:34,000 --> 00:03:40,000
+mechanism. So that you are not failing the entire request that is coming from the client applications.
+
+49
+00:03:40,000 --> 00:03:46,000
+Moving on to the next question, how we are going to make our services self-healing capable?
+
+50
+00:03:46,000 --> 00:03:52,000
+For example, if one of the participating microservice inside a microservice network is responding very
+
+51
+00:03:52,000 --> 00:03:58,000
+slowly due to some performance issues or due to some network issues, how we are going to make our services
+
+52
+00:03:58,000 --> 00:04:04,000
+self-healing capable, maybe due to some network issue or maybe due to a temporary glitch inside my
+
+53
+00:04:04,000 --> 00:04:05,000
+microservice.
+
+54
+00:04:05,000 --> 00:04:08,000
+It is responding very slowly or it may not be responding at all.
+
+55
+00:04:08,000 --> 00:04:15,000
+So how we can configure some timeouts and retries and give some time for the failed service to recover
+
+56
+00:04:15,000 --> 00:04:15,000
+itself.
+
+57
+00:04:15,000 --> 00:04:21,000
+Maybe if I try to retry multiple times, like three times or four times, my service may start working
+
+58
+00:04:21,000 --> 00:04:23,000
+and I may get a successful response.
+
+59
+00:04:23,000 --> 00:04:29,000
+Or very similarly, instead of waiting for a large amount of time for my microservice to give a response,
+
+60
+00:04:29,000 --> 00:04:35,000
+if I can timeout within a very short period of time, that will release some memory or threads inside
+
+61
+00:04:35,000 --> 00:04:37,000
+the microservice where we are having a problem.
+
+62
+00:04:37,000 --> 00:04:42,000
+So with a quick timeouts we can give some time to the failed service to recover itself.
+
+63
+00:04:42,000 --> 00:04:47,000
+So there are many strategies on how we can make our services self-healing capable.
+
+64
+00:04:47,000 --> 00:04:49,000
+So we're going to discuss them in this section.
+
+65
+00:04:49,000 --> 00:04:55,000
+So these are the challenges or the problems or the questions that we may face while we are trying to
+
+66
+00:04:55,000 --> 00:04:56,000
+build our microservices.
+
+67
+00:04:56,000 --> 00:04:59,000
+Now, let me give you a quick introduction about the
+
+68
+00:04:59,000 --> 00:05:00,000
+solution.
+
+69
+00:05:00,000 --> 00:05:03,000
+We need to follow to overcome this challenge.
+
+70
+00:05:03,000 --> 00:05:06,000
+The solution is inside microservices
+
+71
+00:05:06,000 --> 00:05:09,000
+there are many patterns to building resilient applications.
+
+72
+00:05:09,000 --> 00:05:12,000
+Long back inside the Java ecosystem.
+
+73
+00:05:12,000 --> 00:05:17,000
+We used to have a library called Hystrix, so this is a library developed by Netflix team itself, and
+
+74
+00:05:17,000 --> 00:05:24,000
+it used to be widely used for implementing resiliency patterns inside any web application or inside
+
+75
+00:05:24,000 --> 00:05:25,000
+microservices.
+
+76
+00:05:25,000 --> 00:05:32,000
+However historic entered maintenance mode in 2018, and it is no longer being actively developed.
+
+77
+00:05:32,000 --> 00:05:37,000
+With that reason, people started looking for a new library to address this issue.
+
+78
+00:05:37,000 --> 00:05:41,000
+A new library came into picture with the name Resiliency4j.
+
+79
+00:05:41,000 --> 00:05:47,000
+So this gained a significant popularity in a short period of time, which helped the developers by filling
+
+80
+00:05:47,000 --> 00:05:50,000
+the gap left by the historic library.
+
+81
+00:05:50,000 --> 00:05:57,000
+Inside this Resiliency4j library, it provides lot many resilient related patterns which we can
+
+82
+00:05:57,000 --> 00:05:59,000
+choose based upon our business requirements.
+
+83
+00:05:59,000 --> 00:06:02,000
+Let me give you a quick introduction about resiliency4j.
+
+84
+00:06:02,000 --> 00:06:03,000
+.
+
+85
+00:06:03,000 --> 00:06:09,000
+Resiliency4j is a lightweight fault tolerance library designed especially for functional programming.
+
+86
+00:06:09,000 --> 00:06:13,000
+That doesn't mean non functional programs cannot use this library.
+
+87
+00:06:13,000 --> 00:06:14,000
+This resiliency4j
+
+88
+00:06:14,000 --> 00:06:22,000
+library offers many patterns to make our applications or microservices to be fault, tolerant
+
+89
+00:06:22,000 --> 00:06:24,000
+and resilient in nature.
+
+90
+00:06:24,000 --> 00:06:26,000
+If you ask me what are these patterns?
+
+91
+00:06:26,000 --> 00:06:32,000
+So these are the patterns with the name like circuit breaker, fallback, retry, rate limit, bulkhead.
+
+92
+00:06:32,000 --> 00:06:38,000
+So I have given a very quick summary or introduction about these patterns in which scenarios we need
+
+93
+00:06:38,000 --> 00:06:38,000
+to use them.
+
+94
+00:06:38,000 --> 00:06:40,000
+Don't try to read them right now.
+
+95
+00:06:40,000 --> 00:06:44,000
+You may not understand about these patterns by reading this quick summary.
+
+96
+00:06:44,000 --> 00:06:48,000
+We are going to focus on these patterns in detail throughout this section.
+
+97
+00:06:48,000 --> 00:06:53,000
+Then it is going to make sense for you about these patterns and under which scenarios we need to use
+
+98
+00:06:53,000 --> 00:06:54,000
+these patterns.
+
+99
+00:06:54,000 --> 00:06:57,000
+We can also quickly check website of resiliency4j.
+
+100
+00:06:58,000 --> 00:06:59,000
+This is the website of resiliency4j.
+
+101
+00:06:59,000 --> 00:07:04,000
+I'm also going to mention this website inside the GitHub repo page.
+
+102
+00:07:04,000 --> 00:07:06,000
+If you see here, there is a quick introduction
+
+103
+00:07:06,000 --> 00:07:11,000
+Resiliency4j is a fault tolerance library for Java based applications.
+
+104
+00:07:11,000 --> 00:07:17,000
+It is a lightweight fault tolerance library inspired by Netflix historic but designed for functional
+
+105
+00:07:17,000 --> 00:07:18,000
+programming.
+
+106
+00:07:18,000 --> 00:07:22,000
+If you try to scroll on this page, there is a section about core modules.
+
+107
+00:07:22,000 --> 00:07:25,000
+Let me click on this view more and this core modules
+
+108
+00:07:25,000 --> 00:07:33,000
+there are many patterns available like circuit breaker, bulkhead, rate limiter, retry, time limiter, cache,
+
+109
+00:07:33,000 --> 00:07:35,000
+so there are many patterns available.
+
+110
+00:07:35,000 --> 00:07:41,000
+I'm going to discuss most commonly used patterns inside this section, but I'm just trying to share
+
+111
+00:07:41,000 --> 00:07:47,000
+this information to you so that in future you have any questions or if you want to understand a pattern
+
+112
+00:07:47,000 --> 00:07:52,000
+which we have not discussed inside this course, you can always come to this website and try to refer
+
+113
+00:07:52,000 --> 00:07:56,000
+the official documentation available here. Inside this website
+
+114
+00:07:56,000 --> 00:08:02,000
+you can also find the information related to spring reactor projects and spring Boot two and three version
+
+115
+00:08:02,000 --> 00:08:03,000
+based projects.
+
+116
+00:08:03,000 --> 00:08:06,000
+If you can click on this getting started, it will help you
+
+117
+00:08:06,000 --> 00:08:10,000
+what are the libraries you need to add inside your spring boot web application?
+
+118
+00:08:10,000 --> 00:08:13,000
+We are using Spring Boot two version or spring boot three version.
+
+119
+00:08:13,000 --> 00:08:18,000
+Very similarly, this resiliency4j also supports Micronaut framework.
+
+120
+00:08:18,000 --> 00:08:24,000
+If you are familiar with Micronaut framework, you can also leverage this resiliency4j library inside
+
+121
+00:08:24,000 --> 00:08:24,000
+your project.
+
+122
+00:08:24,000 --> 00:08:29,000
+We can also have information about Spring Cloud, how to leverage this resiliency4j.
+
+123
+00:08:29,000 --> 00:08:34,000
+If you are a web application or if your microservice is built based upon the spring cloud.
+
+124
+00:08:34,000 --> 00:08:39,000
+I hope you are super clear about this quick introduction about the challenges that we are going to solve
+
+125
+00:08:39,000 --> 00:08:40,000
+throughout this section.
+
+126
+00:08:40,000 --> 00:08:46,000
+If something is not clear, don't worry, we are going to talk in detail about all these patterns and
+
+127
+00:08:46,000 --> 00:08:52,000
+we are going to leverage resiliency4j inside our microservices to resolve these problems or challenges
+
+128
+00:08:52,000 --> 00:08:54,000
+that right now you are seeing on the slide.
+
+129
+00:08:54,000 --> 00:08:55,000
+Thank you,
+
+130
+00:08:55,000 --> 00:08:57,000
+I'm super excited to discuss about this topic.
+
+131
+00:08:57,000 --> 00:08:59,000
+I'm assuming you're also super excited.
+
+132
+00:08:59,000 --> 00:09:02,000
+Thank you and I'll catch you in the next lecture.
+
+133
+00:09:02,000 --> 00:09:02,000
+Bye.
+

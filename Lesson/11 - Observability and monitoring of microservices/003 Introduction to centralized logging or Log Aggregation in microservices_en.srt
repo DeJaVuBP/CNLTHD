@@ -1,0 +1,276 @@
+1
+00:00:00,000 --> 00:00:06,000
+We discussed that there are three pillars for observability and monitoring, and these three pillars
+
+2
+00:00:06,000 --> 00:00:09,000
+are logging metrics and traces.
+
+3
+00:00:09,000 --> 00:00:15,000
+So to implement these concepts inside our microservice network, we need to make sure we are generating
+
+4
+00:00:15,000 --> 00:00:22,000
+all these data so that using them we can try to understand the internal state of our microservices and
+
+5
+00:00:22,000 --> 00:00:23,000
+monitor them.
+
+6
+00:00:23,000 --> 00:00:28,000
+So first let's try to implement log aggregation inside our microservices.
+
+7
+00:00:28,000 --> 00:00:30,000
+What are these logs?
+
+8
+00:00:30,000 --> 00:00:37,000
+Logs are discrete records of events that happens inside any software application over time.
+
+9
+00:00:37,000 --> 00:00:43,000
+Usually logs contain a timestamp that indicates when the event happened, as well as the information
+
+10
+00:00:43,000 --> 00:00:46,000
+about the event and its context.
+
+11
+00:00:46,000 --> 00:00:52,000
+The information present inside the logs can be used to answer the questions like what happened at a
+
+12
+00:00:52,000 --> 00:00:58,000
+particular time, which thread was processing the event or which user a tenant was in the context.
+
+13
+00:00:59,000 --> 00:01:04,000
+We all know that logs are the essential tools for troubleshooting and debugging tasks.
+
+14
+00:01:04,000 --> 00:01:07,000
+They can be used to reconstruct the scenario.
+
+15
+00:01:07,000 --> 00:01:11,000
+What happened at a specific point of time in a single application instance.
+
+16
+00:01:11,000 --> 00:01:18,000
+Logs are typically categorized according to the types of severity such as trace, debug info, warn
+
+17
+00:01:18,000 --> 00:01:19,000
+and error.
+
+18
+00:01:19,000 --> 00:01:24,000
+This will allow us to log only the most severe events in the production.
+
+19
+00:01:24,000 --> 00:01:31,000
+We should not also do the over logging inside our application or microservices because that will have
+
+20
+00:01:31,000 --> 00:01:33,000
+some performance implications.
+
+21
+00:01:33,000 --> 00:01:39,000
+We should only log the severe events like there is an exception happened or there is an error happened
+
+22
+00:01:39,000 --> 00:01:40,000
+inside production.
+
+23
+00:01:40,000 --> 00:01:47,000
+Off course, inside the testing environment and development environment, we can try to log as much as
+
+24
+00:01:47,000 --> 00:01:51,000
+information with the help of severity like debug and info.
+
+25
+00:01:51,000 --> 00:01:56,000
+If you are not clear about how to implement logging inside any spring boot application with the help
+
+26
+00:01:56,000 --> 00:02:01,000
+of these severities, please check my course on spring Spring boot.
+
+27
+00:02:01,000 --> 00:02:06,000
+There is a separate section inside that course where I talked about how to perform logging inside the
+
+28
+00:02:06,000 --> 00:02:12,000
+spring boot applications, how to activate a specific severity based upon the environment.
+
+29
+00:02:12,000 --> 00:02:16,000
+So all such best practices I have discussed inside the spring course.
+
+30
+00:02:16,000 --> 00:02:23,000
+So basically what I'm trying to say here is, we can also attach severity to a particular log statement the purpose
+
+31
+00:02:23,000 --> 00:02:30,000
+of the severities is this will allow us to log only the most severe events in production and if needed,
+
+32
+00:02:30,000 --> 00:02:36,000
+we can activate or deactivate a particular type based upon the environment where you are trying to run
+
+33
+00:02:36,000 --> 00:02:37,000
+your application.
+
+34
+00:02:37,000 --> 00:02:43,000
+So whenever we try to perform logging inside monolithic application, since all the code is in a single
+
+35
+00:02:43,000 --> 00:02:49,000
+codebase, all the logs that are generated from your code will be present inside a single location or
+
+36
+00:02:49,000 --> 00:02:50,000
+inside a single server.
+
+37
+00:02:50,000 --> 00:02:56,000
+This makes very easy for the developers to search the logs and to troubleshoot the problems because
+
+38
+00:02:56,000 --> 00:03:00,000
+you have all your logs in a single folder location.
+
+39
+00:03:00,000 --> 00:03:04,000
+Whereas with microservices logging is going to be complex.
+
+40
+00:03:04,000 --> 00:03:08,000
+This is because each service has its own logs.
+
+41
+00:03:08,000 --> 00:03:13,000
+With that, the developer has to check the logs from the multiple containers which are present in multiple
+
+42
+00:03:13,000 --> 00:03:17,000
+locations to understand or to debug an issue.
+
+43
+00:03:17,000 --> 00:03:24,000
+So to address these challenge inside Microservice Network, the best practice is to follow the centralized
+
+44
+00:03:24,000 --> 00:03:24,000
+logging.
+
+45
+00:03:24,000 --> 00:03:26,000
+So what is centralized logging?
+
+46
+00:03:26,000 --> 00:03:32,000
+With the help of centralized logging, we can collect the logs from all the services and store them
+
+47
+00:03:32,000 --> 00:03:33,000
+in a single location.
+
+48
+00:03:33,000 --> 00:03:39,000
+This makes developer life easy to find and troubleshoot problems because the developer has to look in
+
+49
+00:03:39,000 --> 00:03:42,000
+a one place only. Without log aggregation
+
+50
+00:03:42,000 --> 00:03:48,000
+the developer will be forced to search the logs information in hundreds of microservices that you have
+
+51
+00:03:48,000 --> 00:03:50,000
+deployed inside your organization.
+
+52
+00:03:50,000 --> 00:03:52,000
+Do you think it is a feasible option?
+
+53
+00:03:52,000 --> 00:03:53,000
+Off course not.
+
+54
+00:03:53,000 --> 00:03:56,000
+That's why we need to perform log aggregation.
+
+55
+00:03:56,000 --> 00:04:00,000
+So here you may have a question like how to perform this log aggregation.
+
+56
+00:04:00,000 --> 00:04:03,000
+Do I need to write some logic inside my microservices
+
+57
+00:04:03,000 --> 00:04:06,000
+as a developer, that is one of the most basic approach.
+
+58
+00:04:06,000 --> 00:04:13,000
+Like you can write some logic to save or to stream your container logs into a centralized location.
+
+59
+00:04:13,000 --> 00:04:18,000
+But this approach where the developer is responsible to handle the logic of log aggregation has many
+
+60
+00:04:18,000 --> 00:04:24,000
+disadvantages because log aggregation is not related to the business logic.
+
+61
+00:04:24,000 --> 00:04:29,000
+If you force your developers to worry about the log aggregation also, then you are wasting their time
+
+62
+00:04:29,000 --> 00:04:32,000
+on unnecessary things like log aggregation.
+
+63
+00:04:32,000 --> 00:04:38,000
+We as a developer or we as intelligent humans, we should always focus on the client problems or the
+
+64
+00:04:38,000 --> 00:04:39,000
+business logic.
+
+65
+00:04:39,000 --> 00:04:45,000
+That's why we are going to look for an option which is going to perform the log aggregation without
+
+66
+00:04:45,000 --> 00:04:49,000
+making any changes inside our microservices.
+
+67
+00:04:49,000 --> 00:04:51,000
+There are such beautiful products.
+
+68
+00:04:51,000 --> 00:04:53,000
+Let's try to explore them from the next lecture.
+
+69
+00:04:53,000 --> 00:04:56,000
+Thank you and I'll catch you in the next lecture bye.
+

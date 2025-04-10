@@ -1,0 +1,296 @@
+1
+00:00:00,000 --> 00:00:03,000
+Are you ready to see the demo of distributed tracing.
+
+2
+00:00:03,000 --> 00:00:05,000
+I know you are super ready for this.
+
+3
+00:00:05,000 --> 00:00:11,000
+Let me start all my containers from the prod profile with the help of Docker compose command. Before
+
+4
+00:00:11,000 --> 00:00:18,000
+you try to run these Docker compose up command, please make sure you have generated all the microservices
+
+5
+00:00:18,000 --> 00:00:24,000
+docker images based upon the latest changes that we have done related to the Opentelemetry.
+
+6
+00:00:24,000 --> 00:00:26,000
+So I'm trying to run this command.
+
+7
+00:00:26,000 --> 00:00:30,000
+This will start all my containers and it is going to take one two minutes.
+
+8
+00:00:30,000 --> 00:00:33,000
+So let me wait for this to get completed.
+
+9
+00:00:33,000 --> 00:00:39,000
+I have waited for more than two minutes and eventually you can see my cards, accounts and loans microservice
+
+10
+00:00:39,000 --> 00:00:41,000
+they are getting errored out.
+
+11
+00:00:41,000 --> 00:00:43,000
+I know the reason why this is happening.
+
+12
+00:00:43,000 --> 00:00:46,000
+So let me go and open one of the container.
+
+13
+00:00:46,000 --> 00:00:52,000
+If you try to open the accounts microservice container, you can see the application started successfully
+
+14
+00:00:52,000 --> 00:00:53,000
+without any issues.
+
+15
+00:00:53,000 --> 00:00:59,000
+But it took some more time because if you try to see the very first statement here, it is trying to
+
+16
+00:00:59,000 --> 00:01:05,000
+pick up and jar and it is trying to load the same into the memory. Since it is trying to load this jar
+
+17
+00:01:05,000 --> 00:01:07,000
+of 30 or 20 MB.
+
+18
+00:01:08,000 --> 00:01:12,000
+It is going to take few seconds since it is taking more time.
+
+19
+00:01:12,000 --> 00:01:18,000
+The health checks that I have defined is not working properly because if you go to the Docker compose
+
+20
+00:01:18,000 --> 00:01:24,000
+file and look for the health check information for all the microservices, we are only retrying for
+
+21
+00:01:24,000 --> 00:01:27,000
+ten times with a gap of 10s.
+
+22
+00:01:27,000 --> 00:01:33,000
+So to resolve this issue, what we can do is we can try to give more time for our containers to prove
+
+23
+00:01:33,000 --> 00:01:34,000
+their health status.
+
+24
+00:01:34,000 --> 00:01:42,000
+So that's why I'm going to increase this interval to 20s and retrace to 20 inside all the microservices
+
+25
+00:01:42,000 --> 00:01:46,000
+that we have inside the Docker compose file.
+
+26
+00:01:46,000 --> 00:01:49,000
+I have done the same for config server and Eureka server.
+
+27
+00:01:49,000 --> 00:01:52,000
+Now I'm trying to do the same for accounts.
+
+28
+00:01:52,000 --> 00:02:00,000
+After accounts I'm going to do the same for loans and after loans we can do the same for cards as well.
+
+29
+00:02:00,000 --> 00:02:06,000
+So here interval is going to be 20s and retrace is going to be 20 and at last for Gateway Server
+
+30
+00:02:06,000 --> 00:02:09,000
+since we don't have any health check, we should be good.
+
+31
+00:02:09,000 --> 00:02:10,000
+So let me save this changes.
+
+32
+00:02:10,000 --> 00:02:17,000
+And now first I'll try to run the Docker compose down just to make sure I'm deleting all the existing
+
+33
+00:02:17,000 --> 00:02:18,000
+containers.
+
+34
+00:02:18,000 --> 00:02:24,000
+This will delete all my existing containers post that I'm going to run the same Docker compose command
+
+35
+00:02:24,000 --> 00:02:27,000
+which which is docker compose up -d .
+
+36
+00:02:27,000 --> 00:02:29,000
+So let me try to execute this.
+
+37
+00:02:29,000 --> 00:02:31,000
+So I'm going to wait for two minutes here.
+
+38
+00:02:31,000 --> 00:02:36,000
+After waiting for more than four minutes, all my containers started successfully.
+
+39
+00:02:36,000 --> 00:02:43,000
+From now onwards, it is going to take more time because for each retry interval we have given 20s time.
+
+40
+00:02:43,000 --> 00:02:45,000
+Previously it was only 10s.
+
+41
+00:02:45,000 --> 00:02:48,000
+Now we tried to increase that to 20s.
+
+42
+00:02:48,000 --> 00:02:51,000
+That's why it is going to take more time from now onwards.
+
+43
+00:02:51,000 --> 00:02:57,000
+Now I'll go to the Docker desktop and confirm if all my containers started successfully.
+
+44
+00:02:57,000 --> 00:02:59,000
+You can see all my containers started successfully.
+
+45
+00:02:59,000 --> 00:03:05,000
+Let me go to the one of the microservice, which is accounts microservice.
+
+46
+00:03:05,000 --> 00:03:12,000
+Here the very first statement inside your log statement is going to be loading the Java Agent Library present
+
+47
+00:03:12,000 --> 00:03:13,000
+inside this path.
+
+48
+00:03:13,000 --> 00:03:19,000
+If you try to click on this files, you should be able to see all the files present inside your container.
+
+49
+00:03:19,000 --> 00:03:21,000
+So there is a folder with the name app.
+
+50
+00:03:21,000 --> 00:03:28,000
+Under this there is a libs folder and here if you can see, we have all jars that we have added inside
+
+51
+00:03:28,000 --> 00:03:33,000
+the pom.xml we are right now particularly interested about Opentelemetry jar.
+
+52
+00:03:33,000 --> 00:03:35,000
+You should be able to see this
+
+53
+00:03:35,000 --> 00:03:40,000
+here you can see the same jar we are trying to load with the help of Java tool options that we have
+
+54
+00:03:40,000 --> 00:03:44,000
+defined inside the Docker compose configurations.
+
+55
+00:03:44,000 --> 00:03:45,000
+I hope you are clear.
+
+56
+00:03:45,000 --> 00:03:50,000
+Now I'll go to Gateway Server and I'll make sure it is started successfully.
+
+57
+00:03:50,000 --> 00:03:53,000
+The server started successfully at the port 8072.
+
+58
+00:03:53,000 --> 00:03:57,000
+As a next step, I'll go to the postman and I'll try to test few APIs.
+
+59
+00:03:57,000 --> 00:04:03,000
+First, let me try to create an account with the help of API, create available inside the accounts
+
+60
+00:04:03,000 --> 00:04:04,000
+microservice.
+
+61
+00:04:04,000 --> 00:04:06,000
+So let me click on the send button here.
+
+62
+00:04:06,000 --> 00:04:13,000
+We'll get a successful response which is status code as 201 and status message as account created successfully.
+
+63
+00:04:13,000 --> 00:04:14,000
+As a next step,
+
+64
+00:04:14,000 --> 00:04:16,000
+I'll go to the cards microservice.
+
+65
+00:04:16,000 --> 00:04:18,000
+Here also, I'm going to click on the send button.
+
+66
+00:04:18,000 --> 00:04:21,000
+You can see the card details are created successfully.
+
+67
+00:04:21,000 --> 00:04:23,000
+Let me go to the loans API,
+
+68
+00:04:23,000 --> 00:04:29,000
+Here also, I'm trying to click on the send button and this is giving a successful response to me inside
+
+69
+00:04:29,000 --> 00:04:30,000
+the response.
+
+70
+00:04:30,000 --> 00:04:35,000
+As a next step, I'll go to the fetchCustomerDetails API and here I will try to invoke this API.
+
+71
+00:04:36,000 --> 00:04:41,000
+You can see I got response saying that these are the account details, loan details and cards details.
+
+72
+00:04:41,000 --> 00:04:48,000
+So now as a next step we can go to the grafana and try to see how the tracing information is going to
+
+73
+00:04:48,000 --> 00:04:51,000
+look like. So we can continue the same in the next lecture.
+
+74
+00:04:51,000 --> 00:04:54,000
+Thank you and I'll catch you in the next lecture bye.
+

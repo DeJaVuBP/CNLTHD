@@ -1,0 +1,532 @@
+1
+00:00:00,000 --> 00:00:06,000
+In the previous lecture, I told you that in order to secure our microservices, we need to use a component
+
+2
+00:00:06,000 --> 00:00:07,000
+called Oauth2.
+
+3
+00:00:07,000 --> 00:00:08,000
+What is this
+
+4
+00:00:08,000 --> 00:00:09,000
+Oauth2?
+
+5
+00:00:09,000 --> 00:00:16,000
+Oauth2 is a security standard or a security specification that any organization can follow to secure
+
+6
+00:00:16,000 --> 00:00:23,000
+their web applications, mobile applications, or microservices, regardless of what is the type of
+
+7
+00:00:23,000 --> 00:00:29,000
+application that an organization develops, they can leverage these Oauth2 specifications to secure their
+
+8
+00:00:29,000 --> 00:00:30,000
+applications.
+
+9
+00:00:30,000 --> 00:00:36,000
+Before I try to give you a quick introduction about what is Oauth2, first let me try to explain you,
+
+10
+00:00:36,000 --> 00:00:39,000
+what are the problems that Oauth2 trying to solve?
+
+11
+00:00:39,000 --> 00:00:45,000
+Because before oauth2 specifications everyone they used to use basic authentication.
+
+12
+00:00:45,000 --> 00:00:51,000
+So you may also have a question like why should we use Oauth2 framework for implementing security,
+
+13
+00:00:51,000 --> 00:00:54,000
+why can't we use simple basic authentication?
+
+14
+00:00:54,000 --> 00:00:55,000
+To answer this,
+
+15
+00:00:55,000 --> 00:01:00,000
+first, let me try to explain what is basic authentication and what are its drawbacks.
+
+16
+00:01:00,000 --> 00:01:06,000
+Back in the early days of web invention, all websites they usually ask for credentials of an end
+
+17
+00:01:06,000 --> 00:01:11,000
+user inside an HTML form. So the end user will enter his credentials.
+
+18
+00:01:11,000 --> 00:01:17,000
+The same will be sent over to the backend server inside the backend server using the credentials provided
+
+19
+00:01:17,000 --> 00:01:23,000
+by the end user, the authentication will be completed and after the successful authentication, the
+
+20
+00:01:23,000 --> 00:01:28,000
+backend server is going to generate a session value and the same it is going to store inside a cookie
+
+21
+00:01:28,000 --> 00:01:29,000
+of the browser.
+
+22
+00:01:29,000 --> 00:01:36,000
+So as long as the session is active, the user can access the any protected resources and URLs.
+
+23
+00:01:36,000 --> 00:01:39,000
+So this is how the basic authentication used to work.
+
+24
+00:01:39,000 --> 00:01:46,000
+The drawbacks of this approach is backend server will have both business logic and authentication logic
+
+25
+00:01:46,000 --> 00:01:47,000
+tightly coupled.
+
+26
+00:01:47,000 --> 00:01:53,000
+So if there is a change that you need to make inside the authentication logic, then definitely you
+
+27
+00:01:53,000 --> 00:01:57,000
+need to make sure that it is not going to impact your business logic.
+
+28
+00:01:57,000 --> 00:01:58,000
+So there has to be enough
+
+29
+00:01:58,000 --> 00:02:05,000
+regression has to be done. Because both the business logic and the authentication logic is deployed into
+
+30
+00:02:05,000 --> 00:02:06,000
+a single server.
+
+31
+00:02:06,000 --> 00:02:10,000
+Moreover, this approach is not mobile friendly or REST API friendly.
+
+32
+00:02:10,000 --> 00:02:17,000
+And the second drawback of basic authentication is, it does not accommodate or it does not have a proper
+
+33
+00:02:17,000 --> 00:02:24,000
+solution to grant temporary access to your information to the third party clients. For example, think
+
+34
+00:02:24,000 --> 00:02:31,000
+like I'm storing my photos inside Google photos and one of the third party website
+
+35
+00:02:31,000 --> 00:02:38,000
+they offer very good features, like if I can import my photos from Google photos into these website,
+
+36
+00:02:38,000 --> 00:02:44,000
+they will allow me to edit the photos to prepare a collage from the photos so I can do many inside these
+
+37
+00:02:44,000 --> 00:02:45,000
+third party website.
+
+38
+00:02:45,000 --> 00:02:50,000
+But like you can see here, there is a challenge how to bring the photos that I'm storing inside Google
+
+39
+00:02:50,000 --> 00:02:52,000
+photos into this website.
+
+40
+00:02:52,000 --> 00:02:58,000
+If we follow basic authentication approach, then we need to provide our own Google credentials to this
+
+41
+00:02:58,000 --> 00:02:58,000
+website.
+
+42
+00:02:58,000 --> 00:03:04,000
+We need to believe this website folks and we need to provide our own credentials under the assumption
+
+43
+00:03:04,000 --> 00:03:06,000
+that they are not going to misuse our credentials.
+
+44
+00:03:06,000 --> 00:03:08,000
+So this is a very serious drawback.
+
+45
+00:03:08,000 --> 00:03:16,000
+Whereas in Oauth2 framework, we have a proper solution on how to temporarily grant access to the Google
+
+46
+00:03:16,000 --> 00:03:22,000
+photos to the third party website without sharing my own Google photo credentials, I'm going to talk
+
+47
+00:03:22,000 --> 00:03:24,000
+more about these in the coming lectures.
+
+48
+00:03:24,000 --> 00:03:30,000
+But as of now I'm assuming you are clear about why basic authentication is not a good consideration
+
+49
+00:03:30,000 --> 00:03:34,000
+these days and what are the challenges that we have.
+
+50
+00:03:34,000 --> 00:03:38,000
+Now let's try to understand what are the problems that Oauth2 trying to solve.
+
+51
+00:03:38,000 --> 00:03:45,000
+We all know that Google has many products like Gmail, Google Maps, YouTube, photos, Google Drive.
+
+52
+00:03:45,000 --> 00:03:53,000
+So under Google there are many web applications or mobile applications available providing various features
+
+53
+00:03:53,000 --> 00:03:54,000
+to the end users.
+
+54
+00:03:54,000 --> 00:04:00,000
+Have you ever wondered like, how come Google let me use the same account in all its products?
+
+55
+00:04:00,000 --> 00:04:05,000
+Regardless of what is the website of Google that you are using or what is the mobile app of Google
+
+56
+00:04:05,000 --> 00:04:06,000
+that you are trying to use.
+
+57
+00:04:06,000 --> 00:04:11,000
+If I go to the Gmail and try to login, I need to enter my Gmail credentials.
+
+58
+00:04:11,000 --> 00:04:18,000
+If I try to use another product of Google, like YouTube or Google photos or Google Maps there also
+
+59
+00:04:18,000 --> 00:04:23,000
+I need to enter the same credentials which I have used for my Gmail login.
+
+60
+00:04:23,000 --> 00:04:25,000
+Do you know how this is possible?
+
+61
+00:04:25,000 --> 00:04:33,000
+This is possible because behind the scenes, Google uses the Oauth2 framework and by following the Oauth2 recommendation,
+
+62
+00:04:33,000 --> 00:04:40,000
+they separated all the authentication and authorization logic into a separate component called authorization
+
+63
+00:04:40,000 --> 00:04:42,000
+server or authentication server.
+
+64
+00:04:42,000 --> 00:04:48,000
+So whenever an end user trying to login into any of the Google products, they are going to send the
+
+65
+00:04:48,000 --> 00:04:51,000
+credentials of the end user to the same auth server.
+
+66
+00:04:51,000 --> 00:04:57,000
+So from this, I'm assuming it is pretty clear for you one of the best recommendation of Oauth2 framework
+
+67
+00:04:57,000 --> 00:05:00,000
+is, to separate all your authentication
+
+68
+00:05:00,000 --> 00:05:06,000
+and authorization logic into a separate component. So that regardless of how many applications
+
+69
+00:05:06,000 --> 00:05:13,000
+you have or how many microservices that you have inside your organization, you can always have your
+
+70
+00:05:13,000 --> 00:05:16,000
+security related logic inside a single component.
+
+71
+00:05:16,000 --> 00:05:20,000
+And if there is a change that you need to make, then the change is going to be in a single place.
+
+72
+00:05:20,000 --> 00:05:24,000
+So this is the very first problem that Oauth2 is trying to solve.
+
+73
+00:05:24,000 --> 00:05:30,000
+Now let's try to understand what is the second problem that Oauth2 is trying to solve. For the same,
+
+74
+00:05:30,000 --> 00:05:32,000
+I'm going to give you a small demo.
+
+75
+00:05:32,000 --> 00:05:36,000
+I came to our favorite website, which is StackOverflow.
+
+76
+00:05:36,000 --> 00:05:40,000
+Like, you know, StackOverflow is all the developer's favorite website.
+
+77
+00:05:40,000 --> 00:05:43,000
+Inside this website, let's assume you don't have any account
+
+78
+00:05:43,000 --> 00:05:48,000
+as of now. You're trying to use this website where you are trying to post a question. For the same,
+
+79
+00:05:48,000 --> 00:05:50,000
+you're going to click on this sign up button.
+
+80
+00:05:50,000 --> 00:05:56,000
+As soon as you click on the sign up button, you can see there are multiple approaches on how I can
+
+81
+00:05:56,000 --> 00:05:58,000
+create an account inside this website.
+
+82
+00:05:58,000 --> 00:06:01,000
+The most basic approach is I can enter my name,
+
+83
+00:06:01,000 --> 00:06:02,000
+what is the email,
+
+84
+00:06:02,000 --> 00:06:03,000
+what is the password.
+
+85
+00:06:03,000 --> 00:06:09,000
+And with that a account will be created behind the scenes in the StackOverflow.
+
+86
+00:06:09,000 --> 00:06:15,000
+But apart from these approach, I can also sign up with Facebook, GitHub and Google.
+
+87
+00:06:15,000 --> 00:06:21,000
+So here you may have a question like how the StackOverflow will know, what are the credentials of my
+
+88
+00:06:21,000 --> 00:06:22,000
+Google, GitHub or Facebook.
+
+89
+00:06:22,000 --> 00:06:27,000
+The answer is, StackOverflow does not need to know your actual credentials.
+
+90
+00:06:27,000 --> 00:06:33,000
+With the help of Oauth2 framework, they can get your basic details like what is your name,
+
+91
+00:06:33,000 --> 00:06:34,000
+what is your email.
+
+92
+00:06:34,000 --> 00:06:37,000
+So here, let me try to sign up with GitHub.
+
+93
+00:06:37,000 --> 00:06:40,000
+So here I'm trying to click on this sign up with GitHub.
+
+94
+00:06:40,000 --> 00:06:47,000
+As soon as I click on this button you can see I will be redirected to the GitHub web page.
+
+95
+00:06:47,000 --> 00:06:49,000
+So you can see this is the gitHub.com domain.
+
+96
+00:06:49,000 --> 00:06:55,000
+And here I need to enter my GitHub credentials like I'm trying to enter my email and password.
+
+97
+00:06:55,000 --> 00:07:02,000
+So here it is pretty clear I'm not sharing my own credentials of GitHub to the StackOverflow because
+
+98
+00:07:02,000 --> 00:07:08,000
+I'm entering these credentials inside the GitHub website, which means I'm not sharing to any third
+
+99
+00:07:08,000 --> 00:07:09,000
+party web applications.
+
+100
+00:07:09,000 --> 00:07:16,000
+As soon as I click on sign in button if my credentials are correct, you can see I am landed back onto
+
+101
+00:07:16,000 --> 00:07:17,000
+the stack overflow.
+
+102
+00:07:17,000 --> 00:07:24,000
+Now my StackOverflow has my basic details like this is my email, this is my display name, which I have
+
+103
+00:07:24,000 --> 00:07:31,000
+stored inside the GitHub. Which means the resources that I stored inside the GitHub server now is shared
+
+104
+00:07:31,000 --> 00:07:35,000
+to the StackOverflow with the help of the Oauth2 framework.
+
+105
+00:07:35,000 --> 00:07:40,000
+And in the process I didn't share my credentials to the StackOverflow.
+
+106
+00:07:40,000 --> 00:07:46,000
+I entered my own credentials to the GitHub and behind the scenes GitHub gave my basic details to the
+
+107
+00:07:46,000 --> 00:07:53,000
+StackOverflow and it also going to issue an access token and using this access token in future, maybe
+
+108
+00:07:53,000 --> 00:07:58,000
+after two days or three days, if I came back into this website, the behind the scenes is that StackOverflow
+
+109
+00:07:58,000 --> 00:08:04,000
+can try to send a request to the GitHub and try to log in me automatically with the help of the access
+
+110
+00:08:04,000 --> 00:08:04,000
+token.
+
+111
+00:08:04,000 --> 00:08:10,000
+So what is happening here is, the GitHub is trying to give a temporary access token with a limited access
+
+112
+00:08:10,000 --> 00:08:12,000
+to the StackOverflow.
+
+113
+00:08:12,000 --> 00:08:17,000
+I didn't share my master credentials to the StackOverflow and at the same time GitHub also didn't give
+
+114
+00:08:17,000 --> 00:08:23,000
+an access token using which the StackOverflow can do anything on my GitHub.
+
+115
+00:08:23,000 --> 00:08:29,000
+It has given its access token, which has a very limited privileges like my stackoverflow can read what
+
+116
+00:08:29,000 --> 00:08:30,000
+is my name,
+
+117
+00:08:30,000 --> 00:08:31,000
+what is my email,
+
+118
+00:08:31,000 --> 00:08:32,000
+that's it.
+
+119
+00:08:32,000 --> 00:08:38,000
+Apart from reading these details, the StackOverflow website cannot perform any other operation inside
+
+120
+00:08:38,000 --> 00:08:40,000
+my resources in the GitHub.
+
+121
+00:08:40,000 --> 00:08:42,000
+It cannot create repositories.
+
+122
+00:08:42,000 --> 00:08:46,000
+So those are advanced privileges which GitHub did not give.
+
+123
+00:08:46,000 --> 00:08:53,000
+It is only given a very basic privilege which is reading the profile details like email and my display
+
+124
+00:08:53,000 --> 00:08:54,000
+name.
+
+125
+00:08:54,000 --> 00:08:57,000
+So this is one of the problem that Oauth2 is trying to solve.
+
+126
+00:08:57,000 --> 00:09:03,000
+Without sharing our credentials to the third party applications, we can still provide a temporary access
+
+127
+00:09:03,000 --> 00:09:10,000
+to them to access the resources that I stored inside a resource server like GitHub, Google or any other
+
+128
+00:09:10,000 --> 00:09:14,000
+application which has implemented Oauth2 inside their system.
+
+129
+00:09:14,000 --> 00:09:15,000
+I hope now you are clear.
+
+130
+00:09:15,000 --> 00:09:16,000
+What is basic authentication,
+
+131
+00:09:16,000 --> 00:09:20,000
+what are its drawbacks and what are the problems that Oauth2 is trying to solve.
+
+132
+00:09:20,000 --> 00:09:25,000
+In the next lecture, let me try to give you a quick introduction about what is Oauth2.
+
+133
+00:09:25,000 --> 00:09:27,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,392 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now, inside this lecture, let's try to create the client details and the end user details inside the
+
+2
+00:00:07,000 --> 00:00:12,000
+keycloak auth server. So that we can try to implement authorization code grant flow inside our easy
+
+3
+00:00:12,000 --> 00:00:14,000
+bank microservices network.
+
+4
+00:00:14,000 --> 00:00:20,000
+So here, as of now, you can see we have created a client with the name easy-bank-callcenter-cc
+
+5
+00:00:20,000 --> 00:00:26,000
+and you may have a question like why can't we use this easy bank call center CC client.
+
+6
+00:00:26,000 --> 00:00:33,000
+The reason why we can't use this is we have created these client application saying that it is going
+
+7
+00:00:33,000 --> 00:00:39,000
+to support client credential grant type flow, since now we want to use authorization code grant
+
+8
+00:00:39,000 --> 00:00:40,000
+type flow.
+
+9
+00:00:40,000 --> 00:00:47,000
+We need to make sure we are creating a separate client by selecting all the details which are required
+
+10
+00:00:47,000 --> 00:00:49,000
+for authorization code grant type flow.
+
+11
+00:00:49,000 --> 00:00:54,000
+So let me go to the clients and here I'm going to click on this create client.
+
+12
+00:00:54,000 --> 00:00:56,000
+The client type is going to be OpenID Connect.
+
+13
+00:00:56,000 --> 00:01:04,000
+Now under the client ID, I'm going to mention the value as easybank-callcenter-ac,
+
+14
+00:01:04,000 --> 00:01:11,000
+ac indicates authorization code and the name I can try to mention something like Easy Bank Call
+
+15
+00:01:11,000 --> 00:01:13,000
+Center UI app.
+
+16
+00:01:13,000 --> 00:01:18,000
+So let me mention the same inside the description and post that I'm going to click on this next button.
+
+17
+00:01:18,000 --> 00:01:24,000
+Now on this page, please make sure you are enable this client authentication and post that you need
+
+18
+00:01:24,000 --> 00:01:27,000
+to make sure you are selecting these standard flow.
+
+19
+00:01:27,000 --> 00:01:34,000
+This standard flow represents authorization code grant type flow inside the Oauth2 specifications.
+
+20
+00:01:34,000 --> 00:01:40,000
+So that's why we need to select these and unselect all the remaining grant type flows.
+
+21
+00:01:40,000 --> 00:01:43,000
+So please make sure only this value is selected.
+
+22
+00:01:43,000 --> 00:01:48,000
+Now I'm going to click on this next button and here it is going to ask you what is the route to URL
+
+23
+00:01:48,000 --> 00:01:53,000
+home URL, redirect URL and post logout URL and web origins.
+
+24
+00:01:53,000 --> 00:02:01,000
+You can ignore route URL and home URL, but under the valid redirect URL in ideal scenario, we should
+
+25
+00:02:01,000 --> 00:02:07,000
+mention what is the URL that my auth server has to redirect the end user post successful authentication.
+
+26
+00:02:07,000 --> 00:02:08,000
+.
+
+27
+00:02:08,000 --> 00:02:14,000
+Maybe you can redirect the end user to the dashboard web page or to some profile web page once the authentication
+
+28
+00:02:14,000 --> 00:02:17,000
+and access token process is completed.
+
+29
+00:02:17,000 --> 00:02:23,000
+So whatever valid redirect URL that your client application is going to send in the request, the same
+
+30
+00:02:23,000 --> 00:02:25,000
+has to be configured here.
+
+31
+00:02:25,000 --> 00:02:27,000
+This will save from some hacking scenarios.
+
+32
+00:02:27,000 --> 00:02:33,000
+If we don't have this check, then hackers will redirect the access token to their own website, which
+
+33
+00:02:33,000 --> 00:02:34,000
+is very danger.
+
+34
+00:02:34,000 --> 00:02:38,000
+That's why we need to make sure we are mentioning a valid redirect uri.
+
+35
+00:02:38,000 --> 00:02:38,000
+.
+
+36
+00:02:38,000 --> 00:02:43,000
+But for now, since we don't have any proper UI application, I can mention asterisk.
+
+37
+00:02:43,000 --> 00:02:46,000
+That means I'm fine for any kind of redirect uri.
+
+38
+00:02:46,000 --> 00:02:54,000
+And since we don't have any valid UI application inside our setup, we can ignore this post logout redirect uri.
+
+39
+00:02:54,000 --> 00:02:58,000
+Now, under the web origins, I can mention Asterisk.
+
+40
+00:02:58,000 --> 00:03:04,000
+The purpose of this web origins is, in real world, your client application may deploy in a different
+
+41
+00:03:04,000 --> 00:03:11,000
+domain and different port number, whereas auth server are your microservices might be deployed in a different
+
+42
+00:03:11,000 --> 00:03:12,000
+domain and port number.
+
+43
+00:03:12,000 --> 00:03:19,000
+In such scenarios, the browsers will stop the communication between them by throwing an cars related
+
+44
+00:03:19,000 --> 00:03:19,000
+error.
+
+45
+00:03:19,000 --> 00:03:26,000
+So if you want to understand more details about what is cars and what is cross-origin, please refer
+
+46
+00:03:26,000 --> 00:03:27,000
+to my spring security course.
+
+47
+00:03:27,000 --> 00:03:32,000
+Like I said, the cross origin are the cars security feature inside browsers.
+
+48
+00:03:32,000 --> 00:03:38,000
+By default, it will stop the communication between two different domains and port numbers until unless
+
+49
+00:03:38,000 --> 00:03:40,000
+the backend server is allowing.
+
+50
+00:03:40,000 --> 00:03:48,000
+So here I am configuring inside my auth server saying that please accept the request from cross domains as
+
+51
+00:03:48,000 --> 00:03:50,000
+well. By configuring asterisk here
+
+52
+00:03:50,000 --> 00:03:56,000
+I'm fine to receive the traffic from any kind of domain and port number, but in your real projects
+
+53
+00:03:56,000 --> 00:04:01,000
+you can mention what is the actual domain name where your client application is deployed.
+
+54
+00:04:01,000 --> 00:04:03,000
+So let me save this changes.
+
+55
+00:04:03,000 --> 00:04:07,000
+Now I should be able to see the credentials of my client application.
+
+56
+00:04:07,000 --> 00:04:11,000
+You can see this is the client secret and this is the client ID.
+
+57
+00:04:11,000 --> 00:04:16,000
+Now we have created the client details inside the keycloak. As a next step,
+
+58
+00:04:16,000 --> 00:04:20,000
+we should also create end user details inside the keycloak auth server.
+
+59
+00:04:20,000 --> 00:04:26,000
+So here you can see there is an users tab and as of now there is only admin user.
+
+60
+00:04:26,000 --> 00:04:29,000
+So let me try to create a new user here.
+
+61
+00:04:29,000 --> 00:04:35,000
+So the user name I'll just give it as madan and the email, I'll just give it as 
+
+62
+00:04:35,000 --> 00:04:37,000
+tutor@eazybytes.com.
+
+63
+00:04:37,000 --> 00:04:44,000
+I'll just make sure I'm enabling these email verified as yes and post that I'll just mention first name
+
+64
+00:04:44,000 --> 00:04:50,000
+as Madan and last name as Reddy and at last I'm going to click on this create button.
+
+65
+00:04:50,000 --> 00:04:54,000
+So once you have created this user, you can go to the credentials tab here.
+
+66
+00:04:54,000 --> 00:04:58,000
+So as of now, you can see there is no password created for this user.
+
+67
+00:04:58,000 --> 00:04:59,000
+So let me try to set a
+
+68
+00:04:59,000 --> 00:05:00,000
+new password.
+
+69
+00:05:00,000 --> 00:05:05,000
+And here I'm going to mention the password as one, two, three, four, five, and I'll confirm the
+
+70
+00:05:05,000 --> 00:05:07,000
+same as one, two, three, four, five.
+
+71
+00:05:07,000 --> 00:05:11,000
+And I'll make sure to mark this as a not temporary password.
+
+72
+00:05:11,000 --> 00:05:17,000
+Otherwise the end user will be forced to change the password whenever he's trying to login into the
+
+73
+00:05:17,000 --> 00:05:18,000
+keycloak very first time.
+
+74
+00:05:18,000 --> 00:05:23,000
+So let me click on the save button and post that I can click on this save password.
+
+75
+00:05:23,000 --> 00:05:26,000
+So with this we have created an end user also.
+
+76
+00:05:26,000 --> 00:05:32,000
+So here you may have a question like in real world, who is going to create the end user details.
+
+77
+00:05:32,000 --> 00:05:35,000
+Is the admin is going to create every time a end user wants to register?
+
+78
+00:05:35,000 --> 00:05:36,000
+Off course not.
+
+79
+00:05:36,000 --> 00:05:41,000
+Keycloak exposes a lot of REST APIs using these REST APIs,
+
+80
+00:05:41,000 --> 00:05:48,000
+any properly authenticated application, they can connect with the Keycloak auth server and they can create
+
+81
+00:05:48,000 --> 00:05:51,000
+the end users by invoking these REST APIs.
+
+82
+00:05:51,000 --> 00:05:56,000
+Maybe I can have some login page on signup page inside my web application.
+
+83
+00:05:56,000 --> 00:06:01,000
+When an end user trying to create the account very first time I can have a signup button which will
+
+84
+00:06:01,000 --> 00:06:06,000
+take him to the signup page and inside the signup page he can enter all his credentials and I can send
+
+85
+00:06:06,000 --> 00:06:14,000
+a request to the keycloak server using REST APIs and Keycloak server can create the users behind the scenes.
+
+86
+00:06:14,000 --> 00:06:19,000
+So if you want to understand what are all the REST APIs supported by the keycloak, you can go to the keycloak
+
+87
+00:06:19,000 --> 00:06:24,000
+website and from the keyclock website you can click on this docs.
+
+88
+00:06:24,000 --> 00:06:30,000
+Under the docs, you should be able to see a section with the name Administration Rest API.
+
+89
+00:06:30,000 --> 00:06:34,000
+Inside this section there are many REST APIs.
+
+90
+00:06:34,000 --> 00:06:37,000
+Details are mentioned that are supported by the keyclock.
+
+91
+00:06:37,000 --> 00:06:38,000
+What is the request format?
+
+92
+00:06:38,000 --> 00:06:40,000
+What is the response format?
+
+93
+00:06:40,000 --> 00:06:47,000
+So all the actions that an admin can do with the help of UI, all these actions are supported by REST
+
+94
+00:06:47,000 --> 00:06:48,000
+API as well.
+
+95
+00:06:48,000 --> 00:06:49,000
+I hope you are clear.
+
+96
+00:06:49,000 --> 00:06:54,000
+Now we have client details and end user details registered inside the auth server.
+
+97
+00:06:54,000 --> 00:07:01,000
+As a next step, let's try to leverage authorization code grant type flow inside our microservices network.
+
+98
+00:07:01,000 --> 00:07:04,000
+Thank you and I'll catch you in the next lecture bye.
+

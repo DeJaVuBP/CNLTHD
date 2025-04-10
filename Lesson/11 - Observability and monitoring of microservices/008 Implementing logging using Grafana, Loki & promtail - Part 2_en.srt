@@ -1,0 +1,408 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now inside this lecture, let's try to start implementing these changes inside our Docker compose file.
+
+2
+00:00:06,000 --> 00:00:07,000
+For the same,
+
+3
+00:00:07,000 --> 00:00:14,000
+first, I need to download this loki-config.yml and promtailelocal-config.yml
+
+4
+00:00:14,000 --> 00:00:14,000
+.
+
+5
+00:00:14,000 --> 00:00:16,000
+So I have downloaded them already.
+
+6
+00:00:16,000 --> 00:00:20,000
+Let me go to the IntelliJ idea here and add the docker compose
+
+7
+00:00:20,000 --> 00:00:24,000
+I'm going to create a new folder with the name observability.
+
+8
+00:00:24,000 --> 00:00:28,000
+So let me create this folder inside this observability folder,
+
+9
+00:00:28,000 --> 00:00:33,000
+I'm going to create one more directory with the name loki inside this loki folder,
+
+10
+00:00:33,000 --> 00:00:39,000
+I'm going to save the file related to the loki configurations, so let me copy the same here.
+
+11
+00:00:39,000 --> 00:00:42,000
+So with the same name loki-config.yml.
+
+12
+00:00:42,000 --> 00:00:47,000
+If you can see this is the same content that we have discussed previously. After this loki-config.yml
+
+13
+00:00:47,000 --> 00:00:48,000
+.
+
+14
+00:00:48,000 --> 00:00:54,000
+Very similarly, I'm going to create a new folder with the name promptaile inside this promptaile
+
+15
+00:00:54,000 --> 00:00:57,000
+I'm going to download the config file and paste the same.
+
+16
+00:00:57,000 --> 00:01:03,000
+So here I'm trying to paste the file which is promptail-local-config.yml.
+
+17
+00:01:03,000 --> 00:01:07,000
+If you see this is the same content that we have discussed previously.
+
+18
+00:01:07,000 --> 00:01:10,000
+Now I have the low key and promptail related configurations.
+
+19
+00:01:10,000 --> 00:01:18,000
+As a next step I'm going to make the changes in any of the Docker compose file present inside the default
+
+20
+00:01:18,000 --> 00:01:18,000
+prod
+
+21
+00:01:18,000 --> 00:01:23,000
+or qa. So let me consider the docker-compose.yml file present inside the prod.
+
+22
+00:01:23,000 --> 00:01:29,000
+Once we test the changes inside the prod profile, we can copy the same content into other profiles
+
+23
+00:01:29,000 --> 00:01:29,000
+as well.
+
+24
+00:01:29,000 --> 00:01:32,000
+So let me open this docker-compose.yml.
+
+25
+00:01:32,000 --> 00:01:36,000
+As of now you can see these are all the services that we have created in the previous section.
+
+26
+00:01:36,000 --> 00:01:42,000
+In the previous section we have created a container related to Redis as part of rate limiter pattern.
+
+27
+00:01:42,000 --> 00:01:49,000
+For now, let's remove the container related to Redis because we're going to add too many containers
+
+28
+00:01:49,000 --> 00:01:50,000
+to our Docker compose file.
+
+29
+00:01:50,000 --> 00:01:54,000
+I don't want to slow down my system and US system as well.
+
+30
+00:01:54,000 --> 00:02:02,000
+That's why I want to remove unnecessary containers like Redis because we already tested Redis and rate
+
+31
+00:02:02,000 --> 00:02:04,000
+limited pattern in the previous section.
+
+32
+00:02:04,000 --> 00:02:06,000
+So let me remove this and post that.
+
+33
+00:02:06,000 --> 00:02:12,000
+I will go to the gateway server related configurations because here we have defined the dependency on
+
+34
+00:02:12,000 --> 00:02:17,000
+Redis and we also define some environment variables related to Redis.
+
+35
+00:02:17,000 --> 00:02:20,000
+So let me delete all these environment variables.
+
+36
+00:02:20,000 --> 00:02:26,000
+At last I can search for that tag which is with the name s10.
+
+37
+00:02:26,000 --> 00:02:30,000
+All these s10 tags I can replace with s11 tags.
+
+38
+00:02:30,000 --> 00:02:34,000
+Now I should be good with these s11 related changes.
+
+39
+00:02:34,000 --> 00:02:40,000
+As a next step, I'm going to copy the content from the Docker compose file present inside this location.
+
+40
+00:02:40,000 --> 00:02:41,000
+So network
+
+41
+00:02:41,000 --> 00:02:48,000
+I don't want to copy services we already have, so let me copy all the services except the flog.
+
+42
+00:02:48,000 --> 00:02:53,000
+Flog we don't need this service because this is a test app and we are not going to use the same.
+
+43
+00:02:53,000 --> 00:02:59,000
+So here, just after the services, I'm going to copy all the services that we have copied from the
+
+44
+00:02:59,000 --> 00:03:01,000
+official documentation.
+
+45
+00:03:01,000 --> 00:03:03,000
+So here we need to make some changes.
+
+46
+00:03:03,000 --> 00:03:06,000
+So let's try to make those changes quickly.
+
+47
+00:03:06,000 --> 00:03:13,000
+So if you see here previously the official documentation said copy the loki-config.yml present
+
+48
+00:03:13,000 --> 00:03:16,000
+inside the same folder location to the docker container.
+
+49
+00:03:16,000 --> 00:03:22,000
+But right now the loki-config.yml is not present inside the same folder location.
+
+50
+00:03:22,000 --> 00:03:27,000
+Instead it is present inside the observability, loki folder.
+
+51
+00:03:27,000 --> 00:03:30,000
+So that's why we need to update these volume here.
+
+52
+00:03:30,000 --> 00:03:35,000
+So let me update this content with the new folder.
+
+53
+00:03:35,000 --> 00:03:41,000
+Like you can see we are trying to read the loki-config.yml from the folder observability, loki
+
+54
+00:03:41,000 --> 00:03:45,000
+and the same we are trying to copy to the container at the folder location.
+
+55
+00:03:45,000 --> 00:03:52,000
+loki/config.yml. Post that if you can scroll down, we have a network with the name Loki, but what
+
+56
+00:03:52,000 --> 00:03:58,000
+is the network name that we have created inside the common-config.yml, it is easy bank so we need
+
+57
+00:03:58,000 --> 00:04:04,000
+to mention the same here and the alias we can keep it as loki because maybe internally they might
+
+58
+00:04:04,000 --> 00:04:10,000
+be using this Loki alias name, but please make sure you are using this easy bank and I'm going to anchor
+
+59
+00:04:10,000 --> 00:04:14,000
+this content with the same name which is loki-dns.
+
+60
+00:04:14,000 --> 00:04:16,000
+With this we should be good with the read component.
+
+61
+00:04:16,000 --> 00:04:18,000
+Now I'll go to the write component.
+
+62
+00:04:18,000 --> 00:04:21,000
+And here also we need to change this volume.
+
+63
+00:04:21,000 --> 00:04:28,000
+So let me copy the details from the read component and paste the same under the right component as well.
+
+64
+00:04:28,000 --> 00:04:29,000
+As the next step
+
+65
+00:04:29,000 --> 00:04:36,000
+I can scroll down, scroll down and here we should be fine with the same loki-dns because the
+
+66
+00:04:36,000 --> 00:04:39,000
+same variable is referring to the easybank.
+
+67
+00:04:39,000 --> 00:04:42,000
+So we should be good. If I go to the promtail, 
+
+68
+00:04:42,000 --> 00:04:50,000
+here also I need to add the correct folder location where my promtail-local-config.yml
+
+69
+00:04:50,000 --> 00:04:50,000
+is present.
+
+70
+00:04:50,000 --> 00:04:53,000
+So let me mention the same here.
+
+71
+00:04:53,000 --> 00:04:56,000
+Like you can see this file is present inside the folder
+
+72
+00:04:56,000 --> 00:04:57,000
+observability, promptail.
+
+73
+00:04:57,000 --> 00:04:59,000
+While the same I'm trying to copy into the
+
+74
+00:04:59,000 --> 00:05:00,000
+container.
+
+75
+00:05:00,000 --> 00:05:03,000
+And after this volume update, we can scroll down.
+
+76
+00:05:03,000 --> 00:05:06,000
+And here under the networks we have loki.
+
+77
+00:05:06,000 --> 00:05:06,000
+.
+
+78
+00:05:06,000 --> 00:05:12,000
+So instead of directly hardcoding the network name like easybank, we can try to refer
+
+79
+00:05:12,000 --> 00:05:18,000
+the configurations that we have defined inside the commonconfig.yml file with the service name
+
+80
+00:05:18,000 --> 00:05:19,000
+as network deploy service.
+
+81
+00:05:19,000 --> 00:05:21,000
+So let me do the same.
+
+82
+00:05:21,000 --> 00:05:28,000
+So here in the place of networks I'm going to copy the content which is extends file common-config.yml
+
+83
+00:05:28,000 --> 00:05:33,000
+and the service name is going to be network-deploy-service.
+
+84
+00:05:33,000 --> 00:05:37,000
+As a next step I can go to the minio, under the Minio
+
+85
+00:05:37,000 --> 00:05:42,000
+we don't have to change anything except the network related configuration.
+
+86
+00:05:42,000 --> 00:05:46,000
+So instead of this network I'm going to mention the extends configuration.
+
+87
+00:05:46,000 --> 00:05:50,000
+After this, I'll go to the Grafana. Here under the Grafana,
+
+88
+00:05:50,000 --> 00:05:56,000
+we don't have to change anything except related to the network, so let me change the networks related
+
+89
+00:05:56,000 --> 00:06:04,000
+information and post that I'm going to copy the same content and mention the same inside the gateway
+
+90
+00:06:04,000 --> 00:06:04,000
+as well.
+
+91
+00:06:04,000 --> 00:06:10,000
+If I can scroll down towards the end, there is an network configuration under the gateway.
+
+92
+00:06:10,000 --> 00:06:13,000
+So let me define the same.
+
+93
+00:06:13,000 --> 00:06:19,000
+With this we have updated our Docker compose file and we also copied the configurations related to loki and
+
+94
+00:06:19,000 --> 00:06:20,000
+promptail.
+
+95
+00:06:20,000 --> 00:06:27,000
+As a next step, I need to generate the Docker images which are specific to this section because we
+
+96
+00:06:27,000 --> 00:06:33,000
+are right now using the tag S11. So I'm going to generate all the Docker images related to S11 behind
+
+97
+00:06:33,000 --> 00:06:35,000
+the scenes. And post that,
+
+98
+00:06:35,000 --> 00:06:38,000
+I'm going to continue the same discussion in the next lecture.
+
+99
+00:06:38,000 --> 00:06:39,000
+I hope you are with me.
+
+100
+00:06:39,000 --> 00:06:44,000
+When you see these in demo, it is going to be super, super clear for you and I'm pretty sure that
+
+101
+00:06:44,000 --> 00:06:46,000
+you are going to like these grafana tools.
+
+102
+00:06:46,000 --> 00:06:49,000
+Thank you and I'll catch you in the next lecture bye.
+

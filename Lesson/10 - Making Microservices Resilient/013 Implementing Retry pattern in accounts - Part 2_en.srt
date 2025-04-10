@@ -1,0 +1,528 @@
+1
+00:00:00,000 --> 00:00:01,000
+In this lecture,
+
+2
+00:00:01,000 --> 00:00:04,000
+let's try to explore further about the retry pattern.
+
+3
+00:00:04,000 --> 00:00:11,000
+As of now, you can see we are trying to attempt the retry operation whenever there is an issue inside
+
+4
+00:00:11,000 --> 00:00:13,000
+our getBuildInfo() method.
+
+5
+00:00:13,000 --> 00:00:20,000
+So regardless of what type of exception happening inside your method, in all such scenarios, the retry
+
+6
+00:00:20,000 --> 00:00:21,000
+attempt will happen.
+
+7
+00:00:21,000 --> 00:00:28,000
+What if there is a business requirement saying that please don't retry whenever there is a NullPointerException
+
+8
+00:00:28,000 --> 00:00:34,000
+because if there is a NullPointerException with a given input data, regardless of how many
+
+9
+00:00:34,000 --> 00:00:39,000
+times you retry, you will always get a NullPointerException. In such scenarios
+
+10
+00:00:39,000 --> 00:00:41,000
+we don't want our retry to happen.
+
+11
+00:00:41,000 --> 00:00:43,000
+So how to achieve this?
+
+12
+00:00:43,000 --> 00:00:49,000
+For the same, we need to go to the application.yml of accounts microservice because we have implemented
+
+13
+00:00:49,000 --> 00:00:56,000
+these retry inside the accounts microservice. So here under the retry configurations I need to define
+
+14
+00:00:56,000 --> 00:00:57,000
+a new property.
+
+15
+00:00:57,000 --> 00:01:02,000
+The property is ignoreExceptions and these ignoreExceptions
+
+16
+00:01:02,000 --> 00:01:08,000
+we can define any number of exceptions with the help of this hyphen inside Yaml
+
+17
+00:01:08,000 --> 00:01:14,000
+whenever we use this hyphen or dash symbol that indicates it is one of the element inside the list.
+
+18
+00:01:14,000 --> 00:01:20,000
+Suppose if you want to define one more exception, you can try to copy the same code under the same
+
+19
+00:01:20,000 --> 00:01:21,000
+location.
+
+20
+00:01:21,000 --> 00:01:25,000
+And in the second element you can try to mention your second exception.
+
+21
+00:01:25,000 --> 00:01:30,000
+But here I'm fine with the one exception which is of type NullPointerException.
+
+22
+00:01:30,000 --> 00:01:34,000
+You need to mention the complete name, including the package name.
+
+23
+00:01:34,000 --> 00:01:41,000
+So with this I have configured saying that please ignore exception of type NullPointerException in
+
+24
+00:01:41,000 --> 00:01:42,000
+such scenarios,
+
+25
+00:01:42,000 --> 00:01:46,000
+please do not retry the request, so let me save this changes.
+
+26
+00:01:46,000 --> 00:01:47,000
+Do a build.
+
+27
+00:01:47,000 --> 00:01:54,000
+Once the build is completed, I will stop my AccountsApplication and gateway server application post
+
+28
+00:01:54,000 --> 00:01:58,000
+that I'm going to start my AccountsApplication.
+
+29
+00:01:58,000 --> 00:02:02,000
+Once the AccountsApplication is started, I'm going to start my Gateway server application.
+
+30
+00:02:02,000 --> 00:02:09,000
+Now we can go to the postman and try to invoke the request this time they should not be any retry attempt
+
+31
+00:02:09,000 --> 00:02:10,000
+happening.
+
+32
+00:02:10,000 --> 00:02:14,000
+So let me go to the AccountsApplication and clean the console here.
+
+33
+00:02:14,000 --> 00:02:15,000
+Here inside the postman
+
+34
+00:02:15,000 --> 00:02:17,000
+I'm trying to invoke this API.
+
+35
+00:02:17,000 --> 00:02:22,000
+You can see we are getting the fallback response from the retry pattern.
+
+36
+00:02:22,000 --> 00:02:29,000
+The retry pattern is activated, but behind the scenes it is not going to make the multiple retry attempts.
+
+37
+00:02:29,000 --> 00:02:33,000
+We can confirm the same inside the console of the AccountsApplication.
+
+38
+00:02:33,000 --> 00:02:35,000
+Here you can see there are two statements.
+
+39
+00:02:35,000 --> 00:02:41,000
+The very first one is from the get build info and the second one is from the get build info fallback,
+
+40
+00:02:41,000 --> 00:02:47,000
+which means with a single execution, the fallback mechanism came into picture and this is what printed
+
+41
+00:02:47,000 --> 00:02:48,000
+on the console.
+
+42
+00:02:48,000 --> 00:02:53,000
+So the retry is not happening whenever there is a NullPointerException.
+
+43
+00:02:53,000 --> 00:02:55,000
+So this is one type of requirement
+
+44
+00:02:55,000 --> 00:02:55,000
+you may have.
+
+45
+00:02:55,000 --> 00:03:02,000
+The other kind of requirement that you may have is to retry only for a set of specific exceptions.
+
+46
+00:03:02,000 --> 00:03:04,000
+So let's try to see how to define that.
+
+47
+00:03:04,000 --> 00:03:11,000
+Just like how we have ignore exceptions, we can also define one more property, which is retry exceptions.
+
+48
+00:03:11,000 --> 00:03:16,000
+And these retry exceptions we can define any number of exceptions.
+
+49
+00:03:16,000 --> 00:03:23,000
+So as of now, I have mentioned please retry the request only in the scenario of timeout exception.
+
+50
+00:03:23,000 --> 00:03:29,000
+I also want to highlight you that whenever we are defining these retry exceptions, then we don't have
+
+51
+00:03:29,000 --> 00:03:34,000
+to define these ignore exceptions because when are we define an exception
+
+52
+00:03:34,000 --> 00:03:40,000
+under these retry exceptions, the retry will happen only for these kind of exceptions, which is like
+
+53
+00:03:40,000 --> 00:03:47,000
+timeout exception and all the remaining exceptions automatically will be ignored by the resiliency4j.
+
+54
+00:03:47,000 --> 00:03:53,000
+So that's why please note that whenever you are defining retry exceptions, you don't have to mention
+
+55
+00:03:53,000 --> 00:03:54,000
+the ignore exceptions.
+
+56
+00:03:54,000 --> 00:03:58,000
+Now, after making these changes, let me go to the AccountsController.
+
+57
+00:03:58,000 --> 00:04:00,000
+Inside the AccountsController
+
+58
+00:04:00,000 --> 00:04:02,000
+as of now we are throwing NullPointerException.
+
+59
+00:04:02,000 --> 00:04:09,000
+So here I will change this to timeout exception and since the timeout exception is a checked exception,
+
+60
+00:04:09,000 --> 00:04:13,000
+we need to make sure we are adding the throw statement to the method signature.
+
+61
+00:04:13,000 --> 00:04:17,000
+So let me try to add the throw statement to the method signature.
+
+62
+00:04:17,000 --> 00:04:19,000
+So now we should be good.
+
+63
+00:04:19,000 --> 00:04:20,000
+Let me save these changes.
+
+64
+00:04:20,000 --> 00:04:21,000
+Do a build.
+
+65
+00:04:21,000 --> 00:04:26,000
+Once the build is completed, I can go to the postman inside my postman.
+
+66
+00:04:26,000 --> 00:04:32,000
+I'm going to invoke this build-info API one more time and this time since we are throwing TimeoutException
+
+67
+00:04:32,000 --> 00:04:39,000
+behind the scenes, my resiliency4j framework might have retried multiple times based upon our
+
+68
+00:04:39,000 --> 00:04:40,000
+configurations.
+
+69
+00:04:40,000 --> 00:04:44,000
+So let me confirm the same by going into the accounts microservice console.
+
+70
+00:04:44,000 --> 00:04:50,000
+So here inside the AccountsApplication console, you will be able to see three log statements with
+
+71
+00:04:50,000 --> 00:04:55,000
+a output saying that getBuildInfo() method invoked even after three attempts.
+
+72
+00:04:55,000 --> 00:04:59,000
+Since we are not sending a successful response at last the fallback
+
+73
+00:05:00,000 --> 00:05:01,000
+method will be invoked.
+
+74
+00:05:01,000 --> 00:05:07,000
+I hope now you are clear how to configure, ignore exceptions and retry exceptions whenever you are
+
+75
+00:05:07,000 --> 00:05:11,000
+trying to configure retry pattern inside your microservices.
+
+76
+00:05:11,000 --> 00:05:13,000
+You may have a question here how to achieve the same
+
+77
+00:05:13,000 --> 00:05:19,000
+whenever we are trying to implement retry pattern with the help of Gateway server, we can also achieve
+
+78
+00:05:19,000 --> 00:05:22,000
+the same inside Gateway server. For the same,
+
+79
+00:05:22,000 --> 00:05:28,000
+if you go to the retry configurations here and try to invoke some methods with the prefix set, you
+
+80
+00:05:28,000 --> 00:05:34,000
+should be able to see some methods with the name like set exceptions where you can try to mention the
+
+81
+00:05:34,000 --> 00:05:35,000
+list of exceptions.
+
+82
+00:05:35,000 --> 00:05:40,000
+The retry attempt will happen, so there is no option of ignore exception here.
+
+83
+00:05:40,000 --> 00:05:47,000
+And very similarly, you can also mention Http status based upon some Http status code you can retry,
+
+84
+00:05:47,000 --> 00:05:51,000
+otherwise you can simply ignore the retry attempt.
+
+85
+00:05:51,000 --> 00:05:53,000
+I hope you are clear with this. As a next step
+
+86
+00:05:53,000 --> 00:05:59,000
+I want to fix a small bug that we have inside our GatewayServer application to explain you about this
+
+87
+00:05:59,000 --> 00:05:59,000
+defect.
+
+88
+00:05:59,000 --> 00:06:01,000
+Let me go to the postman.
+
+89
+00:06:01,000 --> 00:06:06,000
+Previously when you are trying to test the retry related changes inside the Gateway server, we invoke
+
+90
+00:06:06,000 --> 00:06:07,000
+these loans
+
+91
+00:06:07,000 --> 00:06:09,000
+contact-info.
+
+92
+00:06:09,000 --> 00:06:17,000
+Here if you see inside the header, we have easy correlation ID multiple times populated with the same value.
+
+93
+00:06:17,000 --> 00:06:18,000
+So why this is happening?
+
+94
+00:06:18,000 --> 00:06:24,000
+This is because whenever there is a retry attempt is happening on the Gateway server, the response
+
+95
+00:06:24,000 --> 00:06:30,000
+filter that we have written to populate these easy correlation ID is going to be executed.
+
+96
+00:06:30,000 --> 00:06:35,000
+So let me open the ResponseFilter inside the GatewayServer application.
+
+97
+00:06:35,000 --> 00:06:38,000
+Under these filters there is a filter with the name TesponseTraceFilter.
+
+98
+00:06:38,000 --> 00:06:44,000
+Whenever a response comes, regardless of an exception, response or a retry response, we are always
+
+99
+00:06:44,000 --> 00:06:50,000
+simply trying to add the header with the name present inside this constant along with the correlation
+
+100
+00:06:50,000 --> 00:06:50,000
+ID value.
+
+101
+00:06:50,000 --> 00:06:55,000
+Due to that, the header is getting populated multiple times inside the response.
+
+102
+00:06:55,000 --> 00:06:57,000
+So this is not correct.
+
+103
+00:06:57,000 --> 00:07:02,000
+We can try to add some if statement here. Inside the if statement
+
+104
+00:07:02,000 --> 00:07:04,000
+we can mention this logic.
+
+105
+00:07:04,000 --> 00:07:06,000
+We can add some conditions to this if
+
+106
+00:07:06,000 --> 00:07:10,000
+block. But before that, let me copy these two statements into the 
+
+107
+00:07:10,000 --> 00:07:14,000
+if block. Now, I'm going to add a condition inside the if
+
+108
+00:07:14,000 --> 00:07:16,000
+Block. You can see here with this check
+
+109
+00:07:16,000 --> 00:07:21,000
+first, I'm trying to check if there is any header inside the response with the same name.
+
+110
+00:07:21,000 --> 00:07:24,000
+If it is there, then this value is going to be true.
+
+111
+00:07:24,000 --> 00:07:26,000
+The not condition of true will be false.
+
+112
+00:07:26,000 --> 00:07:32,000
+In such scenarios, my if block is not going to be executed, whereas if there is no header inside the
+
+113
+00:07:32,000 --> 00:07:36,000
+response, this will be false and not a false will be true.
+
+114
+00:07:36,000 --> 00:07:39,000
+And in such scenarios the if block will be executed.
+
+115
+00:07:39,000 --> 00:07:45,000
+So this is the small fix that I want to provide to handle the defect that we saw previously.
+
+116
+00:07:45,000 --> 00:07:49,000
+With this, we have completed all the discussion around the retry pattern.
+
+117
+00:07:49,000 --> 00:07:54,000
+I can go to the AccountsController and try to revert this code which is related to throwing RuntimeException
+
+118
+00:07:54,000 --> 00:07:59,000
+and post that I'm going to uncomment this code.
+
+119
+00:07:59,000 --> 00:08:03,000
+So now we should be good as a last step, let me show you the slides.
+
+120
+00:08:03,000 --> 00:08:08,000
+Here you can see I have mentioned the list of steps that we have followed to configure the retry pattern
+
+121
+00:08:08,000 --> 00:08:11,000
+inside the normal microservices like accounts
+
+122
+00:08:11,000 --> 00:08:12,000
+microservice.
+
+123
+00:08:12,000 --> 00:08:18,000
+First with the help of retry annotation, we need to mention what is the name of the retry pattern and what
+
+124
+00:08:18,000 --> 00:08:23,000
+is the fallback method and post that we need to create the fallback method by following the rules that
+
+125
+00:08:23,000 --> 00:08:24,000
+we have discussed.
+
+126
+00:08:24,000 --> 00:08:29,000
+And after making these changes, we need to mention the list of properties inside the application.yml
+
+127
+00:08:29,000 --> 00:08:31,000
+file like you can see on the screen.
+
+128
+00:08:31,000 --> 00:08:36,000
+So I'm just trying to mention all these steps inside the slide so that you can use them as a reference
+
+129
+00:08:36,000 --> 00:08:37,000
+in future
+
+130
+00:08:37,000 --> 00:08:42,000
+whenever you want to quickly refresh all the topics that we have discussed inside this course, I hope
+
+131
+00:08:42,000 --> 00:08:45,000
+you are super, super clear about the retry pattern.
+
+132
+00:08:45,000 --> 00:08:48,000
+Thank you and I'll catch you in the next lecture bye.
+

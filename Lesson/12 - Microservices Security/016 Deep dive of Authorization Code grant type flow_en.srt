@@ -1,0 +1,680 @@
+1
+00:00:00,000 --> 00:00:08,000
+As of now, we saw a scenario inside our microservices where an external backend server or an external
+
+2
+00:00:08,000 --> 00:00:14,000
+API, they're trying to communicate with our microservices using backend APIs and there is no end user
+
+3
+00:00:14,000 --> 00:00:15,000
+involved.
+
+4
+00:00:15,000 --> 00:00:19,000
+So for such scenarios we have to use client credentials grant type flow.
+
+5
+00:00:19,000 --> 00:00:27,000
+But how about if your client application who are trying to consume your microservices is an application
+
+6
+00:00:27,000 --> 00:00:29,000
+or mobile application. In such scenarios
+
+7
+00:00:29,000 --> 00:00:30,000
+definitely
+
+8
+00:00:30,000 --> 00:00:36,000
+if there is a UI application or a mobile application, there will be an associated end user who is trying
+
+9
+00:00:36,000 --> 00:00:39,000
+to use that website or mobile application.
+
+10
+00:00:39,000 --> 00:00:45,000
+So in these kind of scenarios we should use authorization code grant type flow which is available
+
+11
+00:00:45,000 --> 00:00:47,000
+inside the Oauth2 framework.
+
+12
+00:00:47,000 --> 00:00:54,000
+Like you can see here, we have four different roles user, client, auth server and resource server in the
+
+13
+00:00:54,000 --> 00:00:57,000
+Stack overflow scenario that we tried previously.
+
+14
+00:00:57,000 --> 00:01:03,000
+This is the grant type flow that is used behind the scenes because I'm as an end user trying to use
+
+15
+00:01:03,000 --> 00:01:09,000
+the client application, which is Stack Overflow and Stack Overflow is trying to fetch my details present
+
+16
+00:01:09,000 --> 00:01:15,000
+inside the GitHub server by communicating with the auth server and resource server of the GitHub company.
+
+17
+00:01:15,000 --> 00:01:20,000
+With that quick introduction, let me try to give you what are the steps that are going to happen behind
+
+18
+00:01:20,000 --> 00:01:26,000
+the scenes whenever we try to use this authorization code grant type flow. First the end user will
+
+19
+00:01:26,000 --> 00:01:31,000
+go to the client application may be using browser or using a mobile application.
+
+20
+00:01:31,000 --> 00:01:33,000
+He will ask the client application,
+
+21
+00:01:33,000 --> 00:01:38,000
+I want to access my resources and where are these resources inside the resource server.
+
+22
+00:01:38,000 --> 00:01:44,000
+So the response from the client application will be tell the auth server that you are fine to do this
+
+23
+00:01:44,000 --> 00:01:44,000
+action.
+
+24
+00:01:44,000 --> 00:01:51,000
+So inside this step two, the client will redirect the user to the login page of the auth server so
+
+25
+00:01:51,000 --> 00:01:58,000
+the user has to enter his credentials in the step three, saying that these are my credentials to prove
+
+26
+00:01:58,000 --> 00:02:03,000
+my identity and please allow the client application to access my resources.
+
+27
+00:02:03,000 --> 00:02:11,000
+Once auth server validated the end user details, it is going to issue an temporary code with the name
+
+28
+00:02:11,000 --> 00:02:14,000
+authorization code to the client application.
+
+29
+00:02:14,000 --> 00:02:19,000
+That's why we call these grant type flow as authorization code grant type flow.
+
+30
+00:02:19,000 --> 00:02:23,000
+So this authorization code is not access token.
+
+31
+00:02:23,000 --> 00:02:29,000
+In order to get the access token my client application, it has to invoke the auth server with the client
+
+32
+00:02:29,000 --> 00:02:34,000
+credentials along with the authorization code that it has received in the Step four.
+
+33
+00:02:34,000 --> 00:02:40,000
+So now my arch server will validate if the authorization code is valid, which it has shared in the
+
+34
+00:02:40,000 --> 00:02:42,000
+previous step along with the authorization code
+
+35
+00:02:42,000 --> 00:02:49,000
+it also going to validate the client credentials whether the client ID and client secret are valid or
+
+36
+00:02:49,000 --> 00:02:49,000
+not.
+
+37
+00:02:49,000 --> 00:02:53,000
+If everything looks good, then it is going to issue an access token.
+
+38
+00:02:53,000 --> 00:02:59,000
+Once the access token is received by my client application, the story is going to be similar like client
+
+39
+00:02:59,000 --> 00:03:00,000
+credentials.
+
+40
+00:03:00,000 --> 00:03:05,000
+The client application is going to send the request to the resource server along with the access token
+
+41
+00:03:05,000 --> 00:03:11,000
+and behind the scenes, the resource server will validate if the access token is valid or not with the
+
+42
+00:03:11,000 --> 00:03:12,000
+auth server.
+
+43
+00:03:12,000 --> 00:03:18,000
+If the access token is valid, it is going to respond back to the client application with the successful
+
+44
+00:03:18,000 --> 00:03:19,000
+response.
+
+45
+00:03:19,000 --> 00:03:24,000
+You can see here the user is never sharing his credentials to the client application.
+
+46
+00:03:24,000 --> 00:03:30,000
+The user is trying to interact directly with the auth server and he will enter his own credentials once
+
+47
+00:03:30,000 --> 00:03:31,000
+the user is proved
+
+48
+00:03:31,000 --> 00:03:38,000
+his identity provided his consent, saying that please allow this client application to access my resources
+
+49
+00:03:38,000 --> 00:03:40,000
+present inside the resource server.
+
+50
+00:03:40,000 --> 00:03:46,000
+Once the auth server validated the end user details, it is not immediately issuing an access token
+
+51
+00:03:46,000 --> 00:03:51,000
+to the client application because it has to validate the client credentials as well.
+
+52
+00:03:51,000 --> 00:03:58,000
+That's why it is going to issue an temporary authorization code using which the client application has
+
+53
+00:03:58,000 --> 00:04:02,000
+to send the request again this time with the client credentials as well.
+
+54
+00:04:02,000 --> 00:04:07,000
+If the client credentials and authorization code is valid, then only it is going to issue an access
+
+55
+00:04:07,000 --> 00:04:08,000
+token.
+
+56
+00:04:08,000 --> 00:04:13,000
+I also provided more details about this grant type flow in the next slide.
+
+57
+00:04:13,000 --> 00:04:19,000
+Like you can see here inside the step two and three where the client application is trying to redirect
+
+58
+00:04:19,000 --> 00:04:22,000
+the end user to the login page of the auth server.
+
+59
+00:04:22,000 --> 00:04:28,000
+So in that process it has to send the what is a client Id but not the client secret, only the client
+
+60
+00:04:28,000 --> 00:04:35,000
+ID it is going to share using this client ID only my auth server is going to alert the end user saying
+
+61
+00:04:35,000 --> 00:04:39,000
+that you are about to share all your resources with so and so application.
+
+62
+00:04:39,000 --> 00:04:41,000
+Please provide your consent.
+
+63
+00:04:41,000 --> 00:04:46,000
+So to display that information the server need this client ID, so based upon the client ID, it is
+
+64
+00:04:46,000 --> 00:04:50,000
+going to fetch all the client related details. Along with the client ID,
+
+65
+00:04:50,000 --> 00:04:58,000
+my client application should also provide what is the redirect URL because once the end user is logged
+
+66
+00:04:58,000 --> 00:05:00,000
+in successfully my auth server
+
+67
+00:05:00,000 --> 00:05:06,000
+has to redirect the end user to a web page or to a URL which is present inside the client application.
+
+68
+00:05:06,000 --> 00:05:08,000
+In the stack overflow scenario
+
+69
+00:05:08,000 --> 00:05:14,000
+also, we saw that as soon as my login inside the GitHub is completed I am redirected back to the stack
+
+70
+00:05:14,000 --> 00:05:15,000
+overflow.
+
+71
+00:05:15,000 --> 00:05:21,000
+So how that is happening is with the help of this redirect URL shared by the stack overflow. After redirect
+
+72
+00:05:21,000 --> 00:05:27,000
+uri, my client application also should ask what are the scope details that it is trying to request
+
+73
+00:05:27,000 --> 00:05:28,000
+from the auth server.
+
+74
+00:05:28,000 --> 00:05:33,000
+This is very similar to what we have discussed inside the client credentials grant type flow.
+
+75
+00:05:33,000 --> 00:05:36,000
+After the scope we have a state variable.
+
+76
+00:05:36,000 --> 00:05:38,000
+So what is the purpose of this state variable?
+
+77
+00:05:38,000 --> 00:05:44,000
+This is to make sure there is no csrf attack happening in the authorization code grant type flow.
+
+78
+00:05:44,000 --> 00:05:49,000
+I'm going to show you the purpose of this state variable inside a small demo in few minutes.
+
+79
+00:05:49,000 --> 00:05:56,000
+But for now, please note that this is a randomly generated token which is used to avoid the csrf attack.
+
+80
+00:05:56,000 --> 00:05:58,000
+After the state variable,
+
+81
+00:05:58,000 --> 00:06:03,000
+the client application should also send response type inside this response type It needs to mention
+
+82
+00:06:03,000 --> 00:06:09,000
+a value code and this indicates to my auth server saying that that my client application is trying to
+
+83
+00:06:09,000 --> 00:06:12,000
+follow the authorization code grant type flow.
+
+84
+00:06:12,000 --> 00:06:18,000
+And as a response of this step two and step three, it is expecting an authorization code from the auth
+
+85
+00:06:18,000 --> 00:06:19,000
+server.
+
+86
+00:06:19,000 --> 00:06:25,000
+So once the authorization code is received by my client application as part of step two and three in
+
+87
+00:06:25,000 --> 00:06:31,000
+the Step five, the client application is going to make a one more request to the auth server to get an
+
+88
+00:06:31,000 --> 00:06:32,000
+access token.
+
+89
+00:06:32,000 --> 00:06:38,000
+So in this step five, first it is going to send the code that it has received in the previous step.
+
+90
+00:06:38,000 --> 00:06:38,000
+Along with the code,
+
+91
+00:06:38,000 --> 00:06:43,000
+it should also send what is a client ID and client secret to prove its identity.
+
+92
+00:06:43,000 --> 00:06:49,000
+Now, under the grant type, we should mention the value authorization code which will convey to the
+
+93
+00:06:49,000 --> 00:06:55,000
+ad server that we are trying to follow the authorization code grant type flow and at last you already
+
+94
+00:06:55,000 --> 00:06:56,000
+know what is the purpose of redirect uri.
+
+95
+00:06:57,000 --> 00:07:02,000
+So I know this is super complex to understand, but if I show you multiple demos, it is going to be
+
+96
+00:07:02,000 --> 00:07:03,000
+super clear for you.
+
+97
+00:07:03,000 --> 00:07:08,000
+Let me try to show you a quick demo very quickly around this authorization code grant type flow.
+
+98
+00:07:08,000 --> 00:07:13,000
+For the same, I came to the website which is OAuth2 playground.
+
+99
+00:07:13,000 --> 00:07:18,000
+Inside this website we can try to test various OAuth grant type flow.
+
+100
+00:07:18,000 --> 00:07:24,000
+There is no option for client credentials inside this website for some reason, but we are more interested
+
+101
+00:07:24,000 --> 00:07:27,000
+about to test the authorization code grant type flow.
+
+102
+00:07:27,000 --> 00:07:29,000
+So let me click on this authorization code.
+
+103
+00:07:29,000 --> 00:07:34,000
+So if you click on this register a client application, you will have some details.
+
+104
+00:07:34,000 --> 00:07:36,000
+What is the purpose of this step
+
+105
+00:07:36,000 --> 00:07:37,000
+client registration.
+
+106
+00:07:37,000 --> 00:07:43,000
+So you can read them and click on this register button and post that you can see behind the scenes
+
+107
+00:07:43,000 --> 00:07:46,000
+it it generated a client ID and client secret.
+
+108
+00:07:46,000 --> 00:07:49,000
+So this has to be used by the client application.
+
+109
+00:07:49,000 --> 00:07:54,000
+And since inside the authorization code grant flow, there will be an end user involved.
+
+110
+00:07:54,000 --> 00:07:59,000
+It randomly generated an end user account like this is the login and this is the password.
+
+111
+00:07:59,000 --> 00:08:03,000
+We need to make sure we are noting these values so that we can continue with the flow.
+
+112
+00:08:03,000 --> 00:08:05,000
+I can click on this open a new window.
+
+113
+00:08:05,000 --> 00:08:07,000
+So these are my user details.
+
+114
+00:08:07,000 --> 00:08:10,000
+Now I'll go back and here I'll click on this continue.
+
+115
+00:08:10,000 --> 00:08:16,000
+So inside the step one, you can see the client application has to build the authorization URL.
+
+116
+00:08:16,000 --> 00:08:22,000
+Like this is the server URL where it is trying to send the response type as code along with the client
+
+117
+00:08:22,000 --> 00:08:29,000
+ID and inside the redirect uri it is trying to give some URL where the end user needs to be landed back.
+
+118
+00:08:29,000 --> 00:08:30,000
+After the redirect uri,
+
+119
+00:08:30,000 --> 00:08:36,000
+under the scope you can see it is trying to request the scopes related to photo and half line access.
+
+120
+00:08:36,000 --> 00:08:42,000
+And like I said, state is a randomly generated value, so please make a note of this state value.
+
+121
+00:08:42,000 --> 00:08:45,000
+So now I'm going to click on this authorize button.
+
+122
+00:08:45,000 --> 00:08:52,000
+This will redirect my end user to the auth server login page where he has to enter his username and
+
+123
+00:08:52,000 --> 00:08:52,000
+password.
+
+124
+00:08:52,000 --> 00:08:58,000
+So let me take the username that I have here and enter the same here and post that and I'm going to
+
+125
+00:08:58,000 --> 00:08:59,000
+enter the same,
+
+126
+00:08:59,000 --> 00:09:03,000
+after entering the credentials, I'm going to click on this login button.
+
+127
+00:09:03,000 --> 00:09:10,000
+So here you can see it is trying to take my consent saying that so and so application would like to
+
+128
+00:09:10,000 --> 00:09:11,000
+access my photos.
+
+129
+00:09:11,000 --> 00:09:16,000
+If I'm fine, I'm going to provide my consent saying that I'm approving this.
+
+130
+00:09:16,000 --> 00:09:23,000
+Now I'm landed back onto the OAuth playground and here you can see we need to make sure the state value
+
+131
+00:09:23,000 --> 00:09:26,000
+is same as what we have sent in the previous request.
+
+132
+00:09:26,000 --> 00:09:31,000
+So this will make sure that no hacker in between tampered your request.
+
+133
+00:09:31,000 --> 00:09:38,000
+So to avoid the csrf attacks, we need to make sure to send the state variable and along with the state variable,
+
+134
+00:09:38,000 --> 00:09:42,000
+my auth server is also going to send me back the authorization code.
+
+135
+00:09:42,000 --> 00:09:44,000
+So this is the authorization code value.
+
+136
+00:09:44,000 --> 00:09:48,000
+If my state value looks good to me, then I can click on this
+
+137
+00:09:48,000 --> 00:09:52,000
+it matches continue and now you can see inside this step,
+
+138
+00:09:52,000 --> 00:09:58,000
+my client application is going to make a post request with a grant type as authorization code,
+
+139
+00:09:58,000 --> 00:09:59,000
+client ID, client secret.
+
+140
+00:09:59,000 --> 00:10:05,000
+And what is the redirecturi and what is the authorization code value that it has received in the previous
+
+141
+00:10:05,000 --> 00:10:05,000
+step.
+
+142
+00:10:05,000 --> 00:10:11,000
+Now, if I click on this go, you will be able to get a successful token in the response.
+
+143
+00:10:11,000 --> 00:10:14,000
+So like you can see, I am receiving an access token.
+
+144
+00:10:14,000 --> 00:10:17,000
+I hope this is more clear for you by seeing at this demo.
+
+145
+00:10:17,000 --> 00:10:23,000
+My humble request is, please try this demo by yourself inside this website and try to correlate with
+
+146
+00:10:23,000 --> 00:10:25,000
+what we have discussed.
+
+147
+00:10:25,000 --> 00:10:30,000
+Now, before I try to close this lecture, let me try to answer one of the question that you may have.
+
+148
+00:10:30,000 --> 00:10:36,000
+The question you may have here is why the authorization code grant flow is expecting to request from
+
+149
+00:10:36,000 --> 00:10:38,000
+the client application.
+
+150
+00:10:38,000 --> 00:10:44,000
+Why can't my authorization server can issue an access token with a single request like we saw in the
+
+151
+00:10:44,000 --> 00:10:50,000
+very first step, the auth server will redirect the end user to the login page and it is going to issue an
+
+152
+00:10:50,000 --> 00:10:53,000
+temporary authorization code using the same authorization code
+
+153
+00:10:53,000 --> 00:10:59,000
+the client application again has to make a request in the backend to get an access token.
+
+154
+00:10:59,000 --> 00:11:05,000
+The reason why this grant flow design this way is to make the communication between the auth server
+
+155
+00:11:05,000 --> 00:11:13,000
+and the client application more secure. Because in the client grant flows there is no browser involved.
+
+156
+00:11:13,000 --> 00:11:19,000
+Whereas with this flow, since there is browser or mobile application involved, there is a good chance
+
+157
+00:11:19,000 --> 00:11:25,000
+some hacker can be involved in the communication between the client application and auth server and he
+
+158
+00:11:25,000 --> 00:11:27,000
+may steal the access token.
+
+159
+00:11:27,000 --> 00:11:30,000
+So to make sure no one is stealing the access token.
+
+160
+00:11:30,000 --> 00:11:37,000
+So these two different validation steps are these two different layers of security is designed inside
+
+161
+00:11:37,000 --> 00:11:38,000
+this grant flow.
+
+162
+00:11:38,000 --> 00:11:44,000
+We have a grant flow with the name implicit grant type flow, which will get an access token within
+
+163
+00:11:44,000 --> 00:11:45,000
+a single step.
+
+164
+00:11:45,000 --> 00:11:51,000
+It is not going to follow the steps that we have discussed inside this grant flow, inside the implicit
+
+165
+00:11:51,000 --> 00:11:56,000
+grant type flow, the end user at the client application is going to get the access token within a single
+
+166
+00:11:56,000 --> 00:11:57,000
+step.
+
+167
+00:11:57,000 --> 00:12:02,000
+But since this grant flow is less secure, it is deprecated long back and in the same place
+
+168
+00:12:02,000 --> 00:12:07,000
+now the recommendation is to use the authorization code grant type flow.
+
+169
+00:12:07,000 --> 00:12:08,000
+I hope this is clear.
+
+170
+00:12:08,000 --> 00:12:11,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,136 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, inside this course, we have discussed various resiliency patterns supported by this Resilience4j
+
+2
+00:00:06,000 --> 00:00:07,000
+library.
+
+3
+00:00:07,000 --> 00:00:14,000
+And inside the course we have implemented all these patterns inside our microservices individually.
+
+4
+00:00:14,000 --> 00:00:21,000
+But sometimes you may have some complex business logic where you may end up combining various resiliency
+
+5
+00:00:21,000 --> 00:00:22,000
+patterns.
+
+6
+00:00:22,000 --> 00:00:28,000
+In such scenarios, you may have a question like what is the order that my resiliency library is going
+
+7
+00:00:28,000 --> 00:00:29,000
+to follow?
+
+8
+00:00:29,000 --> 00:00:36,000
+If I have multiple patterns defined for a single API or for a single method or for a single service.
+
+9
+00:00:36,000 --> 00:00:41,000
+So let's try to understand the same for the same inside the official documentation of resiliency4j.
+
+10
+00:00:41,000 --> 00:00:47,000
+If you can click on this Getting Started under Spring Boot two and three, you will have this
+
+11
+00:00:47,000 --> 00:00:48,000
+page.
+
+12
+00:00:48,000 --> 00:00:54,000
+If you can scroll down on this page, there is an information related to the aspect order.
+
+13
+00:00:54,000 --> 00:00:56,000
+So let me zoom this page.
+
+14
+00:00:56,000 --> 00:01:02,000
+Here you can see by default, this is the order that resiliency4j library is going to follow.
+
+15
+00:01:02,000 --> 00:01:05,000
+So Retry is going to be applied at the end.
+
+16
+00:01:05,000 --> 00:01:10,000
+So first there'll be bulkhead after the bulkhead TimeLimiter and after the time limiter
+
+17
+00:01:10,000 --> 00:01:16,000
+we have RateLimiter and after the RateLimiter we have circuit breaker and after the circuit breaker
+
+18
+00:01:16,000 --> 00:01:17,000
+at the end we have retry.
+
+19
+00:01:17,000 --> 00:01:24,000
+Sometimes you may be fine with these default order, but if you have some complex scenario where you
+
+20
+00:01:24,000 --> 00:01:29,000
+want to change this default order, then it is going to be super, super easy with the help of these
+
+21
+00:01:29,000 --> 00:01:30,000
+properties.
+
+22
+00:01:30,000 --> 00:01:38,000
+So you can see using these properties, you can define the order of execution inside your Yaml configurations
+
+23
+00:01:38,000 --> 00:01:40,000
+or inside your application.yml.
+
+24
+00:01:40,000 --> 00:01:45,000
+So with these configurations we are giving higher priority to the retry.
+
+25
+00:01:45,000 --> 00:01:52,000
+That means the higher priority means it is going to have higher value and that is going to be executed
+
+26
+00:01:52,000 --> 00:01:56,000
+first and post that only circuit breaker is going to be executed.
+
+27
+00:01:56,000 --> 00:01:58,000
+So that's what it is confirming.
+
+28
+00:01:58,000 --> 00:02:02,000
+Circuit breaker starts after the retry finish its work.
+
+29
+00:02:02,000 --> 00:02:07,000
+So this is a quick information that I want to give you, but my humble advice here is please don't try
+
+30
+00:02:07,000 --> 00:02:14,000
+to use all these patterns that will be like doing overengineering inside your microservices.
+
+31
+00:02:14,000 --> 00:02:19,000
+And without proper testing, you may get some surprises inside the production.
+
+32
+00:02:19,000 --> 00:02:26,000
+Please do the due diligence and post that only go with the required patterns inside your microservices.
+
+33
+00:02:26,000 --> 00:02:27,000
+I hope this is clear.
+
+34
+00:02:27,000 --> 00:02:29,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,172 @@
+1
+00:00:00,000 --> 00:00:06,000
+In the previous lectures we saw the demo of distributed tracing with the help of Opentelemetry, Tempo
+
+2
+00:00:06,000 --> 00:00:06,000
+and Grafana.
+
+3
+00:00:06,000 --> 00:00:08,000
+So this is a flow.
+
+4
+00:00:08,000 --> 00:00:14,000
+Initially, our microservices, with the help of Opentelemetry Agent Jar, they are going to dynamically
+
+5
+00:00:14,000 --> 00:00:18,000
+inject trace information and send the same to the tempo.
+
+6
+00:00:18,000 --> 00:00:21,000
+Tempo will aggregate all the tracing information.
+
+7
+00:00:21,000 --> 00:00:24,000
+We can query traces with the help of Grafana.
+
+8
+00:00:24,000 --> 00:00:30,000
+With this we are done with all the discussion around observability and monitoring we can conclude
+
+9
+00:00:30,000 --> 00:00:31,000
+this section.
+
+10
+00:00:31,000 --> 00:00:36,000
+But before we try to close this section, let me try to emphasize few points.
+
+11
+00:00:36,000 --> 00:00:42,000
+I know we discussed a lot, many topics inside this section and particularly a lot, many tools I have
+
+12
+00:00:42,000 --> 00:00:47,000
+introduced you that are present inside the Grafana ecosystem.
+
+13
+00:00:47,000 --> 00:00:53,000
+That's why please take some time to digest all this information and please get used to all these new
+
+14
+00:00:53,000 --> 00:00:56,000
+products available inside the Grafana ecosystem.
+
+15
+00:00:56,000 --> 00:01:02,000
+I have mentioned all the details that we have discussed inside these slides, which you can always refer
+
+16
+00:01:02,000 --> 00:01:08,000
+them for a quick reference and you can brush up them whenever you are trying to go for an microservice
+
+17
+00:01:08,000 --> 00:01:09,000
+interview.
+
+18
+00:01:09,000 --> 00:01:15,000
+I also want to highlight that all the Docker compose changes that we have done inside the prod profile.
+
+19
+00:01:15,000 --> 00:01:19,000
+I have copied them under default and qa profile as well.
+
+20
+00:01:19,000 --> 00:01:20,000
+Post that
+
+21
+00:01:20,000 --> 00:01:25,000
+I also checked in all the code related to section 11 into the GitHub repo.
+
+22
+00:01:25,000 --> 00:01:32,000
+You can see under the GitHub repo which is eazybytes/microservices and a section 11 with the comments
+
+23
+00:01:32,000 --> 00:01:38,000
+name as observability and monitoring in microservices, you should be able to see all the changes that
+
+24
+00:01:38,000 --> 00:01:40,000
+we have discussed inside this section.
+
+25
+00:01:40,000 --> 00:01:44,000
+And I also pushed all the Docker images into the Docker hub.
+
+26
+00:01:44,000 --> 00:01:50,000
+You can see here, if I try to open any of the microservice, there will be an image with the tag name
+
+27
+00:01:50,000 --> 00:01:51,000
+as S11.
+
+28
+00:01:51,000 --> 00:01:57,000
+I hope this is clear, but let me try to close this section with a funny note.
+
+29
+00:01:57,000 --> 00:02:03,000
+So I'm going to show you a funny meme which you can correlate with the observability scenario.
+
+30
+00:02:03,000 --> 00:02:06,000
+Have you seen the movie of Taken three inside the Taken three movie,
+
+31
+00:02:06,000 --> 00:02:12,000
+the hero is going to give a warning to the villain saying that I don't know where you are,
+
+32
+00:02:12,000 --> 00:02:14,000
+I don't know where you are hiding.
+
+33
+00:02:14,000 --> 00:02:18,000
+If you don't leave my daughter right now, I'm going to catch you and I'm going to kill you.
+
+34
+00:02:18,000 --> 00:02:21,000
+The same now we can tell to our defects
+
+35
+00:02:21,000 --> 00:02:25,000
+also, I don't know where you are hiding inside my microservice network.
+
+36
+00:02:25,000 --> 00:02:33,000
+I don't know where you are, but I do have a particular set of skills related to observability and monitoring
+
+37
+00:02:33,000 --> 00:02:37,000
+that I gained with the help of eazybytes microservice course.
+
+38
+00:02:37,000 --> 00:02:42,000
+Using those skills, I'm going to find you and I will fix you.
+
+39
+00:02:42,000 --> 00:02:47,000
+So this is a funny comparison between this dialogue with the observability concept.
+
+40
+00:02:47,000 --> 00:02:50,000
+I hope you liked it and have a smile on your face.
+
+41
+00:02:50,000 --> 00:02:50,000
+Thank you
+
+42
+00:02:50,000 --> 00:02:52,000
+and I'll catch you in the next section.
+
+43
+00:02:52,000 --> 00:02:53,000
+Bye.
+

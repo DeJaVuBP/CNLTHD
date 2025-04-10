@@ -1,0 +1,340 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let's try to explore what are the possible options that we have to implement
+
+2
+00:00:06,000 --> 00:00:09,000
+distributed tracing inside our microservices.
+
+3
+00:00:09,000 --> 00:00:13,000
+The very first option that I want to show you here is, Spring Cloud Sleuth.
+
+4
+00:00:13,000 --> 00:00:20,000
+This is the project which is available inside the spring Cloud is going to help you to implement that
+
+5
+00:00:20,000 --> 00:00:21,000
+distributed tracing.
+
+6
+00:00:21,000 --> 00:00:25,000
+When we try to implement distributed tracing with the help of Spring Cloud Sleuth.
+
+7
+00:00:25,000 --> 00:00:31,000
+All the logs that are going to be generated inside your microservices, they'll automatically have all
+
+8
+00:00:31,000 --> 00:00:35,000
+the three components like metadata information, trace ID and the span ID.
+
+9
+00:00:35,000 --> 00:00:40,000
+The developer don't have to make any changes inside the log statements.
+
+10
+00:00:40,000 --> 00:00:43,000
+You just need to add the dependencies around the spring cloud sleuth.
+
+11
+00:00:43,000 --> 00:00:48,000
+Once the logs are generated with the help of this sleuth, we can integrate spring cloud sleuth with
+
+12
+00:00:48,000 --> 00:00:50,000
+Zipkin. Both these components
+
+13
+00:00:50,000 --> 00:00:56,000
+by working together they are going to help the developers to identify the tracing details of a request
+
+14
+00:00:56,000 --> 00:00:58,000
+along with the performance bottlenecks.
+
+15
+00:00:58,000 --> 00:01:02,000
+But we are not going to follow this approach inside this course.
+
+16
+00:01:02,000 --> 00:01:09,000
+The reason is you can see there is a note from the spring cloud sleuth team that this spring cloud sleuth
+
+17
+00:01:09,000 --> 00:01:15,000
+last minor version is going to be 3.1 and post that they are not going to make any changes inside this
+
+18
+00:01:15,000 --> 00:01:22,000
+project because they're trying to move all the tracing related changes into a common project called
+
+19
+00:01:22,000 --> 00:01:23,000
+micrometer tracing.
+
+20
+00:01:23,000 --> 00:01:28,000
+Since this Spring Cloud Sleuth is going to be outdated in few months.
+
+21
+00:01:28,000 --> 00:01:34,000
+I don't want to use this library, but still you might be seeing some blogs or courses explaining about
+
+22
+00:01:34,000 --> 00:01:35,000
+Spring Cloud, Sleuth and Zipkin.
+
+23
+00:01:35,000 --> 00:01:38,000
+Please note that those are outdated approaches.
+
+24
+00:01:38,000 --> 00:01:40,000
+So this option we're not going to use.
+
+25
+00:01:40,000 --> 00:01:44,000
+So let me click on these micrometer tracing link that we have.
+
+26
+00:01:44,000 --> 00:01:51,000
+This will take us to the micrometer website along with the URL, which is docs/tracing.
+
+27
+00:01:51,000 --> 00:01:57,000
+We previously used this micrometer when we tried to expose the metrics to Prometheus. Under the same
+
+28
+00:01:57,000 --> 00:01:58,000
+micrometer project.
+
+29
+00:01:58,000 --> 00:02:02,000
+We also have capabilities to implement the distributed tracing.
+
+30
+00:02:02,000 --> 00:02:09,000
+There is a lot of documentation inside this page, like what dependencies you need to add, how that
+
+31
+00:02:09,000 --> 00:02:11,000
+distributed tracing is going to work.
+
+32
+00:02:11,000 --> 00:02:17,000
+What are the span IDs, what are the trace IDs and how these micrometer tracing has a integration with
+
+33
+00:02:17,000 --> 00:02:20,000
+Open Zipkin and Opentelemetry.
+
+34
+00:02:20,000 --> 00:02:26,000
+So there is a lot of information and based upon my experience, this approach also demands a lot of
+
+35
+00:02:26,000 --> 00:02:30,000
+changes and properties configurations from the developers.
+
+36
+00:02:30,000 --> 00:02:34,000
+That's why I'm not going to use this approach as well.
+
+37
+00:02:34,000 --> 00:02:39,000
+Instead, I'm going to use one of the best approach, which is open telemetry.
+
+38
+00:02:39,000 --> 00:02:45,000
+Open telemetry is also going to do the same kind of job that micrometer can do in terms of distributed
+
+39
+00:02:45,000 --> 00:02:45,000
+tracing.
+
+40
+00:02:45,000 --> 00:02:50,000
+But with open telemetry it is going to be super easy to implement
+
+41
+00:02:50,000 --> 00:02:55,000
+distributed tracing on top of that micrometer library is specific to Java.
+
+42
+00:02:55,000 --> 00:03:01,000
+That means you can only use this micrometer inside Java applications, whereas open telemetry supports
+
+43
+00:03:01,000 --> 00:03:03,000
+a lot many languages.
+
+44
+00:03:03,000 --> 00:03:09,000
+So open telemetry is also a open source project and right now it is being maintained under the Cloud
+
+45
+00:03:09,000 --> 00:03:11,000
+Native Computing Foundation project.
+
+46
+00:03:11,000 --> 00:03:14,000
+So you can see this is open source and vendor neutral.
+
+47
+00:03:14,000 --> 00:03:19,000
+And apart from this, open telemetry integrates with with the popular libraries and frameworks like
+
+48
+00:03:19,000 --> 00:03:22,000
+Spring, ASP, Express, Quarkus.
+
+49
+00:03:22,000 --> 00:03:26,000
+So this open telemetry has a good integration with many languages.
+
+50
+00:03:26,000 --> 00:03:29,000
+That's why I'm going to use this approach inside this course.
+
+51
+00:03:29,000 --> 00:03:34,000
+So let's try to understand what are the changes that we need to make whenever we are trying to implement
+
+52
+00:03:34,000 --> 00:03:38,000
+distributed tracing with the help of open telemetry.
+
+53
+00:03:38,000 --> 00:03:43,000
+So let me click on this docs post that you can try to click on this getting started.
+
+54
+00:03:43,000 --> 00:03:48,000
+You can see there are various options, like for developers, there are some options for operations
+
+55
+00:03:48,000 --> 00:03:50,000
+team, there are some operations.
+
+56
+00:03:50,000 --> 00:03:56,000
+Since we are developers, we can click on this developer option and a developer you can see it supports
+
+57
+00:03:56,000 --> 00:04:04,000
+a lot many languages right from C++ to Dotnet, Erlang, Go, JavaJ, avaScript, PHP, Python,
+
+58
+00:04:04,000 --> 00:04:06,000
+Ruby, Rust Swift.
+
+59
+00:04:06,000 --> 00:04:11,000
+So since there are many languages supported by this open telemetry, it is a good choice to learn this
+
+60
+00:04:11,000 --> 00:04:18,000
+so that in future if you have a microservice which is going to be developed with the help of Go or JavaScript
+
+61
+00:04:18,000 --> 00:04:24,000
+or TypeScript or Python, you can use the same approach that we are going to discuss.
+
+62
+00:04:24,000 --> 00:04:27,000
+So you can click on this Java option in this space
+
+63
+00:04:27,000 --> 00:04:32,000
+if you can scroll down under Java, you can click on this automatic option.
+
+64
+00:04:32,000 --> 00:04:38,000
+There is an manual option which will expect a lot of changes instead of we can also look for automatic
+
+65
+00:04:38,000 --> 00:04:39,000
+option as well.
+
+66
+00:04:39,000 --> 00:04:44,000
+Under this automatic instrumentation, you can see we need to follow certain steps.
+
+67
+00:04:44,000 --> 00:04:50,000
+First is we need to make sure this jar is available inside our classpath post that we need to invoke
+
+68
+00:04:50,000 --> 00:04:57,000
+this jar using this property like Java agent and the path where this jar is present inside your application
+
+69
+00:04:57,000 --> 00:04:59,000
+or if you are trying to start your application with the
+
+70
+00:05:00,000 --> 00:05:00,000
+java command.
+
+71
+00:05:00,000 --> 00:05:07,000
+You can try to pass this Java agent  property along with the path to your Opentelemetry Java Agent
+
+72
+00:05:07,000 --> 00:05:07,000
+Jar.
+
+73
+00:05:07,000 --> 00:05:13,000
+And apart from this Java agent details, we should also pass one property which is hotel.service.name,
+
+74
+00:05:13,000 --> 00:05:18,000
+the same service name it is going to use as a metadata information
+
+75
+00:05:18,000 --> 00:05:22,000
+inside your distributed tracing or the other options
+
+76
+00:05:22,000 --> 00:05:24,000
+we also have with the help of this Java tool options.
+
+77
+00:05:24,000 --> 00:05:30,000
+After mentioning this Java tool options, we can also define an environment variable with the property
+
+78
+00:05:30,000 --> 00:05:34,000
+hotel_service_name and you can define what is your service name.
+
+79
+00:05:34,000 --> 00:05:39,000
+So the same steps we are going to follow inside our microservices as well.
+
+80
+00:05:39,000 --> 00:05:44,000
+Because with this we don't have to make much changes inside our application.
+
+81
+00:05:44,000 --> 00:05:50,000
+We just need to make sure that this particular jar is present inside the classpath of our microservices.
+
+82
+00:05:50,000 --> 00:05:55,000
+I hope you are clear with all the options that we have discussed and why I'm choosing the open telemetry.
+
+83
+00:05:55,000 --> 00:05:59,000
+When I show you all this in demo, you will like this open telemetry as well.
+
+84
+00:05:59,000 --> 00:06:05,000
+Like with very minimum changes we are going to implement distributed tracing inside microservices.
+
+85
+00:06:05,000 --> 00:06:07,000
+Thank you and I'll catch you in the next lecture bye.
+

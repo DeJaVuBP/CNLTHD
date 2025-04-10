@@ -1,0 +1,260 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+let me try to explain how circuit breaker pattern is going to control the traffic coming towards a particular
+
+3
+00:00:08,000 --> 00:00:09,000
+microservice. By default
+
+4
+00:00:09,000 --> 00:00:14,000
+circuit breaker pattern is not going to monitor all your microservices.
+
+5
+00:00:14,000 --> 00:00:17,000
+We need to configure this circuit breaker pattern wherever we need.
+
+6
+00:00:18,000 --> 00:00:23,000
+Think like you have configured this circuit breaker pattern for one of the microservice.
+
+7
+00:00:23,000 --> 00:00:29,000
+Whenever we activate the circuit breaker pattern on any microservice, it is going to control the flow
+
+8
+00:00:29,000 --> 00:00:34,000
+of traffic towards the microservice by using three different states.
+
+9
+00:00:34,000 --> 00:00:37,000
+The very first state is closed state.
+
+10
+00:00:37,000 --> 00:00:43,000
+Initially, when the application starts by default, your circuit breaker will be in this closed state.
+
+11
+00:00:43,000 --> 00:00:50,000
+Inside this closed status, it is going to accept all the requests coming towards your particular microservice.
+
+12
+00:00:50,000 --> 00:00:55,000
+You can also try to correlate this with the circuit breaker present inside the electric system.
+
+13
+00:00:55,000 --> 00:01:01,000
+Inside the electric system, whenever the circuit is closed, that means all the current is going to
+
+14
+00:01:01,000 --> 00:01:03,000
+be passed to the next components.
+
+15
+00:01:03,000 --> 00:01:09,000
+Very similarly inside microservices, when the circuit breaker pattern is in the closed status, it
+
+16
+00:01:09,000 --> 00:01:14,000
+means it is going to allow all the traffic towards a microservice.
+
+17
+00:01:14,000 --> 00:01:20,000
+With this closed status, your circuit breaker pattern is going to monitor all the requests coming towards
+
+18
+00:01:20,000 --> 00:01:26,000
+your microservices and it will try to understand whether the microservice is responding properly or
+
+19
+00:01:26,000 --> 00:01:30,000
+if there are any network issue or there are any slow response from the microservice.
+
+20
+00:01:30,000 --> 00:01:37,000
+So based upon these monitoring and analysis, if my circuit breaker identifies that most of the requests
+
+21
+00:01:37,000 --> 00:01:44,000
+coming to the microservices are being failed, then it is going to immediately jump to the open status.
+
+22
+00:01:44,000 --> 00:01:49,000
+How it is going to transition from close to open status is based upon the failure rate threshold that
+
+23
+00:01:49,000 --> 00:01:50,000
+you have defined.
+
+24
+00:01:50,000 --> 00:01:57,000
+Maybe you might have configured saying that if 50% of my traffic that is coming towards my microservice
+
+25
+00:01:57,000 --> 00:02:00,000
+is failing, then please move to the open status.
+
+26
+00:02:00,000 --> 00:02:06,000
+So based upon these configurations, if the circuit breaker identifies that 50% of the traffic is failed,
+
+27
+00:02:06,000 --> 00:02:11,000
+then immediately it is going to jump from the close to the open status.
+
+28
+00:02:11,000 --> 00:02:18,000
+Whenever the circuit breaker is in open status, that means it is not going to send any request to the
+
+29
+00:02:18,000 --> 00:02:19,000
+actual microservice.
+
+30
+00:02:19,000 --> 00:02:26,000
+Instead, it is going to fail immediately and send the error response to the invoking microservices
+
+31
+00:02:26,000 --> 00:02:28,000
+at the client applications.
+
+32
+00:02:28,000 --> 00:02:34,000
+This way it will make sure there is no ripple effect on the invoking microservices due to the issues
+
+33
+00:02:34,000 --> 00:02:36,000
+in a particular microservice.
+
+34
+00:02:36,000 --> 00:02:39,000
+And do you think this open status will be forever?
+
+35
+00:02:39,000 --> 00:02:40,000
+Off course not.
+
+36
+00:02:40,000 --> 00:02:46,000
+Keeping the circuit breaker open forever means we are never going to allow that traffic towards a particular
+
+37
+00:02:46,000 --> 00:02:47,000
+microservice.
+
+38
+00:02:47,000 --> 00:02:53,000
+So what behind the scenes will happen is my circuit breaker pattern will wait in the open status based
+
+39
+00:02:53,000 --> 00:02:54,000
+upon your configurations.
+
+40
+00:02:54,000 --> 00:03:01,000
+Maybe if you have configured for 90s up to 90s, the circuit breaker pattern will be in open status
+
+41
+00:03:01,000 --> 00:03:09,000
+and it will give 90s time for my actual microservice to recover from the failures or from the network
+
+42
+00:03:09,000 --> 00:03:10,000
+issues.
+
+43
+00:03:10,000 --> 00:03:18,000
+After 90s, my circuit breaker pattern will move into the half open status. Inside this half open status
+
+44
+00:03:18,000 --> 00:03:23,000
+the circuit breaker will allow only few requests based upon your configurations.
+
+45
+00:03:23,000 --> 00:03:29,000
+Maybe it will allow 10 requests or 20 requests, and inside these ten are 20 requests.
+
+46
+00:03:29,000 --> 00:03:36,000
+Again, if at least 50% of the requests are failing, then it will again jump back to the open status
+
+47
+00:03:36,000 --> 00:03:38,000
+and it will wait again for 90s.
+
+48
+00:03:38,000 --> 00:03:45,000
+So this cycle, from open to half open, half open to open will continuously happen periodically.
+
+49
+00:03:45,000 --> 00:03:52,000
+At some point of time when my circuit breaker realizes that majority of the traffic or the requests
+
+50
+00:03:52,000 --> 00:03:58,000
+are being processed successfully, then it will move from half open status to closed status.
+
+51
+00:03:58,000 --> 00:04:04,000
+And with that my microservice, where I have configured, secured breaker pattern will continue to work
+
+52
+00:04:04,000 --> 00:04:05,000
+normally.
+
+53
+00:04:05,000 --> 00:04:10,000
+This sounds very complicated to achieve, but believe me, this is going to be super, super easy to
+
+54
+00:04:10,000 --> 00:04:16,000
+configure secure breaker pattern inside microservices because we have friends like Resiliency4j
+
+55
+00:04:16,000 --> 00:04:18,000
+and Springboard Framework.
+
+56
+00:04:18,000 --> 00:04:23,000
+With the help of this libraries and frameworks, we can easily configure circuit breaker pattern.
+
+57
+00:04:23,000 --> 00:04:28,000
+So let's try to implement this secure breaker pattern from the next lecture inside our microservices.
+
+58
+00:04:28,000 --> 00:04:33,000
+But before coming to the next lecture, please make sure you are clear about the circuit breaker pattern
+
+59
+00:04:33,000 --> 00:04:36,000
+and the three states that we have inside this pattern.
+
+60
+00:04:36,000 --> 00:04:39,000
+Please try to rewatch the video or please refer to this slide.
+
+61
+00:04:39,000 --> 00:04:41,000
+If if something is not clear.
+
+62
+00:04:41,000 --> 00:04:45,000
+You can also read these information inside the official documentation of resiliency4j.
+
+63
+00:04:45,000 --> 00:04:46,000
+.
+
+64
+00:04:46,000 --> 00:04:47,000
+I hope this is clear.
+
+65
+00:04:47,000 --> 00:04:50,000
+Thank you and I'll catch you in the next lecture bye.
+

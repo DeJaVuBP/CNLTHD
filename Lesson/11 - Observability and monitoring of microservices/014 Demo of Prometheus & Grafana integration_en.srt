@@ -1,0 +1,204 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+let's see the demo of integration between the Grafana and Prometheus.
+
+3
+00:00:06,000 --> 00:00:08,000
+For the same, let me open the Grafana.
+
+4
+00:00:08,000 --> 00:00:13,000
+The Grafana started at the Port 3000, so let me invoke the same.
+
+5
+00:00:13,000 --> 00:00:15,000
+So here we have the Grafana homepage.
+
+6
+00:00:15,000 --> 00:00:19,000
+If you try to open this menu here, there is an option of connections.
+
+7
+00:00:19,000 --> 00:00:25,000
+Under the connections, you can create a new connection or you can check the existing connections under
+
+8
+00:00:25,000 --> 00:00:26,000
+the data sources.
+
+9
+00:00:26,000 --> 00:00:31,000
+So you can see as of now, we created two connections Loki and Prometheus.
+
+10
+00:00:31,000 --> 00:00:38,000
+We saw the demo previously using Loki, we're able to search the logs inside the Grafana. Very similarly,
+
+11
+00:00:38,000 --> 00:00:43,000
+using Prometheus, we can also search and build dashboards with the help of Prometheus.
+
+12
+00:00:43,000 --> 00:00:49,000
+So if we can click on this Prometheus tab here you will have all the details that you have given inside
+
+13
+00:00:49,000 --> 00:00:55,000
+the datasource.yml file that we have created under the observability and Grafana folder.
+
+14
+00:00:55,000 --> 00:00:59,000
+So using the same content, the connections are going to be created.
+
+15
+00:00:59,000 --> 00:01:02,000
+The URL of Prometheus is Prometheus 1990.
+
+16
+00:01:02,000 --> 00:01:07,000
+With this, the connection between Prometheus and Grafana is going to work. As a next step
+
+17
+00:01:07,000 --> 00:01:10,000
+let me go to the home and click on this Explore button.
+
+18
+00:01:10,000 --> 00:01:16,000
+Under this Explore page you can see we have various data source details like Loki and Prometheus.
+
+19
+00:01:16,000 --> 00:01:22,000
+With the Loki, we can search the logs, whereas with Prometheus we can try to search the metrics information.
+
+20
+00:01:22,000 --> 00:01:30,000
+So here under the metric, I'm going to select the metric related to system CPU usage and post that
+
+21
+00:01:30,000 --> 00:01:33,000
+I will select the label as application.
+
+22
+00:01:33,000 --> 00:01:38,000
+And if needed, you can select which microservice related information you want to check.
+
+23
+00:01:38,000 --> 00:01:44,000
+As of now, I want to check the information from all the microservices, so I will try to run this query.
+
+24
+00:01:44,000 --> 00:01:49,000
+And with that you will get a beautiful graph with the time period of last one hour.
+
+25
+00:01:49,000 --> 00:01:54,000
+If I try to change this to 15 minutes, the graph will be updated accordingly.
+
+26
+00:01:54,000 --> 00:01:58,000
+You can see each color represents a single microservice.
+
+27
+00:01:58,000 --> 00:02:04,000
+This is for accounts and very similarly, this is for cards, configserver, eurekaserver loans and
+
+28
+00:02:04,000 --> 00:02:05,000
+gatewayserver.
+
+29
+00:02:05,000 --> 00:02:10,000
+If you want to check all of them at once, you can unselect all of them with that
+
+30
+00:02:10,000 --> 00:02:15,000
+it will show the information from all the microservices. Here inside the Grafana
+
+31
+00:02:15,000 --> 00:02:18,000
+you also have various options like using lines
+
+32
+00:02:18,000 --> 00:02:25,000
+you can see the graphs and very similarly using bars, using points, using stack lines and using stacked
+
+33
+00:02:25,000 --> 00:02:25,000
+bars.
+
+34
+00:02:25,000 --> 00:02:28,000
+So it is up to you which style you want to use.
+
+35
+00:02:28,000 --> 00:02:31,000
+This way we can search any number of metrics.
+
+36
+00:02:31,000 --> 00:02:36,000
+For example, I can try to create one more query with the help of this add query button.
+
+37
+00:02:36,000 --> 00:02:43,000
+This time I'm going to look for the metric with the name up and select label as job and post that
+
+38
+00:02:43,000 --> 00:02:49,000
+I'm going to run the query and now if you go and check the graph, it will have the combined information
+
+39
+00:02:49,000 --> 00:02:51,000
+of two metrics, the same
+
+40
+00:02:51,000 --> 00:02:53,000
+it will be very clear if you go to the lines.
+
+41
+00:02:53,000 --> 00:02:59,000
+So here this line, which is at the top, indicates the metric related to the up, whereas whatever
+
+42
+00:02:59,000 --> 00:03:06,000
+graph that you see in the down that indicates the metric related to the system CPU usage.
+
+43
+00:03:06,000 --> 00:03:11,000
+So you can try to add as many metrics as you want, but it is always recommended to search one metric
+
+44
+00:03:11,000 --> 00:03:15,000
+at a time, so that it will be more clear for you.
+
+45
+00:03:15,000 --> 00:03:20,000
+I hope you are clear, like how the integration between the Prometheus and Grafana is going to work.
+
+46
+00:03:20,000 --> 00:03:23,000
+So the Grafana is more matured project.
+
+47
+00:03:23,000 --> 00:03:27,000
+It can help you to visualize your metrics better than Prometheus.
+
+48
+00:03:27,000 --> 00:03:33,000
+Inside this lecture we just saw the demo of Grafana and Prometheus, but the story is not going to end
+
+49
+00:03:33,000 --> 00:03:33,000
+here.
+
+50
+00:03:33,000 --> 00:03:39,000
+There is more to Grafana and Prometheus, so let's continue that discussion in the next lecture.
+
+51
+00:03:39,000 --> 00:03:42,000
+Thank you and I'll catch you in the next lecture bye.
+

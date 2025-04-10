@@ -1,0 +1,384 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to discuss about a new pattern, which is Bulkhead pattern.
+
+2
+00:00:06,000 --> 00:00:08,000
+So what is this Bulkhead pattern?
+
+3
+00:00:08,000 --> 00:00:15,000
+With the help of this bulkhead pattern, we can improve the resilience and isolation of components or
+
+4
+00:00:15,000 --> 00:00:19,000
+services within a microservice network or within a system.
+
+5
+00:00:19,000 --> 00:00:24,000
+You might be wondering why there is an image of boat or ship on the slide.
+
+6
+00:00:24,000 --> 00:00:32,000
+The reason why we have this image is this bulkhead pattern inspired from the concept of bulkheads in
+
+7
+00:00:32,000 --> 00:00:32,000
+the ships.
+
+8
+00:00:32,000 --> 00:00:34,000
+So what are these bulkheads?
+
+9
+00:00:34,000 --> 00:00:41,000
+If you can see the image of shape using these bulkheads, we are physically partitioning the entire
+
+10
+00:00:41,000 --> 00:00:48,000
+ship so that even if one of the compartment is flooded with the water, it is not going to affect other
+
+11
+00:00:48,000 --> 00:00:51,000
+partitions or the compartments inside the ship.
+
+12
+00:00:51,000 --> 00:00:57,000
+So this will enhance the overall stability and safety of the ship or vessel.
+
+13
+00:00:57,000 --> 00:00:59,000
+Did you watch Titanic movie?
+
+14
+00:00:59,000 --> 00:01:01,000
+I think these are very dumb question.
+
+15
+00:01:01,000 --> 00:01:05,000
+I think everyone on the earth saw the movie of Titanic.
+
+16
+00:01:05,000 --> 00:01:11,000
+So coming to the movie, when the ship is collided with the mountain in the middle of the sea, the
+
+17
+00:01:11,000 --> 00:01:14,000
+ship did not immediately merged into the ocean.
+
+18
+00:01:14,000 --> 00:01:16,000
+It took a lot of time.
+
+19
+00:01:16,000 --> 00:01:20,000
+There is a lot of story happened from the collision to the climax.
+
+20
+00:01:20,000 --> 00:01:26,000
+The water did not enter into the entire ship at a time because behind the scenes they are bulkheads
+
+21
+00:01:26,000 --> 00:01:27,000
+in the ship.
+
+22
+00:01:27,000 --> 00:01:33,000
+When you lock a compartment, the water is not going to enter into other compartments very easily using
+
+23
+00:01:33,000 --> 00:01:35,000
+the same bulkhead inside the ships.
+
+24
+00:01:35,000 --> 00:01:42,000
+The bulkhead pattern is inspired, which we are trying to discuss from the software perspective.
+
+25
+00:01:42,000 --> 00:01:49,000
+So with the help of this pattern, we can isolate and limit the impact of failures or high loads in
+
+26
+00:01:49,000 --> 00:01:52,000
+one component from spreading to the other component.
+
+27
+00:01:52,000 --> 00:01:59,000
+It also help to ensure that a heavy load in one part of the system does not, bringing down the entire
+
+28
+00:01:59,000 --> 00:02:00,000
+system.
+
+29
+00:02:00,000 --> 00:02:05,000
+And that enables other components to work to continue functioning independently.
+
+30
+00:02:05,000 --> 00:02:08,000
+I'm going to share more details around this in few seconds.
+
+31
+00:02:08,000 --> 00:02:11,000
+I know this is super complex to understand.
+
+32
+00:02:11,000 --> 00:02:12,000
+Please bear with me a few seconds.
+
+33
+00:02:12,000 --> 00:02:14,000
+I'm going to show you a diagram
+
+34
+00:02:14,000 --> 00:02:19,000
+then it is going to make more sense to you. How a bulkhead pattern is going to achieve the stability
+
+35
+00:02:19,000 --> 00:02:26,000
+is, with the help of this pattern, we can allocate or assign the resources to a specific REST API or
+
+36
+00:02:26,000 --> 00:02:33,000
+to a specific microservice. So that the excessive usage of resources we can avoid. On a high level
+
+37
+00:02:33,000 --> 00:02:40,000
+the summary is, with the help of bulkhead pattern, we can define the resource boundaries for all the
+
+38
+00:02:40,000 --> 00:02:47,000
+components inside a microservice and this will enhance the resiliency and stability of the system.
+
+39
+00:02:47,000 --> 00:02:51,000
+So let's try to understand this bulkhead pattern with the help of a diagram.
+
+40
+00:02:51,000 --> 00:02:57,000
+So first you can see without the bulkhead pattern, this is the accounts microservice and think like
+
+41
+00:02:57,000 --> 00:02:59,000
+inside accounts microservice
+
+42
+00:02:59,000 --> 00:03:01,000
+I have two REST APIs.
+
+43
+00:03:01,000 --> 00:03:06,000
+One is myAccount and the other one is myCustomerDetails. And not many clients
+
+44
+00:03:06,000 --> 00:03:09,000
+they are trying to send the request to these two REST APIs.
+
+45
+00:03:09,000 --> 00:03:16,000
+We know that my account REST API is a simple REST API because it does not depend on other microservice,
+
+46
+00:03:16,000 --> 00:03:24,000
+whereas myCustomerDetails REST API is a REST API that depends on other microservices like loans and
+
+47
+00:03:24,000 --> 00:03:25,000
+cards.
+
+48
+00:03:25,000 --> 00:03:31,000
+So the amount of processing time or the amount of business logic complexity is going to be higher inside
+
+49
+00:03:31,000 --> 00:03:37,000
+the myCustomerDetails compared to the myAccount. Without bulkhead, what will happen
+
+50
+00:03:37,000 --> 00:03:45,000
+myCustomerDetails API is going to eat all the thread, all the resources available inside a Docker
+
+51
+00:03:45,000 --> 00:03:46,000
+container.
+
+52
+00:03:46,000 --> 00:03:49,000
+So this is going to affect the performance of myAccount.
+
+53
+00:03:49,000 --> 00:03:57,000
+So at some point of time myAccount is not going to get enough threads or resources to process the incoming
+
+54
+00:03:57,000 --> 00:03:58,000
+requests from the clients.
+
+55
+00:03:58,000 --> 00:04:04,000
+So with the help of bulkhead pattern, let's try to understand how the picture is going to change.
+
+56
+00:04:04,000 --> 00:04:10,000
+Like you can see here, with the help of bulkhead patterns, we are defining the boundaries for these
+
+57
+00:04:10,000 --> 00:04:11,000
+REST APIs.
+
+58
+00:04:11,000 --> 00:04:16,000
+So inside these boundaries we are going to assign for myAccount or for myCustomerDetails.
+
+59
+00:04:16,000 --> 00:04:22,000
+These are the threads or these are the resources that it can use from the thread pool. With this clear
+
+60
+00:04:22,000 --> 00:04:23,000
+boundaries
+
+61
+00:04:23,000 --> 00:04:30,000
+now myAccount is going to work happily, regardless of how many requests that myCustomerDetails is
+
+62
+00:04:30,000 --> 00:04:37,000
+receiving because we have provided minimum number of threads from the thread pool to the myAccount
+
+63
+00:04:37,000 --> 00:04:40,000
+API as well with the help of bulkhead pattern.
+
+64
+00:04:40,000 --> 00:04:47,000
+So let's try to understand how to implement these bulkhead pattern by looking at the official documentation
+
+65
+00:04:47,000 --> 00:04:48,000
+inside the Spring Cloud gateway
+
+66
+00:04:48,000 --> 00:04:51,000
+there is no support for the bulkhead pattern as of now.
+
+67
+00:04:51,000 --> 00:04:58,000
+With that, we can only implement bulkhead pattern with the help of resiliency4j library.
+
+68
+00:04:58,000 --> 00:04:59,000
+Here if you can scroll on this page.
+
+69
+00:05:00,000 --> 00:05:04,000
+There is an annotation which you can use for bulkhead.
+
+70
+00:05:04,000 --> 00:05:11,000
+You can see with the help of @Bulkhead annotation, we can configure the bulkhead related configurations
+
+71
+00:05:11,000 --> 00:05:14,000
+and to this type we can mention Threadpool.
+
+72
+00:05:14,000 --> 00:05:21,000
+That means with these bulkhead configurations we are trying to assign the thread pools to this operation
+
+73
+00:05:21,000 --> 00:05:23,000
+or to this method.
+
+74
+00:05:23,000 --> 00:05:28,000
+So the properties related to bulkhead you can identify if you can scroll up on this page.
+
+75
+00:05:28,000 --> 00:05:30,000
+So let's scroll up, up, up.
+
+76
+00:05:30,000 --> 00:05:36,000
+So here you can see there are properties which are related to bulkhead where you can mention what are
+
+77
+00:05:36,000 --> 00:05:43,000
+the maximum concurrent calls that a particular bulkhead pattern can support on top of a REST API.
+
+78
+00:05:43,000 --> 00:05:46,000
+And similarly we have max weight duration.
+
+79
+00:05:46,000 --> 00:05:51,000
+So this is normal bulkhead configuration where you can only control the concurrent calls.
+
+80
+00:05:51,000 --> 00:05:56,000
+But if you want to control the threads also, then with the help of this thread pool configurations,
+
+81
+00:05:56,000 --> 00:06:00,000
+you can assign maximum thread pool size.
+
+82
+00:06:00,000 --> 00:06:02,000
+What is the core thread pool size?
+
+83
+00:06:02,000 --> 00:06:03,000
+What is the queue capacity?
+
+84
+00:06:03,000 --> 00:06:09,000
+So these are all the properties that you can use to define the bulkhead configurations.
+
+85
+00:06:09,000 --> 00:06:14,000
+I'm not going to implement these inside our microservices and I'm not going to show you the demo of
+
+86
+00:06:14,000 --> 00:06:15,000
+bulkhead.
+
+87
+00:06:15,000 --> 00:06:18,000
+The reason is to see that demo of this pattern
+
+88
+00:06:18,000 --> 00:06:25,000
+we need some commercial tools or some performance tools like Loadrunner or Jmeter, where we can see
+
+89
+00:06:25,000 --> 00:06:26,000
+the thread usage.
+
+90
+00:06:26,000 --> 00:06:28,000
+So that is super complicated process.
+
+91
+00:06:28,000 --> 00:06:34,000
+That's why I'm not going to show you that in the demo, but I'm assuming you are clear in future whenever
+
+92
+00:06:34,000 --> 00:06:41,000
+you have these kind of scenarios where you want to define the boundaries for your APIs inside the microservice,
+
+93
+00:06:41,000 --> 00:06:47,000
+then please leverage this and with the help of your performance testing team, you can try to validate
+
+94
+00:06:47,000 --> 00:06:48,000
+your changes.
+
+95
+00:06:48,000 --> 00:06:51,000
+I hope you are clear about the bulkhead pattern.
+
+96
+00:06:51,000 --> 00:06:54,000
+Thank you and I'll catch you in the next lecture bye.
+

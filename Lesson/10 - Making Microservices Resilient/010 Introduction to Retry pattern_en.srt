@@ -1,0 +1,224 @@
+1
+00:00:00,000 --> 00:00:06,000
+In this lecture, let me try to introduce to you a new resiliency pattern, which is Retry Pattern.
+
+2
+00:00:06,000 --> 00:00:08,000
+So what is a retry pattern?
+
+3
+00:00:08,000 --> 00:00:12,000
+With the help of this pattern, we can configure multiple retry attempts
+
+4
+00:00:12,000 --> 00:00:16,000
+whenever a service is temporarily failing.
+
+5
+00:00:16,000 --> 00:00:22,000
+This pattern is going to be super, super helpful, especially in the scenarios like network disruption
+
+6
+00:00:22,000 --> 00:00:26,000
+where the client requests may successful after a retry attempt.
+
+7
+00:00:26,000 --> 00:00:29,000
+Let's try to understand more details about this pattern.
+
+8
+00:00:29,000 --> 00:00:36,000
+Whenever we want to implement Retry Pattern inside our microservices, we need to be very clear on how
+
+9
+00:00:36,000 --> 00:00:39,000
+many times we want to retry an operation.
+
+10
+00:00:39,000 --> 00:00:43,000
+Whether you want to retry for three times or five times or ten times.
+
+11
+00:00:43,000 --> 00:00:45,000
+So it is based upon your business logic.
+
+12
+00:00:45,000 --> 00:00:50,000
+You need to decide on the number of retries. And this retry logic
+
+13
+00:00:50,000 --> 00:00:57,000
+you can also conditionally invoke based upon many factors like error codes, exceptions or response
+
+14
+00:00:57,000 --> 00:00:57,000
+status.
+
+15
+00:00:57,000 --> 00:01:02,000
+And while we are retrying an operation, we can follow an backoff strategy.
+
+16
+00:01:02,000 --> 00:01:05,000
+What is the purpose of this backup strategy?
+
+17
+00:01:05,000 --> 00:01:08,000
+Let's try to understand the same. Without backup strategy,
+
+18
+00:01:08,000 --> 00:01:15,000
+if you try to perform multiple retries, it is going to be a simple retry operation where every two
+
+19
+00:01:15,000 --> 00:01:22,000
+seconds or every three seconds or one second you want to retry, which means there is a static time
+
+20
+00:01:22,000 --> 00:01:30,000
+difference between multiple retry operations, whereas with the backup strategy, we can avoid overwhelming
+
+21
+00:01:30,000 --> 00:01:30,000
+the system.
+
+22
+00:01:30,000 --> 00:01:37,000
+So with the help of this strategy, we can gradually increase the delay between each retry known as
+
+23
+00:01:37,000 --> 00:01:39,000
+exponential backoff.
+
+24
+00:01:39,000 --> 00:01:46,000
+Maybe the first retry you are trying to do after two seconds and the second retry instead of retrying
+
+25
+00:01:46,000 --> 00:01:47,000
+immediately after two seconds.
+
+26
+00:01:47,000 --> 00:01:54,000
+This time you are going to retry after four seconds this way for each retry, you are going to wait
+
+27
+00:01:54,000 --> 00:01:55,000
+for more time.
+
+28
+00:01:55,000 --> 00:02:01,000
+And with this approach, there is a good chance that you may get a successful response and you are network
+
+29
+00:02:01,000 --> 00:02:06,000
+issue might have resolved because you are giving enough time for the network issue to resolve.
+
+30
+00:02:06,000 --> 00:02:13,000
+So that's why it is always recommended to use this backup strategy whenever we are trying to implement
+
+31
+00:02:13,000 --> 00:02:16,000
+these retry pattern inside the microservices.
+
+32
+00:02:16,000 --> 00:02:22,000
+And if needed, we can also integrate this retry pattern with the other patterns like circuit Breaker.
+
+33
+00:02:22,000 --> 00:02:28,000
+By combining both retry pattern and the circuit breaker pattern, we can make our circuit breaker pattern
+
+34
+00:02:28,000 --> 00:02:32,000
+to open after certain number of retries failed consecutively.
+
+35
+00:02:32,000 --> 00:02:39,000
+So there is also a possibility where we can integrate or implement multiple resiliency patterns.
+
+36
+00:02:39,000 --> 00:02:45,000
+I'm going to talk about implementing multiple resiliency patterns in the coming lectures, but for now,
+
+37
+00:02:45,000 --> 00:02:51,000
+please note that if needed, we can also implement both retry and circuit breaker patterns inside our
+
+38
+00:02:51,000 --> 00:02:52,000
+microservices.
+
+39
+00:02:52,000 --> 00:02:57,000
+And the last important point that I want to highlight here is, whenever you are trying to implement retry
+
+40
+00:02:57,000 --> 00:03:05,000
+pattern inside your microservices, please make sure you are implementing these retry pattern only for
+
+41
+00:03:05,000 --> 00:03:07,000
+Idempotent operations.
+
+42
+00:03:07,000 --> 00:03:09,000
+So what are Idempotent operations?
+
+43
+00:03:09,000 --> 00:03:16,000
+So these are the operations which will not result in any side effect regardless of how many times you
+
+44
+00:03:16,000 --> 00:03:17,000
+invoke them.
+
+45
+00:03:17,000 --> 00:03:21,000
+For example, take the fetch API operation inside our microservices.
+
+46
+00:03:21,000 --> 00:03:27,000
+If I try to retry multiple times, there is no harm is going to happen behind the scenes.
+
+47
+00:03:27,000 --> 00:03:28,000
+I'm always going to get the response.
+
+48
+00:03:28,000 --> 00:03:35,000
+But if you try to implement the same retry pattern for post operation or put operation, then there
+
+49
+00:03:35,000 --> 00:03:37,000
+is a good chance you will have some side effects.
+
+50
+00:03:37,000 --> 00:03:43,000
+Maybe you will create multiple records or maybe you are going to update the record multiple times,
+
+51
+00:03:43,000 --> 00:03:47,000
+which will result into some data corruption or data side effects.
+
+52
+00:03:47,000 --> 00:03:53,000
+That's why whenever you are trying to implement Retry Pattern, please make sure the respective
+
+53
+00:03:53,000 --> 00:04:00,000
+API is of type Idempotent otherwise you are going to see serious side effects inside your microservices.
+
+54
+00:04:00,000 --> 00:04:05,000
+So this is a very quick introduction about the retry pattern. From the next lecture,
+
+55
+00:04:05,000 --> 00:04:09,000
+let's try to implement this retry pattern inside our microservices.
+
+56
+00:04:09,000 --> 00:04:12,000
+Thank you and I'll catch you in the next lecture bye.
+

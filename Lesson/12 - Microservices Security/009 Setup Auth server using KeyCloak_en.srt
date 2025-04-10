@@ -1,0 +1,320 @@
+1
+00:00:00,000 --> 00:00:05,000
+We decided to secure our gateway server with the help of client credentials
+
+2
+00:00:05,000 --> 00:00:07,000
+grant type flow inside Oauth2 framework.
+
+3
+00:00:07,000 --> 00:00:13,000
+To get started with the same first, we need to set up our own authorization server with the help of
+
+4
+00:00:13,000 --> 00:00:15,000
+tools like Keycloak.
+
+5
+00:00:15,000 --> 00:00:18,000
+For the same, I came to the website keycloak.org.
+
+6
+00:00:18,000 --> 00:00:21,000
+Here on this web page you can click on this, Get started.
+
+7
+00:00:21,000 --> 00:00:27,000
+And here there are various options on how we can set up authorization server with the help of keycloak.
+
+8
+00:00:27,000 --> 00:00:33,000
+Since inside our local system we have Docker installed and we also have Docker compose file for our
+
+9
+00:00:33,000 --> 00:00:34,000
+microservices.
+
+10
+00:00:34,000 --> 00:00:38,000
+It will be a good idea to get started with the help of Docker.
+
+11
+00:00:38,000 --> 00:00:41,000
+For the same, I'm going to click on this Docker option here.
+
+12
+00:00:41,000 --> 00:00:45,000
+Inside this page we have details on how to start the keyclock server.
+
+13
+00:00:45,000 --> 00:00:47,000
+So this is the command.
+
+14
+00:00:47,000 --> 00:00:48,000
+So let me copy this command.
+
+15
+00:00:48,000 --> 00:00:55,000
+Now inside that terminal, I'm going to run the same command, which is docker run -p and post
+
+16
+00:00:55,000 --> 00:00:57,000
+that we have a port mapping.
+
+17
+00:00:57,000 --> 00:01:00,000
+But here there is a problem with this port mapping.
+
+18
+00:01:00,000 --> 00:01:03,000
+We know we are following the same port mapping for our accounts
+
+19
+00:01:03,000 --> 00:01:06,000
+microservice also. So I'm fine
+
+20
+00:01:06,000 --> 00:01:12,000
+keyclock starting at the port 8080 internally inside the Docker network.
+
+21
+00:01:12,000 --> 00:01:17,000
+So I'm not going to change this, but I'm not going to expose keycloak to the outside world at the
+
+22
+00:01:17,000 --> 00:01:21,000
+port 8080. Because I'm already doing that for accounts microservice.
+
+23
+00:01:21,000 --> 00:01:25,000
+If I do the same for keycloak, then definitely there will be port to conflict error.
+
+24
+00:01:25,000 --> 00:01:30,000
+So with that reason I'm going to change this port number to 7080.
+
+25
+00:01:30,000 --> 00:01:37,000
+So from my local system I can access the keycloak server at the port 7080. Before this port mapping,
+
+26
+00:01:37,000 --> 00:01:42,000
+I'm also going to give -d, which will start my keycloak container in a detached mode.
+
+27
+00:01:42,000 --> 00:01:47,000
+And after the port mapping you can see we are trying to provide some environment variables with the
+
+28
+00:01:47,000 --> 00:01:48,000
+help of these -e.
+
+29
+00:01:48,000 --> 00:01:48,000
+.
+
+30
+00:01:48,000 --> 00:01:52,000
+The very first environment variable is KEYCLOAK_ADMIN.
+
+31
+00:01:52,000 --> 00:01:59,000
+So what is the username that we want to set for our keycloak auth server which can be used by the admin
+
+32
+00:01:59,000 --> 00:02:01,000
+to create the clients or to set up the auth server.
+
+33
+00:02:01,000 --> 00:02:06,000
+So the username I'm going to keep it as admin and very similarly the admin password
+
+34
+00:02:06,000 --> 00:02:13,000
+I'm going to set it as admin only. After this environment variables we have the docker image name of
+
+35
+00:02:13,000 --> 00:02:15,000
+keycloak after the Docker image name,
+
+36
+00:02:15,000 --> 00:02:19,000
+you should also give this command which is start -dev.
+
+37
+00:02:19,000 --> 00:02:23,000
+So with this we are telling I'm trying to run the keycloak server in the dev mode.
+
+38
+00:02:23,000 --> 00:02:29,000
+So behind the scenes the keycloak is going to have some internal database using which we can store
+
+39
+00:02:29,000 --> 00:02:32,000
+all the user credentials and the client credentials.
+
+40
+00:02:32,000 --> 00:02:38,000
+But in production environments we should have some dedicated database configured for the keycloak auth
+
+41
+00:02:38,000 --> 00:02:39,000
+server.
+
+42
+00:02:39,000 --> 00:02:40,000
+So I hope you are clear.
+
+43
+00:02:40,000 --> 00:02:42,000
+So now let me try to run this command.
+
+44
+00:02:42,000 --> 00:02:43,000
+With this,
+
+45
+00:02:43,000 --> 00:02:48,000
+you can see a new container started inside my local system.
+
+46
+00:02:48,000 --> 00:02:51,000
+I can also confirm the same by going to the Docker desktop.
+
+47
+00:02:51,000 --> 00:02:56,000
+Inside my Docker desktop, you can see there is a running container with the name keycloak and it is
+
+48
+00:02:56,000 --> 00:02:59,000
+exposing the traffic at the port 7080.
+
+49
+00:02:59,000 --> 00:03:07,000
+Now as a next step, I'll try to access the keycloak at the port localhost 7080.
+
+50
+00:03:07,000 --> 00:03:10,000
+So this is my keycloak home page.
+
+51
+00:03:10,000 --> 00:03:16,000
+Here I need to click on this administration console and it is going to ask me what are the admin credentials?
+
+52
+00:03:16,000 --> 00:03:20,000
+We need to use the same credentials that we have mentioned inside the Docker run command.
+
+53
+00:03:20,000 --> 00:03:26,000
+So let me use the same credentials which are admin and the password also is going to be admin.
+
+54
+00:03:26,000 --> 00:03:32,000
+Now I'm clicking on this sign in button and you can see this is my keycloak admin console. Using this
+
+55
+00:03:32,000 --> 00:03:32,000
+admin console
+
+56
+00:03:32,000 --> 00:03:39,000
+only my admin of the auth server can create various clients users, so there is a lot of functionality
+
+57
+00:03:39,000 --> 00:03:41,000
+available inside this auth server.
+
+58
+00:03:41,000 --> 00:03:46,000
+We're going to explore more about this ad server in the coming lectures, but for now I just wanted
+
+59
+00:03:46,000 --> 00:03:49,000
+to highlight you about what is this master realm.
+
+60
+00:03:49,000 --> 00:03:55,000
+So you can see there is only one realm as of now which is master and if needed we can also create
+
+61
+00:03:55,000 --> 00:03:57,000
+more realms inside the ad server.
+
+62
+00:03:57,000 --> 00:04:03,000
+So what is a realm inside any ad server like Keycloak realm is a boundary where you want to create
+
+63
+00:04:03,000 --> 00:04:06,000
+set of client credentials or user credentials.
+
+64
+00:04:06,000 --> 00:04:09,000
+So things like this is like an environment. By default
+
+65
+00:04:09,000 --> 00:04:15,000
+keycloak is going to provide a realm with the name master, but if needed, you can create more realms
+
+66
+00:04:15,000 --> 00:04:22,000
+like dev, qa, prod. So based upon your requirements because the end users are the clients, they are
+
+67
+00:04:22,000 --> 00:04:25,000
+not going to use the same credentials across various environments.
+
+68
+00:04:25,000 --> 00:04:30,000
+We can't force our qa team to use the same credentials like we have inside the production.
+
+69
+00:04:30,000 --> 00:04:31,000
+That's why
+
+70
+00:04:31,000 --> 00:04:36,000
+so to overcome these challenges, we have the concepts like realm inside the auth server.
+
+71
+00:04:36,000 --> 00:04:39,000
+As of now, we have only one realm which is master.
+
+72
+00:04:39,000 --> 00:04:41,000
+Throughout this course we are going to use the same.
+
+73
+00:04:41,000 --> 00:04:43,000
+I hope you are clear with this setup.
+
+74
+00:04:43,000 --> 00:04:49,000
+If you are facing some issues, please make sure you have at least a Java 17 inside your local system.
+
+75
+00:04:49,000 --> 00:04:54,000
+Otherwise the keycloak is not going to start because the minimum Java version is Java 17.
+
+76
+00:04:54,000 --> 00:05:00,000
+With this, we successfully set up auth server inside our Easy Bank microservices network.
+
+77
+00:05:00,000 --> 00:05:02,000
+Did you see how easy it is. Behind the scenes
+
+78
+00:05:02,000 --> 00:05:08,000
+this auth server has a lot of functionality based upon the OpenID and OAuth2 standards.
+
+79
+00:05:08,000 --> 00:05:11,000
+We are going to explore more about this in the coming lectures.
+
+80
+00:05:11,000 --> 00:05:13,000
+Thank you and I'll catch you in the next lecture bye.
+

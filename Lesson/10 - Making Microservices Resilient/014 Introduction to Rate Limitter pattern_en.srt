@@ -1,0 +1,276 @@
+1
+00:00:00,000 --> 00:00:03,000
+Have you ever played these balloon pop up game?
+
+2
+00:00:03,000 --> 00:00:09,000
+During my childhood, my dad used to take me to the exhibition and I used to play this game a lot.
+
+3
+00:00:09,000 --> 00:00:14,000
+The reason why I'm showing right now is this is very relevant to the new pattern that we are going to
+
+4
+00:00:14,000 --> 00:00:14,000
+discuss.
+
+5
+00:00:14,000 --> 00:00:18,000
+Let me explain you what is going to happen during this game.
+
+6
+00:00:18,000 --> 00:00:24,000
+Whenever you try to play this game, the person who owns this balloon shop, he will give only limited
+
+7
+00:00:24,000 --> 00:00:29,000
+set of resources like you will have only three chances or five chances based upon your payment.
+
+8
+00:00:29,000 --> 00:00:35,000
+You are allowed to pop the balloons with the given set of resources. Beyond the resources that he has
+
+9
+00:00:35,000 --> 00:00:36,000
+provided
+
+10
+00:00:36,000 --> 00:00:38,000
+you are not allowed to play the game.
+
+11
+00:00:38,000 --> 00:00:41,000
+Why the owner of this shop is following this rule.
+
+12
+00:00:41,000 --> 00:00:48,000
+It is very simple because if you give unlimited chances to you, then he is going to be at loss.
+
+13
+00:00:48,000 --> 00:00:53,000
+That's why he is going to limit your usage based upon your payment.
+
+14
+00:00:53,000 --> 00:00:59,000
+Now let's go to the new pattern that we are going to discuss and you will realize how this is going
+
+15
+00:00:59,000 --> 00:01:02,000
+to be related to the new pattern that we are going to discuss.
+
+16
+00:01:02,000 --> 00:01:06,000
+The new pattern that we are going to discuss is rate limiter pattern.
+
+17
+00:01:06,000 --> 00:01:08,000
+So what is this rate limiter pattern?
+
+18
+00:01:08,000 --> 00:01:15,000
+Using this pattern inside microservices, we can control and limit the rate of incoming requests to
+
+19
+00:01:15,000 --> 00:01:17,000
+a specific API or to a microservice.
+
+20
+00:01:17,000 --> 00:01:25,000
+This pattern is majorly used to prevent abuse of the system and to protect the system resources and
+
+21
+00:01:25,000 --> 00:01:29,000
+ensure there is a fair usage of the services by everyone.
+
+22
+00:01:29,000 --> 00:01:31,000
+So let's try to understand more details about this pattern.
+
+23
+00:01:31,000 --> 00:01:38,000
+In a microservices, multiple services will be deployed and these services may interact with each other
+
+24
+00:01:38,000 --> 00:01:41,000
+to send a response to the client applications.
+
+25
+00:01:41,000 --> 00:01:47,000
+However, sometimes if you don't put restrictions and controls on how many requests being consumed by
+
+26
+00:01:47,000 --> 00:01:54,000
+a specific client or a specific person, then there can be a good chance the performance degradation
+
+27
+00:01:54,000 --> 00:01:56,000
+or resource exhaustion may happen.
+
+28
+00:01:56,000 --> 00:02:00,000
+And in some scenarios there is also a chance DoS attacks may happen.
+
+29
+00:02:00,000 --> 00:02:01,000
+So what is a DoS attack?
+
+30
+00:02:01,000 --> 00:02:08,000
+A single malicious user or a hacker is trying to send a continuous request to you maybe millions of
+
+31
+00:02:08,000 --> 00:02:14,000
+requests to your server so that he can bring down your microservices and make your microservices network
+
+32
+00:02:14,000 --> 00:02:15,000
+slow.
+
+33
+00:02:15,000 --> 00:02:21,000
+So to avoid all these kind of scenarios and make sure everyone has their fair usage of service, we
+
+34
+00:02:21,000 --> 00:02:29,000
+need to implement the rate limiter pattern so that we can enforce limits on the rate of incoming requests.
+
+35
+00:02:29,000 --> 00:02:32,000
+If you are expecting 10,000 requests per second.
+
+36
+00:02:32,000 --> 00:02:38,000
+Accordingly, you need to set up the infrastructure and accordingly you can implement rate limiter pattern
+
+37
+00:02:38,000 --> 00:02:38,000
+as well.
+
+38
+00:02:38,000 --> 00:02:43,000
+But all of a sudden if you are expecting some 1 million requests, then there is a chance that someone
+
+39
+00:02:43,000 --> 00:02:48,000
+is trying to abuse your system or someone is trying to bring down your system.
+
+40
+00:02:48,000 --> 00:02:52,000
+So to overcome these challenges we need to use rate limiter pattern.
+
+41
+00:02:52,000 --> 00:02:56,000
+So what are the advantages when we implement these rate limiter pattern like we discussed, this will
+
+42
+00:02:56,000 --> 00:03:03,000
+help your microservices from being overwhelmed by excessive or malicious requests from the hackers.
+
+43
+00:03:03,000 --> 00:03:09,000
+It also ensures the stability, performance and availability of the services while providing controlled
+
+44
+00:03:09,000 --> 00:03:13,000
+access to the resources inside the microservice.
+
+45
+00:03:13,000 --> 00:03:19,000
+Basically, you are going to create a healthy environment where everyone can use the services as long
+
+46
+00:03:19,000 --> 00:03:23,000
+as they are within the rate limits that we have configured.
+
+47
+00:03:23,000 --> 00:03:29,000
+If we configure this rate limiter pattern inside our microservices, how it is going to stop the excess
+
+48
+00:03:29,000 --> 00:03:37,000
+request is it is simply going to return an for 429 Http status code, which is too many requests and
+
+49
+00:03:37,000 --> 00:03:39,000
+it cannot accept more requests.
+
+50
+00:03:39,000 --> 00:03:45,000
+And this will indicates to clients that they can try to invoke the service after few seconds or few
+
+51
+00:03:45,000 --> 00:03:45,000
+minutes.
+
+52
+00:03:45,000 --> 00:03:52,000
+We can enforce this limitation based upon various strategies, like maybe we can try to limit the requests
+
+53
+00:03:52,000 --> 00:03:58,000
+based upon the session, based upon an IP address or based upon the logged in user or based upon a tenant
+
+54
+00:03:58,000 --> 00:04:00,000
+or based upon a server.
+
+55
+00:04:00,000 --> 00:04:02,000
+So there can be many strategies that you can use.
+
+56
+00:04:02,000 --> 00:04:08,000
+Additionally, we can also use this rate limiter pattern to provide services to users based upon their
+
+57
+00:04:08,000 --> 00:04:10,000
+subscription tiers.
+
+58
+00:04:10,000 --> 00:04:15,000
+For instance, inside your system you may have users like basic user, premier user and enterprise
+
+59
+00:04:15,000 --> 00:04:16,000
+users.
+
+60
+00:04:16,000 --> 00:04:22,000
+So for different, different types of users, you want to enforce different, different type of rate limits.
+
+61
+00:04:22,000 --> 00:04:26,000
+We can implement these kind of requirements also with the help of rate limiter pattern.
+
+62
+00:04:26,000 --> 00:04:32,000
+So this is a very quick introduction about this pattern and I'm assuming you are able to correlate with
+
+63
+00:04:32,000 --> 00:04:35,000
+the balloon pop up game that I have shown previously.
+
+64
+00:04:35,000 --> 00:04:41,000
+I'm right now having nostalgic feeling because with this balloon pop up game, a lot of my childhood
+
+65
+00:04:41,000 --> 00:04:43,000
+memories came into my mind.
+
+66
+00:04:43,000 --> 00:04:45,000
+I'm assuming the same case with you.
+
+67
+00:04:45,000 --> 00:04:47,000
+Enjoy your nostalgic feeling.
+
+68
+00:04:47,000 --> 00:04:48,000
+Thank you.
+
+69
+00:04:48,000 --> 00:04:51,000
+And I'll catch you in the next lecture bye.
+

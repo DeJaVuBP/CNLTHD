@@ -1,0 +1,668 @@
+1
+00:00:00,000 --> 00:00:07,000
+Inside this lecture, let me show you how to trigger alerts or notifications from Grafana whenever a
+
+2
+00:00:07,000 --> 00:00:08,000
+condition is met.
+
+3
+00:00:08,000 --> 00:00:12,000
+So in order to trigger alerts or notifications, we need to go to this menu.
+
+4
+00:00:12,000 --> 00:00:15,000
+And here there is an option of alerting.
+
+5
+00:00:15,000 --> 00:00:19,000
+So let me click on this post that you can go to these alert rules.
+
+6
+00:00:19,000 --> 00:00:22,000
+As of now, we don't have any rule configured.
+
+7
+00:00:22,000 --> 00:00:27,000
+Let me click on this create_alert rule and I'm going to give a name for this rule.
+
+8
+00:00:27,000 --> 00:00:34,000
+So the rule name is going to be accounts, because using this rule, I want to monitor my accounts microservice.
+
+9
+00:00:34,000 --> 00:00:35,000
+And post that,
+
+10
+00:00:35,000 --> 00:00:41,000
+please select the Grafana managed alert because we want the Grafana to manage the alerts.
+
+11
+00:00:41,000 --> 00:00:46,000
+And if we can scroll down on this page, we need to provide what is the criteria that Grafana needs
+
+12
+00:00:46,000 --> 00:00:53,000
+to consider to trigger an alert. For the same under the data source, I'm going to select Prometheus
+
+13
+00:00:53,000 --> 00:00:59,000
+because we want to trigger an alert based upon a metric available inside the Prometheus data source.
+
+14
+00:00:59,000 --> 00:01:05,000
+So let me select the same and post that under the select metric, I'm going to look for the metric with
+
+15
+00:01:05,000 --> 00:01:06,000
+the name up.
+
+16
+00:01:06,000 --> 00:01:12,000
+This metric is going to tell me whether my application is up and running or not.
+
+17
+00:01:12,000 --> 00:01:19,000
+After this metric, I'm going to select the label as job and the value as accounts microservice. Because
+
+18
+00:01:19,000 --> 00:01:21,000
+we want to monitor our accounts
+
+19
+00:01:21,000 --> 00:01:27,000
+microservice. After this, if we can scroll down, there is a reduce option and a threshold option.
+
+20
+00:01:27,000 --> 00:01:30,000
+First, we need to understand how we want to trigger an alert.
+
+21
+00:01:30,000 --> 00:01:35,000
+So if you see under the reduce, there are various options like whether we want to send based upon minimum
+
+22
+00:01:35,000 --> 00:01:40,000
+value or maximum value or a mean or some or count or average.
+
+23
+00:01:40,000 --> 00:01:42,000
+So there are many options here.
+
+24
+00:01:42,000 --> 00:01:47,000
+But I want to select the function which is Last. Based upon the last value,
+
+25
+00:01:47,000 --> 00:01:48,000
+I want to generate a alert.
+
+26
+00:01:48,000 --> 00:01:52,000
+So that's why let me select this and you can see for this function
+
+27
+00:01:52,000 --> 00:01:56,000
+Last, we are providing the input data from the A, so A means
+
+28
+00:01:56,000 --> 00:02:01,000
+this is a query section where we have written and the mode we can leave it as strict.
+
+29
+00:02:01,000 --> 00:02:05,000
+Now coming to the see, which is we can define a threshold.
+
+30
+00:02:05,000 --> 00:02:12,000
+So based upon the number given by the B, which is reduce function, I want to define a threshold like
+
+31
+00:02:12,000 --> 00:02:18,000
+whenever my value is below one, then I want to trigger an alert.
+
+32
+00:02:18,000 --> 00:02:22,000
+You can see for this threshold panel there is alert condition highlighted.
+
+33
+00:02:22,000 --> 00:02:26,000
+That means based upon this threshold value, only the alert is going to be triggered.
+
+34
+00:02:26,000 --> 00:02:31,000
+With this, we have created all the criteria to generate a alert.
+
+35
+00:02:31,000 --> 00:02:34,000
+So do you know why I have given these IS BELOW less than one.
+
+36
+00:02:34,000 --> 00:02:41,000
+Because whenever my application is up and running, the metric up will give the value as one.
+
+37
+00:02:41,000 --> 00:02:45,000
+Whereas if the microservice is down, the value is going to be zero.
+
+38
+00:02:45,000 --> 00:02:49,000
+With this, we have defined all the conditions for our alert.
+
+39
+00:02:50,000 --> 00:02:54,000
+Let me scroll down and here we need to assign this alert into a folder.
+
+40
+00:02:54,000 --> 00:02:56,000
+So as of now I don't have any folder.
+
+41
+00:02:56,000 --> 00:03:03,000
+Let me create a folder with the name accounts. So that I can keep all the accounts related alerts inside
+
+42
+00:03:03,000 --> 00:03:06,000
+this folder. Post that we should also assign this alert to a group.
+
+43
+00:03:06,000 --> 00:03:10,000
+So let me create a group with the name accounts itself.
+
+44
+00:03:10,000 --> 00:03:17,000
+Once we have mentioned this group, we need to mention the evaluation interval. Like how frequently
+
+45
+00:03:17,000 --> 00:03:20,000
+we want the alert to be evaluated by grafana.
+
+46
+00:03:20,000 --> 00:03:25,000
+So by default you can see the alert is going to be evaluated for every one minute.
+
+47
+00:03:25,000 --> 00:03:32,000
+Since we want to test this alert very quickly, we can make this as five seconds by mentioning 5s
+
+48
+00:03:32,000 --> 00:03:35,000
+and after that you can see for 5m.
+
+49
+00:03:35,000 --> 00:03:36,000
+So what is this for 5m
+
+50
+00:03:36,000 --> 00:03:42,000
+indicates. With this for 5m, we are telling to the grafana instead of throwing the alert at
+
+51
+00:03:42,000 --> 00:03:47,000
+the very first time, we want the grafana to monitor the alert for next to five minutes.
+
+52
+00:03:47,000 --> 00:03:49,000
+So be on five minutes,
+
+53
+00:03:49,000 --> 00:03:53,000
+if the alert is not at resolved, then only we want to send the notification.
+
+54
+00:03:53,000 --> 00:03:56,000
+So that's what we are trying to achieve with this default value
+
+55
+00:03:56,000 --> 00:04:01,000
+5m, but we don't want to wait for 5m to receive the notifications.
+
+56
+00:04:01,000 --> 00:04:04,000
+I can make this as 20s. After this
+
+57
+00:04:04,000 --> 00:04:09,000
+if you can scroll down, we can provide what is a summary of the alert or the description.
+
+58
+00:04:09,000 --> 00:04:13,000
+If someone receives this alert, they should know what is this alert about?
+
+59
+00:04:13,000 --> 00:04:20,000
+So I can mention something like Account service is down and inside the description I will say something
+
+60
+00:04:20,000 --> 00:04:23,000
+funny like please do something.
+
+61
+00:04:23,000 --> 00:04:26,000
+So with this I have mentioned the summary and description.
+
+62
+00:04:26,000 --> 00:04:31,000
+Let me scroll down and here we have notifications section
+
+63
+00:04:31,000 --> 00:04:36,000
+we can leave this blank and go to the top and click on this Save rule and exit.
+
+64
+00:04:36,000 --> 00:04:37,000
+So let me click on this.
+
+65
+00:04:37,000 --> 00:04:41,000
+Seems we can't define 5s because the minimum is 10s.
+
+66
+00:04:41,000 --> 00:04:45,000
+So let me mention the same like 10s and the evaluation period
+
+67
+00:04:45,000 --> 00:04:47,000
+i will keep it as 30s.
+
+68
+00:04:47,000 --> 00:04:50,000
+With that, let me try to save this rule and exit.
+
+69
+00:04:50,000 --> 00:04:58,000
+Now you can see my alert rule is created and it is in normal state. Because right now my accounts microservice
+
+70
+00:04:58,000 --> 00:05:00,000
+is running and it is going
+
+71
+00:05:00,000 --> 00:05:05,000
+to be evaluated every 10s for a period of 30s. Beyond 30s
+
+72
+00:05:05,000 --> 00:05:09,000
+if the alert is not resolved, it is going to trigger a notification.
+
+73
+00:05:09,000 --> 00:05:15,000
+Since we want this alert to be notified to someone else, we need to go to these contact points under
+
+74
+00:05:15,000 --> 00:05:17,000
+these contact points,
+
+75
+00:05:17,000 --> 00:05:20,000
+by default, there is an option which is grafana-default-email.
+
+76
+00:05:20,000 --> 00:05:26,000
+So whenever the alert is triggered, it is going to send an email to the emails that you have configured.
+
+77
+00:05:26,000 --> 00:05:33,000
+So to configure emails you can click on this edit button and here you can mention your sample email
+
+78
+00:05:33,000 --> 00:05:34,000
+value.
+
+79
+00:05:34,000 --> 00:05:39,000
+But this email option will not work as of now for us because in order to send emails with the help of
+
+80
+00:05:39,000 --> 00:05:45,000
+Grafana, we need to provide the smtp details so we don't want to follow that complex process.
+
+81
+00:05:45,000 --> 00:05:49,000
+Instead, I'm going to look for other contact point options that we have.
+
+82
+00:05:49,000 --> 00:05:52,000
+So let me click on these Add contact point.
+
+83
+00:05:52,000 --> 00:05:56,000
+And here, let's see what are the options that we have. Under the integration,
+
+84
+00:05:56,000 --> 00:06:02,000
+if you can open this dropdown, there are many other options like Cisco Webex Teams, DingDing,
+
+85
+00:06:02,000 --> 00:06:07,000
+Discord, Email, Google Hangouts Chat, Kafka REST Proxy LINE.
+
+86
+00:06:07,000 --> 00:06:12,000
+Microsoft Teams, Pagerduty, Pushover, Sense Go, Slack Telegram.
+
+87
+00:06:12,000 --> 00:06:16,000
+So there are many options, but I want to go with a webhook option.
+
+88
+00:06:16,000 --> 00:06:22,000
+So let me select this webhook and I'll give the name as EasyBankWebhook.
+
+89
+00:06:22,000 --> 00:06:28,000
+So to this we need to provide an webhook URL, but as of now we don't have any webhook setup, so let's
+
+90
+00:06:28,000 --> 00:06:30,000
+try to create the same. For the same,
+
+91
+00:06:30,000 --> 00:06:33,000
+I came to the website which is hockeydb.com.
+
+92
+00:06:33,000 --> 00:06:39,000
+We have used this previously also. here let me click on this test webhook button and this will give
+
+93
+00:06:39,000 --> 00:06:42,000
+me a sample webhook URL.
+
+94
+00:06:42,000 --> 00:06:46,000
+So let me copy this webhook url and mention the same inside the grafana.
+
+95
+00:06:46,000 --> 00:06:52,000
+So I'm trying to mention the same inside the grafana and this URL. Post that I can click on this test
+
+96
+00:06:52,000 --> 00:06:55,000
+button which will send a sample test notification.
+
+97
+00:06:55,000 --> 00:06:57,000
+So the test alert sent successfully.
+
+98
+00:06:57,000 --> 00:07:01,000
+We can also validate that by going to the hook Deck website.
+
+99
+00:07:01,000 --> 00:07:03,000
+So here it is going to take few seconds
+
+100
+00:07:03,000 --> 00:07:05,000
+time to receive the notification.
+
+101
+00:07:05,000 --> 00:07:09,000
+You can see I got a sample webhook. Under the request
+
+102
+00:07:09,000 --> 00:07:14,000
+you can see we received the details like firing, test alert grafana.
+
+103
+00:07:14,000 --> 00:07:20,000
+So this confirms the grafana is able to send the test alert to my webhook URL.
+
+104
+00:07:20,000 --> 00:07:25,000
+So let me save this contact point post that we can go to the network policies.
+
+105
+00:07:25,000 --> 00:07:30,000
+As of now, you can see by default all alerts are going to be delivered to the email option.
+
+106
+00:07:30,000 --> 00:07:33,000
+I want to change this to webhook. For the same,
+
+107
+00:07:33,000 --> 00:07:37,000
+we can click on the settings and post that select the edit option.
+
+108
+00:07:37,000 --> 00:07:44,000
+So here the default contact point will change to easy bank webhook and coming to that timing options
+
+109
+00:07:44,000 --> 00:07:50,000
+these are the default values that my grafana will follow whenever it is trying to send the alerts.
+
+110
+00:07:50,000 --> 00:07:55,000
+Like  there is a group wait of 30s group interval of five minutes and repeat interval of four hours.
+
+111
+00:07:55,000 --> 00:07:57,000
+So what is the purpose of these timing options?
+
+112
+00:07:57,000 --> 00:08:02,000
+If my alert is triggered, I don't want my alerts to be continuous triggered.
+
+113
+00:08:02,000 --> 00:08:06,000
+That will send a lot of emails or notifications to my audience.
+
+114
+00:08:06,000 --> 00:08:11,000
+So that's why they have mentioned these default values, like four hours, like the waiting time to
+
+115
+00:08:11,000 --> 00:08:15,000
+resend an alert after they have successfully been sent is four hours.
+
+116
+00:08:15,000 --> 00:08:20,000
+So every four hours it is going to send the alert if the alert is not at resolved.
+
+117
+00:08:20,000 --> 00:08:22,000
+And similarly, there are other timeouts.
+
+118
+00:08:22,000 --> 00:08:28,000
+So let me change all of these timeouts to 10s for our testing purpose so that we can see these alerts
+
+119
+00:08:28,000 --> 00:08:29,000
+in action.
+
+120
+00:08:29,000 --> 00:08:32,000
+So let me click on this update default policy.
+
+121
+00:08:32,000 --> 00:08:33,000
+Now I'll go to the alerts.
+
+122
+00:08:33,000 --> 00:08:36,000
+As of now, you can see it is still in normal status.
+
+123
+00:08:36,000 --> 00:08:41,000
+That means our account's microservice is working without any issues.
+
+124
+00:08:41,000 --> 00:08:47,000
+As a next step, I'll go to the Docker desktop and I will try to stop my account's microservice.
+
+125
+00:08:47,000 --> 00:08:50,000
+So here I'm going to stop my account's microservice.
+
+126
+00:08:50,000 --> 00:08:53,000
+So let me select the same and I'm trying to click on the stop button.
+
+127
+00:08:53,000 --> 00:08:56,000
+Now my account's microservice is stopped.
+
+128
+00:08:56,000 --> 00:09:00,000
+Now you can see the state of the alert is changed to pending.
+
+129
+00:09:00,000 --> 00:09:05,000
+This means my alert is waiting for the period of 30s.
+
+130
+00:09:05,000 --> 00:09:10,000
+It is trying to evaluate every 10s but it is not going to send the alert immediately.
+
+131
+00:09:10,000 --> 00:09:12,000
+Instead it is going to wait for 30s.
+
+132
+00:09:12,000 --> 00:09:16,000
+So during this transition period it is going to be in this pending status.
+
+133
+00:09:16,000 --> 00:09:20,000
+So let me refresh this by opening this button.
+
+134
+00:09:20,000 --> 00:09:23,000
+You can see right now it is in the firing status.
+
+135
+00:09:23,000 --> 00:09:29,000
+That means my alert is being sent to the notifications that we have configured.
+
+136
+00:09:29,000 --> 00:09:31,000
+So let's go to the webhook URL.
+
+137
+00:09:31,000 --> 00:09:35,000
+Here we need to wait for a couple of seconds. Post that we should be able to see the alerts.
+
+138
+00:09:35,000 --> 00:09:40,000
+You can see I received an alert saying that Account service is down and please do something.
+
+139
+00:09:40,000 --> 00:09:44,000
+This is the description and these are the details of the alerts that we have configured.
+
+140
+00:09:44,000 --> 00:09:47,000
+So the status is right now it is firing.
+
+141
+00:09:47,000 --> 00:09:54,000
+That means the alert is being fired continuously for every 10s because we have set up the timeout options
+
+142
+00:09:54,000 --> 00:09:57,000
+accordingly. Since we want to see this in action.
+
+143
+00:09:57,000 --> 00:09:59,000
+So the alert is going to be triggered continuously.
+
+144
+00:10:00,000 --> 00:10:05,000
+So when the alert is going to be resolved automatically, when my accounts, microservice is up and
+
+145
+00:10:05,000 --> 00:10:06,000
+running.
+
+146
+00:10:06,000 --> 00:10:07,000
+So let's try to start my accounts
+
+147
+00:10:07,000 --> 00:10:09,000
+microservice.
+
+148
+00:10:09,000 --> 00:10:10,000
+Here I'll try to start my accounts
+
+149
+00:10:10,000 --> 00:10:15,000
+microservice. It will take few seconds to start, so let me wait for my accounts
+
+150
+00:10:15,000 --> 00:10:17,000
+microservice to get started completely.
+
+151
+00:10:17,000 --> 00:10:19,000
+So it is trying to start.
+
+152
+00:10:19,000 --> 00:10:22,000
+Meanwhile, I'll go to the Grafana. Inside Grafana,
+
+153
+00:10:22,000 --> 00:10:25,000
+as of now you can see the alert is in firing status only.
+
+154
+00:10:25,000 --> 00:10:29,000
+That means the alerts might be keep on going to my webhook url.
+
+155
+00:10:29,000 --> 00:10:36,000
+Very similarly, if you configure email or slack or Microsoft teams accordingly, the notifications
+
+156
+00:10:36,000 --> 00:10:38,000
+will be sent to the corresponding channel.
+
+157
+00:10:38,000 --> 00:10:41,000
+Let's hope our alerts will be resolved soon.
+
+158
+00:10:41,000 --> 00:10:48,000
+You can see now my alert came into normal status. So let me go to the webhook URL and see what is happening
+
+159
+00:10:48,000 --> 00:10:49,000
+there.
+
+160
+00:10:49,000 --> 00:10:55,000
+You can see when my alert is resolved and it moved to the normal status, my webhook received a status
+
+161
+00:10:55,000 --> 00:10:59,000
+saying that resolve, if you click on this, the overall status is resolved.
+
+162
+00:10:59,000 --> 00:11:06,000
+This indicates to your audience that a particular alert is resolved, which means your account's microservice
+
+163
+00:11:06,000 --> 00:11:07,000
+started working fine.
+
+164
+00:11:07,000 --> 00:11:08,000
+I hope this is clear.
+
+165
+00:11:08,000 --> 00:11:14,000
+Inside the next lecture, I'm going to show you one more approach of defining the alerts with the help
+
+166
+00:11:14,000 --> 00:11:16,000
+of dashboards in the Grafana.
+
+167
+00:11:16,000 --> 00:11:19,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,904 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to implement log aggregation with the help of Grafana, Loki and promtail
+
+2
+00:00:06,000 --> 00:00:07,000
+For the same,
+
+3
+00:00:07,000 --> 00:00:13,000
+since we are into new section inside my workspace, I'm going to copy the code from the previous section
+
+4
+00:00:13,000 --> 00:00:21,000
+and paste inside the same folder and post that I'm going to rename the folder name to section 11 because
+
+5
+00:00:21,000 --> 00:00:23,000
+we are right now into the section 11.
+
+6
+00:00:23,000 --> 00:00:27,000
+Let me open the section 11 and look for any hidden files.
+
+7
+00:00:27,000 --> 00:00:32,000
+So there is a hidden file which is related to my IntelliJ idea configuration.
+
+8
+00:00:32,000 --> 00:00:35,000
+So let me delete this. Post this
+
+9
+00:00:35,000 --> 00:00:38,000
+I'm going to open this section 11 inside my intelliJ idea.
+
+10
+00:00:38,000 --> 00:00:42,000
+So here, let me click on this open post that
+
+11
+00:00:42,000 --> 00:00:46,000
+I'll go to storage, workspaces, microservices, section 11.
+
+12
+00:00:46,000 --> 00:00:53,000
+And now I'm going to click on this open button. With this all my Maven projects present inside the section11
+
+13
+00:00:53,000 --> 00:00:56,000
+will be loaded into my IntelliJ idea.
+
+14
+00:00:56,000 --> 00:01:04,000
+So let me do a build and enable this annotation processing. Post that I'm going to open the pom.xml of
+
+15
+00:01:04,000 --> 00:01:06,000
+all the microservices.
+
+16
+00:01:06,000 --> 00:01:12,000
+And here first change we need to do is replacing the tag name from s10 to s11.
+
+17
+00:01:12,000 --> 00:01:16,000
+So let me do the same for other microservices as well.
+
+18
+00:01:16,000 --> 00:01:24,000
+Behind the scenes I have changed the Docker image tag name from s10 to s11 inside all the Maven projects.
+
+19
+00:01:24,000 --> 00:01:30,000
+As a next step, I want to open the application.yml file present inside the gateway server.
+
+20
+00:01:30,000 --> 00:01:35,000
+Here as of now you can see we have the response timeout configured as two seconds.
+
+21
+00:01:35,000 --> 00:01:41,000
+This means my gateway server is going to wait at a maximum of two seconds to get a response from the
+
+22
+00:01:41,000 --> 00:01:43,000
+actual microservices.
+
+23
+00:01:43,000 --> 00:01:49,000
+But since we are going to set up more and more containers inside our local system, definitely inside
+
+24
+00:01:49,000 --> 00:01:54,000
+my local system, I will not be able to get the response within two seconds due to low availability
+
+25
+00:01:54,000 --> 00:01:55,000
+of memory.
+
+26
+00:01:55,000 --> 00:02:03,000
+So to avoid any inconvenience inside the local testing, I want to increase this timeout to 10s.
+
+27
+00:02:03,000 --> 00:02:10,000
+So with this, my gateway server is going to wait for a maximum of 10s to get the response and with
+
+28
+00:02:10,000 --> 00:02:16,000
+this we should be able to get any kind of response from the individual microservices and will not face
+
+29
+00:02:16,000 --> 00:02:19,000
+any issue inside the local system.
+
+30
+00:02:19,000 --> 00:02:23,000
+Regardless of how many containers or supporting components you're trying to set up.
+
+31
+00:02:23,000 --> 00:02:28,000
+I hope you are clear with this change, so please make sure you are also doing this change and in future,
+
+32
+00:02:28,000 --> 00:02:33,000
+if you are seeing some timeout issues, please always feel free to increase this based upon your local
+
+33
+00:02:33,000 --> 00:02:35,000
+testing requirement.
+
+34
+00:02:35,000 --> 00:02:36,000
+After making these changes.
+
+35
+00:02:36,000 --> 00:02:41,000
+Let's go to the official documentation of Grafana. Here inside this page
+
+36
+00:02:41,000 --> 00:02:45,000
+If we can scroll down first, they are going to tell you what are the pre requests.
+
+37
+00:02:45,000 --> 00:02:51,000
+So the pre request are we should have it running Docker and Docker compose installed inside our local
+
+38
+00:02:51,000 --> 00:02:52,000
+system.
+
+39
+00:02:52,000 --> 00:02:57,000
+We have already installed these inside the previous section, so we should be good from these pre requests
+
+40
+00:02:57,000 --> 00:03:01,000
+post that they are asking you to create some directory with the name
+
+41
+00:03:01,000 --> 00:03:06,000
+evaluate Loki. And after creating that they are requesting to go to that directory.
+
+42
+00:03:06,000 --> 00:03:10,000
+But we don't have to follow this because we will try to implement all these changes inside our Docker
+
+43
+00:03:10,000 --> 00:03:14,000
+compose folder, present inside the workspace location.
+
+44
+00:03:14,000 --> 00:03:19,000
+After this, they are asking you to download three different Yaml files docker compose yaml file and
+
+45
+00:03:19,000 --> 00:03:23,000
+promtail-local-config.yml and loki-config.yml
+
+46
+00:03:23,000 --> 00:03:29,000
+So they have given the URLs of each of these Yaml files for suppose if you can scroll down you'll be
+
+47
+00:03:29,000 --> 00:03:36,000
+able to see the complete yaml url and they're trying to extract them using the same respective names.
+
+48
+00:03:36,000 --> 00:03:42,000
+So what I have done is, I have opened these Yaml files in three different tabs, like these are the three
+
+49
+00:03:42,000 --> 00:03:43,000
+different tabs that I have.
+
+50
+00:03:44,000 --> 00:03:49,000
+First, let's try to understand what is present inside the docker compose Yaml file. Because we are already
+
+51
+00:03:49,000 --> 00:03:51,000
+familiar with syntax of Docker
+
+52
+00:03:51,000 --> 00:03:53,000
+compose understanding
+
+53
+00:03:53,000 --> 00:03:54,000
+this should not be challenging.
+
+54
+00:03:54,000 --> 00:03:57,000
+So let me zoom this Yaml file for your reference.
+
+55
+00:03:57,000 --> 00:04:01,000
+So first there is a version number which they're trying to mention.
+
+56
+00:04:01,000 --> 00:04:07,000
+Post that you can see they are creating a network with the name Loki. So that they are going to start
+
+57
+00:04:07,000 --> 00:04:10,000
+all the services under the same network.
+
+58
+00:04:10,000 --> 00:04:14,000
+Inside our Docker compose, we also created a network with the name EazyBank.
+
+59
+00:04:14,000 --> 00:04:17,000
+Very similarly, they are also following the same strategy.
+
+60
+00:04:17,000 --> 00:04:22,000
+Now under the services you can see first they are trying to create the read component of the Loki.
+
+61
+00:04:22,000 --> 00:04:27,000
+That's why you can see the image name is related to Loki and post the image name.
+
+62
+00:04:27,000 --> 00:04:33,000
+They have provided the command which will be executed when we try to convert this Docker image as a
+
+63
+00:04:33,000 --> 00:04:33,000
+container.
+
+64
+00:04:33,000 --> 00:04:40,000
+If you see they are trying to start this image with the target as read with that, it is going to become
+
+65
+00:04:40,000 --> 00:04:44,000
+a read component of Loki and that is going to start at these ports.
+
+66
+00:04:44,000 --> 00:04:50,000
+They are exposing the read component at the port 3101 And after these ports, you can see here we have
+
+67
+00:04:50,000 --> 00:04:51,000
+volumes.
+
+68
+00:04:51,000 --> 00:04:55,000
+We have never used these volumes inside our course as of now.
+
+69
+00:04:55,000 --> 00:04:59,000
+So what are volumes ? using volumes, we can try to map a file
+
+70
+00:04:59,000 --> 00:05:04,000
+present inside the local host system into the Docker container.
+
+71
+00:05:04,000 --> 00:05:07,000
+If you see here, there is a volume detail that they have mentioned.
+
+72
+00:05:07,000 --> 00:05:09,000
+This way we can create any number of volumes.
+
+73
+00:05:09,000 --> 00:05:11,000
+The configuration here is very simple.
+
+74
+00:05:11,000 --> 00:05:17,000
+They are saying the place where we have this Docker compose file inside the same folder there will be
+
+75
+00:05:17,000 --> 00:05:20,000
+a Yaml file with the name Loki-config,yml.
+
+76
+00:05:20,000 --> 00:05:25,000
+If you can see the other tab here, the file name is the same, so they're asking to download this yaml
+
+77
+00:05:25,000 --> 00:05:30,000
+file and paste it inside the same folder location where the docker-compose.yml is present.
+
+78
+00:05:30,000 --> 00:05:31,000
+So the same file
+
+79
+00:05:31,000 --> 00:05:37,000
+we are trying to map our copy to the docker container under this location.
+
+80
+00:05:37,000 --> 00:05:42,000
+/etc/loki/config.yaml. The same is being referred inside the command.
+
+81
+00:05:42,000 --> 00:05:49,000
+You can see for the config.file variable they are passing the same config.yml and post that
+
+82
+00:05:49,000 --> 00:05:51,000
+they are also saying depends on on minio.
+
+83
+00:05:51,000 --> 00:05:57,000
+Minio is another service which we are going to explore towards the end of this Docker compose file and
+
+84
+00:05:57,000 --> 00:05:57,000
+health check.
+
+85
+00:05:57,000 --> 00:06:03,000
+We are already aware using this health check, the Docker compose is going to evaluate whether the read
+
+86
+00:06:03,000 --> 00:06:06,000
+component of Loki is successfully started or not.
+
+87
+00:06:06,000 --> 00:06:08,000
+And at last you can see this read service.
+
+88
+00:06:08,000 --> 00:06:15,000
+We are trying to tag to the network, which is Loki and we are also trying to create an alias name
+
+89
+00:06:15,000 --> 00:06:17,000
+for this network Loki.
+
+90
+00:06:17,000 --> 00:06:19,000
+So the alias name is also Loki.
+
+91
+00:06:19,000 --> 00:06:22,000
+If needed, we can try to give a different alias name.
+
+92
+00:06:22,000 --> 00:06:28,000
+Also, they are trying to create an alias name so that they can use this alias name in some other configuration
+
+93
+00:06:28,000 --> 00:06:30,000
+and post this alias name.
+
+94
+00:06:30,000 --> 00:06:34,000
+We are seeing these & loki-dns.
+
+95
+00:06:34,000 --> 00:06:39,000
+So inside these Yaml, whenever we see & that indicates anchor.
+
+96
+00:06:39,000 --> 00:06:42,000
+So what is an anchor inside Yaml
+
+97
+00:06:42,000 --> 00:06:49,000
+we are trying to create a variable name, loki-dns and to this loki-dns variable name we
+
+98
+00:06:49,000 --> 00:06:52,000
+are trying to assign the value present under the networks.
+
+99
+00:06:52,000 --> 00:06:58,000
+So we just created a variable with the help of this anchor symbol inside Yaml and post that you can
+
+100
+00:06:58,000 --> 00:06:58,000
+see.
+
+101
+00:06:59,000 --> 00:07:01,000
+We have new service with the name
+
+102
+00:07:01,000 --> 00:07:01,000
+write
+
+103
+00:07:01,000 --> 00:07:07,000
+And this is using the same image, but this time the command target is going to be write and it is going
+
+104
+00:07:07,000 --> 00:07:15,000
+to expose the traffic at the port 3102 whereas the read component it expose at 3101 and write component
+
+105
+00:07:15,000 --> 00:07:19,000
+is exposing at the port 3102 and volumes we already discussed.
+
+106
+00:07:19,000 --> 00:07:25,000
+It's the same configuration and the health checks we already aware and depends on minio.
+
+107
+00:07:25,000 --> 00:07:31,000
+Now under the networks you can see we are using here a special symbol which which is less than symbol
+
+108
+00:07:31,000 --> 00:07:38,000
+repeating two times this special symbol, which is double less than symbol indicates merge operation
+
+109
+00:07:38,000 --> 00:07:40,000
+inside the Yaml. And post this merge operation,
+
+110
+00:07:40,000 --> 00:07:42,000
+we are telling we are using asterisk.
+
+111
+00:07:42,000 --> 00:07:50,000
+Asterisk is a special symbol inside yaml which we can use to refer any of the anchor variable that we
+
+112
+00:07:50,000 --> 00:07:50,000
+have created.
+
+113
+00:07:50,000 --> 00:07:51,000
+Previously
+
+114
+00:07:51,000 --> 00:07:56,000
+we created a anchor variable with the name loki-dns inside my Yaml.
+
+115
+00:07:56,000 --> 00:08:02,000
+Whenever I want to refer to this anchor variable that I have created with the help of Ampersand, I
+
+116
+00:08:02,000 --> 00:08:04,000
+need to use this asterisk symbol.
+
+117
+00:08:04,000 --> 00:08:10,000
+So we are trying to refer the same we have created in the top and with this double less than symbol
+
+118
+00:08:10,000 --> 00:08:14,000
+we are going to merge this variable under this networks.
+
+119
+00:08:14,000 --> 00:08:20,000
+With that, the same details that we have mentioned here will come under the write service as well.
+
+120
+00:08:20,000 --> 00:08:26,000
+Now, after the write service, we also have promtail service and it is going to use the promtail image
+
+121
+00:08:26,000 --> 00:08:28,000
+available under the Grafana.
+
+122
+00:08:28,000 --> 00:08:32,000
+And here they have defined two volumes related configurations.
+
+123
+00:08:32,000 --> 00:08:38,000
+This file, which is promtail-local-config.yml is present inside the other tab.
+
+124
+00:08:38,000 --> 00:08:44,000
+So this is the same file they're asking to download in the same folder and copy the same using volumes
+
+125
+00:08:44,000 --> 00:08:46,000
+to the docker container at the location etc/
+
+126
+00:08:47,000 --> 00:08:52,000
+promtail/config.yml. Here ro indicates read only volume.
+
+127
+00:08:52,000 --> 00:08:58,000
+So my docker container they can only read the yaml configurations present inside these yaml file but
+
+128
+00:08:58,000 --> 00:08:59,000
+they cannot change them.
+
+129
+00:08:59,000 --> 00:09:03,000
+That's what we are trying to achieve with the help of this ro command. And post that
+
+130
+00:09:03,000 --> 00:09:08,000
+there is also one more volume which is internal to the Docker containers.
+
+131
+00:09:08,000 --> 00:09:12,000
+And after these volumes you can see there is a command which they are trying to execute with the help
+
+132
+00:09:12,000 --> 00:09:18,000
+of these flag, which is config.file and they are trying to use the same config.yml that we
+
+133
+00:09:18,000 --> 00:09:20,000
+have copied from our local system.
+
+134
+00:09:20,000 --> 00:09:25,000
+So inside the local system this is the Yaml file name, but by the time they are trying to refer inside
+
+135
+00:09:25,000 --> 00:09:31,000
+the docker container with the help of this volume they are trying to rename the file to the config.yml
+
+136
+00:09:31,000 --> 00:09:31,000
+.
+
+137
+00:09:31,000 --> 00:09:34,000
+We are trying to refer the same inside the command as well.
+
+138
+00:09:34,000 --> 00:09:39,000
+After the command we have depends on gateway and networks is loki.
+
+139
+00:09:39,000 --> 00:09:46,000
+Now after this promptaile we also have minio related service with the image, with the Entrypoint command
+
+140
+00:09:46,000 --> 00:09:50,000
+and some environment variables, port mapping and there is a volumes.
+
+141
+00:09:50,000 --> 00:09:57,000
+So if you see during the entry point, it is trying to create a directory inside the local host where
+
+142
+00:09:57,000 --> 00:09:59,000
+we have this docker-compose.yml.
+
+143
+00:09:59,000 --> 00:09:59,000
+So it is trying to
+
+144
+00:09:59,000 --> 00:10:04,000
+create two different directories like data/loki-data, data/loki-ruler.
+
+145
+00:10:04,000 --> 00:10:12,000
+So with this the Loki is going to store all the logs inside our local system only with the help of Minio.
+
+146
+00:10:12,000 --> 00:10:13,000
+If needed
+
+147
+00:10:13,000 --> 00:10:20,000
+inside the production we can try to configure some other storage systems like AWS S3 or any other
+
+148
+00:10:20,000 --> 00:10:21,000
+cloud storage.
+
+149
+00:10:21,000 --> 00:10:23,000
+So these are the environment variables.
+
+150
+00:10:23,000 --> 00:10:30,000
+Now, under these volumes, you can see they're trying to copy the folders /.data/minio, which will create
+
+151
+00:10:30,000 --> 00:10:36,000
+inside our local system when we try to start this Minio And inside this Minio folder, only all the
+
+152
+00:10:36,000 --> 00:10:37,000
+logs will get stored.
+
+153
+00:10:37,000 --> 00:10:45,000
+So with this volume we are trying to mount this folder data Minio from our local host to the container
+
+154
+00:10:45,000 --> 00:10:47,000
+at the folder data.
+
+155
+00:10:47,000 --> 00:10:49,000
+So I'll be showing you all this in the demo.
+
+156
+00:10:49,000 --> 00:10:55,000
+So basically with this volume, whatever data folder that we have inside our local system, we are trying
+
+157
+00:10:55,000 --> 00:11:00,000
+to mount that into the Docker container folder and there is a health check command and networks
+
+158
+00:11:00,000 --> 00:11:06,000
+loki and now coming to the Grafana image, this has image details, environment details and depends
+
+159
+00:11:06,000 --> 00:11:07,000
+on Gateway.
+
+160
+00:11:07,000 --> 00:11:13,000
+And there is an entry point command where they're trying to create a folder with this name like data
+
+161
+00:11:13,000 --> 00:11:19,000
+sources. And under this data sources folder they're trying to create a new Yaml file with the name 
+
+162
+00:11:19,000 --> 00:11:23,000
+ds.yml and here you can see they're trying to create a data source of type
+
+163
+00:11:23,000 --> 00:11:30,000
+Loki . previously I said from Grafana we can try to search the logs in the present inside the Loki to establish
+
+164
+00:11:30,000 --> 00:11:33,000
+the link between Grafana and Loki.
+
+165
+00:11:33,000 --> 00:11:38,000
+We need to provide this data source details to the grafana like where the Loki is deployed.
+
+166
+00:11:38,000 --> 00:11:43,000
+What is the URL where my grafana can try to reach out to the Loki?
+
+167
+00:11:43,000 --> 00:11:49,000
+So the URL is going to be gateway 3100 and there are some header related information and post that there
+
+168
+00:11:49,000 --> 00:11:55,000
+is a port mapping at where Grafana is going to start at 3000 port and there is some health check details
+
+169
+00:11:55,000 --> 00:11:57,000
+and network is going to be Loki.
+
+170
+00:11:57,000 --> 00:12:03,000
+Now after grafana we have gateway service this Gateway service is going to use the image of Nginx server
+
+171
+00:12:03,000 --> 00:12:08,000
+and it is going to depend on two different services like read and write.
+
+172
+00:12:08,000 --> 00:12:13,000
+So these are the Loki Read and Loki write services and there is some Entrypoint command where they're
+
+173
+00:12:13,000 --> 00:12:16,000
+trying to define some nginx configurations.
+
+174
+00:12:16,000 --> 00:12:21,000
+You can see here they have defined some routing related configurations.
+
+175
+00:12:21,000 --> 00:12:26,000
+Like whenever someone is trying to invoke this path, then it is going to pass the request to the write
+
+176
+00:12:26,000 --> 00:12:28,000
+component at the Port 3100.
+
+177
+00:12:28,000 --> 00:12:35,000
+And very similarly for this API promtail, they are going to redirect the request to the read component.
+
+178
+00:12:35,000 --> 00:12:43,000
+So all search routing related configurations are defined inside the startup scripts and at last you
+
+179
+00:12:43,000 --> 00:12:48,000
+can see there is some port related configuration and the health check information and network information.
+
+180
+00:12:48,000 --> 00:12:55,000
+After the gateway, we have a app with the name flog like we saw previously, there will be a flog app
+
+181
+00:12:55,000 --> 00:12:58,000
+which will continuously generate some random logs.
+
+182
+00:12:58,000 --> 00:13:04,000
+We don't need this flog API because inside our scenario we are going to use our own microservices to
+
+183
+00:13:04,000 --> 00:13:05,000
+generate the logs.
+
+184
+00:13:05,000 --> 00:13:11,000
+That's why when we try to use this Docker compose file, we don't need to copy these flog related service
+
+185
+00:13:11,000 --> 00:13:15,000
+because we don't need that sample application inside our scenario.
+
+186
+00:13:15,000 --> 00:13:18,000
+Now if we try to go and check what is present inside the other Yaml files.
+
+187
+00:13:18,000 --> 00:13:21,000
+So this is the Yaml file related to promtail
+
+188
+00:13:21,000 --> 00:13:25,000
+So they have defined the configurations on how promtail should work.
+
+189
+00:13:25,000 --> 00:13:31,000
+You can see here, if it is Http protocol, it is going to listen at the port 9080.
+
+190
+00:13:31,000 --> 00:13:34,000
+Otherwise if it is grpc it is going to listen at the port zero.
+
+191
+00:13:34,000 --> 00:13:41,000
+Now if you see under the clients it is going to connect with the gateway at the Port 3100 and using
+
+192
+00:13:41,000 --> 00:13:49,000
+this URL only, it is going to push all the logs that it is going to read from other microservices.
+
+193
+00:13:49,000 --> 00:13:52,000
+Here we have some scrape related configurations.
+
+194
+00:13:52,000 --> 00:13:55,000
+They have given a job name which is flog_scrap.
+
+195
+00:13:55,000 --> 00:14:02,000
+Since they are using a app with the name flog, they have defined the job name as flog_scrap.
+
+196
+00:14:02,000 --> 00:14:03,000
+We don't need to change any of this.
+
+197
+00:14:03,000 --> 00:14:05,000
+Fine with any job name.
+
+198
+00:14:05,000 --> 00:14:07,000
+The job name can be any random value.
+
+199
+00:14:07,000 --> 00:14:14,000
+And these scrape configs you can see they have defined some configurations where my promtail is going to
+
+200
+00:14:14,000 --> 00:14:21,000
+read the content from my docker containers with the help of the socket paths present inside all my containers
+
+201
+00:14:21,000 --> 00:14:27,000
+and the refresh interval is going to be five seconds and whatever data my promtail is going to read,
+
+202
+00:14:27,000 --> 00:14:29,000
+I have defined with the help of regex
+
+203
+00:14:29,000 --> 00:14:35,000
+That means I want my promtail to read all kind of logs data and the target label is going to be container.
+
+204
+00:14:35,000 --> 00:14:40,000
+So all these logs will be assigned to a label with the target label as container.
+
+205
+00:14:40,000 --> 00:14:42,000
+So this is what they have mentioned inside the promtail.
+
+206
+00:14:42,000 --> 00:14:49,000
+So you don't need to understand everything about this because most of these work is related to the DevOps
+
+207
+00:14:49,000 --> 00:14:50,000
+or platform team.
+
+208
+00:14:50,000 --> 00:14:56,000
+But it will be good for you to know all these basics so that in future you can try to implement all
+
+209
+00:14:56,000 --> 00:14:59,000
+of them on your own or you can try to help your DevOps
+
+210
+00:15:00,000 --> 00:15:03,000
+or platform team in setting up all these inside your project.
+
+211
+00:15:03,000 --> 00:15:07,000
+Now let's go and see what is present inside the loki-config.yml.
+
+212
+00:15:07,000 --> 00:15:11,000
+So here it is going to listen at the port 3100 and post the port
+
+213
+00:15:11,000 --> 00:15:15,000
+there are some other configurations which are respective to loki.
+
+214
+00:15:15,000 --> 00:15:21,000
+The very important information that I want you to understand here is, you can see they're trying to store
+
+215
+00:15:21,000 --> 00:15:27,000
+all the logs using the service minio, which is exposing at the Port 9000, and they have created some
+
+216
+00:15:27,000 --> 00:15:32,000
+bucket names like loki-data with some random key ID and some secret.
+
+217
+00:15:32,000 --> 00:15:36,000
+So they have defined some storage related configurations.
+
+218
+00:15:36,000 --> 00:15:42,000
+So inside our local system it is going to leverage Minio and our local folder system to store all the
+
+219
+00:15:42,000 --> 00:15:42,000
+logs.
+
+220
+00:15:42,000 --> 00:15:49,000
+But in your real projects, if you want to use some real cloud storage, you can come here and change
+
+221
+00:15:49,000 --> 00:15:53,000
+all the details inside this loki-config.yml
+
+222
+00:15:53,000 --> 00:15:57,000
+There'll be good amount of information inside the official documentation to help you around that.
+
+223
+00:15:57,000 --> 00:16:05,000
+Now we understand all these three Yaml files as a next step we need to set up them inside our docker
+
+224
+00:16:05,000 --> 00:16:09,000
+compose file we already have in our microservices project.
+
+225
+00:16:09,000 --> 00:16:12,000
+So let's try to continue this discussion in the next lecture.
+
+226
+00:16:12,000 --> 00:16:15,000
+Thank you and I'll catch you in the next lecture bye.
+

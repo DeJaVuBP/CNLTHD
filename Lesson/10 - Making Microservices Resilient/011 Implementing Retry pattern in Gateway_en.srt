@@ -1,0 +1,616 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now inside this lecture, let's try to implement retry pattern with the help of Spring Cloud Gateway.
+
+2
+00:00:06,000 --> 00:00:11,000
+As of now, you can see inside accounts microservice configurations.
+
+3
+00:00:11,000 --> 00:00:14,000
+We have enabled the circuit breaker pattern.
+
+4
+00:00:14,000 --> 00:00:20,000
+Maybe this time we can try to implement retry pattern inside the loans microservice. For the same just
+
+5
+00:00:20,000 --> 00:00:27,000
+after these addResponseHeaderFilter(), I'm going to invoke a new filter with the name retry.
+
+6
+00:00:27,000 --> 00:00:33,000
+So there are multiple retry filters where you can simply mention the number of retries, but other than
+
+7
+00:00:33,000 --> 00:00:36,000
+retries, we also want to provide other configurations.
+
+8
+00:00:36,000 --> 00:00:43,000
+That's why I'm trying to invoke the very first filter that accepts retry related configurations.
+
+9
+00:00:43,000 --> 00:00:45,000
+So let me invoke the same.
+
+10
+00:00:45,000 --> 00:00:51,000
+And inside this I'm going to write a lambda expression with the input variable name retry config.
+
+11
+00:00:51,000 --> 00:00:58,000
+So using the same retry config, first I'm going to invoke setRetries() with the help of setRetries().
+
+12
+00:00:58,000 --> 00:01:05,000
+I want to let my spring cloud gateway how many times I want to retry the operation in case of any issue.
+
+13
+00:01:05,000 --> 00:01:07,000
+So here I'm going to mention three.
+
+14
+00:01:07,000 --> 00:01:12,000
+That means I want to retry an operation total three times.
+
+15
+00:01:12,000 --> 00:01:15,000
+Once we define these number of retries
+
+16
+00:01:15,000 --> 00:01:24,000
+next we can invoke set() method to this method we can pass what type of Http methods needs to be considered
+
+17
+00:01:24,000 --> 00:01:26,000
+for retry operation.
+
+18
+00:01:26,000 --> 00:01:32,000
+Like we discussed before, we should be very careful with the retry operations and we need to make sure
+
+19
+00:01:32,000 --> 00:01:38,000
+we are performing this retry operation only for the idempotent operations. Like httpGet()
+
+20
+00:01:38,000 --> 00:01:43,000
+So to convey the same, we can use these set() methods to this set methods,
+
+21
+00:01:43,000 --> 00:01:46,000
+we can pass list of http methods like here.
+
+22
+00:01:46,000 --> 00:01:50,000
+I just wanted to pass HttpMethod.GET.
+
+23
+00:01:50,000 --> 00:01:51,000
+If needed
+
+24
+00:01:51,000 --> 00:01:55,000
+we can mention any number of Http methods to these set methods.
+
+25
+00:01:55,000 --> 00:02:02,000
+As of now you can see I'm trying to enable this retry pattern only for get operations because there
+
+26
+00:02:02,000 --> 00:02:08,000
+won't be any side effects whenever we are trying to invoke the get operation multiple times, whereas
+
+27
+00:02:08,000 --> 00:02:12,000
+with the post, patch, update there can be some side effects.
+
+28
+00:02:12,000 --> 00:02:18,000
+Even delete also should be fine, but I don't want to implement retry pattern for delete.
+
+29
+00:02:18,000 --> 00:02:25,000
+We never know if someone screw up the where conditions inside the SQL query, then we may end up having
+
+30
+00:02:25,000 --> 00:02:26,000
+some side effects.
+
+31
+00:02:26,000 --> 00:02:30,000
+That's why for now I'm going to go with only GET HttpMethod.
+
+32
+00:02:30,000 --> 00:02:36,000
+After this set methods we can invoke one more method which is setBackoff().
+
+33
+00:02:36,000 --> 00:02:39,000
+There are two types of backoff methods.
+
+34
+00:02:39,000 --> 00:02:46,000
+You can invoke the Backoff method, which is accepting multiple input parameters. To this setBackoof()
+
+35
+00:02:46,000 --> 00:02:47,000
+method.
+
+36
+00:02:47,000 --> 00:02:49,000
+I'm going to pass input parameters
+
+37
+00:02:49,000 --> 00:02:54,000
+like you can see there are four different parameters that I'm trying to pass.
+
+38
+00:02:54,000 --> 00:03:00,000
+So if you try to run these setBackoff() method, we will be able to see what are these parameters.
+
+39
+00:03:00,000 --> 00:03:05,000
+So the very first parameter indicates what is the first backoff that you want to follow.
+
+40
+00:03:05,000 --> 00:03:12,000
+So using this first backoff value, my spring cloud gateway will wait for 100 milliseconds whenever it
+
+41
+00:03:12,000 --> 00:03:15,000
+is trying to initiate the very first retry operation.
+
+42
+00:03:15,000 --> 00:03:19,000
+And the next parameter that we have here is, max backoff.
+
+43
+00:03:19,000 --> 00:03:22,000
+Think like you have configured the number of retries as ten.
+
+44
+00:03:22,000 --> 00:03:28,000
+So for these kind of higher number of retries, if you keep on applying the factor based upon the previous
+
+45
+00:03:28,000 --> 00:03:34,000
+backoff number at certain point of time, the backoff time or the interval between two retry operations
+
+46
+00:03:34,000 --> 00:03:36,000
+is going to be a very high number.
+
+47
+00:03:36,000 --> 00:03:41,000
+That's why in order to control that behavior, we can always define these max backoff.
+
+48
+00:03:41,000 --> 00:03:48,000
+So with this maxBackoff() at any point of time, my spring cloud gateway will wait only for a maximum
+
+49
+00:03:48,000 --> 00:03:53,000
+of 1000 milliseconds or one second between two retry operations.
+
+50
+00:03:53,000 --> 00:03:59,000
+And the third parameter indicates what is a factor that we want the spring cloud gateway to apply based
+
+51
+00:03:59,000 --> 00:04:01,000
+upon the previous backoff value.
+
+52
+00:04:01,000 --> 00:04:04,000
+And the fourth one, which is a Boolean parameter.
+
+53
+00:04:04,000 --> 00:04:11,000
+So based upon these boolean, we are trying to tell Spring Cloud Gateway whether it needs to apply the
+
+54
+00:04:11,000 --> 00:04:15,000
+factor value on the previous backoff number or the initial backoff number.
+
+55
+00:04:15,000 --> 00:04:22,000
+Since we are setting these boolean as true, my Spring Cloud Gateway always considered the previous
+
+56
+00:04:22,000 --> 00:04:22,000
+backoff.
+
+57
+00:04:22,000 --> 00:04:27,000
+On top of that, it is going to apply the factor value that we have provided.
+
+58
+00:04:27,000 --> 00:04:33,000
+So with this we have configured and enabled the retry pattern for loans microservice for all the REST
+
+59
+00:04:33,000 --> 00:04:36,000
+APIs that supports Http GET method.
+
+60
+00:04:36,000 --> 00:04:38,000
+So let me save this changes.
+
+61
+00:04:38,000 --> 00:04:44,000
+So in order to test these changes, I'm going to make some changes inside my LoansController.
+
+62
+00:04:44,000 --> 00:04:50,000
+So if I go to the LoansController, here I'm going to introduce a logger statement.
+
+63
+00:04:50,000 --> 00:04:56,000
+So the logger statement is going to be logger.debug() Invoked loans contact-info API.
+
+64
+00:04:56,000 --> 00:05:00,000
+With this logger statement, we can easily identify how many times
+
+65
+00:05:00,000 --> 00:05:05,000
+my microservice API is invoked. And you can see this supports getMapping.
+
+66
+00:05:05,000 --> 00:05:12,000
+So whenever there is an issue happens inside this REST API, my spring cloud gateway is going to retry
+
+67
+00:05:12,000 --> 00:05:14,000
+total number of three times.
+
+68
+00:05:14,000 --> 00:05:19,000
+So let me put a breakpoint here and save this changes and I'll do a build.
+
+69
+00:05:19,000 --> 00:05:24,000
+Once the build is completed, I'm going to restart my loans and gateway server.
+
+70
+00:05:24,000 --> 00:05:28,000
+So let me stop my LoansApplication and post that
+
+71
+00:05:28,000 --> 00:05:31,000
+I'm also going to stop the Gateway Server application.
+
+72
+00:05:31,000 --> 00:05:37,000
+Once both my loans and gateway server applications are stopped, I'm going to first start the loans
+
+73
+00:05:37,000 --> 00:05:38,000
+Microservice.
+
+74
+00:05:38,000 --> 00:05:44,000
+Once the loans microservice is started, I'm going to start the Gateway server application. As a next
+
+75
+00:05:44,000 --> 00:05:45,000
+step,
+
+76
+00:05:45,000 --> 00:05:52,000
+I can go to the postman and I can try to invoke these contact-info API and you can see we also have
+
+77
+00:05:52,000 --> 00:05:53,000
+a breakpoint.
+
+78
+00:05:53,000 --> 00:06:00,000
+So I'm intentionally going to introduce timeout exception inside my REST API and in the same process
+
+79
+00:06:00,000 --> 00:06:02,000
+we can see the retry demo.
+
+80
+00:06:02,000 --> 00:06:08,000
+So inside the postman I'm trying to invoke the loans API with the name contact-info and I'm clicking
+
+81
+00:06:08,000 --> 00:06:09,000
+on this send button.
+
+82
+00:06:09,000 --> 00:06:13,000
+This will stop the execution at my breakpoint.
+
+83
+00:06:13,000 --> 00:06:14,000
+Inside my postman
+
+84
+00:06:14,000 --> 00:06:17,000
+you can see I got an response
+
+85
+00:06:17,000 --> 00:06:20,000
+Gateway Timeout after 8.95 seconds.
+
+86
+00:06:20,000 --> 00:06:21,000
+That means totally
+
+87
+00:06:21,000 --> 00:06:25,000
+there are multiple retry attempts happen without retry.
+
+88
+00:06:25,000 --> 00:06:31,000
+Previously we saw our global timeout configuration is only maximum two seconds. But since right now
+
+89
+00:06:31,000 --> 00:06:38,000
+we are retrying total three times along with the initial first request which will make the total number
+
+90
+00:06:38,000 --> 00:06:40,000
+of requests as four.
+
+91
+00:06:40,000 --> 00:06:43,000
+That's why you are able to see the total time as around nine seconds.
+
+92
+00:06:43,000 --> 00:06:46,000
+We can also confirm the same by looking at the logger.
+
+93
+00:06:46,000 --> 00:06:50,000
+Here you can see as of now, the breakpoint is stopping my execution.
+
+94
+00:06:50,000 --> 00:06:54,000
+So let me go to the console of LoansApplication.
+
+95
+00:06:54,000 --> 00:06:57,000
+So here my logger never executed because we put a breakpoint.
+
+96
+00:06:57,000 --> 00:07:03,000
+So here I'm trying to clean the console and I will release the breakpoint as soon as I release the breakpoint.
+
+97
+00:07:03,000 --> 00:07:05,000
+You can see there is an exception.
+
+98
+00:07:05,000 --> 00:07:12,000
+On top of that, if you go to the top here, we have a logger with the name Invoked Loans contact-info
+
+99
+00:07:12,000 --> 00:07:12,000
+API.
+
+100
+00:07:12,000 --> 00:07:19,000
+But immediately we got some other exception, which is SocketException because we put this breakpoint
+
+101
+00:07:19,000 --> 00:07:20,000
+for a longer time.
+
+102
+00:07:20,000 --> 00:07:22,000
+Due to that the thread got killed.
+
+103
+00:07:22,000 --> 00:07:30,000
+So to see the retry one more time, this time I'm going to release the breakpoint as soon as I get the
+
+104
+00:07:30,000 --> 00:07:31,000
+response on the postman.
+
+105
+00:07:31,000 --> 00:07:36,000
+So let me click on the send button and here I'm waiting for the response to come.
+
+106
+00:07:36,000 --> 00:07:37,000
+As soon as the response came.
+
+107
+00:07:37,000 --> 00:07:44,000
+I'm trying to release the breakpoint here inside the loans microservice. So if I go to the console,
+
+108
+00:07:44,000 --> 00:07:50,000
+you can see here right now we have the logger statement total four times like invoke loans, invoke
+
+109
+00:07:50,000 --> 00:07:57,000
+loans, because this is the very initial request since the response didn't come within the two seconds,
+
+110
+00:07:57,000 --> 00:08:00,000
+my gateway might have received the TimeoutException.
+
+111
+00:08:00,000 --> 00:08:01,000
+That's why it is
+
+112
+00:08:01,000 --> 00:08:06,000
+again, retry the operation total number of three times with this,
+
+113
+00:08:06,000 --> 00:08:09,000
+I'm assuming you are clear about this demo.
+
+114
+00:08:09,000 --> 00:08:13,000
+I can also show you this demo using one more approach. For the same
+
+115
+00:08:13,000 --> 00:08:15,000
+I'm going to remove this breakpoint.
+
+116
+00:08:15,000 --> 00:08:22,000
+After removing the breakpoint, I'm going to throw an RuntimeException intentionally from this method
+
+117
+00:08:22,000 --> 00:08:25,000
+using throw new RuntimException.
+
+118
+00:08:25,000 --> 00:08:31,000
+So as soon as you mentioned this throw statement, the below code is going to throw an error because
+
+119
+00:08:31,000 --> 00:08:33,000
+it is never reachable.
+
+120
+00:08:33,000 --> 00:08:36,000
+That's why I'm trying to comment this code.
+
+121
+00:08:36,000 --> 00:08:41,000
+Once we commented this code, I'm going to save this changes and do a build.
+
+122
+00:08:41,000 --> 00:08:46,000
+Once the build is completed, we need to make sure we are restarting loans and gateway server.
+
+123
+00:08:46,000 --> 00:08:48,000
+So let me stop the loans
+
+124
+00:08:48,000 --> 00:08:51,000
+microservice followed by Gateway Server.
+
+125
+00:08:51,000 --> 00:08:58,000
+Once these services are stopped, I'm going to first start the LoansApplication. After my LoansApplication
+
+126
+00:08:58,000 --> 00:08:59,000
+started successfully.
+
+127
+00:08:59,000 --> 00:09:02,000
+I'm going to start the Gateway Server application.
+
+128
+00:09:02,000 --> 00:09:04,000
+So now this time there is no breakpoint.
+
+129
+00:09:04,000 --> 00:09:07,000
+You should get an immediate response.
+
+130
+00:09:07,000 --> 00:09:08,000
+Let me go to the postman.
+
+131
+00:09:08,000 --> 00:09:10,000
+So let me click on the send button.
+
+132
+00:09:10,000 --> 00:09:13,000
+You can see we are getting a internal server error.
+
+133
+00:09:13,000 --> 00:09:19,000
+Now, if you go to the LoansApplication console here, you should be able to see these Invoke Loans
+
+134
+00:09:19,000 --> 00:09:22,000
+contact-info API total four times.
+
+135
+00:09:22,000 --> 00:09:24,000
+This confirms our gateway server
+
+136
+00:09:24,000 --> 00:09:28,000
+also trying to retry even in the scenario of RuntimeException.
+
+137
+00:09:28,000 --> 00:09:33,000
+With this, we are giving an opportunity for our microservice to recover.
+
+138
+00:09:33,000 --> 00:09:39,000
+Whenever there is a network issue or temporary outage issues, there is a good chance that your request
+
+139
+00:09:39,000 --> 00:09:42,000
+may get successful in these kind of network issues.
+
+140
+00:09:42,000 --> 00:09:48,000
+Since we have enabled the Retry Pattern inside the loans microservice, it is going to be fault tolerant
+
+141
+00:09:48,000 --> 00:09:56,000
+for these kind of network related issues because behind the scenes Gateway Server is going to make multiple
+
+142
+00:09:56,000 --> 00:10:00,000
+retry attempts silently without any manual intervention.
+
+143
+00:10:00,000 --> 00:10:02,000
+I hope you are clear with these changes.
+
+144
+00:10:02,000 --> 00:10:06,000
+I also mentioned the list of code changes that we made inside this lecture in this slide.
+
+145
+00:10:06,000 --> 00:10:13,000
+First, inside the Gateway Server application class, we have added the retry related configurations
+
+146
+00:10:13,000 --> 00:10:16,000
+with the help of retry filter like you can see on the screen.
+
+147
+00:10:16,000 --> 00:10:19,000
+Apart from these changes, we have not done any other changes.
+
+148
+00:10:19,000 --> 00:10:25,000
+We have done some changes inside the LoansController to add some logger statements or to introduce
+
+149
+00:10:25,000 --> 00:10:26,000
+some RuntimeExceptions.
+
+150
+00:10:26,000 --> 00:10:29,000
+But those changes we have done only to see the demo.
+
+151
+00:10:29,000 --> 00:10:34,000
+That's why I'm going to rollback these changes, especially related to throw RuntimeException.
+
+152
+00:10:34,000 --> 00:10:39,000
+I don't want to check in the code that will always throw the RuntimeException. With this
+
+153
+00:10:39,000 --> 00:10:45,000
+I'm assuming your super, super clear about how to implement Retry Pattern with the help of Gateway server.
+
+154
+00:10:45,000 --> 00:10:48,000
+Thank you and I'll catch you in the next lecture bye.
+

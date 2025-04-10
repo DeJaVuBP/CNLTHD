@@ -1,0 +1,324 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we have created a circuit breaker pattern inside the Gateway server, but it does not have
+
+2
+00:00:06,000 --> 00:00:07,000
+any fallback mechanism.
+
+3
+00:00:07,000 --> 00:00:13,000
+Since we don't have any fallback mechanism inside the response, we are throwing some runtime exception
+
+4
+00:00:13,000 --> 00:00:18,000
+details like service are unavailable or gateway timeout exception. In real business applications
+
+5
+00:00:18,000 --> 00:00:25,000
+throwing RuntimeExceptions to the client applications or to the UI applications is not a valid approach.
+
+6
+00:00:25,000 --> 00:00:30,000
+That's why we need to have some fallback mechanism and inside this fallback mechanism we can write some
+
+7
+00:00:30,000 --> 00:00:36,000
+logic where we can send some message to the client applications, which is going to make sense for them
+
+8
+00:00:36,000 --> 00:00:39,000
+to create a fallback mechanism for circuit breaker pattern.
+
+9
+00:00:39,000 --> 00:00:43,000
+It is going to be super easy inside our Gateway server application.
+
+10
+00:00:43,000 --> 00:00:46,000
+First, we need to create a controller class.
+
+11
+00:00:46,000 --> 00:00:48,000
+As of now, you can see we have this filters package.
+
+12
+00:00:48,000 --> 00:00:55,000
+Very similarly, I'm going to create a new package inside my gateway server with the name controller
+
+13
+00:00:55,000 --> 00:01:01,000
+and inside this controller I'm going to create a new controller class and the class name is going to
+
+14
+00:01:01,000 --> 00:01:03,000
+be FallbackController.
+
+15
+00:01:03,000 --> 00:01:09,000
+And inside this controller I'm going to mention @RestController annotation since we want
+
+16
+00:01:09,000 --> 00:01:15,000
+to build some REST API to save some time here, I'm going to create a RSET API inside this controller
+
+17
+00:01:15,000 --> 00:01:17,000
+by pasting some code.
+
+18
+00:01:17,000 --> 00:01:23,000
+You can see I have created a method inside this controller class with the name contactSupport and this
+
+19
+00:01:23,000 --> 00:01:29,000
+is going to support the path contact support and inside this method or inside this REST API, I'm
+
+20
+00:01:29,000 --> 00:01:34,000
+simply returning an business error saying that an error occurred.
+
+21
+00:01:34,000 --> 00:01:37,000
+Please try after some time or contact the support team.
+
+22
+00:01:37,000 --> 00:01:42,000
+So this is a simple business logic that I have written as a fallback mechanism.
+
+23
+00:01:42,000 --> 00:01:48,000
+In your real projects you may have some complex fallback requirements like triggering an email to the
+
+24
+00:01:48,000 --> 00:01:53,000
+support team or sending some default response, so it is up to your client requirements and accordingly
+
+25
+00:01:53,000 --> 00:01:55,000
+you can implement your own logic.
+
+26
+00:01:55,000 --> 00:02:01,000
+As of now, I am trying to send a simple business error from my fallback REST API since we are trying
+
+27
+00:02:01,000 --> 00:02:07,000
+to build a REST API inside the Gateway server which is implemented on top of spring reactive, we need
+
+28
+00:02:07,000 --> 00:02:11,000
+to make sure we are wrapping the return String with the help of mono.
+
+29
+00:02:11,000 --> 00:02:17,000
+And very similarly here also we need to use Mono.just() and to this just()  we need to pass what
+
+30
+00:02:17,000 --> 00:02:19,000
+is a String that we want to send.
+
+31
+00:02:19,000 --> 00:02:23,000
+Now we have the REST API that we want to invoke as a fallback mechanism.
+
+32
+00:02:23,000 --> 00:02:28,000
+As a next step, we need to integrate this REST API into our circuit breaker pattern.
+
+33
+00:02:28,000 --> 00:02:32,000
+For the same, let's go to the Gateway server application just after the set name.
+
+34
+00:02:32,000 --> 00:02:35,000
+We can also invoke setFallbackUri().
+
+35
+00:02:35,000 --> 00:02:42,000
+And to this fallbackUri I'm going to send what is a fallback REST API URL details.
+
+36
+00:02:42,000 --> 00:02:46,000
+So here I'm going to mention forward:/contactsupport.
+
+37
+00:02:46,000 --> 00:02:49,000
+With this, I'm telling to my circuit breaker pattern.
+
+38
+00:02:49,000 --> 00:02:55,000
+Whenever there is an exception happens, please invoke this fallback by forwarding the request to the
+
+39
+00:02:55,000 --> 00:02:56,000
+contact support.
+
+40
+00:02:56,000 --> 00:02:58,000
+With this we have some fallback mechanism.
+
+41
+00:02:58,000 --> 00:03:00,000
+Let me save this changes and do a build.
+
+42
+00:03:00,000 --> 00:03:04,000
+Once the build is completed, we can go to the postman and try to test these changes.
+
+43
+00:03:04,000 --> 00:03:06,000
+First, I'll try to click on the send button.
+
+44
+00:03:06,000 --> 00:03:10,000
+You'll get a happy response so everyone is happy. Inside the actuator
+
+45
+00:03:10,000 --> 00:03:15,000
+you can see as of now the overall status is closed and if I try to refresh this page, there is one
+
+46
+00:03:15,000 --> 00:03:21,000
+request received after my gateway server is restarted and the request is also processed successfully.
+
+47
+00:03:21,000 --> 00:03:27,000
+Now I'll put a breakpoint inside my accounts controller and try to mimic the scenario of slow response
+
+48
+00:03:27,000 --> 00:03:28,000
+from the accounts
+
+49
+00:03:28,000 --> 00:03:33,000
+microservice. So here I'm trying to click on this send button and the request stopped at the breakpoint,
+
+50
+00:03:33,000 --> 00:03:34,000
+but I'm not going to release it.
+
+51
+00:03:34,000 --> 00:03:36,000
+I'll go to the postman inside my postman
+
+52
+00:03:36,000 --> 00:03:42,000
+you can see I am getting the response from my fallback mechanism, which is an error occurred
+
+53
+00:03:42,000 --> 00:03:47,000
+please try after some time or contact support team. With this my client applications will never know
+
+54
+00:03:47,000 --> 00:03:49,000
+what is happening behind the scenes.
+
+55
+00:03:49,000 --> 00:03:52,000
+They will never receive gateway timeout or they will never receive
+
+56
+00:03:52,000 --> 00:03:53,000
+upstream.
+
+57
+00:03:53,000 --> 00:03:54,000
+Service is not available.
+
+58
+00:03:54,000 --> 00:03:57,000
+They'll always simply receive this message.
+
+59
+00:03:57,000 --> 00:04:02,000
+So it is up to you what kind of fallback mechanism you want to write inside your fallback REST API.
+
+60
+00:04:02,000 --> 00:04:08,000
+And this fallback will never get invoked if the request is being processed successfully.
+
+61
+00:04:08,000 --> 00:04:10,000
+I can also show you that in the demo.
+
+62
+00:04:10,000 --> 00:04:14,000
+So let me release this breakpoint and release the previous requests that I have.
+
+63
+00:04:14,000 --> 00:04:15,000
+Now I'm going to click on the send button.
+
+64
+00:04:15,000 --> 00:04:20,000
+You can see in the success scenario, the fallback is never coming into picture.
+
+65
+00:04:20,000 --> 00:04:26,000
+With this, I'm assuming your super clear about how to implement circuit breaker pattern inside the
+
+66
+00:04:26,000 --> 00:04:27,000
+gateway server.
+
+67
+00:04:27,000 --> 00:04:31,000
+I also have a slide to summarize the steps that we have followed.
+
+68
+00:04:31,000 --> 00:04:35,000
+Here inside this slide I have mentioned all the steps that we have followed for your reference so that in
+
+69
+00:04:35,000 --> 00:04:40,000
+future you can always quickly refer to this slide to brush up your skills around the circuit breaker
+
+70
+00:04:40,000 --> 00:04:41,000
+pattern.
+
+71
+00:04:41,000 --> 00:04:46,000
+In the very first step, we have added the Maven dependency inside the pom.xml of Gateway Server.
+
+72
+00:04:46,000 --> 00:04:52,000
+Later on we invoked the internal filter which is circuit breaker and using the circuit breaker we have
+
+73
+00:04:52,000 --> 00:04:58,000
+defined a name to our pattern and we have also defined the fallback and at last inside the application.yml
+
+74
+00:04:59,000 --> 00:04:59,000
+we have
+
+75
+00:05:00,000 --> 00:05:05,000
+to mention these properties like you can see on the slide, the names like sliding window size, permitted
+
+76
+00:05:05,000 --> 00:05:10,000
+number of calls in half open status, failure rate threshold and wait duration in open state.
+
+77
+00:05:10,000 --> 00:05:16,000
+Now we are super, super clear about how to implement a circuit breaker pattern inside an edge server
+
+78
+00:05:16,000 --> 00:05:18,000
+or inside a gateway server application.
+
+79
+00:05:18,000 --> 00:05:24,000
+As a next step, let's try to understand how to implement the same gateway pattern inside individual
+
+80
+00:05:24,000 --> 00:05:26,000
+microservices like accounts
+
+81
+00:05:26,000 --> 00:05:30,000
+microservice. Thank you and I'll catch you in the next lecture bye.
+

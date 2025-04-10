@@ -1,0 +1,304 @@
+1
+00:00:00,000 --> 00:00:06,000
+With the current setup, we are able to see that trace ID and spam ID inside our Loki logs.
+
+2
+00:00:06,000 --> 00:00:12,000
+But to understand that tracing information with the help of tempo, we need to take this trace ID,
+
+3
+00:00:12,000 --> 00:00:17,000
+we need to go to the tempo and search for the same and post that only we are able to see the complete
+
+4
+00:00:17,000 --> 00:00:18,000
+tracing information.
+
+5
+00:00:18,000 --> 00:00:25,000
+But don't you think it is going to be super easy for developers if they can directly open the tempo
+
+6
+00:00:25,000 --> 00:00:27,000
+from this log statement itself.
+
+7
+00:00:27,000 --> 00:00:28,000
+We can achieve the same.
+
+8
+00:00:28,000 --> 00:00:29,000
+For the same,
+
+9
+00:00:29,000 --> 00:00:32,000
+we need to go to the Loki data source.
+
+10
+00:00:32,000 --> 00:00:34,000
+So let me go to the Loki data source.
+
+11
+00:00:34,000 --> 00:00:38,000
+Here under the connections, I'm going to click on the data source and I'll open the Loki.
+
+12
+00:00:38,000 --> 00:00:43,000
+So if you see under the Loki, we have a concept called derived fields.
+
+13
+00:00:43,000 --> 00:00:50,000
+With the help of these derived fields, we can try to tell to the Loki whenever it identifies some pattern,
+
+14
+00:00:50,000 --> 00:00:56,000
+it can try to derive a field and using that field we can try to link with other components inside the
+
+15
+00:00:56,000 --> 00:00:57,000
+grafana.
+
+16
+00:00:57,000 --> 00:01:04,000
+For the same, we need to click on this ad, so here I'm going to give the field name as trace ID and
+
+17
+00:01:04,000 --> 00:01:09,000
+post that we need to give the regex that is going to match our logging pattern.
+
+18
+00:01:09,000 --> 00:01:11,000
+So let me give the regex pattern here.
+
+19
+00:01:11,000 --> 00:01:13,000
+So this is the regex pattern that I want to give.
+
+20
+00:01:14,000 --> 00:01:18,000
+We can also try to test this pattern by taking some example log message.
+
+21
+00:01:18,000 --> 00:01:21,000
+So here we can try to paste our log message.
+
+22
+00:01:21,000 --> 00:01:26,000
+So let me take the log message by opening the grafana in another tab.
+
+23
+00:01:26,000 --> 00:01:33,000
+So here I'm going to open the Grafana and go to the dashboard and go to the Explore option and search
+
+24
+00:01:33,000 --> 00:01:35,000
+for logs of accounts
+
+25
+00:01:35,000 --> 00:01:42,000
+microservice. So let me run this query and here I'm going to take this entire content of tracing information.
+
+26
+00:01:42,000 --> 00:01:49,000
+So let me copy this value into the debug log message and you can see based upon the regex pattern I
+
+27
+00:01:49,000 --> 00:01:57,000
+have given here from my log message, it is going to extract that trace ID and this value will be assigned
+
+28
+00:01:57,000 --> 00:01:59,000
+to the field name that I have created, which is trace ID.
+
+29
+00:02:00,000 --> 00:02:06,000
+So whenever it extracts a field like trace ID, I want to establish a link to one of the components
+
+30
+00:02:06,000 --> 00:02:07,000
+inside the Grafana.
+
+31
+00:02:07,000 --> 00:02:13,000
+So for the same we need to click on this internal link and post that we need to select what is our data
+
+32
+00:02:13,000 --> 00:02:15,000
+source of other component.
+
+33
+00:02:15,000 --> 00:02:17,000
+Here we want to go to Tempo from Loki.
+
+34
+00:02:17,000 --> 00:02:20,000
+That's why we need to select this tempo. And post that
+
+35
+00:02:20,000 --> 00:02:27,000
+using this query we need to pass some query param which my tempo is going to use to search for the tracing
+
+36
+00:02:27,000 --> 00:02:29,000
+information based upon the trace ID. For the same,
+
+37
+00:02:29,000 --> 00:02:34,000
+since it is going to be internal link, we don't have to mention any domain.
+
+38
+00:02:34,000 --> 00:02:37,000
+We can directly mention this value which is dollar value.raw.
+
+39
+00:02:37,000 --> 00:02:43,000
+So let me mention the query value as $__.value.raw.
+
+40
+00:02:43,000 --> 00:02:49,000
+So what we are trying to say here is whatever value that we have extracted, the same we want to
+
+41
+00:02:49,000 --> 00:02:52,000
+pass as a query value to this TempoDataSource.
+
+42
+00:02:52,000 --> 00:02:55,000
+So let me save these changes by clicking on this save and test.
+
+43
+00:02:55,000 --> 00:02:58,000
+Now I can go to the Explore option.
+
+44
+00:02:58,000 --> 00:03:04,000
+Here this time I'm going to search for the logs again, like container and under the value I'll select the
+
+45
+00:03:04,000 --> 00:03:08,000
+accounts microservice and look for the logs of accounts microservice.
+
+46
+00:03:08,000 --> 00:03:14,000
+So here if you try to click on any of the log where we have trace information, you'll be able to see
+
+47
+00:03:14,000 --> 00:03:18,000
+a new field with the name trace ID and along with the trace value.
+
+48
+00:03:18,000 --> 00:03:22,000
+So here there is a link option for you with the name Tempo
+
+49
+00:03:22,000 --> 00:03:28,000
+if I try to click on this on the right hand side, it is going to open all the tracing information related
+
+50
+00:03:28,000 --> 00:03:30,000
+to that particular log.
+
+51
+00:03:30,000 --> 00:03:32,000
+Don't you think this is a very good option?
+
+52
+00:03:32,000 --> 00:03:34,000
+Off course everyone will like this option.
+
+53
+00:03:34,000 --> 00:03:36,000
+So this is the beauty of Grafana here.
+
+54
+00:03:36,000 --> 00:03:44,000
+So to make our life easy, instead of defining all these derived fields from the UI application every time,
+
+55
+00:03:44,000 --> 00:03:51,000
+what we can do is, we can try to define all these derived fields information inside the datasource.yml
+
+56
+00:03:51,000 --> 00:03:52,000
+file that we have.
+
+57
+00:03:52,000 --> 00:03:55,000
+So let me go to the datasource.yml file.
+
+58
+00:03:55,000 --> 00:04:01,000
+So under the Loki here, under this Json data, I'm going to mention some configurations related
+
+59
+00:04:01,000 --> 00:04:02,000
+to derived fields.
+
+60
+00:04:02,000 --> 00:04:06,000
+You can see I'm trying to use the datasourceUid of tempo. Under the tempo
+
+61
+00:04:06,000 --> 00:04:08,000
+you can see the uid that we have created
+
+62
+00:04:08,000 --> 00:04:12,000
+is tempo. The same value we have to mention here?
+
+63
+00:04:12,000 --> 00:04:18,000
+And what is the matter is what is your field name, which is trace ID and what is the internal URL or
+
+64
+00:04:18,000 --> 00:04:19,000
+query value.
+
+65
+00:04:19,000 --> 00:04:25,000
+So we have mentioned the same inside UI as well. But here we need to go to dollar symbols since this
+
+66
+00:04:25,000 --> 00:04:29,000
+is a Yaml configuration and very similarly under the regex pattern
+
+67
+00:04:29,000 --> 00:04:34,000
+also just to make sure that your Yaml configuration is considering the slash, we need to make sure
+
+68
+00:04:34,000 --> 00:04:40,000
+we are putting one more slash in all the places, wherever we have slashes, we follow the same kind
+
+69
+00:04:40,000 --> 00:04:46,000
+of rules whenever we try to create strings with special characters inside Java as well.
+
+70
+00:04:46,000 --> 00:04:48,000
+The same I'm trying to follow here. With this,
+
+71
+00:04:48,000 --> 00:04:54,000
+you don't have to mention the derived fields manually whenever your grafana is trying to create along
+
+72
+00:04:54,000 --> 00:04:59,000
+with the loki data source, it is going to consider all these derived fields that we have mentioned.
+
+73
+00:04:59,000 --> 00:05:00,000
+I hope you are
+
+74
+00:05:00,000 --> 00:05:01,000
+super, super clear.
+
+75
+00:05:01,000 --> 00:05:01,000
+Thank you.
+
+76
+00:05:01,000 --> 00:05:04,000
+And I'll catch you in the next lecture bye.
+

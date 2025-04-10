@@ -1,0 +1,468 @@
+1
+00:00:00,000 --> 00:00:07,000
+Inside this lecture, let's try to discuss on how to implement RateLimiter pattern inside normal spring
+
+2
+00:00:07,000 --> 00:00:08,000
+boot microservices.
+
+3
+00:00:08,000 --> 00:00:13,000
+Previously, we explored how to implement RateLimiter pattern inside a gateway server.
+
+4
+00:00:13,000 --> 00:00:19,000
+Now we can try to implement the same inside accounts microservice. For the same,
+
+5
+00:00:19,000 --> 00:00:22,000
+I selected these method which is getJavaVersion().
+
+6
+00:00:22,000 --> 00:00:29,000
+I want this method to be invoked based upon the rate limitations that I have defined.
+
+7
+00:00:29,000 --> 00:00:37,000
+For the same, we need to mention an annotation which is @RateLimiter pattern.
+
+8
+00:00:37,000 --> 00:00:42,000
+And to this annotation I want to pass what is the name of this configuration?
+
+9
+00:00:42,000 --> 00:00:47,000
+So the name I want to give as the same as method name, which is getJavaVersion().
+
+10
+00:00:47,000 --> 00:00:49,000
+For now, I will not give any fallback.
+
+11
+00:00:49,000 --> 00:00:54,000
+We can see how the behavior is going to be without fallback and with fallback.
+
+12
+00:00:54,000 --> 00:01:00,000
+After mentioning these RateLimiter annotation, we need to mention RateLimiter properties inside the
+
+13
+00:01:00,000 --> 00:01:02,000
+application.yml.
+
+14
+00:01:02,000 --> 00:01:06,000
+As of now we have circuit breaker retry related configurations.
+
+15
+00:01:06,000 --> 00:01:12,000
+So very similarly, I'm going to mention RateLimiter related properties.
+
+16
+00:01:12,000 --> 00:01:18,000
+Here I'm going to paste few properties like you can see resilience4j.ratelimiter and I'm trying to provide
+
+17
+00:01:18,000 --> 00:01:23,000
+these properties for all RateLimiter configurations inside my microservice.
+
+18
+00:01:23,000 --> 00:01:26,000
+That's why I have mentioned these default.
+
+19
+00:01:26,000 --> 00:01:29,000
+Now here we have mentioned three important properties.
+
+20
+00:01:29,000 --> 00:01:34,000
+First, let's try to understand what is this limit refresh period. For this property
+
+21
+00:01:34,000 --> 00:01:36,000
+I have mentioned 5000 milliseconds.
+
+22
+00:01:36,000 --> 00:01:40,000
+That means for every five seconds I want to renew the quota.
+
+23
+00:01:40,000 --> 00:01:44,000
+So what is our quota that I have set for each refresh period?
+
+24
+00:01:44,000 --> 00:01:50,000
+You can identify the same with the help of limit for period, which means for every five seconds I have
+
+25
+00:01:50,000 --> 00:01:53,000
+configured, only one request is allowed.
+
+26
+00:01:53,000 --> 00:01:57,000
+But in real production applications the number will be in thousands.
+
+27
+00:01:57,000 --> 00:02:00,000
+And the next property that we have here is timeout duration.
+
+28
+00:02:00,000 --> 00:02:06,000
+Think like one of the thread came and it is trying to invoke this specific API, but the RateLimited
+
+29
+00:02:06,000 --> 00:02:12,000
+did not allow it because the number of requests allowed during a particular period is exhausted.
+
+30
+00:02:12,000 --> 00:02:18,000
+So in such scenarios, with the help of this timeout duration, we are telling what is the maximum time
+
+31
+00:02:18,000 --> 00:02:24,000
+that my particular thread can wait for the new refresh period to arrive with the new quota.
+
+32
+00:02:24,000 --> 00:02:31,000
+So with this configuration my thread is going to wait for a maximum of one second. Within one second
+
+33
+00:02:31,000 --> 00:02:37,000
+if my RateLimiter is not allowing the request, then simply it is not going to wait further and return
+
+34
+00:02:37,000 --> 00:02:38,000
+back with the error.
+
+35
+00:02:38,000 --> 00:02:43,000
+You might have observed this, that this is something different from what we have discussed in the GatewayServer
+
+36
+00:02:43,000 --> 00:02:44,000
+.
+
+37
+00:02:44,000 --> 00:02:51,000
+I agree with you both has different approaches with a gateway server and Redis limiter and the KeyResolver,
+
+38
+00:02:51,000 --> 00:02:58,000
+we can enforce the quota limitations based upon our criteria like user or IP address or server.
+
+39
+00:02:58,000 --> 00:03:04,000
+But here, whenever we are trying to implement RateLimiter pattern without spring cloud gateway server,
+
+40
+00:03:04,000 --> 00:03:06,000
+then this is going to be a different approach.
+
+41
+00:03:06,000 --> 00:03:12,000
+Whatever configurations that you are going to provide here, this is going to apply for all type of
+
+42
+00:03:12,000 --> 00:03:14,000
+requests coming towards your API.
+
+43
+00:03:14,000 --> 00:03:21,000
+This we can use in a scenarios where you might have a infrastructure that can only handle 10,000 requests
+
+44
+00:03:21,000 --> 00:03:22,000
+for each second.
+
+45
+00:03:22,000 --> 00:03:29,000
+So beyond 10,000 requests you don't want to accept, then in such scenarios, this approach is going
+
+46
+00:03:29,000 --> 00:03:30,000
+to be super helpful
+
+47
+00:03:30,000 --> 00:03:38,000
+or you may also have different requirement where you want a particular low priority API to process less
+
+48
+00:03:38,000 --> 00:03:44,000
+number of requests so that other high priority APIs they can process without any issues.
+
+49
+00:03:44,000 --> 00:03:48,000
+All such kind of custom requirements you can achieve with this pattern.
+
+50
+00:03:48,000 --> 00:03:53,000
+So after making these changes, we can save these and do a build.
+
+51
+00:03:53,000 --> 00:03:58,000
+Once a build is completed, we can go ahead and start the accounts
+
+52
+00:03:58,000 --> 00:04:03,000
+microservice. Let me start the AccountsApplication and with this approach we don't need any reddish
+
+53
+00:04:03,000 --> 00:04:04,000
+container.
+
+54
+00:04:04,000 --> 00:04:11,000
+Once the AccountsApplication is started, I will restart my GatewayserverApplication because my
+
+55
+00:04:11,000 --> 00:04:14,000
+AccountsApplication is registered with the Eureka server
+
+56
+00:04:14,000 --> 00:04:18,000
+the same details I want my gateway server to fetch during the startup.
+
+57
+00:04:18,000 --> 00:04:23,000
+Now I'm going to start my GatewayserverApplication again. To demo these changes to you
+
+58
+00:04:23,000 --> 00:04:24,000
+I will go to the postman.
+
+59
+00:04:24,000 --> 00:04:30,000
+Inside the Postman there is a new request that is going to invoke the Java version API.
+
+60
+00:04:30,000 --> 00:04:36,000
+So let me first try to invoke this with the help of the send button so everything is happy we are getting
+
+61
+00:04:36,000 --> 00:04:37,000
+an output.
+
+62
+00:04:37,000 --> 00:04:44,000
+Now I will try to click on this send button multiple times so that I'm trying to send a lot of requests
+
+63
+00:04:44,000 --> 00:04:46,000
+to these API.
+
+64
+00:04:46,000 --> 00:04:48,000
+So let me click on the send button.
+
+65
+00:04:48,000 --> 00:04:55,000
+So at some point of time you should be seeing the error saying that internal server error and the error
+
+66
+00:04:55,000 --> 00:04:59,000
+message is RateLimiter does not permit further details.
+
+67
+00:04:59,000 --> 00:05:00,000
+Since inside the accounts
+
+68
+00:05:00,000 --> 00:05:04,000
+microservice we have a GlobalExceptionHandler.
+
+69
+00:05:04,000 --> 00:05:07,000
+It is throwing these internal server error 500.
+
+70
+00:05:07,000 --> 00:05:13,000
+But behind the scenes, the reason why we are getting is due to this RateLimiter. In the browser
+
+71
+00:05:13,000 --> 00:05:14,000
+also we can validate this.
+
+72
+00:05:14,000 --> 00:05:16,000
+So first I'm trying to invoke this.
+
+73
+00:05:16,000 --> 00:05:18,000
+You can see I'm getting the message.
+
+74
+00:05:18,000 --> 00:05:20,000
+So this is the output.
+
+75
+00:05:20,000 --> 00:05:21,000
+Please ignore this error.
+
+76
+00:05:21,000 --> 00:05:29,000
+If I try to refresh my browser multiple times at some point of time we will get an same error here.
+
+77
+00:05:29,000 --> 00:05:35,000
+As a next step, we can try to define the fallback mechanism for this RateLimiter pattern. For the same
+
+78
+00:05:35,000 --> 00:05:37,000
+inside the AccountsController.
+
+79
+00:05:37,000 --> 00:05:41,000
+I'm going to mention the parameter fallback method.
+
+80
+00:05:41,000 --> 00:05:47,000
+And to this I'm going to give the name as getJavaVersion() fall back.
+
+81
+00:05:47,000 --> 00:05:52,000
+So let me create the same kind of method as a fallback method, because whenever we are trying to create
+
+82
+00:05:52,000 --> 00:05:58,000
+the fallback method, we need to make sure the method signature is same as the original method.
+
+83
+00:05:58,000 --> 00:06:05,000
+So let me replace the method name post that we need to make sure we are passing one more method parameter
+
+84
+00:06:05,000 --> 00:06:06,000
+which is Throwable.
+
+85
+00:06:06,000 --> 00:06:12,000
+Once I have mentioned this parameter as a next step, I'm going to write the fallback logic.
+
+86
+00:06:12,000 --> 00:06:19,000
+So here the fallback logic that I want to write is I'm going to simply return the output, which is
+
+87
+00:06:19,000 --> 00:06:20,000
+Java 17.
+
+88
+00:06:20,000 --> 00:06:26,000
+So in the cases where my original method is not able to process the business logic, I have written
+
+89
+00:06:26,000 --> 00:06:30,000
+a fallback mechanism which is going to return the Java 17.
+
+90
+00:06:30,000 --> 00:06:36,000
+Think like in the real projects you have an original method which is going to do a lot of heavy operation
+
+91
+00:06:36,000 --> 00:06:40,000
+and this method supports a low priority API. Based upon your configurations
+
+92
+00:06:40,000 --> 00:06:47,000
+if you are not allowing any further requests to this method within a time frame, then you can simply
+
+93
+00:06:47,000 --> 00:06:53,000
+write a simple logic inside your fallback saying that please try again after some time or you can send
+
+94
+00:06:53,000 --> 00:06:55,000
+some information from the cache.
+
+95
+00:06:55,000 --> 00:06:59,000
+So it's up to you what kind of business logic that you want to write here.
+
+96
+00:06:59,000 --> 00:07:00,000
+So let me save this changes.
+
+97
+00:07:00,000 --> 00:07:01,000
+Do a build.
+
+98
+00:07:01,000 --> 00:07:03,000
+Once the build is completed,
+
+99
+00:07:03,000 --> 00:07:11,000
+as usual, we need to stop the AccountsApplication post that I'm going to stop GatewayserverApplication
+
+100
+00:07:11,000 --> 00:07:15,000
+as a next step, I will first start my AccountsApplication.
+
+101
+00:07:15,000 --> 00:07:21,000
+Once my AccountsApplication is started, I'm going to start my GatewayserverApplication.
+
+102
+00:07:21,000 --> 00:07:25,000
+So this will start my GatewayserverApplication in few seconds.
+
+103
+00:07:25,000 --> 00:07:28,000
+Like you can see now, it is started successfully.
+
+104
+00:07:28,000 --> 00:07:32,000
+I'll go to the browser, I will try to invoke the same API.
+
+105
+00:07:32,000 --> 00:07:35,000
+You can see we are getting the output from the original method.
+
+106
+00:07:35,000 --> 00:07:41,000
+If I try to refresh this multiple times at some point of time you will get the fallback method output
+
+107
+00:07:41,000 --> 00:07:43,000
+which is Java 17.
+
+108
+00:07:43,000 --> 00:07:51,000
+With this, I'm assuming you are super, super clear on how to implement RateLimiter pattern inside your
+
+109
+00:07:51,000 --> 00:07:53,000
+normal microservices.
+
+110
+00:07:53,000 --> 00:07:56,000
+So every pattern I'm trying to show you two different approaches.
+
+111
+00:07:56,000 --> 00:08:03,000
+One is with the help of Gateway pattern and the other one with the help of resiliency4j library
+
+112
+00:08:03,000 --> 00:08:05,000
+and the annotations provided by the same.
+
+113
+00:08:05,000 --> 00:08:07,000
+Using these two approaches.
+
+114
+00:08:07,000 --> 00:08:14,000
+Now you have flexibility to implement these patterns either in the Gatewayserver or inside your microservices
+
+115
+00:08:14,000 --> 00:08:16,000
+based upon your business requirements.
+
+116
+00:08:16,000 --> 00:08:17,000
+I hope this is clear.
+
+117
+00:08:17,000 --> 00:08:20,000
+Thank you and I'll catch you in the next lecture bye.
+

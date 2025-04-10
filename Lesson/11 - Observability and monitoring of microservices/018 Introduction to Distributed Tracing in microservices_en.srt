@@ -1,0 +1,520 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, we discussed about the two pillars of observability and monitoring, which are logs and
+
+2
+00:00:07,000 --> 00:00:07,000
+metrics.
+
+3
+00:00:07,000 --> 00:00:13,000
+Now, from this lecture, let's try to focus on the third pillar of observability and monitoring, which
+
+4
+00:00:13,000 --> 00:00:19,000
+is tracing. With the two pillars that we have discussed which are related to event logs and metrics.
+
+5
+00:00:19,000 --> 00:00:25,000
+We can only derive the internal condition of an application or overall health of an application.
+
+6
+00:00:25,000 --> 00:00:30,000
+So the information that we get with the help of event logs, health probes and metrics, they fail to
+
+7
+00:00:30,000 --> 00:00:37,000
+help developers in debugging the issues, especially inside the distributed environment like microservices
+
+8
+00:00:37,000 --> 00:00:39,000
+or cloud native applications.
+
+9
+00:00:39,000 --> 00:00:46,000
+Because inside the distributed applications like microservices, a user request can travel multiple
+
+10
+00:00:46,000 --> 00:00:49,000
+applications or multiple microservices.
+
+11
+00:00:49,000 --> 00:00:54,000
+And with these kind of complexity, we should have some mechanism for the developers to understand up
+
+12
+00:00:54,000 --> 00:00:58,000
+to which microservice are up to which application,
+
+13
+00:00:58,000 --> 00:01:05,000
+a request is travelled and how much time it is taking at each service so that the developer can pinpoint
+
+14
+00:01:05,000 --> 00:01:10,000
+the exact location where the issue is happening inside distributed applications.
+
+15
+00:01:10,000 --> 00:01:17,000
+So to handle these challenge or to handle these problem, we have a concept which is distributed tracing.
+
+16
+00:01:17,000 --> 00:01:23,000
+So this is a technique used especially inside microservices or cloud native applications to understand
+
+17
+00:01:23,000 --> 00:01:31,000
+and analyze the flow of requests as they propagate across multiple services and the components inside
+
+18
+00:01:31,000 --> 00:01:32,000
+the distributed environment.
+
+19
+00:01:32,000 --> 00:01:39,000
+So with these tracing information, the developers can diagnose any kind of issues inside any kind of
+
+20
+00:01:39,000 --> 00:01:41,000
+complex and distributed systems.
+
+21
+00:01:41,000 --> 00:01:48,000
+In real projects, there will be hundreds of microservices deployed if a request has to travel more
+
+22
+00:01:48,000 --> 00:01:54,000
+than ten microservices to get a successful response, the developer should have a clear information
+
+23
+00:01:54,000 --> 00:02:00,000
+how the request is traveling under each microservice, which method is invoked, how much time it is
+
+24
+00:02:00,000 --> 00:02:01,000
+taking at each method.
+
+25
+00:02:01,000 --> 00:02:07,000
+So until unless the developer has this distributed tracing information, he cannot debug issue inside
+
+26
+00:02:07,000 --> 00:02:09,000
+the distributed systems.
+
+27
+00:02:09,000 --> 00:02:15,000
+So here you may have a question like I understand the concept of distributed tracing, but how to implement
+
+28
+00:02:15,000 --> 00:02:16,000
+this distributed tracing?
+
+29
+00:02:16,000 --> 00:02:22,000
+One of the best or the possible solution to implement this distributed tracing is, we should generate
+
+30
+00:02:22,000 --> 00:02:29,000
+a unique identifier known as correlationId, which is going to generate for each request at the entry
+
+31
+00:02:29,000 --> 00:02:32,000
+point of your distributed system or microservices.
+
+32
+00:02:32,000 --> 00:02:37,000
+Previously we discussed a scenario inside Gateway server where at the entry point we try to generate
+
+33
+00:02:37,000 --> 00:02:43,000
+a correlationId and the same correlationId we send to the accounts, loans and cards, microservice.
+
+34
+00:02:43,000 --> 00:02:49,000
+And with the correlationId, we are able to easily track the request that is traveling from gateway
+
+35
+00:02:49,000 --> 00:02:52,000
+server to accounts, accounts to cards and loans
+
+36
+00:02:52,000 --> 00:02:53,000
+microservice.
+
+37
+00:02:53,000 --> 00:02:59,000
+The same correlationId can be used as a perfect solution for distributed tracing. Because with the help
+
+38
+00:02:59,000 --> 00:03:06,000
+of correlationId, we can track our microservice request where it is traveling and up to which point
+
+39
+00:03:06,000 --> 00:03:06,000
+it travel.
+
+40
+00:03:06,000 --> 00:03:08,000
+What are the exceptions it throwed
+
+41
+00:03:08,000 --> 00:03:14,000
+So all such information we should be able to understand with the help of these correlationId implementation.
+
+42
+00:03:14,000 --> 00:03:20,000
+But do you think generating the correlationId and attaching the same for all the logs inside our microservices
+
+43
+00:03:20,000 --> 00:03:23,000
+network is a feasible option for the developers?
+
+44
+00:03:23,000 --> 00:03:29,000
+Off course not, because the developer has to visit each log present inside the microservice and he need
+
+45
+00:03:29,000 --> 00:03:34,000
+to make sure he's appending the correlationId that is generated by the gateway server.
+
+46
+00:03:34,000 --> 00:03:38,000
+So this is going to be a super, super complex or challenging task.
+
+47
+00:03:38,000 --> 00:03:44,000
+That's why we are going to look for a better option compared to what we have discussed previously with
+
+48
+00:03:44,000 --> 00:03:51,000
+the help of Gateway Server to generate this correlationId using which we can try to implement distributed
+
+49
+00:03:51,000 --> 00:03:56,000
+tracing inside our microservices. before we try to understand what are the best practices that we have
+
+50
+00:03:56,000 --> 00:03:57,000
+around this.
+
+51
+00:03:57,000 --> 00:04:00,000
+First, let me share some details.
+
+52
+00:04:00,000 --> 00:04:06,000
+What are the standards that we need to follow while generating the distributed tracing details. Like
+
+53
+00:04:06,000 --> 00:04:12,000
+you can see here, distributed tracing always recommends to follow three important components whenever
+
+54
+00:04:12,000 --> 00:04:16,000
+we are trying to implement distributed tracing inside our microservices.
+
+55
+00:04:16,000 --> 00:04:19,000
+The very first component is the tags.
+
+56
+00:04:19,000 --> 00:04:25,000
+Using these tags, we can build a metadata that offer details like username of the authenticated user
+
+57
+00:04:25,000 --> 00:04:27,000
+or the microservice identifier.
+
+58
+00:04:27,000 --> 00:04:34,000
+So if you attach these metadata information to the logs, you can easily identify from the log statement
+
+59
+00:04:34,000 --> 00:04:39,000
+to which microservice are to which metadata information that a particular log belongs.
+
+60
+00:04:39,000 --> 00:04:46,000
+For example, if you attach the application name for all your logs like accounts, cards and loans,
+
+61
+00:04:46,000 --> 00:04:53,000
+then it is going to be super, super easy for you to which microservice application a particular distributed
+
+62
+00:04:53,000 --> 00:04:54,000
+tracing logging belongs.
+
+63
+00:04:54,000 --> 00:04:59,000
+When we try to implement these and see a demo, then it is going to be more clear for you. Apart
+
+64
+00:04:59,000 --> 00:05:00,000
+rfom this tag
+
+65
+00:05:00,000 --> 00:05:02,000
+we should also have a trace ID.
+
+66
+00:05:02,000 --> 00:05:06,000
+A trace ID has to be generated at the starting of your request.
+
+67
+00:05:06,000 --> 00:05:11,000
+Maybe when a request is trying to enter into your microservice network at the Edge server.
+
+68
+00:05:12,000 --> 00:05:14,000
+The trace ID has to be generated.
+
+69
+00:05:14,000 --> 00:05:21,000
+The same trace ID has to be attached to the all the logs that are associated to that request, regardless
+
+70
+00:05:21,000 --> 00:05:23,000
+of where the request is
+
+71
+00:05:23,000 --> 00:05:29,000
+traveling inside your microservice network throughout all the microservices where a particular request
+
+72
+00:05:29,000 --> 00:05:30,000
+is being processed.
+
+73
+00:05:30,000 --> 00:05:33,000
+The same trace ID has to be present inside the logs.
+
+74
+00:05:33,000 --> 00:05:36,000
+And the third component that we have is span ID.
+
+75
+00:05:36,000 --> 00:05:37,000
+What is this span ID?
+
+76
+00:05:37,000 --> 00:05:42,000
+A span represents each individual stage of request processing.
+
+77
+00:05:42,000 --> 00:05:48,000
+For example, your request may travel accounts, loans and cards microservice.
+
+78
+00:05:48,000 --> 00:05:55,000
+under each service it should have its own span ID because inside accounts microservice you may invoke
+
+79
+00:05:55,000 --> 00:05:59,000
+multiple methods and similarly inside other microservices
+
+80
+00:05:59,000 --> 00:06:02,000
+also you are going to implement a lot many methods.
+
+81
+00:06:02,000 --> 00:06:08,000
+That's why we should assign a ID value which is specific to each microservice.
+
+82
+00:06:08,000 --> 00:06:14,000
+So for all the logs that are generated within the accounts microservice, it is going to have the
+
+83
+00:06:14,000 --> 00:06:19,000
+same span ID along with the trace ID that is common for all the microservices.
+
+84
+00:06:19,000 --> 00:06:21,000
+I know this is super confusing for you.
+
+85
+00:06:21,000 --> 00:06:24,000
+Let me show you a sample demo of this. For the same
+
+86
+00:06:24,000 --> 00:06:26,000
+let me go to the next slide.
+
+87
+00:06:26,000 --> 00:06:32,000
+Here first, you can see we have this scenario where a user is trying to invoke the customerDetails api present
+
+88
+00:06:32,000 --> 00:06:37,000
+inside accounts microservice by sending requests to the edge server. Behind the scenes
+
+89
+00:06:37,000 --> 00:06:43,000
+when we implement distributed tracing inside our microservices. At the Edge server or at the place where
+
+90
+00:06:43,000 --> 00:06:46,000
+the first service inside the network is invoked.
+
+91
+00:06:46,000 --> 00:06:48,000
+A trace ID is going to be generated.
+
+92
+00:06:48,000 --> 00:06:55,000
+You can see here first I have a metadata information which is a tag. With the tag we can easily identify
+
+93
+00:06:55,000 --> 00:06:58,000
+to which service a particular log statement belongs.
+
+94
+00:06:58,000 --> 00:07:04,000
+So with the help of this gateway server, we can easily confirm that a particular log belongs to this
+
+95
+00:07:04,000 --> 00:07:05,000
+gateway server.
+
+96
+00:07:05,000 --> 00:07:09,000
+After that tag, you can see there is a trace ID information.
+
+97
+00:07:09,000 --> 00:07:14,000
+The same trace ID is going to present in all the logs that are going to be generated while processing
+
+98
+00:07:14,000 --> 00:07:15,000
+these requests.
+
+99
+00:07:15,000 --> 00:07:22,000
+That's why you can see if the request travels to all other microservices at all places, the trace ID,
+
+100
+00:07:22,000 --> 00:07:25,000
+which is the second component, is going to be the same.
+
+101
+00:07:25,000 --> 00:07:30,000
+Like in all the places you can see it is starting with two nine, whereas the tag name and the metadata
+
+102
+00:07:30,000 --> 00:07:34,000
+information is changing, like gateway server, loans, accounts and cards.
+
+103
+00:07:34,000 --> 00:07:40,000
+Now coming to the third component, which is span ID, if you see inside each microservice or inside
+
+104
+00:07:40,000 --> 00:07:45,000
+each application, a unique span ID is going to be generated. For my gateway
+
+105
+00:07:45,000 --> 00:07:51,000
+the span ID is this is the value, whereas for accounts microservice, this is the span ID, whereas
+
+106
+00:07:51,000 --> 00:07:54,000
+for loans and cards these are the span IDs.
+
+107
+00:07:54,000 --> 00:08:02,000
+The same span ID is going to be present across all the log statements present inside a particular microservice.
+
+108
+00:08:02,000 --> 00:08:07,000
+So inside loans, you can see there are two logger statements, logger statement one logger statement
+
+109
+00:08:07,000 --> 00:08:13,000
+two. For all the logs, the span ID is going to be same because all these logs generated inside a same
+
+110
+00:08:13,000 --> 00:08:17,000
+microservice. The same you can see under the cards microservice.
+
+111
+00:08:17,000 --> 00:08:19,000
+So one thing is very clear here.
+
+112
+00:08:19,000 --> 00:08:27,000
+The first tag information is going to help us to identify to which microservice application or to which
+
+113
+00:08:27,000 --> 00:08:32,000
+metadata information a particular log belongs to. Instead of the application name
+
+114
+00:08:32,000 --> 00:08:39,000
+if you keep the logged in username details, then we can easily track all the logs that are generated
+
+115
+00:08:39,000 --> 00:08:42,000
+due to the actions performed by a specific user.
+
+116
+00:08:42,000 --> 00:08:49,000
+After the metadata tag, you can see there is a trace ID and this trace ID is common in all the microservices
+
+117
+00:08:49,000 --> 00:08:55,000
+because the same request is trying to travel across various microservices. And after the trace ID we
+
+118
+00:08:55,000 --> 00:09:00,000
+have span ID which is going to be unique for each microservice application.
+
+119
+00:09:00,000 --> 00:09:07,000
+This way my developer can easily track the request up to which point the request is processed.
+
+120
+00:09:07,000 --> 00:09:11,000
+If there is an exception under which service the exception happened.
+
+121
+00:09:11,000 --> 00:09:16,000
+So when I show you all this in demo, it is going to be super clear for you as of now.
+
+122
+00:09:16,000 --> 00:09:21,000
+Please note that whenever we are trying to implement distributed tracing, we should follow these standard.
+
+123
+00:09:21,000 --> 00:09:27,000
+When we implemented correlation ID with the gateway server, we just simply generated an ID, but we
+
+124
+00:09:27,000 --> 00:09:29,000
+didn't have the metadata tag or the span IDs.
+
+125
+00:09:29,000 --> 00:09:34,000
+But in the coming lectures, with the help of distributed tracing, we are going to implement these
+
+126
+00:09:34,000 --> 00:09:35,000
+standards.
+
+127
+00:09:35,000 --> 00:09:38,000
+I hope you are clear what is distributed tracing in microservices.
+
+128
+00:09:38,000 --> 00:09:40,000
+If something is not clear, don't worry.
+
+129
+00:09:40,000 --> 00:09:44,000
+When we see all this in demo, then it is going to be super clear for you.
+
+130
+00:09:44,000 --> 00:09:47,000
+Thank you and I'll catch you in the next lecture bye.
+

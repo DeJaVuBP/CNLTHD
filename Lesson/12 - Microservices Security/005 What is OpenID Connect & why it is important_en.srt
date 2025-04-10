@@ -1,0 +1,472 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, I'm going to talk about what is OpenID Connect and what is its relation with the
+
+2
+00:00:07,000 --> 00:00:07,000
+OAuth2 framework.
+
+3
+00:00:07,000 --> 00:00:14,000
+Many times I see developers claiming that please don't use Oauth2, please use OpenID Connect because
+
+4
+00:00:14,000 --> 00:00:18,000
+that is a better framework or it is a replacement of the Oauth2 framework.
+
+5
+00:00:18,000 --> 00:00:20,000
+I don't want you to be such a developer.
+
+6
+00:00:20,000 --> 00:00:23,000
+That's why I'm going to spend few minutes explaining you,
+
+7
+00:00:23,000 --> 00:00:30,000
+what is this OpenID Connect and and how it is related to the Oauth2 framework. We discussed about the
+
+8
+00:00:30,000 --> 00:00:31,000
+Oauth2 framework previously.
+
+9
+00:00:31,000 --> 00:00:39,000
+The primary reason why the OAuth two specification built is, to support the authorization but not the
+
+10
+00:00:39,000 --> 00:00:40,000
+authentication.
+
+11
+00:00:40,000 --> 00:00:43,000
+So there is a clear difference between authentication and authorization.
+
+12
+00:00:43,000 --> 00:00:49,000
+With the help of authentication, we can only authenticate the end user whether he is a legitimate user
+
+13
+00:00:49,000 --> 00:00:51,000
+by validating his credentials.
+
+14
+00:00:51,000 --> 00:00:58,000
+Once we authenticate the end user, he can access the secured pages inside an application. Instead of
+
+15
+00:00:58,000 --> 00:01:06,000
+making him to access any kind of functionality and perform any kind of action, we can enforce privileges
+
+16
+00:01:06,000 --> 00:01:10,000
+or role based access mechanism with the help of authorization.
+
+17
+00:01:10,000 --> 00:01:13,000
+So authorization comes only after authentication.
+
+18
+00:01:13,000 --> 00:01:19,000
+So the OAuth2 framework built to support the authorization. So that with the help of these authorization,
+
+19
+00:01:19,000 --> 00:01:26,000
+the applications can provide temporary access or limited access to the third party applications.
+
+20
+00:01:26,000 --> 00:01:33,000
+But since two framework became super, super famous, a lot many organizations, they found a way to
+
+21
+00:01:33,000 --> 00:01:37,000
+use the OAuth2 framework for authentication as well.
+
+22
+00:01:37,000 --> 00:01:42,000
+If you can recall the Stack overflow scenario, I don't have an account inside the stack Overflow.
+
+23
+00:01:42,000 --> 00:01:48,000
+Stack Overflow is trying to authenticate me with the help of GitHub credentials and GitHub does not
+
+24
+00:01:48,000 --> 00:01:51,000
+know what Stack overflow is doing with my access token.
+
+25
+00:01:51,000 --> 00:01:58,000
+GitHub will be under the assumption that Stack Overflow is requesting the email details of the resource
+
+26
+00:01:58,000 --> 00:01:59,000
+owner and resource owner
+
+27
+00:01:59,000 --> 00:02:03,000
+also fine providing these privileges to the stack overflow.
+
+28
+00:02:03,000 --> 00:02:08,000
+That's why it is going to issue an access token that will allow the stack overflow to read my email
+
+29
+00:02:08,000 --> 00:02:09,000
+details.
+
+30
+00:02:09,000 --> 00:02:15,000
+But behind the scenes the stack overflow is also authenticating me inside the Stack Overflow website
+
+31
+00:02:15,000 --> 00:02:21,000
+and it is creating an account of mine with the help of the email address received from the GitHub server.
+
+32
+00:02:21,000 --> 00:02:28,000
+Since organizations found a loophole on using the OAuth2 framework both for authentication and authorization,
+
+33
+00:02:28,000 --> 00:02:32,000
+there is a need came for the OpenID Connect. So let's try to understand
+
+34
+00:02:32,000 --> 00:02:33,000
+what is this
+
+35
+00:02:33,000 --> 00:02:34,000
+OpenID Connect.
+
+36
+00:02:34,000 --> 00:02:42,000
+OpenID Connect is a protocol that developed or sits on top of the Oauth2 framework, while Oauth2 provides
+
+37
+00:02:42,000 --> 00:02:46,000
+an authorization via an access token containing Scopes information.
+
+38
+00:02:46,000 --> 00:02:50,000
+This OpenID Connect framework, which built on top of the OAuth2.
+
+39
+00:02:50,000 --> 00:02:58,000
+It provides authentication by introducing a new ID token, and these ID token contains a set of information
+
+40
+00:02:58,000 --> 00:03:01,000
+about the end user or about the resource owner.
+
+41
+00:03:01,000 --> 00:03:08,000
+Like I said before, organizations, they started using Oauth2 framework both for authentication and
+
+42
+00:03:08,000 --> 00:03:10,000
+authorization and OAuth2 framework
+
+43
+00:03:10,000 --> 00:03:12,000
+It is going to issue an access token.
+
+44
+00:03:12,000 --> 00:03:17,000
+And with this access token, the client applications, they can only access the protected resources
+
+45
+00:03:17,000 --> 00:03:20,000
+that are present behind the resource server.
+
+46
+00:03:20,000 --> 00:03:27,000
+And this access token is not giving any clue about who is the end user, what are his details.
+
+47
+00:03:27,000 --> 00:03:33,000
+Since the client applications does not have a concrete information about the resource owner or end user.
+
+48
+00:03:33,000 --> 00:03:35,000
+Lot many organizations
+
+49
+00:03:35,000 --> 00:03:42,000
+they used to share the details about the end user inside this access token only by sending his email
+
+50
+00:03:42,000 --> 00:03:44,000
+details or by sending his mobile number.
+
+51
+00:03:44,000 --> 00:03:50,000
+Everyone they used to follow their own style of sharing the end user details inside the access token
+
+52
+00:03:50,000 --> 00:03:53,000
+itself or using some other approach.
+
+53
+00:03:53,000 --> 00:04:00,000
+So since there is no standard, everyone in the industry felt that we need some better approach to know
+
+54
+00:04:00,000 --> 00:04:04,000
+the end user or resource owner details inside the OAuth2 framework.
+
+55
+00:04:04,000 --> 00:04:10,000
+That's why they built a small wrapper on top of OAuth2, which is OpenID.
+
+56
+00:04:10,000 --> 00:04:16,000
+So whenever we use OpenID along with the OAuth2, we're also going to get an extra token with the
+
+57
+00:04:16,000 --> 00:04:23,000
+name ID token and with this ID token and OpenID connect, the industry now has a standards around sharing
+
+58
+00:04:23,000 --> 00:04:26,000
+the identity details among the applications.
+
+59
+00:04:26,000 --> 00:04:32,000
+When we implement these OAuth2 and OpenID Connect Inside our Microservices, I'm going to show you the
+
+60
+00:04:32,000 --> 00:04:36,000
+access token ID token that are issued by the server.
+
+61
+00:04:36,000 --> 00:04:39,000
+So don't worry about how these tokens are going to look like.
+
+62
+00:04:39,000 --> 00:04:42,000
+When we see the demo, it is going to be super clear for you.
+
+63
+00:04:42,000 --> 00:04:44,000
+I know you may still have some confusion.
+
+64
+00:04:44,000 --> 00:04:48,000
+Let me try to explain this with the help of visual diagram.
+
+65
+00:04:48,000 --> 00:04:51,000
+Like you can see here, we have Http protocol.
+
+66
+00:04:51,000 --> 00:04:59,000
+So Http protocol is a base protocol for all the communication inside the web. On top of these Http protocol
+
+67
+00:04:59,000 --> 00:05:00,000
+oauth2 framework
+
+68
+00:05:00,000 --> 00:05:05,000
+is built and this OAuth2 framework is going to support authorization.
+
+69
+00:05:05,000 --> 00:05:12,000
+On top of this over to framework, there is a small wrapper framework built which is OpenID Connect,
+
+70
+00:05:12,000 --> 00:05:16,000
+and this OpenID Connect is going to support authentication.
+
+71
+00:05:16,000 --> 00:05:21,000
+In simple words, we can say OpenID Connect Flow looks the same as Oauth2.
+
+72
+00:05:21,000 --> 00:05:27,000
+Whenever we are using OpenID Connect, we need to send a scope which is OpenID and behind the scenes
+
+73
+00:05:27,000 --> 00:05:28,000
+the Auth server
+
+74
+00:05:28,000 --> 00:05:33,000
+by looking at this OpenID scope, it is going to issue two types of token.
+
+75
+00:05:33,000 --> 00:05:35,000
+One is access token and ID token.
+
+76
+00:05:35,000 --> 00:05:40,000
+If you don't send the scope OpenID, you're going to simply receive the access token.
+
+77
+00:05:40,000 --> 00:05:44,000
+Let's try to understand more details about OpenID Connect.
+
+78
+00:05:44,000 --> 00:05:48,000
+Like you can see under this section, which is why is OpenID Connect?
+
+79
+00:05:48,000 --> 00:05:54,000
+I have mentioned all the details, like why there is a need for this OpenID Connect when we already
+
+80
+00:05:54,000 --> 00:05:55,000
+have over two framework.
+
+81
+00:05:55,000 --> 00:06:01,000
+I mentioned all the story that I have discussed since everyone inside the industry, they are looking
+
+82
+00:06:01,000 --> 00:06:06,000
+for a standard to share the details about the end user or the resource owner,
+
+83
+00:06:06,000 --> 00:06:12,000
+there is a need came to develop these OpenID Connect on top of the Oauth2 framework.
+
+84
+00:06:12,000 --> 00:06:14,000
+So you can also see there is a Venn diagram here.
+
+85
+00:06:14,000 --> 00:06:19,000
+On the right hand side we have OAuth2 framework which is going to support the authorization, and with
+
+86
+00:06:19,000 --> 00:06:24,000
+these authorization we are going to control the access management with the help of scope.
+
+87
+00:06:24,000 --> 00:06:30,000
+Whereas on the left hand side we have other component which is OpenID Connect, which is going to support
+
+88
+00:06:30,000 --> 00:06:31,000
+the authentication.
+
+89
+00:06:31,000 --> 00:06:37,000
+And with this OpenID Connect, we can easily identify the identity details of the end user.
+
+90
+00:06:37,000 --> 00:06:45,000
+So by combining both of these two standards, a new concept came into picture, which is IAM Identity
+
+91
+00:06:45,000 --> 00:06:46,000
+and Access Management.
+
+92
+00:06:46,000 --> 00:06:52,000
+First, any auth server it has to identify the end user and post that only it should provide the access
+
+93
+00:06:52,000 --> 00:06:54,000
+to the end user.
+
+94
+00:06:54,000 --> 00:07:01,000
+The short form of OpenID Connect is OIDC with the help of these oidc now inside the industry there is
+
+95
+00:07:01,000 --> 00:07:06,000
+a standardized approach to know the details of the end user.
+
+96
+00:07:06,000 --> 00:07:13,000
+So whenever an organization implements OIDC along with the Oauth2, they are going to get three benefits.
+
+97
+00:07:13,000 --> 00:07:19,000
+The very first one is, there is a standardized way to know the end user details or resource owner details
+
+98
+00:07:19,000 --> 00:07:24,000
+with the help of the scopes like OpenID, profile, email and address.
+
+99
+00:07:24,000 --> 00:07:31,000
+Because all these details are related to the end user only like his profile details, email details
+
+100
+00:07:31,000 --> 00:07:32,000
+or address details.
+
+101
+00:07:32,000 --> 00:07:37,000
+So whenever a client application looking for profile information of the end user, with the help of
+
+102
+00:07:37,000 --> 00:07:40,000
+this OIDC, they can request for a scope profile.
+
+103
+00:07:40,000 --> 00:07:45,000
+And similarly we have other scopes like OpenID email and address.
+
+104
+00:07:45,000 --> 00:07:51,000
+And the second advantage is, the ID token that is going to get generated by the OpenID standards.
+
+105
+00:07:51,000 --> 00:07:57,000
+It is going to follow the same standards like Access Token, both these access token and ID token.
+
+106
+00:07:57,000 --> 00:08:02,000
+They are going to use the JWT standard, which is Json web token standard.
+
+107
+00:08:02,000 --> 00:08:10,000
+And the last advantage is this OpenID Connect exposes a standardized endpoint with the name /userifo.
+
+108
+00:08:10,000 --> 00:08:11,000
+.
+
+109
+00:08:11,000 --> 00:08:16,000
+Anytime a client application wants to know the details about the logged in user or the resource owner,
+
+110
+00:08:16,000 --> 00:08:21,000
+they can simply invoke this user info endpoint supported by the OpenID.
+
+111
+00:08:21,000 --> 00:08:27,000
+So with this I'm assuming your super, super clear about what is difference between Oauth2 and OpenID.
+
+112
+00:08:27,000 --> 00:08:35,000
+So please never say that Oauth2 is a replacement of OpenID without Oauth2 there is no OpenID.
+
+113
+00:08:35,000 --> 00:08:39,000
+And also please don't say that OpenID is better than OAuth2 framework.
+
+114
+00:08:39,000 --> 00:08:43,000
+We should never say because without Oauth2 there is no OpenID.
+
+115
+00:08:43,000 --> 00:08:50,000
+But instead of that we can say that by combining these OpenID and Oauth2, we can provide capabilities
+
+116
+00:08:50,000 --> 00:08:57,000
+of identity and access management or in short form IAM to the client applications.
+
+117
+00:08:57,000 --> 00:08:58,000
+I hope this is clear.
+
+118
+00:08:58,000 --> 00:09:01,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,324 @@
+1
+00:00:00,000 --> 00:00:04,000
+Let's see that distributed tracing in action. For the same,
+
+2
+00:00:04,000 --> 00:00:06,000
+I came to the Grafana first.
+
+3
+00:00:06,000 --> 00:00:10,000
+I'm going to look for logs information inside my Loki.
+
+4
+00:00:10,000 --> 00:00:15,000
+You can see as of now we have three different data sources like Loki, Prometheus and Tempo.
+
+5
+00:00:15,000 --> 00:00:22,000
+So let me go to the Loki and here I will look for the logs of accounts microservice. So let me run this
+
+6
+00:00:22,000 --> 00:00:28,000
+query if you can scroll down all my logs right now has some tracing information.
+
+7
+00:00:28,000 --> 00:00:29,000
+So let me zoom this.
+
+8
+00:00:29,000 --> 00:00:34,000
+You should be able to see this log statement, which is fetchCustomerDetails() method end.
+
+9
+00:00:34,000 --> 00:00:37,000
+So this is one of the log statement that we have added.
+
+10
+00:00:37,000 --> 00:00:43,000
+So the pattern it is following is first, it is trying to mention what is the severity of the log like
+
+11
+00:00:43,000 --> 00:00:45,000
+debug, info or warning.
+
+12
+00:00:45,000 --> 00:00:51,000
+That's why we have mentioned the initial five characters inside the logging pattern and post that inside
+
+13
+00:00:51,000 --> 00:00:57,000
+the square brackets we have the application name, which is accounts followed by tracing ID information.
+
+14
+00:00:57,000 --> 00:01:01,000
+So this is the trace ID and this is the span ID value.
+
+15
+00:01:01,000 --> 00:01:06,000
+So this trace ID is going to be common for all the microservices.
+
+16
+00:01:06,000 --> 00:01:11,000
+So let me try to take this trace ID and look for the same inside all microservices.
+
+17
+00:01:11,000 --> 00:01:15,000
+So let me go to the cards microservice and run the query.
+
+18
+00:01:15,000 --> 00:01:18,000
+And here I'm going to search for the same trace ID.
+
+19
+00:01:18,000 --> 00:01:25,000
+You can see we have the logs using the same trace ID, but the span ID is different compared to accounts
+
+20
+00:01:25,000 --> 00:01:26,000
+microservice.
+
+21
+00:01:26,000 --> 00:01:32,000
+This way we can use the same trace and search all the logs of all containers to understand which method
+
+22
+00:01:32,000 --> 00:01:33,000
+is executed.
+
+23
+00:01:33,000 --> 00:01:37,000
+And if you have some log statements inside your exception scenarios.
+
+24
+00:01:37,000 --> 00:01:41,000
+The same statements are also going to be available here. As a next step,
+
+25
+00:01:41,000 --> 00:01:46,000
+we can also see the tracing information with the help of tempo as well.
+
+26
+00:01:46,000 --> 00:01:49,000
+So right now we are seeing these information inside logs.
+
+27
+00:01:49,000 --> 00:01:54,000
+With this tracing information, we can try to understand which methods are invoked,
+
+28
+00:01:54,000 --> 00:01:57,000
+are there any exceptions happened inside a particular method.
+
+29
+00:01:57,000 --> 00:02:00,000
+So all such information we can easily understand.
+
+30
+00:02:00,000 --> 00:02:04,000
+But in order to see the real power of tracing, you need to go to that tempo.
+
+31
+00:02:04,000 --> 00:02:06,000
+So let me select that tempo data source.
+
+32
+00:02:06,000 --> 00:02:12,000
+And here I'm going to search with the trace ID that we have identified in any of the service like accounts,
+
+33
+00:02:12,000 --> 00:02:15,000
+gateway, loans or cards.
+
+34
+00:02:15,000 --> 00:02:16,000
+So let me run this query.
+
+35
+00:02:16,000 --> 00:02:23,000
+If you scroll down on this page, you will be able to see a beautiful UI representation of your request
+
+36
+00:02:23,000 --> 00:02:26,000
+navigating throughout your microservices.
+
+37
+00:02:26,000 --> 00:02:33,000
+You can see initially it entered into your network at the Gateway server and there is a method inside
+
+38
+00:02:33,000 --> 00:02:36,000
+Gateway server invoked from Gateway Server
+
+39
+00:02:36,000 --> 00:02:41,000
+it went into the API, which is fetchCustomerDetails inside accounts microservice.
+
+40
+00:02:41,000 --> 00:02:47,000
+It also went inside the methods like CustomerController.fetchCustomerDetails from controller
+
+41
+00:02:47,000 --> 00:02:48,000
+logic
+
+42
+00:02:48,000 --> 00:02:54,000
+it went to repository layer and inside the repository layer it tried to fetch the data related to accounts
+
+43
+00:02:54,000 --> 00:02:55,000
+microservice.
+
+44
+00:02:55,000 --> 00:03:00,000
+So all the history you are able to see here after fetching all the accounts related information, the
+
+45
+00:03:00,000 --> 00:03:04,000
+accounts, microservice forwarded the request to the loans microservice.
+
+46
+00:03:04,000 --> 00:03:10,000
+Once it fetch the details from the loans microservice It forwarded the same to the cards microservice
+
+47
+00:03:10,000 --> 00:03:11,000
+as well.
+
+48
+00:03:11,000 --> 00:03:17,000
+You should be able to see what are all the methods are invoked, how much time it took at each method.
+
+49
+00:03:17,000 --> 00:03:23,000
+If your request is taking a lot of time, you can easily try to understand at which method or at which
+
+50
+00:03:23,000 --> 00:03:24,000
+service
+
+51
+00:03:24,000 --> 00:03:30,000
+a lot of time is being consumed by your request. So you can see since accounts microservice is trying
+
+52
+00:03:30,000 --> 00:03:33,000
+to invoke loans and cards. Inside accounts
+
+53
+00:03:33,000 --> 00:03:39,000
+microservice will have the consolidated timing information and the same will be added to the Gateway
+
+54
+00:03:39,000 --> 00:03:40,000
+Server service.
+
+55
+00:03:40,000 --> 00:03:46,000
+As you navigate towards the down, you will see the less time it is going to take because all these
+
+56
+00:03:46,000 --> 00:03:47,000
+times are individual times.
+
+57
+00:03:47,000 --> 00:03:53,000
+But whatever you see at the top, those are the consolidated times taken by all the services and all
+
+58
+00:03:53,000 --> 00:03:57,000
+the methods which are invoked under these accounts
+
+59
+00:03:57,000 --> 00:04:03,000
+microservice. So this gives a complete good information to understand what are the performance bottlenecks.
+
+60
+00:04:03,000 --> 00:04:09,000
+And for some reason, if you want to understand up to which point the request is traveled inside your
+
+61
+00:04:09,000 --> 00:04:14,000
+network, this is the good information for you to understand and proceed with your debugging.
+
+62
+00:04:14,000 --> 00:04:16,000
+I hope you are seeing the power of tempo here.
+
+63
+00:04:16,000 --> 00:04:22,000
+We also have similar kind of products with the name Zipkin and Jaeger.
+
+64
+00:04:22,000 --> 00:04:24,000
+So let me search for Zipkin.
+
+65
+00:04:24,000 --> 00:04:30,000
+So if you see, Zipkin is one such product where we can see that distributed information just like how
+
+66
+00:04:30,000 --> 00:04:31,000
+we are seeing with the help of tempo.
+
+67
+00:04:31,000 --> 00:04:35,000
+But the problem or the drawback of Zipkin is, using Zipkin
+
+68
+00:04:35,000 --> 00:04:38,000
+we can only see the tracing information.
+
+69
+00:04:38,000 --> 00:04:40,000
+What if you want to see the logs information?
+
+70
+00:04:40,000 --> 00:04:47,000
+So that's where we have tempo with a good integration of Grafana inside Grafana we also have Loki,
+
+71
+00:04:47,000 --> 00:04:48,000
+we also have Prometheus.
+
+72
+00:04:48,000 --> 00:04:56,000
+So it's a complete package which we can use to implement observable and monitoring inside our microservices.
+
+73
+00:04:56,000 --> 00:04:59,000
+Very similarly Red Hat also has a product with the name
+
+74
+00:05:00,000 --> 00:05:02,000
+Jigger. With the name Jigger,
+
+75
+00:05:02,000 --> 00:05:07,000
+if you try to open this jigger, this is also going to help to identify that tracing information.
+
+76
+00:05:07,000 --> 00:05:12,000
+But like I said, they don't have good integration with your logs information.
+
+77
+00:05:12,000 --> 00:05:17,000
+That's why we are using the best product available as of now, which is tempo.
+
+78
+00:05:17,000 --> 00:05:20,000
+This has good integration with Grafana as well.
+
+79
+00:05:20,000 --> 00:05:27,000
+So inside a single product you can try to look for all the three pillars of observability and monitoring.
+
+80
+00:05:27,000 --> 00:05:28,000
+I hope you are clear.
+
+81
+00:05:28,000 --> 00:05:30,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,276 @@
+1
+00:00:00,000 --> 00:00:04,000
+Are you excited to see the authorization demo inside our Gateway server.
+
+2
+00:00:04,000 --> 00:00:08,000
+I know you're super excited, for the same without any delays
+
+3
+00:00:08,000 --> 00:00:09,000
+let me go to the postman.
+
+4
+00:00:09,000 --> 00:00:10,000
+Inside the postman,
+
+5
+00:00:10,000 --> 00:00:16,000
+first I will try to create a new account with the help of these accounts api create.
+
+6
+00:00:16,000 --> 00:00:22,000
+But this time we need to make sure we are changing the mobile number because we already created a account
+
+7
+00:00:22,000 --> 00:00:23,000
+with this mobile number.
+
+8
+00:00:23,000 --> 00:00:25,000
+So let me change this
+
+9
+00:00:25,000 --> 00:00:33,000
+6872688 and post that, I'll go to the authorization tab and here I will try to click on this new access
+
+10
+00:00:33,000 --> 00:00:34,000
+token.
+
+11
+00:00:34,000 --> 00:00:39,000
+So behind the scenes, my keycloak auth server will attach the roles information
+
+12
+00:00:39,000 --> 00:00:44,000
+also to this access token, I can click on this use token and post that
+
+13
+00:00:44,000 --> 00:00:46,000
+I'm going to click on this send button.
+
+14
+00:00:46,000 --> 00:00:51,000
+You can see I am getting the 201, which is account created successfully.
+
+15
+00:00:51,000 --> 00:00:54,000
+Now I'll go to the cards API,
+
+16
+00:00:54,000 --> 00:01:01,000
+here also, I will try to create cards information with the same mobile number, but do you think I'll get
+
+17
+00:01:01,000 --> 00:01:02,000
+a successful response?
+
+18
+00:01:02,000 --> 00:01:04,000
+So let's see what it is going to happen.
+
+19
+00:01:04,000 --> 00:01:09,000
+So I'm going to click on this new access token post that I'll click on this proceed.
+
+20
+00:01:09,000 --> 00:01:15,000
+I will use the new access token that I received, and now I'm clicking on this send button.
+
+21
+00:01:15,000 --> 00:01:15,000
+Boom !
+
+22
+00:01:15,000 --> 00:01:18,000
+you can see I'm getting 403 error.
+
+23
+00:01:18,000 --> 00:01:20,000
+That means I'm authorized.
+
+24
+00:01:20,000 --> 00:01:27,000
+That's why I'm not getting 401 error, but I'm getting 403 because I don't have enough privileges.
+
+25
+00:01:27,000 --> 00:01:28,000
+How to fix this issue.
+
+26
+00:01:28,000 --> 00:01:32,000
+We need to provide enough privileges to the client application.
+
+27
+00:01:32,000 --> 00:01:36,000
+For the same, I'll go to the Keycloak administration console.
+
+28
+00:01:36,000 --> 00:01:42,000
+Here I'll go to the realm roles and create a new role with the name cards and the description
+
+29
+00:01:42,000 --> 00:01:45,000
+I'll just keep it as cards role.
+
+30
+00:01:45,000 --> 00:01:47,000
+Let me save this and post that
+
+31
+00:01:47,000 --> 00:01:49,000
+I'll go to the clients,
+
+32
+00:01:49,000 --> 00:01:51,000
+I'll open this easy bank call center,
+
+33
+00:01:51,000 --> 00:01:57,000
+I'll go to the service account roles and here click on this assign role and I'm going to assign the
+
+34
+00:01:57,000 --> 00:01:59,000
+new role, which is cards with this,
+
+35
+00:01:59,000 --> 00:02:04,000
+now my client application should be able to invoke the cards API as well.
+
+36
+00:02:04,000 --> 00:02:11,000
+So before I try to test this API, let me go to the authorization and try to get a new access token.
+
+37
+00:02:11,000 --> 00:02:16,000
+This new access token will have the roles information related to the cards as well.
+
+38
+00:02:16,000 --> 00:02:22,000
+So let me copy these and press on this use token here under the JWT website, I'm going to paste the
+
+39
+00:02:22,000 --> 00:02:27,000
+same and this time you should be able to see two roles like accounts and cards.
+
+40
+00:02:27,000 --> 00:02:31,000
+So this confirms our cards role information is present inside the access token.
+
+41
+00:02:31,000 --> 00:02:34,000
+So now let me click on the send button.
+
+42
+00:02:34,000 --> 00:02:37,000
+You can see this time I'm getting a successful response.
+
+43
+00:02:37,000 --> 00:02:39,000
+As a next step, I'll go to the loans.
+
+44
+00:02:39,000 --> 00:02:44,000
+First, I'll try to invoke the loans API with the mobile number as 688.
+
+45
+00:02:44,000 --> 00:02:51,000
+Here, I will try to get an access token and this access token will not have the roles information,
+
+46
+00:02:51,000 --> 00:02:52,000
+which is loans.
+
+47
+00:02:52,000 --> 00:02:56,000
+So that's why I will get a 403 forbidden error here.
+
+48
+00:02:56,000 --> 00:02:57,000
+You know the drill.
+
+49
+00:02:57,000 --> 00:03:03,000
+First we need to go to the realm roles and here click on this create role and create the loan, which
+
+50
+00:03:03,000 --> 00:03:04,000
+is loans.
+
+51
+00:03:04,000 --> 00:03:08,000
+Please make sure you are following the exact case sensitive details.
+
+52
+00:03:08,000 --> 00:03:10,000
+Otherwise the authorization will fail.
+
+53
+00:03:10,000 --> 00:03:14,000
+In the description I'm going to mention loans description.
+
+54
+00:03:14,000 --> 00:03:16,000
+I'm going to save this role.
+
+55
+00:03:16,000 --> 00:03:21,000
+I'll go to the clients and open easy bank call center and go to the service account roles.
+
+56
+00:03:21,000 --> 00:03:25,000
+And here I'll click on this assign role and select the loans.
+
+57
+00:03:25,000 --> 00:03:29,000
+So now let me assign this role to the client application.
+
+58
+00:03:29,000 --> 00:03:32,000
+Now I'll go to the postman,
+
+59
+00:03:32,000 --> 00:03:34,000
+here first, I'll try to get a new access token.
+
+60
+00:03:34,000 --> 00:03:38,000
+Click on this Proceed Use token as a next step,
+
+61
+00:03:38,000 --> 00:03:41,000
+I will try to submit these requests with the help of this send button.
+
+62
+00:03:41,000 --> 00:03:45,000
+You can see I'm getting a successful response. With this
+
+63
+00:03:45,000 --> 00:03:52,000
+I'm assuming you are super clear about how to enforce authentication and authorization with the help
+
+64
+00:03:52,000 --> 00:03:55,000
+of OAuth2 framework and authorization server like Keycloak.
+
+65
+00:03:55,000 --> 00:03:58,000
+So I have defined my own security requirements.
+
+66
+00:03:58,000 --> 00:04:04,000
+In real world, your requirements can be more complex, but the approach is going to be same.
+
+67
+00:04:04,000 --> 00:04:10,000
+If you want to learn more about spring security, my request is to enroll my spring security course.
+
+68
+00:04:10,000 --> 00:04:15,000
+With this, we can conclude the client credentials grant type flow.
+
+69
+00:04:15,000 --> 00:04:18,000
+Thank you and I'll catch you in the next lecture bye.
+

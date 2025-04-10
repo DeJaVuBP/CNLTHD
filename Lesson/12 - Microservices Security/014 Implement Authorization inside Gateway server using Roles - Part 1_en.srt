@@ -1,0 +1,608 @@
+1
+00:00:00,000 --> 00:00:08,000
+As of now, inside our gateway server, we are just checking if the client application is authenticated
+
+2
+00:00:08,000 --> 00:00:09,000
+or not.
+
+3
+00:00:09,000 --> 00:00:13,000
+That means we are only performing the authentication but not the authorization.
+
+4
+00:00:13,000 --> 00:00:18,000
+What if you have a scenario where you want to only process the request,
+
+5
+00:00:18,000 --> 00:00:24,000
+if the client application has certain roles or authorities or privileges.
+
+6
+00:00:24,000 --> 00:00:31,000
+So in such scenarios, instead of these authenticated, you need to invoke a method which is has role
+
+7
+00:00:31,000 --> 00:00:34,000
+to this has role method you can pass
+
+8
+00:00:34,000 --> 00:00:40,000
+what is the role that you are expecting which your client should have configured inside the auth server.
+
+9
+00:00:40,000 --> 00:00:47,000
+So here for all accounts related APIs, I'm going to expect my client should have a role with the name
+
+10
+00:00:47,000 --> 00:00:48,000
+accounts.
+
+11
+00:00:48,000 --> 00:00:56,000
+Very similarly, I can configure role based access for cards as well and loans as well.
+
+12
+00:00:56,000 --> 00:01:03,000
+But instead of accounts here, I'm going to keep the role name as cards and post that under loans.
+
+13
+00:01:03,000 --> 00:01:05,000
+I'm going to mention loans role name.
+
+14
+00:01:05,000 --> 00:01:10,000
+So with this now I have enforced the authorization inside my gateway server.
+
+15
+00:01:10,000 --> 00:01:15,000
+Now, as a next step, we need to configure these roles to our client applications.
+
+16
+00:01:15,000 --> 00:01:18,000
+So where do we need to configure those inside the auth server.
+
+17
+00:01:18,000 --> 00:01:20,000
+So let me go to the auth server.
+
+18
+00:01:20,000 --> 00:01:25,000
+Inside the auth server, let's go to the clients and under the clients here you will be able to see the
+
+19
+00:01:25,000 --> 00:01:27,000
+client which you have created.
+
+20
+00:01:27,000 --> 00:01:28,000
+So please click on that.
+
+21
+00:01:28,000 --> 00:01:33,000
+Now here there are two tabs like roles and service account roles.
+
+22
+00:01:33,000 --> 00:01:40,000
+Since this client is an client which is following the client credentials grant type, that means this
+
+23
+00:01:40,000 --> 00:01:41,000
+is also another application.
+
+24
+00:01:41,000 --> 00:01:43,000
+This is not an end user.
+
+25
+00:01:43,000 --> 00:01:49,000
+So in such scenarios we should not configure under roles, we should configure under service accounts
+
+26
+00:01:49,000 --> 00:01:49,000
+roles.
+
+27
+00:01:49,000 --> 00:01:55,000
+Here you can see there is a button assign roles, but I don't have any role that I want to assign.
+
+28
+00:01:55,000 --> 00:01:59,000
+So let me close this and I can click on these Realm roles.
+
+29
+00:01:59,000 --> 00:02:01,000
+So let me click on that and post that
+
+30
+00:02:01,000 --> 00:02:04,000
+I'm going to click on this create role.
+
+31
+00:02:04,000 --> 00:02:09,000
+And here first I'll create a role with the name, accounts and description
+
+32
+00:02:09,000 --> 00:02:16,000
+I'll just keep it as Accounts Role and post that I'm going to click on the save button.
+
+33
+00:02:16,000 --> 00:02:18,000
+Intentionally I'm not creating loans and cards.
+
+34
+00:02:18,000 --> 00:02:22,000
+After doing some negative testing, we are going to create those roles as well.
+
+35
+00:02:22,000 --> 00:02:29,000
+Now I'll go to clients and I'll open Easy Bank Call center CC and go to the service account roles and click
+
+36
+00:02:29,000 --> 00:02:31,000
+on this button Assign role.
+
+37
+00:02:31,000 --> 00:02:34,000
+This time you should be able to see the role with the name ACCOUNTS.
+
+38
+00:02:34,000 --> 00:02:37,000
+So let me select the same and click on this assign.
+
+39
+00:02:37,000 --> 00:02:43,000
+Now, if I go to the request where we are trying to get an access token, this time I'll try to get
+
+40
+00:02:43,000 --> 00:02:45,000
+a fresh access token.
+
+41
+00:02:45,000 --> 00:02:47,000
+So let me click on the send button.
+
+42
+00:02:47,000 --> 00:02:49,000
+So I got a new access token.
+
+43
+00:02:49,000 --> 00:02:50,000
+Let me take this.
+
+44
+00:02:50,000 --> 00:02:56,000
+Once I copied this access token, I will go to that jwt.io website and here I'm going to paste the same.
+
+45
+00:02:56,000 --> 00:03:02,000
+So let's try to see where the roles information is coming inside the access token. Under the payload
+
+46
+00:03:02,000 --> 00:03:08,000
+if you can scroll down, there is a data with the key realm access under this realm access key, we
+
+47
+00:03:08,000 --> 00:03:15,000
+have another object and inside this object we have one more key with the name roles under these roles,
+
+48
+00:03:15,000 --> 00:03:18,000
+you can see we have list of roles assigned to this client.
+
+49
+00:03:18,000 --> 00:03:24,000
+And here we have our own custom role that we have created with the name accounts.
+
+50
+00:03:24,000 --> 00:03:30,000
+All the remaining roles are default roles that are available inside the keycloak, but we are more interested
+
+51
+00:03:30,000 --> 00:03:32,000
+about these accounts role.
+
+52
+00:03:32,000 --> 00:03:37,000
+So now it is confirmed that the role information is coming inside the access token.
+
+53
+00:03:37,000 --> 00:03:43,000
+But I should write a logic inside my resource server or inside my gateway server to extract this role
+
+54
+00:03:43,000 --> 00:03:50,000
+information and convey the same to the spring security framework to use and validate my authorization
+
+55
+00:03:50,000 --> 00:03:55,000
+rules that I have configured. For the same inside the same package of config.
+
+56
+00:03:55,000 --> 00:04:02,000
+I'm going to create a new class and the class name that I want to do here is keycloak role converter
+
+57
+00:04:02,000 --> 00:04:08,000
+because this class is going to help me to extract the roles that I'm getting from the keycloak into
+
+58
+00:04:08,000 --> 00:04:12,000
+the format that spring security framework can understand.
+
+59
+00:04:12,000 --> 00:04:13,000
+So let me create this class.
+
+60
+00:04:13,000 --> 00:04:20,000
+Now in this class, I need to make sure that it is implementing a interface with the name Converter.
+
+61
+00:04:20,000 --> 00:04:27,000
+Let me try to import this JWT, so please make sure you are exporting these JWT present inside the Spring
+
+62
+00:04:27,000 --> 00:04:29,000
+Security Oauth2 Library.
+
+63
+00:04:29,000 --> 00:04:35,000
+Once we added these implementation details, it will expect you to override an abstract method.
+
+64
+00:04:35,000 --> 00:04:40,000
+So let me click on this implement methods and override this method which is convert().
+
+65
+00:04:40,000 --> 00:04:42,000
+So I'm trying to click on this okay button.
+
+66
+00:04:42,000 --> 00:04:50,000
+Now you can see I got a new override method where I need to write the logic to read the role information
+
+67
+00:04:50,000 --> 00:04:57,000
+from the JWT access token that I'm going to receive and convert the same into the collection of granted
+
+68
+00:04:57,000 --> 00:04:58,000
+authority.
+
+69
+00:04:58,000 --> 00:04:59,000
+So GrantedAuthority
+
+70
+00:04:59,000 --> 00:05:03,000
+Is an interface available inside the spring security framework.
+
+71
+00:05:03,000 --> 00:05:09,000
+Whenever we want to convey the role's information or privileged information, we need to make sure we
+
+72
+00:05:09,000 --> 00:05:13,000
+are sending those details with these interface formats only.
+
+73
+00:05:13,000 --> 00:05:18,000
+So inside this method I'm going to paste a few lines of code post that we can try to discuss.
+
+74
+00:05:18,000 --> 00:05:20,000
+I'm trying to save some time here.
+
+75
+00:05:20,000 --> 00:05:23,000
+You can also try to refer this code inside the GitHub repo.
+
+76
+00:05:23,000 --> 00:05:24,000
+If you see here,
+
+77
+00:05:24,000 --> 00:05:30,000
+first, I'm trying to invoke the method, getClaims() with the help of this Jwt class.
+
+78
+00:05:30,000 --> 00:05:37,000
+The purpose of this getClaims() method is it will give you access to the payload data available inside
+
+79
+00:05:37,000 --> 00:05:45,000
+your access token. Post that I'm going to invoke the get method because this getClaims() is of type Map.
+
+80
+00:05:45,000 --> 00:05:52,000
+And inside this getClaims map, I'm going to invoke the get method with the key as real access.
+
+81
+00:05:52,000 --> 00:05:57,000
+If you see here inside our access token, we have a key with the name realm_access.
+
+82
+00:05:57,000 --> 00:06:02,000
+So whenever I try to access that, I will get the value assigned to this realm_access.
+
+83
+00:06:02,000 --> 00:06:08,000
+But this value also is of type Map because this is a key and these are the values.
+
+84
+00:06:08,000 --> 00:06:13,000
+That's why I'm trying to assign that to the Map of type String and the object.
+
+85
+00:06:13,000 --> 00:06:19,000
+For some reason, if realm access is empty, that means I'm going to return an empty ArrayList.
+
+86
+00:06:19,000 --> 00:06:27,000
+Otherwise, from these realm_access, I'm again going to invoke the get method with the key as roles. Inside
+
+87
+00:06:27,000 --> 00:06:28,000
+this realm access,
+
+88
+00:06:28,000 --> 00:06:32,000
+like I said, we have a map and there is a key with the name roles.
+
+89
+00:06:32,000 --> 00:06:37,000
+That's why I'm trying to pass this key name which will give me all these values available here.
+
+90
+00:06:37,000 --> 00:06:44,000
+So once I have all these roles available, I'm trying to use this stream API and using the stream API,
+
+91
+00:06:44,000 --> 00:06:46,000
+I'm trying to use the map method.
+
+92
+00:06:46,000 --> 00:06:48,000
+So what is the map method is going to do?
+
+93
+00:06:48,000 --> 00:06:54,000
+Map method is going to iterate all the values available inside this stream.
+
+94
+00:06:54,000 --> 00:06:59,000
+We are going to get four different values, but we are more interested about these accounts.
+
+95
+00:06:59,000 --> 00:07:05,000
+The stream is going to iterate all these four values and inside this map method we are going to take
+
+96
+00:07:05,000 --> 00:07:11,000
+each of the role name and we are prefixing the value role_ for each of the role name available
+
+97
+00:07:11,000 --> 00:07:13,000
+inside the roles map.
+
+98
+00:07:13,000 --> 00:07:19,000
+Why I'm trying to assign these prefix role underscore because whenever we use this has_role method
+
+99
+00:07:19,000 --> 00:07:27,000
+inside the spring security framework, internally it is going to use a prefix which is role underscore.
+
+100
+00:07:27,000 --> 00:07:29,000
+You can see inside the documentation
+
+101
+00:07:29,000 --> 00:07:36,000
+also, if we configure the role as user internally, the spring security will convert that to role underscore
+
+102
+00:07:36,000 --> 00:07:36,000
+user.
+
+103
+00:07:36,000 --> 00:07:42,000
+Since we have this prefix, we need to make sure inside the converter we are prefixing the same, but
+
+104
+00:07:42,000 --> 00:07:47,000
+inside the security config we should not add that because behind the scenes, inside the framework,
+
+105
+00:07:47,000 --> 00:07:49,000
+the spring security is going to add the same.
+
+106
+00:07:49,000 --> 00:07:55,000
+Now, after adding this prefix name, my role name object is going to still be a string, but my spring
+
+107
+00:07:55,000 --> 00:08:02,000
+security cannot understand the roles if I pass as a string, so I need to pass it as an object of simple
+
+108
+00:08:02,000 --> 00:08:03,000
+GrantedAuthority.
+
+109
+00:08:03,000 --> 00:08:09,000
+So this simple granted authority is an implementation of this interface which is granted authority. Inside
+
+110
+00:08:09,000 --> 00:08:15,000
+this SimpleGrantedAuthority, there is a constructor which accepts the role name in the format of
+
+111
+00:08:15,000 --> 00:08:21,000
+string and post that it is going to return the object of SimpleGrantedAuthority by using this role
+
+112
+00:08:21,000 --> 00:08:22,000
+information.
+
+113
+00:08:22,000 --> 00:08:27,000
+So the same constructor I'm trying to invoke with the help of these method reference.
+
+114
+00:08:27,000 --> 00:08:32,000
+So with the new operator, I'm trying to create the default constructor available inside this object.
+
+115
+00:08:32,000 --> 00:08:39,000
+So first, with this map logic, we are going to append a prefix value for each role and post that again
+
+116
+00:08:39,000 --> 00:08:46,000
+I'm going to iterate each role and convert that into a simple granted authority and at last the entire
+
+117
+00:08:46,000 --> 00:08:46,000
+stream
+
+118
+00:08:46,000 --> 00:08:51,000
+I'm trying to convert that into a list which I'm going to return from this method.
+
+119
+00:08:51,000 --> 00:08:57,000
+Now we have successfully created a RoleConverter, but how to communicate about this RoleConverter
+
+120
+00:08:57,000 --> 00:09:04,000
+to the configurations that we have done inside the SecurityConfig.java class. For the same inside
+
+121
+00:09:04,000 --> 00:09:08,000
+this class, I'm going to create a new small method here.
+
+122
+00:09:08,000 --> 00:09:10,000
+Let me paste a new method.
+
+123
+00:09:10,000 --> 00:09:14,000
+Like you can see here, the method name is grantedAuthoritiesExtractor().
+
+124
+00:09:14,000 --> 00:09:17,000
+We can make this method as private as well.
+
+125
+00:09:17,000 --> 00:09:25,000
+So this private method return type is going to be this value which is Converter of Jwt Mono of abstract
+
+126
+00:09:25,000 --> 00:09:27,000
+authentication token.
+
+127
+00:09:27,000 --> 00:09:33,000
+Inside this method you can see first I'm trying to create an object of Jwt authentication converter.
+
+128
+00:09:33,000 --> 00:09:36,000
+Using this JwtAuthenticationConverter object,
+
+129
+00:09:36,000 --> 00:09:42,000
+I'm trying to invoke a method which is setJwtGrantedAuthoritiesConverter, which means I need
+
+130
+00:09:42,000 --> 00:09:49,000
+to tell where I have written my logic to convert the roles present inside the JWT token into a granted
+
+131
+00:09:49,000 --> 00:09:51,000
+authorities format.
+
+132
+00:09:51,000 --> 00:09:56,000
+Since we have written all that logic inside the Keycloak role converter, we need to pass the object
+
+133
+00:09:56,000 --> 00:09:58,000
+of the same with the help of this new keycloak role
+
+134
+00:09:59,000 --> 00:10:00,000
+converter.
+
+135
+00:10:00,000 --> 00:10:08,000
+At last I need to pass this JwtAuthenticationConverter object to the constructor of ReactiveJwtAuthenticationConverterAdapter.
+
+136
+00:10:08,000 --> 00:10:09,000
+.
+
+137
+00:10:09,000 --> 00:10:14,000
+So from this return statement it is going to return an object of this data type.
+
+138
+00:10:14,000 --> 00:10:20,000
+So once we have created this method, we need to mention this method inside the configurations.
+
+139
+00:10:20,000 --> 00:10:26,000
+As of now you can see I'm trying to use the default configurations for my jwt method.
+
+140
+00:10:26,000 --> 00:10:31,000
+That means I'm telling to the spring security framework, please go with your default assumptions and
+
+141
+00:10:31,000 --> 00:10:34,000
+I don't have any role specific information.
+
+142
+00:10:34,000 --> 00:10:39,000
+But now, since we have role specific information also to be processed by the spring security framework,
+
+143
+00:10:39,000 --> 00:10:46,000
+we need to make sure we are removing these customizer with the defaults and post that we need to write
+
+144
+00:10:46,000 --> 00:10:52,000
+a lambda expression by creating some lambda variable with the name JWT spec and I'm going to use the
+
+145
+00:10:52,000 --> 00:11:00,000
+same lambda variable name using this lambda variable, I'm going to invoke the method which is jwtAuthenticationConverter.
+
+146
+00:11:00,000 --> 00:11:03,000
+To this jwtAuthenticationConverter,
+
+147
+00:11:03,000 --> 00:11:08,000
+I need to pass the method which is GrantedAuthoritiesExtractor.
+
+148
+00:11:08,000 --> 00:11:16,000
+So this way I have established the link about my key role converter inside my spring security configurations.
+
+149
+00:11:16,000 --> 00:11:18,000
+So with this we should be good.
+
+150
+00:11:18,000 --> 00:11:21,000
+Let me save this changes and do a build in the next lecture.
+
+151
+00:11:21,000 --> 00:11:23,000
+We can try to test these changes.
+
+152
+00:11:23,000 --> 00:11:26,000
+Thank you and I'll catch you in the next lecture bye.
+

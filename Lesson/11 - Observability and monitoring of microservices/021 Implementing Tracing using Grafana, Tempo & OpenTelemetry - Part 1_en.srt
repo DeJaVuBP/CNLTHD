@@ -1,0 +1,388 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to update the Docker compose file with the changes related to the Opentelemetry
+
+2
+00:00:06,000 --> 00:00:09,000
+tempo and Grafana integration of tempo.
+
+3
+00:00:09,000 --> 00:00:14,000
+For the same, I'm going to open the prod profile inside my Docker compose folder.
+
+4
+00:00:14,000 --> 00:00:18,000
+First, I'm going to open the common-config.yml.
+
+5
+00:00:18,000 --> 00:00:24,000
+Here I'm going to define some environment properties that are going to common for all microservices.
+
+6
+00:00:24,000 --> 00:00:30,000
+Since I want to mention the properties that are common for all microservices, I need to define the
+
+7
+00:00:30,000 --> 00:00:34,000
+environments under this microservice-base-config.
+
+8
+00:00:34,000 --> 00:00:40,000
+If I define under this microservice-configserver-config, then my config server will
+
+9
+00:00:40,000 --> 00:00:43,000
+not receive all the properties that I'm going to define here.
+
+10
+00:00:43,000 --> 00:00:50,000
+With that reason, I'm going to define environment details under these base config.
+
+11
+00:00:50,000 --> 00:00:54,000
+So let me mention environment here.
+
+12
+00:00:54,000 --> 00:01:02,000
+Under this environment I'm going to paste few environment properties like Java tool options and Opentelemetry
+
+13
+00:01:02,000 --> 00:01:03,000
+related properties.
+
+14
+00:01:03,000 --> 00:01:09,000
+So if you try to understand what are these properties first with the help of Java tool options, I'm
+
+15
+00:01:09,000 --> 00:01:16,000
+trying to pass Java agent parameter along with the path where my Opentelemetry jar is going to present.
+
+16
+00:01:16,000 --> 00:01:24,000
+Since we have defined the opentelemetry dependency inside our pom.xml, this jar is going to present
+
+17
+00:01:24,000 --> 00:01:27,000
+under this path inside all the containers.
+
+18
+00:01:27,000 --> 00:01:29,000
+That's why I have mentioned the same.
+
+19
+00:01:29,000 --> 00:01:34,000
+Now if you see I am trying to mention Otel exporter endpoint.
+
+20
+00:01:34,000 --> 00:01:40,000
+So to this endpoint property I'm trying to mention tempo service name and what is the port where my
+
+21
+00:01:40,000 --> 00:01:42,000
+tempo is going to expose its service.
+
+22
+00:01:42,000 --> 00:01:50,000
+So the Opentelemetry is going to send all the tracing related information to this tempo service and
+
+23
+00:01:50,000 --> 00:01:56,000
+at last using this property which is Otel metrics exporter, I'm setting as none because I don't want
+
+24
+00:01:56,000 --> 00:02:02,000
+to get metrics with the help of Opentelemetry because we already used a better tool whenever we are
+
+25
+00:02:02,000 --> 00:02:05,000
+trying to export metrics, which is Prometheus.
+
+26
+00:02:05,000 --> 00:02:09,000
+With that reason, I'm trying to set none value here. So let me save these changes.
+
+27
+00:02:09,000 --> 00:02:17,000
+Now I'll go to the Docker compose file and here under all my microservices I need to create an environment
+
+28
+00:02:17,000 --> 00:02:18,000
+property.
+
+29
+00:02:18,000 --> 00:02:18,000
+First
+
+30
+00:02:18,000 --> 00:02:21,000
+let me mention the same under the config server.
+
+31
+00:02:21,000 --> 00:02:28,000
+Under the config server I'm trying to mention an environment property with the name 
+
+32
+00:02:28,000 --> 00:02:34,000
+otel_service_name. With this property which is otel_service_name.
+
+33
+00:02:34,000 --> 00:02:38,000
+We are trying to convey what is a service name to the Opentelemetry library.
+
+34
+00:02:38,000 --> 00:02:43,000
+So let me mention the same kind of environment in other places as well.
+
+35
+00:02:43,000 --> 00:02:48,000
+So here also I'm going to mention the same in all the places, the spring application name and your
+
+36
+00:02:48,000 --> 00:02:50,000
+hotel service name is going to be same.
+
+37
+00:02:50,000 --> 00:02:54,000
+There is no mandatory that you need to use the same, but I'm trying to be consistent here.
+
+38
+00:02:54,000 --> 00:02:58,000
+Let me mention the same under accounts microservice as well.
+
+39
+00:02:58,000 --> 00:03:05,000
+So here I'm going to replace with accounts and post that I'm going to mention the same for loans as
+
+40
+00:03:05,000 --> 00:03:08,000
+well and replace this eureka server with loans.
+
+41
+00:03:08,000 --> 00:03:15,000
+Now I'll go to the cards and I'll mention the same here by replacing these Eureka server with cards.
+
+42
+00:03:15,000 --> 00:03:19,000
+At last I'll go to the gateway server and mention the same.
+
+43
+00:03:19,000 --> 00:03:22,000
+The service name is going to be Gateway server here.
+
+44
+00:03:22,000 --> 00:03:28,000
+So now we have defined all the environment property details inside common config and Docker compose
+
+45
+00:03:28,000 --> 00:03:31,000
+which are related to opentelemetry.
+
+46
+00:03:31,000 --> 00:03:35,000
+As a next step, we need to add the configurations related to tempo.
+
+47
+00:03:35,000 --> 00:03:41,000
+Before that, under the observability, I'm going to create a new directory with the name tempo.
+
+48
+00:03:41,000 --> 00:03:47,000
+Inside this folder, I'm going to create a new configuration file which is related to tempo.
+
+49
+00:03:47,000 --> 00:03:49,000
+Let me paste the file here.
+
+50
+00:03:49,000 --> 00:03:51,000
+The file name is going to be tempo.yml.
+
+51
+00:03:51,000 --> 00:03:54,000
+If you try to understand what is present inside this tempo.yml.
+
+52
+00:03:54,000 --> 00:04:01,000
+We have some tempo related configurations like it is going to listen at the port 3100 and there is some
+
+53
+00:04:01,000 --> 00:04:07,000
+other information like what is the trace idle period which is 10s, what is the maximum block bytes,
+
+54
+00:04:07,000 --> 00:04:09,000
+what is the maximum block duration?
+
+55
+00:04:09,000 --> 00:04:14,000
+So these are all the configurations related to tempo which we need to follow based upon the official
+
+56
+00:04:14,000 --> 00:04:15,000
+documentation.
+
+57
+00:04:15,000 --> 00:04:21,000
+I'm not going in detail about these configurations because in real projects the responsibility of all
+
+58
+00:04:21,000 --> 00:04:24,000
+these configurations belongs to the platform team.
+
+59
+00:04:24,000 --> 00:04:31,000
+Now under this Docker compose file just above the Grafana, I'm going to create a new service with the
+
+60
+00:04:31,000 --> 00:04:32,000
+name tempo.
+
+61
+00:04:32,000 --> 00:04:35,000
+So here just above the Grafana let me create a new service.
+
+62
+00:04:35,000 --> 00:04:41,000
+Like you can see, I have created a new service with the name tempo and this is a Docker image and the
+
+63
+00:04:41,000 --> 00:04:47,000
+container name is going to be tempo and it is going to invoke the command file which is present at this
+
+64
+00:04:47,000 --> 00:04:50,000
+location with the name tempo-config.yml.
+
+65
+00:04:50,000 --> 00:04:56,000
+Now under the ports we have mentioned the port mapping the same port which is 3100.
+
+66
+00:04:56,000 --> 00:04:59,000
+We have to mention inside this tempo.yml you can see.
+
+67
+00:04:59,000 --> 00:05:02,000
+We have mentioned this Http listener port.
+
+68
+00:05:02,000 --> 00:05:08,000
+The same port 3100 we have to mention here. But we can't expose the same to the outside because the
+
+69
+00:05:08,000 --> 00:05:12,000
+same 3100 is already being exposed in some other place.
+
+70
+00:05:12,000 --> 00:05:18,000
+If you try to search the same inside our Docker compose file, you can see this service, which is Gateway,
+
+71
+00:05:18,000 --> 00:05:21,000
+is already exposing the Port 3100.
+
+72
+00:05:21,000 --> 00:05:28,000
+So since we can't expose at the same number, I'm trying to mention a different port number which is
+
+73
+00:05:28,000 --> 00:05:30,000
+3110.
+
+74
+00:05:30,000 --> 00:05:35,000
+Apart from this, we also have other port mapping which is at the port number 4317.
+
+75
+00:05:35,000 --> 00:05:42,000
+Now coming to the volumes, I'm trying to copy the tempo.yml file which is present inside my observability
+
+76
+00:05:42,000 --> 00:05:49,000
+folder to the etc location with the name tempo-config.yml the same we are trying to use here
+
+77
+00:05:49,000 --> 00:05:55,000
+now as a next step, we are trying to extend the network related information from the commonconfig.yml.
+
+78
+00:05:55,000 --> 00:05:56,000
+.
+
+79
+00:05:56,000 --> 00:06:01,000
+With this we have introduced a new service tempo inside our Docker compose file.
+
+80
+00:06:01,000 --> 00:06:08,000
+As a next step we need to provide the integration between grafana and tempo. So where we need to provide
+
+81
+00:06:08,000 --> 00:06:13,000
+that with the help of datasource.yml file present inside the grafana.
+
+82
+00:06:13,000 --> 00:06:19,000
+As of now you can see we have created two data sources with the name Prometheus and Loki.
+
+83
+00:06:19,000 --> 00:06:24,000
+So very similarly, let me mention data source details related to tempo as well.
+
+84
+00:06:24,000 --> 00:06:31,000
+First, I'll try to delete any data source with the name tempo that I'm going to create a new data source
+
+85
+00:06:31,000 --> 00:06:32,000
+with the name tempo.
+
+86
+00:06:32,000 --> 00:06:37,000
+So here, let me paste some data source related details related to tempo.
+
+87
+00:06:37,000 --> 00:06:43,000
+So just after the Prometheus, I'm going to paste the data source related changes of tempo.
+
+88
+00:06:43,000 --> 00:06:46,000
+So let me bring these tempo configurations to the correct location.
+
+89
+00:06:46,000 --> 00:06:48,000
+With that, the error will get resolved.
+
+90
+00:06:48,000 --> 00:06:53,000
+Like you can see, the name of the data source is going to be tempo and it is of type Tempo.
+
+91
+00:06:53,000 --> 00:06:59,000
+The Uid that I'm trying to give for this is tempo and the tempo is going to start at the port
+
+92
+00:06:59,000 --> 00:07:06,000
+3100 and my grafana is going to interact with tempo with the service name tempo.
+
+93
+00:07:06,000 --> 00:07:12,000
+After making these changes, my grafana should be able to connect with my tempo and we should be able
+
+94
+00:07:12,000 --> 00:07:16,000
+to see the tracing information inside my Grafana application.
+
+95
+00:07:16,000 --> 00:07:20,000
+I hope you are clear with all the changes that we have done. In the next lecture, let's try to start
+
+96
+00:07:20,000 --> 00:07:25,000
+all our applications and see the distributed tracing in action.
+
+97
+00:07:25,000 --> 00:07:28,000
+Thank you and I'll catch you in the next lecture bye.
+

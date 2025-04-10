@@ -1,0 +1,508 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now inside this lecture, let's try to use the authorization code grant type flow and using the same
+
+2
+00:00:06,000 --> 00:00:11,000
+let's try to access the secure resources available behind the gateway server.
+
+3
+00:00:11,000 --> 00:00:18,000
+So to test this authorization code grant type flow, we don't have any UI application or a mobile application.
+
+4
+00:00:18,000 --> 00:00:19,000
+That's fine
+
+5
+00:00:19,000 --> 00:00:20,000
+we don't need to worry.
+
+6
+00:00:20,000 --> 00:00:25,000
+With the help of postman, we should be able to easily mimic an application or a mobile application
+
+7
+00:00:25,000 --> 00:00:27,000
+scenario. For the same,
+
+8
+00:00:27,000 --> 00:00:34,000
+like you can see here, I have created three different post requests with the prefix value auth code.
+
+9
+00:00:34,000 --> 00:00:37,000
+So this is for accounts, this is for cards and this is for loans.
+
+10
+00:00:37,000 --> 00:00:41,000
+So first let me go to the accounts related API.
+
+11
+00:00:41,000 --> 00:00:47,000
+So by default, if I try to invoke definitely I will get an 401 unauthorized.
+
+12
+00:00:47,000 --> 00:00:53,000
+But in order to get a successful response, we need to make sure we are mentioning required details
+
+13
+00:00:53,000 --> 00:00:56,000
+inside the authorization tab of Postman.
+
+14
+00:00:56,000 --> 00:01:01,000
+So under the authorization tab, please make sure you are selecting the type as OAuth 2.0.
+
+15
+00:01:01,000 --> 00:01:03,000
+Now the header prefix value,
+
+16
+00:01:03,000 --> 00:01:10,000
+we can keep it as bearer and post that under the configure new token, please make sure you are giving
+
+17
+00:01:10,000 --> 00:01:12,000
+some token name like here
+
+18
+00:01:12,000 --> 00:01:17,000
+I have given a name which is auth code underscore access token. After the token name
+
+19
+00:01:17,000 --> 00:01:21,000
+we need to make sure we are mentioning the grant type as authorization code.
+
+20
+00:01:21,000 --> 00:01:27,000
+When you select the authorization code as a grant type here, you can fill the details under callback
+
+21
+00:01:27,000 --> 00:01:33,000
+URL, auth URL access token URL, client ID, client secret, scope, state.
+
+22
+00:01:33,000 --> 00:01:38,000
+So callback url is same as the redirect URL that we need to configure.
+
+23
+00:01:38,000 --> 00:01:45,000
+But here you may have a question like how the postman can redirect the end user to the login page of
+
+24
+00:01:45,000 --> 00:01:46,000
+the keycloak. For the same,
+
+25
+00:01:46,000 --> 00:01:50,000
+if you can see here, there is an option here like authorize using browser.
+
+26
+00:01:50,000 --> 00:01:53,000
+So please make sure you are checking this option.
+
+27
+00:01:53,000 --> 00:01:59,000
+So whenever you check this option by default, the callback URL is going to be this value.
+
+28
+00:01:59,000 --> 00:02:00,000
+We cannot change it.
+
+29
+00:02:00,000 --> 00:02:07,000
+Now coming to the auth URL, this is the URL that my client application is going to redirect my end
+
+30
+00:02:07,000 --> 00:02:13,000
+user so that once my end user redirected to this URL, he can enter his credentials and provide his
+
+31
+00:02:13,000 --> 00:02:19,000
+consent and post that my client application is going to receive an authorization code.
+
+32
+00:02:19,000 --> 00:02:24,000
+So using the same authorization code it has to invoke these access token URL.
+
+33
+00:02:24,000 --> 00:02:30,000
+You should be able to get these URLs inside the list of URLs supported by the keycloak.
+
+34
+00:02:30,000 --> 00:02:36,000
+Here we have the list of URLs supported by the keycloak like you can see here authorization endpoint,
+
+35
+00:02:36,000 --> 00:02:41,000
+we need to mention the same inside the postman and very similarly token endpoint,
+
+36
+00:02:41,000 --> 00:02:48,000
+we should also mention this inside the postman. After mentioning this auth URL and access token URL,
+
+37
+00:02:48,000 --> 00:02:53,000
+we need to make sure we are mentioning what is the client ID, what is the client secret and coming
+
+38
+00:02:53,000 --> 00:02:56,000
+to the scope, we need to mention OpenID email profile.
+
+39
+00:02:56,000 --> 00:02:58,000
+Now coming to the state variable.
+
+40
+00:02:58,000 --> 00:03:02,000
+Like I said, this is a variable to handle the csrf attack.
+
+41
+00:03:02,000 --> 00:03:07,000
+So inside this variable we should mention some random alphanumeric value.
+
+42
+00:03:07,000 --> 00:03:13,000
+That's why I have given some random alphanumeric value and post that under the client authentication,
+
+43
+00:03:13,000 --> 00:03:18,000
+please select the option, which is send the client credentials in body.
+
+44
+00:03:18,000 --> 00:03:24,000
+So once you have filled all these details, if we can scroll down, scroll down here, we have a button
+
+45
+00:03:24,000 --> 00:03:31,000
+which is get new access token. Before you try to click on this button, please make sure all your browsers
+
+46
+00:03:31,000 --> 00:03:38,000
+are closed because this button is going to open a new browser inside your system, inside your browser
+
+47
+00:03:38,000 --> 00:03:44,000
+if you already have session related to the admin console, then it is going to consider the login details
+
+48
+00:03:44,000 --> 00:03:45,000
+of the admin.
+
+49
+00:03:45,000 --> 00:03:48,000
+But we don't want the admin credentials to use here.
+
+50
+00:03:48,000 --> 00:03:51,000
+We want actual end user credentials to use.
+
+51
+00:03:51,000 --> 00:03:56,000
+That's why please close any browsers that you have inside your local system.
+
+52
+00:03:56,000 --> 00:03:59,000
+Behind the scenes I make sure I closed all my browsers.
+
+53
+00:03:59,000 --> 00:04:02,000
+I'm clicking on these get new access token.
+
+54
+00:04:02,000 --> 00:04:11,000
+This will redirect me to a browser and here it is asking me to enter my credentials. So I as an end user,
+
+55
+00:04:11,000 --> 00:04:17,000
+I should enter my username, which is Madan and the password is one, two three, four, five.
+
+56
+00:04:17,000 --> 00:04:23,000
+As soon as I click on this sign in button behind the scenes, my postman might have received the authorization
+
+57
+00:04:23,000 --> 00:04:29,000
+code and using the same authorization code, it might have sent a new request to the Keycloak auth server
+
+58
+00:04:29,000 --> 00:04:30,000
+to get an access token.
+
+59
+00:04:30,000 --> 00:04:33,000
+That's why we received the new access token.
+
+60
+00:04:33,000 --> 00:04:36,000
+So let me select this option, which is use token.
+
+61
+00:04:36,000 --> 00:04:39,000
+Now I'm going to invoke this send button.
+
+62
+00:04:39,000 --> 00:04:46,000
+So now you can see I'm getting a 403 error because inside the resource server we have configured a roll
+
+63
+00:04:46,000 --> 00:04:47,000
+of accounts.
+
+64
+00:04:47,000 --> 00:04:53,000
+Like anyone who wants to access my accounts related REST APIs, they should have accounts related role
+
+65
+00:04:53,000 --> 00:04:55,000
+configured inside the keycloak.
+
+66
+00:04:55,000 --> 00:04:58,000
+As of now, my end user does not have any roles.
+
+67
+00:04:58,000 --> 00:05:00,000
+So to fix this issue, let's
+
+68
+00:05:00,000 --> 00:05:02,000
+try to assign some roles to the end user.
+
+69
+00:05:02,000 --> 00:05:09,000
+So let me close this session related to the end user madan and inside the browser so that I can try
+
+70
+00:05:09,000 --> 00:05:10,000
+to log in again as an admin.
+
+71
+00:05:10,000 --> 00:05:16,000
+So here I'm trying to access the keycloak administration console and I'm going to enter the username
+
+72
+00:05:16,000 --> 00:05:21,000
+as admin and password as admin was that I'm going to click on the sign in button.
+
+73
+00:05:21,000 --> 00:05:24,000
+Now I'll go to the users.
+
+74
+00:05:24,000 --> 00:05:28,000
+Here there is a user with the name Madan, so let me click on that and post that
+
+75
+00:05:28,000 --> 00:05:34,000
+I need to go to the role mapping because this person is an end user but not an application.
+
+76
+00:05:34,000 --> 00:05:41,000
+When are we want to assign roles for an application, we need to go to the service roles.
+
+77
+00:05:41,000 --> 00:05:46,000
+We did the same when we tried to assign roles for the client credentials application.
+
+78
+00:05:46,000 --> 00:05:49,000
+But here we will not have any option like service roles.
+
+79
+00:05:49,000 --> 00:05:55,000
+We should directly go to the role mapping and click on this assign role and I'm going to select the
+
+80
+00:05:55,000 --> 00:06:02,000
+roles, accounts, cards and loans available and post that I'm going to click on this assign button.
+
+81
+00:06:02,000 --> 00:06:06,000
+Now my end user Madan has these roles configured.
+
+82
+00:06:06,000 --> 00:06:10,000
+Let me try to get a new access token and try again.
+
+83
+00:06:10,000 --> 00:06:16,000
+But before that I need to make sure I'm closing these browser session because this session belongs to
+
+84
+00:06:16,000 --> 00:06:16,000
+admin.
+
+85
+00:06:16,000 --> 00:06:20,000
+Now I'm trying to click on this Get new access token inside the browser
+
+86
+00:06:20,000 --> 00:06:27,000
+I need to enter the end user details like madan one, two, three, four, five and post that I'm going
+
+87
+00:06:27,000 --> 00:06:28,000
+to click on the sign in button.
+
+88
+00:06:28,000 --> 00:06:31,000
+Now you can see I got an access token.
+
+89
+00:06:31,000 --> 00:06:34,000
+I'm going to use the same access token.
+
+90
+00:06:34,000 --> 00:06:37,000
+Now I'm going to click on the send button.
+
+91
+00:06:37,000 --> 00:06:40,000
+This time you can see we are getting a successful response.
+
+92
+00:06:40,000 --> 00:06:44,000
+As a next step, I'll go to the Cards API request as well.
+
+93
+00:06:44,000 --> 00:06:48,000
+So here, please make sure there is a prefix which is auth code.
+
+94
+00:06:48,000 --> 00:06:50,000
+Make sure you are using the same request.
+
+95
+00:06:50,000 --> 00:06:56,000
+Here also, under the auth, we need to make sure we have selected all the details that we have discussed
+
+96
+00:06:56,000 --> 00:07:02,000
+previously, like auth url, access token URL, client ID, client secret, scope, state.
+
+97
+00:07:02,000 --> 00:07:07,000
+At last I'll go to the postman and here I'm going to click on this button post that you can see
+
+98
+00:07:07,000 --> 00:07:08,000
+I got the token.
+
+99
+00:07:08,000 --> 00:07:14,000
+I'm trying to use the same token and submit the request with the send button and I got a successful
+
+100
+00:07:14,000 --> 00:07:15,000
+response.
+
+101
+00:07:15,000 --> 00:07:17,000
+Let me do the same for loans also.
+
+102
+00:07:17,000 --> 00:07:23,000
+And here also I will make sure to get an new access token by clicking on this option.
+
+103
+00:07:23,000 --> 00:07:25,000
+Now you can see I got an access token.
+
+104
+00:07:25,000 --> 00:07:32,000
+I'm going to use the same and submit this request and you should be able to see I'm getting a successful
+
+105
+00:07:32,000 --> 00:07:32,000
+response.
+
+106
+00:07:32,000 --> 00:07:36,000
+I'll go to the next API, which is accounts get permit all.
+
+107
+00:07:36,000 --> 00:07:42,000
+So here I'm going to invoke the fetchCustomerDetails API along with the mobile number.
+
+108
+00:07:42,000 --> 00:07:47,000
+And since this is a get API, it does not need any authentication details.
+
+109
+00:07:47,000 --> 00:07:49,000
+So let me submit this request,
+
+110
+00:07:49,000 --> 00:07:54,000
+you can see I'm getting a response and this confirms all the accounts,
+
+111
+00:07:54,000 --> 00:07:57,000
+loans and cards are created behind the scenes.
+
+112
+00:07:57,000 --> 00:08:03,000
+So regardless of whether we are using client credentials, grant type flow or authorization code grant
+
+113
+00:08:03,000 --> 00:08:08,000
+type flow, we don't need to make any changes inside the gateway server. In both the flows
+
+114
+00:08:08,000 --> 00:08:12,000
+my gateway server is going to act as an resource server.
+
+115
+00:08:12,000 --> 00:08:16,000
+So these are the mostly used grant type flow inside the industry.
+
+116
+00:08:16,000 --> 00:08:21,000
+Whenever we are trying to implement security inside the microservices network.
+
+117
+00:08:21,000 --> 00:08:25,000
+That's why I have discussed only about these two grant type flows.
+
+118
+00:08:25,000 --> 00:08:32,000
+As a next step, I'm going to generate the Docker images of this section behind the scenes and update
+
+119
+00:08:32,000 --> 00:08:34,000
+that Docker compose file as well.
+
+120
+00:08:34,000 --> 00:08:39,000
+By the time I come into the next lecture, if you are also following with me, please make sure you
+
+121
+00:08:39,000 --> 00:08:47,000
+are stopping all your applications and please make sure you are visiting the pom.xml of all the microservices
+
+122
+00:08:47,000 --> 00:08:55,000
+and update the tag name from S11 to S12 Because right now we are into the new section, which is section12.
+
+123
+00:08:55,000 --> 00:08:55,000
+.
+
+124
+00:08:55,000 --> 00:09:01,000
+So this way I'm going to update all the pom.xml and I'm going to generate the Docker images for all
+
+125
+00:09:01,000 --> 00:09:02,000
+our microservices.
+
+126
+00:09:02,000 --> 00:09:04,000
+I hope this is clear.
+
+127
+00:09:04,000 --> 00:09:07,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,436 @@
+1
+00:00:00,000 --> 00:00:01,000
+As of now
+
+2
+00:00:01,000 --> 00:00:08,000
+in the previous lecture, we created the alerts by defining alerts directly inside these alert rules.
+
+3
+00:00:08,000 --> 00:00:09,000
+As a different approach
+
+4
+00:00:09,000 --> 00:00:14,000
+we can also try to trigger the alerts from our dashboards itself.
+
+5
+00:00:14,000 --> 00:00:16,000
+So let me show you this approach as well.
+
+6
+00:00:16,000 --> 00:00:16,000
+For the same
+
+7
+00:00:16,000 --> 00:00:18,000
+let me go to the dashboards.
+
+8
+00:00:18,000 --> 00:00:21,000
+And here I'm going to create a new dashboard.
+
+9
+00:00:21,000 --> 00:00:28,000
+So let me click on this new dashboard and give a name saying that AlertsDemo, I'm trying to save this
+
+10
+00:00:28,000 --> 00:00:35,000
+dashboard post that I'll click on this visualization and here I'll make sure the time series is selected.
+
+11
+00:00:35,000 --> 00:00:38,000
+I'll go to the data source and select the Prometheus.
+
+12
+00:00:38,000 --> 00:00:45,000
+This time I'll try to create an alert for my card microservice. For the same under this a if needed
+
+13
+00:00:45,000 --> 00:00:50,000
+you can also change these values, but by default the Prometheus will follow sequence like A, B, C,
+
+14
+00:00:50,000 --> 00:00:51,000
+D.
+
+15
+00:00:51,000 --> 00:00:57,000
+So under a first I'm going to mention the metric name, which is up for this metric, the label I'm
+
+16
+00:00:57,000 --> 00:01:00,000
+going to select as job and the value is going to be cards.
+
+17
+00:01:00,000 --> 00:01:06,000
+After defining this query, you can see there is an alert option we have on the same page.
+
+18
+00:01:06,000 --> 00:01:12,000
+So let me click on this alert option. Here before we try to click on this Create Alert rule, Let's make
+
+19
+00:01:12,000 --> 00:01:14,000
+sure we are giving a proper name for this panel.
+
+20
+00:01:14,000 --> 00:01:17,000
+So I will say something like cards up.
+
+21
+00:01:17,000 --> 00:01:20,000
+So this is the title I want to give for the panel.
+
+22
+00:01:20,000 --> 00:01:24,000
+Now I'll click on this apply and you can see my panel is saved.
+
+23
+00:01:24,000 --> 00:01:29,000
+I will use the edit option that we have here and I'll go to the alert.
+
+24
+00:01:29,000 --> 00:01:31,000
+Here this time I'm going to click on this button.
+
+25
+00:01:32,000 --> 00:01:34,000
+This will ask me to save the dashboard.
+
+26
+00:01:34,000 --> 00:01:38,000
+I want to save the dashboard and post that I'm going to click on the save.
+
+27
+00:01:38,000 --> 00:01:42,000
+And now you can see you'll be redirected to the same alert page.
+
+28
+00:01:42,000 --> 00:01:48,000
+And here I'm going to use the same kind of conditions that we have discussed in the previous lecture.
+
+29
+00:01:48,000 --> 00:01:54,000
+Under the reduce the function I'm going to use the last and at the threshold, I'll make sure I'm selecting
+
+30
+00:01:54,000 --> 00:02:01,000
+the ease below and the value is going to be one post that I will select a new folder, which is cards.
+
+31
+00:02:01,000 --> 00:02:05,000
+And similarly I'll create a new group which is cards itself.
+
+32
+00:02:05,000 --> 00:02:11,000
+After mentioning folder and group, we can mention the evaluation period as 10s for 30s.
+
+33
+00:02:11,000 --> 00:02:16,000
+Once we have defined all these details under the alert evaluation behavior, if you can scroll down
+
+34
+00:02:16,000 --> 00:02:23,000
+under the details about our alert rule, the dashboard UID and the panel ID is by default populated.
+
+35
+00:02:23,000 --> 00:02:30,000
+If you want to add more annotations or more details about your alert, we can click on this, add annotation
+
+36
+00:02:30,000 --> 00:02:37,000
+and choose summary and mention the value as cards microservice is down. And post that
+
+37
+00:02:37,000 --> 00:02:43,000
+we can also add one more annotation with the value description under this description we can mention the
+
+38
+00:02:43,000 --> 00:02:43,000
+same value
+
+39
+00:02:43,000 --> 00:02:48,000
+like please do something. And at last we don't have to mention anything
+
+40
+00:02:48,000 --> 00:02:51,000
+under the notifications. Let me select the save rule and exit.
+
+41
+00:02:51,000 --> 00:02:55,000
+Now you can see for our panel the alert is set up.
+
+42
+00:02:55,000 --> 00:02:57,000
+So let me go back to the alerts demo dashboard.
+
+43
+00:02:57,000 --> 00:03:01,000
+So this is the panel that we have created. For this panel alone
+
+44
+00:03:01,000 --> 00:03:04,000
+we have set up a new alert.
+
+45
+00:03:04,000 --> 00:03:07,000
+So right now, the panel is showing last six hours data.
+
+46
+00:03:07,000 --> 00:03:09,000
+So let me select the last five minutes.
+
+47
+00:03:09,000 --> 00:03:15,000
+You can see in the last five minutes, the value is always one, which means my cards microservice
+
+48
+00:03:15,000 --> 00:03:17,000
+is running without any issues.
+
+49
+00:03:17,000 --> 00:03:20,000
+And you might have observed one heart symbol here.
+
+50
+00:03:20,000 --> 00:03:27,000
+This heart symbol with a green indicates that there are no issues with our panel or with our rule that
+
+51
+00:03:27,000 --> 00:03:29,000
+we have configured for our alert.
+
+52
+00:03:29,000 --> 00:03:34,000
+It is indirectly conveying that there are no health issues for our alert.
+
+53
+00:03:34,000 --> 00:03:40,000
+Now I'll go to the Docker desktop and I will try to stop my cards microservice. Here let me select
+
+54
+00:03:40,000 --> 00:03:43,000
+the cards microservice and I'm trying to stop the same.
+
+55
+00:03:43,000 --> 00:03:45,000
+Now we'll go to the Grafana dashboard.
+
+56
+00:03:45,000 --> 00:03:51,000
+If you try to refresh this dashboard, you can see right now it became zero after few seconds
+
+57
+00:03:51,000 --> 00:03:56,000
+the heart symbol right now, it converted into a yellow color or orange color.
+
+58
+00:03:56,000 --> 00:04:00,000
+So this indicates that alert is in the pending status.
+
+59
+00:04:00,000 --> 00:04:06,000
+If you keep refreshing at some point of time, maybe after 30s, the alert will be moved to the firing
+
+60
+00:04:06,000 --> 00:04:07,000
+status.
+
+61
+00:04:07,000 --> 00:04:12,000
+As of now, it is trying to evaluate continuously based upon our configurations.
+
+62
+00:04:12,000 --> 00:04:14,000
+Now you can see the heart symbol became red color.
+
+63
+00:04:14,000 --> 00:04:19,000
+This means the status of the alert right now is alerting. Inside the panel
+
+64
+00:04:19,000 --> 00:04:25,000
+also you'll be able to see one yellow line which indicates at this specific point of time the alert
+
+65
+00:04:25,000 --> 00:04:27,000
+is in the pending status.
+
+66
+00:04:28,000 --> 00:04:35,000
+Post that after 30s, the alert is moved to the red status, which means it is right now firing to the notification
+
+67
+00:04:35,000 --> 00:04:37,000
+channel that we have configured.
+
+68
+00:04:37,000 --> 00:04:39,000
+So let me go to the webhook website.
+
+69
+00:04:39,000 --> 00:04:43,000
+Here you can see I am getting new notifications inside this webhook.
+
+70
+00:04:43,000 --> 00:04:49,000
+If I open the latest notification, you should be able to see cards microservices down. As a next step
+
+71
+00:04:49,000 --> 00:04:51,000
+let me start my cards microservice.
+
+72
+00:04:51,000 --> 00:04:57,000
+So I'm trying to start it and this is going to take at least 20s. To start my microservices successfully.
+
+73
+00:04:57,000 --> 00:04:59,000
+So it is trying to start.
+
+74
+00:04:59,000 --> 00:04:59,000
+So let me go to the
+
+75
+00:04:59,000 --> 00:05:01,000
+dashboard of Grafana.
+
+76
+00:05:01,000 --> 00:05:06,000
+At some point of time, the heart symbol will come back to the green status.
+
+77
+00:05:06,000 --> 00:05:08,000
+So let's wait for this to come.
+
+78
+00:05:08,000 --> 00:05:11,000
+In the meantime, we can keep refreshing the dashboard.
+
+79
+00:05:11,000 --> 00:05:16,000
+You can see after few seconds the metric value moved from 0 to 1.
+
+80
+00:05:16,000 --> 00:05:20,000
+And with that, my alert is right now in the okay status.
+
+81
+00:05:20,000 --> 00:05:24,000
+That's what we are able to see the heart symbol with a green value.
+
+82
+00:05:24,000 --> 00:05:26,000
+I hope you are clear with this approach as well.
+
+83
+00:05:26,000 --> 00:05:32,000
+With this, we completed all the discussion around Micrometer, Prometheus and Grafana and with the
+
+84
+00:05:32,000 --> 00:05:39,000
+help of these three components, we are able to set up the metrics monitoring or metrics aggregation
+
+85
+00:05:39,000 --> 00:05:41,000
+for all our microservices.
+
+86
+00:05:41,000 --> 00:05:45,000
+Let me try to provide a quick summary of what we have discussed.
+
+87
+00:05:45,000 --> 00:05:51,000
+First, we will have our microservices running behind the scenes and inside the microservice
+
+88
+00:05:51,000 --> 00:05:57,000
+we have added the dependency related to the micrometer. With the help of the micrometer and the actuator,
+
+89
+00:05:57,000 --> 00:06:03,000
+microservices are going to expose the metrics in a format that my Prometheus can understand.
+
+90
+00:06:03,000 --> 00:06:10,000
+Once these microservices started exposing this information, the Prometheus is going to scrap all those
+
+91
+00:06:10,000 --> 00:06:15,000
+metrics from the services and the basic information we can validate with the help of Prometheus UI itself.
+
+92
+00:06:15,000 --> 00:06:22,000
+Prometheus UI also supports various graphs and monitoring. But Prometheus alone is not sufficient to build
+
+93
+00:06:22,000 --> 00:06:26,000
+some beautiful dashboards and to trigger some alerts and notifications.
+
+94
+00:06:26,000 --> 00:06:29,000
+That's why we are going to integrate Prometheus with the Grafana.
+
+95
+00:06:29,000 --> 00:06:36,000
+Grafana provides ability to query, search, visualize the metrics, build a dashboards, alerts with
+
+96
+00:06:36,000 --> 00:06:38,000
+the Prometheus as a data source.
+
+97
+00:06:38,000 --> 00:06:41,000
+So this is the story right now is happening behind the scenes.
+
+98
+00:06:41,000 --> 00:06:49,000
+Whenever we are trying to monitor our microservices with the help of metrics exposed by the microservices.
+
+99
+00:06:49,000 --> 00:06:53,000
+I hope you are super, super clear and you are trying to digest all this information.
+
+100
+00:06:53,000 --> 00:06:59,000
+Please note that you should know the basics of Grafana as a developer so that you will have complete
+
+101
+00:06:59,000 --> 00:07:04,000
+end to end picture on how microservices are going to be developed, monitored, deployed.
+
+102
+00:07:04,000 --> 00:07:10,000
+If you have these end to end picture, then only you can easily clear the interviews related to microservice
+
+103
+00:07:10,000 --> 00:07:16,000
+and at the same time you can become a superstar developer inside your project as well because you know
+
+104
+00:07:16,000 --> 00:07:17,000
+everything about microservices.
+
+105
+00:07:17,000 --> 00:07:22,000
+Maybe you are not a master of grafana, but at least you can give some directions to your platform
+
+106
+00:07:22,000 --> 00:07:28,000
+team or operations team about the best practices that they can follow. And if needed
+
+107
+00:07:28,000 --> 00:07:33,000
+you can also show a quick demo to platform team or operations team based upon the knowledge that you
+
+108
+00:07:33,000 --> 00:07:35,000
+have gained inside this course.
+
+109
+00:07:35,000 --> 00:07:38,000
+Thank you and I'll catch you in the next lecture bye.
+

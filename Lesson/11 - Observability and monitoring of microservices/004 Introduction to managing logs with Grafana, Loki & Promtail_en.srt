@@ -1,0 +1,356 @@
+1
+00:00:00,000 --> 00:00:06,000
+In the previous lecture, I was telling you that we should not force the developers to implement all
+
+2
+00:00:06,000 --> 00:00:08,000
+the observability and monitoring logic.
+
+3
+00:00:09,000 --> 00:00:15,000
+Instead, we should leverage the tools or the best practices that will help us to implement observability
+
+4
+00:00:15,000 --> 00:00:19,000
+and monitoring with less efforts from the developer. For the same,
+
+5
+00:00:19,000 --> 00:00:25,000
+throughout this course, I'm going to use the tools at the plugins available inside the Grafana.
+
+6
+00:00:25,000 --> 00:00:27,000
+So what is Grafana?
+
+7
+00:00:27,000 --> 00:00:35,000
+Grafana is a company which is building a lot of tools and plugins to implement observability monitoring
+
+8
+00:00:35,000 --> 00:00:37,000
+inside any kind of applications.
+
+9
+00:00:37,000 --> 00:00:43,000
+It's not only about microservices, even for other type of applications like web applications, IoT
+
+10
+00:00:43,000 --> 00:00:48,000
+applications for any kind of applications, with the help of the tools provided by the Grafana, we
+
+11
+00:00:48,000 --> 00:00:51,000
+can implement observable and monitoring.
+
+12
+00:00:51,000 --> 00:00:58,000
+The reason why I choose the Grafana to implement observability and monitoring is, it provides open source
+
+13
+00:00:58,000 --> 00:01:00,000
+tools for various scenarios.
+
+14
+00:01:00,000 --> 00:01:06,000
+For example, if you want to implement log aggregating system, then go for the tool Grafana Loki.
+
+15
+00:01:06,000 --> 00:01:12,000
+Similarly, if you are looking around metrics, then you can integrate Prometheus with Grafana and
+
+16
+00:01:12,000 --> 00:01:15,000
+build some dashboards alerts very easily.
+
+17
+00:01:15,000 --> 00:01:19,000
+And for tracing information you can leverage Grafana tempo.
+
+18
+00:01:19,000 --> 00:01:25,000
+This way there are many tools available inside the Grafana for various kind of scenarios and it has
+
+19
+00:01:25,000 --> 00:01:30,000
+very good integration with other standards like Opentelemetry, Prometheus.
+
+20
+00:01:30,000 --> 00:01:33,000
+We are going to discuss in detail about these tools.
+
+21
+00:01:33,000 --> 00:01:39,000
+Grafana itself is a very fascinating subject and many operations are platform engineers.
+
+22
+00:01:39,000 --> 00:01:42,000
+It is a mandatory skill for them to learn everything about Grafana.
+
+23
+00:01:42,000 --> 00:01:48,000
+But inside this course I'm going to teach you some basics and how to use grafana,
+
+24
+00:01:48,000 --> 00:01:50,000
+how to build observability and monitoring
+
+25
+00:01:50,000 --> 00:01:54,000
+with the help of Grafana tools in the real projects.
+
+26
+00:01:54,000 --> 00:01:59,000
+It is not the developer responsibility to implement observability and monitoring.
+
+27
+00:01:59,000 --> 00:02:05,000
+The developer has to work with the operations team or platform team and implement the same.
+
+28
+00:02:05,000 --> 00:02:10,000
+But I'm trying to teach about this inside this course so that whenever you have challenges or problems
+
+29
+00:02:10,000 --> 00:02:16,000
+related to observability and monitoring inside your projects and organizations, you should be able
+
+30
+00:02:16,000 --> 00:02:20,000
+to give some directions to your operations team or platform team.
+
+31
+00:02:20,000 --> 00:02:25,000
+Or you can also build some demo applications with the help of all the concepts that we are going to
+
+32
+00:02:25,000 --> 00:02:25,000
+discuss.
+
+33
+00:02:25,000 --> 00:02:30,000
+And with that, you will become a super, super hero or a super developer inside your project.
+
+34
+00:02:30,000 --> 00:02:36,000
+When you climb yourself as a microservice developer, you need to aware about all these concepts, otherwise
+
+35
+00:02:36,000 --> 00:02:42,000
+it is going to be super, super tough to clear the any interviews around microservices.
+
+36
+00:02:42,000 --> 00:02:48,000
+Any interviewer can ask you how observability and monitoring is implemented inside your microservices.
+
+37
+00:02:48,000 --> 00:02:53,000
+If you don't know these concepts and if you scratch your head inside the interview by thinking that
+
+38
+00:02:53,000 --> 00:02:59,000
+as a developer, business logic is only my responsibility, then you will never be able to clear any
+
+39
+00:02:59,000 --> 00:03:01,000
+microservice interview.
+
+40
+00:03:01,000 --> 00:03:04,000
+I hope you are clear about quick introduction about the Grafana.
+
+41
+00:03:04,000 --> 00:03:11,000
+Now let's try to understand how to implement log aggregation or centralized logging with the help of
+
+42
+00:03:11,000 --> 00:03:12,000
+Grafana.
+
+43
+00:03:12,000 --> 00:03:18,000
+When we decide to manage logs with the help of Grafana, we need to use other tools available inside
+
+44
+00:03:18,000 --> 00:03:26,000
+Grafana ecosystem. Over all Grafana is a large ecosystem under which we have many tools based upon our scenario
+
+45
+00:03:26,000 --> 00:03:27,000
+or problem.
+
+46
+00:03:27,000 --> 00:03:31,000
+We need to choose these tools and integrate with the grafana.
+
+47
+00:03:31,000 --> 00:03:35,000
+So here to manage the logs, we need to use Grafana Loki and prompt.
+
+48
+00:03:36,000 --> 00:03:41,000
+Let's try to understand what are these like we discussed first, Grafana is a open source analytical
+
+49
+00:03:41,000 --> 00:03:44,000
+and interactive visualization web application.
+
+50
+00:03:44,000 --> 00:03:51,000
+This Grafana provides various features like we can build charts, graphs, alerts for our web applications
+
+51
+00:03:51,000 --> 00:03:57,000
+or microservices by connecting with the other supporting tools like Loki and Promptail, we can easily
+
+52
+00:03:57,000 --> 00:04:01,000
+install this grafana and its tools with the help of Docker or Docker
+
+53
+00:04:01,000 --> 00:04:09,000
+compose or kubernetes . Over all Grafana is a popular tool for visualizing metrics, logs and traces from variety
+
+54
+00:04:09,000 --> 00:04:10,000
+of sources.
+
+55
+00:04:10,000 --> 00:04:17,000
+It is being used by many organizations of all types right from startup to the enterprise organizations.
+
+56
+00:04:17,000 --> 00:04:21,000
+Majority of the projects they are using Grafana because it is open source.
+
+57
+00:04:21,000 --> 00:04:23,000
+So this is a quick introduction about Grafana.
+
+58
+00:04:23,000 --> 00:04:26,000
+Now let's talk about Loki and promptail.
+
+59
+00:04:26,000 --> 00:04:32,000
+Grafana Loki is a horizontally scalable, highly available log aggregation system.
+
+60
+00:04:32,000 --> 00:04:39,000
+It is designed to store any amount of logs from your microservices and applications.
+
+61
+00:04:39,000 --> 00:04:45,000
+So Loki is a centralized location where you can store all your microservices logs.
+
+62
+00:04:45,000 --> 00:04:49,000
+But with Grafana, Loki alone, we can't implement the log aggregation.
+
+63
+00:04:49,000 --> 00:04:56,000
+We need to have promptail, which is a lightweight log agents that will run inside your same network where
+
+64
+00:04:56,000 --> 00:04:57,000
+your containers are running.
+
+65
+00:04:57,000 --> 00:04:59,000
+So this prompt tale it is going to
+
+66
+00:05:00,000 --> 00:05:05,000
+read all the logs that are getting generated from your containers, the same it will collect and send
+
+67
+00:05:05,000 --> 00:05:07,000
+to the Grafana Loki.
+
+68
+00:05:07,000 --> 00:05:10,000
+Grafana, Loki will store all these logs with the help of Grafana
+
+69
+00:05:10,000 --> 00:05:19,000
+we can easily see the logs inside an application together Grafana, Loki and promptly provides a powerful
+
+70
+00:05:19,000 --> 00:05:24,000
+logging solution that can help you to understand and troubleshoot your applications.
+
+71
+00:05:24,000 --> 00:05:26,000
+I know here you may have questions.
+
+72
+00:05:26,000 --> 00:05:30,000
+Let's try to understand more detail about these Grafana, Loki and prompt.
+
+73
+00:05:30,000 --> 00:05:35,000
+If you see here, I have my microservices running inside their containers.
+
+74
+00:05:35,000 --> 00:05:41,000
+As a developer, I'm not doing anything to send my logs to the promptail or Loki or Grafana.
+
+75
+00:05:41,000 --> 00:05:49,000
+The promptail, which is a agent running inside the same network of your microservice containers.
+
+76
+00:05:49,000 --> 00:05:54,000
+It is going to fetch and collect all the logs from the containers and forward them to the Loki.
+
+77
+00:05:54,000 --> 00:06:00,000
+Loki is a storage system where it can store all the logs, since it is a centralized location.
+
+78
+00:06:00,000 --> 00:06:04,000
+In other words, we can also call it as log aggregation system.
+
+79
+00:06:04,000 --> 00:06:09,000
+So Loki is like a folder location where we can store all our logs from all the containers.
+
+80
+00:06:09,000 --> 00:06:15,000
+But do you think it is a good idea for the developers to go into these folder location and search for
+
+81
+00:06:15,000 --> 00:06:18,000
+the logs manually by opening all the logs?
+
+82
+00:06:18,000 --> 00:06:18,000
+Off course not.
+
+83
+00:06:18,000 --> 00:06:25,000
+That's why by integrating this Loki with the Grafana, we we can visualize all the logs inside an application.
+
+84
+00:06:25,000 --> 00:06:31,000
+Apart from visualization, we can also query and search logs based upon our own criteria.
+
+85
+00:06:31,000 --> 00:06:36,000
+When you see all this in demo, you are going to super, super like the tools of Grafana.
+
+86
+00:06:36,000 --> 00:06:42,000
+But for now I'm assuming that you are clear about what is the role of Grafana, Loki and prompt how to
+
+87
+00:06:42,000 --> 00:06:43,000
+achieve this.
+
+88
+00:06:43,000 --> 00:06:47,000
+Don't worry, I'm going to talk about them in detail in the coming lectures.
+
+89
+00:06:47,000 --> 00:06:50,000
+Thank you and I'll catch you in the next lecture bye.
+

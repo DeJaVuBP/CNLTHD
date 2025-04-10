@@ -1,0 +1,480 @@
+1
+00:00:00,000 --> 00:00:04,000
+Now is the time to test our security related changes.
+
+2
+00:00:04,000 --> 00:00:06,000
+To test our changes behind the scenes,
+
+3
+00:00:06,000 --> 00:00:08,000
+I have started all the applications.
+
+4
+00:00:08,000 --> 00:00:13,000
+First, I have started the config server followed by Eureka Server and after the Eureka server I have
+
+5
+00:00:13,000 --> 00:00:20,000
+started accounts, loans, CardsApplication and at last I also started GatewayserverApplication.
+
+6
+00:00:20,000 --> 00:00:23,000
+Now let me go to the postman. Inside the postman,
+
+7
+00:00:23,000 --> 00:00:29,000
+in this microservices collection you should be able to see the folder with the name Gateway Server under
+
+8
+00:00:29,000 --> 00:00:30,000
+security.
+
+9
+00:00:30,000 --> 00:00:37,000
+First I'm going to show you that all the get API's inside our microservices, they are going to work without
+
+10
+00:00:37,000 --> 00:00:38,000
+any security.
+
+11
+00:00:38,000 --> 00:00:45,000
+But at the same you can see I have provided different get API request under accounts, cards and loans.
+
+12
+00:00:45,000 --> 00:00:50,000
+So this is the get where we are trying to invoke the path contact-info.
+
+13
+00:00:50,000 --> 00:00:53,000
+You can see I'm trying to invoke this against accounts microservice.
+
+14
+00:00:53,000 --> 00:00:55,000
+There is no authorization as well.
+
+15
+00:00:55,000 --> 00:01:00,000
+So if I try to click on this send button, you should be able to see a successful response.
+
+16
+00:01:00,000 --> 00:01:00,000
+.
+
+17
+00:01:00,000 --> 00:01:04,000
+So this confirms there is no security expected for accounts
+
+18
+00:01:04,000 --> 00:01:11,000
+microservice whenever we are trying to invoke the get API. So let me confirm the same for cards microservice
+
+19
+00:01:11,000 --> 00:01:12,000
+under cards
+
+20
+00:01:12,000 --> 00:01:15,000
+I'm trying to invoke the path, which is Java version.
+
+21
+00:01:15,000 --> 00:01:17,000
+So here I'm trying to click on the send button.
+
+22
+00:01:17,000 --> 00:01:23,000
+You see I'm getting a successful response now as a next step, I'm going to invoke the build-info API
+
+23
+00:01:23,000 --> 00:01:25,000
+available inside the loans.
+
+24
+00:01:25,000 --> 00:01:29,000
+So let me try to change this to loans microservice.
+
+25
+00:01:29,000 --> 00:01:35,000
+With this now I can try to click on the send button and you can see I'm getting the successful response.
+
+26
+00:01:35,000 --> 00:01:37,000
+So this confirms get APIs
+
+27
+00:01:37,000 --> 00:01:39,000
+there is no need of security.
+
+28
+00:01:39,000 --> 00:01:42,000
+So let me close all these get related APIs.
+
+29
+00:01:42,000 --> 00:01:49,000
+Now I also have the fourth request where I'm trying to invoke the post API available inside the accounts
+
+30
+00:01:49,000 --> 00:01:51,000
+microservice, which is create.
+
+31
+00:01:51,000 --> 00:01:57,000
+So I'm trying to create a new account, but I'm not going to pass any authentication.
+
+32
+00:01:57,000 --> 00:02:01,000
+You can see under authorization, there is no authentication information.
+
+33
+00:02:01,000 --> 00:02:04,000
+So simply I'm going to send the body.
+
+34
+00:02:04,000 --> 00:02:09,000
+So now what we can expect, obviously we should expect 401 error.
+
+35
+00:02:09,000 --> 00:02:11,000
+So let me try to invoke this API.
+
+36
+00:02:11,000 --> 00:02:12,000
+Hooray
+
+37
+00:02:12,000 --> 00:02:19,000
+we are getting the 401 error, which is I'm not authorized to invoke this API. Because I didn't send
+
+38
+00:02:19,000 --> 00:02:21,000
+any access token.
+
+39
+00:02:21,000 --> 00:02:25,000
+I hope you are super happy now because our gateway server is secured.
+
+40
+00:02:25,000 --> 00:02:30,000
+Now let me show you how to test our secured APIs by passing the access token.
+
+41
+00:02:30,000 --> 00:02:36,000
+For the same, you can try to invoke the next request which where we are going to invoke the Create
+
+42
+00:02:36,000 --> 00:02:38,000
+API available inside the accounts microservice.
+
+43
+00:02:38,000 --> 00:02:42,000
+But this time we are going to send some authorization information.
+
+44
+00:02:42,000 --> 00:02:49,000
+So in order to send this access token we can first try to invoke this OpenID Connect Token API by passing
+
+45
+00:02:49,000 --> 00:02:53,000
+all the client credentials, scope details and we'll get the access token,
+
+46
+00:02:53,000 --> 00:02:59,000
+we can copy these and we can take that and we can mention inside the postman request that we are going
+
+47
+00:02:59,000 --> 00:02:59,000
+to send.
+
+48
+00:02:59,000 --> 00:03:01,000
+So this is a very lengthy approach.
+
+49
+00:03:01,000 --> 00:03:08,000
+Instead, we can try to leverage one of the beautiful feature provided by the postman. Under the authorization
+
+50
+00:03:08,000 --> 00:03:08,000
+tab,
+
+51
+00:03:08,000 --> 00:03:14,000
+if you can open on this type, you should be able to see various types of authorization supported by
+
+52
+00:03:14,000 --> 00:03:16,000
+the postman.
+
+53
+00:03:16,000 --> 00:03:23,000
+And here, since we are trying to use Oauth2, please select the OAuth 2.0 and post that it will ask
+
+54
+00:03:23,000 --> 00:03:26,000
+you what is the token name that you want to consider?
+
+55
+00:03:26,000 --> 00:03:29,000
+So here I have given this name and post that under the grant type
+
+56
+00:03:29,000 --> 00:03:35,000
+since we are trying to use the client credentials, please make sure you are selecting the client credentials
+
+57
+00:03:35,000 --> 00:03:38,000
+and now it will ask you what is your access token URL?
+
+58
+00:03:38,000 --> 00:03:41,000
+You can mention the same which we have used here.
+
+59
+00:03:41,000 --> 00:03:43,000
+So the same I have mentioned here also.
+
+60
+00:03:43,000 --> 00:03:45,000
+And now it will ask you what is the client ID?
+
+61
+00:03:45,000 --> 00:03:46,000
+What is the client secret?
+
+62
+00:03:47,000 --> 00:03:48,000
+You can mention the same scope details.
+
+63
+00:03:48,000 --> 00:03:52,000
+Now if you can scroll down here, there is an client authentication option.
+
+64
+00:03:52,000 --> 00:03:54,000
+Please make sure you are selecting these,
+
+65
+00:03:54,000 --> 00:03:57,000
+send the client credentials in body. After this,
+
+66
+00:03:57,000 --> 00:04:03,000
+if you can scroll down, you will have an option which is get new access token.
+
+67
+00:04:03,000 --> 00:04:08,000
+So behind the scenes it is going to send a request to the server and it will get a new access token
+
+68
+00:04:08,000 --> 00:04:11,000
+which you can use as part of this request.
+
+69
+00:04:11,000 --> 00:04:14,000
+So let me click on this new access token.
+
+70
+00:04:14,000 --> 00:04:19,000
+You can see the authentication is complete and now I should have an access token.
+
+71
+00:04:19,000 --> 00:04:24,000
+So these access token, which is clientcredentials_access token.
+
+72
+00:04:24,000 --> 00:04:26,000
+I can click on this use token with that
+
+73
+00:04:26,000 --> 00:04:32,000
+whatever access token that I have here will be populated inside my authorization here.
+
+74
+00:04:32,000 --> 00:04:35,000
+Like you can see under the use token type,
+
+75
+00:04:35,000 --> 00:04:39,000
+since I have mentioned the access token, it is trying to use the same access token.
+
+76
+00:04:39,000 --> 00:04:44,000
+We also have ID token option, but since we need to send the access token, please make sure you are
+
+77
+00:04:44,000 --> 00:04:48,000
+selecting the access token and your token name, which is client credentials
+
+78
+00:04:48,000 --> 00:04:49,000
+access token.
+
+79
+00:04:49,000 --> 00:04:54,000
+On the left hand side, you will be able to see how you want to send your access token.
+
+80
+00:04:54,000 --> 00:05:00,000
+So please make sure you are selecting add authorization data to RequestHeader.
+
+81
+00:05:00,000 --> 00:05:02,000
+Inside the RequestHeaders,
+
+82
+00:05:02,000 --> 00:05:06,000
+we want to send this access token with the header prefix as bearer.
+
+83
+00:05:06,000 --> 00:05:11,000
+So if I go to headers right right now, you will be able to see a header with the name authorization
+
+84
+00:05:11,000 --> 00:05:14,000
+and it has bearer prefix along with the access token.
+
+85
+00:05:14,000 --> 00:05:20,000
+So this is going to help you to avoid the manual process of getting the access token every time and
+
+86
+00:05:20,000 --> 00:05:22,000
+pasting it here.
+
+87
+00:05:22,000 --> 00:05:26,000
+Instead of that, whenever you want to get an access token, you can click on this.
+
+88
+00:05:26,000 --> 00:05:31,000
+You will get an access token, you post that, you can click on the use token and that will replace
+
+89
+00:05:31,000 --> 00:05:34,000
+with the new token that you have fetched.
+
+90
+00:05:34,000 --> 00:05:36,000
+So now I'm going to click on this send button.
+
+91
+00:05:36,000 --> 00:05:38,000
+Before that I'll make sure the body is correct.
+
+92
+00:05:38,000 --> 00:05:40,000
+So let me click on the send button.
+
+93
+00:05:40,000 --> 00:05:47,000
+You can see I'm getting a successful response. Because right now I am using the valid access token.
+
+94
+00:05:47,000 --> 00:05:53,000
+If I try to send that again, I'll get some bad request error because customer already registered.
+
+95
+00:05:53,000 --> 00:05:58,000
+So now what I will do is, I will try to tamper these access token with some random value.
+
+96
+00:05:58,000 --> 00:06:02,000
+So I have deleted few characters and I'm trying to send the request again.
+
+97
+00:06:02,000 --> 00:06:06,000
+This time you can see I'm getting a 401 unauthorized.
+
+98
+00:06:06,000 --> 00:06:12,000
+That means my resource server, our gateway server now is smart enough to validate my access token.
+
+99
+00:06:12,000 --> 00:06:18,000
+So let me try to test the other post APIs available inside the cards and loans as well.
+
+100
+00:06:18,000 --> 00:06:21,000
+So I'm trying to open the next request here.
+
+101
+00:06:21,000 --> 00:06:23,000
+Here we are trying to create new card.
+
+102
+00:06:23,000 --> 00:06:29,000
+So I have selected the same like type as OAuth 2.0 and I make sure I have selected all the details like
+
+103
+00:06:29,000 --> 00:06:30,000
+token name.
+
+104
+00:06:30,000 --> 00:06:35,000
+What is the access token url,  grant type, client ID, client secret, scope.
+
+105
+00:06:35,000 --> 00:06:40,000
+So once you have filled all the required details, you can click on this get new Access token, you
+
+106
+00:06:40,000 --> 00:06:42,000
+can click on the proceed and post that
+
+107
+00:06:42,000 --> 00:06:44,000
+you can click on this use token.
+
+108
+00:06:44,000 --> 00:06:46,000
+So now I'm going to click on this send button.
+
+109
+00:06:46,000 --> 00:06:49,000
+You can see I'm getting a successful response.
+
+110
+00:06:49,000 --> 00:06:53,000
+Now I'll do the same for loans under the authorization.
+
+111
+00:06:53,000 --> 00:06:57,000
+I'll make sure I'm clicking on this, get new access token clicking on this
+
+112
+00:06:57,000 --> 00:06:58,000
+proceed.
+
+113
+00:06:58,000 --> 00:06:59,000
+I'll get an access token.
+
+114
+00:06:59,000 --> 00:07:05,000
+Let me use the same and post that I'm going to click on this send button. As a last step,
+
+115
+00:07:05,000 --> 00:07:11,000
+I can try to invoke the fetchCustomerDetails() and validate if I'm able to fetch all my accounts, loans
+
+116
+00:07:11,000 --> 00:07:13,000
+and cards details.
+
+117
+00:07:13,000 --> 00:07:19,000
+And this operation does not need any authentication because it is an Http get API.
+
+118
+00:07:19,000 --> 00:07:25,000
+So let me click on the send button and you can see I'm getting a successful response. With this,
+
+119
+00:07:25,000 --> 00:07:27,000
+I'm assuming your super, super clear.
+
+120
+00:07:27,000 --> 00:07:30,000
+Thank you and I'll catch you in the next lecture bye.
+

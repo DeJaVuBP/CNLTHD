@@ -1,0 +1,568 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:06,000
+let me show you the more capabilities of Grafana and Prometheus together.
+
+3
+00:00:06,000 --> 00:00:08,000
+For the same, I came to the Prometheus website.
+
+4
+00:00:08,000 --> 00:00:14,000
+If you can click on this, get started and go to the visualization tab here
+
+5
+00:00:14,000 --> 00:00:20,000
+there is an option of Grafana. Inside this Grafana page there is information about how to install grafana,
+
+6
+00:00:20,000 --> 00:00:26,000
+how to create a prometheus data source inside Grafana and post that how to create a Prometheus graph
+
+7
+00:00:26,000 --> 00:00:27,000
+with the help of Grafana.
+
+8
+00:00:27,000 --> 00:00:29,000
+All these details we already explored.
+
+9
+00:00:29,000 --> 00:00:34,000
+Now, as a next step, let's go and explore the pre-built dashboards from grafana.
+
+10
+00:00:34,000 --> 00:00:40,000
+Here you can see there is a link which is going to redirect you to the Grafana dashboard webpage.
+
+11
+00:00:40,000 --> 00:00:47,000
+So Grafana team and other open source team members, they built a lot of dashboards which you can try
+
+12
+00:00:47,000 --> 00:00:52,000
+to set up inside your own Grafana instance based upon your requirements.
+
+13
+00:00:52,000 --> 00:00:57,000
+We can see here there are many graphs based upon the component that you are trying to use
+
+14
+00:00:57,000 --> 00:01:03,000
+accordingly, you can set up these graphs. Like you can visualize your jira data, MongoDB, Kubernetes,
+
+15
+00:01:03,000 --> 00:01:04,000
+Datadog data.
+
+16
+00:01:04,000 --> 00:01:09,000
+So there are a lot of inbuilt graphs. But right now we are more interested about the graphs related
+
+17
+00:01:09,000 --> 00:01:11,000
+to the Java ecosystem.
+
+18
+00:01:11,000 --> 00:01:14,000
+So here we can try to search for JVM.
+
+19
+00:01:14,000 --> 00:01:19,000
+With that, you will be able to see some JVM related dashboards.
+
+20
+00:01:19,000 --> 00:01:23,000
+So try to look for a graph which has more number of downloads.
+
+21
+00:01:23,000 --> 00:01:27,000
+So if you see the very first dashboard, it has more than 5 million downloads.
+
+22
+00:01:27,000 --> 00:01:30,000
+So let me click on this. Now as a next step
+
+23
+00:01:30,000 --> 00:01:34,000
+so there will be details on this page about these dashboard.
+
+24
+00:01:34,000 --> 00:01:39,000
+We can take this endpoint URL and go to our Grafana application.
+
+25
+00:01:39,000 --> 00:01:44,000
+So here I'm going to click on this home and post that since we are trying to build a dashboards that
+
+26
+00:01:44,000 --> 00:01:51,000
+we want to see again and again, we need to make sure we are logged in into the grafana. For the same,
+
+27
+00:01:51,000 --> 00:01:57,000
+you can click on this sign in button and enter the default credentials, which is admin and the password
+
+28
+00:01:57,000 --> 00:01:58,000
+also admin.
+
+29
+00:01:58,000 --> 00:02:03,000
+So let me click on this login button and it is going to recommend you to change the password.
+
+30
+00:02:03,000 --> 00:02:06,000
+For now, I'm going to skip this. As a next step,
+
+31
+00:02:06,000 --> 00:02:11,000
+we can go to the menu and here, as of now there are no dashboards.
+
+32
+00:02:11,000 --> 00:02:16,000
+I'm going to click on this new and import and mention the URL that we have copied.
+
+33
+00:02:16,000 --> 00:02:20,000
+So let me click on this load button. As a next step,
+
+34
+00:02:20,000 --> 00:02:26,000
+we need to make sure we are providing the Prometheus data source details by selecting the correct option
+
+35
+00:02:26,000 --> 00:02:27,000
+inside this dropdown.
+
+36
+00:02:27,000 --> 00:02:29,000
+With this, we can click on this import button.
+
+37
+00:02:29,000 --> 00:02:31,000
+Now you can see I have a dashboard.
+
+38
+00:02:31,000 --> 00:02:34,000
+Let me try to change this to last five minutes.
+
+39
+00:02:34,000 --> 00:02:40,000
+Now you can see I'm able to see a lot of good information with the help of this dashboard.
+
+40
+00:02:40,000 --> 00:02:46,000
+As of now, I'm trying to look at the metrics of accounts microservice with an instance details of
+
+41
+00:02:46,000 --> 00:02:47,000
+accounts 8080.
+
+42
+00:02:47,000 --> 00:02:48,000
+So this is the uptime.
+
+43
+00:02:48,000 --> 00:02:49,000
+This is a start time.
+
+44
+00:02:49,000 --> 00:02:51,000
+This is a heap use, this is a non heap use.
+
+45
+00:02:51,000 --> 00:02:57,000
+What is the duration, utilization, errors information, JVM, heap, JVM non heap.
+
+46
+00:02:57,000 --> 00:02:59,000
+What is the threads information?
+
+47
+00:02:59,000 --> 00:03:00,000
+What is the CPU usage?
+
+48
+00:03:00,000 --> 00:03:02,000
+What is a log events?
+
+49
+00:03:02,000 --> 00:03:04,000
+What is the garbage collector pressure?
+
+50
+00:03:04,000 --> 00:03:09,000
+We also have JVM memory details like Eden Space, survivor space, Tenured Gen.
+
+51
+00:03:09,000 --> 00:03:14,000
+So there is lot of information available inside these dashboard.
+
+52
+00:03:14,000 --> 00:03:15,000
+I didn't build this dashboard.
+
+53
+00:03:15,000 --> 00:03:21,000
+I'm trying to leverage one of the dashboard built by the open source community and the Grafana team.
+
+54
+00:03:21,000 --> 00:03:24,000
+So this is beauty of Grafana and Prometheus.
+
+55
+00:03:24,000 --> 00:03:29,000
+If I want to understand the details of other microservice, I can go to the other microservice like
+
+56
+00:03:29,000 --> 00:03:32,000
+cards and select the corresponding instance.
+
+57
+00:03:32,000 --> 00:03:39,000
+And with that I'll be able to get the details related to the cards microservice inside this dashboard.
+
+58
+00:03:39,000 --> 00:03:43,000
+So let's try to create one more dashboard. So that it will be more clear for you.
+
+59
+00:03:43,000 --> 00:03:45,000
+So let me go to this dashboards.
+
+60
+00:03:45,000 --> 00:03:49,000
+Before that, let me save this dashboard by clicking on the save button.
+
+61
+00:03:49,000 --> 00:03:53,000
+Now you can see I have a one dashboard with the name JVM Micrometer.
+
+62
+00:03:53,000 --> 00:03:57,000
+Similarly, I'm going to click on this new button and click on this import.
+
+63
+00:03:57,000 --> 00:04:03,000
+This time we can try to look for another useful dashboard inside the Grafana website.
+
+64
+00:04:03,000 --> 00:04:06,000
+So I'll go to all dashboards. Inside the all dashboards,
+
+65
+00:04:06,000 --> 00:04:10,000
+this time I'm going to search for something with the name Spring Boot.
+
+66
+00:04:10,000 --> 00:04:13,000
+And with that we'll have some dashboards here.
+
+67
+00:04:13,000 --> 00:04:15,000
+This JVM micrometer we already set up.
+
+68
+00:04:15,000 --> 00:04:22,000
+Now I'll try to use this dashboard, which is Spring Boot 2.1 system monitor because it has more than
+
+69
+00:04:22,000 --> 00:04:24,000
+492 K downloads.
+
+70
+00:04:24,000 --> 00:04:30,000
+So let me click on this copy this endpoint URL, and I'll go to the grafana. Inside the Grafana
+
+71
+00:04:30,000 --> 00:04:36,000
+we just need to paste the URL that we have configured and click on this load button.
+
+72
+00:04:36,000 --> 00:04:39,000
+After that, we need to select what is the Prometheus data source.
+
+73
+00:04:39,000 --> 00:04:43,000
+Once we selected the Prometheus data source, I can click on this import button.
+
+74
+00:04:43,000 --> 00:04:50,000
+With this you can see I got a different dashboard with the name Spring Boot 2.1 system monitor here
+
+75
+00:04:50,000 --> 00:04:54,000
+as of now you can see it is trying to show you the last two one hour data.
+
+76
+00:04:54,000 --> 00:05:00,000
+We can try to change this to last 15 minutes and try to see all the details available inside these
+
+77
+00:05:00,000 --> 00:05:01,000
+dashboard. If needed,
+
+78
+00:05:01,000 --> 00:05:08,000
+you can look for other microservices information and based upon your selection, the metrics information
+
+79
+00:05:08,000 --> 00:05:10,000
+will be refreshed on this dashboard.
+
+80
+00:05:10,000 --> 00:05:14,000
+Are you seeing the power of Grafana and Prometheus here?
+
+81
+00:05:14,000 --> 00:05:18,000
+How helpful they are to monitor your microservices?
+
+82
+00:05:18,000 --> 00:05:23,000
+I hope you are understanding this now as a next step, let's try to understand how to create our own
+
+83
+00:05:23,000 --> 00:05:23,000
+dashboards.
+
+84
+00:05:23,000 --> 00:05:28,000
+Sometimes you may want to create your own dashboard based upon your own requirements.
+
+85
+00:05:28,000 --> 00:05:33,000
+For the same, we can go back to the dashboards here click on this new option and there will be an
+
+86
+00:05:33,000 --> 00:05:36,000
+option new dashboard. Inside this new dashboard here
+
+87
+00:05:36,000 --> 00:05:38,000
+as of now you can see this new dashboard is empty.
+
+88
+00:05:38,000 --> 00:05:45,000
+First, let me try to save this dashboard by giving a name, saying that easybank and I'm going to
+
+89
+00:05:45,000 --> 00:05:47,000
+store that inside the folder General.
+
+90
+00:05:47,000 --> 00:05:51,000
+So let me save that post that I'm going to click on this add option.
+
+91
+00:05:51,000 --> 00:05:55,000
+And first I will try to create a row element inside my dashboard.
+
+92
+00:05:55,000 --> 00:06:02,000
+So let me click on this row and to this row I'm going to give some title by clicking on these settings.
+
+93
+00:06:02,000 --> 00:06:06,000
+And the title row I want to give is Accounts Microservice.
+
+94
+00:06:06,000 --> 00:06:11,000
+Because under this row I'm going to have all the metrics related to the accounts
+
+95
+00:06:11,000 --> 00:06:14,000
+microservice. So let me click on this update with that
+
+96
+00:06:14,000 --> 00:06:16,000
+the row panel name is updated as a next step.
+
+97
+00:06:16,000 --> 00:06:21,000
+I can go to the Add button and click on Add Visualization here.
+
+98
+00:06:21,000 --> 00:06:28,000
+First, I'll try to give what is the name of this panel, so maybe I'll give as uptime for this uptime
+
+99
+00:06:28,000 --> 00:06:28,000
+panel,
+
+100
+00:06:28,000 --> 00:06:35,000
+let me select the data source like Prometheus and look for the metric with the name time and will be
+
+101
+00:06:35,000 --> 00:06:37,000
+an metric with the name process_uptime_seconds.
+
+102
+00:06:37,000 --> 00:06:44,000
+So let me select the same and select the label as application and value as accounts microservice.
+
+103
+00:06:44,000 --> 00:06:48,000
+Since I'm trying to build a dashboard for my accounts microservice with this right now we are seeing
+
+104
+00:06:48,000 --> 00:06:51,000
+the uptime metric detail of accounts
+
+105
+00:06:51,000 --> 00:06:57,000
+microservice. If you don't like this graph, you can click on this time series option, which we have
+
+106
+00:06:57,000 --> 00:06:58,000
+by default.
+
+107
+00:06:58,000 --> 00:07:04,000
+If you open this dropdown, there are many other options like bar charts and very similarly we have
+
+108
+00:07:04,000 --> 00:07:11,000
+statistic and gauge and post that there is a bar gauge and very similarly we have pie chart.
+
+109
+00:07:11,000 --> 00:07:14,000
+But I'm fine with these time series for these metrics.
+
+110
+00:07:14,000 --> 00:07:19,000
+So let me save this and post that we can click on this apply as well.
+
+111
+00:07:19,000 --> 00:07:23,000
+Now you can see there is a panel created with the name Uptime.
+
+112
+00:07:23,000 --> 00:07:27,000
+I want to bring this panel under accounts microservice row. For the same,
+
+113
+00:07:27,000 --> 00:07:30,000
+we can simply drag and paste it here.
+
+114
+00:07:30,000 --> 00:07:36,000
+Now, if you try to close and open this accounts microservice row, there is one panel inside it.
+
+115
+00:07:36,000 --> 00:07:39,000
+Very similarly we can try to create one more visualization.
+
+116
+00:07:39,000 --> 00:07:47,000
+This time I'm going to select the data source as Prometheus and the metric as up. For this metric up,
+
+117
+00:07:47,000 --> 00:07:50,000
+the label filter is going to be job and what is the value,
+
+118
+00:07:50,000 --> 00:07:55,000
+the value is going to be accounts and the panel title I'll give it as up.
+
+119
+00:07:55,000 --> 00:08:00,000
+This will indicate whether my microservice is up and running or it is in stopped status.
+
+120
+00:08:00,000 --> 00:08:03,000
+After giving this title if needed
+
+121
+00:08:03,000 --> 00:08:04,000
+you can explore,
+
+122
+00:08:04,000 --> 00:08:06,000
+there are many other options in this page.
+
+123
+00:08:06,000 --> 00:08:13,000
+I will go with the default values but coming to the graph style I will use something related to gauge.
+
+124
+00:08:13,000 --> 00:08:17,000
+So that it will show me this up value with the help of these gauge style of graph.
+
+125
+00:08:17,000 --> 00:08:19,000
+So let me click on this apply.
+
+126
+00:08:19,000 --> 00:08:22,000
+Now you can see I got two panels.
+
+127
+00:08:22,000 --> 00:08:25,000
+The new panel came just above the accounts Microservice Row.
+
+128
+00:08:25,000 --> 00:08:28,000
+I can try to drag this to the right hand side.
+
+129
+00:08:28,000 --> 00:08:35,000
+Now if I try to open and close, you should be able to see there are two panels under my accounts microservice.
+
+130
+00:08:35,000 --> 00:08:42,000
+This way by adding any number of rows and panels, we can create our own custom dashboards.
+
+131
+00:08:42,000 --> 00:08:44,000
+Grafana itself is a very big topic.
+
+132
+00:08:44,000 --> 00:08:49,000
+Usually the platform team or operations team, they should learn everything about grafana.
+
+133
+00:08:49,000 --> 00:08:54,000
+But we as a developers, we should be fine with these basics that we have discussed inside this course.
+
+134
+00:08:54,000 --> 00:09:01,000
+But if you are interested to learn more about Grafana and other components inside Grafana, please, please
+
+135
+00:09:01,000 --> 00:09:04,000
+enroll into your course that covers Grafana in detail.
+
+136
+00:09:04,000 --> 00:09:09,000
+Now I can click on the save button and post that I will go back to the dashboards.
+
+137
+00:09:09,000 --> 00:09:12,000
+And with this you can see there are three dashboards.
+
+138
+00:09:12,000 --> 00:09:18,000
+So with these dashboards, any time any team member or any operations team member, they can quickly
+
+139
+00:09:18,000 --> 00:09:23,000
+come here and they can try to understand what is the overall health of our microservice.
+
+140
+00:09:23,000 --> 00:09:27,000
+So I hope you are clear how we are going to monitor with these dashboards.
+
+141
+00:09:27,000 --> 00:09:28,000
+Thank you
+
+142
+00:09:28,000 --> 00:09:30,000
+and I'll catch you in the next lecture bye.
+

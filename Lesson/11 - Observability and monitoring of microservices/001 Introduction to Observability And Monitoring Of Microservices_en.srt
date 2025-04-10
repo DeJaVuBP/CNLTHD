@@ -1,0 +1,292 @@
+1
+00:00:01,000 --> 00:00:03,000
+Welcome back to the new section.
+
+2
+00:00:03,000 --> 00:00:10,000
+Inside this section, we are going to talk about the new challenge that we may face while building microservices.
+
+3
+00:00:10,000 --> 00:00:14,000
+Right now, we have discussed and completed total seven challenges.
+
+4
+00:00:14,000 --> 00:00:18,000
+And inside this section we are going to talk about challenge number eight.
+
+5
+00:00:18,000 --> 00:00:21,000
+So you might be very curious, what is this new challenge?
+
+6
+00:00:21,000 --> 00:00:23,000
+What is this challenge about?
+
+7
+00:00:23,000 --> 00:00:25,000
+So let me reveal the details of this challenge.
+
+8
+00:00:25,000 --> 00:00:32,000
+So the challenge that we are going to talk inside this section is, observability and monitoring of our
+
+9
+00:00:32,000 --> 00:00:33,000
+microservices.
+
+10
+00:00:33,000 --> 00:00:39,000
+If you are hearing these observability and monitoring jargons very first time, don't worry, I'm going
+
+11
+00:00:39,000 --> 00:00:45,000
+to spend a good amount of time explaining what is observability and what is monitoring and how we should
+
+12
+00:00:45,000 --> 00:00:51,000
+implement them inside our microservices. Before we try to understand the definition of observability
+
+13
+00:00:51,000 --> 00:00:52,000
+and monitoring.
+
+14
+00:00:52,000 --> 00:00:58,000
+First, let me try to put some questions in front of you and post that we can see how these observability
+
+15
+00:00:58,000 --> 00:01:04,000
+and monitoring are going to help us in resolving the problems or challenges that we are going to face.
+
+16
+00:01:04,000 --> 00:01:11,000
+The very first problem are the question that I have is, how we are going to debug our microservices.
+
+17
+00:01:11,000 --> 00:01:17,000
+If there is an issue identified inside your microservices, how are you going to debug them inside monolithic
+
+18
+00:01:17,000 --> 00:01:17,000
+application
+
+19
+00:01:17,000 --> 00:01:23,000
+you have only single application where you can debug the issue very easily, but inside microservices
+
+20
+00:01:23,000 --> 00:01:29,000
+network, the request may travel across multiple microservices and containers.
+
+21
+00:01:29,000 --> 00:01:35,000
+So how are you going to trace the transaction across multiple services and containers and how are you
+
+22
+00:01:35,000 --> 00:01:39,000
+going to find where exactly the problem or the defect is?
+
+23
+00:01:39,000 --> 00:01:42,000
+So this is one of the major problem that we may have.
+
+24
+00:01:42,000 --> 00:01:48,000
+And apart from tracing the request, we should also worry about combining all the logs from multiple
+
+25
+00:01:48,000 --> 00:01:56,000
+services into a centralized location where the logs can be indexed, searched, filter and grouped to
+
+26
+00:01:56,000 --> 00:02:00,000
+find the bugs that are contributing to a problem. Inside the monolithic application,
+
+27
+00:02:00,000 --> 00:02:07,000
+the maintenance of the logs is going to be super, super easy. Because a single web application is generating
+
+28
+00:02:07,000 --> 00:02:07,000
+the logs.
+
+29
+00:02:07,000 --> 00:02:13,000
+We can store them inside a folder location and whenever a developer wants to understand the issue,
+
+30
+00:02:13,000 --> 00:02:19,000
+he can easily download those logs and try to scan them to understand where the issue is.
+
+31
+00:02:19,000 --> 00:02:26,000
+But with microservices, it is not going to be the same because many containers and many services,
+
+32
+00:02:26,000 --> 00:02:29,000
+they are going to generate the logs inside their own containers.
+
+33
+00:02:29,000 --> 00:02:35,000
+And as a developer, we can't go to all those multiple locations and try to analyze the logs.
+
+34
+00:02:35,000 --> 00:02:42,000
+Sometimes your request may travel more than 20 microservices to give a response, so in such scenarios
+
+35
+00:02:42,000 --> 00:02:48,000
+it is going to be very tedious job to look for the logs inside the containers individually.
+
+36
+00:02:48,000 --> 00:02:54,000
+That's why to overcome this challenge we should look for the options on how we can combine all the logs
+
+37
+00:02:54,000 --> 00:02:57,000
+from the multiple services into a centralized location.
+
+38
+00:02:57,000 --> 00:02:59,000
+I hope you are clear with this problem.
+
+39
+00:02:59,000 --> 00:03:05,000
+The next problem is how are we going to monitor performance of our service calls?
+
+40
+00:03:05,000 --> 00:03:11,000
+Like we discussed, a single request may travel multiple microservices inside the microservice network.
+
+41
+00:03:11,000 --> 00:03:17,000
+If there is a performance issue inside your microservice network, how we are going to track the path
+
+42
+00:03:17,000 --> 00:03:23,000
+of a specific chain service, call through the microservice network and see how long it took to complete
+
+43
+00:03:23,000 --> 00:03:30,000
+at each microservice. Until unless we know how much time my request is taking in a particular microservice,
+
+44
+00:03:30,000 --> 00:03:35,000
+we cannot really identify which microservice is taking more time.
+
+45
+00:03:35,000 --> 00:03:41,000
+So once we identify the microservice, which is taking more time, then only we can try to debug the
+
+46
+00:03:41,000 --> 00:03:42,000
+issue.
+
+47
+00:03:42,000 --> 00:03:48,000
+That's why identifying a microservice, which is taking a lot of time compared to other microservice
+
+48
+00:03:48,000 --> 00:03:54,000
+is very important to monitor and identify the performance issues inside your microservices.
+
+49
+00:03:54,000 --> 00:04:01,000
+Apart from performance, we should also worry about how to monitor metrics and health of our microservices.
+
+50
+00:04:01,000 --> 00:04:09,000
+We should look for the options using which we can easily monitor the metrics of containers and microservices
+
+51
+00:04:09,000 --> 00:04:10,000
+like CPU usage.
+
+52
+00:04:10,000 --> 00:04:12,000
+JVM metrics.
+
+53
+00:04:12,000 --> 00:04:18,000
+Since you will be having hundreds of containers and microservices running inside your microservice network.
+
+54
+00:04:18,000 --> 00:04:24,000
+Monitoring each of them with the help of actuator is going to be a super complex process.
+
+55
+00:04:24,000 --> 00:04:31,000
+That's why we should look for the options, which can help us in monitoring the status and health of
+
+56
+00:04:31,000 --> 00:04:38,000
+our microservice in a single centralized location and create alerts and notifications for any abnormal
+
+57
+00:04:38,000 --> 00:04:40,000
+behavior of the services.
+
+58
+00:04:40,000 --> 00:04:42,000
+Why do we need alerts and notifications?
+
+59
+00:04:42,000 --> 00:04:48,000
+We can't have our team members continuously looking at the dashboards or microservices to understand
+
+60
+00:04:48,000 --> 00:04:49,000
+their health.
+
+61
+00:04:49,000 --> 00:04:55,000
+Sometimes it's not going to be a feasible option to monitor all the microservices 24 by seven.
+
+62
+00:04:55,000 --> 00:05:00,000
+That's why we should automatically trigger some alerts and notifications, if there is
+
+63
+00:05:00,000 --> 00:05:04,000
+some abnormal behavior inside a particular microservice.
+
+64
+00:05:04,000 --> 00:05:10,000
+So these are the problems that we may face whenever we are trying to implement microservices inside
+
+65
+00:05:10,000 --> 00:05:11,000
+any organization.
+
+66
+00:05:11,000 --> 00:05:18,000
+So how to overcome all these problems with the help of observability and monitoring by using these concepts,
+
+67
+00:05:18,000 --> 00:05:22,000
+we can solve all these challenges very easily.
+
+68
+00:05:22,000 --> 00:05:28,000
+And that way we are going to avoid the outages that are going to happen inside our microservices.
+
+69
+00:05:28,000 --> 00:05:31,000
+Observability and monitoring is a very interesting topic.
+
+70
+00:05:31,000 --> 00:05:36,000
+Inside this section you will be seeing a lot of interesting tools, interesting concepts.
+
+71
+00:05:36,000 --> 00:05:40,000
+I hope you are super excited about these concepts and challenge. From the next lecture,
+
+72
+00:05:40,000 --> 00:05:44,000
+let's try to understand in detail about these observability and monitoring.
+
+73
+00:05:44,000 --> 00:05:47,000
+Thank you and I'll catch you in the next lecture bye.
+

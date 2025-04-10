@@ -1,0 +1,288 @@
+1
+00:00:00,000 --> 00:00:03,000
+Welcome back to the new section.
+
+2
+00:00:03,000 --> 00:00:09,000
+Inside this section, we are going to focus on challenge 9 that we may face while building microservices.
+
+3
+00:00:09,000 --> 00:00:14,000
+I'm pretty sure that I don't need to give any introduction about this new challenge.
+
+4
+00:00:14,000 --> 00:00:17,000
+Let me reveal what is this challenge about?
+
+5
+00:00:17,000 --> 00:00:22,000
+Like you can see here, this challenge is regarding securing our microservices.
+
+6
+00:00:22,000 --> 00:00:28,000
+I know you might be wondering throughout the course when this fellow is going to talk about the microservice
+
+7
+00:00:28,000 --> 00:00:28,000
+security.
+
+8
+00:00:28,000 --> 00:00:35,000
+To answer your burning question inside this section, I'm going to completely focus on microservices
+
+9
+00:00:35,000 --> 00:00:35,000
+security.
+
+10
+00:00:35,000 --> 00:00:42,000
+How good web application or mobile application or microservices that you develop if you don't implement
+
+11
+00:00:42,000 --> 00:00:43,000
+security inside them?
+
+12
+00:00:43,000 --> 00:00:49,000
+And no one will recommend your application also to others. Because without security, we will always
+
+13
+00:00:49,000 --> 00:00:52,000
+expose sensitive data to everyone
+
+14
+00:00:52,000 --> 00:00:55,000
+and that is going to be a problem for any organization.
+
+15
+00:00:55,000 --> 00:01:01,000
+So to make you understand on why we should secure our microservices, let me ask some questions.
+
+16
+00:01:01,000 --> 00:01:08,000
+The very first question is how are we going to secure our microservices from unauthorized users?
+
+17
+00:01:08,000 --> 00:01:11,000
+As of now, anyone can invoke our microservices.
+
+18
+00:01:11,000 --> 00:01:16,000
+They can get the account details of anyone by providing their mobile number.
+
+19
+00:01:16,000 --> 00:01:18,000
+Do you think this is the right approach?
+
+20
+00:01:18,000 --> 00:01:25,000
+Off course not, because we are exposing everyone's data, even for the unauthorized users as well.
+
+21
+00:01:25,000 --> 00:01:31,000
+Apart from securing our microservices, we should also worry about how to enforce authentication and
+
+22
+00:01:31,000 --> 00:01:34,000
+authorization inside our microservices.
+
+23
+00:01:34,000 --> 00:01:38,000
+There is a clear difference between authentication and authorization.
+
+24
+00:01:38,000 --> 00:01:45,000
+Authentication is a process of identifying the person or the application who is trying to invoke your
+
+25
+00:01:45,000 --> 00:01:46,000
+microservices.
+
+26
+00:01:46,000 --> 00:01:53,000
+Whereas authorization which comes after authentication is a mechanism where we will enforce privileged
+
+27
+00:01:53,000 --> 00:02:00,000
+access, which means the persons at the applications who has enough privileges, then only they will
+
+28
+00:02:00,000 --> 00:02:04,000
+be authorized to access your microservices or web applications.
+
+29
+00:02:04,000 --> 00:02:11,000
+So we should also worry about how to implement these authentication and authorization inside our microservices.
+
+30
+00:02:11,000 --> 00:02:18,000
+Apart from securing our microservices, we should also think about how to have a single or centralized
+
+31
+00:02:18,000 --> 00:02:21,000
+identity and access management component.
+
+32
+00:02:21,000 --> 00:02:27,000
+If you are thinking like we can secure all our microservices individually, then I would recommend to
+
+33
+00:02:27,000 --> 00:02:34,000
+stop your thought there because we should never implement security logic in all the individual microservices,
+
+34
+00:02:34,000 --> 00:02:40,000
+because that will be too much if you have hundreds of microservices, even if one requirement changes
+
+35
+00:02:40,000 --> 00:02:45,000
+around the security, you will end up making changes in all the microservices.
+
+36
+00:02:45,000 --> 00:02:52,000
+That's why we should have a separate component which is going to responsible to store all the user credentials
+
+37
+00:02:52,000 --> 00:02:57,000
+and handle authentication and authorization inside microservices network.
+
+38
+00:02:57,000 --> 00:03:02,000
+So these are the three questions are the challenges that we need to think whenever we are trying to
+
+39
+00:03:02,000 --> 00:03:04,000
+secure our microservices.
+
+40
+00:03:04,000 --> 00:03:10,000
+Let me reveal what is the solution that we can follow to overcome all these challenges related to the
+
+41
+00:03:10,000 --> 00:03:17,000
+security. With the help of security standards like Oauth2 or OpenID Connect along with the Keycloak,
+
+42
+00:03:17,000 --> 00:03:24,000
+which is an IAM product and Spring Security, which is a spring provided project focusing on security.
+
+43
+00:03:24,000 --> 00:03:31,000
+By using all these components, we can easily secure our microservices and handle all the above mentioned
+
+44
+00:03:31,000 --> 00:03:32,000
+challenges.
+
+45
+00:03:32,000 --> 00:03:38,000
+So throughout this section we are going to leverage these products, frameworks and standards and we
+
+46
+00:03:38,000 --> 00:03:41,000
+are going to implement security inside our microservices.
+
+47
+00:03:41,000 --> 00:03:45,000
+Spring security is a very fascinating concept. Inside this course
+
+48
+00:03:45,000 --> 00:03:51,000
+I'm going to talk about these on a very high level, but if you are new to the spring security framework
+
+49
+00:03:51,000 --> 00:03:57,000
+and trying to learn the same, I would recommend to consider my course inside Udemy focusing on spring
+
+50
+00:03:57,000 --> 00:04:03,000
+security. Inside Udemy like you can see if you can search for spring security as of today, the very
+
+51
+00:04:03,000 --> 00:04:10,000
+first course that you can see in the results is my course, which is spring security six zero to master
+
+52
+00:04:10,000 --> 00:04:14,000
+along with the concepts like JWT tokens and Oauth2 framework.
+
+53
+00:04:14,000 --> 00:04:20,000
+Inside this course, I'm going to talk about spring security framework from basics like I'll assume
+
+54
+00:04:20,000 --> 00:04:25,000
+you don't know anything about spring security framework, and I'm going to talk about everything about
+
+55
+00:04:25,000 --> 00:04:26,000
+spring security framework.
+
+56
+00:04:26,000 --> 00:04:31,000
+Like you can see as of now, this course has around 15 hours of content.
+
+57
+00:04:31,000 --> 00:04:36,000
+I would strongly recommend you learning these spring security because this is a mandatory skill for
+
+58
+00:04:36,000 --> 00:04:39,000
+any Java developer or a full stack developer.
+
+59
+00:04:39,000 --> 00:04:41,000
+Without securing your web applications.
+
+60
+00:04:41,000 --> 00:04:46,000
+You can't climb yourself as an architect or a senior developer. Like you can see,
+
+61
+00:04:46,000 --> 00:04:54,000
+this course as of now has around 29,000 students with a close to 4500 ratings, and this is one of the
+
+62
+00:04:54,000 --> 00:04:56,000
+best seller course. So it's up to you.
+
+63
+00:04:56,000 --> 00:04:59,000
+So if you are interested, please enroll the same.
+
+64
+00:04:59,000 --> 00:05:00,000
+But like I said, we are going to
+
+65
+00:05:00,000 --> 00:05:03,000
+use spring security framework inside this course as well.
+
+66
+00:05:03,000 --> 00:05:06,000
+But I'm not going to discuss in detail about the same.
+
+67
+00:05:06,000 --> 00:05:10,000
+I will explain what I'm trying to do with the help of spring security framework.
+
+68
+00:05:10,000 --> 00:05:16,000
+But if you are trying to learn to understand in detail about the spring security, my recommendation
+
+69
+00:05:16,000 --> 00:05:20,000
+is to enroll for the course which focus on spring security framework.
+
+70
+00:05:20,000 --> 00:05:25,000
+With this, I'm assuming your super clear about the Challenge 9 that we are going to discuss inside
+
+71
+00:05:25,000 --> 00:05:26,000
+this section.
+
+72
+00:05:26,000 --> 00:05:29,000
+Thank you and I'll catch you in the next lecture bye.
+

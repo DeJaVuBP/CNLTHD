@@ -1,0 +1,288 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:05,000
+let me try to give a quick introduction about what is oauth2.
+
+3
+00:00:05,000 --> 00:00:09,000
+OAuth stands for Open authorization.
+
+4
+00:00:09,000 --> 00:00:16,000
+It is a free and open source protocol built on IETF standards, and the license also is provided from
+
+5
+00:00:16,000 --> 00:00:18,000
+the Open Web Foundation.
+
+6
+00:00:18,000 --> 00:00:24,000
+That means anyone can use these specifications inside the OAuth framework.
+
+7
+00:00:24,000 --> 00:00:27,000
+The current version of OAuth framework is the second version.
+
+8
+00:00:27,000 --> 00:00:30,000
+That's why many people call this as Oauth2.
+
+9
+00:00:30,000 --> 00:00:34,000
+That means they are trying to refer to the second version of OAuth.
+
+10
+00:00:34,000 --> 00:00:40,000
+And right now the authors of OAuth2 is trying to build a newer version with the name OAuth 2.1.
+
+11
+00:00:40,000 --> 00:00:48,000
+So like we discussed previously, with the help of these or 2 or 2.1, a application can grant permissions
+
+12
+00:00:48,000 --> 00:00:52,000
+to access your data in another third party application.
+
+13
+00:00:52,000 --> 00:00:58,000
+The process of granting permissions are concerned to third party applications are often referred to
+
+14
+00:00:58,000 --> 00:01:05,000
+as authorization or delegated authorization. Because inside this process you are going to authorize
+
+15
+00:01:05,000 --> 00:01:12,000
+one application to access your data in another application on your behalf without giving them your password.
+
+16
+00:01:12,000 --> 00:01:17,000
+That's why, in another words, we can also call this process as delegated authorization.
+
+17
+00:01:17,000 --> 00:01:24,000
+So this is a very basic definition of OAuth2. Now coming to the major advantages of Oauth2.
+
+18
+00:01:24,000 --> 00:01:30,000
+OAuth2 supports all kinds of applications and scenarios that you can imagine in the web world,
+
+19
+00:01:30,000 --> 00:01:33,000
+regardless of what type of applications you are building.
+
+20
+00:01:33,000 --> 00:01:40,000
+For all these applications and scenarios, there are different, different grant flows available inside
+
+21
+00:01:40,000 --> 00:01:41,000
+the Oauth2 framework.
+
+22
+00:01:41,000 --> 00:01:48,000
+Suppose if two backend servers are trying to communicate, then we have a grant flow specific to that
+
+23
+00:01:48,000 --> 00:01:48,000
+scenario.
+
+24
+00:01:48,000 --> 00:01:56,000
+Whereas a UI application or a mobile application is trying to communicate with a backend server, then
+
+25
+00:01:56,000 --> 00:01:57,000
+there is a separate grant flow for it.
+
+26
+00:01:57,000 --> 00:02:02,000
+And very similarly for Iot devices, consoles, smart TVs.
+
+27
+00:02:02,000 --> 00:02:07,000
+So for all these kind of devices also we have a grant flow inside the Oauth2 framework.
+
+28
+00:02:07,000 --> 00:02:10,000
+We are going to discuss few of them in this section.
+
+29
+00:02:10,000 --> 00:02:16,000
+But on a high level, what I'm trying to say here is, regardless of what is the type of communication
+
+30
+00:02:16,000 --> 00:02:21,000
+that you are trying to establish between two different applications or two different devices.
+
+31
+00:02:21,000 --> 00:02:26,000
+The OAuth2 has answer for all of them with various grant flows.
+
+32
+00:02:26,000 --> 00:02:32,000
+And the next advantage of OAuth2 like we discussed, it recommends separation of auth logic. Inside
+
+33
+00:02:32,000 --> 00:02:38,000
+OAuth2 we have to build a separate component with the name authorization server and this authorization
+
+34
+00:02:38,000 --> 00:02:44,000
+server is responsible to receive the request from the clients and provide access token based upon the
+
+35
+00:02:44,000 --> 00:02:46,000
+successful authentication.
+
+36
+00:02:46,000 --> 00:02:52,000
+Regardless of how many applications or what type of applications you have inside your organization,
+
+37
+00:02:52,000 --> 00:02:57,000
+they can all connect to the Auth server to perform the login operation.
+
+38
+00:02:57,000 --> 00:03:04,000
+Not only the own organization applications, but also the Ath server can also be accessed by the third
+
+39
+00:03:04,000 --> 00:03:05,000
+party web applications.
+
+40
+00:03:05,000 --> 00:03:11,000
+Inside the Stack overflow scenario, we saw that it is able to access the Auth server of GitHub and it
+
+41
+00:03:11,000 --> 00:03:17,000
+is able to authenticate an end user and get the details of the end user with the help of GitHub auth
+
+42
+00:03:17,000 --> 00:03:17,000
+server.
+
+43
+00:03:17,000 --> 00:03:26,000
+This is possible because inside OAuth2 we have a separate server which is responsible purely for authentication
+
+44
+00:03:26,000 --> 00:03:27,000
+and authorization.
+
+45
+00:03:27,000 --> 00:03:33,000
+If you club both authorization and business logic into a single server, then organizations will not
+
+46
+00:03:33,000 --> 00:03:39,000
+dare to expose their server details or endpoint details to the other applications.
+
+47
+00:03:39,000 --> 00:03:44,000
+So all the credentials of the user and client applications will be maintained in a single location which
+
+48
+00:03:44,000 --> 00:03:46,000
+is inside the server.
+
+49
+00:03:46,000 --> 00:03:50,000
+And the next advantage, which is a primary advantage of OAuth2
+
+50
+00:03:50,000 --> 00:03:56,000
+like we discussed. The end user, he don't have to share his credentials whenever he is trying to provide
+
+51
+00:03:56,000 --> 00:03:59,000
+access to his data to a third party application.
+
+52
+00:03:59,000 --> 00:04:03,000
+The auth server which is present inside the OAuth framework.
+
+53
+00:04:03,000 --> 00:04:07,000
+It is going to provide a temporary access token to the third party application.
+
+54
+00:04:07,000 --> 00:04:10,000
+This is very similar to like a hotel scenario.
+
+55
+00:04:10,000 --> 00:04:15,000
+Think like you went to a five star hotel and you are trying to check in into that hotel. At the reception
+
+56
+00:04:15,000 --> 00:04:20,000
+once they validated your booking details, they are going to provide an access card.
+
+57
+00:04:20,000 --> 00:04:26,000
+And using this access card, you can only open your own room and you can only take the elevator to the
+
+58
+00:04:26,000 --> 00:04:28,000
+floor where your room is present.
+
+59
+00:04:28,000 --> 00:04:34,000
+Here the hotel people they are trying to give a temporary access card and even if you lose the access
+
+60
+00:04:34,000 --> 00:04:40,000
+card, it is not going to create any problem because the hotel people can invalidate that access card
+
+61
+00:04:40,000 --> 00:04:44,000
+remotely and they can provide you an a new access card.
+
+62
+00:04:44,000 --> 00:04:46,000
+Very similarly inside the OAuth2 framework
+
+63
+00:04:46,000 --> 00:04:52,000
+also, the auth server is going to issue the access tokens based upon the privileges. Just like inside
+
+64
+00:04:52,000 --> 00:04:58,000
+the hotel scenario, the access card that you hold will will only provide access to your own room,
+
+65
+00:04:58,000 --> 00:05:00,000
+whereas the access card given
+
+66
+00:05:00,000 --> 00:05:02,000
+to the housekeeping department.
+
+67
+00:05:02,000 --> 00:05:08,000
+They can access any room because the privilege for that access card is more this way based upon the
+
+68
+00:05:08,000 --> 00:05:10,000
+business requirements.
+
+69
+00:05:10,000 --> 00:05:17,000
+The OAuth server is going to issue different, different access tokens based upon the privileges needed by the
+
+70
+00:05:17,000 --> 00:05:18,000
+end user.
+
+71
+00:05:18,000 --> 00:05:21,000
+I hope you're clear with the introduction of Oauth2.
+
+72
+00:05:21,000 --> 00:05:23,000
+Thank you and I'll catch you in the next lecture bye.
+

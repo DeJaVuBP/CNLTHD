@@ -1,0 +1,524 @@
+1
+00:00:00,000 --> 00:00:08,000
+Inside this lecture, let's try to implement open telemetry related changes inside our microservices.
+
+2
+00:00:08,000 --> 00:00:10,000
+Before I try to implement these changes.
+
+3
+00:00:10,000 --> 00:00:13,000
+First, let me stop all my running containers.
+
+4
+00:00:13,000 --> 00:00:16,000
+So here I'm going to run the command, which is docker
+
+5
+00:00:16,000 --> 00:00:17,000
+compose down. With this
+
+6
+00:00:17,000 --> 00:00:19,000
+all my running containers will be stopped.
+
+7
+00:00:19,000 --> 00:00:25,000
+As a next step, I'll go to the pom.xml present inside the accounts microservice.
+
+8
+00:00:25,000 --> 00:00:31,000
+So let me open this pom.xml. Here I need to add that dependency related to the Opentelemetry.
+
+9
+00:00:31,000 --> 00:00:37,000
+When I add this dependency inside my pom.xml, the same jar will be available inside the classpath of
+
+10
+00:00:37,000 --> 00:00:38,000
+my application.
+
+11
+00:00:38,000 --> 00:00:45,000
+Or in other words, the same jar is going to be packaged and available inside the Docker image so that
+
+12
+00:00:45,000 --> 00:00:51,000
+we can use the same whenever we are trying to generate a Docker container from the Docker image.
+
+13
+00:00:51,000 --> 00:00:55,000
+Here first I need to mention what is a Opentelemetry version that we are trying to use.
+
+14
+00:00:55,000 --> 00:00:59,000
+As of today, it is 1.27.0.
+
+15
+00:00:59,000 --> 00:01:05,000
+In future, if you have an updated version, like I said, I'm going to update all the code inside the
+
+16
+00:01:05,000 --> 00:01:06,000
+GitHub repo every quarter.
+
+17
+00:01:06,000 --> 00:01:11,000
+That's why please always check the GitHub repo, whatever I have mentioned inside the GitHub repo,
+
+18
+00:01:11,000 --> 00:01:15,000
+the same version you can also use inside your pom.xml.
+
+19
+00:01:15,000 --> 00:01:22,000
+After mentioning these otelVersion just after the actuator, I'm going to add the dependency related to
+
+20
+00:01:22,000 --> 00:01:25,000
+the open telemetry Java agent.
+
+21
+00:01:25,000 --> 00:01:26,000
+So let me mention the same here.
+
+22
+00:01:26,000 --> 00:01:33,000
+So like you can see here, the group ID is going to be io.opentelemetry.java agent and the
+
+23
+00:01:33,000 --> 00:01:39,000
+artifact is going to be opentelemetry-Javaagent and we are trying to refer to the version variable
+
+24
+00:01:39,000 --> 00:01:41,000
+that we have created in the top. And the scope
+
+25
+00:01:41,000 --> 00:01:47,000
+you can see I have mentioned the runtime, which means during compilation, I don't need this open telemetry
+
+26
+00:01:47,000 --> 00:01:50,000
+only when I'm trying to run my application at runtime only
+
+27
+00:01:50,000 --> 00:01:53,000
+I want this library to be utilized.
+
+28
+00:01:53,000 --> 00:01:54,000
+So let me save this changes.
+
+29
+00:01:54,000 --> 00:01:56,000
+Do a maven refresh.
+
+30
+00:01:56,000 --> 00:02:02,000
+After mentioning these dependency as a next step, I'm going to open the application.yml file present
+
+31
+00:02:02,000 --> 00:02:05,000
+inside the accounts microservice. Here
+
+32
+00:02:05,000 --> 00:02:09,000
+I'm going to introduce a new property just under the logging parent.
+
+33
+00:02:09,000 --> 00:02:18,000
+I'm going to create a new child property and this property is logging.pattern.level and I'm
+
+34
+00:02:18,000 --> 00:02:21,000
+trying to give a logging pattern. By default
+
+35
+00:02:21,000 --> 00:02:24,000
+the opentelemetry is going to follow some logging pattern.
+
+36
+00:02:24,000 --> 00:02:28,000
+Since I want to have my own custom pattern.
+
+37
+00:02:28,000 --> 00:02:31,000
+I'm trying to mention the same here with the help of this pattern.
+
+38
+00:02:31,000 --> 00:02:37,000
+So the first pattern, which is percentage %5p indicates I want to assign some file length characters
+
+39
+00:02:37,000 --> 00:02:39,000
+before my application name.
+
+40
+00:02:39,000 --> 00:02:45,000
+Inside this five length character Opentelemetry can try to generate some log severity, like whether
+
+41
+00:02:45,000 --> 00:02:49,000
+the log is debug info or warning or error.
+
+42
+00:02:49,000 --> 00:02:54,000
+After mentioning this pattern.level, you can see I have opened the square bracket and similarly
+
+43
+00:02:54,000 --> 00:02:57,000
+at the end I also close the square bracket.
+
+44
+00:02:57,000 --> 00:03:00,000
+Inside the square bracket I'm going to add three parameters.
+
+45
+00:03:01,000 --> 00:03:02,000
+The very first one is tag.
+
+46
+00:03:02,000 --> 00:03:08,000
+So inside the tag I'm trying to mention the metadata information which is related to the 
+
+47
+00:03:08,000 --> 00:03:09,000
+spring.application.name.
+
+48
+00:03:09,000 --> 00:03:16,000
+And after this tag information, I'm trying to convey to my spring boot framework at runtime Open Telemetry
+
+49
+00:03:16,000 --> 00:03:19,000
+library is going to generate the trace ID with the context information.
+
+50
+00:03:19,000 --> 00:03:24,000
+trace_id. The same I want to inject here. After trace ID.
+
+51
+00:03:24,000 --> 00:03:28,000
+We also want to inject span ID at the runtime into all my logs.
+
+52
+00:03:28,000 --> 00:03:33,000
+So my spring boot framework, whenever it is trying to generate a log statement, it will look for this
+
+53
+00:03:33,000 --> 00:03:36,000
+pattern and for these kind of dynamic information.
+
+54
+00:03:36,000 --> 00:03:42,000
+And accordingly it is going to append the same inside all my log statements that are going to be generated
+
+55
+00:03:42,000 --> 00:03:44,000
+by my microservice.
+
+56
+00:03:44,000 --> 00:03:50,000
+Now, as a next step, I'm going to make these two changes inside all my microservices behind the scenes.
+
+57
+00:03:50,000 --> 00:03:57,000
+Now, behind the scenes, I have made the changes related to the open telemetry inside all the microservices.
+
+58
+00:03:57,000 --> 00:04:03,000
+As a next step, I will go to the CustomerController class, inside the CustomerController class.
+
+59
+00:04:03,000 --> 00:04:10,000
+As of now we are trying to generate the logs and try to append the correlation ID that is being sent
+
+60
+00:04:10,000 --> 00:04:12,000
+by my gateway server.
+
+61
+00:04:12,000 --> 00:04:14,000
+You can see we are trying to attach this.
+
+62
+00:04:14,000 --> 00:04:20,000
+Instead of this, I'm going to introduce new logger statements saying that fetchCustomerDetails() method
+
+63
+00:04:20,000 --> 00:04:22,000
+start. To this logger statement
+
+64
+00:04:22,000 --> 00:04:24,000
+my open telemetry at runtime
+
+65
+00:04:24,000 --> 00:04:28,000
+It is going to inject application name trace ID and the span ID.
+
+66
+00:04:29,000 --> 00:04:31,000
+With that reason we no more need these correlationId.
+
+67
+00:04:32,000 --> 00:04:37,000
+Let me try to mention the same kind of logger before the return statement, but this time I'm going
+
+68
+00:04:37,000 --> 00:04:46,000
+to mention fetchCustomerDetails method end. This way you can add any number of logs inside your microservices
+
+69
+00:04:46,000 --> 00:04:49,000
+at the controller layer, service layer, Dao layer.
+
+70
+00:04:49,000 --> 00:04:52,000
+It's up to you where you want to define the log statements.
+
+71
+00:04:52,000 --> 00:04:59,000
+By default, all the logs will have distributed tracing information based upon the pattern that we have
+
+72
+00:04:59,000 --> 00:04:59,000
+mentioned.
+
+73
+00:04:59,000 --> 00:05:00,000
+So very
+
+74
+00:05:00,000 --> 00:05:04,000
+similarly, let me go to the LoansController class.
+
+75
+00:05:04,000 --> 00:05:07,000
+Inside the LoansController class also added the fetch API.
+
+76
+00:05:07,000 --> 00:05:12,000
+We are trying to generate the logs with the help of correlationId.
+
+77
+00:05:12,000 --> 00:05:12,000
+Here
+
+78
+00:05:12,000 --> 00:05:17,000
+also I'm going to mention the same log, but instead of fetchCustomerDetails I'm going to mention
+
+79
+00:05:17,000 --> 00:05:21,000
+the method name, which is fetchLoanDetails method start.
+
+80
+00:05:21,000 --> 00:05:24,000
+So let me mention the same at the end of the method as well.
+
+81
+00:05:24,000 --> 00:05:31,000
+Saying that method and as a next step I'll go to CardsController. Inside CardsController
+
+82
+00:05:31,000 --> 00:05:34,000
+also we have fetch API under fetch API
+
+83
+00:05:34,000 --> 00:05:40,000
+we are trying to generate the logs with the help of correlationId, so let me remove them and mention
+
+84
+00:05:40,000 --> 00:05:45,000
+my own log statements with the method name as fetchCardDetails.
+
+85
+00:05:45,000 --> 00:05:51,000
+Method start and I'm going to mention the same logger again towards the end of the method saying that
+
+86
+00:05:51,000 --> 00:05:57,000
+fetchCardDetails method and with this we are done with all the changes related to the opentelemetry
+
+87
+00:05:57,000 --> 00:05:59,000
+inside my microservices.
+
+88
+00:05:59,000 --> 00:06:05,000
+So with the Opentelemetry we are going to add the distributed tracing information to my logs.
+
+89
+00:06:05,000 --> 00:06:09,000
+Do you think just by adding distributed information is going to help the developers.
+
+90
+00:06:09,000 --> 00:06:15,000
+Off course, to some extent it is going to help developers, but to make developers life easy, we need
+
+91
+00:06:15,000 --> 00:06:21,000
+to provide some UI where they can try to see all the information related to a request.
+
+92
+00:06:21,000 --> 00:06:28,000
+By giving the span ID or the trace ID, we need to set up such solution inside our microservices.
+
+93
+00:06:28,000 --> 00:06:30,000
+So let's try to understand how to set up the same.
+
+94
+00:06:30,000 --> 00:06:37,000
+Like I said before, with the help of Opentelemetry, we are going to add that traces and spans information
+
+95
+00:06:37,000 --> 00:06:41,000
+automatically open telemetry, also known as OTel.
+
+96
+00:06:41,000 --> 00:06:47,000
+It is a vendor neutral open source observability framework for instrumenting generating, collecting
+
+97
+00:06:47,000 --> 00:06:52,000
+and exporting telemetry data, such as traces, metrics and logs.
+
+98
+00:06:52,000 --> 00:06:57,000
+How these open telemetry is going to generate a trace information is, at runtime
+
+99
+00:06:57,000 --> 00:07:04,000
+it is going to attach some byte code to your microservice application. Using the same byte code
+
+100
+00:07:04,000 --> 00:07:10,000
+it is going to attach all the tracing information span information or any other metadata information.
+
+101
+00:07:10,000 --> 00:07:16,000
+Once my open telemetry generated all the logs with the required tracing information, we are going to
+
+102
+00:07:16,000 --> 00:07:20,000
+use a component inside the Grafana ecosystem, which is tempo.
+
+103
+00:07:20,000 --> 00:07:22,000
+What is the purpose of this tempo?
+
+104
+00:07:22,000 --> 00:07:26,000
+Just like Loki for logs and Prometheus for metrics.
+
+105
+00:07:26,000 --> 00:07:31,000
+Similarly, using tempo, we are going to index all the tracing information.
+
+106
+00:07:31,000 --> 00:07:36,000
+This tempo again is a open source product, highly scalable and cost effective solution.
+
+107
+00:07:36,000 --> 00:07:44,000
+Using this tempo, we are going to store and analyze all the trace information. So tempo is capable of
+
+108
+00:07:44,000 --> 00:07:46,000
+only storing the tracing information.
+
+109
+00:07:46,000 --> 00:07:52,000
+We need some UI application which is going to connect to the tempo and display the same inside an UI
+
+110
+00:07:52,000 --> 00:07:53,000
+page.
+
+111
+00:07:53,000 --> 00:07:55,000
+That's where Grafana will come into picture.
+
+112
+00:07:55,000 --> 00:08:00,000
+So you can see the ecosystem of Grafana is very beautiful and fascinating.
+
+113
+00:08:00,000 --> 00:08:07,000
+They always have a common UI component which is grafana and based upon the data source, are based upon
+
+114
+00:08:07,000 --> 00:08:08,000
+the connection details.
+
+115
+00:08:08,000 --> 00:08:14,000
+It can connect with various components like Loki, Prometheus, tempo and based upon our scenario,
+
+116
+00:08:14,000 --> 00:08:19,000
+we can search for logs or tracing information or metrics information.
+
+117
+00:08:19,000 --> 00:08:26,000
+That's why learning the basics of Grafana and its various components inside Grafana ecosystem is mandatory
+
+118
+00:08:26,000 --> 00:08:30,000
+for any microservice developer or platform or operations team member.
+
+119
+00:08:30,000 --> 00:08:37,000
+So using tempo, the Grafana is going to show all the distributed information in an easily understandable
+
+120
+00:08:37,000 --> 00:08:38,000
+visual information.
+
+121
+00:08:38,000 --> 00:08:41,000
+When we see the demo, it is going to be super clear for you.
+
+122
+00:08:41,000 --> 00:08:45,000
+As of now we are done only the changes related to open telemetry.
+
+123
+00:08:45,000 --> 00:08:51,000
+As a next step, we need to generate the Docker images for all our microservices and post that we need
+
+124
+00:08:51,000 --> 00:08:57,000
+to update the Docker compose file to implement the changes related to the tempo and the integrating
+
+125
+00:08:57,000 --> 00:08:58,000
+the same with the Grafana.
+
+126
+00:08:58,000 --> 00:09:01,000
+I hope you are clear where we are going.
+
+127
+00:09:01,000 --> 00:09:06,000
+By the time I come to the next lecture I'm going to generate all the Docker images based upon the latest
+
+128
+00:09:06,000 --> 00:09:07,000
+open telemetry changes.
+
+129
+00:09:07,000 --> 00:09:13,000
+If you are following with me, please delete the existing Docker images and try to generate the Docker
+
+130
+00:09:13,000 --> 00:09:16,000
+image again with the tag name S11.
+
+131
+00:09:16,000 --> 00:09:18,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,436 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, our microservices are exposing the matrics information in a format that my Prometheus can
+
+2
+00:00:07,000 --> 00:00:08,000
+understand.
+
+3
+00:00:08,000 --> 00:00:13,000
+Inside this lecture, let's try to set up Prometheus and integrate the same with the Grafana and post
+
+4
+00:00:13,000 --> 00:00:17,000
+that we can also see some demo with the help of Docker compose.
+
+5
+00:00:17,000 --> 00:00:24,000
+So to get started with these changes, first let me stop all the running instances inside my local system.
+
+6
+00:00:24,000 --> 00:00:29,000
+After this I'm going to open the observability folder that we have inside the Docker compose.
+
+7
+00:00:29,000 --> 00:00:33,000
+As of now we have defined the configurations related to loki and promptail.
+
+8
+00:00:34,000 --> 00:00:39,000
+Very similarly, I'm going to create a new folder which is specific to Prometheus.
+
+9
+00:00:39,000 --> 00:00:44,000
+Inside this Prometheus folder, I'm going to paste a Prometheus configuration related file.
+
+10
+00:00:44,000 --> 00:00:46,000
+So let me paste the same here.
+
+11
+00:00:46,000 --> 00:00:49,000
+The Yaml file is going to be prometheus.yml.
+
+12
+00:00:49,000 --> 00:00:52,000
+Let's try to understand what is present inside these prometheus.yml.
+
+13
+00:00:52,000 --> 00:00:59,000
+So here we are making some global configurations for our Prometheus with this crap interval and evaluation
+
+14
+00:00:59,000 --> 00:01:00,000
+interval
+
+15
+00:01:00,000 --> 00:01:02,000
+I'm telling to my Prometheus.
+
+16
+00:01:02,000 --> 00:01:08,000
+Please fetch the metrics from the individual microservice containers every five seconds and using the
+
+17
+00:01:08,000 --> 00:01:15,000
+same metrics, try to evaluate and try to show the metrics inside the Prometheus dashboards for every
+
+18
+00:01:15,000 --> 00:01:16,000
+five seconds.
+
+19
+00:01:16,000 --> 00:01:22,000
+So that means the metrics will be fetched every five seconds and using the same metrics, the data or
+
+20
+00:01:22,000 --> 00:01:27,000
+the graphs inside the Prometheus is going to be reevaluated for every five seconds.
+
+21
+00:01:27,000 --> 00:01:29,000
+So these are the global configurations.
+
+22
+00:01:29,000 --> 00:01:36,000
+Now, after defining these configurations, my Prometheus next question will be what are the details
+
+23
+00:01:36,000 --> 00:01:42,000
+of microservice instances, using which I can fetch the metric details. For the same, we need to define
+
+24
+00:01:42,000 --> 00:01:44,000
+these scrap configs.
+
+25
+00:01:44,000 --> 00:01:50,000
+Under this scrap configs, we can define any number of jobs, so each job will have the details like
+
+26
+00:01:50,000 --> 00:01:52,000
+job name, what is a metric path,
+
+27
+00:01:52,000 --> 00:01:54,000
+what is the static configs and what are the targets.
+
+28
+00:01:54,000 --> 00:01:59,000
+The job name I kept like accounts, loans and cards gateway server.
+
+29
+00:01:59,000 --> 00:02:01,000
+So based upon the microservice name.
+
+30
+00:02:01,000 --> 00:02:07,000
+Accordingly, I have mentioned the job name now coming to the metrics path since the actuator and micrometer,
+
+31
+00:02:07,000 --> 00:02:12,000
+they are going to expose the metrics information using the path actuator/prometheus.
+
+32
+00:02:12,000 --> 00:02:15,000
+We need to mention the same. Under the static configs
+
+33
+00:02:15,000 --> 00:02:21,000
+we need to mention what are the list of targets or what are the list of instances running under accounts
+
+34
+00:02:21,000 --> 00:02:22,000
+microservice.
+
+35
+00:02:22,000 --> 00:02:27,000
+As of now we have only single instance which is running at the port 8080.
+
+36
+00:02:27,000 --> 00:02:33,000
+And here I'm not mentioning the local host because inside the Docker compose file the service name of
+
+37
+00:02:33,000 --> 00:02:39,000
+accounts microservice we have mentioned as accounts. The same thing we have to mention here. Because we
+
+38
+00:02:39,000 --> 00:02:45,000
+are going to start the Prometheus using the Docker compose inside the same network and my Prometheus
+
+39
+00:02:45,000 --> 00:02:49,000
+can interact with my microservice instances based upon the service name.
+
+40
+00:02:49,000 --> 00:02:54,000
+So very similarly, I have mentioned for loans for loans, the port number is going to be 8090 and and
+
+41
+00:02:54,000 --> 00:02:56,000
+the service name is going to be loans.
+
+42
+00:02:56,000 --> 00:03:03,000
+So the same kind of configuration you can see for cards gatewayserver, eurekaserver and configserver.
+
+43
+00:03:03,000 --> 00:03:09,000
+So these kind of configurations, you can easily identify inside the official documentation of Prometheus.
+
+44
+00:03:09,000 --> 00:03:15,000
+So once we define these configurations related to Prometheus as a next step, I'm going to open the
+
+45
+00:03:15,000 --> 00:03:19,000
+Docker compose file present inside the prod profile.
+
+46
+00:03:19,000 --> 00:03:25,000
+As of now, inside this Docker compose file only we have set up loki, grafana, promptail, Minio all
+
+47
+00:03:25,000 --> 00:03:27,000
+the services we have set up.
+
+48
+00:03:27,000 --> 00:03:33,000
+So here just above the Grafana I'm going to create a new service related to the Prometheus.
+
+49
+00:03:33,000 --> 00:03:37,000
+So let me copy paste a few lines of configurations here.
+
+50
+00:03:37,000 --> 00:03:40,000
+You can also get these configurations from the GitHub location.
+
+51
+00:03:40,000 --> 00:03:44,000
+So as of now you can see I'm trying to create a new service with the name Prometheus.
+
+52
+00:03:44,000 --> 00:03:49,000
+And the image it is going to use is from Prometheus and this is the version number.
+
+53
+00:03:49,000 --> 00:03:55,000
+So the container name is going to be Prometheus and it is going to expose at the port 9090.
+
+54
+00:03:55,000 --> 00:04:00,000
+Now coming to the volumes, whatever prometheus.yml file that we have created previously.
+
+55
+00:04:00,000 --> 00:04:06,000
+We are trying to copy that into the Docker container at this location. So that during the startup my
+
+56
+00:04:06,000 --> 00:04:10,000
+Prometheus container is going to look for this Yaml file.
+
+57
+00:04:10,000 --> 00:04:15,000
+And based upon the configurations that we have mentioned here, it is going to set up the Prometheus
+
+58
+00:04:15,000 --> 00:04:15,000
+server.
+
+59
+00:04:15,000 --> 00:04:20,000
+And since we need to make sure we are starting the Prometheus inside the same network where the other
+
+60
+00:04:20,000 --> 00:04:22,000
+microservices and components started.
+
+61
+00:04:22,000 --> 00:04:28,000
+So I'm extending this file and service name which is network-deploy-service.
+
+62
+00:04:28,000 --> 00:04:32,000
+With this we have Prometheus setup inside our Docker compose file.
+
+63
+00:04:32,000 --> 00:04:37,000
+As a next step, we need to establish a link between Prometheus and Grafana.
+
+64
+00:04:37,000 --> 00:04:39,000
+If you can scroll down under grafana.
+
+65
+00:04:39,000 --> 00:04:45,000
+Previously with these Entrypoint command, we are trying to create a file with the name ds.yml.
+
+66
+00:04:45,000 --> 00:04:47,000
+Under this Yaml file,
+
+67
+00:04:47,000 --> 00:04:50,000
+we have mentioned data source related to Loki.
+
+68
+00:04:50,000 --> 00:04:56,000
+Very similarly, we need to make sure we are mentioning Prometheus related data source details inside
+
+69
+00:04:56,000 --> 00:05:00,000
+the ds.yml, but mentioning all those configurations here.
+
+70
+00:05:00,000 --> 00:05:03,000
+Is going to make my Docker compose file very lengthy.
+
+71
+00:05:03,000 --> 00:05:09,000
+So what I can do is, I can create a folder inside the obserbility with the name Grafana.
+
+72
+00:05:09,000 --> 00:05:17,000
+So let me go to the observability and here I'm going to create a folder with the name Grafana and this
+
+73
+00:05:17,000 --> 00:05:22,000
+Grafana I'm going to paste a new Yaml file which has data source details.
+
+74
+00:05:22,000 --> 00:05:24,000
+So let me paste this yaml file.
+
+75
+00:05:24,000 --> 00:05:27,000
+The Yaml file name is going to be datasource.yml.
+
+76
+00:05:27,000 --> 00:05:31,000
+Let's try to understand what is there inside this datasource.yml file.
+
+77
+00:05:31,000 --> 00:05:36,000
+First, I'm trying to mention this API version one, which is a standard that we need to follow post
+
+78
+00:05:36,000 --> 00:05:42,000
+that I'm going to delete any existing data sources with the same name like Prometheus and Loki.
+
+79
+00:05:42,000 --> 00:05:43,000
+After that,
+
+80
+00:05:43,000 --> 00:05:49,000
+under this data source I have created two data source, one with the Prometheus and the second one is
+
+81
+00:05:49,000 --> 00:05:50,000
+with the name Loki.
+
+82
+00:05:50,000 --> 00:05:55,000
+So if you try to understand under the Prometheus I have mentioned the type as Prometheus and I'm trying
+
+83
+00:05:55,000 --> 00:05:58,000
+to give some unique ID for this connection.
+
+84
+00:05:58,000 --> 00:06:00,000
+The name is going to be Prometheus itself.
+
+85
+00:06:00,000 --> 00:06:07,000
+Now, coming to the URL, I have to mention the URL where my Prometheus is going to start.
+
+86
+00:06:07,000 --> 00:06:12,000
+If you go and check my Docker compose file under Prometheus configurations
+
+87
+00:06:12,000 --> 00:06:16,000
+we have mentioned the port mapping as 1990 with the service name Prometheus.
+
+88
+00:06:16,000 --> 00:06:21,000
+Since Grafana also is going to start inside the same network, we need to make sure the same here,
+
+89
+00:06:21,000 --> 00:06:24,000
+like Prometheus 1990 and post this URL
+
+90
+00:06:24,000 --> 00:06:30,000
+we need to mention all these properties which you can configure further based upon your own project
+
+91
+00:06:30,000 --> 00:06:31,000
+requirements.
+
+92
+00:06:31,000 --> 00:06:34,000
+So I'm trying to disable all authentication everything.
+
+93
+00:06:34,000 --> 00:06:39,000
+After Prometheus you can see we have Loki related data source configurations.
+
+94
+00:06:39,000 --> 00:06:44,000
+As of now we have these Loki connection details inside that Docker compose file as well.
+
+95
+00:06:44,000 --> 00:06:51,000
+Like if you go and check the Grafana Entrypoint command, we are trying to create a directory and inside
+
+96
+00:06:51,000 --> 00:06:56,000
+the directory we are trying to create a ds.yml and post that we are trying to mention the Loki
+
+97
+00:06:56,000 --> 00:06:57,000
+related configuration.
+
+98
+00:06:57,000 --> 00:07:04,000
+Since we are already mentioning these inside the datasource.yml, we can remove all these configurations.
+
+99
+00:07:04,000 --> 00:07:10,000
+After removing all these configurations we need to make sure we are providing the information about
+
+100
+00:07:10,000 --> 00:07:11,000
+these datasource.yml.
+
+101
+00:07:11,000 --> 00:07:16,000
+So for the same I'm going to create some volume related configurations.
+
+102
+00:07:16,000 --> 00:07:18,000
+You can see using the volumes,
+
+103
+00:07:18,000 --> 00:07:23,000
+I'm trying to copy the datasource.yml file into the container at this path.
+
+104
+00:07:23,000 --> 00:07:29,000
+So the grafana is going to look for this and based upon the details that we have mentioned here, it
+
+105
+00:07:29,000 --> 00:07:33,000
+is going to set up the connection details with the Loki and Prometheus.
+
+106
+00:07:33,000 --> 00:07:39,000
+With these, we have made the required changes inside the Docker compose Yaml file to set up the Prometheus
+
+107
+00:07:39,000 --> 00:07:42,000
+and integrate the same with the Grafana.
+
+108
+00:07:42,000 --> 00:07:48,000
+Let's try to continue the same discussion in the next lecture and see the demo of Prometheus and grafana.
+
+109
+00:07:48,000 --> 00:07:51,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,772 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now, inside this lecture, let me show you how to implement retry pattern inside your individual microservices
+
+2
+00:00:07,000 --> 00:00:09,000
+like accounts microservice.
+
+3
+00:00:09,000 --> 00:00:13,000
+As of now, we implemented retry pattern with the help of Gateway server.
+
+4
+00:00:13,000 --> 00:00:20,000
+But sometimes we may want to implement retry pattern inside the individual microservices as well.
+
+5
+00:00:20,000 --> 00:00:27,000
+So to implement the retry pattern inside my AccountsController, I choose this API, which is build-info
+
+6
+00:00:27,000 --> 00:00:27,000
+.
+
+7
+00:00:27,000 --> 00:00:33,000
+So the purpose of this API is it is always going to return the what is the current build version
+
+8
+00:00:33,000 --> 00:00:35,000
+right now this environment is using
+
+9
+00:00:35,000 --> 00:00:37,000
+It also supports get mapping.
+
+10
+00:00:37,000 --> 00:00:41,000
+So this is a good method to implement retry operation.
+
+11
+00:00:41,000 --> 00:00:47,000
+So to implement the retry operation we need to use the annotation which is @Retry. To this
+
+12
+00:00:47,000 --> 00:00:48,000
+Retry annotation,
+
+13
+00:00:48,000 --> 00:00:54,000
+first we need to mention what is the name that you want to give for this particular retry configurations.
+
+14
+00:00:54,000 --> 00:00:58,000
+So I'll go with the method name, which is getBuildInfo() post that,
+
+15
+00:00:58,000 --> 00:01:04,000
+I'm also going to mention what is a fallback method for this retry pattern.
+
+16
+00:01:04,000 --> 00:01:08,000
+So the fallback method, I'm going to mention the same method name after mentioning the same method
+
+17
+00:01:08,000 --> 00:01:12,000
+name, I'm going to append the text which is fallback.
+
+18
+00:01:12,000 --> 00:01:14,000
+So this is the new method name.
+
+19
+00:01:14,000 --> 00:01:21,000
+So as a next step, we need to create a method inside the same class with the method name as getBuildInfoFallback().
+
+20
+00:01:21,000 --> 00:01:22,000
+.
+
+21
+00:01:22,000 --> 00:01:26,000
+But while we are trying to create a fallback method, we need to follow certain rules.
+
+22
+00:01:26,000 --> 00:01:33,000
+The very first rule is the fallback method signatures should match with exactly with the original method.
+
+23
+00:01:33,000 --> 00:01:36,000
+So here the original method is getBuildInfo().
+
+24
+00:01:36,000 --> 00:01:40,000
+So let me copy this entire method signature along with the method name.
+
+25
+00:01:40,000 --> 00:01:43,000
+So I'm going to create a empty method.
+
+26
+00:01:43,000 --> 00:01:45,000
+So here we already have this method.
+
+27
+00:01:45,000 --> 00:01:47,000
+We can't use this method name.
+
+28
+00:01:47,000 --> 00:01:51,000
+That's why we need to give a different name for the fallback method.
+
+29
+00:01:51,000 --> 00:01:56,000
+I'm trying to use the same here for these new fallback method that I'm trying to create.
+
+30
+00:01:56,000 --> 00:02:02,000
+Inside this method we need to accept the same number of parameters like we are accepting for the 
+
+31
+00:02:02,000 --> 00:02:03,000
+getBuildInfo().
+
+32
+00:02:03,000 --> 00:02:09,000
+Since the original method does not have any arguments, the fallback method also is not going to have
+
+33
+00:02:09,000 --> 00:02:10,000
+any method input parameter.
+
+34
+00:02:11,000 --> 00:02:18,000
+The second rule that we need to follow is this fallback method should accept a method input parameter
+
+35
+00:02:18,000 --> 00:02:19,000
+of type throwable.
+
+36
+00:02:19,000 --> 00:02:21,000
+So that's what I'm trying to do here.
+
+37
+00:02:21,000 --> 00:02:27,000
+Since your original method is empty here you have only one method parameter which is Throwable.
+
+38
+00:02:27,000 --> 00:02:32,000
+In case, if your original method has two method input parameters, then your fallback will have three
+
+39
+00:02:32,000 --> 00:02:37,000
+method input parameters two from the original method and the third one is of type Throwable.
+
+40
+00:02:37,000 --> 00:02:43,000
+And inside this I'm going to simply return a static value as a fallback mechanism.
+
+41
+00:02:43,000 --> 00:02:48,000
+So the static value that I want to return here is 0.9.
+
+42
+00:02:48,000 --> 00:02:51,000
+So this is some random version number that I want to return.
+
+43
+00:02:51,000 --> 00:02:57,000
+So whatever logic I have written inside this fallback method will be executed after multiple retry
+
+44
+00:02:57,000 --> 00:02:58,000
+operations.
+
+45
+00:02:58,000 --> 00:03:05,000
+Like if I configure three retry attempts, even after three retry attempts, my original method is not
+
+46
+00:03:05,000 --> 00:03:11,000
+able to return a successful response in such scenarios, my fallback is going to get invoked.
+
+47
+00:03:11,000 --> 00:03:13,000
+So this is one of the advantage that we have.
+
+48
+00:03:13,000 --> 00:03:20,000
+If you try to implement retry pattern inside your microservice itself, whereas with Gateway Server,
+
+49
+00:03:20,000 --> 00:03:24,000
+there is no option for us to implement fallback mechanism.
+
+50
+00:03:24,000 --> 00:03:27,000
+As of now, this is the limitation with the gateway server.
+
+51
+00:03:27,000 --> 00:03:32,000
+Now you can see I have defined the retry configurations and a fallback method. As a next step
+
+52
+00:03:32,000 --> 00:03:36,000
+we need to define the properties related to the retry pattern.
+
+53
+00:03:36,000 --> 00:03:41,000
+Like how many times we want to retry what is the backoff strategy for the same, we need to go to the
+
+54
+00:03:41,000 --> 00:03:44,000
+application.yml of accounts microservice.
+
+55
+00:03:44,000 --> 00:03:50,000
+So under the resources I'm trying to open application.yml, so just under the circuit breaker related
+
+56
+00:03:50,000 --> 00:03:55,000
+configurations, I'm going to mention the retry pattern related configurations.
+
+57
+00:03:55,000 --> 00:03:58,000
+So here I'm trying to paste few properties.
+
+58
+00:03:58,000 --> 00:04:03,000
+Like you can see the properties are resiliency4j.retry configs and default.
+
+59
+00:04:03,000 --> 00:04:09,000
+That means whatever configurations that I'm trying to define here, these configurations are applicable
+
+60
+00:04:09,000 --> 00:04:14,000
+for all retry configurations that I have done inside my accounts
+
+61
+00:04:14,000 --> 00:04:20,000
+microservice. So the maximum number of retry times that I'm trying to do is three and wait duration is
+
+62
+00:04:20,000 --> 00:04:26,000
+100 milliseconds, and I'm trying to enable the exponential backoff with a backoff factor or backoff
+
+63
+00:04:26,000 --> 00:04:27,000
+multiplier as two.
+
+64
+00:04:27,000 --> 00:04:32,000
+So here you may have a question like from where I'm getting all these properties. Like I said, official
+
+65
+00:04:32,000 --> 00:04:34,000
+documentation is the answer.
+
+66
+00:04:34,000 --> 00:04:41,000
+If you come to the Resiliency4j website and click on this getting started under the configurations,
+
+67
+00:04:41,000 --> 00:04:49,000
+there are good amount of details provided on how to configure various patterns inside your microservices.
+
+68
+00:04:49,000 --> 00:04:51,000
+Like this is for circuit breaker.
+
+69
+00:04:51,000 --> 00:04:53,000
+Very similarly, we have for retry. The same
+
+70
+00:04:53,000 --> 00:04:56,000
+I'm trying to refer inside my microservice as well.
+
+71
+00:04:56,000 --> 00:04:59,000
+So you can see here instead of default they're trying to
+
+72
+00:04:59,000 --> 00:05:05,000
+define different, different retry configurations for different, different retry pattern implementations
+
+73
+00:05:05,000 --> 00:05:07,000
+inside the microservices.
+
+74
+00:05:07,000 --> 00:05:09,000
+So the retry pattern name can be backendA.
+
+75
+00:05:09,000 --> 00:05:13,000
+So for this pattern, these are the properties that they want to follow.
+
+76
+00:05:13,000 --> 00:05:17,000
+And similarly, there is another retry pattern implementation with the name backendB.
+
+77
+00:05:17,000 --> 00:05:23,000
+This way, we can also define different, different retry configurations or circuit breaker configurations
+
+78
+00:05:23,000 --> 00:05:25,000
+for different, different instances.
+
+79
+00:05:25,000 --> 00:05:31,000
+As of now, inside our AccountsController, we have created only one retry configuration instance with
+
+80
+00:05:31,000 --> 00:05:33,000
+the name get build-info.
+
+81
+00:05:33,000 --> 00:05:39,000
+You need to use the same name inside your properties whenever you want to apply retry configurations
+
+82
+00:05:39,000 --> 00:05:43,000
+which are specific to these retry instance configuration.
+
+83
+00:05:43,000 --> 00:05:48,000
+I hope you are clear now after mentioning these properties as a next step, we need to create some logger
+
+84
+00:05:48,000 --> 00:05:55,000
+statements so that it will be clear for us to understand how many times our method is getting invoked.
+
+85
+00:05:55,000 --> 00:05:58,000
+I need to create some logger statements here before that
+
+86
+00:05:58,000 --> 00:06:01,000
+first, I need to create a variable of type Logger.
+
+87
+00:06:01,000 --> 00:06:08,000
+So here I'm trying to create a new Logger variable that accepts the class name using the same logger.
+
+88
+00:06:08,000 --> 00:06:12,000
+I'm going to create logger statements inside my getBuildInfo.
+
+89
+00:06:12,000 --> 00:06:15,000
+Inside this method I'm going to mention a logger statement.
+
+90
+00:06:15,000 --> 00:06:22,000
+The logger statement is going to be logger.debug and getBuildInfo method invoked.
+
+91
+00:06:22,000 --> 00:06:27,000
+Very similarly, let me create a logger statement inside the fallback method as well.
+
+92
+00:06:27,000 --> 00:06:31,000
+But here I'm going to change the method name to getBuildInfoFallback().
+
+93
+00:06:31,000 --> 00:06:37,000
+With this loggers, we should be able to easily identify how many times a particular method is invoked.
+
+94
+00:06:37,000 --> 00:06:44,000
+As a next step, to see the demo of this retry pattern in action, I'm going to throw intentionally a
+
+95
+00:06:44,000 --> 00:06:49,000
+RuntimeException with the help of throw new NullPointerException.
+
+96
+00:06:49,000 --> 00:06:52,000
+With this always this method is going to fail.
+
+97
+00:06:52,000 --> 00:06:56,000
+So let me comment this return statement after commenting this
+
+98
+00:06:56,000 --> 00:06:58,000
+I'm going to save these changes.
+
+99
+00:06:58,000 --> 00:06:59,000
+Do a build,
+
+100
+00:06:59,000 --> 00:07:00,000
+once the build is completed,
+
+101
+00:07:00,000 --> 00:07:06,000
+first, I'm going to stop my AccountsApplication followed by Gateway Server application.
+
+102
+00:07:06,000 --> 00:07:12,000
+Once these applications are starved first, I'm going to start my AccountsApplication in debug mode,
+
+103
+00:07:12,000 --> 00:07:14,000
+followed by Gateway Server.
+
+104
+00:07:14,000 --> 00:07:21,000
+The reason why I'm trying to manually restarting these services instead of relying on my dev tools is,
+
+105
+00:07:21,000 --> 00:07:28,000
+whenever my applications restarted they are going to register with the Eureka server with the new instance
+
+106
+00:07:28,000 --> 00:07:28,000
+details.
+
+107
+00:07:28,000 --> 00:07:35,000
+Since I want my gateway server to have always the latest information from the Eureka server, I'm trying
+
+108
+00:07:35,000 --> 00:07:38,000
+to restart both accounts and gateway server application manually.
+
+109
+00:07:38,000 --> 00:07:41,000
+With this, both the applications started successfully.
+
+110
+00:07:41,000 --> 00:07:44,000
+Let me go to the postman.
+
+111
+00:07:44,000 --> 00:07:49,000
+Here I'm going to invoke the REST API of build-info which is available inside the accounts microservice.
+
+112
+00:07:49,000 --> 00:07:51,000
+So let me click on the send button.
+
+113
+00:07:51,000 --> 00:07:57,000
+As soon as I click send button, you can see I'm getting the fallback response, which is 0.9.
+
+114
+00:07:57,000 --> 00:08:04,000
+We can confirm whether the retry happened or not by looking at the console inside my AccountsApplication
+
+115
+00:08:04,000 --> 00:08:04,000
+console
+
+116
+00:08:04,000 --> 00:08:10,000
+if you see there are three statements with the logger get build-info method invoked and at class we
+
+117
+00:08:10,000 --> 00:08:15,000
+also have statement which is related to getBuildInfoFallback().
+
+118
+00:08:15,000 --> 00:08:20,000
+Do you see there is a difference between the retry pattern inside the gateway and individual microservice
+
+119
+00:08:20,000 --> 00:08:22,000
+inside the gateway server?
+
+120
+00:08:22,000 --> 00:08:28,000
+Whenever we implement the retry pattern, the retry attempts happen total four number of times, but
+
+121
+00:08:28,000 --> 00:08:30,000
+here it is happening only three times.
+
+122
+00:08:30,000 --> 00:08:36,000
+So here it is also considering the very initial request under the retry attempts.
+
+123
+00:08:36,000 --> 00:08:42,000
+So please make a note of this and accordingly you need to implement inside your projects.
+
+124
+00:08:42,000 --> 00:08:44,000
+So now we are clear about this, as a next step
+
+125
+00:08:44,000 --> 00:08:48,000
+I want to show you a demo of circuit Breaker Timeout. For the same,
+
+126
+00:08:48,000 --> 00:08:50,000
+I'll go to the application.yml.
+
+127
+00:08:50,000 --> 00:08:54,000
+As of now you can see the wait duration is 100 millisecond.
+
+128
+00:08:54,000 --> 00:09:00,000
+Instead I'm going to make it as 500 milliseconds and post that I'm going to save this changes and do
+
+129
+00:09:00,000 --> 00:09:07,000
+a build. Once the build is completed, we need to make sure we are restarting AccountsApplication and
+
+130
+00:09:07,000 --> 00:09:09,000
+gateway server application again.
+
+131
+00:09:09,000 --> 00:09:12,000
+So let me start my AccountsApplication first.
+
+132
+00:09:12,000 --> 00:09:18,000
+Once the AccountsApplication is started, I'm going to start the Gateway server application. This time,
+
+133
+00:09:18,000 --> 00:09:20,000
+let's see the behavior, how it is going to be.
+
+134
+00:09:20,000 --> 00:09:23,000
+So here I'm trying to invoke this request again.
+
+135
+00:09:23,000 --> 00:09:29,000
+This time you can see we are getting the response from the circuit breaker fallback mechanism, which
+
+136
+00:09:29,000 --> 00:09:34,000
+means internally my circuit breaker has a time limiter using this time limiter,
+
+137
+00:09:34,000 --> 00:09:39,000
+it is going to wait for a maximum period of default value present inside the circuit breaker.
+
+138
+00:09:39,000 --> 00:09:46,000
+Since these default value of circuit breaker is less than the total time taken by the retry operation,
+
+139
+00:09:46,000 --> 00:09:50,000
+the fallback of circuit  breaker is coming into picture.
+
+140
+00:09:50,000 --> 00:09:56,000
+So whenever you are end up into these kind of scenarios, you can either reduce your wait duration like
+
+141
+00:09:56,000 --> 00:09:59,000
+previously we have 100 milliseconds or you can also
+
+142
+00:09:59,000 --> 00:10:03,000
+change the default configuration of circuit Breaker.
+
+143
+00:10:03,000 --> 00:10:05,000
+So let me show you how to change that.
+
+144
+00:10:05,000 --> 00:10:07,000
+For the same, we need to go to the Gateway server application.
+
+145
+00:10:07,000 --> 00:10:12,000
+As of now, you can see we have enabled the circuit breaker for accounts microservice.
+
+146
+00:10:12,000 --> 00:10:16,000
+So in the same class I'm going to create a new bean.
+
+147
+00:10:16,000 --> 00:10:18,000
+So here I'm trying to paste few lines of code.
+
+148
+00:10:18,000 --> 00:10:24,000
+You can see I'm trying to create a bean of type Customizer, ReactiveResiliency4JCircuitBreakerFactory
+
+149
+00:10:24,000 --> 00:10:25,000
+.
+
+150
+00:10:25,000 --> 00:10:27,000
+Inside this method we have a lambda expression.
+
+151
+00:10:27,000 --> 00:10:33,000
+So let's try to understand what is this lambda expression using the variable factory which is of type
+
+152
+00:10:33,000 --> 00:10:36,000
+ReactiveResiliency4JCircuitBreakerFactory.
+
+153
+00:10:36,000 --> 00:10:41,000
+I'm trying to invoke the configure default to this configured default.
+
+154
+00:10:41,000 --> 00:10:45,000
+I'm trying to pass the new object of Resiliency4jConfigBuilder.
+
+155
+00:10:45,000 --> 00:10:51,000
+After that, once we have defined this object, I'm trying to invoke the method CircuitBreakerConfig
+
+156
+00:10:51,000 --> 00:10:53,000
+to the CircuitBreakerConfig.
+
+157
+00:10:53,000 --> 00:10:57,000
+We are passing some default values after these default values
+
+158
+00:10:57,000 --> 00:11:03,000
+we are trying to mention what is a time limiter that my CircuitBreaker has to follow.
+
+159
+00:11:03,000 --> 00:11:09,000
+As of now we saw the time limiter it is following is around one second, but we want to increase the
+
+160
+00:11:09,000 --> 00:11:10,000
+time but the same
+
+161
+00:11:10,000 --> 00:11:12,000
+we need to use this timeLimiterConfig.
+
+162
+00:11:12,000 --> 00:11:14,000
+So what is time limiter.
+
+163
+00:11:14,000 --> 00:11:21,000
+So time limiter is another pattern inside the resiliency4j which will help you to define what is
+
+164
+00:11:21,000 --> 00:11:26,000
+the maximum time that your application is going to wait to complete a specific operation.
+
+165
+00:11:26,000 --> 00:11:32,000
+So for this time limiter config we are trying to pass timeLimiterConfig.custom and what is that
+
+166
+00:11:32,000 --> 00:11:33,000
+timeout duration?
+
+167
+00:11:33,000 --> 00:11:36,000
+So we are trying to set four seconds.
+
+168
+00:11:36,000 --> 00:11:42,000
+So with this my circuit breaker pattern is going to wait for a maximum of four seconds whenever it is
+
+169
+00:11:42,000 --> 00:11:45,000
+trying to wait for a particular operation to complete.
+
+170
+00:11:45,000 --> 00:11:47,000
+So let me save this changes.
+
+171
+00:11:47,000 --> 00:11:48,000
+Do a build.
+
+172
+00:11:48,000 --> 00:11:54,000
+Once the build is completed, I'm going to stop my gateway server and restart again.
+
+173
+00:11:54,000 --> 00:11:56,000
+So now I'm trying to start again.
+
+174
+00:11:56,000 --> 00:12:01,000
+You might be wondering from where I got these kind of configurations, how do I know to define these
+
+175
+00:12:01,000 --> 00:12:04,000
+being with kind of lambda expression, which is looking very complex.
+
+176
+00:12:04,000 --> 00:12:08,000
+Like I said, you can always look in the official documentation.
+
+177
+00:12:08,000 --> 00:12:14,000
+If you are familiar with spring reactive concepts, then this lambda expression is going to be super,
+
+178
+00:12:14,000 --> 00:12:16,000
+super easy to understand.
+
+179
+00:12:16,000 --> 00:12:21,000
+Otherwise, don't worry, you can always look for the help inside the official documentation or from
+
+180
+00:12:21,000 --> 00:12:22,000
+the developer community.
+
+181
+00:12:22,000 --> 00:12:25,000
+So now my gateway server started successfully.
+
+182
+00:12:25,000 --> 00:12:26,000
+Let me go to the postman.
+
+183
+00:12:26,000 --> 00:12:29,000
+Here I'm going to invoke this operation one more time.
+
+184
+00:12:29,000 --> 00:12:34,000
+This time you should get the fallback mechanism response from the retry pattern
+
+185
+00:12:34,000 --> 00:12:37,000
+and that is what happening, which is 0.9.
+
+186
+00:12:37,000 --> 00:12:42,000
+We can also check the console of AccountsApplication inside my AccountsApplication console
+
+187
+00:12:42,000 --> 00:12:48,000
+you can see we have this logger statements confirming that there is an retry attempt to happen.
+
+188
+00:12:48,000 --> 00:12:55,000
+And since the retry is not successful, even after three attempts, the fallback mechanism came into
+
+189
+00:12:55,000 --> 00:12:56,000
+picture.
+
+190
+00:12:56,000 --> 00:12:56,000
+I hope you are clear
+
+191
+00:12:56,000 --> 00:13:01,000
+with all the changes that we have done inside this lecture, we are going to continue this discussion
+
+192
+00:13:01,000 --> 00:13:02,000
+in the next lecture as well.
+
+193
+00:13:02,000 --> 00:13:05,000
+Thank you and I'll catch you in the next lecture bye.
+

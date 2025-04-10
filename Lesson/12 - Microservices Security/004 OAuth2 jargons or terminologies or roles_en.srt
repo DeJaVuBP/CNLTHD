@@ -1,0 +1,468 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+I'm going to explain you a few of the jargons or terminologies that we have inside the Oauth2 framework.
+
+3
+00:00:08,000 --> 00:00:14,000
+Because many times you may see me using these jargons or someone is using these jargons inside their
+
+4
+00:00:14,000 --> 00:00:20,000
+blogs or inside their courses or YouTube videos. Until unless you know about these jargons, you cannot
+
+5
+00:00:20,000 --> 00:00:23,000
+explain about Oauth2 framework to others.
+
+6
+00:00:23,000 --> 00:00:30,000
+If you go to an interview and if they're asking you how you have implemented security inside your microservices,
+
+7
+00:00:30,000 --> 00:00:36,000
+then definitely you need to explain using Oauth2 framework. In the same process, you need to use these
+
+8
+00:00:36,000 --> 00:00:44,000
+jargons and that will showcase to the target audience that you are well versed with the Oauth2 framework.
+
+9
+00:00:44,000 --> 00:00:49,000
+If you are already familiar with all these basics of Oauth2 framework, I recommend you skipping all
+
+10
+00:00:49,000 --> 00:00:55,000
+these lectures because I built these videos for the developers who are new to the Oauth2 framework.
+
+11
+00:00:55,000 --> 00:01:02,000
+The very first jargon that I want to talk is, this is one of the role that you may see inside the Oauth2
+
+12
+00:01:02,000 --> 00:01:02,000
+flows.
+
+13
+00:01:02,000 --> 00:01:05,000
+So who is this resource owner?
+
+14
+00:01:05,000 --> 00:01:10,000
+Usually the resource owner is the end user inside the stack overflow scenario
+
+15
+00:01:10,000 --> 00:01:16,000
+I as an end user want to use a third party application which is Stack Overflow.
+
+16
+00:01:16,000 --> 00:01:17,000
+Inside this Stack Overflow website,
+
+17
+00:01:17,000 --> 00:01:24,000
+I want to log in with the help of my GitHub details. So I own the resources inside the GitHub server,
+
+18
+00:01:24,000 --> 00:01:26,000
+like my email address, my display name.
+
+19
+00:01:26,000 --> 00:01:33,000
+So all those details are belongs to me. Since I want to share my resources to the third party application
+
+20
+00:01:33,000 --> 00:01:38,000
+by proving my identity with the authentication server of GitHub, I will be the resource owner.
+
+21
+00:01:38,000 --> 00:01:45,000
+In simple words, the end user who owns the resources we call him as an resource owner.
+
+22
+00:01:45,000 --> 00:01:50,000
+In the Stack overflow scenario, the resources can be my email address or my profile details.
+
+23
+00:01:50,000 --> 00:01:55,000
+Whereas if you take the Google photos scenario, the resources will be the photos that I stored inside
+
+24
+00:01:55,000 --> 00:01:57,000
+the Google photos server.
+
+25
+00:01:57,000 --> 00:02:00,000
+The next role are jargon is Client.
+
+26
+00:02:00,000 --> 00:02:01,000
+So who is this client?
+
+27
+00:02:01,000 --> 00:02:09,000
+This client is the website or mobile application or an API who want to access the secured resources
+
+28
+00:02:09,000 --> 00:02:11,000
+on behalf of the resource owner.
+
+29
+00:02:11,000 --> 00:02:17,000
+In the scenario of StackOverflow, the StackOverflow website, they want to interact with the GitHub
+
+30
+00:02:17,000 --> 00:02:23,000
+server on behalf of me and they are trying to get the details of me from the GitHub.
+
+31
+00:02:23,000 --> 00:02:30,000
+So that's why we call the StackOverflow website itself as a client because it is a client application,
+
+32
+00:02:30,000 --> 00:02:33,000
+who want to connect with the authorization server of GitHub.
+
+33
+00:02:33,000 --> 00:02:34,000
+After client,
+
+34
+00:02:34,000 --> 00:02:38,000
+we have the next jargon, which is Authorization Server.
+
+35
+00:02:38,000 --> 00:02:43,000
+This is the component at the server which knows about the resource owner.
+
+36
+00:02:43,000 --> 00:02:47,000
+In other words, resource owner should have an account in this server.
+
+37
+00:02:47,000 --> 00:02:54,000
+Suppose in the case of StackOverflow, I as a resource owner should have an account inside the GitHub
+
+38
+00:02:54,000 --> 00:02:56,000
+without having an account inside the GitHub,
+
+39
+00:02:56,000 --> 00:02:58,000
+I can't tell the stackoverflow website
+
+40
+00:02:58,000 --> 00:03:05,000
+go and get my resources from the GitHub server. Because authorization server of GitHub never knows me,
+
+41
+00:03:05,000 --> 00:03:09,000
+never has my details registered like my email address, my password.
+
+42
+00:03:09,000 --> 00:03:15,000
+That's why we can never use authorization server if we don't register our details with it.
+
+43
+00:03:15,000 --> 00:03:21,000
+So what is the authorization server in the scenario of StackOverflow, the GitHub server which is responsible
+
+44
+00:03:21,000 --> 00:03:26,000
+to authenticate the end user at the resource owner, we call that server as authorization server.
+
+45
+00:03:26,000 --> 00:03:30,000
+The next jargon that we have is, Resource Server.
+
+46
+00:03:30,000 --> 00:03:34,000
+This is the server where the resources of the resource owner are stored.
+
+47
+00:03:34,000 --> 00:03:40,000
+So my client application want to interact with this resource server to get the resources of the resource
+
+48
+00:03:40,000 --> 00:03:40,000
+owner.
+
+49
+00:03:40,000 --> 00:03:47,000
+Usually inside enterprise organizations like GitHub, Google or Facebook or any other organizations,
+
+50
+00:03:47,000 --> 00:03:53,000
+they will have separate servers handling the authentication and storing the resources of the end user.
+
+51
+00:03:53,000 --> 00:04:00,000
+So in other words, my authorization server is responsible for authenticating the resource owner and
+
+52
+00:04:00,000 --> 00:04:06,000
+once the authentication is successful, my authorization server is going to issue an access token to
+
+53
+00:04:06,000 --> 00:04:09,000
+the client. Using the same access token,
+
+54
+00:04:09,000 --> 00:04:14,000
+the client application is going to send a request behind the scenes to the resource server.
+
+55
+00:04:14,000 --> 00:04:22,000
+If the resource server is satisfied with the validity of the access token, then it is going to give
+
+56
+00:04:22,000 --> 00:04:24,000
+the resources of the resource owner.
+
+57
+00:04:24,000 --> 00:04:29,000
+Like in the stack overflow scenario, the resource will be my email details, my basic details like
+
+58
+00:04:29,000 --> 00:04:30,000
+my display name.
+
+59
+00:04:30,000 --> 00:04:36,000
+Whereas in the Google photos scenario the resources will be my photos that I have stored inside the
+
+60
+00:04:36,000 --> 00:04:37,000
+Google photo server.
+
+61
+00:04:37,000 --> 00:04:42,000
+And the last important jargon that you may hear inside our framework is scopes.
+
+62
+00:04:42,000 --> 00:04:43,000
+So what are these scopes?
+
+63
+00:04:43,000 --> 00:04:50,000
+These are the granular permissions the client wants, such as access to a data or to perform certain
+
+64
+00:04:50,000 --> 00:04:51,000
+actions.
+
+65
+00:04:51,000 --> 00:04:56,000
+The auth server can issue an access token to client based upon the scopes.
+
+66
+00:04:56,000 --> 00:05:00,000
+These scopes decide what actions the client application can perform.
+
+67
+00:05:00,000 --> 00:05:06,000
+Inside the stack overflow scenario, the GitHub might have issued a scope to the client application
+
+68
+00:05:06,000 --> 00:05:09,000
+to read my email details and basic details.
+
+69
+00:05:09,000 --> 00:05:14,000
+So whenever an access token issued by the authorization server, it is going to construct the scopes.
+
+70
+00:05:14,000 --> 00:05:20,000
+So with this access token, my client application can interact with the resource server and it can only
+
+71
+00:05:20,000 --> 00:05:25,000
+perform the actions based upon the privileges defined by the scope.
+
+72
+00:05:25,000 --> 00:05:27,000
+I can also show you these scopes in demo.
+
+73
+00:05:27,000 --> 00:05:33,000
+For example, let's take the Stack overflow scenario again, I'm trying to click on this sign up button
+
+74
+00:05:33,000 --> 00:05:36,000
+and here I'm going to click on the sign up with GitHub.
+
+75
+00:05:36,000 --> 00:05:42,000
+Here you can see my GitHub is not asking my credentials again because I entered the credentials previously
+
+76
+00:05:42,000 --> 00:05:42,000
+already.
+
+77
+00:05:42,000 --> 00:05:45,000
+That's why it is not asking again and again.
+
+78
+00:05:45,000 --> 00:05:51,000
+But the important point that you want to highlight here is, it is asking the consent from me whether
+
+79
+00:05:51,000 --> 00:05:56,000
+I'm okay to share information from GitHub to the Stack overflow.
+
+80
+00:05:56,000 --> 00:06:01,000
+If you can see what is the kind of information that my GitHub is going to share in this scenario is,
+
+81
+00:06:01,000 --> 00:06:05,000
+personal user data like email address read only.
+
+82
+00:06:05,000 --> 00:06:07,000
+You should be able to see an explanation also,
+
+83
+00:06:07,000 --> 00:06:12,000
+like This application will be able to read your private email address.
+
+84
+00:06:12,000 --> 00:06:20,000
+So this is the scope that my stack overflow is requesting to the GitHub server and GitHub server cannot
+
+85
+00:06:20,000 --> 00:06:21,000
+decide by itself.
+
+86
+00:06:21,000 --> 00:06:28,000
+That's why since I own these details as a resource owner, it is asking my permission or my consent
+
+87
+00:06:28,000 --> 00:06:35,000
+whether I'm okay to authorize Stack Exchange a stack overflow to read these information, which is email
+
+88
+00:06:35,000 --> 00:06:43,000
+address read only. For suppose if my stack overflow is trying to get an access to check in into the GitHub
+
+89
+00:06:43,000 --> 00:06:49,000
+repository on my behalf, then the same will be shown here and I will deny that. Because I don't want
+
+90
+00:06:49,000 --> 00:06:52,000
+to give such a higher privilege to the stack overflow.
+
+91
+00:06:52,000 --> 00:06:58,000
+I only want to share my email details to the stack overflow. So that behind the scenes it can create
+
+92
+00:06:58,000 --> 00:06:59,000
+an account.
+
+93
+00:06:59,000 --> 00:07:04,000
+So if I'm okay, I'm going to click on this authorized stack exchange and behind the scenes, the auth
+
+94
+00:07:04,000 --> 00:07:06,000
+server is going to issue an access token.
+
+95
+00:07:06,000 --> 00:07:11,000
+And with that access token, the stack overflow behind the scenes is going to send a request to the
+
+96
+00:07:11,000 --> 00:07:16,000
+resource server of GitHub and it is going to fetch my email details
+
+97
+00:07:16,000 --> 00:07:17,000
+that's what you can see here.
+
+98
+00:07:17,000 --> 00:07:20,000
+And apart from email it also fetched my display name.
+
+99
+00:07:20,000 --> 00:07:27,000
+So every authorization server will define scopes and based upon these scopes it is going to control
+
+100
+00:07:27,000 --> 00:07:30,000
+the privileges of client applications.
+
+101
+00:07:30,000 --> 00:07:35,000
+So if you see the official documentation of GitHub where they have mentioned what are the scopes that
+
+102
+00:07:35,000 --> 00:07:38,000
+is supported by the GitHub auth server.
+
+103
+00:07:38,000 --> 00:07:45,000
+So here on this page there are many scopes supported like if you see if someone are trying to get a
+
+104
+00:07:45,000 --> 00:07:51,000
+scope of repo that means you are going to grant full access to the public and private repositories,
+
+105
+00:07:51,000 --> 00:07:53,000
+including read and write access.
+
+106
+00:07:53,000 --> 00:07:55,000
+So these are very powerful scope.
+
+107
+00:07:55,000 --> 00:07:57,000
+We should be very cautious.
+
+108
+00:07:57,000 --> 00:08:03,000
+So very similarly, there are many other privileges if you can scroll down, scroll down here, there
+
+109
+00:08:03,000 --> 00:08:10,000
+will be an limited privileges like user email Grant read access to the user's email address and
+
+110
+00:08:10,000 --> 00:08:15,000
+very similarly read:user Grant access to read a user's profile data.
+
+111
+00:08:15,000 --> 00:08:21,000
+So I hope it is clear using these scopes only inside the OAuth2  framework, the privileges will be controlled.
+
+112
+00:08:21,000 --> 00:08:27,000
+I hope you are clear with all the OAuth2 jargons, terminologies or roles. Using these terminologies
+
+113
+00:08:27,000 --> 00:08:32,000
+and jargons, we are going to discuss a lot about the OAuth2 in the coming lectures.
+
+114
+00:08:32,000 --> 00:08:35,000
+That's why I'm trying to explain these terminologies.
+
+115
+00:08:35,000 --> 00:08:40,000
+So please, please make sure you read this slide and make sure you are clear about these terminologies.
+
+116
+00:08:40,000 --> 00:08:40,000
+Thank you.
+
+117
+00:08:40,000 --> 00:08:43,000
+And I'll catch you in the next lecture bye.
+

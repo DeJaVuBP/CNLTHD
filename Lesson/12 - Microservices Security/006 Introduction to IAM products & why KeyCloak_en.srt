@@ -1,0 +1,188 @@
+1
+00:00:00,000 --> 00:00:01,000
+As of now.
+
+2
+00:00:01,000 --> 00:00:09,000
+We discuss very briefly about Oauth2 and OpenID Connect. And these OpenID Connect and Oauth2
+
+3
+00:00:09,000 --> 00:00:10,000
+they are specifications.
+
+4
+00:00:10,000 --> 00:00:16,000
+Using these specifications, we can only understand what are the standards that we need to follow while
+
+5
+00:00:16,000 --> 00:00:20,000
+we try to implement security inside our web applications.
+
+6
+00:00:20,000 --> 00:00:26,000
+By taking these specifications alone, we can't implement security inside any web application.
+
+7
+00:00:26,000 --> 00:00:34,000
+Since security is a most common requirement for many organizations. Many companies they saw an opportunity
+
+8
+00:00:34,000 --> 00:00:39,000
+building products around the specifications provided by the Oauth2 and OpenID.
+
+9
+00:00:39,000 --> 00:00:42,000
+So let's try to explore a few of them.
+
+10
+00:00:42,000 --> 00:00:44,000
+Like you can see here, these are website of KEYCLOCK.
+
+11
+00:00:44,000 --> 00:00:50,000
+Keyclock is an open source identity and access management product.
+
+12
+00:00:50,000 --> 00:00:55,000
+With the help of these keyclock product, we can easily set up authorization server for an organization.
+
+13
+00:00:55,000 --> 00:01:02,000
+Very big organizations like Google, GitHub, Facebook, Twitter, so all these companies they can
+
+14
+00:01:02,000 --> 00:01:09,000
+afford to build their own authorization server based upon the standards defined in the Oauth2 and OpenID.
+
+15
+00:01:09,000 --> 00:01:16,000
+But how about the smaller organizations or organizations who are not interested to build these auth
+
+16
+00:01:16,000 --> 00:01:17,000
+server from scratch?
+
+17
+00:01:17,000 --> 00:01:23,000
+So for all such organizations, these products which are built based upon the concepts of Oauth2 and
+
+18
+00:01:23,000 --> 00:01:26,000
+OpenID, they are going to be useful.
+
+19
+00:01:26,000 --> 00:01:32,000
+One such product is Keyclock and this is completely open source and this product is also sponsored
+
+20
+00:01:32,000 --> 00:01:33,000
+by the Red Hat.
+
+21
+00:01:33,000 --> 00:01:36,000
+You will be able to see the red hat symbol in the down.
+
+22
+00:01:36,000 --> 00:01:43,000
+So you can see these keyclock supports all standard protocols like OpenID Connect, Oauth2, saml and
+
+23
+00:01:43,000 --> 00:01:46,000
+it also supports social logging, single sign on.
+
+24
+00:01:46,000 --> 00:01:52,000
+So throughout this course we are going to use these key clock products only because this is open source.
+
+25
+00:01:52,000 --> 00:01:58,000
+I don't want to introduce any commercial product because if you want to practice these oauth2 framework
+
+26
+00:01:58,000 --> 00:02:03,000
+based upon our discussion inside this course, open source product is a perfect choice.
+
+27
+00:02:03,000 --> 00:02:05,000
+Just like how we have keyclock.
+
+28
+00:02:05,000 --> 00:02:10,000
+We have other products which built based upon the OpenID and OAuth2 standards.
+
+29
+00:02:10,000 --> 00:02:13,000
+Such commercial products are okta.
+
+30
+00:02:13,000 --> 00:02:16,000
+Okta is very famous for enterprise applications.
+
+31
+00:02:16,000 --> 00:02:22,000
+People who can afford they can easily set up authorization server with the help of Okta. Very similarly
+
+32
+00:02:23,000 --> 00:02:30,000
+also has a product with the name Amazon Cognito, so it is going to provide identity and access management
+
+33
+00:02:30,000 --> 00:02:33,000
+that can scale to any kind of traffic.
+
+34
+00:02:33,000 --> 00:02:36,000
+And we also have fusion auth, Forgerock.
+
+35
+00:02:36,000 --> 00:02:38,000
+So these are all the products.
+
+36
+00:02:38,000 --> 00:02:44,000
+For some reason, if your organization is looking to build their own authorization server to make their
+
+37
+00:02:44,000 --> 00:02:51,000
+journey easy, recently Spring team also they developed a new project with the name Spring Authorization
+
+38
+00:02:51,000 --> 00:02:52,000
+Server.
+
+39
+00:02:52,000 --> 00:02:58,000
+Using this Spring authorization server, anyone can build their own authorization server, but please
+
+40
+00:02:58,000 --> 00:03:04,000
+note that this is a very new project inside the spring ecosystem and I see it has to mature a lot compared
+
+41
+00:03:04,000 --> 00:03:08,000
+to other products like Keycloak, Okta, Cognito.
+
+42
+00:03:08,000 --> 00:03:11,000
+So that's why inside this course I'm going to use Keycloak.
+
+43
+00:03:11,000 --> 00:03:17,000
+But for some reason if you are looking to develop your own auth server  then please refer to the documentation
+
+44
+00:03:17,000 --> 00:03:22,000
+of spring authorization server and you should be able to build your own authorization server.
+
+45
+00:03:22,000 --> 00:03:29,000
+I hope you are super clear on why we choose Keycloak inside this course to implement authorization server
+
+46
+00:03:29,000 --> 00:03:31,000
+inside our microservice network.
+
+47
+00:03:31,000 --> 00:03:34,000
+Thank you and I'll catch you in the next lecture bye.
+

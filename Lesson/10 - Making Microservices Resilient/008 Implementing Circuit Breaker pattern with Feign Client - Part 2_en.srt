@@ -1,0 +1,472 @@
+1
+00:00:00,000 --> 00:00:02,000
+Are you excited to see the demo?
+
+2
+00:00:02,000 --> 00:00:04,000
+I know you are super excited.
+
+3
+00:00:04,000 --> 00:00:05,000
+I'm also super excited.
+
+4
+00:00:05,000 --> 00:00:10,000
+Let's see the demo and hope for the best that everything should work like we expect.
+
+5
+00:00:10,000 --> 00:00:14,000
+So to get started behind the scenes, I have started all the microservices.
+
+6
+00:00:14,000 --> 00:00:20,000
+Like first I have started the config server followed by Eureka server and post that accounts, cards
+
+7
+00:00:20,000 --> 00:00:20,000
+and loans.
+
+8
+00:00:20,000 --> 00:00:24,000
+And at last I also started Gateway server application.
+
+9
+00:00:24,000 --> 00:00:27,000
+We can also confirm the same inside the Eureka dashboard.
+
+10
+00:00:27,000 --> 00:00:33,000
+All the microservices, including Gateway Server is registered with the Eureka server.
+
+11
+00:00:33,000 --> 00:00:39,000
+As a next step, I can open the actuator of accounts microservice because right now we are focusing
+
+12
+00:00:39,000 --> 00:00:43,000
+on the circuit breaker that we have implemented inside the accounts
+
+13
+00:00:43,000 --> 00:00:48,000
+microservice. The port number of accounts microservice is 8080.
+
+14
+00:00:48,000 --> 00:00:52,000
+Here I'm going to invoke the path actuator. Here inside this page,
+
+15
+00:00:52,000 --> 00:00:55,000
+you should be able to see some links related to circuit breakers.
+
+16
+00:00:55,000 --> 00:00:58,000
+So let me open this Circuit Breakers link.
+
+17
+00:00:58,000 --> 00:01:03,000
+As of now, you can see there are no circuit breakers because we didn't send our very first request.
+
+18
+00:01:03,000 --> 00:01:09,000
+Only when we send the very first request, my circuit breakers will get activated and it will start
+
+19
+00:01:09,000 --> 00:01:12,000
+monitoring all the requests coming towards the accounts
+
+20
+00:01:12,000 --> 00:01:14,000
+microservice. Inside my postman,
+
+21
+00:01:14,000 --> 00:01:18,000
+since we started our microservices just now, there won't be any data.
+
+22
+00:01:18,000 --> 00:01:25,000
+First, I will try to create that data by invoking these create API and our accounts microservice and
+
+23
+00:01:25,000 --> 00:01:27,000
+getting a successful response. Post that,
+
+24
+00:01:27,000 --> 00:01:31,000
+similarly, I also created a cards data with the same mobile number.
+
+25
+00:01:31,000 --> 00:01:34,000
+After this I'm going to create data of loans as well.
+
+26
+00:01:34,000 --> 00:01:37,000
+With this we have set up all the required data.
+
+27
+00:01:37,000 --> 00:01:40,000
+Now let me go to the fetchCustomerDetails.
+
+28
+00:01:40,000 --> 00:01:44,000
+As of now, if I click on this send button, we'll get a successful response.
+
+29
+00:01:44,000 --> 00:01:48,000
+So this is expected and this is the behavior of the happy path.
+
+30
+00:01:48,000 --> 00:01:51,000
+Now let's go to the actuator and try to analyze the data.
+
+31
+00:01:51,000 --> 00:01:53,000
+So I'm going to refresh this page.
+
+32
+00:01:53,000 --> 00:01:59,000
+You can see there are two circuit breakers created behind the scenes, and the name of them have some
+
+33
+00:01:59,000 --> 00:02:03,000
+pattern you can see first we have the interface name, which is cardFeignClient.
+
+34
+00:02:03,000 --> 00:02:06,000
+And inside the interface we have a method.
+
+35
+00:02:06,000 --> 00:02:08,000
+So the same method name is considered here
+
+36
+00:02:08,000 --> 00:02:15,000
+fetchCardDetails followed by what is the data type of your method parameters like String and String.
+
+37
+00:02:15,000 --> 00:02:17,000
+Very similarly for loansFeignClient
+
+38
+00:02:17,000 --> 00:02:20,000
+also we have circuit backer pattern created.
+
+39
+00:02:20,000 --> 00:02:25,000
+As of now you can see the circuit breaker status for both of them is closed and closed.
+
+40
+00:02:25,000 --> 00:02:33,000
+Similarly, if I go and open the circuit breaker events path, it will list all the events of circuit
+
+41
+00:02:33,000 --> 00:02:33,000
+breaker.
+
+42
+00:02:33,000 --> 00:02:36,000
+So there are two circuit breakers inside our application.
+
+43
+00:02:36,000 --> 00:02:40,000
+Both of them received a single request of type success.
+
+44
+00:02:40,000 --> 00:02:45,000
+Now to show you the demo of negative scenario, I'm going to stop the loans microservice.
+
+45
+00:02:45,000 --> 00:02:51,000
+So here I'm going to click on the stop button and select the Stop loans application. With these,
+
+46
+00:02:51,000 --> 00:02:57,000
+when my accounts microservice is trying to invoke loans microservice with the help of feign client, my
+
+47
+00:02:57,000 --> 00:03:03,000
+circuit breaker pattern will monitor that and it is going to invoke the fallback mechanism.
+
+48
+00:03:03,000 --> 00:03:07,000
+Along with that, we can also see the state transition of circuit breaker pattern.
+
+49
+00:03:07,000 --> 00:03:09,000
+So now I'm going to click on the send button.
+
+50
+00:03:09,000 --> 00:03:15,000
+This time you can see I'm getting the accounts response, cards response, but the loans we are getting
+
+51
+00:03:15,000 --> 00:03:18,000
+as null because we have written the fallback mechanism.
+
+52
+00:03:18,000 --> 00:03:25,000
+This way we are making sure we are saving to our clients at least some information based upon what our
+
+53
+00:03:25,000 --> 00:03:26,000
+microservices are working
+
+54
+00:03:26,000 --> 00:03:30,000
+instead of throwing a RuntimeException, think of a scenario
+
+55
+00:03:30,000 --> 00:03:32,000
+you are into an Amazon website.
+
+56
+00:03:32,000 --> 00:03:37,000
+When you open the Amazon homepage behind the scenes, there will be a lot of microservices work together
+
+57
+00:03:37,000 --> 00:03:39,000
+to display a lot of information to you.
+
+58
+00:03:39,000 --> 00:03:44,000
+They'll be showing you some discounts, what are the products available. And in the down
+
+59
+00:03:44,000 --> 00:03:49,000
+they will also show you some recommendations to you. Based upon your past order history
+
+60
+00:03:49,000 --> 00:03:52,000
+they will show some recommendations that you may like this product.
+
+61
+00:03:52,000 --> 00:03:56,000
+What if the microservice related to recommendation is not working?
+
+62
+00:03:56,000 --> 00:03:59,000
+Do you think Amazon homepage will stop working?
+
+63
+00:03:59,000 --> 00:04:00,000
+Off course not.
+
+64
+00:04:00,000 --> 00:04:06,000
+Behind the scenes, the developers will make sure at least the banner, discounts and other product information
+
+65
+00:04:06,000 --> 00:04:07,000
+is visible.
+
+66
+00:04:07,000 --> 00:04:12,000
+Only the recommendation related information they will try to hide and my end user will be happy with
+
+67
+00:04:12,000 --> 00:04:13,000
+that.
+
+68
+00:04:13,000 --> 00:04:17,000
+At least he's getting some response and he should be able to proceed with the browsing of the other
+
+69
+00:04:17,000 --> 00:04:24,000
+products very similarly here also we are at least providing some graceful behavior or some minimum behavior
+
+70
+00:04:24,000 --> 00:04:28,000
+with the help of circuit breaker pattern and fallback mechanism.
+
+71
+00:04:28,000 --> 00:04:29,000
+I hope you are clear.
+
+72
+00:04:29,000 --> 00:04:35,000
+Let me try to click on the send button multiple times so that our circuit breaker related to LoansDto will
+
+73
+00:04:35,000 --> 00:04:37,000
+move to the open status.
+
+74
+00:04:37,000 --> 00:04:39,000
+So here I will try to refresh this page.
+
+75
+00:04:39,000 --> 00:04:44,000
+You can see the circuit breaker related to the loans is right now in the open status.
+
+76
+00:04:44,000 --> 00:04:50,000
+And if I try to refresh these events related page, you will be able to see there is a transition related
+
+77
+00:04:50,000 --> 00:04:52,000
+information on this page.
+
+78
+00:04:52,000 --> 00:04:57,000
+We can scroll down so there is a failure rate exceeded and the state transition is happening for the
+
+79
+00:04:57,000 --> 00:05:00,000
+loans microservice from close to open.
+
+80
+00:05:00,000 --> 00:05:01,000
+Now very similarly
+
+81
+00:05:01,000 --> 00:05:03,000
+this time I'm going to stop the cards
+
+82
+00:05:03,000 --> 00:05:09,000
+microservice. So let me click on the stop button and click on this stop CardsApplication.
+
+83
+00:05:09,000 --> 00:05:16,000
+With these, both of the dependent microservices are stopped working and my accounts microservice should
+
+84
+00:05:16,000 --> 00:05:17,000
+not wait for their response.
+
+85
+00:05:17,000 --> 00:05:23,000
+With the help of circuit breaker pattern and fallback mechanism, it is going to work perfectly without
+
+86
+00:05:23,000 --> 00:05:27,000
+having any ripple effect on the gateway server and the account microservice.
+
+87
+00:05:27,000 --> 00:05:29,000
+This time, let me click on the send button.
+
+88
+00:05:29,000 --> 00:05:35,000
+You can see I'm getting loans and cards as null, but at least I'm able to send the accounts related information.
+
+89
+00:05:35,000 --> 00:05:41,000
+So let me click on this send button multiple times and post that we can go to the actuator. Here inside
+
+90
+00:05:41,000 --> 00:05:42,000
+this page
+
+91
+00:05:42,000 --> 00:05:43,000
+I'm trying to refresh this page.
+
+92
+00:05:43,000 --> 00:05:46,000
+You can see both the circuit breakers are in open status.
+
+93
+00:05:46,000 --> 00:05:53,000
+We can also refresh their events and you should be able to see the not permitted status for both the
+
+94
+00:05:53,000 --> 00:05:55,000
+microservices like cards and loans.
+
+95
+00:05:55,000 --> 00:05:56,000
+This way
+
+96
+00:05:56,000 --> 00:06:00,000
+we saw the demo of Circuit Breaker along with the fallback.
+
+97
+00:06:00,000 --> 00:06:05,000
+So if you try to start your loans and cards microservice and and start sending the successful response,
+
+98
+00:06:05,000 --> 00:06:09,000
+then eventually my circuit breaker pattern will go back to the close status.
+
+99
+00:06:09,000 --> 00:06:11,000
+I hope you are clear with all the discussion.
+
+100
+00:06:11,000 --> 00:06:17,000
+So let's try to quickly revise what steps we have followed whenever we are trying to implement circuit
+
+101
+00:06:17,000 --> 00:06:20,000
+breaker pattern with the help of feign client inside accounts microservice.
+
+102
+00:06:20,000 --> 00:06:24,000
+As always, I have prepared a slide with the list of steps.
+
+103
+00:06:24,000 --> 00:06:25,000
+Very first step
+
+104
+00:06:25,000 --> 00:06:31,000
+you need to add a dependency inside pom.xml followed by you need to make few changes inside your feign
+
+105
+00:06:31,000 --> 00:06:33,000
+client related interfaces.
+
+106
+00:06:33,000 --> 00:06:36,000
+First you need to mention fallback related information.
+
+107
+00:06:36,000 --> 00:06:40,000
+Post that you need to create a bean that implements your interface.
+
+108
+00:06:40,000 --> 00:06:46,000
+And inside this bean you need to override all the abstract methods and make sure you are writing your
+
+109
+00:06:46,000 --> 00:06:47,000
+fallback mechanism.
+
+110
+00:06:47,000 --> 00:06:53,000
+Whenever the microservices are working properly, the feign client is going to invoke the actual microservices
+
+111
+00:06:53,000 --> 00:06:55,000
+like cards microservice.
+
+112
+00:06:55,000 --> 00:07:01,000
+But if there is some exception behind the scenes, the fallback logic will come into picture. And at
+
+113
+00:07:01,000 --> 00:07:07,000
+last we should also make sure we are defining all these properties inside the application.yml.
+
+114
+00:07:07,000 --> 00:07:10,000
+I hope you are super, super clear about the circuit breaker pattern.
+
+115
+00:07:10,000 --> 00:07:12,000
+You like this pattern.
+
+116
+00:07:12,000 --> 00:07:17,000
+And very similarly inside the resilience4j we have other type of patterns, so let's try to explore
+
+117
+00:07:17,000 --> 00:07:18,000
+them as well.
+
+118
+00:07:18,000 --> 00:07:21,000
+Thank you and I'll catch you in the next lecture bye.
+

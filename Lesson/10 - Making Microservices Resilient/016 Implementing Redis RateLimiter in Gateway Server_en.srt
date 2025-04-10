@@ -1,0 +1,576 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now is the time to implement the RateLimiter pattern inside the gateway server. For the same
+
+2
+00:00:06,000 --> 00:00:09,000
+first we need to add the dependency related to Redis.
+
+3
+00:00:09,000 --> 00:00:12,000
+So here I'm trying to add a dependency.
+
+4
+00:00:12,000 --> 00:00:17,000
+The artifactId of this dependency is spring boot starter data redis reactive.
+
+5
+00:00:17,000 --> 00:00:20,000
+So let me save this and do a maven load.
+
+6
+00:00:20,000 --> 00:00:23,000
+After this we can go to the GatewayserverApplication.
+
+7
+00:00:23,000 --> 00:00:26,000
+And here first I'm going to create two beans.
+
+8
+00:00:26,000 --> 00:00:29,000
+So let me paste few lines of code here.
+
+9
+00:00:29,000 --> 00:00:32,000
+Like you can see, I have created two beans.
+
+10
+00:00:32,000 --> 00:00:39,000
+The very first one is of type KeyResolver. Inside this method, which is userKeyResolver.
+
+11
+00:00:39,000 --> 00:00:43,000
+I'm trying to provide a key based upon which my RateLimiter pattern has to work.
+
+12
+00:00:43,000 --> 00:00:47,000
+So I just copied this complete code from the official documentation.
+
+13
+00:00:47,000 --> 00:00:53,000
+If you try to understand the logic present inside this method first, I'm trying to get the header inside
+
+14
+00:00:53,000 --> 00:00:55,000
+the request with the name user.
+
+15
+00:00:55,000 --> 00:01:00,000
+So based upon that header value, I'm going to create a KeyResolver.
+
+16
+00:01:00,000 --> 00:01:06,000
+If someone is not sending any header inside the request with the name user, then I'm going to assign
+
+17
+00:01:06,000 --> 00:01:09,000
+a default value which is anonymous.
+
+18
+00:01:09,000 --> 00:01:11,000
+So this is the logic that I have written.
+
+19
+00:01:11,000 --> 00:01:16,000
+But in real projects you can change this logic based upon your requirements.
+
+20
+00:01:16,000 --> 00:01:22,000
+And the second bean that I'm trying to create is of type RedisRateLimiter. Inside this method, I'm
+
+21
+00:01:22,000 --> 00:01:29,000
+trying to create a new object of RedisRateLimiter and I'm trying to pass three different values like
+
+22
+00:01:29,000 --> 00:01:33,000
+replenishRate, burst capacity and default requester tokens.
+
+23
+00:01:33,000 --> 00:01:40,000
+With these configurations, we are going to add one token in each second and burst capacity also going
+
+24
+00:01:40,000 --> 00:01:41,000
+to be one.
+
+25
+00:01:41,000 --> 00:01:44,000
+And the cost of each request is also going to be one.
+
+26
+00:01:44,000 --> 00:01:50,000
+With this, it is pretty clear for each second my end user can only make one request.
+
+27
+00:01:50,000 --> 00:01:56,000
+After defining these two beans, we can go to the routing configurations that we have defined here.
+
+28
+00:01:56,000 --> 00:02:02,000
+As of now we have implemented  circuit breaker for accounts, retry for loans, maybe for cards
+
+29
+00:02:02,000 --> 00:02:05,000
+we can try to implement the RateLimiter pattern.
+
+30
+00:02:05,000 --> 00:02:12,000
+So here, just after the Add response header, I'm going to invoke a new filter with the name
+
+31
+00:02:12,000 --> 00:02:14,000
+RequestRateLimiter.
+
+32
+00:02:14,000 --> 00:02:16,000
+And there are two types of filters.
+
+33
+00:02:16,000 --> 00:02:20,000
+I'm trying to invoke the filter which is accepting some configurations.
+
+34
+00:02:20,000 --> 00:02:22,000
+So let me invoke the same.
+
+35
+00:02:22,000 --> 00:02:30,000
+And here using the lambda expression, I'm going to invoke setRateLimiter() method to this setRateLimiter().
+
+36
+00:02:30,000 --> 00:02:31,000
+.
+
+37
+00:02:31,000 --> 00:02:34,000
+I'm going to pass RedisRateLimiter method.
+
+38
+00:02:34,000 --> 00:02:40,000
+That means this RedisRateLimiter method is going to return a bean of RedisRateLimiter.
+
+39
+00:02:40,000 --> 00:02:44,000
+So the same I'm going to set with the help of this setRateLimiter.
+
+40
+00:02:44,000 --> 00:02:53,000
+After this, I'm going to invoke one more method which is setKeyResolver() to this setKeyResolver().
+
+41
+00:02:53,000 --> 00:02:56,000
+I'm going to pass what is a bean of KeyResolver.
+
+42
+00:02:56,000 --> 00:03:02,000
+So where we have defined the KeyResolver bean inside the method userKeyResolver.
+
+43
+00:03:02,000 --> 00:03:05,000
+So let me invoke the same here. With this
+
+44
+00:03:05,000 --> 00:03:10,000
+we have added the RequestRateLimiter pattern for all the APIs inside the cards
+
+45
+00:03:10,000 --> 00:03:11,000
+microservice.
+
+46
+00:03:11,000 --> 00:03:18,000
+As a next step, we need to start the Redis database or Redis container so that it can maintain creating
+
+47
+00:03:18,000 --> 00:03:23,000
+the buckets with the usernames and maintaining all these configurations. For the same,
+
+48
+00:03:23,000 --> 00:03:27,000
+we need to start the Redis container with the help of Docker.
+
+49
+00:03:27,000 --> 00:03:32,000
+Please make sure your Docker server is running and post that you can try to open the terminal.
+
+50
+00:03:32,000 --> 00:03:39,000
+I open my terminal and here I'm going to run a Docker command, which is docker run -p 6379.
+
+51
+00:03:39,000 --> 00:03:44,000
+This is the default port of Redis, so I'm trying to mention the same and I'm trying to give a name
+
+52
+00:03:44,000 --> 00:03:47,000
+to the container with the name eazyredis.
+
+53
+00:03:47,000 --> 00:03:52,000
+And since I'm trying to start in detached mode, I have given this flag -d and at last, what
+
+54
+00:03:52,000 --> 00:03:54,000
+is the image name of Redis?
+
+55
+00:03:54,000 --> 00:03:57,000
+The image name of Redis is Redis itself.
+
+56
+00:03:57,000 --> 00:03:59,000
+So let me execute this command.
+
+57
+00:03:59,000 --> 00:04:02,000
+This will start Redis container behind the scenes.
+
+58
+00:04:02,000 --> 00:04:08,000
+Now as a next step, we need to provide the connection details of this redis container inside the application.yml
+
+59
+00:04:08,000 --> 00:04:11,000
+gateway server.
+
+60
+00:04:11,000 --> 00:04:18,000
+Here I'm going to open the application.yml which is present under the resources folder and the properties
+
+61
+00:04:18,000 --> 00:04:22,000
+that we need to add will have a parent key which is spring.
+
+62
+00:04:22,000 --> 00:04:24,000
+After spring it is going to have data.
+
+63
+00:04:24,000 --> 00:04:31,000
+So what I can do is just under this spring inside the same location where we have application config
+
+64
+00:04:31,000 --> 00:04:34,000
+and cloud, I'm going to add few new properties.
+
+65
+00:04:34,000 --> 00:04:41,000
+So you can see the property name is going to be sprin.data.redis.
+
+66
+00:04:41,000 --> 00:04:42,000
+what is the connection timeout?
+
+67
+00:04:42,000 --> 00:04:43,000
+What is the host?
+
+68
+00:04:43,000 --> 00:04:44,000
+What is the port number?
+
+69
+00:04:44,000 --> 00:04:45,000
+What is the timeout?
+
+70
+00:04:45,000 --> 00:04:48,000
+So these are the Redis related configurations.
+
+71
+00:04:48,000 --> 00:04:53,000
+So let me make sure that these data element is present as a child under the spring.
+
+72
+00:04:53,000 --> 00:04:54,000
+So this looks good.
+
+73
+00:04:54,000 --> 00:04:56,000
+Let me save this changes do a build.
+
+74
+00:04:56,000 --> 00:04:59,000
+Once the build is completed, I'm going to start my
+
+75
+00:05:00,000 --> 00:05:01,000
+our application.
+
+76
+00:05:01,000 --> 00:05:07,000
+Before that you can see I have my config server Eureka Server and CardsApplication running behind the
+
+77
+00:05:07,000 --> 00:05:07,000
+scenes.
+
+78
+00:05:07,000 --> 00:05:13,000
+We don't need accounts and loans microservice for this demo because we have implemented RateLimiter
+
+79
+00:05:13,000 --> 00:05:14,000
+only for cards
+
+80
+00:05:14,000 --> 00:05:15,000
+microservice.
+
+81
+00:05:15,000 --> 00:05:18,000
+So let me start my GatewayserverApplication.
+
+82
+00:05:18,000 --> 00:05:18,000
+Now
+
+83
+00:05:18,000 --> 00:05:23,000
+my Gatewayserver is started successfully in order to test my RateLimiter pattern.
+
+84
+00:05:23,000 --> 00:05:29,000
+I want to send a lot many requests within a single second so that I can see what is happening behind
+
+85
+00:05:29,000 --> 00:05:30,000
+the scenes.
+
+86
+00:05:30,000 --> 00:05:34,000
+To perform some load testing, we can use Apache Benchmark server.
+
+87
+00:05:34,000 --> 00:05:39,000
+So this is the official website of Apache Benchmark project.
+
+88
+00:05:39,000 --> 00:05:44,000
+So if you can click on this download, there are some options on how we can download and set up this
+
+89
+00:05:44,000 --> 00:05:45,000
+server.
+
+90
+00:05:45,000 --> 00:05:48,000
+Since I'm using Mac, for me it is going to be super, super easy.
+
+91
+00:05:48,000 --> 00:05:54,000
+But if you are using Windows laptop, you need to click on this link where they have highlighted from
+
+92
+00:05:54,000 --> 00:05:56,000
+number of third party vendors.
+
+93
+00:05:56,000 --> 00:06:01,000
+So if I click on this, you can download this project and set up this.
+
+94
+00:06:01,000 --> 00:06:07,000
+So here I'm not going in detail about how to set up this server inside Windows or inside any other operating
+
+95
+00:06:07,000 --> 00:06:08,000
+system.
+
+96
+00:06:08,000 --> 00:06:15,000
+You can go to the YouTube and try to look for the videos related to Apache Benchmark and there are good
+
+97
+00:06:15,000 --> 00:06:21,000
+amount of YouTube videos explaining about this since we are going to use this only for this video.
+
+98
+00:06:21,000 --> 00:06:23,000
+I'm not talking about this in detail.
+
+99
+00:06:23,000 --> 00:06:29,000
+You can also Google on how to set up Apache benchmark and you will have good amount of blocks explaining
+
+100
+00:06:29,000 --> 00:06:30,000
+this.
+
+101
+00:06:30,000 --> 00:06:36,000
+So if you see here, here there is a blog explaining the same how to perform load testing with the help
+
+102
+00:06:36,000 --> 00:06:37,000
+of Apache bench.
+
+103
+00:06:37,000 --> 00:06:44,000
+So these are the instructions if you are using Unix based or Mac based operating system, the installation
+
+104
+00:06:44,000 --> 00:06:45,000
+is going to be easy for them.
+
+105
+00:06:45,000 --> 00:06:51,000
+But for Windows you need to follow a lengthy process like where you need to download these from the
+
+106
+00:06:51,000 --> 00:06:54,000
+given links and post that you need to set up the server.
+
+107
+00:06:54,000 --> 00:07:00,000
+But don't worry, since you are already seeing the demo with me, I'm assuming you're fine with that.
+
+108
+00:07:00,000 --> 00:07:05,000
+So let me go to the terminal and run a command related to the Apache benchmark.
+
+109
+00:07:05,000 --> 00:07:11,000
+Here I'm going to run a command which is AB, AB indicates Apache benchmark -n ten.
+
+110
+00:07:11,000 --> 00:07:14,000
+So I'm trying to send ten requests.
+
+111
+00:07:14,000 --> 00:07:22,000
+That's why I'm trying to go -n 10 and -c 2 means I want to maintain concurrency as two.
+
+112
+00:07:22,000 --> 00:07:26,000
+That means I want to send two concurrent requests every time.
+
+113
+00:07:26,000 --> 00:07:33,000
+Whenever my Apache benchmark is trying to send these ten requests, that means instead of sending these
+
+114
+00:07:33,000 --> 00:07:39,000
+ten requests one by one, I want my benchmark concurrently by taking two requests at a time and post
+
+115
+00:07:39,000 --> 00:07:46,000
+that -v indicates verbose when I give three value for these verbose flag that indicates to this
+
+116
+00:07:46,000 --> 00:07:54,000
+Apache benchmark server that I want to see the detailed report in the output. After this verbose related
+
+117
+00:07:54,000 --> 00:07:59,000
+flag configurations we need to mention what is the endpoint URL that we are trying to invoke.
+
+118
+00:07:59,000 --> 00:08:06,000
+You can see here, I'm trying to invoke one of the cards microservice API, which is contact-info
+
+119
+00:08:06,000 --> 00:08:12,000
+but I'm not trying to invoke directly, I'm trying to invoke with the help of Gateway URL.
+
+120
+00:08:12,000 --> 00:08:14,000
+So now I'm going to execute this command.
+
+121
+00:08:14,000 --> 00:08:16,000
+Are you ready to see the magic?
+
+122
+00:08:16,000 --> 00:08:23,000
+So let's see the magic so you can see I got a report and inside this report there is a detailed explanation
+
+123
+00:08:23,000 --> 00:08:25,000
+what is happened for each second.
+
+124
+00:08:25,000 --> 00:08:27,000
+First, let's try to read the summary.
+
+125
+00:08:27,000 --> 00:08:34,000
+If you read the summary, all the requests are processed within 0.5 seconds, which means in a half
+
+126
+00:08:34,000 --> 00:08:40,000
+second, my benchmark sent all the ten requests to the backend server with the concurrency level as
+
+127
+00:08:40,000 --> 00:08:44,000
+two out of these ten requests, nine of them are failed.
+
+128
+00:08:44,000 --> 00:08:50,000
+Only one is processed because based upon our RateLimiter configuration for a user, we have assigned
+
+129
+00:08:50,000 --> 00:08:53,000
+only one token for each request.
+
+130
+00:08:53,000 --> 00:08:56,000
+So let's see what happened to the remaining nine requests.
+
+131
+00:08:56,000 --> 00:08:58,000
+What is the error that is coming on this console?
+
+132
+00:08:58,000 --> 00:09:01,000
+So first let me go to the very first request.
+
+133
+00:09:01,000 --> 00:09:02,000
+Very first request
+
+134
+00:09:02,000 --> 00:09:09,000
+you can see we received the 200 and post that we started receiving 429, which is too many requests.
+
+135
+00:09:09,000 --> 00:09:15,000
+So for all the remaining requests we receive the 429. This means the RateLimiter pattern that we have
+
+136
+00:09:15,000 --> 00:09:17,000
+implemented is working perfectly.
+
+137
+00:09:17,000 --> 00:09:19,000
+We have configured this logic for the KeyResolver.
+
+138
+00:09:19,000 --> 00:09:26,000
+Since we are not sending any header inside the request with the name user, it is going to consider
+
+139
+00:09:26,000 --> 00:09:28,000
+the KeyResolver value as anonymous.
+
+140
+00:09:28,000 --> 00:09:34,000
+If you want, you can try to test by sending the header inside the request, but that is not going to
+
+141
+00:09:34,000 --> 00:09:40,000
+make any difference in the demo because inside the local system there will be always a single user.
+
+142
+00:09:40,000 --> 00:09:46,000
+I hope you are clear with the RateLimiter pattern that we have implemented with the help of Gatewayserver
+
+143
+00:09:46,000 --> 00:09:46,000
+.
+
+144
+00:09:46,000 --> 00:09:49,000
+Thank you and I'll catch you in the next lecture bye.
+
