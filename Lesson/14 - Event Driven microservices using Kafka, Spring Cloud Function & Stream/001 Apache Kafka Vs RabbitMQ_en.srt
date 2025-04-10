@@ -1,0 +1,224 @@
+1
+00:00:00,000 --> 00:00:06,000
+In the previous section we discussed on how to build microservices that can communicate asynchronously
+
+2
+00:00:06,000 --> 00:00:09,000
+with the help of Rabbitmq message broker.
+
+3
+00:00:09,000 --> 00:00:15,000
+Now, inside this section we are going to focus on how to build the asynchronous communication or event
+
+4
+00:00:15,000 --> 00:00:21,000
+driven communication between microservices with the help of Apache Kafka.
+
+5
+00:00:21,000 --> 00:00:27,000
+So before I try to explain what is Apache Kafka in detail, first let me give a quick introduction about
+
+6
+00:00:27,000 --> 00:00:34,000
+what are the differences between Rabbitmq and Apache Kafka, under which scenarios we need to choose
+
+7
+00:00:34,000 --> 00:00:42,000
+Apache Kafka or Rabbitmq. Like we discussed previously, both Kafka and Rabbitmq are popular messaging
+
+8
+00:00:42,000 --> 00:00:48,000
+systems, but they have some fundamental differences in terms of how they are designed architecture
+
+9
+00:00:48,000 --> 00:00:50,000
+and use cases.
+
+10
+00:00:50,000 --> 00:00:51,000
+If you ask me what are these differences?
+
+11
+00:00:51,000 --> 00:00:54,000
+The very first difference is in terms of design.
+
+12
+00:00:54,000 --> 00:01:00,000
+Kafka is a distributed event streaming platform, whereas Rabbitmq is a message broker.
+
+13
+00:01:00,000 --> 00:01:08,000
+This means Kafka is designed to handle large volumes of data, while Rabbitmq is designed to handle
+
+14
+00:01:08,000 --> 00:01:13,000
+smaller volumes of data with more complex routing requirements.
+
+15
+00:01:13,000 --> 00:01:19,000
+So if you are looking for complex routing requirements inside your application, then you need to go
+
+16
+00:01:19,000 --> 00:01:20,000
+with the Rabbitmq.
+
+17
+00:01:20,000 --> 00:01:26,000
+Whereas if you are trying to handle a large amount of data, then Apache Kafka is the best product for
+
+18
+00:01:26,000 --> 00:01:28,000
+you these days.
+
+19
+00:01:28,000 --> 00:01:34,000
+Rabbitmq is also trying to become an event streaming platform in the recent versions but there is
+
+20
+00:01:34,000 --> 00:01:39,000
+a long way for them to achieve the capabilities provided by the Apache Kafka.
+
+21
+00:01:39,000 --> 00:01:45,000
+The next important difference is around the data retention, how the data is going to be stored inside
+
+22
+00:01:45,000 --> 00:01:48,000
+the Apache Kafka and Rabbitmq.
+
+23
+00:01:48,000 --> 00:01:54,000
+So whenever you send the messages or event details to these products, Kafka is going to store all
+
+24
+00:01:54,000 --> 00:02:00,000
+the data on the disk, whereas Rabbitmq is going to store the data inside memory.
+
+25
+00:02:00,000 --> 00:02:08,000
+Since Kafka is using disk capacity to store the data, it can store or retain any amount of data for
+
+26
+00:02:08,000 --> 00:02:11,000
+longer periods of time, while rabbitmq
+
+27
+00:02:11,000 --> 00:02:17,000
+since it is trying to store the data inside the memory, it is more suitable for the applications that
+
+28
+00:02:17,000 --> 00:02:20,000
+require very low latency. After the data retention
+
+29
+00:02:20,000 --> 00:02:23,000
+there is also a difference in terms of performance.
+
+30
+00:02:23,000 --> 00:02:29,000
+Kafka is generally considered as faster than rabbitmq, especially whenever you are trying to deal with
+
+31
+00:02:29,000 --> 00:02:30,000
+large volumes of data.
+
+32
+00:02:30,000 --> 00:02:37,000
+However, Rabbitmq can have better performance in the scenarios where your application need complex
+
+33
+00:02:37,000 --> 00:02:40,000
+routing requirements. After the performance.
+
+34
+00:02:40,000 --> 00:02:48,000
+moving on to the scalability, Kafka is highly scalable, whereas Rabbitmq is more limited in its scalability.
+
+35
+00:02:48,000 --> 00:02:48,000
+Why
+
+36
+00:02:48,000 --> 00:02:50,000
+Kafka is highly scalable.
+
+37
+00:02:50,000 --> 00:02:57,000
+Because whenever we are using Kafka, we can horizontally add any number of Kafka brokers to the Kafka
+
+38
+00:02:57,000 --> 00:02:57,000
+cluster.
+
+39
+00:02:57,000 --> 00:03:04,000
+That means there is no limitations to you on how much data you want to process or how much Kafka brokers
+
+40
+00:03:04,000 --> 00:03:06,000
+that you want to set up inside the cluster.
+
+41
+00:03:06,000 --> 00:03:12,000
+Whereas when you are dealing with Rabbitmq, definitely there will be some limitations on how much you
+
+42
+00:03:12,000 --> 00:03:13,000
+want to scale
+
+43
+00:03:13,000 --> 00:03:16,000
+rabbitmq. So overall, both of these products are good.
+
+44
+00:03:16,000 --> 00:03:22,000
+They support event streaming or asynchronous communication between your microservices.
+
+45
+00:03:22,000 --> 00:03:28,000
+So whenever you are in the dilemma which product to use, it completely depends upon your requirements.
+
+46
+00:03:28,000 --> 00:03:34,000
+If you are looking for an high performance messaging system that can handle any large volume of data,
+
+47
+00:03:34,000 --> 00:03:36,000
+then Kafka is a good choice.
+
+48
+00:03:36,000 --> 00:03:41,000
+Whereas if you are not going to handle large volume of data and if you are looking for a message system
+
+49
+00:03:41,000 --> 00:03:46,000
+with a complex routing requirements, then rabbitmq is a good choice.
+
+50
+00:03:46,000 --> 00:03:51,000
+Moreover, Rabbitmq is very easy to maintain compared to the Apache Kafka.
+
+51
+00:03:51,000 --> 00:03:58,000
+In simple words, if your organization is going to handle a small amount of data on day to day basis,
+
+52
+00:03:58,000 --> 00:04:00,000
+then Rabbitmq is a good choice.
+
+53
+00:04:00,000 --> 00:04:03,000
+Otherwise you can always go with the Apache Kafka.
+
+54
+00:04:03,000 --> 00:04:09,000
+With this, I'm assuming you are super clear about what are the differences between Apache Kafka and
+
+55
+00:04:09,000 --> 00:04:15,000
+Rabbitmq. From the next lecture, let's try to understand more details about Apache Kafka.
+
+56
+00:04:15,000 --> 00:04:18,000
+Thank you, and I'll catch you in the next lecture bye.
+

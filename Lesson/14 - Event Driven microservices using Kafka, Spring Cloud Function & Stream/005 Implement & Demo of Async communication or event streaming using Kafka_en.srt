@@ -1,0 +1,612 @@
+1
+00:00:00,000 --> 00:00:06,000
+To get started with the code changes inside accounts and message microservice to leverage the Apache
+
+2
+00:00:06,000 --> 00:00:11,000
+Kafka, we need to create a new folder inside our workspace.
+
+3
+00:00:11,000 --> 00:00:18,000
+Since we are inside section 14, I'm going to copy the code from section 13 inside the same folder.
+
+4
+00:00:18,000 --> 00:00:23,000
+I'm going to rename this folder to section 14. With this,
+
+5
+00:00:23,000 --> 00:00:26,000
+now we have a code related to section 14.
+
+6
+00:00:26,000 --> 00:00:30,000
+Let me delete that .idea folder and post that
+
+7
+00:00:30,000 --> 00:00:35,000
+I'm going to open this section14 code inside my IntelliJ idea.
+
+8
+00:00:35,000 --> 00:00:37,000
+Here I'm going to click on this open button.
+
+9
+00:00:37,000 --> 00:00:45,000
+I'll go to Storage, Workspaces, Microservices Section 14 and I'm going to click on this open button.
+
+10
+00:00:45,000 --> 00:00:51,000
+Post that I'm going to click on this load button which will load all my Maven projects. As a next step,
+
+11
+00:00:51,000 --> 00:00:55,000
+let me go to the pom.xml of AccountsMicroservice.
+
+12
+00:00:55,000 --> 00:01:03,000
+And here the only change that I have to make here is, right now we are using the dependency related to
+
+13
+00:01:03,000 --> 00:01:04,000
+the Rabbitmq.
+
+14
+00:01:04,000 --> 00:01:09,000
+If you can see here we are trying to use the spring cloud stream binder library which is related to
+
+15
+00:01:09,000 --> 00:01:12,000
+Rabbitmq. Instead of Rabbit
+
+16
+00:01:12,000 --> 00:01:14,000
+here we need to mention Kafka.
+
+17
+00:01:14,000 --> 00:01:21,000
+So after making this change, I'm also going to update the tag name from s13 to s14.
+
+18
+00:01:21,000 --> 00:01:27,000
+So now let me save this file and do a maven reload. As a next step,
+
+19
+00:01:27,000 --> 00:01:32,000
+I'm also going to open the pom.xml of message microservice.
+
+20
+00:01:32,000 --> 00:01:34,000
+So inside the message microservice
+
+21
+00:01:34,000 --> 00:01:38,000
+also, I need to replace this rabbit with Kafka.
+
+22
+00:01:38,000 --> 00:01:44,000
+After making these dependency changes, I will also update the tag name from s13 to s14.
+
+23
+00:01:44,000 --> 00:01:49,000
+For all the remaining microservices, I'm going to update the tag name behind the scenes whenever I
+
+24
+00:01:49,000 --> 00:01:53,000
+try to generate the Docker images, so let me load the maven changes.
+
+25
+00:01:53,000 --> 00:02:01,000
+Once we make these changes inside the pom.xml files I can open the application.yml file present
+
+26
+00:02:01,000 --> 00:02:03,000
+inside message microservice.
+
+27
+00:02:03,000 --> 00:02:08,000
+So here we have mentioned the rabbitmq related connection details.
+
+28
+00:02:08,000 --> 00:02:14,000
+I just want to delete them because we are no more going to use rabbitmq inside this section, so let
+
+29
+00:02:14,000 --> 00:02:15,000
+me delete them.
+
+30
+00:02:15,000 --> 00:02:19,000
+Now I'm going to define new properties under the element stream.
+
+31
+00:02:19,000 --> 00:02:26,000
+So let me take the same position like bindings because I want to create the properties under stream
+
+32
+00:02:26,000 --> 00:02:26,000
+elements.
+
+33
+00:02:26,000 --> 00:02:30,000
+So right now I'm at the correct location.
+
+34
+00:02:30,000 --> 00:02:31,000
+Here I'm going to paste a property.
+
+35
+00:02:31,000 --> 00:02:36,000
+The property is spring.cloud.stream.kafka.
+
+36
+00:02:36,000 --> 00:02:45,000
+After the Kafka binder brokers under the brokers we need to mention what is the endpoint URL of Kafka?
+
+37
+00:02:45,000 --> 00:02:47,000
+Where is the Kafka is available.
+
+38
+00:02:47,000 --> 00:02:54,000
+The Kafka inside Our local system is available at the Port 9092 and with the hostname as localhost.
+
+39
+00:02:54,000 --> 00:03:00,000
+If you have multiple Kafka brokers running inside the cluster, you can try to mention all of them as
+
+40
+00:03:00,000 --> 00:03:03,000
+a list of elements under these brokers.
+
+41
+00:03:03,000 --> 00:03:07,000
+Since right now we have only a single Kafka broker running inside our system.
+
+42
+00:03:07,000 --> 00:03:13,000
+We need to mention a single value here, so let me try to make the similar changes inside the application.yml
+
+43
+00:03:13,000 --> 00:03:20,000
+file of accounts microservice because inside accounts microservice also we have mentioned properties
+
+44
+00:03:20,000 --> 00:03:22,000
+related to the Rabbitmq.
+
+45
+00:03:22,000 --> 00:03:27,000
+First, I need to make sure I'm deleting the rabbitmq related details.
+
+46
+00:03:27,000 --> 00:03:30,000
+So let me select all these properties and simply delete them.
+
+47
+00:03:30,000 --> 00:03:37,000
+Now I will move my cursor at the same position where bindings is present post that I'm going to mention
+
+48
+00:03:37,000 --> 00:03:43,000
+new properties which is kafka.binder.brokers, and what are the brokers details,
+
+49
+00:03:43,000 --> 00:03:46,000
+which is localhost 9092.
+
+50
+00:03:46,000 --> 00:03:49,000
+So these are the only changes that we have to do.
+
+51
+00:03:49,000 --> 00:03:55,000
+We don't have to make any other changes to make our microservices work asynchronously
+
+52
+00:03:55,000 --> 00:03:59,000
+with the help of event streaming model and the Apache Kafka.
+
+53
+00:03:59,000 --> 00:04:00,000
+I'm not joking here.
+
+54
+00:04:00,000 --> 00:04:06,000
+These are the only changes I just replaced that dependencies and connection details of Rabbitmq with
+
+55
+00:04:06,000 --> 00:04:07,000
+the Kafka details.
+
+56
+00:04:07,000 --> 00:04:10,000
+That's the only changes that I have done. With this,
+
+57
+00:04:10,000 --> 00:04:16,000
+I'm assuming you are super, super clear about the power of Spring cloud stream. All the infrastructure
+
+58
+00:04:16,000 --> 00:04:17,000
+concerns
+
+59
+00:04:17,000 --> 00:04:20,000
+it is going to take care behind the scenes. For developer,
+
+60
+00:04:20,000 --> 00:04:26,000
+it is going to give a nice developer experience because the transition from one product to other product
+
+61
+00:04:26,000 --> 00:04:32,000
+is going to be super quick by just adding the dependencies and properties that are needed for a particular
+
+62
+00:04:32,000 --> 00:04:33,000
+product.
+
+63
+00:04:33,000 --> 00:04:36,000
+As a next step, I can start all of my microservices.
+
+64
+00:04:36,000 --> 00:04:40,000
+So behind the scenes I'm going to start all my microservices.
+
+65
+00:04:40,000 --> 00:04:41,000
+So let me do the same.
+
+66
+00:04:41,000 --> 00:04:42,000
+Behind the scenes,
+
+67
+00:04:42,000 --> 00:04:45,000
+I started all my required microservices.
+
+68
+00:04:45,000 --> 00:04:51,000
+Like you can see I started my config server, Eureka Server AccountsApplication, message application
+
+69
+00:04:51,000 --> 00:04:52,000
+and GatewayServerApplication.
+
+70
+00:04:52,000 --> 00:04:59,000
+Now my accounts and message microservice are right now connected to the local Kafka running behind the
+
+71
+00:04:59,000 --> 00:05:00,000
+scenes.
+
+72
+00:05:00,000 --> 00:05:06,000
+We can also validate the same if the required topics are created inside the Apache Kafka or not by using
+
+73
+00:05:06,000 --> 00:05:10,000
+a plugin available inside the IntelliJ idea.
+
+74
+00:05:10,000 --> 00:05:12,000
+The plugin is Kafkalytic.
+
+75
+00:05:12,000 --> 00:05:17,000
+You need to install the same from the marketplace inside your IntelliJ idea.
+
+76
+00:05:17,000 --> 00:05:23,000
+Once you have installed this plugin, you can click on this add button and mention the Kafka Broker
+
+77
+00:05:23,000 --> 00:05:24,000
+details.
+
+78
+00:05:24,000 --> 00:05:31,000
+Inside our local system, we have only one broker which is running at the port localhost 9092.
+
+79
+00:05:32,000 --> 00:05:33,000
+So let me mention those.
+
+80
+00:05:33,000 --> 00:05:36,000
+And after that I can click on the test connection.
+
+81
+00:05:36,000 --> 00:05:38,000
+You can see the connection is successful.
+
+82
+00:05:38,000 --> 00:05:40,000
+I can click okay and post that
+
+83
+00:05:40,000 --> 00:05:46,000
+I'm going to click on this okay button. With this you can see I have a new folder under this kafkalytic.
+
+84
+00:05:46,000 --> 00:05:51,000
+Let me open this and this is my local Kafka cluster Details.
+
+85
+00:05:51,000 --> 00:05:55,000
+Inside this there are brokers, there is one broker.
+
+86
+00:05:55,000 --> 00:06:01,000
+Similarly, if you try to open consumers, you can see there are two consumers because the communication
+
+87
+00:06:01,000 --> 00:06:07,000
+between accounts and message microservice is going to be two way using asynchronous communication.
+
+88
+00:06:07,000 --> 00:06:14,000
+First, my accounts microservice is going to produce the message for my message microservice.
+
+89
+00:06:14,000 --> 00:06:21,000
+In such scenario, my message microservice is going to act as a consumer, whereas in the vice versa
+
+90
+00:06:21,000 --> 00:06:28,000
+scenario where my message microservice is going to produce a message, in such scenario, the accounts
+
+91
+00:06:28,000 --> 00:06:30,000
+microservice is going to act as a consumer.
+
+92
+00:06:30,000 --> 00:06:36,000
+That's why under the consumers we are able to see both of them and we also have only one broker inside
+
+93
+00:06:36,000 --> 00:06:37,000
+our local system.
+
+94
+00:06:37,000 --> 00:06:43,000
+Whereas if we have multiple brokers inside real production cluster, you should be able to see all of
+
+95
+00:06:43,000 --> 00:06:43,000
+them.
+
+96
+00:06:43,000 --> 00:06:49,000
+Now, if you try to open the topics here, you should be able to see that topics information which is
+
+97
+00:06:49,000 --> 00:06:55,000
+communication-sent and send-communication based upon the destination details that we have defined inside
+
+98
+00:06:55,000 --> 00:06:57,000
+the application.yml file.
+
+99
+00:06:57,000 --> 00:07:04,000
+And there is also a consumer offset topic which is going to be used by the Apache Kafka Internally.
+
+100
+00:07:04,000 --> 00:07:10,000
+With this it is pretty clear that our local microservices are able to connect with the Kafka server
+
+101
+00:07:10,000 --> 00:07:13,000
+that we have started in the local system.
+
+102
+00:07:13,000 --> 00:07:19,000
+As a next step, we can try to test the scenario and see if the asynchronous communication is happening
+
+103
+00:07:19,000 --> 00:07:21,000
+between two microservices. For the same,
+
+104
+00:07:21,000 --> 00:07:28,000
+first, I need to start my Keycloak server because my gateway server right now is secured with the help
+
+105
+00:07:28,000 --> 00:07:31,000
+of OAuth2 standards. Here inside my Docker desktop
+
+106
+00:07:31,000 --> 00:07:36,000
+I'm trying to start my existing Keycloak container by clicking on the start button.
+
+107
+00:07:36,000 --> 00:07:39,000
+This will start my keycloak container.
+
+108
+00:07:39,000 --> 00:07:45,000
+I can validate if the client details are available inside the Keycloak server. So let me try to access
+
+109
+00:07:45,000 --> 00:07:52,000
+the URL which is localhost 7080 and you can see I'm able to access the same and I can click on this
+
+110
+00:07:52,000 --> 00:07:58,000
+administration console and here I can enter credentials like admin, admin and post that
+
+111
+00:07:58,000 --> 00:08:04,000
+I'm going to click on the sign in button and I'll go to clients and here we have a client with the name
+
+112
+00:08:04,000 --> 00:08:05,000
+eazybank-callcenter-cc
+
+113
+00:08:06,000 --> 00:08:14,000
+I'm going to copy the credential details as a next step before I try to invoke my API inside my postman.
+
+114
+00:08:14,000 --> 00:08:18,000
+I'm going to keep a breakpoint inside my message microservice.
+
+115
+00:08:18,000 --> 00:08:25,000
+So for the same let me go to message and here I'm going to open the class with the name message functions
+
+116
+00:08:25,000 --> 00:08:29,000
+and here I'm going to put a breakpoint inside my email function.
+
+117
+00:08:29,000 --> 00:08:35,000
+Now let me try to invoke this create API available inside the accounts microservice.
+
+118
+00:08:35,000 --> 00:08:41,000
+Before that, let me try to get the access token by mentioning the correct client ID and credentials.
+
+119
+00:08:41,000 --> 00:08:47,000
+So here I'm trying to mention the credentials that I have copied post that I'm going to click on this
+
+120
+00:08:47,000 --> 00:08:49,000
+Get new access token.
+
+121
+00:08:49,000 --> 00:08:53,000
+I will try to use the same access token and click on this send button.
+
+122
+00:08:53,000 --> 00:08:59,000
+You can see I received a successful response from my accounts microservice and behind the scenes it
+
+123
+00:08:59,000 --> 00:09:03,000
+might also pushed an message into my Kafka cluster.
+
+124
+00:09:03,000 --> 00:09:08,000
+That's why the breakpoint right now stopped inside my email function.
+
+125
+00:09:08,000 --> 00:09:11,000
+Before I try to release this breakpoint, I can show you tha
+
+126
+00:09:11,000 --> 00:09:15,000
+what is the column value that we have inside the accounts table?
+
+127
+00:09:15,000 --> 00:09:19,000
+So here I'm trying to access the H2 console of accounts microservice.
+
+128
+00:09:19,000 --> 00:09:25,000
+Let me click on this connect button and post that I will execute the query against my accounts table.
+
+129
+00:09:25,000 --> 00:09:29,000
+So you can see right now the communications which is null.
+
+130
+00:09:29,000 --> 00:09:36,000
+As soon as I tried to release this breakpoint immediately the column is going to be updated to true
+
+131
+00:09:36,000 --> 00:09:36,000
+value.
+
+132
+00:09:36,000 --> 00:09:38,000
+So let me release this now
+
+133
+00:09:38,000 --> 00:09:40,000
+I'll go to the H2 console here.
+
+134
+00:09:40,000 --> 00:09:42,000
+I'm going to run this command again.
+
+135
+00:09:42,000 --> 00:09:47,000
+This time you should be able to see a value true under the communication switch.
+
+136
+00:09:47,000 --> 00:09:54,000
+This confirms that our end to end scenario is working fine with the help of Apache Kafka.
+
+137
+00:09:54,000 --> 00:10:00,000
+Did you see how easy it is to switch from Rabbitmq to the Kafka if you are not using Spring
+
+138
+00:10:00,000 --> 00:10:02,000
+Cloud functions and spring cloud stream.
+
+139
+00:10:02,000 --> 00:10:04,000
+You need to do hell lot of work.
+
+140
+00:10:04,000 --> 00:10:11,000
+That's why my humble request always leverages these latest projects or latest techniques available
+
+141
+00:10:11,000 --> 00:10:13,000
+inside the spring ecosystem.
+
+142
+00:10:13,000 --> 00:10:15,000
+Even today I see many developers
+
+143
+00:10:15,000 --> 00:10:22,000
+they are using old approaches to connect with the Rabbitmq and Kafka, and I feel very sad for them
+
+144
+00:10:22,000 --> 00:10:28,000
+because they can easily achieve this job with the help of spring cloud functions and spring cloud stream.
+
+145
+00:10:28,000 --> 00:10:34,000
+But I'm very happy because I'm able to educate at least you with the help of this course.
+
+146
+00:10:34,000 --> 00:10:38,000
+And please spread this word or knowledge to the other developers as well.
+
+147
+00:10:38,000 --> 00:10:41,000
+So now we tested everything inside the local system. As a next step,
+
+148
+00:10:41,000 --> 00:10:46,000
+we need to test the same inside the Docker environment. For the same,
+
+149
+00:10:46,000 --> 00:10:51,000
+I'm going to generate the Docker images which are specific to the section14 and the same
+
+150
+00:10:51,000 --> 00:10:56,000
+I'm going to push them into the Docker hub and I'm also going to make some changes inside that Docker
+
+151
+00:10:56,000 --> 00:11:02,000
+compose file which we can try to execute the same and validate the entire changes inside the Docker
+
+152
+00:11:02,000 --> 00:11:02,000
+environment.
+
+153
+00:11:02,000 --> 00:11:05,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,808 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, I'm going to give a quick introduction to the Apache Kafka. Before I try
+
+2
+00:00:06,000 --> 00:00:09,000
+to share more details about Apache Kafka.
+
+3
+00:00:09,000 --> 00:00:14,000
+Let me show you an real life example that is very close to the Apache Kafka.
+
+4
+00:00:14,000 --> 00:00:18,000
+Like you can see here in between, there is a receiver we call it as a broker.
+
+5
+00:00:18,000 --> 00:00:25,000
+If you can remember our childhood days, maybe if you go a decade back or two decades back, whenever
+
+6
+00:00:25,000 --> 00:00:29,000
+we want to see a movie inside our home, what is the option that we have?
+
+7
+00:00:29,000 --> 00:00:32,000
+We need to set up these receiver and the same receiver
+
+8
+00:00:32,000 --> 00:00:36,000
+we need to connect to the speakers and the television that we have.
+
+9
+00:00:36,000 --> 00:00:43,000
+Once I set up the connection between the receiver and the television speakers as a next step, I can
+
+10
+00:00:43,000 --> 00:00:50,000
+take any movie that I want to play in the form of DVD, Blu ray or CD, the same information.
+
+11
+00:00:50,000 --> 00:00:56,000
+I'm going to feed into the receiver as soon as my receiver is able to read the movie data or a video
+
+12
+00:00:56,000 --> 00:01:01,000
+data or audio data from the DVD, Blueray, CD.
+
+13
+00:01:01,000 --> 00:01:08,000
+It is going to stream that data to the destinations at the consumers like speakers and television.
+
+14
+00:01:08,000 --> 00:01:15,000
+And very similarly, whenever we want to see normal TV channels, we will have the antenna and the antenna
+
+15
+00:01:15,000 --> 00:01:18,000
+is going to be connected to the TV setup box.
+
+16
+00:01:18,000 --> 00:01:24,000
+And from the TV setup box, the audio and video will be distributed to the television and speakers.
+
+17
+00:01:24,000 --> 00:01:26,000
+The same case with the USB.
+
+18
+00:01:26,000 --> 00:01:33,000
+You can also connect the USB to this receiver and whatever data present inside the USB, the receiver
+
+19
+00:01:33,000 --> 00:01:38,000
+is going to play by sending the data to the destination like television and speakers.
+
+20
+00:01:38,000 --> 00:01:43,000
+Here we have producers at the top who holds the source of data.
+
+21
+00:01:43,000 --> 00:01:49,000
+So they are going to continuously stream the data to the consumers, like television and speakers with
+
+22
+00:01:49,000 --> 00:01:51,000
+the help of this receiver.
+
+23
+00:01:51,000 --> 00:01:54,000
+So this receiver is going to act as a broker.
+
+24
+00:01:54,000 --> 00:02:01,000
+So now if you try to correlate this to the Apache Kafka, the Apache Kafka is going to act as a broker
+
+25
+00:02:01,000 --> 00:02:08,000
+in between the producers and consumers, the same we have seen inside a rabbitmq scenario also.
+
+26
+00:02:08,000 --> 00:02:17,000
+But Apache Kafka is capable of streaming any amount of data, whereas Rabbitmq it cannot stream large
+
+27
+00:02:17,000 --> 00:02:18,000
+amount of data.
+
+28
+00:02:18,000 --> 00:02:21,000
+It can only process very limited amount of data.
+
+29
+00:02:21,000 --> 00:02:26,000
+So that's why I'm trying to compare the receiver that we have in this scenario to the Apache Kafka,
+
+30
+00:02:26,000 --> 00:02:33,000
+but not to the Rabbitmq. With this example, at least, I'm assuming you understand that Apache Kafka
+
+31
+00:02:33,000 --> 00:02:41,000
+is an event streaming broker which always accepts the data from the producers and send the same to the
+
+32
+00:02:41,000 --> 00:02:42,000
+consumers.
+
+33
+00:02:42,000 --> 00:02:47,000
+So with that quick introduction, let's go to the actual definition of Apache Kafka.
+
+34
+00:02:47,000 --> 00:02:55,000
+So Apache Kafka is an open source distributed event streaming platform like we discussed previously.
+
+35
+00:02:55,000 --> 00:03:02,000
+It is designed to handle large scale of data at real time and it is also capable of streaming the
+
+36
+00:03:02,000 --> 00:03:04,000
+data at real time.
+
+37
+00:03:04,000 --> 00:03:10,000
+Apart from streaming the data, it is also capable of high throughput, fault tolerant and scalable
+
+38
+00:03:10,000 --> 00:03:12,000
+data processing.
+
+39
+00:03:12,000 --> 00:03:20,000
+Apache Kafka is mainly used to build the real time streaming data pipelines and applications that adopt
+
+40
+00:03:20,000 --> 00:03:21,000
+to that data streams.
+
+41
+00:03:21,000 --> 00:03:28,000
+So you can have a producer application continuously sending the data in the format of logs or in the
+
+42
+00:03:28,000 --> 00:03:30,000
+format like Json, XML.
+
+43
+00:03:30,000 --> 00:03:35,000
+So regardless of whatever format that you are trying to use the producers, they can continuously send
+
+44
+00:03:35,000 --> 00:03:36,000
+that data.
+
+45
+00:03:36,000 --> 00:03:43,000
+And the other side, the consumers, they are going to process the data by accepting the same from the
+
+46
+00:03:43,000 --> 00:03:43,000
+Kafka.
+
+47
+00:03:43,000 --> 00:03:50,000
+So inside the Apache Kafka, there are many important components like producers, topics, brokers,
+
+48
+00:03:50,000 --> 00:03:57,000
+partitions, offsets and very similarly, we also have replication consumer groups, streams.
+
+49
+00:03:57,000 --> 00:04:01,000
+So these are all the important components available inside the Apache Kafka.
+
+50
+00:04:02,000 --> 00:04:07,000
+Let me try to explain about all these components by taking an visual example.
+
+51
+00:04:07,000 --> 00:04:14,000
+We all know the very first important component inside any event streaming platform is the producers.
+
+52
+00:04:14,000 --> 00:04:22,000
+So the producers are the application who are going to responsible to produce a data or to produce an
+
+53
+00:04:22,000 --> 00:04:22,000
+event.
+
+54
+00:04:22,000 --> 00:04:24,000
+That's why we call them as producer.
+
+55
+00:04:24,000 --> 00:04:28,000
+So inside your application you can have any number of producers.
+
+56
+00:04:28,000 --> 00:04:34,000
+So these producers, they will connect to an Kafka cluster and they are going to be continuously pushing
+
+57
+00:04:34,000 --> 00:04:38,000
+the messages into the Kafka cluster.
+
+58
+00:04:38,000 --> 00:04:44,000
+So when I say that data is going to be continuously pushed by the producers into the Kafka cluster,
+
+59
+00:04:44,000 --> 00:04:50,000
+we need to understand how it is going to happen or how it is going to be handled within the Kafka cluster.
+
+60
+00:04:50,000 --> 00:04:51,000
+So what is a cluster?
+
+61
+00:04:51,000 --> 00:04:59,000
+It is a set of servers which are going to work together to produce a desired output. Very similarly inside
+
+62
+00:04:59,000 --> 00:04:59,000
+Kafka
+
+63
+00:05:00,000 --> 00:05:00,000
+cluster.
+
+64
+00:05:00,000 --> 00:05:03,000
+We can have any number of brokers.
+
+65
+00:05:03,000 --> 00:05:10,000
+So a broker represents a server inside the Kafka cluster that is capable of accepting the data from
+
+66
+00:05:10,000 --> 00:05:13,000
+the producers and sending the same to the consumers.
+
+67
+00:05:13,000 --> 00:05:18,000
+So inside this cluster, I have given three brokers like broker1, broker2, broker3 in
+
+68
+00:05:18,000 --> 00:05:20,000
+production environment.
+
+69
+00:05:20,000 --> 00:05:27,000
+The recommendation is to have at least three brokers so that your messages can be replicated at least
+
+70
+00:05:27,000 --> 00:05:29,000
+in two different brokers.
+
+71
+00:05:29,000 --> 00:05:36,000
+Even if we lost one of the broker due to some earthquake or fire accident, your data is going to be
+
+72
+00:05:36,000 --> 00:05:39,000
+safely available as a backup inside the broker2.
+
+73
+00:05:39,000 --> 00:05:44,000
+And these brokers, they are not going to be deployed in the same geographical location.
+
+74
+00:05:44,000 --> 00:05:51,000
+Multiple brokers will be deployed at multiple geographical locations so that your replicated messages
+
+75
+00:05:51,000 --> 00:05:56,000
+at data are going to be stayed in different geographical locations.
+
+76
+00:05:56,000 --> 00:06:01,000
+So now think like I have a cluster and inside the cluster I have three brokers.
+
+77
+00:06:01,000 --> 00:06:05,000
+So now let's try to understand what is going to happen inside a broker.
+
+78
+00:06:05,000 --> 00:06:08,000
+Inside a broker, we can have topics.
+
+79
+00:06:08,000 --> 00:06:13,000
+A topic is very similar to exchange that we have inside the Rabbitmq.
+
+80
+00:06:13,000 --> 00:06:18,000
+So my producers, they are going to connect with a topic and whatever messages that they want to send,
+
+81
+00:06:18,000 --> 00:06:20,000
+they are going to send a topic.
+
+82
+00:06:20,000 --> 00:06:26,000
+So inside an organization we can have various topics like to send communication or to process the refund
+
+83
+00:06:26,000 --> 00:06:27,000
+of the payment.
+
+84
+00:06:27,000 --> 00:06:34,000
+So based upon your scenarios, you can have multiple topics and accordingly you can configure a producer
+
+85
+00:06:34,000 --> 00:06:35,000
+to a specific topic.
+
+86
+00:06:35,000 --> 00:06:41,000
+And whenever that event happens inside a producer, it is going to push a message or event into a topic.
+
+87
+00:06:41,000 --> 00:06:44,000
+So a broker can have any number of topics.
+
+88
+00:06:44,000 --> 00:06:51,000
+Just now I said, All your producers, they are going to send the messages and the events to the topics.
+
+89
+00:06:51,000 --> 00:06:56,000
+Does that mean all the data that I pushed into the topics are going to be stored directly inside the
+
+90
+00:06:56,000 --> 00:06:57,000
+topics?
+
+91
+00:06:57,000 --> 00:06:58,000
+No, it is not going to work that way.
+
+92
+00:06:58,000 --> 00:07:02,000
+Inside the topics we are going to have multiple partitions.
+
+93
+00:07:02,000 --> 00:07:04,000
+So what is the purpose of partitions?
+
+94
+00:07:04,000 --> 00:07:10,000
+Like we discussed previously, Kafka is capable of storing any amount of data.
+
+95
+00:07:10,000 --> 00:07:16,000
+Does that mean I can store all data related to a topic inside a single broker?
+
+96
+00:07:16,000 --> 00:07:22,000
+It is not going to be possible since I want to store the large amount of data with multiple brokers
+
+97
+00:07:22,000 --> 00:07:29,000
+inside multiple brokers, I'm going to have a same topic but different partitions like P0, P1, P2,
+
+98
+00:07:29,000 --> 00:07:30,000
+P3,. For example,
+
+99
+00:07:30,000 --> 00:07:37,000
+take a scenario where I'm going to trigger an event whenever a new account is created inside a
+
+100
+00:07:37,000 --> 00:07:38,000
+BankApplication.
+
+101
+00:07:38,000 --> 00:07:43,000
+So this event is responsible to send the communication to my end user.
+
+102
+00:07:43,000 --> 00:07:51,000
+So my BankApplication may have millions of customers and sending all the messages or data of all these
+
+103
+00:07:51,000 --> 00:07:58,000
+millions of customers into a particular topic or into a particular broker is not going to be a recommended
+
+104
+00:07:58,000 --> 00:08:03,000
+approach. Because it may not be possible to store all the data inside a single broker.
+
+105
+00:08:03,000 --> 00:08:07,000
+So to handle these kind of scenarios, Kafka has partitions.
+
+106
+00:08:07,000 --> 00:08:13,000
+I can build logic such a way that all the communication that I want to send for the New York customers
+
+107
+00:08:13,000 --> 00:08:16,000
+needs to be go to the partition zero.
+
+108
+00:08:16,000 --> 00:08:21,000
+And similarly, all the customer communication details related to the Washington.
+
+109
+00:08:21,000 --> 00:08:24,000
+It has to go to the other partition like P1.
+
+110
+00:08:24,000 --> 00:08:33,000
+So this way, based upon my business use case, I can separate my messages or events to various partitions
+
+111
+00:08:33,000 --> 00:08:40,000
+in a single topic and this gives me flexibility to store any amount of data because I can add any number
+
+112
+00:08:40,000 --> 00:08:42,000
+of brokers inside my cluster.
+
+113
+00:08:42,000 --> 00:08:49,000
+And whenever a message we are trying to store inside a partition, we are going to provide an offset
+
+114
+00:08:49,000 --> 00:08:54,000
+ID to the message right from 0 to 1, two, three, four, so on.
+
+115
+00:08:54,000 --> 00:08:57,000
+It will keep on increasing the offset number.
+
+116
+00:08:57,000 --> 00:09:01,000
+So what is the purpose of this offset number or offset ID?
+
+117
+00:09:01,000 --> 00:09:08,000
+So this will give flexibility to the Apache Kafka and consumers to uniquely identify a particular
+
+118
+00:09:08,000 --> 00:09:08,000
+message.
+
+119
+00:09:08,000 --> 00:09:16,000
+So whenever my consumer says that it has processed all the messages up to the offset ID nine inside
+
+120
+00:09:16,000 --> 00:09:23,000
+the P0 partition, then it indicates it has processed all the messages that we stored inside the
+
+121
+00:09:23,000 --> 00:09:24,000
+P0 partition.
+
+122
+00:09:24,000 --> 00:09:31,000
+So in other words, these offset ID's are similar to sequence ID's that we have inside the database rows.
+
+123
+00:09:31,000 --> 00:09:37,000
+So whenever we try to create a new row inside a database table, we are going to assign a sequence number.
+
+124
+00:09:37,000 --> 00:09:40,000
+Very similarly, we are going to assign the offset ID for each message.
+
+125
+00:09:40,000 --> 00:09:49,000
+And here you may have a question like under P0 and P1, the offset IDs are being duplicated like 0011.
+
+126
+00:09:49,000 --> 00:09:51,000
+Will this not create any issues?
+
+127
+00:09:51,000 --> 00:09:57,000
+Off course it is not going to create any issues because apart from the offset ID the consumers, they
+
+128
+00:09:57,000 --> 00:09:59,000
+are also going to consider the
+
+129
+00:09:59,000 --> 00:10:00,000
+partition number.
+
+130
+00:10:00,000 --> 00:10:09,000
+So the combination of topic partition and the offset ID is going to be a unique always inside your Apache
+
+131
+00:10:09,000 --> 00:10:10,000
+Kafka.
+
+132
+00:10:10,000 --> 00:10:16,000
+So once my message is stored inside a topic with the help of partition and after assigning the offset
+
+133
+00:10:16,000 --> 00:10:21,000
+ID, these messages are ready to be consumed by my consumers.
+
+134
+00:10:21,000 --> 00:10:27,000
+If you try to see the story on the other side and the other side, I'm going to have multiple consumers
+
+135
+00:10:27,000 --> 00:10:33,000
+who are continuously trying to pull the messages from a particular topic and the partition that they
+
+136
+00:10:33,000 --> 00:10:34,000
+have registered.
+
+137
+00:10:34,000 --> 00:10:42,000
+And here you can see I can also group my consumers with the concept of consumer group inside the Apache
+
+138
+00:10:42,000 --> 00:10:42,000
+Kafka.
+
+139
+00:10:42,000 --> 00:10:48,000
+So there are two groups here like Consumer groupA and Consumer GroupB, so what is the purpose of this
+
+140
+00:10:48,000 --> 00:10:49,000
+grouping of consumers?
+
+141
+00:10:49,000 --> 00:10:58,000
+I can group my consumers that are responsible to process the data available inside a particular topic.
+
+142
+00:10:58,000 --> 00:11:05,000
+Maybe I can have group of consumers which are responsible to pull the messages under a topic with the
+
+143
+00:11:05,000 --> 00:11:06,000
+name send a communication.
+
+144
+00:11:06,000 --> 00:11:13,000
+So whatever messages that we are going to have in this send communication topic, all the messages are
+
+145
+00:11:13,000 --> 00:11:16,000
+going to be processed by the set of consumers.
+
+146
+00:11:16,000 --> 00:11:23,000
+So here with the setup of consumer group, it is also possible to process the messages Parallelly.
+
+147
+00:11:23,000 --> 00:11:30,000
+I can configure for the consumer1 to always process the messages available inside the partition0.
+
+148
+00:11:30,000 --> 00:11:35,000
+And similarly partition one messages can be processed by the consumer2.
+
+149
+00:11:35,000 --> 00:11:42,000
+So this way I can have my consumers to parallelly process the messages as they are coming into the
+
+150
+00:11:42,000 --> 00:11:44,000
+topic from the producer side.
+
+151
+00:11:44,000 --> 00:11:50,000
+So this is the plain story that is going to happen behind the scenes whenever you try to implement Apache
+
+152
+00:11:50,000 --> 00:11:51,000
+Kafka.
+
+153
+00:11:51,000 --> 00:11:58,000
+Apart from these one more advantage of Apache Kafka is, it is going to replicate your data in multiple
+
+154
+00:11:58,000 --> 00:11:59,000
+brokers.
+
+155
+00:11:59,000 --> 00:12:06,000
+Like if you try to save a message into one of the broker, the same is also going to be replicated in
+
+156
+00:12:06,000 --> 00:12:10,000
+one more broker, like broker2 or broker3.
+
+157
+00:12:10,000 --> 00:12:17,000
+This way, your Kafka data processing is also fault tolerant, Even if you lose the message available
+
+158
+00:12:17,000 --> 00:12:24,000
+inside the broker1 you are going to have a copy of it inside the broker2 or broker3.
+
+159
+00:12:24,000 --> 00:12:29,000
+I hope now you are clear with all the important components available inside the Apache Kafka.
+
+160
+00:12:29,000 --> 00:12:34,000
+Now if you try to look at the definitions that I have provided, they are going to make sense to you.
+
+161
+00:12:34,000 --> 00:12:38,000
+So let's try to revisit the definitions very quickly.
+
+162
+00:12:38,000 --> 00:12:41,000
+So first we have producers like we discussed.
+
+163
+00:12:41,000 --> 00:12:48,000
+Producers are responsible to produce the messages or events by writing them into a specific topic.
+
+164
+00:12:48,000 --> 00:12:49,000
+So what is a topic?
+
+165
+00:12:49,000 --> 00:12:52,000
+Kafka organizes data into topics.
+
+166
+00:12:52,000 --> 00:12:58,000
+A topic is a particular stream of data that can be divided into multiple partitions.
+
+167
+00:12:58,000 --> 00:13:04,000
+And whenever we are trying to write a message inside a partition, it is going to be identified by an
+
+168
+00:13:04,000 --> 00:13:05,000
+offset ID.
+
+169
+00:13:05,000 --> 00:13:06,000
+Next we have brokers.
+
+170
+00:13:06,000 --> 00:13:13,000
+Brokers are nothing but Kafka servers which are going to store the data and replicate the data that
+
+171
+00:13:13,000 --> 00:13:18,000
+we receive, and they are also responsible to receive the messages from producers and assigning the
+
+172
+00:13:18,000 --> 00:13:24,000
+offset IDs to the messages and serving the messages to the consumers. And post the brokers
+
+173
+00:13:24,000 --> 00:13:29,000
+we already discussed what is partitions, what is offset ID, what is the importance of them.
+
+174
+00:13:29,000 --> 00:13:32,000
+Now moving on to the next important components replication.
+
+175
+00:13:32,000 --> 00:13:39,000
+Like we discussed with the help of replication, Kafka is going to replicate your data across multiple
+
+176
+00:13:39,000 --> 00:13:42,000
+brokers to ensure fault tolerance.
+
+177
+00:13:42,000 --> 00:13:49,000
+So with the help of this replication, your data is going to be maintained at multiple locations, allowing
+
+178
+00:13:49,000 --> 00:13:53,000
+that you are ready for failover and high availability. After replication,
+
+179
+00:13:53,000 --> 00:14:00,000
+we have consumers, consumer groups we already discussed what are those now moving on to the last component,
+
+180
+00:14:00,000 --> 00:14:01,000
+which is streams.
+
+181
+00:14:01,000 --> 00:14:07,000
+So Kafka Streams is a client libraries that enables stream processing within Kafka. With the help of
+
+182
+00:14:07,000 --> 00:14:10,000
+the libraries available inside the streams.
+
+183
+00:14:10,000 --> 00:14:16,000
+Any application they can produce data in real time and send the same to the Kafka server and at the
+
+184
+00:14:16,000 --> 00:14:20,000
+same time, on the consumer side, any kind of application.
+
+185
+00:14:20,000 --> 00:14:25,000
+It can also connect to the Kafka server and consume the data and process the same.
+
+186
+00:14:25,000 --> 00:14:29,000
+I hope you are super, super clear with all these important components.
+
+187
+00:14:29,000 --> 00:14:33,000
+I also mentioned all the important points that we have discussed inside this slide
+
+188
+00:14:33,000 --> 00:14:36,000
+for your reference, what is a Kafka cluster?
+
+189
+00:14:36,000 --> 00:14:40,000
+How many number of brokers it should have in a production environment,
+
+190
+00:14:40,000 --> 00:14:42,000
+and what is the topic,
+
+191
+00:14:42,000 --> 00:14:43,000
+what is a partition,
+
+192
+00:14:43,000 --> 00:14:46,000
+why should we have partitions inside a Kafka topic,
+
+193
+00:14:46,000 --> 00:14:47,000
+what are offset ID's ?
+
+194
+00:14:47,000 --> 00:14:53,000
+So all those details that we have discussed, I have mentioned them inside this slides on a high level
+
+195
+00:14:53,000 --> 00:14:59,000
+for your quick reference in future. With this, I'm assuming you are super, super clear about that.
+
+196
+00:15:00,000 --> 00:15:01,000
+Apache Kafka introduction.
+
+197
+00:15:01,000 --> 00:15:06,000
+But please note that whatever we discussed is only basics of Apache Kafka.
+
+198
+00:15:07,000 --> 00:15:13,000
+We are not going to deep dive into the Apache Kafka because this is not the course focusing on Apache
+
+199
+00:15:13,000 --> 00:15:13,000
+Kafka.
+
+200
+00:15:13,000 --> 00:15:21,000
+I'm just trying to give very basic details so that you can try to implement the event streaming inside
+
+201
+00:15:21,000 --> 00:15:24,000
+your microservices with the help of Kafka.
+
+202
+00:15:24,000 --> 00:15:26,000
+Thank you, and I'll catch you in the next lecture bye.
+

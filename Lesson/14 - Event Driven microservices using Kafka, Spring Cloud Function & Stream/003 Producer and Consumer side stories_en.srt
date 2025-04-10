@@ -1,0 +1,496 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let me share more details on what is going to happen whenever a producer
+
+2
+00:00:06,000 --> 00:00:09,000
+is trying to send a message to the Kafka server.
+
+3
+00:00:09,000 --> 00:00:15,000
+And at the same time, whenever a consumer is trying to read the message from the Kafka server.
+
+4
+00:00:15,000 --> 00:00:22,000
+The very first action that needs to happen on the producer side is the producer has to be configured, which
+
+5
+00:00:22,000 --> 00:00:26,000
+means inside my application, a producer needs to be configured.
+
+6
+00:00:26,000 --> 00:00:32,000
+And this involves setting up properties like what is the endpoint URL of Kafka broker,
+
+7
+00:00:32,000 --> 00:00:39,000
+what is the serialization format for messages and other optional configurations like whether you are
+
+8
+00:00:39,000 --> 00:00:46,000
+producer has to follow any compression or batching to send the messages. Once the producer related configuration
+
+9
+00:00:46,000 --> 00:00:47,000
+is completed.
+
+10
+00:00:47,000 --> 00:00:54,000
+Now my producer has to select the topic that it needs to send the messages, which means whenever a
+
+11
+00:00:54,000 --> 00:01:02,000
+producer wants to send a message to the Kafka, it needs to mention what is the topic to which it wants
+
+12
+00:01:02,000 --> 00:01:04,000
+to stream the data within the Kafka.
+
+13
+00:01:04,000 --> 00:01:11,000
+If the topic does not exist based upon your configurations on the broker side, the topic can be created
+
+14
+00:01:11,000 --> 00:01:11,000
+dynamically.
+
+15
+00:01:11,000 --> 00:01:13,000
+So now think like producer side
+
+16
+00:01:13,000 --> 00:01:17,000
+everything is configured and topic selection is also completed.
+
+17
+00:01:17,000 --> 00:01:24,000
+As a next step, my producer can send the message to the Kafka by using the Kafka client Libraries APIs.
+
+18
+00:01:24,000 --> 00:01:30,000
+The producer has to specify what is the target topic and what is the serialized message that it is trying
+
+19
+00:01:30,000 --> 00:01:32,000
+to send to the Kafka broker.
+
+20
+00:01:32,000 --> 00:01:39,000
+And if needed, the producer also can provide what is a partition key that it wants to consider while
+
+21
+00:01:39,000 --> 00:01:41,000
+saving the message inside the Kafka.
+
+22
+00:01:41,000 --> 00:01:44,000
+This is completely optional. As a next step,
+
+23
+00:01:44,000 --> 00:01:51,000
+as soon as the message is received by my Kafka broker, the Kafka is going to assign your message to
+
+24
+00:01:51,000 --> 00:01:52,000
+one of the partition.
+
+25
+00:01:52,000 --> 00:01:59,000
+If the partition key is provided by the producer the same, it is going to be used by the Kafka broker
+
+26
+00:01:59,000 --> 00:02:01,000
+and inside the same partition
+
+27
+00:02:01,000 --> 00:02:02,000
+it is going to store.
+
+28
+00:02:02,000 --> 00:02:09,000
+If no partition key is provided, then Kafka uses various approaches like Round Robin or hashing algorithm
+
+29
+00:02:09,000 --> 00:02:14,000
+to distribute your messages evenly across various partitions.
+
+30
+00:02:14,000 --> 00:02:21,000
+Once my Kafka broker identified to which partition, the message has to be stored, the Kafka is going
+
+31
+00:02:21,000 --> 00:02:29,000
+to do an offset assignment, which means it is going to assign an offset ID to the message that it received
+
+32
+00:02:29,000 --> 00:02:36,000
+from the producer and post that it is going to append the message to the partition that it has identified.
+
+33
+00:02:36,000 --> 00:02:43,000
+And once the message is successfully stored inside a partition with the help of offset ID as a next
+
+34
+00:02:43,000 --> 00:02:50,000
+step, if you have enabled the replication, the message replication will be done by the Kafka broker.
+
+35
+00:02:50,000 --> 00:02:57,000
+So the Kafka is going to make sure that your message is going to be copied in other Kafka brokers based
+
+36
+00:02:57,000 --> 00:02:59,000
+upon your configurations.
+
+37
+00:02:59,000 --> 00:03:05,000
+And this message replication can happen asynchronously or synchronously based upon your configurations.
+
+38
+00:03:05,000 --> 00:03:13,000
+Once the message replication is completed as a last step, your Kafka broker is going to give an acknowledgment
+
+39
+00:03:13,000 --> 00:03:14,000
+to your producer.
+
+40
+00:03:14,000 --> 00:03:18,000
+If there is some error happen the same, it is going to convey to the producer.
+
+41
+00:03:18,000 --> 00:03:22,000
+So the producer has to receive the acknowledgment from the Kafka.
+
+42
+00:03:22,000 --> 00:03:26,000
+If there is some error the same, it has to handle inside the business logic.
+
+43
+00:03:26,000 --> 00:03:33,000
+Otherwise the producer can continue processing its next business logic without worrying about who is
+
+44
+00:03:33,000 --> 00:03:34,000
+going to process your message.
+
+45
+00:03:34,000 --> 00:03:40,000
+The Kafka is going to take care of that by assigning that to one of the consumer. Here based upon the
+
+46
+00:03:40,000 --> 00:03:45,000
+acknowledgment and the error received by the producer from the Kafka broker.
+
+47
+00:03:45,000 --> 00:03:51,000
+If needed, they can also try multiple retry attempts to send the message to the Kafka broker and these
+
+48
+00:03:51,000 --> 00:03:57,000
+acknowledgments you are going to receive based upon your mode of configuration.
+
+49
+00:03:57,000 --> 00:04:03,000
+The producer may wait for the acknowledgment from all the replicas or it can simply wait for only
+
+50
+00:04:03,000 --> 00:04:05,000
+the leader replica.
+
+51
+00:04:05,000 --> 00:04:12,000
+So what is leader replica when your message is stored inside a broker very first time it is going to
+
+52
+00:04:12,000 --> 00:04:13,000
+be the leader replica.
+
+53
+00:04:13,000 --> 00:04:20,000
+Once the leader replica is completed, the other replicas Kafka broker is going to do behind the scenes.
+
+54
+00:04:20,000 --> 00:04:27,000
+So here the producer has an option to completely wait for all the replicas to complete or to simply
+
+55
+00:04:27,000 --> 00:04:29,000
+wait for the leader replica to complete.
+
+56
+00:04:29,000 --> 00:04:33,000
+So this is what is going to happen on the producer side.
+
+57
+00:04:33,000 --> 00:04:40,000
+Now think like our message right now stored inside the Kafka broker successfully. As a next step,
+
+58
+00:04:40,000 --> 00:04:44,000
+let's try to understand what is going to happen on the consumer side.
+
+59
+00:04:44,000 --> 00:04:51,000
+Like we discussed before, all our consumers, they are going to assign to a consumer group and each
+
+60
+00:04:51,000 --> 00:04:53,000
+consumer inside a consumer group,
+
+61
+00:04:53,000 --> 00:05:00,000
+they need to subscribe to one of the topic available inside the Kafka broker. Which means before a
+
+62
+00:05:00,000 --> 00:05:00,000
+consumer
+
+63
+00:05:00,000 --> 00:05:03,000
+tried to read a message from a Kafka broker.
+
+64
+00:05:03,000 --> 00:05:09,000
+It needs to join a consumer group and all the consumers assigned to a consumer group.
+
+65
+00:05:09,000 --> 00:05:12,000
+They are going to subscribe to one or more topics.
+
+66
+00:05:12,000 --> 00:05:17,000
+And this subscription also specifies which topics the consumer wants to consume,
+
+67
+00:05:17,000 --> 00:05:19,000
+messages from the Kafka Broker.
+
+68
+00:05:19,000 --> 00:05:25,000
+Once a consumer is assigned to the consumer group and it subscribed to one of the topic as a next step,
+
+69
+00:05:25,000 --> 00:05:33,000
+my Kafka is going to assign the partitions of the subscribed topics to the consumers available within
+
+70
+00:05:33,000 --> 00:05:39,000
+the consumer group. So each partition can be consumed by only one consumer in the group.
+
+71
+00:05:39,000 --> 00:05:46,000
+This will ensure a balanced distribution of partition among consumers and to achieve the parallel processing.
+
+72
+00:05:46,000 --> 00:05:51,000
+So now, from the first two steps, the consumer is assigned to a consumer group.
+
+73
+00:05:51,000 --> 00:05:57,000
+It also assigned to a topic and inside the topic it also assigned to a partition. As a next step,
+
+74
+00:05:57,000 --> 00:06:00,000
+the offset management has to be done by my consumer.
+
+75
+00:06:00,000 --> 00:06:07,000
+That means the consumer should maintain its offset details for each partition it is trying to consume.
+
+76
+00:06:07,000 --> 00:06:13,000
+Initially, the offset number is going to be the null because my consumer never consumed any messages
+
+77
+00:06:13,000 --> 00:06:20,000
+inside a partition as it is trying to process the messages from a partition, the consumer needs to
+
+78
+00:06:20,000 --> 00:06:23,000
+update its offset to keep track of the progress.
+
+79
+00:06:23,000 --> 00:06:29,000
+Otherwise my consumer will never know up to which offset number it has processed previously.
+
+80
+00:06:29,000 --> 00:06:36,000
+So once my consumer understands like up to which offset number it has processed previously as a next
+
+81
+00:06:36,000 --> 00:06:41,000
+step, it can try to send a fetch request to the Apache Kafka broker.
+
+82
+00:06:41,000 --> 00:06:47,000
+So inside this the consumer is going to send a fetch request and as part of this fetch request, it
+
+83
+00:06:47,000 --> 00:06:52,000
+will mention what is the topic, what is the partition and what is the offset number from which the
+
+84
+00:06:52,000 --> 00:06:54,000
+consumer want to reach the message.
+
+85
+00:06:54,000 --> 00:07:00,000
+And inside this request also the consumer can mention what is the number of messages that it is trying
+
+86
+00:07:00,000 --> 00:07:01,000
+to fetch in each request.
+
+87
+00:07:01,000 --> 00:07:09,000
+Unlike Rabbitmq inside Apache Kafka, a consumer can read multiple messages at a time, like my consumer
+
+88
+00:07:09,000 --> 00:07:14,000
+can try to fetch 100 messages at a time inside each fetch request.
+
+89
+00:07:14,000 --> 00:07:20,000
+This is going to improve the performance of your Kafka setup whenever you are trying to handle the large
+
+90
+00:07:20,000 --> 00:07:21,000
+amount of data.
+
+91
+00:07:21,000 --> 00:07:28,000
+Once my Kafka broker receives this fetch request, the Kafka broker is going to retrieve the requested
+
+92
+00:07:28,000 --> 00:07:34,000
+messages from the corresponding partitions log and the same messages it is going to send back to the
+
+93
+00:07:34,000 --> 00:07:36,000
+consumer as a fetch response.
+
+94
+00:07:36,000 --> 00:07:43,000
+The response contains all the messages, their associated offsets and metadata information. As a next
+
+95
+00:07:43,000 --> 00:07:43,000
+step,
+
+96
+00:07:43,000 --> 00:07:49,000
+obviously, the messages will be processed on the consumer side based upon the business logic that we
+
+97
+00:07:49,000 --> 00:07:49,000
+have written.
+
+98
+00:07:49,000 --> 00:07:57,000
+This process can involve transforming the messages or aggregation, calculations or any other operations
+
+99
+00:07:57,000 --> 00:08:01,000
+based upon the business requirements. After message processing,
+
+100
+00:08:01,000 --> 00:08:08,000
+my consumer has to commit the offset number to the broker, saying that I have processed the messages
+
+101
+00:08:08,000 --> 00:08:10,000
+up to this offset number.
+
+102
+00:08:10,000 --> 00:08:17,000
+This confirms to the Apache Kafka broker that my consumer processed all the messages up to this offset
+
+103
+00:08:17,000 --> 00:08:17,000
+number.
+
+104
+00:08:17,000 --> 00:08:25,000
+So committing these offset number ensures that consumers progress is persisted inside the Kafka broker,
+
+105
+00:08:25,000 --> 00:08:31,000
+and the same can be resumed from that point in case of failure or restart is going to happen.
+
+106
+00:08:31,000 --> 00:08:37,000
+So this process of fetching requests, processing them, committing the offset is going to continuously
+
+107
+00:08:37,000 --> 00:08:39,000
+happen as part of the polling loop.
+
+108
+00:08:39,000 --> 00:08:44,000
+So the consumer continuously is going to repeat the step four, five, six, seven.
+
+109
+00:08:44,000 --> 00:08:51,000
+And this way, as soon as the messages are going to be arrived into a partition inside a topic, immediately
+
+110
+00:08:51,000 --> 00:08:55,000
+my consumer is going to process them in near real time.
+
+111
+00:08:55,000 --> 00:09:01,000
+I hope you are clear with the consumer side story and now you may feel like this looks very complex
+
+112
+00:09:01,000 --> 00:09:02,000
+to me.
+
+113
+00:09:02,000 --> 00:09:09,000
+Like how should I implement such a complex architecture or event driven model inside my microservices?
+
+114
+00:09:09,000 --> 00:09:10,000
+How should I create a topic,
+
+115
+00:09:10,000 --> 00:09:12,000
+how should I create a partition,
+
+116
+00:09:12,000 --> 00:09:14,000
+how should I create a offset number?
+
+117
+00:09:14,000 --> 00:09:20,000
+So this sounds super complex to you, but like I said, don't worry, we have our friend, which is
+
+118
+00:09:20,000 --> 00:09:21,000
+Spring Cloud Stream.
+
+119
+00:09:21,000 --> 00:09:27,000
+It is going to make this process of setting Apache Kafka super, super easy.
+
+120
+00:09:27,000 --> 00:09:31,000
+When you are going to see the demo, you are going to like it because it is very simple
+
+121
+00:09:31,000 --> 00:09:38,000
+from that developer perspective, all the infrastructure headache is going to taken care by the spring
+
+122
+00:09:38,000 --> 00:09:38,000
+cloud stream.
+
+123
+00:09:38,000 --> 00:09:40,000
+I hope you are clear up to this point.
+
+124
+00:09:40,000 --> 00:09:43,000
+Thank you and I'll catch you in the next lecture bye.
+

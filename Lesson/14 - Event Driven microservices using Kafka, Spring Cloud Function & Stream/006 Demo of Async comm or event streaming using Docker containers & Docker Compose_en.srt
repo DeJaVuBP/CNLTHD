@@ -1,0 +1,520 @@
+1
+00:00:00,000 --> 00:00:01,000
+Behind the scenes,
+
+2
+00:00:01,000 --> 00:00:08,000
+I have generated the Docker images for all the seven applications that we have with the tag name as
+
+3
+00:00:08,000 --> 00:00:08,000
+S14.
+
+4
+00:00:08,000 --> 00:00:12,000
+The same I have pushed into the Docker hub as well.
+
+5
+00:00:12,000 --> 00:00:15,000
+You can also validate the same inside my Docker hub.
+
+6
+00:00:15,000 --> 00:00:22,000
+If you try to open any of the Docker image, there will be a tag name with a value s14. As a next step,
+
+7
+00:00:22,000 --> 00:00:29,000
+we need to update the Docker compose file to use these s14 docker images and along with that we need
+
+8
+00:00:29,000 --> 00:00:34,000
+to remove Rabbitmq related service details and introduce the Kafka service details.
+
+9
+00:00:34,000 --> 00:00:36,000
+But here there is a problem for me.
+
+10
+00:00:36,000 --> 00:00:44,000
+I validated the Apache Kafka official website to understand if there is any information on how to set
+
+11
+00:00:44,000 --> 00:00:46,000
+up Kafka with the help of Docker.
+
+12
+00:00:46,000 --> 00:00:50,000
+But unfortunately I didn't find anything. Post that,
+
+13
+00:00:50,000 --> 00:00:56,000
+after doing some good research, I found some information on how to set up Apache Kafka with the help
+
+14
+00:00:56,000 --> 00:00:58,000
+of docker or  docker compose.
+
+15
+00:00:58,000 --> 00:01:04,000
+So this information I have inside this GitHub repo which is maintained by the Bitnami.
+
+16
+00:01:04,000 --> 00:01:05,000
+So what is this Bitnami,
+
+17
+00:01:05,000 --> 00:01:12,000
+Bitnami is a kind of marketplace where they are going to help you to set up any kind of application
+
+18
+00:01:12,000 --> 00:01:16,000
+in any kind of environment like Cloud, Docker, Kubernetes.
+
+19
+00:01:16,000 --> 00:01:23,000
+So this is a very trusted company or this is a very trusted community because this is also supported
+
+20
+00:01:23,000 --> 00:01:24,000
+by the VMware.
+
+21
+00:01:24,000 --> 00:01:29,000
+So that's why we can safely use the docker compose instructions provided by them.
+
+22
+00:01:29,000 --> 00:01:35,000
+So I'm going to mention these URL details inside the GitHub repo as well.
+
+23
+00:01:35,000 --> 00:01:38,000
+Here if you try to see this format is very familiar to us.
+
+24
+00:01:38,000 --> 00:01:44,000
+First, they are trying to create a service with the name Kafka and they have provided the image details,
+
+25
+00:01:44,000 --> 00:01:47,000
+Portmapping and there is some volumes configuration.
+
+26
+00:01:47,000 --> 00:01:52,000
+So regarding this volumes configuration in the down, you should be able to see that with the help of
+
+27
+00:01:52,000 --> 00:01:58,000
+these volumes, they are trying to create a folder inside your local system with the name kafka_data.
+
+28
+00:01:58,000 --> 00:01:59,000
+The same
+
+29
+00:01:59,000 --> 00:02:05,000
+they are trying to map to the folder Bitnami present inside the Docker container.
+
+30
+00:02:05,000 --> 00:02:10,000
+That means the Kafka that we are going to set up with these Docker compose file.
+
+31
+00:02:10,000 --> 00:02:16,000
+It is going to store all the data inside your local system with the folder name as Kafka data.
+
+32
+00:02:16,000 --> 00:02:22,000
+And after these volumes configuration, we have some environment details which we need to follow.
+
+33
+00:02:22,000 --> 00:02:27,000
+So by taking these information, I have updated our Docker compose files.
+
+34
+00:02:27,000 --> 00:02:31,000
+If you see here inside our Docker compose file, previously we used to have rabbit related service.
+
+35
+00:02:31,000 --> 00:02:37,000
+I have deleted that and right now I have pasted all the content that we have from the Bitnami GitHub
+
+36
+00:02:37,000 --> 00:02:38,000
+repo.
+
+37
+00:02:38,000 --> 00:02:44,000
+So once you have defined these Kafka related information, we need to make sure we are tagging this
+
+38
+00:02:44,000 --> 00:02:49,000
+service to the same network where we are trying to start all the remaining microservices.
+
+39
+00:02:49,000 --> 00:02:54,000
+Now let me go to the accounts micro service related configurations.
+
+40
+00:02:54,000 --> 00:02:57,000
+Here previously we used to have depends on Rabbit.
+
+41
+00:02:57,000 --> 00:03:04,000
+I have deleted that and after that I also created a new environment variable with the name Spring Cloud
+
+42
+00:03:04,000 --> 00:03:08,000
+spring_cloud_stream_kafka_binder_brokers. The same
+
+43
+00:03:08,000 --> 00:03:12,000
+we also created inside the application.yml. Inside the application.yml
+
+44
+00:03:12,000 --> 00:03:17,000
+we have mentioned the localhost, but here we need to mention what is the service name of Kafka.
+
+45
+00:03:17,000 --> 00:03:22,000
+So the service name is going to be Kafka and it is available at the port 9092.
+
+46
+00:03:22,000 --> 00:03:28,000
+The same environment variable I need to mention inside the message configuration as well.
+
+47
+00:03:28,000 --> 00:03:30,000
+So you can see here I have created the same.
+
+48
+00:03:30,000 --> 00:03:37,000
+After making all these changes, I also make sure that the tag name is updated from s13 to s14.
+
+49
+00:03:37,000 --> 00:03:41,000
+These are the only changes that I have done inside the Docker Compose files.
+
+50
+00:03:41,000 --> 00:03:47,000
+Now as a next step, I can try to start all my containers with the help of Docker compose up command.
+
+51
+00:03:47,000 --> 00:03:54,000
+Before that, I need to stop all the running instances and containers inside my local system. So I make
+
+52
+00:03:54,000 --> 00:03:57,000
+sure all my microservices are stopped.
+
+53
+00:03:57,000 --> 00:04:04,000
+We should also stop the running local Apache Kafka server for the same inside the terminal where I have
+
+54
+00:04:04,000 --> 00:04:06,000
+started my Apache Kafka server.
+
+55
+00:04:06,000 --> 00:04:13,000
+I'm going to press control C that will stop the running Kafka server. Along with the Kafka server
+
+56
+00:04:13,000 --> 00:04:19,000
+we should also stop the running container of Keycloak because behind the scenes my Docker compose file
+
+57
+00:04:19,000 --> 00:04:21,000
+is going to start a new container.
+
+58
+00:04:21,000 --> 00:04:27,000
+So now I have stopped all the running containers and running servers inside my local system.
+
+59
+00:04:27,000 --> 00:04:31,000
+As a next step, I can try to run the Docker compose command.
+
+60
+00:04:31,000 --> 00:04:36,000
+So the command is going to be docker compose up -d.
+
+61
+00:04:36,000 --> 00:04:41,000
+This will start all my containers and it is going to take couple of minutes.
+
+62
+00:04:41,000 --> 00:04:44,000
+Let me wait for this to complete behind the scenes.
+
+63
+00:04:44,000 --> 00:04:48,000
+After couple of minutes all my containers started successfully.
+
+64
+00:04:48,000 --> 00:04:53,000
+As a next step, I need to set up the client details inside the keycloak.
+
+65
+00:04:53,000 --> 00:04:53,000
+For the same,
+
+66
+00:04:53,000 --> 00:05:00,000
+I came to my keycloak website and here I'm going to click on this administration console and enter
+
+67
+00:05:00,000 --> 00:05:00,000
+the.
+
+68
+00:05:00,000 --> 00:05:01,000
+Admin credentials.
+
+69
+00:05:01,000 --> 00:05:08,000
+Post that I will try to create a new client by using this create client option and mention the client
+
+70
+00:05:08,000 --> 00:05:11,000
+id as easybank-callcenter-cc.
+
+71
+00:05:11,000 --> 00:05:18,000
+So let me click on this next button and enable this client authentication followed by disabling the
+
+72
+00:05:18,000 --> 00:05:20,000
+standard flow direct Access grants.
+
+73
+00:05:20,000 --> 00:05:24,000
+After that, I'm going to enable these service account roles.
+
+74
+00:05:24,000 --> 00:05:30,000
+Now I'm going to click on this next button, save and post that I will try to get my credentials.
+
+75
+00:05:30,000 --> 00:05:35,000
+So let me copy these credentials and mention the same inside my postman.
+
+76
+00:05:35,000 --> 00:05:39,000
+Now my client is created but it does not have enough roles assigned.
+
+77
+00:05:39,000 --> 00:05:41,000
+Let me try to assign the same.
+
+78
+00:05:41,000 --> 00:05:44,000
+Here first I'll go to Realm Roles post that
+
+79
+00:05:44,000 --> 00:05:48,000
+I'll click on this create role and create a role with the name accounts.
+
+80
+00:05:48,000 --> 00:05:54,000
+So let me save this and I'll go back to clients and open the client that we have created.
+
+81
+00:05:54,000 --> 00:05:59,000
+And here I will click on this service account roles and using this assign role, I will try to assign
+
+82
+00:05:59,000 --> 00:06:01,000
+the role with the name accounts.
+
+83
+00:06:01,000 --> 00:06:04,000
+So now we have assigned the role to our client.
+
+84
+00:06:04,000 --> 00:06:09,000
+As a next step, I can try to test the API with the help of Postman.
+
+85
+00:06:09,000 --> 00:06:14,000
+So here, first let me try to get the access token using this get new access token.
+
+86
+00:06:14,000 --> 00:06:21,000
+The same I'm going to use inside my request post that I'm going to invoke this post API by using this
+
+87
+00:06:21,000 --> 00:06:22,000
+send button.
+
+88
+00:06:22,000 --> 00:06:29,000
+After few seconds, I got a successful response now to confirm whether the communication between accounts
+
+89
+00:06:29,000 --> 00:06:30,000
+and message happened or not.
+
+90
+00:06:30,000 --> 00:06:37,000
+With the help of Kafka and asynchronous communication, we need to validate the logs available inside
+
+91
+00:06:37,000 --> 00:06:41,000
+the containers of accounts and message microservice.
+
+92
+00:06:41,000 --> 00:06:44,000
+So here, first I'm going to open the message microservice logs.
+
+93
+00:06:44,000 --> 00:06:50,000
+Here you will be able to see there are some logs related to sending email with the details and sending
+
+94
+00:06:50,000 --> 00:06:52,000
+sms with the details.
+
+95
+00:06:52,000 --> 00:06:58,000
+Along with that, there are some other details related to the consume coordinator offset information.
+
+96
+00:06:58,000 --> 00:07:03,000
+So this confirms right now my message microservice is leveraging Apache Kafka.
+
+97
+00:07:03,000 --> 00:07:09,000
+So now let me go back to the containers and open the accounts microservice container logs.
+
+98
+00:07:09,000 --> 00:07:15,000
+And here we have the log, which is is the communication request successfully triggered?
+
+99
+00:07:15,000 --> 00:07:21,000
+There is a value true and post that we also have another logger saying that updating communication status
+
+100
+00:07:21,000 --> 00:07:23,000
+for the so and so account number.
+
+101
+00:07:23,000 --> 00:07:30,000
+So this confirms that the communication between two microservice is happening with the help of event
+
+102
+00:07:30,000 --> 00:07:33,000
+streaming platform which is Apache Kafka.
+
+103
+00:07:33,000 --> 00:07:35,000
+I hope you are clear with the demo.
+
+104
+00:07:35,000 --> 00:07:40,000
+Before we try to close this section, let me confirm you that I have mentioned that all the changes
+
+105
+00:07:40,000 --> 00:07:45,000
+that we have done inside the slides as well, we have just done two changes.
+
+106
+00:07:45,000 --> 00:07:52,000
+The very first one is replacing the rabbit related maven dependency with the Kafka and Post that we
+
+107
+00:07:52,000 --> 00:07:59,000
+also updated the Kafka connection details inside the application.yml of accounts and message microservice.
+
+108
+00:07:59,000 --> 00:08:01,000
+So I just mentioned them for your quick reference.
+
+109
+00:08:01,000 --> 00:08:07,000
+I also want to confirm you that I checked in all the code that we have discussed inside this section
+
+110
+00:08:07,000 --> 00:08:13,000
+14 into this folder inside the GitHub repo and you can see the comments against this folder which is
+
+111
+00:08:13,000 --> 00:08:18,000
+event driven microservices using Kafka, Spring cloud functions and stream.
+
+112
+00:08:18,000 --> 00:08:24,000
+With this we are done discussing about the challenge, which is building event driven microservices.
+
+113
+00:08:24,000 --> 00:08:27,000
+And in the same process we explored two products.
+
+114
+00:08:27,000 --> 00:08:31,000
+One is Rabbitmq and the other one is Apache Kafka.
+
+115
+00:08:31,000 --> 00:08:37,000
+So with these information you should be able to clear any interview whenever they are trying to ask
+
+116
+00:08:37,000 --> 00:08:40,000
+you questions around the event driven microservices.
+
+117
+00:08:40,000 --> 00:08:46,000
+You can impress them by talking about the capabilities provided by the spring cloud functions and spring
+
+118
+00:08:46,000 --> 00:08:47,000
+cloud stream.
+
+119
+00:08:47,000 --> 00:08:50,000
+Before you try to close this lecture, I have a request.
+
+120
+00:08:50,000 --> 00:08:53,000
+Please provide your review to the course.
+
+121
+00:08:53,000 --> 00:08:59,000
+If you are not provided as of now, please, please take a minute and provide your feedback inside the
+
+122
+00:08:59,000 --> 00:09:00,000
+Udemy.
+
+123
+00:09:00,000 --> 00:09:06,000
+This helps me as an instructor to understand your feedback and at the same time it is also going to
+
+124
+00:09:06,000 --> 00:09:11,000
+help to reach other students who are trying to learn the microservice course.
+
+125
+00:09:11,000 --> 00:09:17,000
+If you want to share the feedback personally to me, please send a message inside Udemy or LinkedIn.
+
+126
+00:09:17,000 --> 00:09:23,000
+Or you can also send an email to me by writing an email to tutor@easybytes.com.
+
+127
+00:09:23,000 --> 00:09:30,000
+You have all my contact details inside my website, which is easybytes.com, so please spare two minutes
+
+128
+00:09:30,000 --> 00:09:31,000
+to provide your feedback.
+
+129
+00:09:31,000 --> 00:09:34,000
+Thank you and I'll catch you in the next section.
+
+130
+00:09:34,000 --> 00:09:35,000
+Bye.
+

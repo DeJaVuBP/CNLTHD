@@ -1,0 +1,280 @@
+1
+00:00:00,000 --> 00:00:05,000
+To get started with the Apache Kafka inside our microservices.
+
+2
+00:00:05,000 --> 00:00:10,000
+First, we need to make sure we set up the Apache Kafka inside our local system.
+
+3
+00:00:10,000 --> 00:00:16,000
+For the same, you can come to this official website of Kafka, which is Kafka.apache.org.
+
+4
+00:00:16,000 --> 00:00:23,000
+So here you'll be able to see a quick introduction about what is Kafka, what are its core capabilities,
+
+5
+00:00:23,000 --> 00:00:25,000
+what are its use cases ?
+
+6
+00:00:25,000 --> 00:00:27,000
+If you are interested, please read them.
+
+7
+00:00:27,000 --> 00:00:34,000
+But I just wanted to highlight here you can see the statement, which is more than 80% of the fortune
+
+8
+00:00:34,000 --> 00:00:37,000
+100 companies they trust and use Kafka.
+
+9
+00:00:37,000 --> 00:00:43,000
+And apart from this statement, you should also see some more metrics here, like ten out of ten manufacturing
+
+10
+00:00:43,000 --> 00:00:49,000
+companies, they are using Kafka, seven out of ten banks, ten out of ten insurance companies, and
+
+11
+00:00:49,000 --> 00:00:52,000
+eight out of ten telecom companies,
+
+12
+00:00:52,000 --> 00:00:59,000
+they are using Kafka. Because all the organizations that come under these domains, they produce a lot
+
+13
+00:00:59,000 --> 00:00:59,000
+of data.
+
+14
+00:00:59,000 --> 00:01:06,000
+So they need something which is capable of processing a lot of data asynchronously or with the event
+
+15
+00:01:06,000 --> 00:01:07,000
+streaming.
+
+16
+00:01:07,000 --> 00:01:11,000
+That's why they are using Apache Kafka. With this,
+
+17
+00:01:11,000 --> 00:01:18,000
+I'm assuming it also gives a confidence to you that Apache Kafka is a better product compared to the
+
+18
+00:01:18,000 --> 00:01:18,000
+Rabbitmq.
+
+19
+00:01:19,000 --> 00:01:25,000
+So to get started with the local setup of Apache Kafka, you can click on this get started and there
+
+20
+00:01:25,000 --> 00:01:27,000
+is an option Quick start.
+
+21
+00:01:27,000 --> 00:01:28,000
+So let me click on that.
+
+22
+00:01:28,000 --> 00:01:35,000
+So since I'm using the Mac OS, I have the steps that I can follow inside my Mac system.
+
+23
+00:01:35,000 --> 00:01:40,000
+If you are using Windows operating system, you may need to use corresponding commands to set up the
+
+24
+00:01:40,000 --> 00:01:42,000
+Kafka inside your local system.
+
+25
+00:01:42,000 --> 00:01:44,000
+So first there is a download link.
+
+26
+00:01:44,000 --> 00:01:47,000
+I can click on that to download the Apache Kafka.
+
+27
+00:01:47,000 --> 00:01:54,000
+From this website I can click very first link that I have which will download my Apache Kafka into my
+
+28
+00:01:54,000 --> 00:01:55,000
+local system.
+
+29
+00:01:55,000 --> 00:01:58,000
+So you can see the download is right now happening.
+
+30
+00:01:58,000 --> 00:01:59,000
+Let's wait for this to complete.
+
+31
+00:01:59,000 --> 00:02:03,000
+Meanwhile, let's try to understand what are the commands that I need to run.
+
+32
+00:02:03,000 --> 00:02:08,000
+The very first command is to extract the compressed file that it is going to download.
+
+33
+00:02:08,000 --> 00:02:14,000
+After the extraction of the file is completed, I need to go inside the folder with the name provided
+
+34
+00:02:14,000 --> 00:02:15,000
+here.
+
+35
+00:02:15,000 --> 00:02:21,000
+So once my terminal is inside my Kafka folder, I can follow the steps that they have provided here
+
+36
+00:02:21,000 --> 00:02:23,000
+to start the Kafka environment.
+
+37
+00:02:23,000 --> 00:02:29,000
+Here they have provided two approaches Kafka with Zookeeper and Kafka with KRaft.
+
+38
+00:02:29,000 --> 00:02:36,000
+So Kafka with a KRaft is a newer approach because they are trying to get rid of Zookeeper, which is
+
+39
+00:02:36,000 --> 00:02:42,000
+a extra component that we need to set up whenever we want to set up a Kafka cluster inside the local
+
+40
+00:02:42,000 --> 00:02:43,000
+system.
+
+41
+00:02:43,000 --> 00:02:49,000
+Since the approach with Zookeeper is going to be retired someday, I'm going to use the newer approach,
+
+42
+00:02:49,000 --> 00:02:51,000
+which is Kafka with the KRaft.
+
+43
+00:02:51,000 --> 00:02:53,000
+So now my download is completed.
+
+44
+00:02:53,000 --> 00:02:55,000
+Let me go to my terminal.
+
+45
+00:02:55,000 --> 00:02:58,000
+I open my terminal at the downloads location.
+
+46
+00:02:58,000 --> 00:03:04,000
+If you can try to run the pwd, you can see right now I'm at the downloads folder location.
+
+47
+00:03:04,000 --> 00:03:09,000
+Now I'm going to run this very first command to extract the compressed downloaded file.
+
+48
+00:03:09,000 --> 00:03:14,000
+So let me copy this command and mention the same inside my terminal and run the same.
+
+49
+00:03:14,000 --> 00:03:16,000
+So the extraction process is completed.
+
+50
+00:03:16,000 --> 00:03:22,000
+As a next step, I can go inside my Kafka folder, so let me run this cd command.
+
+51
+00:03:22,000 --> 00:03:26,000
+Now I can try to run the commands that they have provided inside the website.
+
+52
+00:03:26,000 --> 00:03:27,000
+Inside this page,
+
+53
+00:03:27,000 --> 00:03:33,000
+if you can scroll down to the steps that they have mentioned under the Kafka with the KRaft section.
+
+54
+00:03:33,000 --> 00:03:39,000
+First, I need to run this command, which is I want to generate a random cluster ID and assign the
+
+55
+00:03:39,000 --> 00:03:41,000
+same to my Kafka cluster.
+
+56
+00:03:41,000 --> 00:03:43,000
+So let me run this first command.
+
+57
+00:03:43,000 --> 00:03:46,000
+Once the first command is completed, try to run the second command.
+
+58
+00:03:46,000 --> 00:03:48,000
+So this is the second command.
+
+59
+00:03:48,000 --> 00:03:50,000
+Let me copy this entire command.
+
+60
+00:03:50,000 --> 00:03:56,000
+I'll go to my terminal and here I'm going to run the same. Once the second command is also completed.
+
+61
+00:03:56,000 --> 00:04:00,000
+Finally, we can run the third command to run the Kafka server.
+
+62
+00:04:00,000 --> 00:04:02,000
+So this is the third command.
+
+63
+00:04:02,000 --> 00:04:10,000
+Let me try to copy the same and mention the same here and execute it. With this you can see my Kafka
+
+64
+00:04:10,000 --> 00:04:13,000
+started at the port 9092.
+
+65
+00:04:13,000 --> 00:04:18,000
+So this is the place where my Kafka broker is going to be available.
+
+66
+00:04:18,000 --> 00:04:23,000
+So with this now, we have successfully set up the Kafka inside the local system.
+
+67
+00:04:23,000 --> 00:04:28,000
+In the next lecture, let's try to update our accounts and message microservices code to connect to
+
+68
+00:04:28,000 --> 00:04:35,000
+this Kafka and leverage Kafka for event streaming and asynchronous communication.
+
+69
+00:04:35,000 --> 00:04:35,000
+Thank you.
+
+70
+00:04:35,000 --> 00:04:38,000
+And I'll catch you in the next lecture bye.
+
