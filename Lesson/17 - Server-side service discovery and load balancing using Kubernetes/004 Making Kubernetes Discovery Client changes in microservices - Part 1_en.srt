@@ -1,0 +1,536 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:08,000
+let's try to make all the required changes inside our microservices to get rid of Eureka Server and
+
+3
+00:00:08,000 --> 00:00:14,000
+use that Discovery server available inside the Kubernetes cluster. For the same first, I'll get started
+
+4
+00:00:14,000 --> 00:00:16,000
+with the accounts microservice.
+
+5
+00:00:16,000 --> 00:00:21,000
+Inside this, I'll go to the pom.xml and here first I'll try to update that tag name.
+
+6
+00:00:21,000 --> 00:00:30,000
+So I'll change this to s17 because right now we are into the section_17.Post that I will look for Eureka
+
+7
+00:00:30,000 --> 00:00:31,000
+dependency.
+
+8
+00:00:31,000 --> 00:00:37,000
+So as of now you can see we are using that dependency with the name Spring Cloud starter Netflix Eureka
+
+9
+00:00:37,000 --> 00:00:37,000
+Client.
+
+10
+00:00:37,000 --> 00:00:44,000
+So instead of this dependency, I'm going to use a dependency with the name Spring cloud starter Kubernetes
+
+11
+00:00:44,000 --> 00:00:46,000
+hyphen discovery client.
+
+12
+00:00:46,000 --> 00:00:50,000
+So let me save this changes and do a maven refresh.
+
+13
+00:00:50,000 --> 00:00:53,000
+Once that is completed, I'll try to do a build.
+
+14
+00:00:53,000 --> 00:00:58,000
+As soon as I try to do a build, I'm getting an error inside my CustomerController.
+
+15
+00:00:58,000 --> 00:01:05,000
+Seems whenever I deleted the Eureka client related dependency, it is internally is also going to delete
+
+16
+00:01:05,000 --> 00:01:07,000
+the interrelated dependencies.
+
+17
+00:01:07,000 --> 00:01:10,000
+That's why I'm getting these https related error.
+
+18
+00:01:10,000 --> 00:01:11,000
+So let me remove this.
+
+19
+00:01:11,000 --> 00:01:19,000
+And with that my spring boot will try to use one of the https available at this package which is 
+
+20
+00:01:19,000 --> 00:01:24,000
+org.apache.hc.core5.http.HttpStatus.
+
+21
+00:01:24,000 --> 00:01:29,000
+So let me try to do a build again to make sure there are no compilation errors.
+
+22
+00:01:29,000 --> 00:01:31,000
+So now I don't have any compilation errors.
+
+23
+00:01:31,000 --> 00:01:33,000
+I can close this now
+
+24
+00:01:33,000 --> 00:01:37,000
+I'll go to the spring boot main class inside my accounts microservice.
+
+25
+00:01:37,000 --> 00:01:44,000
+So here on top of these AccountsApplication class we need to mention an annotation which is 
+
+26
+00:01:44,000 --> 00:01:47,000
+@EnableDiscoveryClient.
+
+27
+00:01:47,000 --> 00:01:50,000
+So this is the annotation that I have mentioned just now.
+
+28
+00:01:50,000 --> 00:01:52,000
+Please make sure you also mention the same.
+
+29
+00:01:52,000 --> 00:01:54,000
+So let me save this and close this file.
+
+30
+00:01:54,000 --> 00:02:00,000
+Now I'll go to the application.yml file because inside the application.yml we have defined
+
+31
+00:02:00,000 --> 00:02:03,000
+a lot many configurations related to the Eureka.
+
+32
+00:02:03,000 --> 00:02:07,000
+First, let me try to delete all the eureka related configurations.
+
+33
+00:02:07,000 --> 00:02:13,000
+So here I'll search for Eureka and these are all the properties related to Eureka.
+
+34
+00:02:13,000 --> 00:02:17,000
+So let me select all of them and delete them. And post that,
+
+35
+00:02:17,000 --> 00:02:23,000
+now we need to add a property or configuration related to the Discovery server of Kubernetes.
+
+36
+00:02:23,000 --> 00:02:28,000
+So this property we need to mention under the spring.cloud.
+
+37
+00:02:28,000 --> 00:02:34,000
+So let me go to the top and here I have the cloud element and this cloud, I'm going to mention a new
+
+38
+00:02:34,000 --> 00:02:42,000
+property which is spring.cloud.kubernetes.discovery.all-namespaces as true.
+
+39
+00:02:42,000 --> 00:02:44,000
+So what is the purpose of this property?
+
+40
+00:02:44,000 --> 00:02:50,000
+As of now, we are deploying all our microservices into that default namespace of Kubernetes.
+
+41
+00:02:50,000 --> 00:02:56,000
+But sometimes some projects they may deploy different, different applications in different, different
+
+42
+00:02:56,000 --> 00:02:57,000
+namespaces.
+
+43
+00:02:57,000 --> 00:03:05,000
+So in such scenarios, to make sure that our application is able to discover the services present inside
+
+44
+00:03:05,000 --> 00:03:10,000
+other namespaces as well, we need to make sure we are mentioning these all namespaces as true.
+
+45
+00:03:10,000 --> 00:03:12,000
+I hope you are clear with this property.
+
+46
+00:03:12,000 --> 00:03:19,000
+Now as a next step, let me go to the location where we are using feign client to connect with the other
+
+47
+00:03:19,000 --> 00:03:22,000
+microservices inside my accounts microservice.
+
+48
+00:03:22,000 --> 00:03:26,000
+Under the service package, we can open the folder which is client.
+
+49
+00:03:26,000 --> 00:03:33,000
+So under this client package itself, we have the interfaces with the name CardFeignClient and
+
+50
+00:03:33,000 --> 00:03:34,000
+LoansFeignClient.
+
+51
+00:03:34,000 --> 00:03:36,000
+First let me open the CardsFeignClient.
+
+52
+00:03:36,000 --> 00:03:43,000
+So whatever configurations we have defined here, they will work perfectly with the Eureka Server because
+
+53
+00:03:43,000 --> 00:03:49,000
+inside the Eureka Server, all my applications are going to be registered with the application name
+
+54
+00:03:49,000 --> 00:03:50,000
+as cards.
+
+55
+00:03:50,000 --> 00:03:53,000
+Using the same application name my accounts
+
+56
+00:03:53,000 --> 00:03:59,000
+microservice can fetch the details of all the instances of cards microservice from the Eureka server.
+
+57
+00:03:59,000 --> 00:04:05,000
+We also provided the Eureka server connection details inside the application.yml so there is a clear integration
+
+58
+00:04:05,000 --> 00:04:11,000
+between your accounts microservice and Eureka Server and using the same integration, it is going to
+
+59
+00:04:11,000 --> 00:04:17,000
+use this name which we have defined here, which is cards to get the details of cards, microservice
+
+60
+00:04:17,000 --> 00:04:17,000
+instances.
+
+61
+00:04:17,000 --> 00:04:23,000
+But in the scenario of Discovery server, we are not providing any integration details between our accounts,
+
+62
+00:04:23,000 --> 00:04:25,000
+microservice and Discovery Server.
+
+63
+00:04:25,000 --> 00:04:25,000
+Nowhere
+
+64
+00:04:25,000 --> 00:04:31,000
+I have mentioned that Discovery server details, so that's why my feign clients cannot really understand
+
+65
+00:04:31,000 --> 00:04:38,000
+what is the service name or the host name or the dns name or the port number where it has to forward
+
+66
+00:04:38,000 --> 00:04:38,000
+the request.
+
+67
+00:04:38,000 --> 00:04:44,000
+So to resolve this issue, we need to provide details with the parameter which is URL.
+
+68
+00:04:44,000 --> 00:04:50,000
+So inside the annotation of  Feign client, apart from the name as cards, we should also mention what is the
+
+69
+00:04:50,000 --> 00:04:55,000
+url at which my cards microservice is available.
+
+70
+00:04:55,000 --> 00:04:57,000
+So what is the name that we have given for the cards
+
+71
+00:04:57,000 --> 00:04:58,000
+microservice service.
+
+72
+00:04:58,000 --> 00:04:59,000
+It is the cards
+
+73
+00:04:59,000 --> 00:05:00,000
+only.
+
+74
+00:05:00,000 --> 00:05:05,000
+So using this service name the communication between accounts microservice and cards
+
+75
+00:05:05,000 --> 00:05:12,000
+microservice is going to happen within the Kubernetes cluster and where all my cards microservice containers
+
+76
+00:05:12,000 --> 00:05:15,000
+are going to be available at the Port 9000.
+
+77
+00:05:15,000 --> 00:05:19,000
+So this is the only detail that we need to provide to the Feign client.
+
+78
+00:05:19,000 --> 00:05:23,000
+And here the Feign client is not going to perform any load balancing.
+
+79
+00:05:23,000 --> 00:05:29,000
+It is simply going to forward the request to this URL inside the Kubernetes cluster.
+
+80
+00:05:29,000 --> 00:05:34,000
+If the same is happening outside the Kubernetes cluster, then it is not going to work because outside
+
+81
+00:05:34,000 --> 00:05:38,000
+of your Kubernetes cluster there is no hostname or dns name with the name cards.
+
+82
+00:05:38,000 --> 00:05:44,000
+So that's why whenever you are trying to do some local testing without Kubernetes cluster, try to give
+
+83
+00:05:44,000 --> 00:05:46,000
+your localhost URL.
+
+84
+00:05:46,000 --> 00:05:52,000
+So now very similarly, let me try to mention the same inside the LoansFeignClient as well.
+
+85
+00:05:52,000 --> 00:05:56,000
+So here also I'm going to mention the same URL.
+
+86
+00:05:56,000 --> 00:06:02,000
+Here the service name is going to be loans and the port number is going to be 8090.
+
+87
+00:06:02,000 --> 00:06:04,000
+I hope you are clear with these changes.
+
+88
+00:06:04,000 --> 00:06:05,000
+So let me close all these accounts
+
+89
+00:06:05,000 --> 00:06:07,000
+microservice related files.
+
+90
+00:06:07,000 --> 00:06:10,000
+We should be good from accounts microservice perspective.
+
+91
+00:06:10,000 --> 00:06:18,000
+So as a next step, I'll go to the cards and here also first I'll open the pom.xml In the place of Eureka,
+
+92
+00:06:18,000 --> 00:06:24,000
+we are going to add a new dependency with the name Spring Cloud starter Kubernetes Discovery client.
+
+93
+00:06:24,000 --> 00:06:30,000
+After this, I'm going to update the tag name from s14 to s17.
+
+94
+00:06:30,000 --> 00:06:32,000
+So let me load the Maven changes.
+
+95
+00:06:32,000 --> 00:06:36,000
+Once this is complete, I'm going to do a build. As a next step,
+
+96
+00:06:36,000 --> 00:06:39,000
+I'll go to the cards Microservice main class.
+
+97
+00:06:39,000 --> 00:06:41,000
+So here I'll open the CardsApplication.
+
+98
+00:06:41,000 --> 00:06:49,000
+On top of this we need to mention an annotation which is @EnableDiscoveryClient.
+
+99
+00:06:49,000 --> 00:06:55,000
+Next I'll go to the application.yml file present inside the accounts microservice and here I will
+
+100
+00:06:55,000 --> 00:07:00,000
+look for Eureka and I will delete all these properties.
+
+101
+00:07:00,000 --> 00:07:06,000
+Post that I will search for cloud and here I don't have any cloud related properties.
+
+102
+00:07:06,000 --> 00:07:13,000
+So what I can do is just after this spring I can create a new element with the name cloud.
+
+103
+00:07:13,000 --> 00:07:15,000
+So let me create the same here.
+
+104
+00:07:15,000 --> 00:07:18,000
+So just under the config, I'm going to create cloud.
+
+105
+00:07:18,000 --> 00:07:24,000
+Now under this cloud we are going to define a property related to the Kubernetes Discovery server.
+
+106
+00:07:24,000 --> 00:07:27,000
+The property is same as like we discussed inside the accounts
+
+107
+00:07:27,000 --> 00:07:31,000
+microservice. Like Kubernetes Discovery all namespace as true.
+
+108
+00:07:31,000 --> 00:07:35,000
+So with this we should be good with all the changes inside the cards
+
+109
+00:07:35,000 --> 00:07:41,000
+microservice. I don't have to make any fin client related changes because my cards microservice does
+
+110
+00:07:41,000 --> 00:07:44,000
+not have any fin client related business logic.
+
+111
+00:07:44,000 --> 00:07:51,000
+So let me close all these files and I'll go to the loans microservice to make the similar changes.
+
+112
+00:07:51,000 --> 00:07:57,000
+First I'll go to the application.yml and just after this config I'm going to paste the same property
+
+113
+00:07:57,000 --> 00:08:03,000
+which is cloud.kubernetes.discovery.allnamespace as true.
+
+114
+00:08:03,000 --> 00:08:05,000
+Next I'll go to the pom.xml.
+
+115
+00:08:05,000 --> 00:08:12,000
+Inside the pom.xml I will look for Eureka and I will remove this dependency in the same place,
+
+116
+00:08:12,000 --> 00:08:17,000
+I'm going to add a new dependency which is spring cloud starter kubernetes discovery client.
+
+117
+00:08:17,000 --> 00:08:24,000
+Next, let me update the tag name from s14 to s17 and load the Maven changes. As a next step,
+
+118
+00:08:24,000 --> 00:08:29,000
+I'll go to the main class inside the loans microservice.
+
+119
+00:08:29,000 --> 00:08:36,000
+Here, I'm going to mention an annotation which is @EnableDiscoveryClient.
+
+120
+00:08:36,000 --> 00:08:39,000
+So with this we should be good with all the changes inside the loans
+
+121
+00:08:39,000 --> 00:08:42,000
+microservice. As a next step, let me go to the config server.
+
+122
+00:08:42,000 --> 00:08:48,000
+Inside the config server, we are nowhere connecting with the Eureka server. So there is no need of any
+
+123
+00:08:48,000 --> 00:08:53,000
+changes except the updating the tag name to the s17.
+
+124
+00:08:53,000 --> 00:08:58,000
+Just to be consistent, I'm trying to update the tag name to s17 and load the maven changes,
+
+125
+00:08:58,000 --> 00:08:59,000
+do a build.
+
+126
+00:08:59,000 --> 00:09:04,000
+Very similar changes we have to do inside the message microservice as well.
+
+127
+00:09:04,000 --> 00:09:09,000
+The message microservice also does not have any integration with the Eureka server.
+
+128
+00:09:09,000 --> 00:09:15,000
+We should be good if we just update the tag name from s14 to s17.
+
+129
+00:09:15,000 --> 00:09:21,000
+So now if you see, we have done all the required changes in all the microservices except the Gateway
+
+130
+00:09:21,000 --> 00:09:21,000
+server.
+
+131
+00:09:21,000 --> 00:09:27,000
+So let's try to continue this discussion and make the changes inside the Gateway server as well in the
+
+132
+00:09:27,000 --> 00:09:28,000
+next lecture.
+
+133
+00:09:28,000 --> 00:09:28,000
+Thank you.
+
+134
+00:09:28,000 --> 00:09:29,000
+Bye.
+

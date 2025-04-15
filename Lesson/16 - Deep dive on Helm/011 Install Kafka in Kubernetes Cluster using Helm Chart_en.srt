@@ -1,0 +1,464 @@
+1
+00:00:00,000 --> 00:00:05,000
+As of now, we successfully installed keycloak component inside our Kubernetes cluster.
+
+2
+00:00:05,000 --> 00:00:08,000
+You can confirm the same by going into these pods.
+
+3
+00:00:08,000 --> 00:00:14,000
+Here we have two pods one related to keycloak, the other one related to keycloak PostgreSQL.
+
+4
+00:00:14,000 --> 00:00:16,000
+Similarly, you can check services.
+
+5
+00:00:16,000 --> 00:00:19,000
+You should be able to see services related to keycloak,
+
+6
+00:00:19,000 --> 00:00:22,000
+you can confirm the same under config maps secrets.
+
+7
+00:00:22,000 --> 00:00:26,000
+So in all the locations we have components related to keycloak.
+
+8
+00:00:26,000 --> 00:00:29,000
+So this confirms the keycloak installation is complete.
+
+9
+00:00:29,000 --> 00:00:35,000
+But for some reason if you uninstall the helm chart of keycloak or any helm chart with the help of
+
+10
+00:00:35,000 --> 00:00:40,000
+helm uninstall and try to install again, sometimes you may face some issues.
+
+11
+00:00:40,000 --> 00:00:42,000
+Your installation may not be successful.
+
+12
+00:00:42,000 --> 00:00:48,000
+The reason is, as of now, there is a defect in Helm which is related to the persistent volume claims.
+
+13
+00:00:48,000 --> 00:00:55,000
+So using these PVC or persistent volume claims, only the pods can climb some space inside the worker
+
+14
+00:00:55,000 --> 00:00:55,000
+nodes.
+
+15
+00:00:55,000 --> 00:01:02,000
+So whenever you try to uninstall a specific helm chart from your Kubernetes cluster, it is not going
+
+16
+00:01:02,000 --> 00:01:08,000
+to delete the PVCs that is created as part of the installation and this may create some issues.
+
+17
+00:01:08,000 --> 00:01:12,000
+So to overcome the problem, you have to delete the PVCs manually.
+
+18
+00:01:12,000 --> 00:01:15,000
+So like you can see here we have two PVCs.
+
+19
+00:01:15,000 --> 00:01:20,000
+One is related to keycloak, the other one is related to the Happy Panda Mariadb.
+
+20
+00:01:20,000 --> 00:01:26,000
+That means though we have uninstalled the WordPress related helm chart, there is still a PVC available
+
+21
+00:01:26,000 --> 00:01:29,000
+inside our Kubernetes cluster. So we don't want to retain this,
+
+22
+00:01:29,000 --> 00:01:34,000
+otherwise next time, if you try to install WordPress again, it is not going to work.
+
+23
+00:01:34,000 --> 00:01:36,000
+So to overcome this problem, I can delete this.
+
+24
+00:01:36,000 --> 00:01:37,000
+To delete
+
+25
+00:01:37,000 --> 00:01:38,000
+there are two options.
+
+26
+00:01:38,000 --> 00:01:40,000
+I can straight away select this one and post this
+
+27
+00:01:40,000 --> 00:01:42,000
+I can click on this delete button.
+
+28
+00:01:42,000 --> 00:01:44,000
+The other option is from the terminal
+
+29
+00:01:44,000 --> 00:01:49,000
+we can execute a command which is cubectl get pvc.
+
+30
+00:01:49,000 --> 00:01:52,000
+So this will list all the PVCs available.
+
+31
+00:01:52,000 --> 00:01:55,000
+And here I want to delete these first two PVC.
+
+32
+00:01:55,000 --> 00:01:59,000
+So let me try to execute this command, which is Cube Ctl.
+
+33
+00:01:59,000 --> 00:02:02,000
+delete pvc and what is the PVC name?
+
+34
+00:02:02,000 --> 00:02:05,000
+So with this my PVC will get deleted.
+
+35
+00:02:05,000 --> 00:02:11,000
+And next time if you try to install your WordPress related helm chart, they should not be any issues.
+
+36
+00:02:11,000 --> 00:02:15,000
+This is one of the limitation that I want to highlight about the helm uninstall command.
+
+37
+00:02:15,000 --> 00:02:20,000
+So as a next step, let's try to set up Kafka component with the help of Helm chart.
+
+38
+00:02:20,000 --> 00:02:27,000
+For the same, I'm going to take the Kafka related helm chart and paste the same inside the location
+
+39
+00:02:27,000 --> 00:02:30,000
+where we are maintaining all the remaining helm charts.
+
+40
+00:02:30,000 --> 00:02:35,000
+So I'm going to check in this entire folder into the GitHub repo so that you don't have to do all the
+
+41
+00:02:35,000 --> 00:02:39,000
+steps that I'm trying to do, like changing the values inside the values.yaml.
+
+42
+00:02:39,000 --> 00:02:46,000
+So now if I try to install this Kafka helm chart, it is going to have all production ready standards.
+
+43
+00:02:46,000 --> 00:02:51,000
+But I don't want to follow that because this is my local system and I don't have such a high capacity
+
+44
+00:02:51,000 --> 00:02:53,000
+inside my local system.
+
+45
+00:02:53,000 --> 00:02:59,000
+So to overcome this challenge, we can go to the Kafka Helm chart and open the values.yaml here, I'm
+
+46
+00:02:59,000 --> 00:03:03,000
+going to first search for the property, which is replica count.
+
+47
+00:03:03,000 --> 00:03:05,000
+You can see here we have the replica count as three.
+
+48
+00:03:05,000 --> 00:03:14,000
+With this, my helm chart is going to create three Kafka broker nodes inside my local Kubernetes, which
+
+49
+00:03:14,000 --> 00:03:20,000
+we don't want because that will slow down my system in real production applications only your Kafka
+
+50
+00:03:20,000 --> 00:03:26,000
+admin is going to control all these replica count and other values. For our local testing,
+
+51
+00:03:26,000 --> 00:03:28,000
+we need to change this value to three, two, one.
+
+52
+00:03:28,000 --> 00:03:35,000
+And apart from this change, I also want to reduce some security related communication because inside
+
+53
+00:03:35,000 --> 00:03:39,000
+production, always the communication with Kafka is going to be secured.
+
+54
+00:03:39,000 --> 00:03:45,000
+But inside local system, I don't want to follow that and set up complex security communication.
+
+55
+00:03:45,000 --> 00:03:51,000
+So to change this, I can search for a value which is SASL_PLAINTEXT.
+
+56
+00:03:51,000 --> 00:03:57,000
+So as of now, you can see at many places the protocol is mentioned as SASL_PLAINTEXT.
+
+57
+00:03:57,000 --> 00:03:59,000
+So this is the security protocol
+
+58
+00:03:59,000 --> 00:04:00,000
+By default
+
+59
+00:04:00,000 --> 00:04:02,000
+my Kafka is going to leverage.
+
+60
+00:04:02,000 --> 00:04:09,000
+So to change this and to reduce the security inside my local setup, I can simply change the value to
+
+61
+00:04:09,000 --> 00:04:10,000
+the plain text.
+
+62
+00:04:10,000 --> 00:04:13,000
+So here I'm going to remove this prefix, which is SASL.
+
+63
+00:04:13,000 --> 00:04:19,000
+So you can also see there are comments like what are other allowed values, plain text, SSL plain
+
+64
+00:04:19,000 --> 00:04:21,000
+text, SASL_SSL and SSL.
+
+65
+00:04:21,000 --> 00:04:25,000
+So these are all the valid values for our local testing,
+
+66
+00:04:25,000 --> 00:04:31,000
+we are going to use the plain text and this value is going to present at multiple locations inside your
+
+67
+00:04:31,000 --> 00:04:32,000
+values.yaml.
+
+68
+00:04:32,000 --> 00:04:34,000
+So let me search for the next value here
+
+69
+00:04:34,000 --> 00:04:37,000
+also, I have let me replace this to plain text.
+
+70
+00:04:37,000 --> 00:04:39,000
+Let me search one more time.
+
+71
+00:04:39,000 --> 00:04:42,000
+You can ignore the value present inside the comments here I have
+
+72
+00:04:42,000 --> 00:04:44,000
+so let me change this and post that
+
+73
+00:04:44,000 --> 00:04:47,000
+let me look for one more match
+
+74
+00:04:47,000 --> 00:04:49,000
+and I also have a match here.
+
+75
+00:04:49,000 --> 00:04:50,000
+So let me change this value.
+
+76
+00:04:50,000 --> 00:04:55,000
+And now I'll search one more time and I don't have any matches.
+
+77
+00:04:55,000 --> 00:04:58,000
+So all the matches right now are in the comment files only.
+
+78
+00:04:58,000 --> 00:04:59,000
+So with this now I have
+
+79
+00:04:59,000 --> 00:05:05,000
+change the security communication from plain text to plain text.
+
+80
+00:05:05,000 --> 00:05:07,000
+So now we should be good with these values.
+
+81
+00:05:07,000 --> 00:05:10,000
+Let me try to set up my Kafka with the help of Helm.
+
+82
+00:05:10,000 --> 00:05:11,000
+So here
+
+83
+00:05:11,000 --> 00:05:15,000
+first, I need to make sure I'm in the right location.
+
+84
+00:05:15,000 --> 00:05:21,000
+So inside this folder I have the Kafka helm chart so I can try to run the command, which is helm install.
+
+85
+00:05:21,000 --> 00:05:25,000
+And what is the name that we want to give to the installation or the release?
+
+86
+00:05:25,000 --> 00:05:28,000
+So I'll simply give Kafka only and the name of the helm chart.
+
+87
+00:05:28,000 --> 00:05:31,000
+The name of the helm chart is Kafka itself.
+
+88
+00:05:31,000 --> 00:05:36,000
+But before we try to run this command, we forget we need to run the dependencies, build command.
+
+89
+00:05:36,000 --> 00:05:37,000
+Let's see if it is going to work.
+
+90
+00:05:37,000 --> 00:05:39,000
+So here also it is failing.
+
+91
+00:05:39,000 --> 00:05:42,000
+So I need to make sure I'm running that dependencies build command.
+
+92
+00:05:42,000 --> 00:05:47,000
+So let me go inside the Kafka and run the command, which is helm dependencies build.
+
+93
+00:05:47,000 --> 00:05:49,000
+So here I'm trying to run the same.
+
+94
+00:05:49,000 --> 00:05:54,000
+Once the build is completed, we can navigate back to the parent folder and run the command, which
+
+95
+00:05:54,000 --> 00:05:56,000
+is Helm install, Kafka 
+
+96
+00:05:56,000 --> 00:05:57,000
+Kafka.
+
+97
+00:05:57,000 --> 00:06:03,000
+So if I try to run this command, the Kafka installation will happen inside my local Kubernetes cluster.
+
+98
+00:06:03,000 --> 00:06:10,000
+So here in the output, you can see there is an information like each Kafka broker can be accessed by
+
+99
+00:06:10,000 --> 00:06:15,000
+producers via Port 9092 by using the DNS name.
+
+100
+00:06:15,000 --> 00:06:22,000
+So these are DNS name that we need to consider to provide to the accounts microservice and message microservice.
+
+101
+00:06:22,000 --> 00:06:27,000
+Because they need to connect to this Kafka broker to send the information asynchronously.
+
+102
+00:06:27,000 --> 00:06:34,000
+So the same value I have mentioned inside the config map values that we have defined inside all the
+
+103
+00:06:34,000 --> 00:06:36,000
+environment Helm charts.
+
+104
+00:06:36,000 --> 00:06:37,000
+I hope this is clear.
+
+105
+00:06:37,000 --> 00:06:41,000
+And here there are also other instructions which we can follow.
+
+106
+00:06:41,000 --> 00:06:46,000
+If you want to test our Kubernetes cluster by sending a sample message, that's fine.
+
+107
+00:06:46,000 --> 00:06:51,000
+We don't have to follow all this because anyway, we are going to test them using our applications.
+
+108
+00:06:51,000 --> 00:06:55,000
+So now my helm chart installed a Kafka inside my Kubernetes cluster.
+
+109
+00:06:55,000 --> 00:06:59,000
+I can also validate the same inside my Kubernetes dashboard.
+
+110
+00:06:59,000 --> 00:07:01,000
+So here I'll go to the parts.
+
+111
+00:07:01,000 --> 00:07:04,000
+Under parts you will be able to see Kafka related part.
+
+112
+00:07:04,000 --> 00:07:08,000
+And similarly, if I go to the services, there is Kafka related service.
+
+113
+00:07:08,000 --> 00:07:11,000
+All of them are defined as cluster IP.
+
+114
+00:07:11,000 --> 00:07:12,000
+I'm fine with that.
+
+115
+00:07:12,000 --> 00:07:19,000
+So this confirms that Kafka setup into the Kubernetes cluster with the help of Helm chart is also complete.
+
+116
+00:07:19,000 --> 00:07:22,000
+Thank you, and I'll catch you in the next lecture bye.
+

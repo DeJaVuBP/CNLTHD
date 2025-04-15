@@ -1,0 +1,208 @@
+1
+00:00:01,000 --> 00:00:06,000
+Inside this lecture, I'm going to quickly revise all the helm commands that we have discussed.
+
+2
+00:00:06,000 --> 00:00:10,000
+The very first command that we have here is, helm create command.
+
+3
+00:00:10,000 --> 00:00:17,000
+With the help of these helm create command, we can create a blank chart or a default helm chart with
+
+4
+00:00:17,000 --> 00:00:18,000
+a given name.
+
+5
+00:00:18,000 --> 00:00:23,000
+So whenever you generate a helm chart with the help of Helm create inside the chart folder, you should
+
+6
+00:00:23,000 --> 00:00:28,000
+be able to see charts.yaml, values.yaml charts folder and templates folder.
+
+7
+00:00:28,000 --> 00:00:32,000
+And the next command that we have here is helm dependencies build.
+
+8
+00:00:32,000 --> 00:00:37,000
+So like we discussed, with the help of this command, we can build a specific helm chart and if there
+
+9
+00:00:37,000 --> 00:00:43,000
+are any dependencies defined in that chart, all the dependencies charts are going to be compiled under
+
+10
+00:00:43,000 --> 00:00:45,000
+copied under the charts folder.
+
+11
+00:00:45,000 --> 00:00:52,000
+The next command we have is helm install command and to this install command we need to provide what
+
+12
+00:00:52,000 --> 00:00:58,000
+is the name of the release and followed by what is the chart name or the folder name where your chart
+
+13
+00:00:58,000 --> 00:00:59,000
+is present.
+
+14
+00:00:59,000 --> 00:01:04,000
+So whenever we run this helm install command all the deployment instructions that you have provided
+
+15
+00:01:04,000 --> 00:01:11,000
+inside your chart and your dependent charts are going to be installed by the helm behind the scenes.
+
+16
+00:01:11,000 --> 00:01:18,000
+And for some reason, if you want to deploy new changes, then you can update your helm chart and recompile
+
+17
+00:01:18,000 --> 00:01:20,000
+it and post that,
+
+18
+00:01:20,000 --> 00:01:25,000
+you can run the helm upgrade command and whenever you want to roll back to a previous working release
+
+19
+00:01:25,000 --> 00:01:27,000
+or previous working revision.
+
+20
+00:01:27,000 --> 00:01:32,000
+First, you need to understand the history of your helm installations, but at the same you can use
+
+21
+00:01:32,000 --> 00:01:36,000
+the helm History command along with the name of the release.
+
+22
+00:01:36,000 --> 00:01:42,000
+Once you clear to which revision you want to roll back, you can run the helm rollback command by providing
+
+23
+00:01:42,000 --> 00:01:45,000
+the release name and the revision number to which you want to roll back.
+
+24
+00:01:45,000 --> 00:01:51,000
+If you don't mention any revision number, then Helm is going to roll back to the immediate previous
+
+25
+00:01:51,000 --> 00:01:52,000
+revision number.
+
+26
+00:01:52,000 --> 00:01:59,000
+And in the scenarios where you want to completely uninstall or delete all your microservices from your
+
+27
+00:01:59,000 --> 00:02:05,000
+Kubernetes cluster, you can run the helm uninstall command by providing the what is the release name
+
+28
+00:02:05,000 --> 00:02:06,000
+that you have used.
+
+29
+00:02:06,000 --> 00:02:12,000
+And the next command that we have here is Helm template, and with the help of Helm Template Command,
+
+30
+00:02:12,000 --> 00:02:18,000
+we can try to render the all the Kubernetes manifest files that your helm is going to use behind the
+
+31
+00:02:18,000 --> 00:02:21,000
+scenes whenever the actual installation is going to happen.
+
+32
+00:02:21,000 --> 00:02:24,000
+So this will help you to debug any issues.
+
+33
+00:02:24,000 --> 00:02:30,000
+And the last command here we have is helm ls, and this is going to list all the releases that you
+
+34
+00:02:30,000 --> 00:02:32,000
+have done with the help of Helm.
+
+35
+00:02:32,000 --> 00:02:33,000
+I hope you are clear.
+
+36
+00:02:33,000 --> 00:02:38,000
+Please refer this slide whenever you want to quickly refresh your helm knowledge before I try to close
+
+37
+00:02:38,000 --> 00:02:39,000
+this lecture.
+
+38
+00:02:39,000 --> 00:02:45,000
+I also want to confirm you that I checked in all the helm files that we have discussed into this GitHub
+
+39
+00:02:45,000 --> 00:02:47,000
+repo under this section 16.
+
+40
+00:02:47,000 --> 00:02:52,000
+If you go inside that there is a helm folder and inside that we have all the helm charts that we have
+
+41
+00:02:52,000 --> 00:02:53,000
+discussed.
+
+42
+00:02:53,000 --> 00:03:00,000
+So please leverage them if you want to try helm inside your local system or inside any cloud environment.
+
+43
+00:03:00,000 --> 00:03:05,000
+In the coming sections, we are also going to deploy all these helm charts into the cloud environment.
+
+44
+00:03:05,000 --> 00:03:11,000
+So that it is also going to be useful information for you to understand how the actual cloud environment
+
+45
+00:03:11,000 --> 00:03:13,000
+deployment will happen.
+
+46
+00:03:13,000 --> 00:03:18,000
+Most of the stuff is going to be very similar to what we have done inside the local system, except
+
+47
+00:03:18,000 --> 00:03:23,000
+that your Kubernetes cluster capacity will be more inside the cloud.
+
+48
+00:03:23,000 --> 00:03:26,000
+With this, we can conclude this section related to help.
+
+49
+00:03:26,000 --> 00:03:29,000
+I'm assuming your super, super clear about the helm.
+
+50
+00:03:29,000 --> 00:03:33,000
+Please take a break and we can meet again in the next section.
+
+51
+00:03:33,000 --> 00:03:34,000
+Thank you.
+
+52
+00:03:34,000 --> 00:03:34,000
+Bye.
+

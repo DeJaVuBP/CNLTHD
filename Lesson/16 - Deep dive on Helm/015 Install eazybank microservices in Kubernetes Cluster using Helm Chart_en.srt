@@ -1,0 +1,656 @@
+1
+00:00:00,000 --> 00:00:07,000
+Finally, we are going to deploy our microservices into the Kubernetes cluster with the help of Helm.
+
+2
+00:00:07,000 --> 00:00:13,000
+I promise you previously, whenever we are using Helm, we can install all our microservices with a
+
+3
+00:00:13,000 --> 00:00:14,000
+single command.
+
+4
+00:00:14,000 --> 00:00:15,000
+The same
+
+5
+00:00:15,000 --> 00:00:18,000
+I'm going to show you a demo inside this lecture. For the same,
+
+6
+00:00:18,000 --> 00:00:24,000
+first, let's make sure you are inside the environments folder and inside these environments folder,
+
+7
+00:00:24,000 --> 00:00:28,000
+we have three charts related to dev, prod and qa environment.
+
+8
+00:00:28,000 --> 00:00:34,000
+First, we need to decide under which environment we want to deploy our microservices.
+
+9
+00:00:34,000 --> 00:00:38,000
+Let's imagine we want to deploy our microservices into production.
+
+10
+00:00:38,000 --> 00:00:45,000
+So once we selected these production environment, we need to run a command which is helm install.
+
+11
+00:00:45,000 --> 00:00:46,000
+What is the release name?
+
+12
+00:00:46,000 --> 00:00:50,000
+The release name I can give here is easybank and post that
+
+13
+00:00:50,000 --> 00:00:52,000
+what is the chat name.
+
+14
+00:00:52,000 --> 00:00:59,000
+The chat name that I want to consider here is prod env because we are trying to deploy our microservices
+
+15
+00:00:59,000 --> 00:01:00,000
+using the production profile.
+
+16
+00:01:00,000 --> 00:01:02,000
+So let me execute this command.
+
+17
+00:01:02,000 --> 00:01:09,000
+As soon as I execute this command you will simply get an output that the deployment is completed or
+
+18
+00:01:09,000 --> 00:01:10,000
+initiated.
+
+19
+00:01:10,000 --> 00:01:13,000
+So as a next step, let's go to the Kubernetes dashboard.
+
+20
+00:01:13,000 --> 00:01:19,000
+Here inside the dashboard, we can go to the pods and all of our microservices, they will try to start at
+
+21
+00:01:19,000 --> 00:01:20,000
+the same time.
+
+22
+00:01:20,000 --> 00:01:25,000
+And since they are going to start at same time, they are going to fail multiple times because config
+
+23
+00:01:25,000 --> 00:01:29,000
+server is not going to available, Eureka Server is not going to available.
+
+24
+00:01:29,000 --> 00:01:35,000
+For that reason, the pods are going to be failed to start and whenever this kind of scenario occurs
+
+25
+00:01:35,000 --> 00:01:42,000
+inside my Kubernetes, my Kubernetes is smart enough to do multiple restarts till the pod is successfully
+
+26
+00:01:42,000 --> 00:01:46,000
+started or it reaches a maximum number of attempts.
+
+27
+00:01:46,000 --> 00:01:52,000
+And whenever it is trying to restart a particular part, Kubernetes will make sure it is taking some
+
+28
+00:01:52,000 --> 00:01:54,000
+time between multiple restarts.
+
+29
+00:01:54,000 --> 00:01:56,000
+First time it may take two seconds.
+
+30
+00:01:56,000 --> 00:01:58,000
+Next time it may take 4 seconds or 5 seconds.
+
+31
+00:01:58,000 --> 00:02:03,000
+So it is going to delay the next restart based upon exponential delay.
+
+32
+00:02:03,000 --> 00:02:09,000
+But what we can do here right now is, we can go to the logs of each of the service and make sure all
+
+33
+00:02:09,000 --> 00:02:10,000
+of them started successfully.
+
+34
+00:02:10,000 --> 00:02:14,000
+So the first service that we need to make sure to start is config server.
+
+35
+00:02:14,000 --> 00:02:15,000
+For the same,
+
+36
+00:02:15,000 --> 00:02:20,000
+we can click on these config server pod and here there is an option to see the logs.
+
+37
+00:02:20,000 --> 00:02:25,000
+So let me click on this view logs and you can see right now my config server is getting started.
+
+38
+00:02:25,000 --> 00:02:32,000
+So to automatically refresh the logs on this console, you can select these option which is auto refresh
+
+39
+00:02:32,000 --> 00:02:33,000
+every five seconds.
+
+40
+00:02:33,000 --> 00:02:40,000
+So this will automatically refresh the logs into your Kubernetes dashboard and at this port every five
+
+41
+00:02:40,000 --> 00:02:41,000
+seconds.
+
+42
+00:02:41,000 --> 00:02:47,000
+So let me wait for the logs to refresh and see the message, which is config server successfully started
+
+43
+00:02:47,000 --> 00:02:52,000
+and this is going to take a lot of time inside our local system because in my scenario I just have a
+
+44
+00:02:52,000 --> 00:02:58,000
+16 GB ram and inside this 16 GB ram I only assign 12 GB to the Docker desktop and Kubernetes.
+
+45
+00:02:58,000 --> 00:03:06,000
+And inside that 12 GB we are trying to set up so many components and that is why your installation is
+
+46
+00:03:06,000 --> 00:03:08,000
+going to be super, super slow.
+
+47
+00:03:08,000 --> 00:03:11,000
+So please wait for 5 to 10 minutes in between
+
+48
+00:03:11,000 --> 00:03:16,000
+you can keep checking the logs of all the services and make sure all of them are started.
+
+49
+00:03:16,000 --> 00:03:18,000
+So I'm going to wait for a few minutes here.
+
+50
+00:03:18,000 --> 00:03:23,000
+As of now you can see I got an output saying that config server started successfully, so this confirms
+
+51
+00:03:23,000 --> 00:03:25,000
+my config server started.
+
+52
+00:03:25,000 --> 00:03:31,000
+I'll go back to the pods and I'll open the Eureka server because my Eureka server has a dependency on
+
+53
+00:03:31,000 --> 00:03:31,000
+the config server.
+
+54
+00:03:31,000 --> 00:03:34,000
+You can see here it tried to start multiple times.
+
+55
+00:03:34,000 --> 00:03:36,000
+That's why we have restarts
+
+56
+00:03:36,000 --> 00:03:36,000
+has to.
+
+57
+00:03:36,000 --> 00:03:41,000
+Since config server is not yet available, the Eureka server is not started successfully.
+
+58
+00:03:41,000 --> 00:03:46,000
+That's why as of now to restart attempts happened by the Kubernetes cluster.
+
+59
+00:03:46,000 --> 00:03:47,000
+Now let me see the logs here.
+
+60
+00:03:47,000 --> 00:03:50,000
+So this time a fresh restart is happening.
+
+61
+00:03:50,000 --> 00:03:51,000
+So let me wait here.
+
+62
+00:03:51,000 --> 00:03:56,000
+Finally, after two minutes, my Eureka server also started successfully.
+
+63
+00:03:56,000 --> 00:04:02,000
+You can see in the logs we have a statement saying that started Eureka Server application in one 58
+
+64
+00:04:02,000 --> 00:04:03,000
+seconds.
+
+65
+00:04:03,000 --> 00:04:05,000
+My local system is super, super slow
+
+66
+00:04:05,000 --> 00:04:10,000
+now. The fan inside my laptop also is rotating at a full speed.
+
+67
+00:04:10,000 --> 00:04:16,000
+So now let me go back to the pods and as a next step I can try to check the logs of accounts
+
+68
+00:04:16,000 --> 00:04:20,000
+microservice. Accounts also has restarts of two times.
+
+69
+00:04:20,000 --> 00:04:26,000
+So here if I check the logs since my accounts microservice started successfully and it also connected
+
+70
+00:04:26,000 --> 00:04:32,000
+with my Eureka server, I can go back to my loans and cards and I can confirm the same whether they
+
+71
+00:04:32,000 --> 00:04:33,000
+started successfully.
+
+72
+00:04:33,000 --> 00:04:36,000
+My cards also started successfully.
+
+73
+00:04:36,000 --> 00:04:38,000
+Let me go back to loans.
+
+74
+00:04:38,000 --> 00:04:44,000
+Inside the loans we can check the logs and here also loans also started successfully as a next step,
+
+75
+00:04:44,000 --> 00:04:48,000
+I can check Gateway server inside the gateway server
+
+76
+00:04:48,000 --> 00:04:52,000
+I have logs saying that the gateway server application started successfully.
+
+77
+00:04:52,000 --> 00:04:54,000
+Next, I can check messages.
+
+78
+00:04:54,000 --> 00:04:59,000
+Messages should started successfully because it has no dependency on config server,
+
+79
+00:04:59,000 --> 00:05:00,000
+Eureka server.
+
+80
+00:05:00,000 --> 00:05:03,000
+That's why we have a number of restarts as zero here.
+
+81
+00:05:03,000 --> 00:05:09,000
+If I go and check the logs, you can see it started and it also connected to the Kafka broker that we
+
+82
+00:05:09,000 --> 00:05:10,000
+have provided. With this
+
+83
+00:05:10,000 --> 00:05:13,000
+all our microservices started successfully. As a next step,
+
+84
+00:05:13,000 --> 00:05:16,000
+let's try to test a few scenarios.
+
+85
+00:05:16,000 --> 00:05:21,000
+First, I'll make sure I'm testing some get APIs inside my accounts,
+
+86
+00:05:21,000 --> 00:05:26,000
+I'll try to invoke these contact info and you can see I got an output and these properties are related
+
+87
+00:05:26,000 --> 00:05:28,000
+to the prod profile.
+
+88
+00:05:28,000 --> 00:05:32,000
+So this confirms our application started with the production profile.
+
+89
+00:05:32,000 --> 00:05:34,000
+Let me go to cards PermitAll
+
+90
+00:05:34,000 --> 00:05:35,000
+here
+
+91
+00:05:35,000 --> 00:05:38,000
+I will try to invoke the Java version API available inside the cards
+
+92
+00:05:38,000 --> 00:05:39,000
+microservice.
+
+93
+00:05:39,000 --> 00:05:41,000
+I got unsuccessful outputs.
+
+94
+00:05:41,000 --> 00:05:43,000
+Let me go to the loans.
+
+95
+00:05:43,000 --> 00:05:46,000
+Here I will try to invoke the build-info API under  loans.
+
+96
+00:05:46,000 --> 00:05:48,000
+So this is also working fine.
+
+97
+00:05:48,000 --> 00:05:52,000
+As a next step, I will try to create a new account. For the same,
+
+98
+00:05:52,000 --> 00:05:58,000
+first, I need to get an access token by mentioning the character secret value and apart from secret
+
+99
+00:05:58,000 --> 00:06:04,000
+value, we should also make sure we have mentioned the correct keycloak URL port which is 80.
+
+100
+00:06:04,000 --> 00:06:06,000
+So let me try to get the access token.
+
+101
+00:06:06,000 --> 00:06:12,000
+I got an access token and using the same I'm going to invoke this API and this is going to create a
+
+102
+00:06:12,000 --> 00:06:14,000
+new account behind the scenes.
+
+103
+00:06:14,000 --> 00:06:18,000
+I got an output saying that 201 and account created successfully.
+
+104
+00:06:18,000 --> 00:06:19,000
+As a next step,
+
+105
+00:06:19,000 --> 00:06:20,000
+I'll go to the cards.
+
+106
+00:06:20,000 --> 00:06:22,000
+I need to invoke the cards API.
+
+107
+00:06:22,000 --> 00:06:26,000
+But before that let me take the secret value from this request.
+
+108
+00:06:26,000 --> 00:06:27,000
+So this is the secret value.
+
+109
+00:06:27,000 --> 00:06:29,000
+I'll go to cards.
+
+110
+00:06:29,000 --> 00:06:34,000
+I'll mention the same secret value inside this request as well and post that I will change this port
+
+111
+00:06:34,000 --> 00:06:37,000
+from 7080 to 80.
+
+112
+00:06:37,000 --> 00:06:40,000
+And now let me get the access token.
+
+113
+00:06:40,000 --> 00:06:46,000
+Once I got the access token, I will try to invoke this API and I should get a successful response.
+
+114
+00:06:46,000 --> 00:06:49,000
+Now let me do the same for loans API as well.
+
+115
+00:06:49,000 --> 00:06:56,000
+Here also I will mention the correct client secret followed by I will update the access token URL port number
+
+116
+00:06:56,000 --> 00:06:59,000
+to 80 and try to get the access token.
+
+117
+00:06:59,000 --> 00:07:06,000
+The same access token I will use and send the request to the loans API to create a new loan based upon
+
+118
+00:07:06,000 --> 00:07:07,000
+a given mobile number.
+
+119
+00:07:07,000 --> 00:07:09,000
+So I got a successful response.
+
+120
+00:07:09,000 --> 00:07:15,000
+As a final step, we can try to invoke these fetchCustomerDetails API for these mobile number and
+
+121
+00:07:15,000 --> 00:07:19,000
+with that we should get all the accounts, loans and cards information.
+
+122
+00:07:19,000 --> 00:07:22,000
+So let me try to invoke these API.
+
+123
+00:07:22,000 --> 00:07:24,000
+So I got a response inside the response,
+
+124
+00:07:24,000 --> 00:07:28,000
+I only have accounts information but not the loans and cards.
+
+125
+00:07:28,000 --> 00:07:33,000
+Seems there is a timeout issue inside my local system, so let me try to send the API one more time.
+
+126
+00:07:33,000 --> 00:07:37,000
+And this time you can see I have the information around loans and cards as well.
+
+127
+00:07:37,000 --> 00:07:44,000
+The complete setup of our microservices inside Kubernetes cluster is working perfectly even with the
+
+128
+00:07:44,000 --> 00:07:46,000
+help of Helm charts.
+
+129
+00:07:46,000 --> 00:07:52,000
+And this time we also set up other required components like Kafka, Grafana, Prometheus. As a next step,
+
+130
+00:07:52,000 --> 00:07:58,000
+let's try to validate few things inside the Grafana, for the same, we need to make sure we have exposed
+
+131
+00:07:58,000 --> 00:08:00,000
+the Grafana network at the Port 3000.
+
+132
+00:08:00,000 --> 00:08:05,000
+Like you can see as of now, I expose the Grafana network at the Port 3000.
+
+133
+00:08:05,000 --> 00:08:09,000
+That's why I'm able to see these outputs saying that handling connection for 3000.
+
+134
+00:08:09,000 --> 00:08:14,000
+So here I will try to refresh this page and I'll go to the Explore option.
+
+135
+00:08:14,000 --> 00:08:17,000
+First, I will look for the logs information. For the same,
+
+136
+00:08:17,000 --> 00:08:24,000
+I'll go to loki and select one of the label, which is container and post that I will select the
+
+137
+00:08:24,000 --> 00:08:30,000
+container name as gateway server and run this query and this will give all the logs present inside my
+
+138
+00:08:30,000 --> 00:08:31,000
+gateway server.
+
+139
+00:08:31,000 --> 00:08:32,000
+So these are the logs.
+
+140
+00:08:32,000 --> 00:08:38,000
+If I try to click on any of the log, I should be able to have a link to the tempo for this trace id.
+
+141
+00:08:39,000 --> 00:08:44,000
+So if I try to click on this, I will get the complete distributed tracing details.
+
+142
+00:08:44,000 --> 00:08:49,000
+This confirms loki is working, tempo is working and the integration between loki and tempo also
+
+143
+00:08:49,000 --> 00:08:51,000
+working. As a final step,
+
+144
+00:08:51,000 --> 00:08:54,000
+I can confirm Prometheus as well.
+
+145
+00:08:54,000 --> 00:08:57,000
+For the same, let me go to explore and select the Prometheus.
+
+146
+00:08:57,000 --> 00:09:04,000
+And under the metric we may have many metrics, but let me look for metric with a value up.
+
+147
+00:09:04,000 --> 00:09:07,000
+So at last I have a metric with the name up.
+
+148
+00:09:07,000 --> 00:09:09,000
+Let me select this and post that
+
+149
+00:09:09,000 --> 00:09:15,000
+I will select container and run this query and this will show me the graph for last six hours.
+
+150
+00:09:15,000 --> 00:09:20,000
+Let me change this to last 15 minutes and change this graph style to tackle lines and you will be able
+
+151
+00:09:20,000 --> 00:09:27,000
+to see a beautiful graph explaining about my metric uptime for all the running containers inside my
+
+152
+00:09:27,000 --> 00:09:28,000
+Kubernetes.
+
+153
+00:09:28,000 --> 00:09:33,000
+So this confirms our Prometheus integration with Grafana is also working.
+
+154
+00:09:33,000 --> 00:09:40,000
+I'm super, super happy with this because we are able to successfully set up our microservices along
+
+155
+00:09:40,000 --> 00:09:43,000
+with the supporting components inside a Kubernetes cluster.
+
+156
+00:09:43,000 --> 00:09:44,000
+Hooray!
+
+157
+00:09:44,000 --> 00:09:49,000
+You are one of the few developers who know about all this process.
+
+158
+00:09:49,000 --> 00:09:51,000
+You should feel proud about yourself.
+
+159
+00:09:51,000 --> 00:09:57,000
+You have learned so much inside this course and all of them we are trying to explore by doing lot many
+
+160
+00:09:57,000 --> 00:09:59,000
+practicals by taking a Kubernetes cluster.
+
+161
+00:09:59,000 --> 00:10:01,000
+In the coming sections,
+
+162
+00:10:01,000 --> 00:10:07,000
+I'm also going to discuss on how to set up all these environments in a proper cloud environment.
+
+163
+00:10:07,000 --> 00:10:08,000
+I hope you are also happy.
+
+164
+00:10:08,000 --> 00:10:11,000
+Thank you and I'll catch you in the next lecture bye.
+

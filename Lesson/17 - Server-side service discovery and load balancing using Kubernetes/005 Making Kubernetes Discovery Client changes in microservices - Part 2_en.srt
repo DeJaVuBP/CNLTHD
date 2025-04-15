@@ -1,0 +1,308 @@
+1
+00:00:00,000 --> 00:00:05,000
+Now, inside this lecture, let's make the changes related to Kubernetes Discovery Server inside the
+
+2
+00:00:05,000 --> 00:00:08,000
+Gateway Server project as well.
+
+3
+00:00:08,000 --> 00:00:15,000
+So first, let me open the pom.xml and search for Eureka in the place of Eureka client dependency.
+
+4
+00:00:15,000 --> 00:00:21,000
+And I'm going to add a new dependency, which is spring cloud starter kubernetes discovery client and
+
+5
+00:00:21,000 --> 00:00:24,000
+post that I will search for the tag, which is s14.
+
+6
+00:00:24,000 --> 00:00:28,000
+And here I'm going to update these to s17 tag.
+
+7
+00:00:28,000 --> 00:00:31,000
+So let me load the Maven changes and do a build.
+
+8
+00:00:31,000 --> 00:00:39,000
+Once the build is completed, I can go to the Gateway Server main class, which is GatewayserverApplication.
+
+9
+00:00:39,000 --> 00:00:45,000
+So here I need to mention an annotation which is @EnableDiscoveryClient.
+
+10
+00:00:45,000 --> 00:00:48,000
+After making the changes inside the same class,
+
+11
+00:00:48,000 --> 00:00:54,000
+if you try to scroll down as of now, you can see the routing configurations that we have done here
+
+12
+00:00:54,000 --> 00:01:02,000
+is going to have a uri configuration, which is lb://ACCOUNTS and lb://LOANS  and similarly ld://CARDS.
+
+13
+00:01:02,000 --> 00:01:03,000
+So what is this
+
+14
+00:01:03,000 --> 00:01:06,000
+lb indicates, lb indicates load balancer.
+
+15
+00:01:06,000 --> 00:01:12,000
+So with this we are telling to the Gateway server, please leverage the spring cloud load balancer and
+
+16
+00:01:12,000 --> 00:01:15,000
+do the load balancing at the Gateway server itself.
+
+17
+00:01:15,000 --> 00:01:19,000
+But we don't want that to happen because we are no more using the Eureka.
+
+18
+00:01:19,000 --> 00:01:26,000
+So to communicate to the gateway server to not perform any client side load balancing, we need to update
+
+19
+00:01:26,000 --> 00:01:31,000
+these uri details with the actual URL details of your individual microservice.
+
+20
+00:01:31,000 --> 00:01:36,000
+So for the accounts the is going to be accounts 8080.
+
+21
+00:01:36,000 --> 00:01:43,000
+Here also, the beauty is we are not hardcoding the hostname or domain name as long as if you start your
+
+22
+00:01:43,000 --> 00:01:50,000
+accounts microservice with the service name as accounts, then your gateway server, your thin clients
+
+23
+00:01:50,000 --> 00:01:52,000
+integration should work without any issues.
+
+24
+00:01:52,000 --> 00:01:57,000
+So now very similarly, let me try to mention the same under the loans as well.
+
+25
+00:01:57,000 --> 00:01:58,000
+For the loans
+
+26
+00:01:58,000 --> 00:02:01,000
+the port is going to be 8090.
+
+27
+00:02:01,000 --> 00:02:03,000
+So let me update the same.
+
+28
+00:02:03,000 --> 00:02:05,000
+And the host name is going to be loans.
+
+29
+00:02:05,000 --> 00:02:07,000
+After this, I'll go to the cards.
+
+30
+00:02:07,000 --> 00:02:13,000
+And here also I will delete the cards related configurations and I will mention the service name as
+
+31
+00:02:13,000 --> 00:02:16,000
+cards followed by port number.
+
+32
+00:02:16,000 --> 00:02:18,000
+The port number is going to be 9000.
+
+33
+00:02:18,000 --> 00:02:23,000
+So with these changes, we should be good from these Gateway server application class.
+
+34
+00:02:23,000 --> 00:02:30,000
+As a next step, let me go to the application.yml file and here first we need to delete the properties
+
+35
+00:02:30,000 --> 00:02:32,000
+related to the Eureka server.
+
+36
+00:02:32,000 --> 00:02:38,000
+So here we have mentioned these discovery locator enabled and lowercase service ID as true.
+
+37
+00:02:38,000 --> 00:02:41,000
+So these are the properties related to Eureka server
+
+38
+00:02:41,000 --> 00:02:42,000
+let me delete them.
+
+39
+00:02:42,000 --> 00:02:49,000
+Post deleting the Eureka specific properties just at the same location where I have Gateway.
+
+40
+00:02:49,000 --> 00:02:57,000
+Very similarly, I'm going to define a new property with the value as spring.cloud.kubernetes.
+
+41
+00:02:57,000 --> 00:03:04,000
+discovery.enabled as true and at the same time discovery.allnamespace as true.
+
+42
+00:03:04,000 --> 00:03:08,000
+So with this discovery.enabled as true, we are telling to the gateway server,
+
+43
+00:03:08,000 --> 00:03:15,000
+please leverage the discovery server available inside the cluster to forward the request to the other
+
+44
+00:03:15,000 --> 00:03:18,000
+microservices like accounts, cards and loans.
+
+45
+00:03:18,000 --> 00:03:23,000
+So these are an extra property that we need to define inside Gateway server because our gateway server
+
+46
+00:03:23,000 --> 00:03:28,000
+is an edge server and it is going to responsible to handle all the incoming traffic.
+
+47
+00:03:28,000 --> 00:03:34,000
+If you try to define only this property and try to start your gateway server, you are going to get
+
+48
+00:03:34,000 --> 00:03:35,000
+an error.
+
+49
+00:03:35,000 --> 00:03:38,000
+Because when I'm trying to test these changes, I got an error.
+
+50
+00:03:38,000 --> 00:03:45,000
+So to overcome that error, we need to define one more property under the spring.cloud and this
+
+51
+00:03:45,000 --> 00:03:53,000
+property is spring.cloud.discovery.client.health indicator enabled as false.
+
+52
+00:03:53,000 --> 00:03:58,000
+So by default there is an health indicator bean is going to be created internally.
+
+53
+00:03:58,000 --> 00:04:05,000
+And whenever this is happening behind the scenes, my library, which we have added related to the discovery
+
+54
+00:04:05,000 --> 00:04:12,000
+client of Kubernetes, is going to create an problem because it is not going to create a bean that is
+
+55
+00:04:12,000 --> 00:04:13,000
+required for this library.
+
+56
+00:04:13,000 --> 00:04:20,000
+So I looked into the official GitHub issues for this project and there is an issue also raised inside
+
+57
+00:04:20,000 --> 00:04:22,000
+the GitHub repo and the spring cloud
+
+58
+00:04:22,000 --> 00:04:27,000
+kubernetes team also confirmed. For now to overcome that error, we should define these property, which
+
+59
+00:04:27,000 --> 00:04:31,000
+is discovery.client.health indicator enabled as false.
+
+60
+00:04:31,000 --> 00:04:36,000
+So in future when this issue is resolved, then we can remove this property.
+
+61
+00:04:36,000 --> 00:04:42,000
+So by the time you are looking at this course, if this property is not available inside the GitHub
+
+62
+00:04:42,000 --> 00:04:45,000
+repo, then that is an indication that this issue is resolved.
+
+63
+00:04:45,000 --> 00:04:48,000
+Otherwise we should continue to define this property.
+
+64
+00:04:48,000 --> 00:04:52,000
+So these are the required changes inside my gateway server.
+
+65
+00:04:52,000 --> 00:04:59,000
+As a next step, I'm going to generate the Docker images for all the microservices with the
+
+66
+00:05:00,000 --> 00:05:02,000
+tag name as s17.
+
+67
+00:05:02,000 --> 00:05:04,000
+So I'm going to do that behind the scenes.
+
+68
+00:05:04,000 --> 00:05:10,000
+By the time I come to the next lecture, I will generate all the Docker images of s17.
+
+69
+00:05:10,000 --> 00:05:16,000
+And at the same time I'm also going to set up the Kubernetes cluster with all the required components
+
+70
+00:05:16,000 --> 00:05:19,000
+like Kafka, Keycloak, Grafana, Prometheus.
+
+71
+00:05:19,000 --> 00:05:24,000
+Since you already familiar with that process, I'm not going to repeat that again.
+
+72
+00:05:24,000 --> 00:05:26,000
+I will simply do that setup behind the scenes.
+
+73
+00:05:26,000 --> 00:05:32,000
+But in front of you, I will try to update the helm charts of Easy Bank with the latest tag name, which
+
+74
+00:05:32,000 --> 00:05:35,000
+is s17 and post that using the same helm chart,
+
+75
+00:05:35,000 --> 00:05:40,000
+I'm going to set up all our microservices into the Kubernetes cluster.
+
+76
+00:05:40,000 --> 00:05:41,000
+I hope you are fine with this approach.
+
+77
+00:05:41,000 --> 00:05:44,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,668 @@
+1
+00:00:00,000 --> 00:00:07,000
+Now, inside this lecture, I'm going to show you the power of hell by taking a sample chart available
+
+2
+00:00:07,000 --> 00:00:09,000
+from the official documentation.
+
+3
+00:00:09,000 --> 00:00:15,000
+So before we try to explore the official documentation of hell on how to install a chart of hell, first,
+
+4
+00:00:15,000 --> 00:00:19,000
+we need to make sure the local Kubernetes cluster is up and running.
+
+5
+00:00:19,000 --> 00:00:25,000
+We can confirm by going to the Docker dashboard inside the Docker dashboard, you should be able to
+
+6
+00:00:25,000 --> 00:00:28,000
+see a message which is Kubernetes is running.
+
+7
+00:00:28,000 --> 00:00:31,000
+So this confirms the cluster is running. Very similarly
+
+8
+00:00:31,000 --> 00:00:38,000
+you can also run any of the Kubectl command, for example, I can try to run a command which is kubectl
+
+9
+00:00:38,000 --> 00:00:39,000
+get services.
+
+10
+00:00:39,000 --> 00:00:45,000
+So this will give me the list of services inside my local Kubernetes cluster.
+
+11
+00:00:45,000 --> 00:00:49,000
+As of now, we have only one service which is related to Kubernetes itself.
+
+12
+00:00:49,000 --> 00:00:54,000
+So this confirms our local Kubernetes cluster is working fine.
+
+13
+00:00:54,000 --> 00:00:59,000
+As a next step, I'm going to run a helm command, which is helm space ls.
+
+14
+00:00:59,000 --> 00:01:07,000
+So this is going to list all the religions or all the installations that we have done into the Kubernetes
+
+15
+00:01:07,000 --> 00:01:09,000
+cluster with the help of Helm.
+
+16
+00:01:09,000 --> 00:01:14,000
+So if I try to run as of now, you can see there is no helm installations because as of now we have
+
+17
+00:01:14,000 --> 00:01:18,000
+not installed any chart into the Kubernetes cluster.
+
+18
+00:01:18,000 --> 00:01:25,000
+But here you may have a question like how my helm is able to connect to the Kubernetes cluster because
+
+19
+00:01:25,000 --> 00:01:29,000
+without connecting to the Kubernetes cluster, my helm cannot show this output.
+
+20
+00:01:29,000 --> 00:01:36,000
+So the answer to this question is, Helm is going to look for Kubernetes cluster connection details inside
+
+21
+00:01:36,000 --> 00:01:37,000
+your local system.
+
+22
+00:01:37,000 --> 00:01:43,000
+So whenever you try to connect to a Kubernetes cluster inside your local system, it is going to make
+
+23
+00:01:43,000 --> 00:01:45,000
+an entry inside your system.
+
+24
+00:01:45,000 --> 00:01:52,000
+For example, inside my scenario, I can go to my user folder like under users, my user is easybeats.
+
+25
+00:01:52,000 --> 00:01:59,000
+And at this folder, if I try to look for hidden folders, there is a folder with the name .cube.
+
+26
+00:01:59,000 --> 00:02:04,000
+If I try to open this, there is a config file, so if I try to open this file you'll be able to see
+
+27
+00:02:04,000 --> 00:02:11,000
+all the connection details that my kubectl right now is using to connect to my Kubernetes cluster.
+
+28
+00:02:11,000 --> 00:02:15,000
+So you can see right now it is connected to a Docker desktop cluster.
+
+29
+00:02:15,000 --> 00:02:22,000
+So the same connection details Helm also is going to leverage whenever it wants to interact with a Kubernetes
+
+30
+00:02:22,000 --> 00:02:22,000
+cluster.
+
+31
+00:02:22,000 --> 00:02:23,000
+I hope this is clear.
+
+32
+00:02:23,000 --> 00:02:29,000
+If you are using Windows Operating system, you'll be able to find this dot cube folder inside your
+
+33
+00:02:29,000 --> 00:02:30,000
+user folder.
+
+34
+00:02:30,000 --> 00:02:37,000
+Now let's go and explore on how to setup a sample helm chart inside our local system.
+
+35
+00:02:37,000 --> 00:02:40,000
+So that will give some good exposure to the helm.
+
+36
+00:02:40,000 --> 00:02:41,000
+And what are the advantages of Helm?
+
+37
+00:02:41,000 --> 00:02:47,000
+So for the same inside this website where we explored about the installation of helm into the local
+
+38
+00:02:47,000 --> 00:02:53,000
+system, just under this installing helm, we also have one more option which is using Helm.
+
+39
+00:02:53,000 --> 00:02:59,000
+So let me click on that post that here there is some good introduction on how to use helm.
+
+40
+00:02:59,000 --> 00:03:04,000
+You can read if you are interested, but I want to directly go to the section where we have Helm Search
+
+41
+00:03:04,000 --> 00:03:04,000
+command.
+
+42
+00:03:04,000 --> 00:03:07,000
+Helm comes with a powerful search command.
+
+43
+00:03:07,000 --> 00:03:13,000
+Like I said before, there is a good amount of community for Helm where a lot many companies, organizations
+
+44
+00:03:13,000 --> 00:03:20,000
+and open source developers, they build a lot of helm charts which you can search with the help of helm
+
+45
+00:03:20,000 --> 00:03:20,000
+search.
+
+46
+00:03:20,000 --> 00:03:21,000
+For example,
+
+47
+00:03:21,000 --> 00:03:25,000
+here we have a command which is Helm Search Hub, WordPress.
+
+48
+00:03:25,000 --> 00:03:32,000
+Think like you want to deploy a WordPress website into your Kubernetes cluster. For the same,
+
+49
+00:03:32,000 --> 00:03:39,000
+first, we need to search if there are any WordPress related charts available inside the public repositories.
+
+50
+00:03:39,000 --> 00:03:45,000
+So let me take this command and I'm trying to run this command, which is helm search hub.
+
+51
+00:03:45,000 --> 00:03:47,000
+And what is the value that I want to search?
+
+52
+00:03:47,000 --> 00:03:49,000
+I want to search for a word wordpress.
+
+53
+00:03:49,000 --> 00:03:51,000
+That's why I have mentioned the same.
+
+54
+00:03:51,000 --> 00:03:57,000
+As soon as I enter you'll be able to see all the repositories where we have a chat with the name WordPress.
+
+55
+00:03:57,000 --> 00:04:01,000
+So you can see at lot many places we are able to see WordPress.
+
+56
+00:04:01,000 --> 00:04:05,000
+So that's why we're able to see all of them in the output .
+
+57
+00:04:05,000 --> 00:04:11,000
+Here also, you can see there is a statement saying that the above command will search for all WordPress
+
+58
+00:04:11,000 --> 00:04:13,000
+charts on the artifact hub.
+
+59
+00:04:13,000 --> 00:04:16,000
+So there are many repositories output that we receive.
+
+60
+00:04:16,000 --> 00:04:22,000
+So we have received many repository details based upon our helm search command.
+
+61
+00:04:22,000 --> 00:04:28,000
+So we need to choose one of the repository to install the WordPress helm chart. For the same,
+
+62
+00:04:28,000 --> 00:04:29,000
+let's go to the website here.
+
+63
+00:04:29,000 --> 00:04:35,000
+If you can scroll down, there is a helm install section here they have mentioned on how to install
+
+64
+00:04:35,000 --> 00:04:39,000
+the WordPress chart available under the Bitnami repo.
+
+65
+00:04:39,000 --> 00:04:46,000
+Like I said, Bitnami is a famous repository which maintains production ready helm charts. So we can
+
+66
+00:04:46,000 --> 00:04:50,000
+use the same Bitnami repository to install this WordPress chart.
+
+67
+00:04:50,000 --> 00:04:56,000
+But before we try to install this command, we need to make sure we have added the Bitnami repo details
+
+68
+00:04:56,000 --> 00:04:58,000
+inside our local system.
+
+69
+00:04:58,000 --> 00:05:00,000
+So how to add that for the same
+
+70
+00:05:00,000 --> 00:05:07,000
+you can take this bitnami and search inside the Google saying that bitnami helm chart installation.
+
+71
+00:05:07,000 --> 00:05:12,000
+So if you try to search with this, you'll get the results inside the Google search engine.
+
+72
+00:05:12,000 --> 00:05:16,000
+And here you can click on this very first link, which is install the chart.
+
+73
+00:05:16,000 --> 00:05:23,000
+So here you can see the very first command they have given is how to add the Bitnami repo to the local
+
+74
+00:05:23,000 --> 00:05:24,000
+helm.
+
+75
+00:05:24,000 --> 00:05:29,000
+So for the same so let's take this command and execute the same inside our terminal.
+
+76
+00:05:29,000 --> 00:05:32,000
+Before that, let me try to clean this console.
+
+77
+00:05:32,000 --> 00:05:39,000
+Here I'm trying to run the command and this will add the bitnami repo into our local system.
+
+78
+00:05:39,000 --> 00:05:43,000
+Since I already have this repo, it gave me an output.
+
+79
+00:05:43,000 --> 00:05:48,000
+This already exists, but in your scenario, since bitnami will not be there inside your local system,
+
+80
+00:05:48,000 --> 00:05:51,000
+you will get a different output.
+
+81
+00:05:51,000 --> 00:05:54,000
+Now we can safely run this helm install command.
+
+82
+00:05:54,000 --> 00:05:58,000
+So let me copy this command and execute the same inside my terminal.
+
+83
+00:05:58,000 --> 00:06:06,000
+So the command is helm install and what is the installation name or the release name that you want to
+
+84
+00:06:06,000 --> 00:06:06,000
+give?
+
+85
+00:06:06,000 --> 00:06:09,000
+So here they have given the name as Happy Panda.
+
+86
+00:06:09,000 --> 00:06:16,000
+The name can be anything and post that Bitnami indicates what is the repository and this repo which
+
+87
+00:06:16,000 --> 00:06:17,000
+is Bitnami.
+
+88
+00:06:17,000 --> 00:06:18,000
+What is the helm chart?
+
+89
+00:06:18,000 --> 00:06:20,000
+The helm chart name is WordPress.
+
+90
+00:06:20,000 --> 00:06:26,000
+So if I try to run this command, my helm is going to install the chart available inside the Bitnami
+
+91
+00:06:26,000 --> 00:06:32,000
+repo. And you will also get an output saying that the installation is complete and how to access the
+
+92
+00:06:32,000 --> 00:06:33,000
+WordPress website.
+
+93
+00:06:33,000 --> 00:06:39,000
+So here if you try to read the very first point they highlighted that you can get the WordPress URL
+
+94
+00:06:39,000 --> 00:06:41,000
+by running these commands and these are the commands.
+
+95
+00:06:41,000 --> 00:06:48,000
+But before that we have a note saying that it may take few minutes for the load balancer IP to be available.
+
+96
+00:06:48,000 --> 00:06:53,000
+So we need to be patient and we need to give 1 or 2 minutes for this to get complete.
+
+97
+00:06:53,000 --> 00:07:00,000
+So to understand what is the URL of WordPress, we can try to copy this entire command and execute the
+
+98
+00:07:00,000 --> 00:07:07,000
+same inside our terminal. And this will give you an output saying that the WordPress URL is http localhost,
+
+99
+00:07:07,000 --> 00:07:14,000
+whereas if you want to log in as an admin, you need to access the URL, which is http localhost/admin
+
+100
+00:07:14,000 --> 00:07:15,000
+.
+
+101
+00:07:15,000 --> 00:07:18,000
+So let me go to the browser and try to access the same.
+
+102
+00:07:18,000 --> 00:07:20,000
+First, I will try to access the normal URL.
+
+103
+00:07:20,000 --> 00:07:26,000
+So here I'm trying to access and you can see I got a sample WordPress web page.
+
+104
+00:07:26,000 --> 00:07:29,000
+So what is WordPress famous for?
+
+105
+00:07:29,000 --> 00:07:30,000
+To build the blog website.
+
+106
+00:07:30,000 --> 00:07:34,000
+So that's why we are able to see some sample blog website.
+
+107
+00:07:34,000 --> 00:07:37,000
+If you are not able to access it, please wait for 1 to 2 minutes.
+
+108
+00:07:37,000 --> 00:07:41,000
+You can also confirm the deployment status inside the dashboard.
+
+109
+00:07:41,000 --> 00:07:45,000
+So as of now you can see whatever helm chart that we have installed.
+
+110
+00:07:45,000 --> 00:07:48,000
+It did a lot of work behind the scenes.
+
+111
+00:07:48,000 --> 00:07:50,000
+First, you can check and deployments.
+
+112
+00:07:50,000 --> 00:07:54,000
+There is a deployment happen and similarly, under the pods you will be able to see two parts.
+
+113
+00:07:54,000 --> 00:08:00,000
+One is related to the Mariadb, which my blog website is going to use behind the scenes.
+
+114
+00:08:00,000 --> 00:08:06,000
+And the second part is related to the WordPress website itself and we'll be having replica set details
+
+115
+00:08:06,000 --> 00:08:09,000
+and similarly you will be able to see the service details.
+
+116
+00:08:09,000 --> 00:08:16,000
+So my maria db is exposed as cluster IP because I don't have any requirement to access from outside of
+
+117
+00:08:16,000 --> 00:08:17,000
+the cluster.
+
+118
+00:08:17,000 --> 00:08:23,000
+My WordPress website is going to access it internally within the cluster. Whereas the WordPress website
+
+119
+00:08:23,000 --> 00:08:30,000
+is deployed as LoadBalancer service type because we need to access it from outside of the cluster.
+
+120
+00:08:30,000 --> 00:08:33,000
+That's why we have the LoadBalancer service type here.
+
+121
+00:08:33,000 --> 00:08:37,000
+Very similarly, you can go and check what are the config maps created.
+
+122
+00:08:37,000 --> 00:08:43,000
+So here this is a config map which has all these environment property details and similarly you can
+
+123
+00:08:43,000 --> 00:08:48,000
+go to secrets and here there are two secrets one with the name happy-panda-wordpress and the other
+
+124
+00:08:48,000 --> 00:08:50,000
+one related to the database.
+
+125
+00:08:50,000 --> 00:08:57,000
+So if I try to click on this WordPress secret, so here we have a password that we can use to access
+
+126
+00:08:57,000 --> 00:08:59,000
+the website as an admin.
+
+127
+00:08:59,000 --> 00:09:06,000
+So this way behind the scenes, my helm chart did a lot of job for me to set up these website with production
+
+128
+00:09:06,000 --> 00:09:07,000
+ready standards.
+
+129
+00:09:07,000 --> 00:09:10,000
+So now let me try to access as an admin for the same,
+
+130
+00:09:10,000 --> 00:09:17,000
+I just need to access path localhost/admin, but it is going to ask me the username and password,
+
+131
+00:09:17,000 --> 00:09:19,000
+password we already saw previously.
+
+132
+00:09:19,000 --> 00:09:21,000
+This is going to be the password.
+
+133
+00:09:21,000 --> 00:09:26,000
+We can also try to get the username and password from the instructions that we have received on the
+
+134
+00:09:26,000 --> 00:09:27,000
+terminal.
+
+135
+00:09:27,000 --> 00:09:33,000
+So inside the terminal you can see under the third point they have highlighted how to get the username
+
+136
+00:09:33,000 --> 00:09:38,000
+and password so you can try to take these command and run the same inside your terminal.
+
+137
+00:09:38,000 --> 00:09:40,000
+And this will give what is the username.
+
+138
+00:09:40,000 --> 00:09:43,000
+Username is user and this is the password.
+
+139
+00:09:43,000 --> 00:09:45,000
+So let me copy the password.
+
+140
+00:09:45,000 --> 00:09:48,000
+Here the username is going to be user and password
+
+141
+00:09:48,000 --> 00:09:52,000
+I have pasted and post that I'm going to click on this login.
+
+142
+00:09:52,000 --> 00:09:57,000
+Now you can see I'm able to access my WordPress website as an admin.
+
+143
+00:09:57,000 --> 00:09:59,000
+Here I can create new blogs or new
+
+144
+00:10:00,000 --> 00:10:03,000
+articles as an admin of this WordPress website.
+
+145
+00:10:03,000 --> 00:10:09,000
+So the point that I want you to highlight here is did you see how easily I'm able to set up all these
+
+146
+00:10:09,000 --> 00:10:15,000
+WordPress websites very easily with the help of Helm chart, I just ran a single command which is helm
+
+147
+00:10:15,000 --> 00:10:20,000
+install command and behind the scenes it ran so many Kubernetes manifest files.
+
+148
+00:10:20,000 --> 00:10:23,000
+So do you want to see what are all the files that it has executed?
+
+149
+00:10:23,000 --> 00:10:29,000
+So for the same we need to understand where the helm chart inside your local system is saved.
+
+150
+00:10:29,000 --> 00:10:34,000
+So to understand the same, we need to run the command which is helm e env.
+
+151
+00:10:34,000 --> 00:10:37,000
+So this will give you output about your health.
+
+152
+00:10:37,000 --> 00:10:37,000
+Here
+
+153
+00:10:37,000 --> 00:10:44,000
+I just wanted to highlight you that all our helm charts are going to be saved under these cache home,
+
+154
+00:10:44,000 --> 00:10:47,000
+which means user, easybeats/librar/caches/Helm.
+
+155
+00:10:47,000 --> 00:10:49,000
+So let me copy this path.
+
+156
+00:10:49,000 --> 00:10:51,000
+I will try to access the same.
+
+157
+00:10:51,000 --> 00:10:55,000
+So inside this helm folder we have another folder with the name repository.
+
+158
+00:10:55,000 --> 00:11:00,000
+And here we have a helm chart with the name wordpress.
+
+159
+00:11:00,000 --> 00:11:03,000
+So let's try to extract this compressed file.
+
+160
+00:11:03,000 --> 00:11:07,000
+So inside my local system I extracted this by double clicking on this file.
+
+161
+00:11:07,000 --> 00:11:14,000
+So if you try to open this WordPress, you will be able to see the list of files available inside the
+
+162
+00:11:14,000 --> 00:11:16,000
+helm chart with the name WordPress.
+
+163
+00:11:16,000 --> 00:11:21,000
+So let's try to understand more details about the structure of helm charts in the next lecture.
+
+164
+00:11:21,000 --> 00:11:27,000
+In the same process, I'm going to show you all the Kubernetes manifest files that my helm ran behind
+
+165
+00:11:27,000 --> 00:11:30,000
+the scenes to set up the WordPress website.
+
+166
+00:11:30,000 --> 00:11:31,000
+I hope you are clear.
+
+167
+00:11:31,000 --> 00:11:34,000
+Thank you and I'll catch you in the next lecture bye.
+

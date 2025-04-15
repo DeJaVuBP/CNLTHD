@@ -1,0 +1,220 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let me show you how to roll back to a desired previous working version with
+
+2
+00:00:06,000 --> 00:00:07,000
+the help of Helm.
+
+3
+00:00:07,000 --> 00:00:14,000
+The beauty of helm rollback is it is going to rollback your entire Kubernetes cluster components to
+
+4
+00:00:14,000 --> 00:00:15,000
+the previous desired state.
+
+5
+00:00:15,000 --> 00:00:21,000
+Whereas with Kubectl, if you want to roll back, you need to roll back component by component.
+
+6
+00:00:21,000 --> 00:00:24,000
+As of now, I may change only inside the gateway server.
+
+7
+00:00:24,000 --> 00:00:30,000
+What if you have made changes inside multiple microservices. Regardless of how many changes you have
+
+8
+00:00:30,000 --> 00:00:36,000
+done in various microservices with the help of the rollback command also is going to be a single command.
+
+9
+00:00:36,000 --> 00:00:42,000
+So to get started around these rollback command, first let me introduce to the helm History Command.
+
+10
+00:00:42,000 --> 00:00:50,000
+So this Helm History Command will show you the history of upgrades or installations happen for a particular
+
+11
+00:00:50,000 --> 00:00:51,000
+helm chart.
+
+12
+00:00:51,000 --> 00:00:54,000
+So what is the release name that we have for our microservices?
+
+13
+00:00:54,000 --> 00:00:56,000
+The release name is Easy Bank.
+
+14
+00:00:56,000 --> 00:01:03,000
+If I try to run this command, it will show me all the installations or deployments happen First.
+
+15
+00:01:03,000 --> 00:01:07,000
+Under the revision one installation is completed and post that using revision
+
+16
+00:01:07,000 --> 00:01:14,000
+two we have deployed the tag name s12 and we realized we made a mistake and at last we made againt
+
+17
+00:01:14,000 --> 00:01:21,000
+one more change by updating the tag name to the S11 And finally we did one more helm upgrade and that
+
+18
+00:01:21,000 --> 00:01:24,000
+is why we have here three versions.
+
+19
+00:01:24,000 --> 00:01:27,000
+And right now revision three has a status as deployed.
+
+20
+00:01:27,000 --> 00:01:31,000
+That means this is the revision right now deployed into my Kubernetes cluster.
+
+21
+00:01:31,000 --> 00:01:37,000
+So now think like we want to roll back to the previous working version, which is revision one where
+
+22
+00:01:37,000 --> 00:01:41,000
+my gateway server is going to be secured properly.
+
+23
+00:01:41,000 --> 00:01:44,000
+So for this, the command is going to be super simple.
+
+24
+00:01:44,000 --> 00:01:50,000
+The command that we need to run to roll back to the previous revision is, helm rollback
+
+25
+00:01:50,000 --> 00:01:52,000
+and what is your release name?
+
+26
+00:01:52,000 --> 00:01:58,000
+The release name we have here is Easy bank and what is the revision number to which you want to roll
+
+27
+00:01:58,000 --> 00:01:58,000
+back?
+
+28
+00:01:58,000 --> 00:02:01,000
+The revision number that I want to roll back is one.
+
+29
+00:02:01,000 --> 00:02:03,000
+So let me execute this command.
+
+30
+00:02:03,000 --> 00:02:06,000
+And with that, with a single command, the rollback was a success.
+
+31
+00:02:06,000 --> 00:02:10,000
+I can confirm the same by going into the Kubernetes dashboard.
+
+32
+00:02:10,000 --> 00:02:15,000
+Inside my Kubernetes dashboard, I'll go to the pods and I'll open the new pod that is right now getting
+
+33
+00:02:15,000 --> 00:02:16,000
+created.
+
+34
+00:02:16,000 --> 00:02:22,000
+You can see under the Gateway server right now, if you go and check the events here, you will be able
+
+35
+00:02:22,000 --> 00:02:29,000
+to see a new event where we'll be able to see a new Docker image with the name s14.
+
+36
+00:02:29,000 --> 00:02:34,000
+So this is the Docker image right now being deployed into my Kubernetes cluster.
+
+37
+00:02:34,000 --> 00:02:38,000
+So let me go to the logs and my gateway server is trying to get started.
+
+38
+00:02:38,000 --> 00:02:40,000
+Let me wait for a few seconds here.
+
+39
+00:02:40,000 --> 00:02:44,000
+After few seconds, my Gateway server application started successfully.
+
+40
+00:02:44,000 --> 00:02:47,000
+I can validate the changes inside my postman.
+
+41
+00:02:47,000 --> 00:02:54,000
+This time I should get a 401 error if I try to invoke this API and you can see I'm getting the 401 error.
+
+42
+00:02:54,000 --> 00:02:55,000
+Hooray.
+
+43
+00:02:55,000 --> 00:02:59,000
+The rollback is also completed with a single helm command.
+
+44
+00:02:59,000 --> 00:03:05,000
+Now if I try to run the command, which is helm history easy bank this time you should be able to see
+
+45
+00:03:05,000 --> 00:03:07,000
+a revision number four.
+
+46
+00:03:07,000 --> 00:03:09,000
+But the comments is rollback to one.
+
+47
+00:03:09,000 --> 00:03:14,000
+So this is a very clear information to the person who is trying to roll back in future.
+
+48
+00:03:14,000 --> 00:03:20,000
+Or if you want to understand the history of the deployments happened for a particular release, which
+
+49
+00:03:20,000 --> 00:03:22,000
+is easy bank in our scenario.
+
+50
+00:03:22,000 --> 00:03:24,000
+So I hope this is clear.
+
+51
+00:03:24,000 --> 00:03:31,000
+Now let me go back to the values.yaml and here I'm going to revert to the s14 because I need to check
+
+52
+00:03:31,000 --> 00:03:33,000
+in these files into the GitHub repo. With this
+
+53
+00:03:33,000 --> 00:03:35,000
+I hope this is all clear to you.
+
+54
+00:03:35,000 --> 00:03:36,000
+Thank you.
+
+55
+00:03:36,000 --> 00:03:38,000
+And I'll catch you in the next lecture bye.
+

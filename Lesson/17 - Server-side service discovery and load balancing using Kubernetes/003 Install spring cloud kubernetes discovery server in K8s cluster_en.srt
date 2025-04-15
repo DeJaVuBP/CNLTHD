@@ -1,0 +1,220 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let me try to set up Discovery Server with the help of these Kubernetes manifest
+
+2
+00:00:06,000 --> 00:00:06,000
+file.
+
+3
+00:00:06,000 --> 00:00:10,000
+So here you may have a question like why we are not using helm chat.
+
+4
+00:00:11,000 --> 00:00:14,000
+There are two reasons on why I'm not using helm chat here.
+
+5
+00:00:14,000 --> 00:00:20,000
+The very first one is Discovery Server is a one time setup inside your Kubernetes cluster.
+
+6
+00:00:20,000 --> 00:00:23,000
+You don't have to do multiple changes every time.
+
+7
+00:00:23,000 --> 00:00:28,000
+With that reason, manually running these manifest files should be fine because this is only one time
+
+8
+00:00:28,000 --> 00:00:28,000
+activity.
+
+9
+00:00:28,000 --> 00:00:35,000
+And the second reason is as of now there is no helm chat developed by the helm chat community, including
+
+10
+00:00:35,000 --> 00:00:37,000
+Bitnami for these discovery server.
+
+11
+00:00:37,000 --> 00:00:44,000
+So if we try to integrate these manifest file into our easybank helm chat, then it is going to need
+
+12
+00:00:44,000 --> 00:00:51,000
+a lot of efforts which I felt like it is not worth since this is only going to be one time activity
+
+13
+00:00:51,000 --> 00:00:54,000
+to run this and fine running the manifest file manually.
+
+14
+00:00:54,000 --> 00:00:56,000
+I hope you are also fine with that.
+
+15
+00:00:56,000 --> 00:01:03,000
+So to install the discovery server from the terminal, we need to run the command which is cubectl
+
+16
+00:01:03,000 --> 00:01:05,000
+followed by -f.
+
+17
+00:01:05,000 --> 00:01:06,000
+And what is the file name.
+
+18
+00:01:06,000 --> 00:01:10,000
+The file name is kubernetes-discoveryserver.yaml.
+
+19
+00:01:10,000 --> 00:01:17,000
+So let me try to execute this command and this is going to create a service service account, role binding
+
+20
+00:01:17,000 --> 00:01:19,000
+role and deployment.
+
+21
+00:01:19,000 --> 00:01:24,000
+I can go to the Kubernetes dashboard and make sure that Discovery server is started successfully.
+
+22
+00:01:24,000 --> 00:01:25,000
+Inside my dashboard,
+
+23
+00:01:25,000 --> 00:01:33,000
+I will go to the pods and here I will open the logs just to confirm that my discovery server is started.
+
+24
+00:01:33,000 --> 00:01:40,000
+Like you can see here, my discovery server started successfully in 20s and this is a spring boot application.
+
+25
+00:01:40,000 --> 00:01:42,000
+So how do we know that,
+
+26
+00:01:42,000 --> 00:01:47,000
+if you see here we have logs from the spring confirming that this is a spring boot application.
+
+27
+00:01:47,000 --> 00:01:53,000
+With this, we successfully set up that Discovery server inside our Kubernetes cluster.
+
+28
+00:01:53,000 --> 00:02:00,000
+As a next step, we need to make some code changes inside our microservices to remove the Eureka related
+
+29
+00:02:00,000 --> 00:02:07,000
+changes on top of that, we should also make some changes inside our microservices to leverage the discovery
+
+30
+00:02:07,000 --> 00:02:10,000
+server exposed by the Kubernetes.
+
+31
+00:02:10,000 --> 00:02:16,000
+So to get started around those changes, I'm going to copy all the microservice code that we have under
+
+32
+00:02:16,000 --> 00:02:23,000
+the Section 14 because Section 14 has the latest and greatest microservices code changes.
+
+33
+00:02:23,000 --> 00:02:28,000
+So here, let me select accounts cards, config server, gateway server loans message.
+
+34
+00:02:28,000 --> 00:02:34,000
+We don't have to copy the Eureka Server because we're trying to get rid of Eureka Server and I'm also
+
+35
+00:02:34,000 --> 00:02:35,000
+not going to copy the Docker compose.
+
+36
+00:02:36,000 --> 00:02:41,000
+The reason is we are going to deploy all our microservices into Kubernetes cluster and Docker compose
+
+37
+00:02:41,000 --> 00:02:46,000
+files is of no use right now. So let me copy all these folders and post that
+
+38
+00:02:46,000 --> 00:02:51,000
+I will go to the section_17 and here I'm going to paste all these microservices.
+
+39
+00:02:51,000 --> 00:02:57,000
+After pasting these microservices, I'm also going to paste the helm folder present inside the section_16.
+
+40
+00:02:57,000 --> 00:02:57,000
+.
+
+41
+00:02:57,000 --> 00:03:02,000
+So let me copy this helm folder and paste it inside the section 17.
+
+42
+00:03:02,000 --> 00:03:07,000
+In the coming lectures we are going to make some changes inside our helm charts also because we need
+
+43
+00:03:07,000 --> 00:03:12,000
+to remove the details related to the Eureka Server inside our helm charts.
+
+44
+00:03:12,000 --> 00:03:16,000
+So with this we have the section_17 related folder ready.
+
+45
+00:03:16,000 --> 00:03:21,000
+As a next step, I can open this folder inside my IntelliJ idea.
+
+46
+00:03:21,000 --> 00:03:29,000
+Here I'm going to click on this open post that I will go to storage, workspaces, microservices section_17 and
+
+47
+00:03:29,000 --> 00:03:34,000
+I'm going to click on this open button post that I'm going to click on this load button.
+
+48
+00:03:34,000 --> 00:03:41,000
+And after my microservices are loaded as Maven projects, I'm going to do a build and it will ask me
+
+49
+00:03:41,000 --> 00:03:43,000
+to enable the annotation processing.
+
+50
+00:03:43,000 --> 00:03:45,000
+So let me enable that.
+
+51
+00:03:45,000 --> 00:03:50,000
+So now we are good to get started with these changes, so let's try to do the same from the next lecture,
+
+52
+00:03:50,000 --> 00:03:56,000
+but please make sure you are Discovery Server is up and running inside your Kubernetes cluster.
+
+53
+00:03:56,000 --> 00:04:01,000
+So as of now my deployment pods replica set, everything is showing in a green color.
+
+54
+00:04:01,000 --> 00:04:07,000
+This indicates that my discovery server is working without any issues inside my Kubernetes cluster.
+
+55
+00:04:07,000 --> 00:04:10,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,404 @@
+1
+00:00:00,000 --> 00:00:06,000
+Long back when we are discussing about Eureka Server, we discussed about client side discovery and
+
+2
+00:00:06,000 --> 00:00:10,000
+the load balancing that is going to happen at the client side.
+
+3
+00:00:10,000 --> 00:00:17,000
+Inside this approach, all the microservices inside our microservice network, they are responsible
+
+4
+00:00:17,000 --> 00:00:22,000
+for registering themselves with the service registry like Eureka during the startup.
+
+5
+00:00:22,000 --> 00:00:26,000
+And similarly they should also unregister whenever they are shutting down.
+
+6
+00:00:26,000 --> 00:00:32,000
+And apart from registering and unregistering my microservices, they should also send a regular heartbeat
+
+7
+00:00:32,000 --> 00:00:35,000
+to the Eureka Server to prove their healthy status.
+
+8
+00:00:35,000 --> 00:00:38,000
+In this kind of setup, our environment.
+
+9
+00:00:38,000 --> 00:00:44,000
+Whenever a microservice wants to communicate with another microservice within your microservice network,
+
+10
+00:00:44,000 --> 00:00:50,000
+then in such scenarios the microservice, which is trying to communicate with other microservice, it
+
+11
+00:00:50,000 --> 00:00:57,000
+has to first connect with the Eureka Server to get the all the running instances of other microservice.
+
+12
+00:00:57,000 --> 00:00:58,000
+Think like my accounts
+
+13
+00:00:58,000 --> 00:01:04,000
+microservice want to communicate with the loans microservice. In this scenario my accounts microservice
+
+14
+00:01:04,000 --> 00:01:08,000
+will ask the Eureka server what are the details of the loan service.
+
+15
+00:01:08,000 --> 00:01:15,000
+How my Eureka server will know the details of the loans Microservice Because all the loans microservice
+
+16
+00:01:15,000 --> 00:01:20,000
+instances during the startup, they will register themselves with the Eureka server along with their
+
+17
+00:01:20,000 --> 00:01:24,000
+details like host name, port number and other instance details.
+
+18
+00:01:24,000 --> 00:01:30,000
+So this is going to happen in the step one like you can see now in the step two where my accounts microservice
+
+19
+00:01:30,000 --> 00:01:35,000
+is trying to ask Eureka Server like please give me the details of the loan service as a response to
+
+20
+00:01:35,000 --> 00:01:42,000
+the step two inside the step three, my Eureka server is going to give you all the IP address or the
+
+21
+00:01:42,000 --> 00:01:49,000
+instance details of the loans microservice and think like my Eureka server has given two IP address
+
+22
+00:01:49,000 --> 00:01:52,000
+details where my loans microservice is available.
+
+23
+00:01:52,000 --> 00:01:57,000
+So with these two instance details of loans microservice, my accounts microservice is going to have
+
+24
+00:01:57,000 --> 00:01:58,000
+a problem.
+
+25
+00:01:58,000 --> 00:02:03,000
+The problem is it has to decide which instance, it has to forward the request.
+
+26
+00:02:03,000 --> 00:02:11,000
+So that's why it is going to do the load balancing with the help of spring cloud load balancer and after
+
+27
+00:02:11,000 --> 00:02:16,000
+the process of load balancing, it is going to choose one of the instance details and to the same the
+
+28
+00:02:16,000 --> 00:02:18,000
+request is going to be sent in the step four.
+
+29
+00:02:18,000 --> 00:02:23,000
+So inside this approach you can see the client microservice or the accounts
+
+30
+00:02:23,000 --> 00:02:27,000
+microservice is itself is responsible for the load balancing.
+
+31
+00:02:27,000 --> 00:02:32,000
+That's why we call this approach as client side load balancing and client side service discovery.
+
+32
+00:02:32,000 --> 00:02:37,000
+We can follow this approach, but this approach has some disadvantages.
+
+33
+00:02:37,000 --> 00:02:39,000
+The disadvantage is the developers
+
+34
+00:02:39,000 --> 00:02:42,000
+they have to manually maintain the Eureka server.
+
+35
+00:02:42,000 --> 00:02:44,000
+They have to create a spring boot application.
+
+36
+00:02:44,000 --> 00:02:52,000
+They have to convert that as an Eureka server post that they should also make changes in all the microservices
+
+37
+00:02:52,000 --> 00:02:56,000
+to connect with the Eureka Server, to register their details with the Eureka Server.
+
+38
+00:02:56,000 --> 00:02:59,000
+So they have to make some good amount of configurations.
+
+39
+00:02:59,000 --> 00:03:06,000
+So this extra burden on the developers can be avoided if we follow the server side service discovery
+
+40
+00:03:06,000 --> 00:03:08,000
+and server side load balancing.
+
+41
+00:03:08,000 --> 00:03:14,000
+But this approach has an advantage which is with the help of client side load balancing the client application
+
+42
+00:03:14,000 --> 00:03:19,000
+is going to have a complete control on the load balancing. Inside Spring Cloud Load Balancer,
+
+43
+00:03:19,000 --> 00:03:26,000
+there are many strategies that the client applications can follow to perform the load balancing, whereas
+
+44
+00:03:26,000 --> 00:03:31,000
+if you go with the server side service discovery and server side load balancing, you are not going
+
+45
+00:03:31,000 --> 00:03:34,000
+to have any control on the load balancing.
+
+46
+00:03:34,000 --> 00:03:39,000
+But the server side discovery and load balancing is going to provide an advantage, which is you don't
+
+47
+00:03:39,000 --> 00:03:42,000
+have to make any changes inside your microservices.
+
+48
+00:03:42,000 --> 00:03:46,000
+They don't have to register themselves with the service discovery like Eureka Server.
+
+49
+00:03:46,000 --> 00:03:52,000
+So let's try to understand more details about the server side service discovery and the load balancing.
+
+50
+00:03:52,000 --> 00:03:58,000
+We can follow the server side service discovery and load balancing only if we are using Kubernetes cluster
+
+51
+00:03:58,000 --> 00:04:00,000
+for our microservices deployment.
+
+52
+00:04:00,000 --> 00:04:06,000
+If you are not deploying your microservices into Kubernetes, then you cannot use this approach.
+
+53
+00:04:06,000 --> 00:04:13,000
+Inside this approach, there will be a service discovery inside your Kubernetes cluster, which is responsible
+
+54
+00:04:13,000 --> 00:04:18,000
+to monitor all the application instances and maintaining the details of them.
+
+55
+00:04:18,000 --> 00:04:22,000
+Like you can see here in the step one, my Kubernetes discovery server,
+
+56
+00:04:22,000 --> 00:04:28,000
+unlike Eureka, this server does not require the applications to explicitly register with the server.
+
+57
+00:04:28,000 --> 00:04:35,000
+Instead, the Discovery server itself uses the Kubernetes APIs to fetch details about the Kubernetes
+
+58
+00:04:35,000 --> 00:04:38,000
+services and endpoints of all the microservices.
+
+59
+00:04:38,000 --> 00:04:42,000
+So inside this scenario I have given loans example.
+
+60
+00:04:42,000 --> 00:04:49,000
+So my Kubernetes Discovery server is going to query Kubernetes API to fetch all the details of the loans
+
+61
+00:04:49,000 --> 00:04:55,000
+microservice instances. Now coming to the client side story like think like the accounts microservice
+
+62
+00:04:55,000 --> 00:04:58,000
+want to communicate with the loans microservice in this scenario.
+
+63
+00:04:58,000 --> 00:04:59,000
+So whenever we are following
+
+64
+00:05:00,000 --> 00:05:05,000
+service side discovery and load balancing the client application at the accounts microservice,
+
+65
+00:05:05,000 --> 00:05:08,000
+they don't have to connect with any discovery server.
+
+66
+00:05:08,000 --> 00:05:15,000
+They can simply send the request to the Kubernetes service using the service name at the host name or
+
+67
+00:05:15,000 --> 00:05:18,000
+DNS name exposed by the Kubernetes.
+
+68
+00:05:18,000 --> 00:05:23,000
+Behind the scenes, this Kubernetes service, which you have created with the help of cluster or load
+
+69
+00:05:23,000 --> 00:05:27,000
+balancer service types, it is going to work with the Discovery server.
+
+70
+00:05:27,000 --> 00:05:30,000
+Both the Discovery Server and Kubernetes service,
+
+71
+00:05:30,000 --> 00:05:36,000
+they are going to decide on the load balancing and choose one of the instances of loans microservice
+
+72
+00:05:36,000 --> 00:05:41,000
+to which the request from the accounts microservice is going to be forwarded.
+
+73
+00:05:41,000 --> 00:05:47,000
+So here it is very clear that the load balancing is going to happen at the server side, which is inside
+
+74
+00:05:47,000 --> 00:05:53,000
+the Kubernetes cluster and the client application at the client service, which is accounts microservice,
+
+75
+00:05:53,000 --> 00:06:00,000
+It does not bother about any load balancing and it don't have to register or it don't have to connect
+
+76
+00:06:00,000 --> 00:06:05,000
+with any discovery server like we followed in the Eureka Server approach.
+
+77
+00:06:05,000 --> 00:06:08,000
+So this approach has some advantages and disadvantages.
+
+78
+00:06:08,000 --> 00:06:15,000
+The advantage is the developers are freed from all the maintenance of Eureka Server manually and at
+
+79
+00:06:15,000 --> 00:06:21,000
+the same time making configuration changes or establishing connection between all the microservices
+
+80
+00:06:21,000 --> 00:06:22,000
+with the Eureka Server.
+
+81
+00:06:22,000 --> 00:06:28,000
+So all those changes the developer don't have to do because right now the responsibility will be with
+
+82
+00:06:28,000 --> 00:06:33,000
+the Discovery server to fetch the details of the running microservices instances.
+
+83
+00:06:33,000 --> 00:06:37,000
+So that is one of the advantages that we have coming to the disadvantage
+
+84
+00:06:37,000 --> 00:06:43,000
+the only disadvantage with this approach is, the clients application are the developers will not have
+
+85
+00:06:43,000 --> 00:06:46,000
+any control on the load balancing.
+
+86
+00:06:46,000 --> 00:06:49,000
+We as a developers are the client microservice.
+
+87
+00:06:49,000 --> 00:06:54,000
+We can simply forward the request to the service URL and the load balancing strategy
+
+88
+00:06:54,000 --> 00:07:01,000
+or algorithm is completely decided by the Kubernetes cluster, so I hope you are clear about the server
+
+89
+00:07:01,000 --> 00:07:03,000
+side service discovery and load balancing.
+
+90
+00:07:03,000 --> 00:07:09,000
+Inside this section, I'm going to show you how to establish server side service discovery and load
+
+91
+00:07:09,000 --> 00:07:12,000
+balancer inside our Microservice network.
+
+92
+00:07:12,000 --> 00:07:18,000
+In the same process, we can get rid of Eureka Server inside our microservice network. So there are no
+
+93
+00:07:18,000 --> 00:07:20,000
+good and bad approaches.
+
+94
+00:07:20,000 --> 00:07:24,000
+So you can choose one of them based upon your own business requirements.
+
+95
+00:07:24,000 --> 00:07:27,000
+But it's my responsibility to show you both approaches.
+
+96
+00:07:27,000 --> 00:07:31,000
+The first approach, which is client side service, discovery and load balancing.
+
+97
+00:07:31,000 --> 00:07:35,000
+We already discussed during the discussion of Eureka Server.
+
+98
+00:07:35,000 --> 00:07:41,000
+Now, since we have good understanding around Kubernetes cluster, let's try to implement this approach
+
+99
+00:07:41,000 --> 00:07:46,000
+also so that you will be clear about server side service, discovery and load balancing.
+
+100
+00:07:46,000 --> 00:07:49,000
+I hope you are clear about the agenda of this section.
+
+101
+00:07:49,000 --> 00:07:52,000
+Thank you and I'll catch you in the next lecture bye.
+

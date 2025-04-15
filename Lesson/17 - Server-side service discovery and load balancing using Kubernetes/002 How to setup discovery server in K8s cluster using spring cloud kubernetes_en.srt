@@ -1,0 +1,620 @@
+1
+00:00:00,000 --> 00:00:06,000
+To get started with the server side service discovery and load balancing inside Kubernetes cluster.
+
+2
+00:00:06,000 --> 00:00:09,000
+We need to take help from one of the spring cloud project.
+
+3
+00:00:09,000 --> 00:00:12,000
+The project is Spring Cloud Kubernetes.
+
+4
+00:00:12,000 --> 00:00:18,000
+So inside this page you should be able to see a project with the name Spring Cloud Kubernetes.
+
+5
+00:00:18,000 --> 00:00:19,000
+You can click on that.
+
+6
+00:00:19,000 --> 00:00:26,000
+And this is the project which is going to help you to set up Discovery Server whenever you are using
+
+7
+00:00:26,000 --> 00:00:29,000
+Kubernetes inside your production deployments.
+
+8
+00:00:29,000 --> 00:00:34,000
+We are going to use libraries from this project only to set up the server side service discovery and
+
+9
+00:00:34,000 --> 00:00:36,000
+load balancing. By default
+
+10
+00:00:36,000 --> 00:00:42,000
+your Kubernetes cluster is not going to have any service discovery and service registration server.
+
+11
+00:00:42,000 --> 00:00:49,000
+So it is our responsibility to set up some service Discovery server inside Kubernetes, just like how
+
+12
+00:00:49,000 --> 00:00:51,000
+we did for Eureka Server.
+
+13
+00:00:51,000 --> 00:00:56,000
+So to get started around this, there is a blog which is written by the Spring Cloud Kubernetes team
+
+14
+00:00:56,000 --> 00:00:57,000
+itself.
+
+15
+00:00:57,000 --> 00:01:03,000
+They have written this somewhere in 2021 when they first released these service discovery and registration
+
+16
+00:01:03,000 --> 00:01:06,000
+capabilities inside this spring Cloud Kubernetes project.
+
+17
+00:01:06,000 --> 00:01:12,000
+Inside this blog, they clearly highlighted what are the steps that we need to follow to set up that
+
+18
+00:01:12,000 --> 00:01:15,000
+Discovery server inside Kubernetes cluster.
+
+19
+00:01:15,000 --> 00:01:22,000
+So here you can see they have given a Kubernetes manifest file that we can use to set up these Discovery
+
+20
+00:01:22,000 --> 00:01:24,000
+server inside the Kubernetes cluster.
+
+21
+00:01:24,000 --> 00:01:30,000
+So I'm going to use the same and I'm going to make few modifications to this manifest file before I
+
+22
+00:01:30,000 --> 00:01:33,000
+try to install these inside my local Kubernetes cluster.
+
+23
+00:01:33,000 --> 00:01:37,000
+So let me try to copy these manifest file and post that
+
+24
+00:01:37,000 --> 00:01:43,000
+I'll go to my workspace location inside my workspace location here I'm going to create a new folder
+
+25
+00:01:43,000 --> 00:01:50,000
+with the name section_17. Because right now we are in the 17th section.
+
+26
+00:01:50,000 --> 00:01:55,000
+So inside this folder I'm going to write all the code that we are going to discuss. Inside this section
+
+27
+00:01:55,000 --> 00:01:56,000
+17 folder,
+
+28
+00:01:56,000 --> 00:02:00,000
+I'm going to create one more folder with the name Kubernetes.
+
+29
+00:02:00,000 --> 00:02:06,000
+Inside this Kubernetes folder, I'm going to create a Kubernetes manifest file that is going to help
+
+30
+00:02:06,000 --> 00:02:10,000
+us to set up the Discovery server inside Kubernetes cluster.
+
+31
+00:02:10,000 --> 00:02:13,000
+Let me create the new file by going to the terminal.
+
+32
+00:02:13,000 --> 00:02:16,000
+Here I'm going to run the command, which is touch
+
+33
+00:02:16,000 --> 00:02:17,000
+and what is the file name.
+
+34
+00:02:17,000 --> 00:02:22,000
+The file name is going to be kubernetes-discoveryserver.yaml post that I'm going to open
+
+35
+00:02:22,000 --> 00:02:24,000
+the same. As of now,
+
+36
+00:02:24,000 --> 00:02:26,000
+you can see this is an empty file.
+
+37
+00:02:26,000 --> 00:02:31,000
+I'm going to paste the content that we have copied from the Spring Cloud Kubernetes blog.
+
+38
+00:02:31,000 --> 00:02:33,000
+Like you can see this is the content.
+
+39
+00:02:33,000 --> 00:02:36,000
+So let's try to discuss all this Kubernetes manifest file content.
+
+40
+00:02:36,000 --> 00:02:41,000
+So here at the starting they have mentioned the API version, V1 and the kind as list.
+
+41
+00:02:41,000 --> 00:02:48,000
+So whenever you define kind as list inside your Kubernetes manifest file, you can create any number
+
+42
+00:02:48,000 --> 00:02:51,000
+of Kubernetes objects under these items.
+
+43
+00:02:51,000 --> 00:02:55,000
+The very first item that they are trying to create is of type Service object.
+
+44
+00:02:55,000 --> 00:03:01,000
+That's why they have mentioned kind as service under the metadata labels app and they also gave a name
+
+45
+00:03:01,000 --> 00:03:04,000
+to the service, which is spring-cloud-kubernetes-discoveryserver.
+
+46
+00:03:04,000 --> 00:03:11,000
+Now under the specification ports, the port that it is going to expose to the other microservices is
+
+47
+00:03:11,000 --> 00:03:16,000
+80, whereas it is going to start internally at the port 8761..
+
+48
+00:03:16,000 --> 00:03:17,000
+And the service type is ClusterIP.
+
+49
+00:03:17,000 --> 00:03:23,000
+That's why it is not going to create any issues for my Keycloak server because as of now we are also
+
+50
+00:03:23,000 --> 00:03:27,000
+exposing our Keycloak server at the port 80 with the load balancer.
+
+51
+00:03:27,000 --> 00:03:32,000
+But since this service type is ClusterIP, they should not be any issues for my keycloak service.
+
+52
+00:03:32,000 --> 00:03:36,000
+Now, after this service they are also trying to create a service account.
+
+53
+00:03:36,000 --> 00:03:42,000
+So the service account name is going to be Spring Cloud Kubernetes Discovery Server to this service
+
+54
+00:03:42,000 --> 00:03:42,000
+account.
+
+55
+00:03:42,000 --> 00:03:45,000
+They are trying to do the role binding.
+
+56
+00:03:45,000 --> 00:03:49,000
+We all discussed what is this service account role, bindings and roles previously.
+
+57
+00:03:49,000 --> 00:03:54,000
+So with the help of this role binding, we are going to bind a role to the service account.
+
+58
+00:03:54,000 --> 00:04:00,000
+That's why under the role ref, you can see we have mentioned the subjects and the subjects we have
+
+59
+00:04:00,000 --> 00:04:03,000
+mentioned the kind as service account and this is the name of the service account.
+
+60
+00:04:03,000 --> 00:04:06,000
+And what is the role that we are trying to bind here?
+
+61
+00:04:06,000 --> 00:04:10,000
+The role that we are trying to bind here is namespace reader.
+
+62
+00:04:10,000 --> 00:04:15,000
+If you can scroll down, there is an object created of type role with a name as namespace reader.
+
+63
+00:04:15,000 --> 00:04:22,000
+Inside this role we have defined the roles that this particular role is going to have whenever it is
+
+64
+00:04:22,000 --> 00:04:27,000
+going to be binded  to the other service account. So it can query the API groups,
+
+65
+00:04:27,000 --> 00:04:33,000
+it can query the resources with these verbs, it can get the details, it can list the details, it
+
+66
+00:04:33,000 --> 00:04:34,000
+can watch the details.
+
+67
+00:04:34,000 --> 00:04:36,000
+So it has only read access here.
+
+68
+00:04:36,000 --> 00:04:41,000
+But here, under the resources, they only give access to the service and endpoints.
+
+69
+00:04:41,000 --> 00:04:47,000
+And this blog is written somewhere in 2021 and this might have worked at that time, but right now,
+
+70
+00:04:47,000 --> 00:04:54,000
+based upon my research, it is not working because apart from services and endpoints, we should also
+
+71
+00:04:54,000 --> 00:04:57,000
+give access to read details about the pods.
+
+72
+00:04:57,000 --> 00:05:00,000
+So that's why we need to make sure we are making
+
+73
+00:05:00,000 --> 00:05:06,000
+this change inside this file compared to what we have copied from the official blog of the spring cloud
+
+74
+00:05:06,000 --> 00:05:07,000
+kubernetes.
+
+75
+00:05:07,000 --> 00:05:13,000
+After making these role bindings, the next item that we have here is of type deployment. And that this
+
+76
+00:05:13,000 --> 00:05:14,000
+deployment details,
+
+77
+00:05:14,000 --> 00:05:20,000
+first, we are trying to provide some metadata information post that under the specification we are
+
+78
+00:05:20,000 --> 00:05:24,000
+trying to mention what are the match labels for the application.
+
+79
+00:05:24,000 --> 00:05:29,000
+Now under the template specification, we are trying to bind a service account for this deployment.
+
+80
+00:05:29,000 --> 00:05:35,000
+So the service account that we have created previously is Spring Cloud Kubernetes Discovery Server.
+
+81
+00:05:35,000 --> 00:05:38,000
+Post the service account details under the containers,
+
+82
+00:05:38,000 --> 00:05:40,000
+we are trying to define a name for the container.
+
+83
+00:05:40,000 --> 00:05:44,000
+After the container name, you should be able to see the image details.
+
+84
+00:05:44,000 --> 00:05:51,000
+So this is the image that we should use whenever we want to set up Discovery server inside Kubernetes
+
+85
+00:05:51,000 --> 00:05:51,000
+cluster.
+
+86
+00:05:51,000 --> 00:05:57,000
+So basically this Spring Cloud Kubernetes team, they built a spring boot application which is going
+
+87
+00:05:57,000 --> 00:06:01,000
+to act as a discovery server inside your Kubernetes cluster.
+
+88
+00:06:01,000 --> 00:06:06,000
+We as a developer, we don't have to build any application like Eureka Server manually.
+
+89
+00:06:06,000 --> 00:06:12,000
+We can simply leverage this Docker image, which is built by the Spring Cloud Kubernetes team and set
+
+90
+00:06:12,000 --> 00:06:15,000
+up the Discovery server inside our Kubernetes cluster.
+
+91
+00:06:15,000 --> 00:06:21,000
+But here there is a tag name that they have mentioned, which is 2.1.0-M3, but this might have been
+
+92
+00:06:21,000 --> 00:06:23,000
+pretty old version.
+
+93
+00:06:23,000 --> 00:06:27,000
+So let me look for the latest version and tag names. Inside the Docker hub,
+
+94
+00:06:27,000 --> 00:06:32,000
+like you can see, this is the place where we can identify all the tags related to the spring cloud
+
+95
+00:06:32,000 --> 00:06:34,000
+kubernetes discovery server.
+
+96
+00:06:34,000 --> 00:06:39,000
+So here, if I can scroll down, I should be able to find a stable version.
+
+97
+00:06:39,000 --> 00:06:47,000
+So let me scroll down, let me scroll down and here I have a stable tag name, which is 3.0.4. So I'm
+
+98
+00:06:47,000 --> 00:06:48,000
+going to use the same.
+
+99
+00:06:48,000 --> 00:06:51,000
+So let me copy this value and mention the same here.
+
+100
+00:06:51,000 --> 00:06:57,000
+And with that, we are going to use the latest image of Kubernetes Discovery server.
+
+101
+00:06:57,000 --> 00:07:01,000
+Now, after the image details, you can see there is a image pull policy.
+
+102
+00:07:01,000 --> 00:07:06,000
+So with this policy we are telling please pull the image only if it is not present inside the local
+
+103
+00:07:06,000 --> 00:07:07,000
+system.
+
+104
+00:07:07,000 --> 00:07:12,000
+After the image pull policy, they also define the readiness probe and liveness probe.
+
+105
+00:07:12,000 --> 00:07:18,000
+So this is how we need to define the readiness probe and liveness probe whenever we are using Kubernetes.
+
+106
+00:07:18,000 --> 00:07:25,000
+So long back, I explained about what is readiness and liveness and how to check for these probes using
+
+107
+00:07:25,000 --> 00:07:29,000
+Docker compose file and health checks exposed by the spring boot actuator.
+
+108
+00:07:29,000 --> 00:07:35,000
+The same paths that they are trying to use like actuator health readiness and actuator health liveness.
+
+109
+00:07:35,000 --> 00:07:36,000
+So please note that.
+
+110
+00:07:36,000 --> 00:07:41,000
+So in future, whenever you want to define readiness and liveness probe, you can follow this format.
+
+111
+00:07:41,000 --> 00:07:48,000
+But the reason why I have not defined these for our individual microservices is I'm good without defining
+
+112
+00:07:48,000 --> 00:07:55,000
+these values because like I said, Kubernetes is capable of restarting my pods multiple times if they
+
+113
+00:07:55,000 --> 00:07:56,000
+face any issues.
+
+114
+00:07:56,000 --> 00:08:03,000
+Whereas inside the Docker compose environment, if my container is not able to start the docker compose
+
+115
+00:08:03,000 --> 00:08:05,000
+is not going to restart again.
+
+116
+00:08:05,000 --> 00:08:10,000
+Since I have an advantage with Kubernetes, which is going to take care of restarting multiple times
+
+117
+00:08:10,000 --> 00:08:17,000
+and try to set up my pod based upon my replica count, I should be good even if I don't define the readiness
+
+118
+00:08:17,000 --> 00:08:19,000
+probe and liveness probe.
+
+119
+00:08:19,000 --> 00:08:24,000
+And at last, under the ports mapping, they have mentioned the container port as 8761.
+
+120
+00:08:24,000 --> 00:08:24,000
+.
+
+121
+00:08:24,000 --> 00:08:29,000
+But if you try to install this Kubernetes manifest file, you may face some issues.
+
+122
+00:08:29,000 --> 00:08:33,000
+The reason is by default, your readiness probe and liveness probe
+
+123
+00:08:33,000 --> 00:08:39,000
+they are going to check for these health details within a very short period of time, like 10s or 20s.
+
+124
+00:08:39,000 --> 00:08:45,000
+Within that short period of time, if you are Discovery server is not started, your Kubernetes is going
+
+125
+00:08:45,000 --> 00:08:52,000
+to attempt a restart and every time it will try to restart and within the short period of time, if
+
+126
+00:08:52,000 --> 00:08:55,000
+your application is not starting, it will again try to restart.
+
+127
+00:08:55,000 --> 00:08:57,000
+So this will be a continuous loop.
+
+128
+00:08:57,000 --> 00:09:02,000
+That's why to be on a safer side, we need to provide more configurations here.
+
+129
+00:09:02,000 --> 00:09:09,000
+These configurations we need to mention just under the Http get like you can see, the two configurations
+
+130
+00:09:09,000 --> 00:09:13,000
+that I have added is initial delay, seconds and period seconds.
+
+131
+00:09:13,000 --> 00:09:19,000
+So for these initial delay seconds, I have passed a value which is 100, which represents 100 seconds.
+
+132
+00:09:19,000 --> 00:09:27,000
+So with this, my Kubernetes is going to wait for the 100 seconds before it tries to perform the readiness
+
+133
+00:09:27,000 --> 00:09:28,000
+probe very first time.
+
+134
+00:09:28,000 --> 00:09:32,000
+I'm sure that Discovery server is going to start within 100 seconds.
+
+135
+00:09:32,000 --> 00:09:39,000
+But if I don't mention these values by default, my kubernetes is looking for the readiness probe within
+
+136
+00:09:39,000 --> 00:09:44,000
+10s or 15 seconds, and with that it is trying to restart multiple times.
+
+137
+00:09:44,000 --> 00:09:48,000
+So to avoid that, I'm giving some longer duration, which is 100 seconds.
+
+138
+00:09:48,000 --> 00:09:55,000
+If these 100 seconds is also not working for you, try to increase this to 150 or 200 seconds and post
+
+139
+00:09:55,000 --> 00:09:57,000
+that I have mentioned that period
+
+140
+00:09:57,000 --> 00:09:59,000
+seconds. So what is the purpose of this period
+
+141
+00:09:59,000 --> 00:10:00,000
+seconds.
+
+142
+00:10:00,000 --> 00:10:04,000
+With the help of period seconds, we are telling to the Kubernetes cluster, please validate the readiness
+
+143
+00:10:04,000 --> 00:10:11,000
+probe every 30s like initially it will try to perform the initial readiness probe after 100 seconds
+
+144
+00:10:11,000 --> 00:10:13,000
+based upon my initial delay seconds.
+
+145
+00:10:13,000 --> 00:10:18,000
+So think like after 100 seconds, my readiness probe gave a success response.
+
+146
+00:10:18,000 --> 00:10:22,000
+And with that, my Kubernetes is not going to be satisfied.
+
+147
+00:10:22,000 --> 00:10:26,000
+It want to regularly check the readiness probe of your application.
+
+148
+00:10:26,000 --> 00:10:31,000
+So if you don't provide these periods, again, your your Kubernetes is going to check for the readiness
+
+149
+00:10:31,000 --> 00:10:33,000
+probe every five seconds or 10s.
+
+150
+00:10:33,000 --> 00:10:38,000
+So instead of that short period, we can define our own duration, which is 30s.
+
+151
+00:10:38,000 --> 00:10:45,000
+So let me define the same values under the liveness probe also so that my liveness probe will not fail.
+
+152
+00:10:45,000 --> 00:10:48,000
+So with this we should be good in the next lecture,
+
+153
+00:10:48,000 --> 00:10:54,000
+let's try to set up that Discovery server inside Kubernetes with the help of this manifest file.
+
+154
+00:10:54,000 --> 00:10:55,000
+I hope you are clear.
+
+155
+00:10:55,000 --> 00:10:58,000
+Thank you and I'll catch you in the next lecture bye.
+

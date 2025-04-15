@@ -1,0 +1,652 @@
+1
+00:00:01,000 --> 00:00:06,000
+Inside this lecture, I'm going to show you how to create a helm chart for our accounts
+
+2
+00:00:06,000 --> 00:00:12,000
+microservice by leveraging the easybank-commonhelmchart. Because inside this easybank-common
+
+3
+00:00:12,000 --> 00:00:17,000
+only, we have defined all the required Kubernetes manifest template files.
+
+4
+00:00:17,000 --> 00:00:22,000
+So my accounts microservice it has to use this templates and post that
+
+5
+00:00:22,000 --> 00:00:27,000
+it should also mention the values inside the values.yaml. For the same,
+
+6
+00:00:27,000 --> 00:00:35,000
+I'm going to create a new folder here with the name easybank-services because inside this folder
+
+7
+00:00:35,000 --> 00:00:39,000
+I'm going to create all the helm charts that are required for my microservices.
+
+8
+00:00:39,000 --> 00:00:42,000
+So let me go inside this folder, now from my terminal
+
+9
+00:00:42,000 --> 00:00:48,000
+also, I'll navigate to the new folder that I have created, which is easybank services.
+
+10
+00:00:48,000 --> 00:00:53,000
+And inside this folder only, I'm going to create a new helm chart with the name accounts. For the same,
+
+11
+00:00:53,000 --> 00:00:59,000
+I'm going to run the command again, which is helm create and what is a helm chart name.
+
+12
+00:00:59,000 --> 00:01:01,000
+The helm chart name
+
+13
+00:01:01,000 --> 00:01:07,000
+this time I want to give is accounts because this is a helm chart related to accounts microservice. Inside
+
+14
+00:01:07,000 --> 00:01:09,000
+my easybank-services,
+
+15
+00:01:09,000 --> 00:01:12,000
+I have a new folder with the name accounts. Like we discussed before,
+
+16
+00:01:13,000 --> 00:01:18,000
+first, we need to delete all the templates that we received from the default helm chart.
+
+17
+00:01:18,000 --> 00:01:22,000
+And very similarly I will also delete the values.yaml content.
+
+18
+00:01:22,000 --> 00:01:25,000
+So here I'm trying to delete it and post that
+
+19
+00:01:25,000 --> 00:01:29,000
+I'm going to open the chart.yaml of accounts helm chart.
+
+20
+00:01:29,000 --> 00:01:31,000
+So here you can see the name is accounts.
+
+21
+00:01:31,000 --> 00:01:39,000
+I'm fine with the description, I'll go to the API version and here also I will change this to 1.0.0.
+
+22
+00:01:39,000 --> 00:01:42,000
+So now inside the same chart.yaml,
+
+23
+00:01:42,000 --> 00:01:47,000
+I need to define if this helm chart has any dependency on other helm charts.
+
+24
+00:01:47,000 --> 00:01:54,000
+We know that this helm chart which is accounts microservice related helm chart has a dependency on the
+
+25
+00:01:54,000 --> 00:01:56,000
+easybank-commonhelmchart.
+
+26
+00:01:56,000 --> 00:01:59,000
+So how to define those details, for the same
+
+27
+00:01:59,000 --> 00:02:05,000
+just after the app version we can try to mention a new element which is dependencies.
+
+28
+00:02:05,000 --> 00:02:11,000
+And inside this dependencies we can mention the list of helm chart that this particular chart has dependencies.
+
+29
+00:02:11,000 --> 00:02:16,000
+So here first we need to make sure we are mentioning the name of the helm chart, which is easybank-common
+
+30
+00:02:16,000 --> 00:02:18,000
+and post that
+
+31
+00:02:18,000 --> 00:02:22,000
+please mention the version of helm chart of easybank-common.
+
+32
+00:02:22,000 --> 00:02:29,000
+If you go and check the easybank-command and open this chart.yaml it has the version which
+
+33
+00:02:29,000 --> 00:02:34,000
+is 0.1.0 the same version we need to mention here also.
+
+34
+00:02:34,000 --> 00:02:37,000
+And after the version we need to mention repository element.
+
+35
+00:02:37,000 --> 00:02:42,000
+And to this repository we need to provide the path where this easybank-helm chart is available.
+
+36
+00:02:42,000 --> 00:02:48,000
+If your helm chart is available inside a URL, you can mention directly the URL details, but right
+
+37
+00:02:48,000 --> 00:02:55,000
+now, since my helm chart is available inside my local system, I need to mention this file post that
+
+38
+00:02:55,000 --> 00:03:01,000
+colon followed by two forward slash and I need to mention these two dots and I'm going to repeat the
+
+39
+00:03:01,000 --> 00:03:01,000
+two dots
+
+40
+00:03:01,000 --> 00:03:02,000
+one more time.
+
+41
+00:03:02,000 --> 00:03:08,000
+The reason I'm mentioning these two dots two times is from this location where this chart.yaml is
+
+42
+00:03:08,000 --> 00:03:09,000
+present.
+
+43
+00:03:09,000 --> 00:03:13,000
+The Easy Bank common helm chart is available two folders outside.
+
+44
+00:03:13,000 --> 00:03:16,000
+So this is the chart of accounts helm chart.
+
+45
+00:03:16,000 --> 00:03:21,000
+So I'll go one folder up and I'll be into this folder.
+
+46
+00:03:21,000 --> 00:03:27,000
+If I navigate one folder up one more time, I'll go to the folder where my easybank common is present.
+
+47
+00:03:27,000 --> 00:03:32,000
+That's why we need to mention these two dots two times and followed by what is your helm chart name?
+
+48
+00:03:32,000 --> 00:03:35,000
+So once we have defined these dependencies, we should be good.
+
+49
+00:03:35,000 --> 00:03:36,000
+As a next step,
+
+50
+00:03:36,000 --> 00:03:40,000
+I need to provide that templates inside the accounts helm chart.
+
+51
+00:03:40,000 --> 00:03:43,000
+So as of now my templates folder is empty.
+
+52
+00:03:43,000 --> 00:03:48,000
+Here you may have a question like we already defined that templates inside the easybank common.
+
+53
+00:03:48,000 --> 00:03:50,000
+Then why should we define again here?
+
+54
+00:03:50,000 --> 00:03:56,000
+I'm going to answer that question in few seconds, but before that let me copy the template files into
+
+55
+00:03:56,000 --> 00:03:57,000
+this folder location.
+
+56
+00:03:57,000 --> 00:04:04,000
+So here I have pasted two template files with the name deployment.yaml and service.yaml because
+
+57
+00:04:04,000 --> 00:04:11,000
+to deploy my accounts microservice, I just need to apply the deployment manifest file and service manifest
+
+58
+00:04:11,000 --> 00:04:11,000
+file.
+
+59
+00:04:11,000 --> 00:04:13,000
+I don't have any other requirements.
+
+60
+00:04:13,000 --> 00:04:18,000
+If you have other requirements where you need to define other Kubernetes objects, then definitely you
+
+61
+00:04:18,000 --> 00:04:22,000
+need to define the template files specific to those Kubernetes objects.
+
+62
+00:04:22,000 --> 00:04:28,000
+So if you try to open this Yaml files and try to understand what is there, you will get your answer.
+
+63
+00:04:28,000 --> 00:04:35,000
+So here I'm just trying to refer other template that I have defined with the name common.deployment.
+
+64
+00:04:35,000 --> 00:04:41,000
+Do you recall where we have defined this template inside the easy bank common helm chart?
+
+65
+00:04:41,000 --> 00:04:47,000
+We have defined this template with the name common.deployment, so I'm simply trying to refer to
+
+66
+00:04:47,000 --> 00:04:52,000
+the template available inside the other helm chart, which is easy bank common.
+
+67
+00:04:52,000 --> 00:04:57,000
+So that's why first we need to make sure we added the dependencies and post that only we should be able
+
+68
+00:04:57,000 --> 00:04:59,000
+to use this template.
+
+69
+00:04:59,000 --> 00:05:00,000
+And what is the name of the template
+
+70
+00:05:00,000 --> 00:05:02,000
+by following the syntax.
+
+71
+00:05:02,000 --> 00:05:06,000
+Please make sure this dot is also present because this is a syntax that we need to follow.
+
+72
+00:05:06,000 --> 00:05:13,000
+So now very similarly, if I go and observe the service.yaml template file, the same kind of setup
+
+73
+00:05:13,000 --> 00:05:14,000
+will be there.
+
+74
+00:05:14,000 --> 00:05:18,000
+Like where I'm trying to refer the other template with the name common.service.
+
+75
+00:05:18,000 --> 00:05:21,000
+So with this I'm assuming your question is answered.
+
+76
+00:05:21,000 --> 00:05:28,000
+So as a next step, we need to populate all the required values inside the values.yaml of accounts
+
+77
+00:05:28,000 --> 00:05:29,000
+microservice.
+
+78
+00:05:29,000 --> 00:05:32,000
+So for the same let me open this values.yaml.
+
+79
+00:05:32,000 --> 00:05:34,000
+As of now it is empty file.
+
+80
+00:05:34,000 --> 00:05:39,000
+So here I'm going to paste few properties inside these values.yaml like you can see
+
+81
+00:05:39,000 --> 00:05:43,000
+first I'm trying to mention a key with the name deployment name.
+
+82
+00:05:43,000 --> 00:05:45,000
+So for this deployment name key.
+
+83
+00:05:45,000 --> 00:05:48,000
+I'm passing a value which is accounts-deployment.
+
+84
+00:05:48,000 --> 00:05:55,000
+So if you try to open the deployment.yaml file that we have written inside the easybank comman,
+
+85
+00:05:55,000 --> 00:05:57,000
+then we should be able to understand.
+
+86
+00:05:57,000 --> 00:05:58,000
+So let me open the same.
+
+87
+00:05:58,000 --> 00:06:03,000
+So inside my easybank command there is a template with the name deployment.yaml.
+
+88
+00:06:03,000 --> 00:06:09,000
+So here we are trying to use the same variable which is deployment name which I have defined inside
+
+89
+00:06:09,000 --> 00:06:10,000
+the values.yaml.
+
+90
+00:06:10,000 --> 00:06:15,000
+So very similarly I'm trying to mention what is the service name, what is the app label,
+
+91
+00:06:15,000 --> 00:06:16,000
+what is the app name,
+
+92
+00:06:16,000 --> 00:06:21,000
+what is the replica account under the image.repository I'm trying to mention what is the image name
+
+93
+00:06:21,000 --> 00:06:27,000
+that my template has to consider for accounts microservice and what is the tag name,
+
+94
+00:06:27,000 --> 00:06:33,000
+since we want to deploy all the code from the section14 where we have implemented Kafka related changes,
+
+95
+00:06:33,000 --> 00:06:39,000
+I'm trying to use the same tag which is s14 and post that under the container port.
+
+96
+00:06:39,000 --> 00:06:42,000
+I have mentioned the 8080. And the service type here
+
+97
+00:06:42,000 --> 00:06:48,000
+I'm mentioning the cluster IP because I don't want to expose my accounts microservice to the outside
+
+98
+00:06:48,000 --> 00:06:48,000
+world.
+
+99
+00:06:48,000 --> 00:06:54,000
+I want to restrict only my gateway server can communicate our other internal microservices within the
+
+100
+00:06:54,000 --> 00:06:55,000
+cluster
+
+101
+00:06:55,000 --> 00:06:56,000
+they can communicate.
+
+102
+00:06:56,000 --> 00:07:00,000
+So with that reason, the service type, I'm going to mention the cluster IP.
+
+103
+00:07:00,000 --> 00:07:06,000
+So whatever value we have mentioned here, this will be mapped to the service.yaml file that we
+
+104
+00:07:06,000 --> 00:07:11,000
+have defined inside the templates folder of easybank common chart.
+
+105
+00:07:11,000 --> 00:07:15,000
+So if you see here there is a variable with the name values.service.type.
+
+106
+00:07:15,000 --> 00:07:21,000
+The same will be referred from the values.yaml, which we have defined inside the accounts.
+
+107
+00:07:21,000 --> 00:07:24,000
+Microservice specific helm chart and post that service.port.
+
+108
+00:07:24,000 --> 00:07:31,000
+I have mentioned 8080 and service.target port 8080 because we want to start our accounts microservice
+
+109
+00:07:31,000 --> 00:07:33,000
+at the port 8080.
+
+110
+00:07:33,000 --> 00:07:39,000
+Now here if you see I have defined some variables and to these variables I have defined some boolean
+
+111
+00:07:39,000 --> 00:07:40,000
+values.
+
+112
+00:07:40,000 --> 00:07:46,000
+So based upon these variables only all the environment variables that we have defined here will be
+
+113
+00:07:46,000 --> 00:07:47,000
+injected.
+
+114
+00:07:47,000 --> 00:07:53,000
+For example, I want to inject what is the spring application name value for my accounts microservice.
+
+115
+00:07:53,000 --> 00:07:56,000
+That's why I'm mentioning this app name enabled as true.
+
+116
+00:07:56,000 --> 00:08:02,000
+So if you go and check here, whenever this app name enabled is true, then we are going to create a
+
+117
+00:08:02,000 --> 00:08:05,000
+environment property with the name spring application name.
+
+118
+00:08:05,000 --> 00:08:11,000
+And for this the value is going to get from the app name which is present inside these values.yaml.
+
+119
+00:08:11,000 --> 00:08:13,000
+So the app name is going to be accounts.
+
+120
+00:08:13,000 --> 00:08:14,000
+So very similarly,
+
+121
+00:08:14,000 --> 00:08:20,000
+I also mentioned profile enabled as true config enabled as true because my accounts micro has to connect
+
+122
+00:08:20,000 --> 00:08:22,000
+with the config server. Very similarly,
+
+123
+00:08:22,000 --> 00:08:26,000
+Eureka enabled as true resource server enabled as false.
+
+124
+00:08:26,000 --> 00:08:32,000
+The reason is inside my microservices only Gateway server is going to act as a resource server accounts
+
+125
+00:08:32,000 --> 00:08:34,000
+microservice is not an resource server.
+
+126
+00:08:34,000 --> 00:08:38,000
+That's why it doesn't need the property related to the keycloak URL.
+
+127
+00:08:38,000 --> 00:08:44,000
+So with that reason I have mentioned the value as false and hotel enabled as true because we want our
+
+128
+00:08:44,000 --> 00:08:50,000
+accounts microservice to send the logs to the grafana and the distributed tracing details also to the
+
+129
+00:08:50,000 --> 00:08:51,000
+Grafana tempo component.
+
+130
+00:08:51,000 --> 00:08:57,000
+So with all these reasons I have mentioned the hotel enabled as true and the Kafka enabled also I have
+
+131
+00:08:57,000 --> 00:09:02,000
+mentioned as true because accounts microservice will try to connect to the Kafka broker.
+
+132
+00:09:02,000 --> 00:09:08,000
+So that it can communicate with the message microservice asynchronously with the help of event driven
+
+133
+00:09:08,000 --> 00:09:09,000
+pattern.
+
+134
+00:09:09,000 --> 00:09:14,000
+So with this we have defined all the required details inside the accounts helm chart.
+
+135
+00:09:14,000 --> 00:09:17,000
+So I have populated values.yaml under the templates
+
+136
+00:09:17,000 --> 00:09:19,000
+also we have pasted required templates.
+
+137
+00:09:19,000 --> 00:09:25,000
+The chart.yaml also updated with the required dependencies, but here you can see the chart folder is
+
+138
+00:09:25,000 --> 00:09:26,000
+empty.
+
+139
+00:09:26,000 --> 00:09:31,000
+Previously I said all the dependent helm charts will be available inside the chart folder, but right
+
+140
+00:09:31,000 --> 00:09:36,000
+now it is empty because we have not compiled our helm chart as of now.
+
+141
+00:09:36,000 --> 00:09:43,000
+So for that reason we are not able to see the dependent helm chart details inside the accounts microservice
+
+142
+00:09:43,000 --> 00:09:48,000
+So as a next step, let's try to compile this helm chart for the same inside our terminal.
+
+143
+00:09:48,000 --> 00:09:52,000
+we need to go into the helm chart where we need to compile.
+
+144
+00:09:52,000 --> 00:09:54,000
+So the helm chart name is accounts.
+
+145
+00:09:54,000 --> 00:09:57,000
+Right now I'm into the helm chart location.
+
+146
+00:09:57,000 --> 00:10:00,000
+Here I'm going to run the command, which is helm dependency
+
+147
+00:10:00,000 --> 00:10:07,000
+followed by build. So this helm dependencies build will compile my helm chart accounts and it will
+
+148
+00:10:07,000 --> 00:10:13,000
+also try to compile all the dependent helm charts and place them inside the chart folder.
+
+149
+00:10:13,000 --> 00:10:14,000
+So let me try to execute this command.
+
+150
+00:10:14,000 --> 00:10:19,000
+You can see we are getting an output saying that the compilation is successful.
+
+151
+00:10:19,000 --> 00:10:22,000
+Let's go to the folder and try to validate the same.
+
+152
+00:10:22,000 --> 00:10:27,000
+So right now if I go and observe the chart folder, there will be an compressed helm chart with the
+
+153
+00:10:27,000 --> 00:10:31,000
+name Easy Bank Command and the version of the helm chart.
+
+154
+00:10:31,000 --> 00:10:36,000
+So this is how the dependent helm chart are going to come into your own helm chart.
+
+155
+00:10:36,000 --> 00:10:39,000
+So always make sure you are running the helm
+
+156
+00:10:39,000 --> 00:10:45,000
+dependencies build command whenever your helm chart has dependency on other helm chart. For easy bank
+
+157
+00:10:45,000 --> 00:10:45,000
+common,
+
+158
+00:10:45,000 --> 00:10:51,000
+we didn't run this command because the easy bank command does not have dependency on any other helm
+
+159
+00:10:51,000 --> 00:10:51,000
+charts.
+
+160
+00:10:51,000 --> 00:10:57,000
+So with this I'm assuming your super clear on how to create a helm chart for a specific microservice.
+
+161
+00:10:57,000 --> 00:11:03,000
+As a next step, we need to create the helm chart for the remaining microservices as well.
+
+162
+00:11:03,000 --> 00:11:06,000
+So let's try to do the same very quickly in the next lecture.
+
+163
+00:11:06,000 --> 00:11:09,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,520 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let's try to create a helm chart which is specific to an environment.
+
+2
+00:00:06,000 --> 00:00:13,000
+So that we can deploy all our microservices with a single helm chart command. For the same inside the same
+
+3
+00:00:13,000 --> 00:00:17,000
+folder where I have easybank-common and easybank-services.
+
+4
+00:00:17,000 --> 00:00:22,000
+I'm going to create a new folder with the name environments. Inside this folder,
+
+5
+00:00:22,000 --> 00:00:25,000
+I'm going to create a new helm chart.
+
+6
+00:00:25,000 --> 00:00:29,000
+So inside my terminal I'm going to run the command, which is helm create.
+
+7
+00:00:29,000 --> 00:00:34,000
+First, I'm going to create a helm chart which is specific to that dev environment.
+
+8
+00:00:34,000 --> 00:00:39,000
+So for the same I'm going to mention dev-env so the name can be anything, but I'm trying to
+
+9
+00:00:39,000 --> 00:00:42,000
+give this name which is dev-env.
+
+10
+00:00:42,000 --> 00:00:49,000
+So let me try to execute this and my command will create a helm chart with the name dev-env. Inside
+
+11
+00:00:49,000 --> 00:00:49,000
+this folder
+
+12
+00:00:49,000 --> 00:00:56,000
+first I'm going to make sure all the templates we are deleting and similarly I will also delete all
+
+13
+00:00:56,000 --> 00:00:59,000
+the values present inside the values.yaml file.
+
+14
+00:00:59,000 --> 00:01:00,000
+So let me delete them.
+
+15
+00:01:00,000 --> 00:01:04,000
+Now as a next step I'm going to open the chart.yaml.
+
+16
+00:01:04,000 --> 00:01:05,000
+So inside this chart.yaml.
+
+17
+00:01:05,000 --> 00:01:13,000
+I'm fine with these api version name description, but app version I'll just keep it as 1.0.0.
+
+18
+00:01:13,000 --> 00:01:16,000
+So just to be consistent with the other helm charts.
+
+19
+00:01:16,000 --> 00:01:21,000
+Now as a next step, we need to define the details of all the dependent helm charts.
+
+20
+00:01:21,000 --> 00:01:27,000
+You know, what is the format that we need to follow Using the dependencies, we can mention any number
+
+21
+00:01:27,000 --> 00:01:29,000
+of dependent helm chart details.
+
+22
+00:01:29,000 --> 00:01:36,000
+So first I'm trying to mention easybank-common and post that config server, Eureka server, accounts,
+
+23
+00:01:36,000 --> 00:01:39,000
+cards, loans, gateway server and message.
+
+24
+00:01:39,000 --> 00:01:46,000
+So once you have defined all these details as a next step, we can go to the templates folder. Inside
+
+25
+00:01:46,000 --> 00:01:47,000
+my templates folder,
+
+26
+00:01:47,000 --> 00:01:48,000
+as of now you can see it is empty.
+
+27
+00:01:48,000 --> 00:01:52,000
+But before I try to proceed with the next step, I have a question for you.
+
+28
+00:01:52,000 --> 00:01:58,000
+So what are the template files that we have needed for these particular dev environment helm chart?
+
+29
+00:01:58,000 --> 00:02:04,000
+Do you think we need deployment and service manifest files whenever we want to set up an environment?
+
+30
+00:02:04,000 --> 00:02:09,000
+Off course we don't need because all those microservice specific template files are already present inside
+
+31
+00:02:09,000 --> 00:02:14,000
+the helm charts which are specific to your microservice. Inside the environment
+
+32
+00:02:14,000 --> 00:02:15,000
+related helm chart.
+
+33
+00:02:15,000 --> 00:02:21,000
+We just need to use the config map template because whatever we define with the help of config map,
+
+34
+00:02:21,000 --> 00:02:24,000
+it is going to be common for all the microservices.
+
+35
+00:02:24,000 --> 00:02:29,000
+That's why inside this templates folder we need to have a template which is related to the config map.
+
+36
+00:02:29,000 --> 00:02:29,000
+For the same,
+
+37
+00:02:29,000 --> 00:02:31,000
+I'm going to copy a file here.
+
+38
+00:02:31,000 --> 00:02:37,000
+If I try to open this config.yaml, here we're not going to mention the actual template of config
+
+39
+00:02:37,000 --> 00:02:44,000
+map because we already defined a config map template inside the easybank-common helm chart with the
+
+40
+00:02:44,000 --> 00:02:46,000
+name as common.configmap.
+
+41
+00:02:46,000 --> 00:02:50,000
+The same I'm trying to import here and use the same template.
+
+42
+00:02:50,000 --> 00:02:54,000
+So with this we have set up the template files inside environment.
+
+43
+00:02:54,000 --> 00:02:58,000
+As a next step, we should populate the values.yaml file.
+
+44
+00:02:58,000 --> 00:03:00,000
+So as of now you can see it is empty.
+
+45
+00:03:00,000 --> 00:03:03,000
+So here I'm going to paste few values.
+
+46
+00:03:03,000 --> 00:03:08,000
+Like you can see here, the prefix value that I have mentioned for all these values is global because
+
+47
+00:03:08,000 --> 00:03:15,000
+whatever I'm going to define inside these values.yaml this is going to be applicable for all my
+
+48
+00:03:15,000 --> 00:03:16,000
+microservice.
+
+49
+00:03:16,000 --> 00:03:17,000
+So that's why I have these prefix.
+
+50
+00:03:17,000 --> 00:03:20,000
+But this is not a mandatory or a standard from helm.
+
+51
+00:03:20,000 --> 00:03:24,000
+This is a prefix that I want to maintain for my own understanding.
+
+52
+00:03:24,000 --> 00:03:30,000
+So under the global.config map name we are trying to give what is a configmap name.
+
+53
+00:03:30,000 --> 00:03:35,000
+So the same is going to refer inside the config map template that we have created.
+
+54
+00:03:35,000 --> 00:03:41,000
+I can try to open the same if I go to the easybank-command and open the templates folder here I have
+
+55
+00:03:41,000 --> 00:03:43,000
+configmap.yaml.
+
+56
+00:03:43,000 --> 00:03:49,000
+So here while we are trying to create the config map under the metadata we need to give a name for our
+
+57
+00:03:49,000 --> 00:03:50,000
+config map.
+
+58
+00:03:50,000 --> 00:03:55,000
+So the name is going to get from global.configmap name which we have defined here.
+
+59
+00:03:55,000 --> 00:04:02,000
+So for dev environment, I'm going to have the name as easybankdev-configmap. And here active
+
+60
+00:04:02,000 --> 00:04:07,000
+profile I have mentioned qa, but this should be default because right now we are trying to build a chart
+
+61
+00:04:07,000 --> 00:04:09,000
+for the dev environment.
+
+62
+00:04:09,000 --> 00:04:13,000
+So inside the dev environment we want to use the default profile of spring boot.
+
+63
+00:04:13,000 --> 00:04:15,000
+So that's why I have mentioned the default.
+
+64
+00:04:15,000 --> 00:04:21,000
+Now coming to the config server URL, this is the value where my config server is going to be available.
+
+65
+00:04:21,000 --> 00:04:27,000
+So here the host name has to be same as your service name that you have defined.
+
+66
+00:04:27,000 --> 00:04:32,000
+So the service name that we have defined inside the service.yaml file of configserver is config
+
+67
+00:04:32,000 --> 00:04:33,000
+server.
+
+68
+00:04:33,000 --> 00:04:35,000
+Similarly for Eureka server, this is the service name.
+
+69
+00:04:35,000 --> 00:04:38,000
+The same I have mentioned as Eureka server URL.
+
+70
+00:04:38,000 --> 00:04:44,000
+Now coming to the keycloak URL here you can see this is the host name which is like Keycloak.default.svc.
+
+71
+00:04:44,000 --> 00:04:50,000
+cluster.local and it is going to available at the port 80.
+
+72
+00:04:50,000 --> 00:04:56,000
+So this is something new for you because in the coming lectures we are going to set up all the third
+
+73
+00:04:56,000 --> 00:04:59,000
+party components like Keycloak, Kafka and Grafana components with
+
+74
+00:05:00,000 --> 00:05:04,000
+the helm charts only. In that process they are going to be deployed with the production standards.
+
+75
+00:05:04,000 --> 00:05:10,000
+So when we follow those production standards, this is how our service name is going to be built inside
+
+76
+00:05:10,000 --> 00:05:12,000
+the Kubernetes cluster.
+
+77
+00:05:12,000 --> 00:05:14,000
+That's why I'm trying to mention the same here.
+
+78
+00:05:14,000 --> 00:05:20,000
+Now after this keycloak url, I'm trying to mention where is the path where my opentelemetry related
+
+79
+00:05:20,000 --> 00:05:21,000
+jar is going to be present?
+
+80
+00:05:21,000 --> 00:05:25,000
+And at last, what is the tempo of Grafana?
+
+81
+00:05:25,000 --> 00:05:27,000
+So these are tempo URL service name.
+
+82
+00:05:27,000 --> 00:05:32,000
+Since we are going to install Grafana tempo with the helm chart, this is how the service name is going
+
+83
+00:05:32,000 --> 00:05:34,000
+to come and the metrics exporter
+
+84
+00:05:34,000 --> 00:05:38,000
+I'll mention the value as none and coming to the Kafka broker URL,
+
+85
+00:05:38,000 --> 00:05:40,000
+this is the value that I want to mention.
+
+86
+00:05:40,000 --> 00:05:46,000
+So here also the service name is not going to be simple because we are going to install the Kafka with
+
+87
+00:05:46,000 --> 00:05:49,000
+the help of helm charts available inside the web.
+
+88
+00:05:49,000 --> 00:05:56,000
+So with all these values, this configmap.yaml is going to be populated and behind the scenes a
+
+89
+00:05:56,000 --> 00:06:02,000
+config map is going to be created inside your Kubernetes cluster and from the same config map all your
+
+90
+00:06:02,000 --> 00:06:06,000
+microservices can read the values at runtime.
+
+91
+00:06:06,000 --> 00:06:11,000
+If you have any questions please go and check the Docker Compose files that we have built, the same
+
+92
+00:06:11,000 --> 00:06:16,000
+properties we injected into the microservices with the help of Docker compose as well.
+
+93
+00:06:16,000 --> 00:06:24,000
+So with this we have set up the values.yaml template and we also updated the chart.yaml of 
+
+94
+00:06:24,000 --> 00:06:25,000
+dev-env environment.
+
+95
+00:06:25,000 --> 00:06:31,000
+As a next step, I need to compile these helm charts so that I will be able to see all the dependent
+
+96
+00:06:31,000 --> 00:06:33,000
+charts inside these charts folder.
+
+97
+00:06:33,000 --> 00:06:39,000
+So for the same I need to go into the folder which is dev-env and here I'm going to run the common
+
+98
+00:06:39,000 --> 00:06:43,000
+which is helm dependencies build.
+
+99
+00:06:43,000 --> 00:06:46,000
+So this is going to compile all the dependencies helm charts.
+
+100
+00:06:46,000 --> 00:06:48,000
+The compilation is successful.
+
+101
+00:06:48,000 --> 00:06:49,000
+Let me go to the folder location.
+
+102
+00:06:49,000 --> 00:06:56,000
+So now you can see under the charts folder I have all the dependent helm charts available in a packaged
+
+103
+00:06:56,000 --> 00:06:57,000
+or compressed format.
+
+104
+00:06:57,000 --> 00:07:02,000
+So with this we set up the helm chart for one environment which is dev.
+
+105
+00:07:02,000 --> 00:07:05,000
+Very similarly, I'm going to set up for QA and production as well.
+
+106
+00:07:05,000 --> 00:07:05,000
+For the same,
+
+107
+00:07:05,000 --> 00:07:11,000
+let me copy the same helm chart and rename this to qa-env.
+
+108
+00:07:11,000 --> 00:07:12,000
+Post that.
+
+109
+00:07:12,000 --> 00:07:15,000
+I'm going to open the chart.yaml.
+
+110
+00:07:15,000 --> 00:07:21,000
+Here we can change the name to qa-env and with that we should be good from chart.yaml perspective.
+
+111
+00:07:21,000 --> 00:07:25,000
+As a next step we can update the values.yaml.
+
+112
+00:07:25,000 --> 00:07:28,000
+Here the changes that we need to do is under the active profile.
+
+113
+00:07:28,000 --> 00:07:30,000
+We need to mention the profile value as QA.
+
+114
+00:07:30,000 --> 00:07:37,000
+And similarly I'll just make the config map name as easybankqa-configmap.
+
+115
+00:07:37,000 --> 00:07:40,000
+And apart from that we don't have to change any other values.
+
+116
+00:07:40,000 --> 00:07:45,000
+But for some reason if you are having some different host names or service names inside your specific
+
+117
+00:07:45,000 --> 00:07:48,000
+environment, you can always update these values.
+
+118
+00:07:48,000 --> 00:07:51,000
+So with this we set up the environment helm chart
+
+119
+00:07:51,000 --> 00:07:58,000
+also. As a next step, let me copy the qa environment and rename this to prod-env.
+
+120
+00:07:58,000 --> 00:08:05,000
+I'll go inside this folder and I'll open the chart.yaml and rename this name to prod-env
+
+121
+00:08:05,000 --> 00:08:06,000
+and post that.
+
+122
+00:08:06,000 --> 00:08:12,000
+I'll open the values.yaml and here I'll just mention the actual profile as prod and I'll also update
+
+123
+00:08:12,000 --> 00:08:17,000
+the config map name as easybank-hyphen configmap.
+
+124
+00:08:17,000 --> 00:08:22,000
+So with this we have created all the required helm charts for all the environments.
+
+125
+00:08:22,000 --> 00:08:28,000
+So now whenever I want to set up my microservices I can simply install one of the helm chart like dev
+
+126
+00:08:28,000 --> 00:08:32,000
+env or prod env or qa env behind the scenes,
+
+127
+00:08:32,000 --> 00:08:37,000
+it is also going to install all the remaining microservices along with the required config map.
+
+128
+00:08:37,000 --> 00:08:38,000
+I hope this is clear.
+
+129
+00:08:38,000 --> 00:08:39,000
+Thank you.
+
+130
+00:08:39,000 --> 00:08:41,000
+And I'll catch you in the next lecture bye.
+

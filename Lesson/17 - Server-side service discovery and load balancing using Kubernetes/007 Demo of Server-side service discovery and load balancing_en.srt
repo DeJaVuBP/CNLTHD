@@ -1,0 +1,320 @@
+1
+00:00:00,000 --> 00:00:05,000
+Finally, all my microservices started successfully inside the Kubernetes cluster.
+
+2
+00:00:05,000 --> 00:00:11,000
+Now is the time to test the changes that we have done related to the Kubernetes Discovery server.
+
+3
+00:00:11,000 --> 00:00:16,000
+So to get started with the testing behind the scenes, I have created a client inside the keycloak with
+
+4
+00:00:16,000 --> 00:00:18,000
+the name easybank-callcenter-cc.
+
+5
+00:00:19,000 --> 00:00:23,000
+And for the same, I also assign the required number of roles. Inside the postman,
+
+6
+00:00:23,000 --> 00:00:28,000
+first, let me try to get the access token by clicking on this get new access token.
+
+7
+00:00:28,000 --> 00:00:32,000
+So I got a new access token and I will use the same.
+
+8
+00:00:32,000 --> 00:00:39,000
+Here if you see the URL that I'm trying to invoke is create API available inside the accounts microservice.
+
+9
+00:00:39,000 --> 00:00:45,000
+So this is going to create a new account inside one of the instance of accounts microservice part.
+
+10
+00:00:45,000 --> 00:00:51,000
+Please note that I hope you remember that we created two replicas of accounts microservice and both
+
+11
+00:00:51,000 --> 00:00:55,000
+of them is going to have their own in-memory H2 database.
+
+12
+00:00:55,000 --> 00:01:02,000
+So the plan is first, I'm going to create an account by invoking this URL. Post that we can try to fetch
+
+13
+00:01:02,000 --> 00:01:09,000
+the account using the fetch API and during the same testing we can easily see how the load balancing
+
+14
+00:01:09,000 --> 00:01:11,000
+is going to happen behind the scenes.
+
+15
+00:01:11,000 --> 00:01:14,000
+So first let me try to create the accounts. For the same,
+
+16
+00:01:14,000 --> 00:01:19,000
+I'm going to click on the send button, so it is going to take few seconds since this is the first request.
+
+17
+00:01:19,000 --> 00:01:23,000
+Finally I got an output saying that account created successfully.
+
+18
+00:01:23,000 --> 00:01:28,000
+Now I will try to invoke the fetch API available inside the gateway server.
+
+19
+00:01:28,000 --> 00:01:31,000
+Let me look for the fetch API here.
+
+20
+00:01:31,000 --> 00:01:34,000
+So this is the right URL which I can use.
+
+21
+00:01:34,000 --> 00:01:40,000
+So localhost:8072/easybank/accounts/api/fetch
+
+22
+00:01:40,000 --> 00:01:41,000
+and what is the mobile number.
+
+23
+00:01:41,000 --> 00:01:46,000
+So let me check what is the mobile number that I have considered to create a new account.
+
+24
+00:01:46,000 --> 00:01:52,000
+So the mobile number that I considered here is, this is the one like which is ending with 88.
+
+25
+00:01:52,000 --> 00:01:56,000
+So the same I need to use inside the fetch API as well.
+
+26
+00:01:56,000 --> 00:02:03,000
+So here you can see first I'm going to send a request and I'll get an output saying that so-and-so account
+
+27
+00:02:03,000 --> 00:02:03,000
+is created.
+
+28
+00:02:03,000 --> 00:02:04,000
+This is perfect.
+
+29
+00:02:04,000 --> 00:02:09,000
+So let me try to keep invoking the same API at some point of time,
+
+30
+00:02:09,000 --> 00:02:14,000
+my Kubernetes, which is responsible to the load balancing, is going to forward for one of the accounts
+
+31
+00:02:14,000 --> 00:02:21,000
+instance where the account is not available inside the internal H2 database and that will confirm the
+
+32
+00:02:21,000 --> 00:02:28,000
+load balancing is also working fine without any issues, even after making the Discovery server changes.
+
+33
+00:02:28,000 --> 00:02:30,000
+So let me click on the send button.
+
+34
+00:02:30,000 --> 00:02:32,000
+I got a successful response.
+
+35
+00:02:32,000 --> 00:02:35,000
+Let me click on this again and keep trying to send the request,
+
+36
+00:02:35,000 --> 00:02:37,000
+at some point of time
+
+37
+00:02:37,000 --> 00:02:39,000
+I'm getting an not found error.
+
+38
+00:02:39,000 --> 00:02:44,000
+So if you are not getting these not found error, there is a good chance that your Kubernetes cluster
+
+39
+00:02:44,000 --> 00:02:46,000
+is maintaining the sticky session.
+
+40
+00:02:46,000 --> 00:02:48,000
+So what is sticky session?
+
+41
+00:02:48,000 --> 00:02:54,000
+So whenever a request is coming from the same client using the same IP address from the same server
+
+42
+00:02:54,000 --> 00:03:00,000
+or from the same system, it is always going to forward the request to the same pod, which initially
+
+43
+00:03:00,000 --> 00:03:02,000
+it processed the request.
+
+44
+00:03:02,000 --> 00:03:07,000
+So if I keep sending the send button, I'll keep getting the not found always because my Kubernetes
+
+45
+00:03:07,000 --> 00:03:11,000
+is trying to remember the details of the client who is invoking this API.
+
+46
+00:03:11,000 --> 00:03:16,000
+This is one of the great advantage that you will have with the Discovery server.
+
+47
+00:03:16,000 --> 00:03:22,000
+Maybe what you can do is if you want to see the response from another pod, please take some time like
+
+48
+00:03:22,000 --> 00:03:23,000
+1 to 2 minutes time.
+
+49
+00:03:23,000 --> 00:03:30,000
+Post that you can try to invoke the API by using the browser in an incognito mode.
+
+50
+00:03:30,000 --> 00:03:31,000
+So let me try to do the same.
+
+51
+00:03:31,000 --> 00:03:34,000
+So inside my browser I'm trying to access it.
+
+52
+00:03:34,000 --> 00:03:37,000
+As soon as I access, I'm getting an response
+
+53
+00:03:37,000 --> 00:03:44,000
+this time. This means my Kubernetes Discovery server is also playing a smart role here so that always
+
+54
+00:03:44,000 --> 00:03:51,000
+the request from the same client is forwarded to the same pod as long as the client is making request
+
+55
+00:03:51,000 --> 00:03:52,000
+very frequently.
+
+56
+00:03:52,000 --> 00:03:57,000
+So that's why if I keep refreshing this page, I'm always getting the response from the same pod.
+
+57
+00:03:57,000 --> 00:04:00,000
+Maybe now I'll go to the postman,
+
+58
+00:04:00,000 --> 00:04:02,000
+Here I'll try to send the request.
+
+59
+00:04:02,000 --> 00:04:02,000
+This time
+
+60
+00:04:02,000 --> 00:04:06,000
+you can see we are getting the response from the other pod.
+
+61
+00:04:06,000 --> 00:04:11,000
+So this confirms the load balancing and the Kubernetes discovery server is working perfectly
+
+62
+00:04:11,000 --> 00:04:12,000
+fine.
+
+63
+00:04:12,000 --> 00:04:13,000
+I hope you are clear.
+
+64
+00:04:13,000 --> 00:04:17,000
+So there are some good advantages with the Kubernetes Discovery server.
+
+65
+00:04:17,000 --> 00:04:23,000
+You are going to give a lot of free time to the developers where they don't have to maintain the Eureka
+
+66
+00:04:23,000 --> 00:04:29,000
+Server and your microservices also, they don't have to register themselves during the startup and they
+
+67
+00:04:29,000 --> 00:04:31,000
+don't have to send the heartbeats regularly.
+
+68
+00:04:31,000 --> 00:04:37,000
+So it is going to be the responsibility of the Discovery server to monitor and track the all the running
+
+69
+00:04:37,000 --> 00:04:40,000
+instances inside the Kubernetes cluster.
+
+70
+00:04:40,000 --> 00:04:45,000
+But please note that with this approach you will not be having any control on the load balancing.
+
+71
+00:04:45,000 --> 00:04:50,000
+If you need a control on the load balancing, then you need to go for the client side load balancing
+
+72
+00:04:50,000 --> 00:04:54,000
+with the help of Spring Cloud Load Balancer and Eureka Server.
+
+73
+00:04:54,000 --> 00:04:56,000
+I hope you are super, super clear.
+
+74
+00:04:56,000 --> 00:05:00,000
+With all the discussions that we have done inside this section. Please take some
+
+75
+00:05:00,000 --> 00:05:02,000
+time to understand all these details.
+
+76
+00:05:02,000 --> 00:05:08,000
+As a next step, I'm going to push all the s17 related Docker images into the Docker hub, and at the
+
+77
+00:05:08,000 --> 00:05:14,000
+same time I'm going to check in these section_17 folder into the GitHub repo for your reference.
+
+78
+00:05:14,000 --> 00:05:18,000
+So if you have any questions, feel free to refer the code inside the section_17.
+
+79
+00:05:18,000 --> 00:05:21,000
+Thank you and I'll catch you in the next section
+
+80
+00:05:21,000 --> 00:05:22,000
+bye.
+

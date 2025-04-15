@@ -1,0 +1,392 @@
+1
+00:00:00,000 --> 00:00:07,000
+As a last step, we need to set up grafana inside our Kubernetes cluster before we try to deploy all
+
+2
+00:00:07,000 --> 00:00:08,000
+our microservices.
+
+3
+00:00:08,000 --> 00:00:15,000
+So to install Grafana from the Bitnami folder, I'm trying to copy the Grafana related helm chart with
+
+4
+00:00:15,000 --> 00:00:20,000
+the name Grafana and paste the same inside the helm folder that we are mentioning.
+
+5
+00:00:20,000 --> 00:00:24,000
+Like I said before, I'm going to check in this entire helm folder into the GitHub repo.
+
+6
+00:00:24,000 --> 00:00:30,000
+Please use these helm charts only that I have checked in into the GitHub repo so that you don't have
+
+7
+00:00:30,000 --> 00:00:33,000
+to make all the changes that I have done inside the values.yaml.
+
+8
+00:00:33,000 --> 00:00:40,000
+So now before we try to set up this grafana, as usual, we need to make some changes inside the values.yaml
+
+9
+00:00:40,000 --> 00:00:42,000
+of Grafana Helm chart.
+
+10
+00:00:42,000 --> 00:00:49,000
+So let me open this inside this values.yaml I need to look for the information on how to provide the
+
+11
+00:00:49,000 --> 00:00:53,000
+data source Details of tempo Loki and Prometheus.
+
+12
+00:00:53,000 --> 00:00:58,000
+Like we discussed in the previous sections, Grafana is capable of connecting to these components like
+
+13
+00:00:58,000 --> 00:01:01,000
+Prometheus, Loki and tempo.
+
+14
+00:01:01,000 --> 00:01:07,000
+We can provide these data source details to grafana using Yaml configurations, or we can also manually
+
+15
+00:01:07,000 --> 00:01:10,000
+set up the data sources from the UI of the Grafana.
+
+16
+00:01:10,000 --> 00:01:16,000
+Since we want to avoid that manual task, we need to look for an information on how to set up the data
+
+17
+00:01:16,000 --> 00:01:19,000
+source details inside these values.yaml.
+
+18
+00:01:19,000 --> 00:01:23,000
+So for the same here I'm going to search for data source.
+
+19
+00:01:23,000 --> 00:01:29,000
+So here there is a section about data sources and here they have given an information saying that whenever
+
+20
+00:01:29,000 --> 00:01:36,000
+we want to set up a data source, we need to define the data source details under the secret definition.
+
+21
+00:01:36,000 --> 00:01:40,000
+So here there is an element secret definition under this element secret definition,
+
+22
+00:01:40,000 --> 00:01:44,000
+we need to provide the data source details like they have mentioned here.
+
+23
+00:01:44,000 --> 00:01:47,000
+They have mentioned a sample connection, details to Prometheus.
+
+24
+00:01:47,000 --> 00:01:53,000
+So using the same syntax, we need to set up the data source details for grafana.
+
+25
+00:01:53,000 --> 00:01:59,000
+So under the secret definition we need to define API version data sources and what are your data sources?
+
+26
+00:01:59,000 --> 00:02:04,000
+So let me delete these curly braces and navigate to the next line.
+
+27
+00:02:04,000 --> 00:02:08,000
+Here inside this next line, I'm going to mention few configurations like you can see.
+
+28
+00:02:08,000 --> 00:02:14,000
+So here I have mentioned API version as one and post that I have mentioned some delete data sources
+
+29
+00:02:14,000 --> 00:02:20,000
+if already existed in my grafana with these names and at last under data sources I have mentioned three
+
+30
+00:02:20,000 --> 00:02:24,000
+data source details like what is the Prometheus data source details?
+
+31
+00:02:24,000 --> 00:02:27,000
+So this is the DNS name of Prometheus inside my Kubernetes cluster.
+
+32
+00:02:27,000 --> 00:02:29,000
+And similarly for tempo.
+
+33
+00:02:29,000 --> 00:02:35,000
+So inside tempo we have many services like we discussed previously, so the service that we need to
+
+34
+00:02:35,000 --> 00:02:41,000
+use for connecting Grafana and tempo is Grafana tempo, Grafana tempo, query frontend.
+
+35
+00:02:41,000 --> 00:02:43,000
+So this is the one that we need to use.
+
+36
+00:02:43,000 --> 00:02:46,000
+And for this the port is going to be 300.
+
+37
+00:02:46,000 --> 00:02:51,000
+You can confirm the same here for the query frontend the port number is 3200.
+
+38
+00:02:51,000 --> 00:02:57,000
+So the same I'm trying to mention inside the values.yaml. Now coming to the loki.
+
+39
+00:02:57,000 --> 00:03:02,000
+So for loki we need to connect to the loki gateway service and this is the service name and it
+
+40
+00:03:02,000 --> 00:03:05,000
+is exposed at the port 80. And at last,
+
+41
+00:03:05,000 --> 00:03:11,000
+since we want to integrate loki and tempo, I have mentioned these derived fields configurations
+
+42
+00:03:11,000 --> 00:03:14,000
+just like how we did during our local testing.
+
+43
+00:03:14,000 --> 00:03:20,000
+So once we define these values now, my grafana should be able to connect with all the components related
+
+44
+00:03:20,000 --> 00:03:22,000
+to Prometheus, loki and tempo.
+
+45
+00:03:22,000 --> 00:03:29,000
+As a next step, we can compile these Grafana helm chart and install the same into our Kubernetes cluster.
+
+46
+00:03:29,000 --> 00:03:36,000
+So here, let me clean the console and post that I'm going to navigate into the Grafana folder.
+
+47
+00:03:36,000 --> 00:03:41,000
+Inside this folder I'm going to run the command, which is helm dependencies build.
+
+48
+00:03:41,000 --> 00:03:47,000
+Once the build is completed, we can try to navigate to the parent folder and inside this folder we
+
+49
+00:03:47,000 --> 00:03:50,000
+can run the command, which is helm install and the release name
+
+50
+00:03:50,000 --> 00:03:53,000
+I want to give it as grafana.
+
+51
+00:03:53,000 --> 00:03:55,000
+And what is the helm chart name.
+
+52
+00:03:55,000 --> 00:03:57,000
+The helm chart name is Grafana itself.
+
+53
+00:03:57,000 --> 00:04:02,000
+So if I try to execute this command, the Grafana is going to be installed inside my local system. By
+
+54
+00:04:02,000 --> 00:04:03,000
+default,
+
+55
+00:04:03,000 --> 00:04:07,000
+my Grafana is going to be exposed as a cluster IP service.
+
+56
+00:04:07,000 --> 00:04:14,000
+So whenever I have some requirements to debug any issues, my Kubernetes admin can run a command which
+
+57
+00:04:14,000 --> 00:04:16,000
+is related to kubectl port forward.
+
+58
+00:04:16,000 --> 00:04:23,000
+With this, my grafana is going to be temporarily accessible with the help of these 3000 port number.
+
+59
+00:04:23,000 --> 00:04:25,000
+So let me try to execute this command.
+
+60
+00:04:25,000 --> 00:04:26,000
+So here I'm executing the command.
+
+61
+00:04:27,000 --> 00:04:34,000
+After executing this command, we should be able to access the Grafana at the port 8080. Because we expose
+
+62
+00:04:34,000 --> 00:04:36,000
+that traffic at the port 8080.
+
+63
+00:04:36,000 --> 00:04:39,000
+So Grafana internally is going to start at the port 3000.
+
+64
+00:04:39,000 --> 00:04:44,000
+But here the traffic is going to be exposed at the port 8080.
+
+65
+00:04:44,000 --> 00:04:50,000
+But this is going to create some problems because for some reason, if you start your accounts microservice
+
+66
+00:04:50,000 --> 00:04:55,000
+as a LoadBalancer service, it is also going to expose the traffic at the port 8080.
+
+67
+00:04:55,000 --> 00:04:57,000
+With that reason, you may face some issues.
+
+68
+00:04:57,000 --> 00:05:00,000
+That's why I can kill this command and try to run
+
+69
+00:05:00,000 --> 00:05:01,000
+the same command again.
+
+70
+00:05:01,000 --> 00:05:07,000
+But this time I will change this port number from 8080 to 3000 itself.
+
+71
+00:05:07,000 --> 00:05:12,000
+This way my Grafana is going to be available at the port 3000 itself.
+
+72
+00:05:12,000 --> 00:05:13,000
+So let me execute this command.
+
+73
+00:05:13,000 --> 00:05:17,000
+Now I'll go to the browser and try to access the port 3000.
+
+74
+00:05:17,000 --> 00:05:23,000
+Here I'm trying to access the port 3000 and you can see I got an welcome message where I can enter my
+
+75
+00:05:23,000 --> 00:05:28,000
+username and password. But I don't know what is the username and password. For the same,
+
+76
+00:05:28,000 --> 00:05:33,000
+if you closely observe the instructions, there are instructions on how to get the username and password.
+
+77
+00:05:33,000 --> 00:05:38,000
+The username is admin, but to know the password we need to execute these two commands.
+
+78
+00:05:38,000 --> 00:05:40,000
+So let me go to the other terminal.
+
+79
+00:05:40,000 --> 00:05:45,000
+So here I'm going to run the command and the username is going to be admin and this is the password.
+
+80
+00:05:45,000 --> 00:05:47,000
+So let me copy this value.
+
+81
+00:05:47,000 --> 00:05:50,000
+Here I'm going to enter the credentials and post that
+
+82
+00:05:50,000 --> 00:05:55,000
+I'll click on the login and you can see right now I'm logged in into the Grafana successfully.
+
+83
+00:05:55,000 --> 00:05:59,000
+I can also validate if the data source connection is successful or not.
+
+84
+00:05:59,000 --> 00:06:05,000
+By going to these explore under this dropdown, you can see I'm able to see three data sources related
+
+85
+00:06:05,000 --> 00:06:08,000
+to loki, prometheus and tempo.
+
+86
+00:06:08,000 --> 00:06:12,000
+This confirms our Grafana setup also is completed.
+
+87
+00:06:12,000 --> 00:06:19,000
+As a next step, we can finally install all our microservices into the Kubernetes cluster.
+
+88
+00:06:19,000 --> 00:06:24,000
+Before that, let me stop this port forwarding and with this I will not be able to access my grafana
+
+89
+00:06:24,000 --> 00:06:25,000
+in future
+
+90
+00:06:25,000 --> 00:06:28,000
+whenever I need, I can try to run the port forward command.
+
+91
+00:06:28,000 --> 00:06:32,000
+So let me clean the console and try to run the command, which is helm ls.
+
+92
+00:06:32,000 --> 00:06:38,000
+This will show you all the releases or all the installations or deployments that we have done with the
+
+93
+00:06:38,000 --> 00:06:39,000
+help of Helm.
+
+94
+00:06:39,000 --> 00:06:46,000
+So as of now we have installed Grafana, Kafka, Keycloak, Loki, Prometheus and Tempo. And these
+
+95
+00:06:46,000 --> 00:06:52,000
+are the chart details that we have used to set up these components inside the Kubernetes cluster.
+
+96
+00:06:52,000 --> 00:06:54,000
+I hope this is all clear to you in the next lecture,
+
+97
+00:06:54,000 --> 00:06:59,000
+let's try to deploy our microservices into the Kubernetes cluster.
+
+98
+00:06:59,000 --> 00:07:01,000
+Thank you, and I'll catch you in the next lecture bye.
+

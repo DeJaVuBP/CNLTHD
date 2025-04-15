@@ -1,0 +1,312 @@
+1
+00:00:00,000 --> 00:00:01,000
+To get started with the helm,
+
+2
+00:00:01,000 --> 00:00:06,000
+first, we need to make sure we install this helm inside our local system.
+
+3
+00:00:06,000 --> 00:00:11,000
+So to install this helm, we need to go to the website of Helm, which is helm.sh.
+
+4
+00:00:12,000 --> 00:00:17,000
+Inside this website in the top right corner, we have a button with the name Get started.
+
+5
+00:00:17,000 --> 00:00:21,000
+So please click on that post that you will be landed onto this page.
+
+6
+00:00:21,000 --> 00:00:22,000
+Inside this page,
+
+7
+00:00:22,000 --> 00:00:26,000
+first, try to read what are the prerequisites to get started with the helm.
+
+8
+00:00:26,000 --> 00:00:32,000
+The very first prerequisite is you should have a proper Kubernetes cluster running inside your local
+
+9
+00:00:32,000 --> 00:00:36,000
+system or inside any cloud environment. And post that,
+
+10
+00:00:36,000 --> 00:00:42,000
+we should also decide about security configurations which are related to our installation.
+
+11
+00:00:42,000 --> 00:00:44,000
+So this is an optional pre request.
+
+12
+00:00:44,000 --> 00:00:48,000
+That's why you can see here the highlighted if any.
+
+13
+00:00:48,000 --> 00:00:50,000
+So we don't need to worry about the second pre request.
+
+14
+00:00:50,000 --> 00:00:56,000
+The third pre request is we need to install and configure helm inside our local system.
+
+15
+00:00:56,000 --> 00:01:03,000
+So to install helm we can click on these installing helm option and this will take me to the installing
+
+16
+00:01:03,000 --> 00:01:04,000
+helm web page.
+
+17
+00:01:04,000 --> 00:01:11,000
+Inside this page we have many options on how to install right from binary releases from scripts.
+
+18
+00:01:11,000 --> 00:01:18,000
+But my favorite option and my recommendation is to follow to install helm with the help of package managers.
+
+19
+00:01:18,000 --> 00:01:20,000
+So here it's very funny.
+
+20
+00:01:20,000 --> 00:01:26,000
+We are going to install a package manager which is helm with the help of other package manager.
+
+21
+00:01:26,000 --> 00:01:30,000
+So since I'm using Mac OS, I'm going to use Homebrew.
+
+22
+00:01:30,000 --> 00:01:34,000
+So this is the default package manager inside Mac OS.
+
+23
+00:01:34,000 --> 00:01:38,000
+So the command that we need to run here is, brew install helm.
+
+24
+00:01:38,000 --> 00:01:42,000
+So let me try to run this command and post that we can see what is happening.
+
+25
+00:01:42,000 --> 00:01:47,000
+I'll also show you the steps that you need to follow if you are using Windows in few seconds.
+
+26
+00:01:47,000 --> 00:01:52,000
+So inside my terminal I can run this command, which is brew install helm.
+
+27
+00:01:52,000 --> 00:01:59,000
+So with this I'm telling to my homebrew to install helm related package manager since I already installed
+
+28
+00:01:59,000 --> 00:02:00,000
+inside my local system.
+
+29
+00:02:00,000 --> 00:02:05,000
+It is trying to get the latest installation of helm into my local system.
+
+30
+00:02:05,000 --> 00:02:05,000
+At last
+
+31
+00:02:05,000 --> 00:02:11,000
+like you can see, I got an output saying that the installation is completed. So you can also verify
+
+32
+00:02:11,000 --> 00:02:16,000
+if the installation is completed or not by running the command, which is helm version.
+
+33
+00:02:16,000 --> 00:02:20,000
+So this will give you an output on which version I'm using.
+
+34
+00:02:20,000 --> 00:02:25,000
+You can see as of now I'm using helm 3.2.3 version.
+
+35
+00:02:25,000 --> 00:02:30,000
+So with this now my helm installation is completed inside my local system.
+
+36
+00:02:30,000 --> 00:02:35,000
+As a next step, let me show you very quickly how to install Helm inside the Windows operating system.
+
+37
+00:02:35,000 --> 00:02:40,000
+So for Windows Operating System, you can use one of the famous package manager, which is chocolatey.
+
+38
+00:02:40,000 --> 00:02:47,000
+So first you need to make sure chocolatey is installed inside your system post that only you can install
+
+39
+00:02:47,000 --> 00:02:47,000
+helm.
+
+40
+00:02:47,000 --> 00:02:50,000
+So to install chocolatey it is going to be super easy.
+
+41
+00:02:50,000 --> 00:02:53,000
+You need to go to the chocolatey website.
+
+42
+00:02:53,000 --> 00:02:57,000
+Inside the Chocolatey website there is an option install on the top right corner.
+
+43
+00:02:57,000 --> 00:02:59,000
+So let me click on that .
+
+44
+00:02:59,000 --> 00:03:03,000
+Here there are steps on how we can install this chocolatey package manager.
+
+45
+00:03:03,000 --> 00:03:07,000
+So this is a famous package manager for Windows Operating System.
+
+46
+00:03:07,000 --> 00:03:12,000
+So if you can scroll down on this page, please select the individual option because we are trying to
+
+47
+00:03:12,000 --> 00:03:15,000
+set up in our own local system.
+
+48
+00:03:15,000 --> 00:03:21,000
+Once you select this individual option, we need to make sure we are opening the PowerShell inside the
+
+49
+00:03:21,000 --> 00:03:24,000
+Windows operating system with admin rights.
+
+50
+00:03:24,000 --> 00:03:31,000
+So please go to your Windows search box and look for PowerShell and right click on that and open as
+
+51
+00:03:31,000 --> 00:03:31,000
+an admin.
+
+52
+00:03:31,000 --> 00:03:39,000
+So once you open the PowerShell as an admin, you need to run the command, which is get execution policy.
+
+53
+00:03:39,000 --> 00:03:46,000
+So once you run this command you will get an output, whether it is all signed or whether it is restricted.
+
+54
+00:03:46,000 --> 00:03:51,000
+For some reason, if you are getting output as restricted, that means you cannot install any other
+
+55
+00:03:51,000 --> 00:03:53,000
+softwares with the help of PowerShell.
+
+56
+00:03:53,000 --> 00:04:01,000
+So to disable these restricted nature we can run a command which is set execution policy all signed.
+
+57
+00:04:01,000 --> 00:04:08,000
+So once we execute these set execution policy all sign post that you can try to run again this get
+
+58
+00:04:08,000 --> 00:04:13,000
+execution policy and you should get an output which is all signed instead of restricted.
+
+59
+00:04:13,000 --> 00:04:15,000
+After that, it's going to be super easy.
+
+60
+00:04:15,000 --> 00:04:17,000
+You just need to copy this command.
+
+61
+00:04:17,000 --> 00:04:23,000
+Like you can see here, this entire command you need to execute inside your PowerShell and this will
+
+62
+00:04:23,000 --> 00:04:29,000
+install chocolaty package manager and you can also verify whether the installation of chocolate is successful
+
+63
+00:04:29,000 --> 00:04:34,000
+or not by simply typing choco or choco space hyphen question mark.
+
+64
+00:04:34,000 --> 00:04:39,000
+And that will give the output saying that which version of chocolatey is installed.
+
+65
+00:04:39,000 --> 00:04:46,000
+So once the chocolatey is installed inside your local system, you can go to the helm and here there
+
+66
+00:04:46,000 --> 00:04:51,000
+is an command that you need to run to install helm with the help of chocolatey.
+
+67
+00:04:51,000 --> 00:04:55,000
+So the command is choco install Kubernetes - helm.
+
+68
+00:04:55,000 --> 00:04:59,000
+As soon as you execute this command helm is going to be installed inside your local
+
+69
+00:04:59,000 --> 00:05:00,000
+system.
+
+70
+00:05:00,000 --> 00:05:04,000
+And you can also confirm that by running a command, which is hell version.
+
+71
+00:05:04,000 --> 00:05:05,000
+I hope this is clear.
+
+72
+00:05:05,000 --> 00:05:10,000
+If you are using some other operating system like Ubuntu or Linux.
+
+73
+00:05:10,000 --> 00:05:13,000
+There are other approaches also mentioned inside this web page.
+
+74
+00:05:13,000 --> 00:05:19,000
+I recommend you looking at these web page if you have any questions around the helm installation.
+
+75
+00:05:19,000 --> 00:05:23,000
+I hope you are successful at installing the helm inside your local system.
+
+76
+00:05:23,000 --> 00:05:29,000
+If not, please take help from this web page and if you still not able to install helm, please shoot
+
+77
+00:05:29,000 --> 00:05:32,000
+a question to me and I'll be able to help you.
+
+78
+00:05:32,000 --> 00:05:35,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,524 @@
+1
+00:00:00,000 --> 00:00:04,000
+In the previous section, I gave a very quick introduction about Helm.
+
+2
+00:00:04,000 --> 00:00:08,000
+Now, inside this lecture, let's try to understand more details about Helm.
+
+3
+00:00:08,000 --> 00:00:15,000
+If someone asks you what is Helm, you can simply reply saying that Helm is a package manager for Kubernetes.
+
+4
+00:00:15,000 --> 00:00:22,000
+The main objective of Helm is to help developers and DevOps team members to manage Kubernetes projects
+
+5
+00:00:22,000 --> 00:00:30,000
+and deployments by offering a more efficient approach in handling the Kubernetes manifest files.
+
+6
+00:00:30,000 --> 00:00:36,000
+Regardless of how many microservices you have inside your microservice network, Helm is going to make
+
+7
+00:00:36,000 --> 00:00:43,000
+your life easy without helm like we discussed previously, we need to maintain lot many Kubernetes manifest
+
+8
+00:00:43,000 --> 00:00:46,000
+files. Without helm like we discussed previously,
+
+9
+00:00:46,000 --> 00:00:53,000
+we need to maintain all the Kubernetes manifest files like for deployment service config map for each
+
+10
+00:00:53,000 --> 00:00:57,000
+and every microservice that you are going to deploy inside your microservice.
+
+11
+00:00:57,000 --> 00:01:02,000
+And apart from maintaining these Kubernetes manifest files, your DevOps team members also they should
+
+12
+00:01:02,000 --> 00:01:09,000
+manually apply or delete these Kubernetes manifest files with the help of Kubectl commands.
+
+13
+00:01:09,000 --> 00:01:13,000
+But like I said, if we use Helm, we can overcome these challenges.
+
+14
+00:01:13,000 --> 00:01:18,000
+And here you may have question like how Helm is going to help us to overcome these challenges.
+
+15
+00:01:18,000 --> 00:01:24,000
+For the same helm is going to follow a packaging format called Charts. Inside Helm,
+
+16
+00:01:24,000 --> 00:01:31,000
+a chart is a collection of files that describes a related set of Kubernetes resources.
+
+17
+00:01:31,000 --> 00:01:37,000
+Suppose inside your microservice network, if you have 50 microservices, you can club all these 50
+
+18
+00:01:37,000 --> 00:01:43,000
+microservices related manifest files into a single component called Chart Inside Helm.
+
+19
+00:01:43,000 --> 00:01:51,000
+So using the same single chart, we can deploy a simple application or any kind of complex application
+
+20
+00:01:51,000 --> 00:01:56,000
+which can include Http servers, REST APIs, databases, supporting components like cache.
+
+21
+00:01:56,000 --> 00:02:03,000
+So regardless of how complex your microservice network is, you can always try to create a chart specific
+
+22
+00:02:03,000 --> 00:02:05,000
+to your organization.
+
+23
+00:02:05,000 --> 00:02:10,000
+And with that, the maintenance of your Kubernetes deployments is going to be super easy.
+
+24
+00:02:10,000 --> 00:02:17,000
+And one more beauty of this helm charts is, a chart can have a child charts or dependent charts as well,
+
+25
+00:02:17,000 --> 00:02:24,000
+just like in Java, how we can have parent class or child class or dependent classes very similarly
+
+26
+00:02:24,000 --> 00:02:25,000
+inside helm charts
+
+27
+00:02:25,000 --> 00:02:31,000
+also, we can maintain the dependent charts and child charts in case if you have dependency on other
+
+28
+00:02:31,000 --> 00:02:37,000
+third party components, you can try to add the helm charts of those components into your organization
+
+29
+00:02:37,000 --> 00:02:37,000
+charts.
+
+30
+00:02:37,000 --> 00:02:44,000
+This way you can install whole dependency tree of your project, including your own microservices and
+
+31
+00:02:44,000 --> 00:02:48,000
+dependent components with just a single command.
+
+32
+00:02:48,000 --> 00:02:52,000
+And like I said, Helm is a package manager for Kubernetes.
+
+33
+00:02:52,000 --> 00:02:53,000
+And here you may have a question.
+
+34
+00:02:53,000 --> 00:02:55,000
+What is a package manager?
+
+35
+00:02:55,000 --> 00:03:03,000
+Package manager is a component that can help you in installing or uninstalling or upgrading your software
+
+36
+00:03:03,000 --> 00:03:06,000
+packages. Just like how we have helm for Kubernetes,
+
+37
+00:03:06,000 --> 00:03:11,000
+very similarly, we also have other famous package managers inside the industry.
+
+38
+00:03:11,000 --> 00:03:17,000
+For example, Pip is a package manager that can help you to install any Python packages.
+
+39
+00:03:17,000 --> 00:03:22,000
+And very similarly for JavaScript, we have a package manager with the name NPM.
+
+40
+00:03:22,000 --> 00:03:29,000
+Using this NPM package manager, we can install any kind of JavaScript libraries like Angular, React.
+
+41
+00:03:29,000 --> 00:03:36,000
+All these libraries we can easily install and set up inside our local system with the help of this NPM
+
+42
+00:03:36,000 --> 00:03:37,000
+package manager.
+
+43
+00:03:37,000 --> 00:03:45,000
+Very similarly, helm is the best way to find, share and use softwares built for Kubernetes.
+
+44
+00:03:45,000 --> 00:03:46,000
+I hope this is clear.
+
+45
+00:03:46,000 --> 00:03:52,000
+Now let me try to explain you very quickly on how Helm is going to solve all the challenges that we
+
+46
+00:03:52,000 --> 00:03:58,000
+have discussed. Without Helm like we discussed, we need to maintain separate Kubernetes manifest files
+
+47
+00:03:58,000 --> 00:04:01,000
+for all the microservices inside a project.
+
+48
+00:04:01,000 --> 00:04:08,000
+For example, think like I have accounts, loans and cards, microservice. If I want to access them,
+
+49
+00:04:08,000 --> 00:04:13,000
+either using external traffic or with the help of internal traffic, I should expose them with the help
+
+50
+00:04:13,000 --> 00:04:16,000
+of Service object inside Kubernetes.
+
+51
+00:04:16,000 --> 00:04:22,000
+For the same, I need to create three different Kubernetes manifest files, one for account-service,
+
+52
+00:04:22,000 --> 00:04:27,000
+and the second one is for the loan-service and the third one for the card-service.
+
+53
+00:04:27,000 --> 00:04:35,000
+So if you try to closely observe these manifest files, the skeleton of these files is almost same or
+
+54
+00:04:35,000 --> 00:04:41,000
+static except a few dynamic values, like the very first element API version, which is V1 is going
+
+55
+00:04:41,000 --> 00:04:43,000
+to be static for all the files.
+
+56
+00:04:43,000 --> 00:04:49,000
+The same applies for kind object post that will be having metadata name inside the metadata name,
+
+57
+00:04:49,000 --> 00:04:54,000
+we are going to have a dynamic value which is specific to this particular microservice.
+
+58
+00:04:54,000 --> 00:04:56,000
+Post that and a specification selector.
+
+59
+00:04:56,000 --> 00:05:00,000
+The app name is going to be the dynamic value and the type also
+
+60
+00:05:00,000 --> 00:05:03,000
+is going to be a dynamic value based upon our requirements.
+
+61
+00:05:03,000 --> 00:05:09,000
+We can use load balancer or cluster IP, but coming to the protocol, TCP is going to be a static value
+
+62
+00:05:09,000 --> 00:05:14,000
+and the port and target port will have dynamic values which are specific to each microservice.
+
+63
+00:05:14,000 --> 00:05:22,000
+So apart from these few dynamic values, the whole skeleton or template of the Kubernetes service manifest
+
+64
+00:05:22,000 --> 00:05:24,000
+file is going to be the same.
+
+65
+00:05:24,000 --> 00:05:30,000
+This is where Helm is going to come into picture and it will try to make our life easy.
+
+66
+00:05:30,000 --> 00:05:34,000
+Now, let me quickly show you how Helm is going to approach this problem.
+
+67
+00:05:34,000 --> 00:05:36,000
+So whenever we are using Helm,
+
+68
+00:05:36,000 --> 00:05:43,000
+First, we are going to create a single template.yaml file for the Service object regardless of how
+
+69
+00:05:43,000 --> 00:05:49,000
+many microservices you have inside your cluster, you're always going to have a single template.yaml
+
+70
+00:05:49,000 --> 00:05:51,000
+file like you can see here.
+
+71
+00:05:51,000 --> 00:05:56,000
+This template Yaml files will have static values along with the static syntax structure.
+
+72
+00:05:56,000 --> 00:06:03,000
+If you closely observe this helm service template file at some places it is trying to accept the dynamic
+
+73
+00:06:03,000 --> 00:06:04,000
+values.
+
+74
+00:06:04,000 --> 00:06:10,000
+For example, under the metadata name it is going to accept the dynamic value with the help of values
+
+75
+00:06:10,000 --> 00:06:12,000
+and inside the Values object,
+
+76
+00:06:12,000 --> 00:06:15,000
+we need to pass a variable with the name deployment label.
+
+77
+00:06:15,000 --> 00:06:21,000
+So whatever you mention inside this double curly braces is going to represent a dynamic value which
+
+78
+00:06:21,000 --> 00:06:27,000
+we are going to inject at runtime whenever we are trying to deploy our microservices into Kubernetes
+
+79
+00:06:27,000 --> 00:06:28,000
+cluster. For example,
+
+80
+00:06:28,000 --> 00:06:32,000
+think like we have this helm service template file. As a next step,
+
+81
+00:06:32,000 --> 00:06:39,000
+what I can do is, I can try to provide an values.yaml file which is specific to accounts microservice.
+
+82
+00:06:39,000 --> 00:06:46,000
+So inside this values.yaml I'm going to maintain all the key and values you see inside my Values.yaml
+
+83
+00:06:46,000 --> 00:06:51,000
+The very first property that I'm trying to create here is deployment label.
+
+84
+00:06:51,000 --> 00:06:54,000
+Against that I'm mentioning a name which is accounts.
+
+85
+00:06:54,000 --> 00:07:00,000
+The same value that we have defined inside the Values.yaml is going to be applied to the the service
+
+86
+00:07:00,000 --> 00:07:07,000
+template file at runtime and behind the scenes helm is going to automatically create the account microservice
+
+87
+00:07:07,000 --> 00:07:09,000
+specific service manifest file.
+
+88
+00:07:09,000 --> 00:07:14,000
+Very similarly, you just have to provide the values.yaml for other microservices.
+
+89
+00:07:14,000 --> 00:07:19,000
+With that, you will always have a single template file which is going to be maintained by the helm.
+
+90
+00:07:19,000 --> 00:07:27,000
+But as a developer or as a DevOps team member, we should provide the Values.yaml for each microservice.
+
+91
+00:07:27,000 --> 00:07:30,000
+And behind the scenes, using these values that we have defined.
+
+92
+00:07:30,000 --> 00:07:36,000
+The helm is going to generate the Kubernetes manifest files at runtime for all your microservices.
+
+93
+00:07:36,000 --> 00:07:41,000
+On top of that, we don't have to execute these Kubernetes manifest files manually.
+
+94
+00:07:41,000 --> 00:07:47,000
+Whenever we are using Helm, we are going to achieve all the deployment of our microservice with a single
+
+95
+00:07:47,000 --> 00:07:47,000
+command.
+
+96
+00:07:47,000 --> 00:07:51,000
+So by following these approach, Helm is going to solve these problems.
+
+97
+00:07:51,000 --> 00:07:57,000
+And if you ask me what are the problems that helm try to solve, The very first advantage, I would
+
+98
+00:07:57,000 --> 00:08:04,000
+say as Helm is going to support packaging of your Kubernetes manifest files into a single helm chart,
+
+99
+00:08:04,000 --> 00:08:11,000
+The same helm chart can be distributed into a public repository or a private repository you can share
+
+100
+00:08:11,000 --> 00:08:12,000
+with others.
+
+101
+00:08:12,000 --> 00:08:15,000
+So it's up to you how you want to leverage that helm chart.
+
+102
+00:08:15,000 --> 00:08:17,000
+This is very similar to our Java code.
+
+103
+00:08:17,000 --> 00:08:20,000
+We can store that in a centralized location if needed
+
+104
+00:08:20,000 --> 00:08:22,000
+we can share our code with others.
+
+105
+00:08:22,000 --> 00:08:24,000
+Very similarly, we are going to maintain the helm charts.
+
+106
+00:08:24,000 --> 00:08:29,000
+That's why we are calling Helm as a package manager for Kubernetes.
+
+107
+00:08:29,000 --> 00:08:36,000
+And the next problem that Helm solves is it is going to make developers or DevOps team members life
+
+108
+00:08:36,000 --> 00:08:40,000
+easy because it is going to support easier installation.
+
+109
+00:08:40,000 --> 00:08:47,000
+With the help of Helm, you can always deploy or upgrade or rollback or uninstall your entire microservice
+
+110
+00:08:47,000 --> 00:08:51,000
+application into your Kubernetes cluster with a single command.
+
+111
+00:08:51,000 --> 00:08:57,000
+No need to run any manual commands with the help of Kubectl, and at last Helm is going to support,
+
+112
+00:08:57,000 --> 00:09:04,000
+release or version management as well, which means whenever needed, you can roll back your entire
+
+113
+00:09:04,000 --> 00:09:09,000
+Kubernetes cluster to the previous working state with a single command.
+
+114
+00:09:09,000 --> 00:09:15,000
+Whereas with Kubernetes manifest files like we discussed previously, we can only roll back a particular
+
+115
+00:09:15,000 --> 00:09:16,000
+microservice.
+
+116
+00:09:16,000 --> 00:09:20,000
+What if you want to roll back your entire Kubernetes cluster. In such scenarios,
+
+117
+00:09:20,000 --> 00:09:22,000
+helm is going to help us.
+
+118
+00:09:22,000 --> 00:09:27,000
+So we are going to discuss about all these features and we're also going to see the demo of all these
+
+119
+00:09:27,000 --> 00:09:29,000
+features in the coming lectures.
+
+120
+00:09:29,000 --> 00:09:35,000
+But for now, please note that Helm is a package manager for Kubernetes, which is very similar to other
+
+121
+00:09:35,000 --> 00:09:38,000
+package managers like Pip and NPM.
+
+122
+00:09:38,000 --> 00:09:44,000
+So with the help of these helm, we can make our life easy in terms of installing, rollback, upgrade
+
+123
+00:09:44,000 --> 00:09:49,000
+or uninstalling of the microservices into the Kubernetes cluster.
+
+124
+00:09:49,000 --> 00:09:53,000
+I hope you are clear with this quick introduction about the helm.
+
+125
+00:09:53,000 --> 00:09:55,000
+I know you may have many questions about Helm.
+
+126
+00:09:55,000 --> 00:09:56,000
+Don't worry.
+
+127
+00:09:56,000 --> 00:09:59,000
+When we try to start discussing more about helm charts in the
+
+128
+00:09:59,000 --> 00:10:00,000
+coming sections.
+
+129
+00:10:00,000 --> 00:10:02,000
+It is going to make more sense to you.
+
+130
+00:10:02,000 --> 00:10:03,000
+Thank you.
+
+131
+00:10:03,000 --> 00:10:05,000
+And I'll catch you in the next lecture bye.
+

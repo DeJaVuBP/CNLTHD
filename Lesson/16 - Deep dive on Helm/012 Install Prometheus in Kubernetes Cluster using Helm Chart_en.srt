@@ -1,0 +1,324 @@
+1
+00:00:00,000 --> 00:00:07,000
+Inside this lecture, Let's try to set up Prometheus inside our Kubernetes cluster so that my Prometheus
+
+2
+00:00:07,000 --> 00:00:12,000
+can scrape all the metrics from my individual microservices.
+
+3
+00:00:12,000 --> 00:00:17,000
+Post that we are going to set up Grafana related components and we'll make our grafana to talk with
+
+4
+00:00:17,000 --> 00:00:20,000
+the Prometheus, to search the metrics and to set up the dashboards.
+
+5
+00:00:20,000 --> 00:00:27,000
+So for the same inside my bitnami downloaded repository, I'm going to look for the folder which has
+
+6
+00:00:27,000 --> 00:00:32,000
+a name Prometheus and there is a folder with the name kube-prometheus.
+
+7
+00:00:32,000 --> 00:00:38,000
+So let me copy this folder and paste inside the helm folder that we are mentioning.
+
+8
+00:00:38,000 --> 00:00:41,000
+So here I have pasted the kube-prometheus.
+
+9
+00:00:41,000 --> 00:00:46,000
+As usual, we cannot directly install these helm charts into the Kubernetes cluster.
+
+10
+00:00:46,000 --> 00:00:50,000
+We need to make some changes inside the values.yaml.
+
+11
+00:00:50,000 --> 00:00:54,000
+So to get started with the changes, we need to open the values.yaml.
+
+12
+00:00:54,000 --> 00:00:59,000
+Here I'm going to search for a setting with the name additional scrape configs.
+
+13
+00:00:59,000 --> 00:01:07,000
+So here we have a details related to scrape configs using these configs only my Prometheus will decide
+
+14
+00:01:07,000 --> 00:01:10,000
+to scrape the metrics from the microservices.
+
+15
+00:01:10,000 --> 00:01:15,000
+So as of now you can see the additional configs is disabled.
+
+16
+00:01:15,000 --> 00:01:21,000
+We need to enable this to true and post that we should change this type to internal because we don't
+
+17
+00:01:21,000 --> 00:01:26,000
+want our Prometheus to scrape anything from outside of the Kubernetes cluster.
+
+18
+00:01:26,000 --> 00:01:32,000
+Everything we have inside the Kubernetes cluster only so we can change this value to internal.
+
+19
+00:01:32,000 --> 00:01:38,000
+After making these changes, we need to provide the details of our microservices using which my Prometheus
+
+20
+00:01:38,000 --> 00:01:44,000
+can connect with them and read the metrics of them with the help of actuator Prometheus URL.
+
+21
+00:01:44,000 --> 00:01:49,000
+So for the same you can see here under the internal job list as of now it is empty.
+
+22
+00:01:49,000 --> 00:01:54,000
+So here I'm going to mention some configurations, the same kind of configurations
+
+23
+00:01:54,000 --> 00:01:59,000
+we also mentioned when we tried to set up Prometheus inside our local system.
+
+24
+00:01:59,000 --> 00:02:06,000
+So under this job list, I'm going to mention all the job names using which my Prometheus is going to
+
+25
+00:02:06,000 --> 00:02:09,000
+fetch the metrics from the individual microservices.
+
+26
+00:02:09,000 --> 00:02:12,000
+So I have mentioned all these details in a Json format.
+
+27
+00:02:12,000 --> 00:02:18,000
+So here it has a list of jobs and each job is separated by comma value.
+
+28
+00:02:18,000 --> 00:02:21,000
+If you see here first I have mentioned what is the job name for config server
+
+29
+00:02:22,000 --> 00:02:24,000
+the job name is going to be config server.
+
+30
+00:02:24,000 --> 00:02:30,000
+And what is the metrics path and what is the location at which my Prometheus need to connect to get
+
+31
+00:02:30,000 --> 00:02:31,000
+the metrics.
+
+32
+00:02:31,000 --> 00:02:38,000
+So this is a service name inside our Kubernetes for config server and it is available at the port 8071.
+
+33
+00:02:38,000 --> 00:02:44,000
+Similarly for Eureka Server, I have mentioned accounts, loans and cards gateway server.
+
+34
+00:02:44,000 --> 00:02:49,000
+So for whatever microservices you need, you can mention those job details here.
+
+35
+00:02:49,000 --> 00:02:56,000
+So once we have defined these details, my Prometheus should be able to scrape metrics from my individual
+
+36
+00:02:56,000 --> 00:02:57,000
+microservices.
+
+37
+00:02:57,000 --> 00:03:03,000
+So as a next step, I can try to build the Prometheus related helm chart. For the same,
+
+38
+00:03:03,000 --> 00:03:11,000
+let me go inside the kube-prometheus folder and here I'm going to run the command, which is helm dependencies
+
+39
+00:03:11,000 --> 00:03:11,000
+build.
+
+40
+00:03:11,000 --> 00:03:18,000
+So this will compile my Prometheus helm chart post that we can try to install the same inside our Kubernetes
+
+41
+00:03:18,000 --> 00:03:19,000
+cluster.
+
+42
+00:03:19,000 --> 00:03:24,000
+So to install Prometheus, we need to go back and run the command, which is helm install.
+
+43
+00:03:24,000 --> 00:03:29,000
+And what is the release name that we want to give. The release name that we can give here is Prometheus
+
+44
+00:03:29,000 --> 00:03:30,000
+itself.
+
+45
+00:03:30,000 --> 00:03:35,000
+After the release name, I can mention the folder name where my helm chart is present.
+
+46
+00:03:35,000 --> 00:03:39,000
+It is present under the folder with the name kube-prometheus.
+
+47
+00:03:39,000 --> 00:03:41,000
+So let me try to execute this command.
+
+48
+00:03:41,000 --> 00:03:45,000
+This will do the installation of Prometheus inside my local system.
+
+49
+00:03:45,000 --> 00:03:51,000
+So by default Prometheus is set up with the help of cluster IP, so we cannot really access it.
+
+50
+00:03:51,000 --> 00:03:57,000
+But for some reason, if you want to access the same, you can run these commands which are related
+
+51
+00:03:57,000 --> 00:03:59,000
+to kubectl port forward.
+
+52
+00:03:59,000 --> 00:04:05,000
+So using the kubectl port forward command, we can temporarily expose a service.
+
+53
+00:04:05,000 --> 00:04:09,000
+So let me try to execute these commands by cleaning the console.
+
+54
+00:04:09,000 --> 00:04:14,000
+So I'm trying to execute the command and this should start exposing my Prometheus but seems still my
+
+55
+00:04:14,000 --> 00:04:17,000
+installation of Prometheus is going on.
+
+56
+00:04:17,000 --> 00:04:19,000
+Let's wait for few minutes.
+
+57
+00:04:19,000 --> 00:04:22,000
+So I'm going to wait for one two minutes behind the scenes,
+
+58
+00:04:22,000 --> 00:04:23,000
+I have waited for one minute.
+
+59
+00:04:23,000 --> 00:04:25,000
+Let me try to execute this command again.
+
+60
+00:04:25,000 --> 00:04:32,000
+And this time you can see the forwarding of the network is successfully into our local system.
+
+61
+00:04:32,000 --> 00:04:37,000
+So now I should be able to access the Prometheus at the port 9090.
+
+62
+00:04:37,000 --> 00:04:43,000
+So here inside my browser let me open 9090 port and this is my Prometheus.
+
+63
+00:04:43,000 --> 00:04:48,000
+Hree if I go to the targets, I should be able to see all the targets.
+
+64
+00:04:48,000 --> 00:04:53,000
+As of now, my accounts cards, config server, Eureka server all of them we didn't setup.
+
+65
+00:04:53,000 --> 00:04:57,000
+That's why the status for all of them is showing as in red color.
+
+66
+00:04:57,000 --> 00:04:59,000
+If you can scroll down, Prometheus will also try
+
+67
+00:04:59,000 --> 00:05:04,000
+to monitor many other metrics inside your Kubernetes cluster.
+
+68
+00:05:04,000 --> 00:05:10,000
+So that's why you are able to see many other components inside the target's location. Since this is meant
+
+69
+00:05:10,000 --> 00:05:10,000
+for production
+
+70
+00:05:10,000 --> 00:05:11,000
+ready.
+
+71
+00:05:11,000 --> 00:05:18,000
+Prometheus Behind the scenes, it is trying to monitor many other components inside your Kubernetes
+
+72
+00:05:18,000 --> 00:05:22,000
+cluster, but we are more interested about our own microservices.
+
+73
+00:05:22,000 --> 00:05:27,000
+We can validate the same once we set up our own microservices into the Kubernetes cluster.
+
+74
+00:05:27,000 --> 00:05:35,000
+For now, I can stop this command by pressing Ctrl C and that will stop exposing my Prometheus into
+
+75
+00:05:35,000 --> 00:05:36,000
+my local network.
+
+76
+00:05:36,000 --> 00:05:43,000
+Now, if I try to refresh this page, I will not get any response because the Prometheus is not exposed
+
+77
+00:05:43,000 --> 00:05:44,000
+to the local system.
+
+78
+00:05:44,000 --> 00:05:50,000
+With this, we successfully set up Prometheus inside our Kubernetes cluster. As a next step,
+
+79
+00:05:50,000 --> 00:05:55,000
+let's try to set up Grafana related components like loki, tempo and grafana.
+
+80
+00:05:55,000 --> 00:06:02,000
+And with that we should be done with all the required components for our microservices end to end testing.
+
+81
+00:06:03,000 --> 00:06:05,000
+Thank you and I'll catch you in the next lecture bye.
+

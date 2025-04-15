@@ -1,0 +1,956 @@
+1
+00:00:00,000 --> 00:00:07,000
+As of now, we installed a helm chart which is available inside one of the public repository with the
+
+2
+00:00:07,000 --> 00:00:08,000
+same helm chart.
+
+3
+00:00:08,000 --> 00:00:15,000
+We set up the wordpress website, but in any real projects or in any enterprise organizations, they
+
+4
+00:00:15,000 --> 00:00:19,000
+should build their own helm charts based upon their microservices requirements.
+
+5
+00:00:19,000 --> 00:00:24,000
+So that's why we should also try to build our own helm chart so that using the same helm chart, we
+
+6
+00:00:24,000 --> 00:00:30,000
+can deploy all our microservices into the Kubernetes cluster with a single command.
+
+7
+00:00:30,000 --> 00:00:33,000
+And very similarly, we can also uninstall with a single command.
+
+8
+00:00:33,000 --> 00:00:39,000
+And this will make our life very easy in maintaining any number of Kubernetes manifest files for any
+
+9
+00:00:39,000 --> 00:00:44,000
+number of microservices that we may have inside our organization.
+
+10
+00:00:44,000 --> 00:00:49,000
+So to get started, I came to my workspace location, and here I'm going to create a new folder.
+
+11
+00:00:49,000 --> 00:00:56,000
+And the name that I'll give to this folder is section_16, because right now we are into
+
+12
+00:00:56,000 --> 00:01:03,000
+the 16 section inside this new folder that I have created, I'm going to create one more folder with
+
+13
+00:01:03,000 --> 00:01:04,000
+the name Helm.
+
+14
+00:01:04,000 --> 00:01:10,000
+Once I created this folder inside this helm folder only, I'm going to create all the helm charts that
+
+15
+00:01:10,000 --> 00:01:12,000
+I need for my microservices deployment.
+
+16
+00:01:12,000 --> 00:01:16,000
+So let me open my terminal at this location. For the same,
+
+17
+00:01:16,000 --> 00:01:21,000
+I'm going to copy the path of this folder location and I'll go to my terminal.
+
+18
+00:01:21,000 --> 00:01:22,000
+Inside my terminal,
+
+19
+00:01:22,000 --> 00:01:26,000
+I'm going to run the cd command cd and what is the space that I want to navigate?
+
+20
+00:01:26,000 --> 00:01:31,000
+So inside the Section 16, I want to go into Helm folder.
+
+21
+00:01:31,000 --> 00:01:33,000
+Now I'm at the right location.
+
+22
+00:01:33,000 --> 00:01:36,000
+As a next step, I can try to create a helm chart inside this folder.
+
+23
+00:01:36,000 --> 00:01:43,000
+So to create the helm chart, we can run a command which is helm create and what is the name that
+
+24
+00:01:43,000 --> 00:01:45,000
+we want to give for our helm chart?
+
+25
+00:01:45,000 --> 00:01:54,000
+So the name that I want to do here is easybank-common because first I'm going to build a helm
+
+26
+00:01:54,000 --> 00:01:59,000
+chart that is going to be act as a common chart for all my microservices.
+
+27
+00:01:59,000 --> 00:02:01,000
+So that's why I'm giving this name.
+
+28
+00:02:01,000 --> 00:02:07,000
+So as soon as I enter inside my folder location, a helm chart might have created with the name
+
+29
+00:02:07,000 --> 00:02:08,000
+eazybank-common.
+
+30
+00:02:08,000 --> 00:02:10,000
+We can validate the same here.
+
+31
+00:02:10,000 --> 00:02:16,000
+So here I have a folder and inside this folder we have a helm chart with all the predefined files and
+
+32
+00:02:16,000 --> 00:02:18,000
+folders that we have discussed previously.
+
+33
+00:02:18,000 --> 00:02:24,000
+So whenever we try to create a helm chart with the help of Helm Create Command, the helm is going to
+
+34
+00:02:24,000 --> 00:02:26,000
+give some predefined helm chart.
+
+35
+00:02:26,000 --> 00:02:31,000
+This predefined helm chart is going to have some content to deploy a website.
+
+36
+00:02:31,000 --> 00:02:38,000
+Since we want to write our own content, what we can do here is, first we can try to delete all the template
+
+37
+00:02:38,000 --> 00:02:42,000
+files that we have inside our helm chart. And post that
+
+38
+00:02:42,000 --> 00:02:44,000
+I will also open the values.yaml.
+
+39
+00:02:44,000 --> 00:02:52,000
+So inside the values.yaml we have many values related to nginx because using this nginx only the default
+
+40
+00:02:52,000 --> 00:02:54,000
+helm chart is going to deploy a website.
+
+41
+00:02:54,000 --> 00:02:59,000
+So since we don't want to follow these values, we can remove all the values.
+
+42
+00:02:59,000 --> 00:03:04,000
+And as a next step I'm going to check if there are any dependencies that this particular chart has and
+
+43
+00:03:04,000 --> 00:03:10,000
+the charts you can see as of now it is empty, which means the default chart that is created by the
+
+44
+00:03:10,000 --> 00:03:10,000
+helm
+
+45
+00:03:10,000 --> 00:03:16,000
+it does not have any dependent helm charts. So we should be good with this empty helm chart folder.
+
+46
+00:03:16,000 --> 00:03:20,000
+As a next step, I'll open this chart.yaml. Inside this chart.yaml,
+
+47
+00:03:20,000 --> 00:03:24,000
+you can see I have opened this yaml file in visual code IDE.
+
+48
+00:03:24,000 --> 00:03:26,000
+The version is v2,
+
+49
+00:03:26,000 --> 00:03:27,000
+I'm fine with that.
+
+50
+00:03:27,000 --> 00:03:33,000
+I'm fine with the name, description and type as application and the version here is 0.1.0.
+
+51
+00:03:33,000 --> 00:03:37,000
+So this indicates what is the version of your helm chart.
+
+52
+00:03:37,000 --> 00:03:39,000
+So I'm fine with the default value.
+
+53
+00:03:39,000 --> 00:03:42,000
+The next value here we have is app version.
+
+54
+00:03:42,000 --> 00:03:45,000
+So what is a version of app that you are trying to build?
+
+55
+00:03:45,000 --> 00:03:50,000
+Since the default helm chart that is provided by the helm has some nginix website.
+
+56
+00:03:50,000 --> 00:03:57,000
+It has a version which is one dot 16.0, but I want to maintain my own app version, so I'll just keep
+
+57
+00:03:57,000 --> 00:03:59,000
+it as 1.0.0.
+
+58
+00:03:59,000 --> 00:04:06,000
+So once we make these default changes as a next step, I'm going to create the required template files
+
+59
+00:04:06,000 --> 00:04:08,000
+for my easybank microservices.
+
+60
+00:04:08,000 --> 00:04:14,000
+If you can recall in the previous section to deploy all our microservices, we have written deployment,
+
+61
+00:04:14,000 --> 00:04:17,000
+manifest file and service manifest file and config map.
+
+62
+00:04:17,000 --> 00:04:24,000
+As of now, my microservices need only these manifest files to deploy my microservices into the Kubernetes
+
+63
+00:04:24,000 --> 00:04:24,000
+cluster.
+
+64
+00:04:24,000 --> 00:04:31,000
+So that's why I'm going to create a three template files inside this helm chart which can be used by
+
+65
+00:04:31,000 --> 00:04:37,000
+all my microservices like accounts, loans, cards and many other microservices that I have inside
+
+66
+00:04:37,000 --> 00:04:39,000
+my microservice network.
+
+67
+00:04:39,000 --> 00:04:45,000
+For the same, I'm going to paste three template files inside this folder post that we can discuss all
+
+68
+00:04:45,000 --> 00:04:46,000
+of them in detail.
+
+69
+00:04:46,000 --> 00:04:48,000
+So here I'm pasting few files.
+
+70
+00:04:48,000 --> 00:04:53,000
+Like you can see I have pasted three files, so let's try to open them and try to discuss them one by
+
+71
+00:04:53,000 --> 00:04:54,000
+one.
+
+72
+00:04:54,000 --> 00:05:00,000
+The first file that I want to discuss is about the service.yaml because this is simple yaml template.
+
+73
+00:05:00,000 --> 00:05:00,000
+File.
+
+74
+00:05:00,000 --> 00:05:02,000
+So let me open this.
+
+75
+00:05:02,000 --> 00:05:08,000
+So here by looking at these Yaml file, you can easily understand this is a helm template but not a
+
+76
+00:05:08,000 --> 00:05:15,000
+Kubernetes manifest file because you're able to see these curly braces throughout the Yaml file and
+
+77
+00:05:15,000 --> 00:05:16,000
+that is a hint for you.
+
+78
+00:05:16,000 --> 00:05:19,000
+So now let's try to understand in detail about this template.
+
+79
+00:05:19,000 --> 00:05:25,000
+So first I'm trying to define a name for this entire template.
+
+80
+00:05:25,000 --> 00:05:27,000
+The name is common.service.
+
+81
+00:05:27,000 --> 00:05:32,000
+So with the help of this, define function or define keyword, we are trying to give a name to this
+
+82
+00:05:32,000 --> 00:05:39,000
+entire Kubernetes template file so that other microservice helm charts that we are going to build in
+
+83
+00:05:39,000 --> 00:05:39,000
+future.
+
+84
+00:05:39,000 --> 00:05:43,000
+They can try to refer with the name common.service.
+
+85
+00:05:43,000 --> 00:05:45,000
+So that's the purpose of define here.
+
+86
+00:05:45,000 --> 00:05:52,000
+And whatever hyphens that you see at the starting and at the end, those are helpful to trim any space
+
+87
+00:05:52,000 --> 00:05:57,000
+that you may have before and after of your statement.
+
+88
+00:05:57,000 --> 00:06:05,000
+So basically Helm is using Go template language and in few places it also uses spring template language.
+
+89
+00:06:05,000 --> 00:06:11,000
+But we don't have to go deep dive into the helm because we're trying to learn helm on a high level, helm
+
+90
+00:06:11,000 --> 00:06:14,000
+itself need a separate course to learn everything about helm.
+
+91
+00:06:14,000 --> 00:06:18,000
+But we as a developers, we don't have to learn everything about Helm.
+
+92
+00:06:18,000 --> 00:06:23,000
+So whenever we are defining a name for your template with the help of this define at the end,
+
+93
+00:06:23,000 --> 00:06:27,000
+we should also close that by using this end statement.
+
+94
+00:06:27,000 --> 00:06:31,000
+So whatever we have defined between the define and end.
+
+95
+00:06:31,000 --> 00:06:35,000
+So this template will be assigned to a name which is common.service.
+
+96
+00:06:35,000 --> 00:06:42,000
+So now inside the template, the first element that I have is API version with the value V1 and the
+
+97
+00:06:42,000 --> 00:06:43,000
+kind is service.
+
+98
+00:06:43,000 --> 00:06:45,000
+So these are static values.
+
+99
+00:06:45,000 --> 00:06:46,000
+They are never going to change.
+
+100
+00:06:46,000 --> 00:06:49,000
+That's why I'm directly mentioning the key and value for them.
+
+101
+00:06:49,000 --> 00:06:53,000
+Now, under the metadata name, I need to inject a dynamic value.
+
+102
+00:06:53,000 --> 00:06:59,000
+So whoever is going to use this template Yaml file, they need to provide a service name inside their
+
+103
+00:06:59,000 --> 00:07:01,000
+values.yaml.
+
+104
+00:07:01,000 --> 00:07:03,000
+The same name will get injected here.
+
+105
+00:07:03,000 --> 00:07:06,000
+So values is a helm framework object.
+
+106
+00:07:06,000 --> 00:07:12,000
+So inside that values object keys and values that you have defined inside your values.yaml will
+
+107
+00:07:12,000 --> 00:07:14,000
+be available and to access them.
+
+108
+00:07:14,000 --> 00:07:18,000
+I need to use .values. and what is the key name of the property.
+
+109
+00:07:18,000 --> 00:07:21,000
+So the key name is going to be service name.
+
+110
+00:07:21,000 --> 00:07:27,000
+And similarly, under the specification selector app we are using a key which is app label inside the
+
+111
+00:07:27,000 --> 00:07:29,000
+Values object and the type for the service
+
+112
+00:07:29,000 --> 00:07:33,000
+we are going to read with a key which is service.type.
+
+113
+00:07:33,000 --> 00:07:38,000
+When I show you the values example for this template file, then it is going to make more sense to you.
+
+114
+00:07:38,000 --> 00:07:44,000
+For now, please note that all the values that we have mentioned inside this curly braces along with
+
+115
+00:07:44,000 --> 00:07:51,000
+the Values object, those are going to be dynamically injected at runtime by the helm based upon the
+
+116
+00:07:51,000 --> 00:07:52,000
+values that we are going to provide.
+
+117
+00:07:52,000 --> 00:07:59,000
+Now under the ports, we have the name as Http and the protocol is TCP and post that we need to provide
+
+118
+00:07:59,000 --> 00:08:01,000
+what is the port and what is the target port.
+
+119
+00:08:01,000 --> 00:08:07,000
+Since these are dynamic values, I'm trying to read them with the help of Values object with a key as
+
+120
+00:08:07,000 --> 00:08:09,000
+service.port and service.target port.
+
+121
+00:08:09,000 --> 00:08:15,000
+So I hope this is clear now very similarly, let me open the deployment template yaml file so that we
+
+122
+00:08:15,000 --> 00:08:16,000
+can discuss the same.
+
+123
+00:08:16,000 --> 00:08:19,000
+So here I have a deployment.yaml file.
+
+124
+00:08:19,000 --> 00:08:20,000
+Let me try to open that, here
+
+125
+00:08:20,000 --> 00:08:23,000
+also we are using the same define and the end.
+
+126
+00:08:23,000 --> 00:08:27,000
+The name that we are giving for this template is commo.deployment.
+
+127
+00:08:27,000 --> 00:08:33,000
+Under the API version we are giving app/v1 and the kind is going to be deployment under the metadata
+
+128
+00:08:33,000 --> 00:08:34,000
+name label apps.
+
+129
+00:08:34,000 --> 00:08:39,000
+We are trying to inject some dynamic values now under the specification replicas.
+
+130
+00:08:39,000 --> 00:08:44,000
+We are trying to get the replica count from the values and post that selector match labels app
+
+131
+00:08:44,000 --> 00:08:50,000
+also, we are trying to inject the app label value now under the templates metadata labels app.
+
+132
+00:08:50,000 --> 00:08:56,000
+Here also we are trying to give the app label name and at the specification we are trying to give a name
+
+133
+00:08:56,000 --> 00:09:01,000
+to the container with the same variable which is app label post that under the image we are trying to
+
+134
+00:09:01,000 --> 00:09:07,000
+provide the image details based upon the values which has a key like image.repository.
+
+135
+00:09:07,000 --> 00:09:12,000
+And after the image we are also providing that tag using this image.tag.
+
+136
+00:09:12,000 --> 00:09:16,000
+Under ports, we are mentioning the container port and protocol is going to be TCP.
+
+137
+00:09:16,000 --> 00:09:23,000
+Now, after defining all the container related properties, we should also try to inject environment
+
+138
+00:09:23,000 --> 00:09:26,000
+variables that are required for my particular microservice.
+
+139
+00:09:26,000 --> 00:09:32,000
+That's why you can see here I have started a new element with the name env.
+
+140
+00:09:32,000 --> 00:09:37,000
+I'm trying to inject a lot many properties but against each property I have a if condition.
+
+141
+00:09:37,000 --> 00:09:44,000
+So inside helm we can write the if tag by using this if .values. app name enabled.
+
+142
+00:09:44,000 --> 00:09:52,000
+So if this boolean value has true, then this entire environment variable is going to be injected into
+
+143
+00:09:52,000 --> 00:09:55,000
+the particular microservice deployment yaml file.
+
+144
+00:09:55,000 --> 00:09:59,000
+So each if check has to end with a end statement.
+
+145
+00:09:59,000 --> 00:10:00,000
+So the reason why I have
+
+146
+00:10:00,000 --> 00:10:05,000
+return this check is maybe there might be some microservice where I don't have to pass the property,
+
+147
+00:10:05,000 --> 00:10:08,000
+which is spring application name.
+
+148
+00:10:08,000 --> 00:10:14,000
+So for such microservice we can have the app name enabled as false inside the values.yaml.
+
+149
+00:10:14,000 --> 00:10:20,000
+And with that this environment will not be injected into the Kubernetes manifest file.
+
+150
+00:10:20,000 --> 00:10:21,000
+I hope this is clear.
+
+151
+00:10:21,000 --> 00:10:28,000
+So for this environment property, we are trying to assign the value from the using the app name variable.
+
+152
+00:10:28,000 --> 00:10:31,000
+I'm not trying to inject the value with the help of config map.
+
+153
+00:10:31,000 --> 00:10:35,000
+The reason is is going to be different for different, different microservices.
+
+154
+00:10:35,000 --> 00:10:41,000
+So I can directly mention what is the name inside the values.yaml of the particular microservice.
+
+155
+00:10:41,000 --> 00:10:42,000
+Post that I'm using
+
+156
+00:10:42,000 --> 00:10:46,000
+one more if condition which is if the profile is enabled.
+
+157
+00:10:46,000 --> 00:10:52,000
+So for some microservices we want to inject a environment variable which is spring profiles active.
+
+158
+00:10:52,000 --> 00:10:57,000
+So using this environment property, we can tell to the spring boot application whether we want to start
+
+159
+00:10:57,000 --> 00:11:01,000
+our application with the prod profile or profile or a default profile.
+
+160
+00:11:01,000 --> 00:11:05,000
+So that's why I have mentioned this profile enabled condition.
+
+161
+00:11:05,000 --> 00:11:09,000
+Only if this is true, then only this environment variable is going to be injected.
+
+162
+00:11:09,000 --> 00:11:15,000
+So the value for this environment variable, I'm going to get it from the config map with the name that
+
+163
+00:11:15,000 --> 00:11:20,000
+I have mentioned inside the values.global.configmap name.
+
+164
+00:11:20,000 --> 00:11:24,000
+So the key inside the config map is going to be the spring profiles active only.
+
+165
+00:11:24,000 --> 00:11:29,000
+So based upon this key inside the config map, my helm is going to look up for the value.
+
+166
+00:11:29,000 --> 00:11:34,000
+The same is going to be assigned to this environment variable which is spring profiles active.
+
+167
+00:11:34,000 --> 00:11:41,000
+So very similarly, if the config enabled is true, then I'm going to inject the spring config import
+
+168
+00:11:41,000 --> 00:11:45,000
+environment variable and post that based upon Eureka enabled
+
+169
+00:11:45,000 --> 00:11:50,000
+I'm trying to inject this environment variable which is related to the Eureka service URL and at last
+
+170
+00:11:50,000 --> 00:11:52,000
+using this resource server enabled
+
+171
+00:11:52,000 --> 00:11:58,000
+that means if my microservice is acting as a resource server inside Oauth2, which is going to be the
+
+172
+00:11:58,000 --> 00:12:04,000
+scenario for Gateway Server, I'm going to inject this environment variable. For all the remaining microservices
+
+173
+00:12:04,000 --> 00:12:06,000
+other than Gateway server.
+
+174
+00:12:06,000 --> 00:12:12,000
+This boolean is going to be false and with that we are not going to inject this value in all the other
+
+175
+00:12:12,000 --> 00:12:15,000
+microservices except in Gateway Server.
+
+176
+00:12:15,000 --> 00:12:22,000
+And at last, since we are going to set up the entire microservice network along with the Grafana Opentelemetry.
+
+177
+00:12:22,000 --> 00:12:28,000
+So for the same we need to inject some properties like what is the location where our open telemetry
+
+178
+00:12:28,000 --> 00:12:30,000
+jar is available.
+
+179
+00:12:30,000 --> 00:12:35,000
+So the same I'm going to inject with the help of this Java tools option and this property is going to
+
+180
+00:12:35,000 --> 00:12:42,000
+be injected only when the hotel is enabled for a particular microservice and if the same hotel enabled
+
+181
+00:12:42,000 --> 00:12:42,000
+is true.
+
+182
+00:12:42,000 --> 00:12:50,000
+I'm also trying to inject other environment variables like what is the hotel exporter endpoint to which
+
+183
+00:12:50,000 --> 00:12:57,000
+we need to provide the what is the endpoint URLs where my open telemetry can send the details And after
+
+184
+00:12:57,000 --> 00:13:03,000
+these property, we also need to mention these hotel metrics exporter and at last we also need to inject
+
+185
+00:13:03,000 --> 00:13:09,000
+these environment variable which is hotel service name all these hotel related environment variables
+
+186
+00:13:09,000 --> 00:13:15,000
+along with the Java tool options we discussed inside the observability and monitoring section.
+
+187
+00:13:15,000 --> 00:13:17,000
+I hope you remember them.
+
+188
+00:13:17,000 --> 00:13:22,000
+If you have some questions, you can look at the Docker compose files that we have built in those sections.
+
+189
+00:13:22,000 --> 00:13:26,000
+And with that you should be able to understand why we are injecting these properties.
+
+190
+00:13:26,000 --> 00:13:33,000
+So these four properties we are going to inject, only these hotel is enabled. And after these hotel
+
+191
+00:13:33,000 --> 00:13:36,000
+enabled we also have one more if condition which is Kafka enabled.
+
+192
+00:13:36,000 --> 00:13:42,000
+Since I'm going to show you the demo of complete microservice setup inside this section, I'm going
+
+193
+00:13:42,000 --> 00:13:46,000
+to leverage Kafka to demo you the event driven microservices.
+
+194
+00:13:46,000 --> 00:13:50,000
+So for the same like, you know, the accounts microservice and the message microservice, they are
+
+195
+00:13:50,000 --> 00:13:53,000
+going to connect with the Kafka broker.
+
+196
+00:13:53,000 --> 00:13:57,000
+So for those microservices, I'm going to mention the Kafka enabled as true.
+
+197
+00:13:57,000 --> 00:14:03,000
+So whenever this variable is true, then we need to inject these environment along with the environment
+
+198
+00:14:03,000 --> 00:14:05,000
+value from the config map.
+
+199
+00:14:05,000 --> 00:14:07,000
+So this is that deployment.yaml file.
+
+200
+00:14:07,000 --> 00:14:12,000
+As a next step, let me open the config map template that I have written.
+
+201
+00:14:12,000 --> 00:14:14,000
+So here we have a configmap.yaml.
+
+202
+00:14:14,000 --> 00:14:17,000
+If you try to understand this is very simple.
+
+203
+00:14:17,000 --> 00:14:22,000
+First, I'm trying to give a name to this config map template with a name common.configmap and
+
+204
+00:14:22,000 --> 00:14:30,000
+post that version v1 kind as configmap and the name I'm trying to give from the values.global.
+
+205
+00:14:30,000 --> 00:14:31,000
+configmap name.
+
+206
+00:14:31,000 --> 00:14:35,000
+So I'm going to follow a standard like wherever I mentioned a prefix value as global.
+
+207
+00:14:35,000 --> 00:14:42,000
+So that property name is going to be common for all microservices inside my microservice network.
+
+208
+00:14:42,000 --> 00:14:47,000
+So the config map name is going to be common for all the microservices.
+
+209
+00:14:47,000 --> 00:14:52,000
+That's why I'm mentioning the global as a prefix and very similarly spring profiles active
+
+210
+00:14:52,000 --> 00:14:58,000
+I'm going to read from the values.object with a key as global.active profile.
+
+211
+00:14:58,000 --> 00:14:59,000
+Same for springconfig
+
+212
+00:15:00,000 --> 00:15:07,000
+support Eureka Service URL and what is the Spring Security Resource Server URL where my gateway server can
+
+213
+00:15:07,000 --> 00:15:09,000
+get an certificate of my keycloak.
+
+214
+00:15:09,000 --> 00:15:15,000
+So those details also I'm going to provide with the help of this keycloak URL and at last, with the
+
+215
+00:15:15,000 --> 00:15:21,000
+help of this Java tool options, I'm going to mention where is the path of Opentelemetry Java agent.
+
+216
+00:15:21,000 --> 00:15:27,000
+So if you see here, I'm trying to create all the environments that we have used inside the deployment.yaml.
+
+217
+00:15:27,000 --> 00:15:33,000
+But I'm not trying to mention the direct hardcoded values inside the configmap.yaml because I may
+
+218
+00:15:33,000 --> 00:15:34,000
+have different, different requirement
+
+219
+00:15:34,000 --> 00:15:39,000
+like for dev environment, I may have different profile, different URLs.
+
+220
+00:15:39,000 --> 00:15:42,000
+And similarly for QA and prod, I may have different values.
+
+221
+00:15:42,000 --> 00:15:47,000
+So that's why we are going to maintain values.yaml for different, different environments.
+
+222
+00:15:47,000 --> 00:15:49,000
+But the template is going to be the same.
+
+223
+00:15:49,000 --> 00:15:55,000
+That's why I'm trying to mention these variable names instead of hardcoded values inside this template
+
+224
+00:15:55,000 --> 00:15:56,000
+file.
+
+225
+00:15:56,000 --> 00:16:01,000
+So with this I'm assuming you are clear about these three template Yaml files that I have written inside
+
+226
+00:16:01,000 --> 00:16:04,000
+the easybank-common helm chart.
+
+227
+00:16:04,000 --> 00:16:10,000
+As a next step we can check values.yaml and make sure this is empty because this helm chart, which
+
+228
+00:16:10,000 --> 00:16:15,000
+is easybank-command, this is going to be leveraged by the other helm charts.
+
+229
+00:16:15,000 --> 00:16:21,000
+So whoever is going to leverage this common helm chart, they are going to provide their own values.yaml
+
+230
+00:16:21,000 --> 00:16:27,000
+and this helm chart, which is easy bankhyphen command does not have any specific requirements to pass
+
+231
+00:16:27,000 --> 00:16:29,000
+its own values.
+
+232
+00:16:29,000 --> 00:16:34,000
+So that's why we are going to keep the values.yaml for this helm chart as empty.
+
+233
+00:16:34,000 --> 00:16:41,000
+So with this easybank-common helm chart, we have prepared a common helm chart which has a template
+
+234
+00:16:41,000 --> 00:16:44,000
+files related to service deployment and config map.
+
+235
+00:16:44,000 --> 00:16:50,000
+As a next step, we need to create the helm charts which can leverage these templates and provide their
+
+236
+00:16:50,000 --> 00:16:55,000
+own values.yaml based upon the microservices requirement.
+
+237
+00:16:55,000 --> 00:16:57,000
+So let's try to do the same in the next lecture.
+
+238
+00:16:57,000 --> 00:16:58,000
+Thank you.
+
+239
+00:16:58,000 --> 00:17:00,000
+And I'm assuming your super clear bye.
+
