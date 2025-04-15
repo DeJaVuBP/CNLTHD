@@ -1,0 +1,188 @@
+1
+00:00:00,000 --> 00:00:04,000
+Are you excited to create a Kubernetes cluster inside Google Cloud?
+
+2
+00:00:04,000 --> 00:00:10,000
+I'm very excited to show you the steps that you need to follow to create the Kubernetes cluster.
+
+3
+00:00:10,000 --> 00:00:12,000
+Don't worry, it is not going to be super complex.
+
+4
+00:00:12,000 --> 00:00:19,000
+It is a very, very simple task to create a Kubernetes cluster inside any of the cloud environment.
+
+5
+00:00:19,000 --> 00:00:25,000
+So to create a Kubernetes cluster, you can either click on this option, which is a create a GKE cluster,
+
+6
+00:00:25,000 --> 00:00:32,000
+or you can search for Kubernetes in the search box and you will have an option, which is Kubernetes
+
+7
+00:00:32,000 --> 00:00:33,000
+engine.
+
+8
+00:00:33,000 --> 00:00:40,000
+So please click on the Kubernetes engine option since you are trying to access this Kubernetes engine
+
+9
+00:00:40,000 --> 00:00:46,000
+very first time inside your account, it is going to ask you to enable the Kubernetes Engine API.
+
+10
+00:00:47,000 --> 00:00:49,000
+So please click on this Enable option.
+
+11
+00:00:49,000 --> 00:00:55,000
+And as soon as you enable the Kubernetes Engine API, it is asking you to enable the building so you
+
+12
+00:00:55,000 --> 00:00:58,000
+can click on this enable billing option.
+
+13
+00:00:58,000 --> 00:01:04,000
+As soon as you click on the Enable option, then you will be landed on to the Kubernetes engine page.
+
+14
+00:01:04,000 --> 00:01:07,000
+Here you have an option to create a Kubernetes cluster.
+
+15
+00:01:07,000 --> 00:01:08,000
+Please click on the same.
+
+16
+00:01:08,000 --> 00:01:09,000
+By default
+
+17
+00:01:09,000 --> 00:01:14,000
+it is going to show you an option to create an auto pilot cluster.
+
+18
+00:01:14,000 --> 00:01:21,000
+Auto pilot cluster is a flavor of Kubernetes cluster provided by the Google Cloud to make our life easy.
+
+19
+00:01:21,000 --> 00:01:28,000
+So based upon our traffic, the cluster capacity will be automatically adjusted by the Google Cloud.
+
+20
+00:01:28,000 --> 00:01:34,000
+But if you go with this option, we will not be able to explore much about the Kubernetes cluster because
+
+21
+00:01:34,000 --> 00:01:37,000
+the heavy lifting is going to be done by the Google Cloud.
+
+22
+00:01:37,000 --> 00:01:43,000
+And this is the easiest option that any organization they can follow to set up the Kubernetes cluster.
+
+23
+00:01:43,000 --> 00:01:48,000
+But inside this course, since we want to explore more about the Kubernetes cluster inside the Google
+
+24
+00:01:48,000 --> 00:01:53,000
+Cloud, we need to make sure we are clicking on this switch to Standard Cluster.
+
+25
+00:01:53,000 --> 00:01:58,000
+So let me click on this and it is going to ask you for confirmation one more time.
+
+26
+00:01:58,000 --> 00:02:01,000
+So let me click on this switch to Standard Cluster.
+
+27
+00:02:01,000 --> 00:02:07,000
+Now here I need to give a name to my cluster so I'm fine with this name, which is cluster-1.
+
+28
+00:02:07,000 --> 00:02:09,000
+We should be fine with all the default values.
+
+29
+00:02:09,000 --> 00:02:13,000
+We can straight away come towards the end and click on this create button.
+
+30
+00:02:13,000 --> 00:02:16,000
+But before that, here you can see estimated monthly cost.
+
+31
+00:02:16,000 --> 00:02:23,000
+If you try to run this cluster continuously for one month, you are going to be charged $176.
+
+32
+00:02:23,000 --> 00:02:26,000
+That means $0.24 per hour.
+
+33
+00:02:26,000 --> 00:02:28,000
+But don't worry, we are not going to take much time.
+
+34
+00:02:28,000 --> 00:02:31,000
+Within an hour we are going to close the discussion.
+
+35
+00:02:31,000 --> 00:02:34,000
+On top of that, you also have free credits.
+
+36
+00:02:34,000 --> 00:02:37,000
+You should not be charged anything if you follow my instructions.
+
+37
+00:02:37,000 --> 00:02:40,000
+Now I'm good with all these default settings.
+
+38
+00:02:40,000 --> 00:02:42,000
+Let me click on this create button.
+
+39
+00:02:42,000 --> 00:02:48,000
+As soon as I click on the Create button, The Kubernetes cluster creation process will get started with
+
+40
+00:02:48,000 --> 00:02:50,000
+a default capacity of three nodes.
+
+41
+00:02:50,000 --> 00:02:53,000
+So it is going to be created at this location.
+
+42
+00:02:53,000 --> 00:02:55,000
+So this is going to take at least five minutes time.
+
+43
+00:02:55,000 --> 00:03:01,000
+So please wait for five minutes for your Kubernetes cluster to get created successfully.
+
+44
+00:03:01,000 --> 00:03:06,000
+I hope you are clear with the steps that we followed to create a Kubernetes cluster inside Google Cloud.
+
+45
+00:03:06,000 --> 00:03:11,000
+From the next lecture, let's try to explore more details about these Kubernetes cluster and how to
+
+46
+00:03:11,000 --> 00:03:15,000
+deploy our microservices into this Kubernetes cluster.
+
+47
+00:03:15,000 --> 00:03:18,000
+Thank you, and I'll catch you in the next lecture bye.
+

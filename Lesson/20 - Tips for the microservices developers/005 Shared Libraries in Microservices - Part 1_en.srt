@@ -1,0 +1,344 @@
+1
+00:00:00,000 --> 00:00:08,000
+Many times microservice developers, they will end up writing a lot of duplicate code in multiple microservices.
+
+2
+00:00:08,000 --> 00:00:11,000
+Let's try to understand how to handle these code duplication challenge.
+
+3
+00:00:11,000 --> 00:00:18,000
+Inside my microservices there is a DTO class with the name ErrorResponseDto.
+
+4
+00:00:18,000 --> 00:00:27,000
+This Dto class has exactly same code which is duplicated across all my microservices like accounts,
+
+5
+00:00:27,000 --> 00:00:28,000
+cards, and loans.
+
+6
+00:00:28,000 --> 00:00:34,000
+Off course I don't require any DTO inside my Eureka server, config server and gateway server.
+
+7
+00:00:34,000 --> 00:00:41,000
+If you ignore these supporting services, I end up writing these ErrorResponseDto inside all the microservices.
+
+8
+00:00:41,000 --> 00:00:47,000
+In future if I create more number of microservices, definitely I will need an ErrorResponseDto in
+
+9
+00:00:47,000 --> 00:00:49,000
+the new microservice as well.
+
+10
+00:00:49,000 --> 00:00:56,000
+In this kind of scenarios, you will be tempted to create a common library and move all these duplicate
+
+11
+00:00:56,000 --> 00:00:59,000
+code into the common library and the same common library.
+
+12
+00:00:59,000 --> 00:01:03,000
+You will try to import inside your individual microservices.
+
+13
+00:01:03,000 --> 00:01:08,000
+This can be your basic approach, but there are better ways on how we can handle this.
+
+14
+00:01:08,000 --> 00:01:09,000
+Let's try to understand the same.
+
+15
+00:01:09,000 --> 00:01:16,000
+Whenever you are looking to build a shared libraries in microservices, you will end up with multiple
+
+16
+00:01:16,000 --> 00:01:17,000
+approaches.
+
+17
+00:01:17,000 --> 00:01:22,000
+Let's discuss one by one and let's try to identify which is a valid approach.
+
+18
+00:01:22,000 --> 00:01:30,000
+The very first approach that any microservice developer can think is, to create a shared maven project
+
+19
+00:01:30,000 --> 00:01:35,000
+containing all the common dependencies, or all the common code.
+
+20
+00:01:35,000 --> 00:01:42,000
+This common code can be related to your utility classes or configurations, or logging security.
+
+21
+00:01:42,000 --> 00:01:48,000
+It can be related to any functionality as long as it is common or being duplicated
+
+22
+00:01:48,000 --> 00:01:50,000
+in multiple microservices.
+
+23
+00:01:50,000 --> 00:01:56,000
+You may be tempted to create a single shared Maven project, but with this approach, there are some
+
+24
+00:01:56,000 --> 00:01:57,000
+disadvantages.
+
+25
+00:01:57,000 --> 00:01:59,000
+Let's try to understand what are those?
+
+26
+00:01:59,000 --> 00:02:05,000
+Think like you are trying to build a common library inside these common library.
+
+27
+00:02:05,000 --> 00:02:12,000
+You are trying to build some utility logic followed by security, followed by logging.
+
+28
+00:02:12,000 --> 00:02:19,000
+If you keep adding these common related logic into your same library, the library is going to become
+
+29
+00:02:19,000 --> 00:02:21,000
+a big fat jar.
+
+30
+00:02:21,000 --> 00:02:27,000
+And with that, what is going to happen if some service, if they need only the utility logic, but
+
+31
+00:02:27,000 --> 00:02:34,000
+not the security and logging related logic, the service still need to carry all these unused logic
+
+32
+00:02:34,000 --> 00:02:37,000
+or these big fat jar inside its Docker image.
+
+33
+00:02:37,000 --> 00:02:43,000
+So that's why this is definitely not a best practice or the recommended approach.
+
+34
+00:02:43,000 --> 00:02:46,000
+With that, let's go to the second approach.
+
+35
+00:02:46,000 --> 00:02:54,000
+The second approach that you may think here is, to split the shared code into the multiple smaller libraries.
+
+36
+00:02:54,000 --> 00:02:59,000
+Inside this approach, what you are going to do is, you're going to create multiple smaller libraries
+
+37
+00:02:59,000 --> 00:03:04,000
+handling the utility, security similarly logging.
+
+38
+00:03:04,000 --> 00:03:11,000
+So since these are individual Maven libraries or Maven projects, the microservices, they have an option
+
+39
+00:03:11,000 --> 00:03:15,000
+to select whatever common code that they want.
+
+40
+00:03:15,000 --> 00:03:21,000
+So if you consider this as a microservice, if this microservice it only need the utility logic, then
+
+41
+00:03:21,000 --> 00:03:29,000
+it can try to refer to the utility Maven project only, and it can safely ignore the security and logging
+
+42
+00:03:29,000 --> 00:03:31,000
+related Maven dependencies.
+
+43
+00:03:31,000 --> 00:03:33,000
+But there is a problem here.
+
+44
+00:03:33,000 --> 00:03:35,000
+Usually inside the microservices projects.
+
+45
+00:03:35,000 --> 00:03:45,000
+With this kind of setup, you will end up creating more than 20 or 30 different Maven projects or Maven
+
+46
+00:03:45,000 --> 00:03:46,000
+libraries.
+
+47
+00:03:46,000 --> 00:03:52,000
+Whenever you want to make some changes inside these individual Maven projects, then there will be some
+
+48
+00:03:52,000 --> 00:03:58,000
+challenges in pushing the code or rising the pull request to your leads are maintaining the versioning
+
+49
+00:03:58,000 --> 00:04:01,000
+numbers for all these maven dependencies.
+
+50
+00:04:01,000 --> 00:04:09,000
+That's why this approach is also not feasible due to the challenges around the pull and push request
+
+51
+00:04:09,000 --> 00:04:14,000
+and publishing multiple versions, which is going to complicate the entire management process.
+
+52
+00:04:14,000 --> 00:04:18,000
+So with that, this approach is also not recommended.
+
+53
+00:04:18,000 --> 00:04:24,000
+Now let's move on to the best and recommended approach, which is Multi-module project.
+
+54
+00:04:24,000 --> 00:04:31,000
+In this approach, what is going to happen is anywhere you're going to create a bom inside your microservice
+
+55
+00:04:31,000 --> 00:04:38,000
+inside the same bom, you can create Multi-module Maven project, where each module is going to focus
+
+56
+00:04:38,000 --> 00:04:44,000
+a particular common functionality like logging, security, auditing, or any other functionality.
+
+57
+00:04:44,000 --> 00:04:51,000
+So all these Multi-module projects, they are going to share a common parent bom, which is usually
+
+58
+00:04:51,000 --> 00:04:53,000
+is going to be a bomb file.
+
+59
+00:04:53,000 --> 00:04:58,000
+With this approach, what is going to happen is, all the challenges that we have discussed as part of
+
+60
+00:04:58,000 --> 00:05:00,000
+approach to
+
+61
+00:05:00,000 --> 00:05:07,000
+they will be resolved because we are maintaining all the common libraries as the submodules are as multi
+
+62
+00:05:07,000 --> 00:05:10,000
+modules under a single parent palm.
+
+63
+00:05:10,000 --> 00:05:13,000
+So they will be present inside the same GitHub repo.
+
+64
+00:05:13,000 --> 00:05:18,000
+So the versioning maintaining of all these libraries, it is also going to be super simple.
+
+65
+00:05:18,000 --> 00:05:23,000
+I'll try to show you the demo around these shared libraries in the next lecture.
+
+66
+00:05:23,000 --> 00:05:28,000
+But before I try to close this lecture I want to provide a disclaimer around the shared libraries.
+
+67
+00:05:28,000 --> 00:05:34,000
+Usually sharing code or sharing libraries between microservices is a debated topic.
+
+68
+00:05:34,000 --> 00:05:40,000
+You will see few developers against these, whereas other developers supporting this approach.
+
+69
+00:05:40,000 --> 00:05:45,000
+There is no single answer on how we can share the libraries in microservices.
+
+70
+00:05:45,000 --> 00:05:52,000
+You as a developer, you need to make sure whether it is really worth to move my duplicate code into
+
+71
+00:05:52,000 --> 00:05:53,000
+a shared library.
+
+72
+00:05:53,000 --> 00:06:00,000
+If you have a common code or duplicate code, which is not going to bring any coupling related challenges
+
+73
+00:06:00,000 --> 00:06:07,000
+or deployment related challenges inside your microservices, then you can happily use the shared library
+
+74
+00:06:07,000 --> 00:06:08,000
+approach.
+
+75
+00:06:08,000 --> 00:06:15,000
+But if you have a duplicate logic or common code, which is going to bring some tight coupling between
+
+76
+00:06:15,000 --> 00:06:22,000
+the microservices or which is going to make the deployment process a complex one, then in such scenarios,
+
+77
+00:06:22,000 --> 00:06:26,000
+you need to think about whether it is really worth building a shared library.
+
+78
+00:06:26,000 --> 00:06:32,000
+If you are happy by maintaining some duplicate code in multiple microservices, then you can ignore
+
+79
+00:06:32,000 --> 00:06:33,000
+the shared library.
+
+80
+00:06:33,000 --> 00:06:35,000
+If you are going with the shared libraries approach.
+
+81
+00:06:35,000 --> 00:06:42,000
+If it is bringing some challenges, then there is no worth of implementing the shared libraries in microservices.
+
+82
+00:06:42,000 --> 00:06:48,000
+According to me, you should continue maintaining the duplicate code in all the microservices.
+
+83
+00:06:48,000 --> 00:06:49,000
+I hope you are clear.
+
+84
+00:06:49,000 --> 00:06:52,000
+Let's see the demo of this third approach in the next lecture.
+
+85
+00:06:52,000 --> 00:06:53,000
+Thank you,
+
+86
+00:06:53,000 --> 00:06:53,000
+bye.
+

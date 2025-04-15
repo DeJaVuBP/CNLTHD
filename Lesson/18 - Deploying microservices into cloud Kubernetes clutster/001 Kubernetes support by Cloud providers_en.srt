@@ -1,0 +1,140 @@
+1
+00:00:00,000 --> 00:00:06,000
+As of now, we deployed all our microservices into a local Kubernetes cluster.
+
+2
+00:00:06,000 --> 00:00:12,000
+Inside this section, we are going to learn on how to deploy our microservices into a Kubernetes cluster
+
+3
+00:00:12,000 --> 00:00:16,000
+that we have created in one of the cloud provider.
+
+4
+00:00:16,000 --> 00:00:23,000
+Kubernetes is so modular and flexible and extensible that it can be deployed on on premises or in a
+
+5
+00:00:23,000 --> 00:00:28,000
+third party data center or in any of the cloud providers.
+
+6
+00:00:28,000 --> 00:00:34,000
+And if needed, you can create an Kubernetes cluster across multiple cloud providers as well.
+
+7
+00:00:34,000 --> 00:00:40,000
+But usually creating and maintaining a Kubernetes cluster can be very challenging, especially in on
+
+8
+00:00:40,000 --> 00:00:41,000
+premises.
+
+9
+00:00:41,000 --> 00:00:46,000
+That's why many enterprise organizations, they look for the cloud providers, which will make their
+
+10
+00:00:46,000 --> 00:00:51,000
+job easier to maintain their microservices architecture using Kubernetes cluster.
+
+11
+00:00:51,000 --> 00:00:58,000
+If you are going to work on any real time project who are trying to deploy their microservices into
+
+12
+00:00:58,000 --> 00:01:04,000
+a Kubernetes cluster, then there is a very good chance that your organization may use any of the cloud
+
+13
+00:01:04,000 --> 00:01:07,000
+providers that I have highlighted in the slide.
+
+14
+00:01:07,000 --> 00:01:13,000
+Like, you know, we have three famous cloud providers from Amazon we have AWS, from Google we have GCP,
+
+15
+00:01:13,000 --> 00:01:16,000
+from Microsoft we have Azure.
+
+16
+00:01:16,000 --> 00:01:22,000
+So all these cloud providers, they provide Kubernetes capabilities with different, different names.
+
+17
+00:01:22,000 --> 00:01:30,000
+For example, inside GCP, we call the Kubernetes product as GKE, which means Google Kubernetes engine.
+
+18
+00:01:30,000 --> 00:01:37,000
+Similarly inside the AWS, we call it as EKS, which means elastic Kubernetes service.
+
+19
+00:01:37,000 --> 00:01:44,000
+And at last, inside Azure, the Kubernetes product is called as AKS, which means Azure Kubernetes
+
+20
+00:01:44,000 --> 00:01:44,000
+service.
+
+21
+00:01:44,000 --> 00:01:51,000
+Inside this course, I'm going to show you on how to deploy our applications into the Kubernetes cluster
+
+22
+00:01:51,000 --> 00:01:57,000
+that we are going to create inside the GCP, which is Google Cloud provider.
+
+23
+00:01:57,000 --> 00:02:02,000
+The reason why I choose GCP compared to AWS and Azure is, inside GCP,
+
+24
+00:02:02,000 --> 00:02:09,000
+when you try to create a new account, they are going to give you a $300 free credit using which you
+
+25
+00:02:09,000 --> 00:02:16,000
+can explore many of the products provided by the GCP. Off course, AWS, Azure, they also provide some
+
+26
+00:02:16,000 --> 00:02:23,000
+free credit, but inside the GCP only with the help of free credits or free tier, we can create a Kubernetes
+
+27
+00:02:23,000 --> 00:02:24,000
+cluster.
+
+28
+00:02:24,000 --> 00:02:30,000
+Whereas with AWS and Azure, we need to pay some money to create the Kubernetes cluster, even though
+
+29
+00:02:30,000 --> 00:02:31,000
+we are a new user.
+
+30
+00:02:31,000 --> 00:02:36,000
+With that reason, I'm going to create a Kubernetes cluster inside GCP.
+
+31
+00:02:36,000 --> 00:02:41,000
+I hope this is also going to be helpful for you because without putting your own money, you can try
+
+32
+00:02:41,000 --> 00:02:48,000
+to create Kubernetes cluster inside cloud and deploy your microservices into the GCP provided Kubernetes
+
+33
+00:02:48,000 --> 00:02:49,000
+cluster.
+
+34
+00:02:49,000 --> 00:02:52,000
+I hope you are clear with the agenda of this session.
+
+35
+00:02:52,000 --> 00:02:55,000
+Thank you and I'll catch you in the next lecture bye.
+

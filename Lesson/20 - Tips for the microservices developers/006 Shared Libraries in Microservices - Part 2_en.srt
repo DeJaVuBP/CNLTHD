@@ -1,0 +1,516 @@
+1
+00:00:00,000 --> 00:00:02,000
+To get started with the shared libraries.
+
+2
+00:00:02,000 --> 00:00:07,000
+First I need to create a submodule under my eazy-bom.
+
+3
+00:00:07,000 --> 00:00:11,000
+Let me right click and go to the new module.
+
+4
+00:00:11,000 --> 00:00:15,000
+And here I'm going to mention the module name as common.
+
+5
+00:00:15,000 --> 00:00:18,000
+This can be anything based upon your requirements.
+
+6
+00:00:18,000 --> 00:00:24,000
+Let's make sure the language is Java, type is Maven and group is com.eazybytes and the artifact
+
+7
+00:00:24,000 --> 00:00:25,000
+is common.
+
+8
+00:00:25,000 --> 00:00:28,000
+Coming to the JDK I'll try to select 21.
+
+9
+00:00:28,000 --> 00:00:31,000
+Java version is 21 and the packaging should be jar.
+
+10
+00:00:31,000 --> 00:00:35,000
+After filling all these details I can click on this next button.
+
+11
+00:00:35,000 --> 00:00:41,000
+And here what I can do is, I'll try to select spring web related dependency
+
+12
+00:00:41,000 --> 00:00:48,000
+also Lombok related dependency because I need all these dependencies to build the common code inside
+
+13
+00:00:48,000 --> 00:00:49,000
+these maven project.
+
+14
+00:00:49,000 --> 00:00:55,000
+Let me click on this create button and with that, under the eazy-bom you'll be able to see there is
+
+15
+00:00:55,000 --> 00:00:59,000
+a submodule is created with the name common.
+
+16
+00:00:59,000 --> 00:01:08,000
+This way you can try to create multi modules under the eazybom form with various names like security, logging,
+
+17
+00:01:08,000 --> 00:01:11,000
+auditing based upon your business requirements.
+
+18
+00:01:11,000 --> 00:01:17,000
+Once you created this multi module, you need to go to the pom.xml of eazy-bom.
+
+19
+00:01:17,000 --> 00:01:23,000
+Here, just after the properties, you need to create a tag with the name modules.
+
+20
+00:01:23,000 --> 00:01:27,000
+Under this modules you need to mention your module details.
+
+21
+00:01:27,000 --> 00:01:30,000
+So let me type module tag here.
+
+22
+00:01:30,000 --> 00:01:33,000
+I'll try to mention the name which is common.
+
+23
+00:01:33,000 --> 00:01:35,000
+So common is my submodule name.
+
+24
+00:01:35,000 --> 00:01:37,000
+That's why I'm trying to mention the same.
+
+25
+00:01:37,000 --> 00:01:45,000
+Now my parent palm aware of these submodule that I have created, let me go to the common submodule.
+
+26
+00:01:45,000 --> 00:01:48,000
+And here inside this pom.xml I need to make some changes.
+
+27
+00:01:48,000 --> 00:01:53,000
+First I need to get rid of these parent instead of spring boot parent.
+
+28
+00:01:53,000 --> 00:02:00,000
+I need to mention eazybom as a parent so that the submodule also refers to the same parent to bom
+
+29
+00:02:00,000 --> 00:02:02,000
+file next under the version.
+
+30
+00:02:02,000 --> 00:02:07,000
+As of now, you can see this is the default version that I got from the Spring Boot generator.
+
+31
+00:02:07,000 --> 00:02:14,000
+Instead, as a best practice, what we can do is we can try to create a property inside the parent bomb
+
+32
+00:02:14,000 --> 00:02:15,000
+file.
+
+33
+00:02:15,000 --> 00:02:16,000
+Let me paste a property here.
+
+34
+00:02:16,000 --> 00:02:20,000
+So the property name is common hyphen jib.version.
+
+35
+00:02:20,000 --> 00:02:23,000
+And to this I'm giving a version number as 1.0.0.
+
+36
+00:02:23,000 --> 00:02:27,000
+Next I'll go to the common pom.xml here.
+
+37
+00:02:27,000 --> 00:02:35,000
+Instead of using these hard coded value, I'll try to mention the property which is common-jib.version.
+
+38
+00:02:35,000 --> 00:02:35,000
+.
+
+39
+00:02:35,000 --> 00:02:41,000
+Next, under the description, I'll try to remove this common and mention common project for eazybank
+
+40
+00:02:41,000 --> 00:02:44,000
+microservices just to look more professional.
+
+41
+00:02:44,000 --> 00:02:47,000
+Next, if you can scroll down here we have properties details.
+
+42
+00:02:47,000 --> 00:02:50,000
+We can remove all these property details under the dependencies
+
+43
+00:02:50,000 --> 00:02:54,000
+as of now we have starter web and we also have Lombok.
+
+44
+00:02:54,000 --> 00:02:59,000
+Since Lombok is a third party library, what we can do is we can try to refer the version based upon
+
+45
+00:02:59,000 --> 00:03:03,000
+the value that we have defined inside the parent pom.xml.
+
+46
+00:03:03,000 --> 00:03:10,000
+And since the Spring boot starter test is already available inside the parent pom.xml, we can remove
+
+47
+00:03:10,000 --> 00:03:10,000
+this.
+
+48
+00:03:10,000 --> 00:03:16,000
+apart from these Lombok, I also need to add one more dependency which is related to the spring doc.
+
+49
+00:03:16,000 --> 00:03:21,000
+Since inside my DTO classes I have annotations related to the open API.
+
+50
+00:03:21,000 --> 00:03:25,000
+I need to add this dependency inside my pom.xml of common module.
+
+51
+00:03:25,000 --> 00:03:33,000
+At last we can get rid of all these build related configurations because these configurations already
+
+52
+00:03:33,000 --> 00:03:36,000
+present inside the parent pom.xml.
+
+53
+00:03:36,000 --> 00:03:38,000
+So now we have created a submodule.
+
+54
+00:03:38,000 --> 00:03:43,000
+So let me load all these Maven changes and do a build as a next step
+
+55
+00:03:43,000 --> 00:03:49,000
+I need to move the ErrorResponseDto from my individual microservice to these common module.
+
+56
+00:03:49,000 --> 00:03:52,000
+So let me open ErrorResponseDto.
+
+57
+00:03:52,000 --> 00:03:59,000
+I'll try to copy this file and I'll go to the common Man and inside the source folder.
+
+58
+00:03:59,000 --> 00:04:06,000
+First what I'll do is, I'll try to remove these common application, because I don't want anyone to execute
+
+59
+00:04:06,000 --> 00:04:08,000
+my spring boot application.
+
+60
+00:04:08,000 --> 00:04:12,000
+I want to use the submodules strictly as a library.
+
+61
+00:04:12,000 --> 00:04:16,000
+So that's why I want to get rid of these common application, followed by
+
+62
+00:04:16,000 --> 00:04:20,000
+I'll try to create a new package with the name dto.
+
+63
+00:04:20,000 --> 00:04:26,000
+Inside this dto package I'm going to paste the new file, which is ErrorResponseDto.
+
+64
+00:04:26,000 --> 00:04:29,000
+So with this we have moved the duplicate code.
+
+65
+00:04:29,000 --> 00:04:35,000
+As a next step, I need to delete the same file in all the microservices.
+
+66
+00:04:35,000 --> 00:04:40,000
+So first I'm trying to delete from the accounts microservice, followed by
+
+67
+00:04:40,000 --> 00:04:44,000
+I'll try to delete from the cards microservice.
+
+68
+00:04:44,000 --> 00:04:49,000
+After the cards microservice, I need to delete the same from the loans microservice as well.
+
+69
+00:04:49,000 --> 00:04:57,000
+With this now we have the ErrorResponseDto in only single place, which is inside the common submodule.
+
+70
+00:04:57,000 --> 00:05:02,000
+But with this setup, if you try to do a build, definitely you're going to get compilation errors.
+
+71
+00:05:02,000 --> 00:05:09,000
+Because my individual microservices, they didn't import the common module inside their pom.xml.
+
+72
+00:05:09,000 --> 00:05:13,000
+All the microservices, which requires this common dependency
+
+73
+00:05:13,000 --> 00:05:18,000
+what they have to do, they need to add a dependency details around common.
+
+74
+00:05:18,000 --> 00:05:20,000
+So first let me open accounts.
+
+75
+00:05:20,000 --> 00:05:26,000
+So here what I will do is, at the top I'll try to mention the dependency details.
+
+76
+00:05:26,000 --> 00:05:31,000
+The dependency details are group ID is com.eazybytes and artifact ID is common.
+
+77
+00:05:31,000 --> 00:05:33,000
+And this is the version.
+
+78
+00:05:33,000 --> 00:05:35,000
+So let me save these changes.
+
+79
+00:05:35,000 --> 00:05:36,000
+Load the maven changes.
+
+80
+00:05:36,000 --> 00:05:41,000
+Next I'll go to the pom.xml of loans microservice.
+
+81
+00:05:41,000 --> 00:05:43,000
+Inside the loans microservice
+
+82
+00:05:43,000 --> 00:05:46,000
+also we need to add the same dependency.
+
+83
+00:05:46,000 --> 00:05:52,000
+Let me go to the top and I'll try to add this dependency as a first dependency, followed by I load
+
+84
+00:05:52,000 --> 00:05:53,000
+the maven changes.
+
+85
+00:05:53,000 --> 00:05:59,000
+As a next step, I need to go to the cards microservice. Inside the carts microservice
+
+86
+00:05:59,000 --> 00:06:02,000
+also, I need to add the same dependency.
+
+87
+00:06:02,000 --> 00:06:09,000
+After adding these dependency in all the required microservices, I can try to do a build inside the
+
+88
+00:06:09,000 --> 00:06:11,000
+GlobalExceptionHandler.
+
+89
+00:06:11,000 --> 00:06:12,000
+The errors are resolved.
+
+90
+00:06:12,000 --> 00:06:15,000
+I might be getting errors in other classes.
+
+91
+00:06:15,000 --> 00:06:17,000
+So here right now I'm getting inside the loans controller.
+
+92
+00:06:17,000 --> 00:06:24,000
+For some reason my intelliJ is not able to automatically resolve this issue, but if I try to open this
+
+93
+00:06:24,000 --> 00:06:28,000
+loans controller, you'll be able to see there are no errors this time.
+
+94
+00:06:28,000 --> 00:06:32,000
+If I do the build again, all the errors inside the loans controller are resolved.
+
+95
+00:06:32,000 --> 00:06:36,000
+Now I'm getting the error inside the GlobalExceptionHandler.
+
+96
+00:06:36,000 --> 00:06:40,000
+Let me open this file, save the changes and do the build.
+
+97
+00:06:40,000 --> 00:06:42,000
+Next I'm getting the error inside the cards controller.
+
+98
+00:06:42,000 --> 00:06:44,000
+Let me open the same.
+
+99
+00:06:44,000 --> 00:06:46,000
+Save the file and do the bill.
+
+100
+00:06:46,000 --> 00:06:53,000
+If this is not happening automatically, what you have to do is you just have to update the import statement
+
+101
+00:06:53,000 --> 00:06:57,000
+inside all the classes where you are using the ErrorResponseDto.
+
+102
+00:06:57,000 --> 00:07:02,000
+So this way I'm trying to resolve the issue in all the classes.
+
+103
+00:07:02,000 --> 00:07:04,000
+At last my build is successful.
+
+104
+00:07:04,000 --> 00:07:10,000
+So if I try to build one more time, you'll be able to see there are no compilation errors.
+
+105
+00:07:10,000 --> 00:07:13,000
+What I can do is, just to confirm everything is working fine.
+
+106
+00:07:13,000 --> 00:07:17,000
+I'll try to generate a docker image of accounts microservice.
+
+107
+00:07:17,000 --> 00:07:20,000
+So let me open my terminal inside my terminal.
+
+108
+00:07:20,000 --> 00:07:27,000
+First let me go to the accounts microservice and from the accounts microservice I'm going to run the
+
+109
+00:07:27,000 --> 00:07:30,000
+command which is Maven compile jib docker build.
+
+110
+00:07:30,000 --> 00:07:36,000
+Here you'll be able to see the image generation is successful for some reason.
+
+111
+00:07:36,000 --> 00:07:43,000
+If it is not working in your local, then that indicates the common module is not published properly.
+
+112
+00:07:43,000 --> 00:07:48,000
+To publish the common Maven module into the local maven repo, what you have to do.
+
+113
+00:07:48,000 --> 00:07:54,000
+You just have to go to the eazybom, and from the eazybom you need to go to the command.
+
+114
+00:07:54,000 --> 00:08:00,000
+Once you are into the common folder, you need to run the command which is Maven clean install.
+
+115
+00:08:00,000 --> 00:08:06,000
+With this command, the common module is going to be built and it is going to be published to the local
+
+116
+00:08:06,000 --> 00:08:07,000
+maven repository.
+
+117
+00:08:07,000 --> 00:08:11,000
+My local maven repository is present at this location.
+
+118
+00:08:11,000 --> 00:08:15,000
+To this location only the jar is published from this place.
+
+119
+00:08:15,000 --> 00:08:19,000
+The Docker image generation process is going to fetch the jar.
+
+120
+00:08:19,000 --> 00:08:26,000
+This way you can create any number of multi modules or submodules under the eazy-bom.
+
+121
+00:08:26,000 --> 00:08:33,000
+Always follow this approach instead of creating a single jumbo Maven module, which is not recommended
+
+122
+00:08:33,000 --> 00:08:34,000
+for the reasons that we have discussed.
+
+123
+00:08:34,000 --> 00:08:38,000
+I hope you are clear, but like I said, please be very cautious
+
+124
+00:08:38,000 --> 00:08:42,000
+while you are trying to use these approaches, you need to make sure you're not bringing deployment
+
+125
+00:08:42,000 --> 00:08:47,000
+challenges, coupling challenges inside your microservices applications.
+
+126
+00:08:47,000 --> 00:08:49,000
+I'm going to check in all this code into the GitHub repo.
+
+127
+00:08:49,000 --> 00:08:51,000
+For any questions, please refer to the same.
+
+128
+00:08:51,000 --> 00:08:52,000
+Thank you,
+
+129
+00:08:52,000 --> 00:08:53,000
+bye.
+

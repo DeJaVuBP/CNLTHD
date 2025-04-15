@@ -1,0 +1,437 @@
+1
+00:00:00,000 --> 00:00:03,000
+With the help of these eazy-bom project
+
+2
+00:00:03,000 --> 00:00:09,000
+as of now, we set up Bill of materials or Bom inside our microservices project.
+
+3
+00:00:09,000 --> 00:00:15,000
+With these all our microservices, they are going to follow the same version number which we are trying
+
+4
+00:00:15,000 --> 00:00:18,000
+to control from the parent to pom.xml.
+
+5
+00:00:18,000 --> 00:00:24,000
+But here you may have a question which is as of now, we have declared all the versions that are supposed
+
+6
+00:00:24,000 --> 00:00:31,000
+to be used by my microservices here, but sometimes we may have a requirement which is a particular
+
+7
+00:00:31,000 --> 00:00:38,000
+microservice may want to use a particular version of the dependency, which is different from the version
+
+8
+00:00:38,000 --> 00:00:43,000
+that we have mentioned inside these parent pom.xml. How to handle these kind of scenarios.
+
+9
+00:00:43,000 --> 00:00:45,000
+This can be a question.
+
+10
+00:00:45,000 --> 00:00:46,000
+Let's try to answer the same.
+
+11
+00:00:46,000 --> 00:00:49,000
+For example, think like my loans microservice,
+
+12
+00:00:49,000 --> 00:00:54,000
+it want to use a separate version of spring doc or Lombok.
+
+13
+00:00:54,000 --> 00:01:00,000
+In such scenarios, what we can do is, instead of referring to the version present inside the parent,
+
+14
+00:01:00,000 --> 00:01:08,000
+we can try to define our own version here. Just by removing these Lombok lomborg's version property reference.
+
+15
+00:01:08,000 --> 00:01:13,000
+I can try to mention my own version like 1.8.32.
+
+16
+00:01:13,000 --> 00:01:18,000
+So as of now, inside the parent we have defined 1.8.34.
+
+17
+00:01:18,000 --> 00:01:24,000
+But I have a freedom to define my own version inside my individual microservices.
+
+18
+00:01:24,000 --> 00:01:28,000
+The same kind of solution you can follow for any dependencies.
+
+19
+00:01:28,000 --> 00:01:33,000
+It can be related to the spring boot dependency or it can be a third party dependency.
+
+20
+00:01:33,000 --> 00:01:35,000
+You always have this freedom.
+
+21
+00:01:35,000 --> 00:01:36,000
+I hope you are clear.
+
+22
+00:01:36,000 --> 00:01:43,000
+Let me revert this back to the parent to version, so that we are going to use the same version across
+
+23
+00:01:43,000 --> 00:01:44,000
+all the microservices.
+
+24
+00:01:44,000 --> 00:01:52,000
+Apart from managing the dependencies or libraries versions, there is also one more advantage that we
+
+25
+00:01:52,000 --> 00:01:58,000
+can leverage whenever we have implemented Bill of materials or bom inside microservices.
+
+26
+00:01:58,000 --> 00:02:04,000
+Sometimes in your microservices, there is a very good chance that all of your microservices might be
+
+27
+00:02:04,000 --> 00:02:07,000
+using common library.
+
+28
+00:02:07,000 --> 00:02:14,000
+For example, all my microservices, they are using these spring boot starter test library.
+
+29
+00:02:14,000 --> 00:02:21,000
+If I try to search for this artifact ID, you can see the same library is present inside all of my microservices.
+
+30
+00:02:21,000 --> 00:02:26,000
+In this kind of scenarios, what we can do is instead of repeating the common dependency details inside
+
+31
+00:02:26,000 --> 00:02:33,000
+all the microservices, we can try to define these dependency at a single place, which is inside the
+
+32
+00:02:33,000 --> 00:02:38,000
+parent pom.xml or inside the bom that we have created so far.
+
+33
+00:02:38,000 --> 00:02:39,000
+Let me show you how to do the same.
+
+34
+00:02:39,000 --> 00:02:48,000
+Before that, what I'll do is, I'll try to delete these starter test related dependency from all my microservices.
+
+35
+00:02:48,000 --> 00:02:50,000
+So let me reload the maven changes.
+
+36
+00:02:50,000 --> 00:02:53,000
+Let me do the same for gateway as well.
+
+37
+00:02:53,000 --> 00:02:56,000
+So inside the gateway also I have this dependency.
+
+38
+00:02:56,000 --> 00:02:59,000
+After removing this dependency I'm trying to reload the maven changes.
+
+39
+00:02:59,000 --> 00:03:02,000
+Let me go to the message inside the message
+
+40
+00:03:02,000 --> 00:03:04,000
+also, I have this dependency.
+
+41
+00:03:04,000 --> 00:03:07,000
+I'm trying to delete it and reload the maven changes.
+
+42
+00:03:07,000 --> 00:03:10,000
+I'll go to the cards pom.xml.
+
+43
+00:03:10,000 --> 00:03:14,000
+And here also I have dependency.
+
+44
+00:03:14,000 --> 00:03:17,000
+Let me delete the same and load the maven changes.
+
+45
+00:03:17,000 --> 00:03:21,000
+Next I'll go to the config server inside the config server
+
+46
+00:03:21,000 --> 00:03:23,000
+also I have the same dependency.
+
+47
+00:03:23,000 --> 00:03:31,000
+After the config server I'll go to the Eureka server and once I deleted this dependency inside the Eureka
+
+48
+00:03:31,000 --> 00:03:35,000
+server, I'll try to delete the same inside the accounts microservice as well.
+
+49
+00:03:35,000 --> 00:03:39,000
+With this, we have deleted this dependency in all the microservices.
+
+50
+00:03:39,000 --> 00:03:41,000
+So let me load the maven changes.
+
+51
+00:03:41,000 --> 00:03:48,000
+Now if I try to search for this dependency, it is only present inside the bom
+
+52
+00:03:48,000 --> 00:03:50,000
+pom.xml. I'm fine with this
+
+53
+00:03:50,000 --> 00:03:57,000
+if I try to do the build you will get some compilation errors in all my microservices, especially related
+
+54
+00:03:57,000 --> 00:04:01,000
+to the test related annotations and import statements.
+
+55
+00:04:01,000 --> 00:04:09,000
+Because right now though, I have defined the common dependency inside the pom.xml of easy-bom,
+
+56
+00:04:09,000 --> 00:04:12,000
+it is not being referred by my child
+
+57
+00:04:12,000 --> 00:04:13,000
+microservices.
+
+58
+00:04:13,000 --> 00:04:19,000
+The reason is we have defined the dependency under the dependency management.
+
+59
+00:04:19,000 --> 00:04:25,000
+So whenever we have defined a dependency under the dependency management, it is only going to be used
+
+60
+00:04:25,000 --> 00:04:27,000
+for the version management.
+
+61
+00:04:27,000 --> 00:04:34,000
+But if you really want all your child services to import the actual dependency, then you need to mention
+
+62
+00:04:34,000 --> 00:04:36,000
+the same under the dependencies.
+
+63
+00:04:36,000 --> 00:04:39,000
+So as of now you can see the dependencies is empty.
+
+64
+00:04:39,000 --> 00:04:41,000
+I'll try to paste the dependency here.
+
+65
+00:04:41,000 --> 00:04:43,000
+Once I added this dependency I can save
+
+66
+00:04:43,000 --> 00:04:52,000
+this changes and I'll go to the Maven and I'll make sure this easy-bom is reloaded so that all
+
+67
+00:04:52,000 --> 00:04:53,000
+my child microservices.
+
+68
+00:04:53,000 --> 00:04:58,000
+They should be able to fetch these common dependency from the parent pom.xml.
+
+69
+00:04:58,000 --> 00:05:00,000
+So let me do a build.
+
+70
+00:05:00,000 --> 00:05:04,000
+With this build you can see all my compilation errors resolved.
+
+71
+00:05:04,000 --> 00:05:10,000
+That means right now my individual microservices, they are referring to these common dependency defined
+
+72
+00:05:10,000 --> 00:05:12,000
+inside the parent pom.xml.
+
+73
+00:05:12,000 --> 00:05:15,000
+I hope you are clear with these advantage as well.
+
+74
+00:05:15,000 --> 00:05:22,000
+My humble request is always try to adopt the bill of materials inside your actual microservices that
+
+75
+00:05:22,000 --> 00:05:25,000
+you are going to build as part of your job.
+
+76
+00:05:25,000 --> 00:05:33,000
+Otherwise you will end up making a lot of manual changes or manual adjustments inside your microservices.
+
+77
+00:05:33,000 --> 00:05:37,000
+Let me stop my config server that is running. As a next step
+
+78
+00:05:37,000 --> 00:05:42,000
+what I'll do is, I'll try to generate a Docker image for one of the microservices, and I'll make sure
+
+79
+00:05:42,000 --> 00:05:47,000
+with these bom setup that we have done, there is no impact on the Docker image generation.
+
+80
+00:05:47,000 --> 00:05:50,000
+Let me go to the terminal inside my terminal
+
+81
+00:05:50,000 --> 00:05:53,000
+as of now you can see I am under the section_20 folder.
+
+82
+00:05:53,000 --> 00:05:56,000
+Let me navigate to the config server.
+
+83
+00:05:56,000 --> 00:06:04,000
+And here I'm going to run the command which is Maven compile jib:dockerBuild.
+
+84
+00:06:04,000 --> 00:06:09,000
+So this is going to generate a docker image for my config server.
+
+85
+00:06:09,000 --> 00:06:15,000
+After few seconds the config server docker image is generated properly without any issues.
+
+86
+00:06:15,000 --> 00:06:18,000
+Let me confirm the same inside my Docker desktop.
+
+87
+00:06:18,000 --> 00:06:24,000
+Inside my Docker desktop, you can see there is a config server image with the tag S20 and with the
+
+88
+00:06:24,000 --> 00:06:26,000
+size is 354 MB.
+
+89
+00:06:26,000 --> 00:06:30,000
+There is no impact on the size of the docker image as well.
+
+90
+00:06:30,000 --> 00:06:33,000
+So everything seems to be working fine without any issues.
+
+91
+00:06:33,000 --> 00:06:34,000
+As an next step
+
+92
+00:06:34,000 --> 00:06:40,000
+what I'll do is, I'll try to start the container of these config server image just to make sure
+
+93
+00:06:40,000 --> 00:06:42,000
+container is also starting without any issues.
+
+94
+00:06:42,000 --> 00:06:44,000
+Let me clean the console.
+
+95
+00:06:44,000 --> 00:06:51,000
+Next I'm going to run the command which is docker run - p 
+8071:8071.
+
+96
+00:06:51,000 --> 00:06:56,000
+And after the port mapping I'm trying to give the image details.
+
+97
+00:06:56,000 --> 00:06:58,000
+And here the tag name I have mentioned S 20.
+
+98
+00:06:58,000 --> 00:07:04,000
+If I try to execute this command, you'll be able to see that the Spring boot application is getting
+
+99
+00:07:04,000 --> 00:07:06,000
+started without any issues.
+
+100
+00:07:06,000 --> 00:07:07,000
+And the spring boot version
+
+101
+00:07:07,000 --> 00:07:15,000
+also right now it is using 3.3.2, which is the same that we have mentioned inside the parent pom.xml
+
+102
+00:07:15,000 --> 00:07:19,000
+inside the Docker desktop, if you go to the containers, you'll be able to see there is a container
+
+103
+00:07:19,000 --> 00:07:20,000
+started properly.
+
+104
+00:07:20,000 --> 00:07:23,000
+You can also verify the logs here.
+
+105
+00:07:23,000 --> 00:07:28,000
+With this, the entire setup of our bom is working without any issues.
+
+106
+00:07:28,000 --> 00:07:33,000
+I have mentioned the brief summary of the bom in this slide for your reference.
+
+107
+00:07:33,000 --> 00:07:34,000
+I hope you are clear.
+
+108
+00:07:34,000 --> 00:07:34,000
+Thank you,
+
+109
+00:07:34,000 --> 00:07:35,000
+bye.
+

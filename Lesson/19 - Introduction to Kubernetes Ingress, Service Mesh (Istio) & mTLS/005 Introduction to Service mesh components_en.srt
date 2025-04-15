@@ -1,0 +1,388 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to understand the important components of service mesh that are responsible
+
+2
+00:00:06,000 --> 00:00:11,000
+for all the magic of handling non business logic requirements.
+
+3
+00:00:11,000 --> 00:00:17,000
+Like you can see here, usually any kind of service mesh implementation is going to have two important
+
+4
+00:00:17,000 --> 00:00:18,000
+components.
+
+5
+00:00:18,000 --> 00:00:20,000
+The very first component is data plane.
+
+6
+00:00:20,000 --> 00:00:26,000
+This data plane is responsible for routing traffic between microservices.
+
+7
+00:00:26,000 --> 00:00:33,000
+So any time a traffic is coming towards your container, the data plane is going to be responsible to
+
+8
+00:00:33,000 --> 00:00:34,000
+handle that.
+
+9
+00:00:34,000 --> 00:00:37,000
+So how it is going to handle is with the help of proxies.
+
+10
+00:00:37,000 --> 00:00:43,000
+So each microservice instance, like we discussed previously, is going to be accompanied by a lightweight
+
+11
+00:00:43,000 --> 00:00:45,000
+proxy sidecar container.
+
+12
+00:00:45,000 --> 00:00:52,000
+These proxies are going to handle traffic to and from the service by intercepting each request and response
+
+13
+00:00:52,000 --> 00:00:55,000
+coming towards your actual microservice container.
+
+14
+00:00:55,000 --> 00:01:02,000
+In simple words, data plane is a component or a layer where the service mesh is going to deploy all
+
+15
+00:01:02,000 --> 00:01:04,000
+the sidecar containers.
+
+16
+00:01:04,000 --> 00:01:10,000
+So to manage all these sidecar containers, we need to have another component inside the service mesh.
+
+17
+00:01:10,000 --> 00:01:13,000
+So such component is control plane.
+
+18
+00:01:13,000 --> 00:01:19,000
+So this control plane is responsible for configuring, managing and monitoring all the proxies.
+
+19
+00:01:19,000 --> 00:01:25,000
+So whenever a new pod or a new container is trying to get created, my control plane is also going to
+
+20
+00:01:25,000 --> 00:01:29,000
+create a sidecar container in that data plane.
+
+21
+00:01:29,000 --> 00:01:35,000
+This control plane also going to have important components like control-plane API, service discovery
+
+22
+00:01:35,000 --> 00:01:37,000
+and configuration management.
+
+23
+00:01:37,000 --> 00:01:41,000
+So service mesh is a concept or it is like a specification.
+
+24
+00:01:41,000 --> 00:01:48,000
+So to implement service mesh concept inside any microservice deployment, we need to use one of the
+
+25
+00:01:48,000 --> 00:01:50,000
+service mesh implementations.
+
+26
+00:01:50,000 --> 00:01:58,000
+We have many popular service meshes available like Istio, Linkerd, Console, Kong, Aws App Mesh and Azure
+
+27
+00:01:58,000 --> 00:01:59,000
+Service Mesh.
+
+28
+00:01:59,000 --> 00:02:00,000
+In all of them
+
+29
+00:02:00,000 --> 00:02:05,000
+most of the organizations, they prefer to use Istio or Linkerd as of today.
+
+30
+00:02:05,000 --> 00:02:12,000
+But at the end of the day, which service mesh should use depends upon specific organization requirements
+
+31
+00:02:12,000 --> 00:02:13,000
+and the budget that they have.
+
+32
+00:02:13,000 --> 00:02:19,000
+Now we are clear that service mesh is going to have two different components like data plane and control
+
+33
+00:02:19,000 --> 00:02:20,000
+plane.
+
+34
+00:02:20,000 --> 00:02:26,000
+So let me try to explain how these two different components are going to look like inside a Kubernetes
+
+35
+00:02:26,000 --> 00:02:26,000
+cluster.
+
+36
+00:02:26,000 --> 00:02:31,000
+Whenever we use one of the service mesh implementations like Istio. For the same,
+
+37
+00:02:31,000 --> 00:02:33,000
+let me go to the next slide.
+
+38
+00:02:33,000 --> 00:02:37,000
+Here like you can see here, first we have a Kubernetes cluster. Inside the Kubernetes cluster,
+
+39
+00:02:37,000 --> 00:02:44,000
+we have pods inside these parts when we try to deploy our accounts, loans and cards microservice,
+
+40
+00:02:44,000 --> 00:02:47,000
+which only have core business logic.
+
+41
+00:02:47,000 --> 00:02:50,000
+So these are the main containers inside the pod.
+
+42
+00:02:50,000 --> 00:02:56,000
+So whenever we try to create our main containers behind the scenes, the service mesh control plane
+
+43
+00:02:56,000 --> 00:03:05,000
+component like Istio control plane component is going to create the sidecar patterns in all the parts
+
+44
+00:03:05,000 --> 00:03:08,000
+where you have deployed your main container.
+
+45
+00:03:08,000 --> 00:03:11,000
+So you can see each pod right now has a sidecar pattern.
+
+46
+00:03:11,000 --> 00:03:15,000
+In Istio, we call this sidecar patterns with a name envoy proxy.
+
+47
+00:03:15,000 --> 00:03:21,000
+So all these envoy proxies, they are going to be maintained by the Istio control plane.
+
+48
+00:03:21,000 --> 00:03:27,000
+And at the same time, you can also clearly see here all these envoy proxies are deployed inside a component
+
+49
+00:03:27,000 --> 00:03:29,000
+called Istio data plane.
+
+50
+00:03:29,000 --> 00:03:38,000
+So why we call them as data plane, because they are responsible to manage all the traffic coming towards
+
+51
+00:03:38,000 --> 00:03:39,000
+your microservice.
+
+52
+00:03:39,000 --> 00:03:44,000
+Like if someone is trying to access my accounts, microservice container, the traffic will never go
+
+53
+00:03:44,000 --> 00:03:45,000
+to the actual part.
+
+54
+00:03:45,000 --> 00:03:53,000
+The traffic first will go to the sidecar container or envoy proxy post that once envoy proxy executed
+
+55
+00:03:53,000 --> 00:03:59,000
+all the logic around security monitoring metrics collection, it is going to forward the request to
+
+56
+00:03:59,000 --> 00:04:01,000
+the actual container.
+
+57
+00:04:01,000 --> 00:04:06,000
+So the same is going to happen in all the other microservices like loans, cards.
+
+58
+00:04:06,000 --> 00:04:13,000
+So regardless of how many microservices containers you have and parts you have, in all of them the
+
+59
+00:04:13,000 --> 00:04:19,000
+envoy proxy or the sidecar container is going to be deployed by your control plane.
+
+60
+00:04:19,000 --> 00:04:25,000
+The layer where all these envoy proxies are, the sidecar containers are deployed or available.
+
+61
+00:04:25,000 --> 00:04:29,000
+We call that layer or component as Istio data plane.
+
+62
+00:04:29,000 --> 00:04:34,000
+If you are interested to learn more details about service mesh, you can visit one of the service mesh
+
+63
+00:04:34,000 --> 00:04:36,000
+implementations website.
+
+64
+00:04:36,000 --> 00:04:38,000
+For example, we can go to the website.
+
+65
+00:04:38,000 --> 00:04:45,000
+So these are Istio website where they are climbing using we can simplify observability, traffic management,
+
+66
+00:04:45,000 --> 00:04:51,000
+security and policy with the leading service mesh, which is Istio itself.
+
+67
+00:04:51,000 --> 00:04:56,000
+So inside this website, if you try to click on this, learn more after the what is Istio, you'll be
+
+68
+00:04:56,000 --> 00:05:00,000
+able to see what is Istio service mesh is capable of.
+
+69
+00:05:00,000 --> 00:05:05,000
+We just now discussed about this envoy proxy and this Istio control plane.
+
+70
+00:05:05,000 --> 00:05:08,000
+So there are a good amount of details about what is service mesh.
+
+71
+00:05:08,000 --> 00:05:13,000
+You can read them, but like I said, for a developer, it is not required to expertise about a service
+
+72
+00:05:13,000 --> 00:05:14,000
+mesh.
+
+73
+00:05:14,000 --> 00:05:17,000
+Service Mesh itself is a separate technical skill set.
+
+74
+00:05:17,000 --> 00:05:20,000
+That's why we are not trying to learn everything about service mesh.
+
+75
+00:05:20,000 --> 00:05:28,000
+I'm just giving a quick introduction about all the advanced concepts inside microservices environments
+
+76
+00:05:28,000 --> 00:05:31,000
+like ingress, servicemesh, what are sidecar containers?
+
+77
+00:05:31,000 --> 00:05:37,000
+So you should know about all these advanced concept as a microservice developer then only it is going
+
+78
+00:05:37,000 --> 00:05:44,000
+to make your life easy because many times you may pulled into some discussions around these advanced topics
+
+79
+00:05:44,000 --> 00:05:50,000
+and in some interviews people may also ask you, are you using any service mesh inside your production
+
+80
+00:05:50,000 --> 00:05:51,000
+environment?
+
+81
+00:05:51,000 --> 00:05:55,000
+You don't have to tell them like how you are using, how you are setting up.
+
+82
+00:05:55,000 --> 00:05:56,000
+At least you should be awar,
+
+83
+00:05:56,000 --> 00:05:57,000
+what is service mesh,
+
+84
+00:05:57,000 --> 00:05:59,000
+what are its capabilities with this?
+
+85
+00:05:59,000 --> 00:06:02,000
+I'm assuming your super, super clear about service mesh.
+
+86
+00:06:02,000 --> 00:06:09,000
+As a next step, let's try to understand how the service mesh is going to secure all the internal traffic
+
+87
+00:06:09,000 --> 00:06:11,000
+happening between microservices.
+
+88
+00:06:11,000 --> 00:06:14,000
+Like you can see the last point around security.
+
+89
+00:06:14,000 --> 00:06:20,000
+I highlighted that service mesh can secure internal service to service communication in a cluster with
+
+90
+00:06:20,000 --> 00:06:25,000
+a concept called Mutual TLS (mTLS).
+
+91
+00:06:25,000 --> 00:06:28,000
+As a developer, you should know about these concepts
+
+92
+00:06:28,000 --> 00:06:35,000
+Mtls. Because there might be some questions to you inside an interview asking that you are securing your
+
+93
+00:06:35,000 --> 00:06:39,000
+edge server with the help of Oauth2 Spring Security.
+
+94
+00:06:39,000 --> 00:06:45,000
+Then why you are not securing all the internal microservices inside your Kubernetes cluster?
+
+95
+00:06:45,000 --> 00:06:47,000
+The answer is mtls.
+
+96
+00:06:47,000 --> 00:06:51,000
+So let's try to understand more details about this in the next lecture.
+
+97
+00:06:51,000 --> 00:06:54,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,588 @@
+1
+00:00:00,000 --> 00:00:06,000
+Now, inside this lecture, let's try to understand how mTLS is different from TLS.
+
+2
+00:00:06,000 --> 00:00:08,000
+The answer is very simple.
+
+3
+00:00:08,000 --> 00:00:15,000
+Whatever steps that we discussed previously as part of TLS, if these steps are followed by the both
+
+4
+00:00:15,000 --> 00:00:22,000
+parties in the communication, then that is called mTLS, which means both applications, they are going
+
+5
+00:00:22,000 --> 00:00:28,000
+to prove their identity by sharing their certificate details or key details to the other application.
+
+6
+00:00:28,000 --> 00:00:33,000
+So previously in the TLS only the backend server is proving its identity to the browser.
+
+7
+00:00:33,000 --> 00:00:39,000
+But with mTLS both parties are the both applications has to prove their identity.
+
+8
+00:00:39,000 --> 00:00:47,000
+And with this it should also clear to you that mTLS we should never use using a normal browser scenario.
+
+9
+00:00:47,000 --> 00:00:52,000
+So whenever you are using browser, that means you are on the outside web world.
+
+10
+00:00:52,000 --> 00:00:59,000
+And in such scenarios the TLS we should use, whereas mTLS should be used only for the internal traffic
+
+11
+00:00:59,000 --> 00:01:06,000
+within your Kubernetes cluster or within your organizations where multiple microservices are multiple
+
+12
+00:01:06,000 --> 00:01:11,000
+devices or multiple applications are trying to communicate with each other.
+
+13
+00:01:11,000 --> 00:01:15,000
+That's what I have highlighted here in the next step as well.
+
+14
+00:01:15,000 --> 00:01:23,000
+Only we should use mTLS in the zero trust security strategies like microservices within a cluster.
+
+15
+00:01:23,000 --> 00:01:27,000
+But whenever we want to use mTLS, there is going to be a problem,
+
+16
+00:01:27,000 --> 00:01:33,000
+if you are going with the same TLS approach. Inside the TLS who is going to issue the certificate, a
+
+17
+00:01:33,000 --> 00:01:39,000
+third party certificate authority is going to issue the certificate and that certificate is going to
+
+18
+00:01:39,000 --> 00:01:40,000
+have one year validity.
+
+19
+00:01:40,000 --> 00:01:47,000
+And they are also going to charge money for issuing a certificate after verifying the domain details.
+
+20
+00:01:47,000 --> 00:01:55,000
+But inside the mTLS approach, we cannot really ask the third party every time to issue a certificate.Because
+
+21
+00:01:55,000 --> 00:01:56,000
+there are multiple challenges.
+
+22
+00:01:56,000 --> 00:02:00,000
+One is your microservice pods or containers,
+
+23
+00:02:00,000 --> 00:02:03,000
+you can kill them and recreate them whenever you want.
+
+24
+00:02:03,000 --> 00:02:08,000
+So whenever you are trying to create a new microservice or a new container, you cannot really go to
+
+25
+00:02:08,000 --> 00:02:13,000
+the car and ask for a new certificate because that involves money and at the same time you will ended
+
+26
+00:02:13,000 --> 00:02:20,000
+up maintaining multiple certificates that are issued by the third party certificate Authority.
+
+27
+00:02:20,000 --> 00:02:24,000
+But we don't need to use third party certificate authority to issue the certificates.
+
+28
+00:02:24,000 --> 00:02:33,000
+Instead, the organization itself is going to act as a certificate authority because mTLS anyway is
+
+29
+00:02:33,000 --> 00:02:38,000
+going to be implemented within the organization traffic or within the Kubernetes cluster.
+
+30
+00:02:38,000 --> 00:02:43,000
+So when I say organization itself is going to act as a certificate authority, here I'm referring to
+
+31
+00:02:43,000 --> 00:02:46,000
+the service mesh component like Istio.
+
+32
+00:02:46,000 --> 00:02:51,000
+So they are going to act as a certificate authority and they are going to issue the certificates for
+
+33
+00:02:51,000 --> 00:02:54,000
+all the new microservices that they are trying to create.
+
+34
+00:02:54,000 --> 00:03:01,000
+So to make it more clear for you, let me try to explain these mTLS by taking a service to service communication
+
+35
+00:03:01,000 --> 00:03:03,000
+inside a Kubernetes cluster.
+
+36
+00:03:03,000 --> 00:03:06,000
+First, let's assume there is no service mesh involved.
+
+37
+00:03:06,000 --> 00:03:09,000
+There is no mTLS involved. In such scenarios,
+
+38
+00:03:09,000 --> 00:03:16,000
+the communication between two microservices like accounts and loans is going to be using plain Http.
+
+39
+00:03:16,000 --> 00:03:22,000
+And with this there is a serious drawback, which is if you have a rogue microservice or a rogue third
+
+40
+00:03:22,000 --> 00:03:26,000
+party library inside your cluster, it may intercept these traffic.
+
+41
+00:03:26,000 --> 00:03:31,000
+That's why we should make sure the communication between accounts and loans is encrypted. On top of the
+
+42
+00:03:31,000 --> 00:03:32,000
+encryption,
+
+43
+00:03:32,000 --> 00:03:33,000
+my accounts
+
+44
+00:03:33,000 --> 00:03:40,000
+microservice should also verify the legitimacy or authenticity of the other microservice, which is
+
+45
+00:03:40,000 --> 00:03:40,000
+loans.
+
+46
+00:03:40,000 --> 00:03:44,000
+It should not always assume like the other microservice is loans microservice.
+
+47
+00:03:44,000 --> 00:03:50,000
+It should make sure the microservice it is trying to talk is always loans microservice, but not any
+
+48
+00:03:50,000 --> 00:03:51,000
+other microservice.
+
+49
+00:03:51,000 --> 00:03:58,000
+So with the help of mTLS, we can also configure which microservice needs to talk with which microservice.
+
+50
+00:03:58,000 --> 00:04:06,000
+This way we can control any microservice to not have any communication with other microservice which
+
+51
+00:04:06,000 --> 00:04:07,000
+is not supposed to have.
+
+52
+00:04:07,000 --> 00:04:15,000
+Now let's try to understand how mTLS is going to make the communication between two microservices inside
+
+53
+00:04:15,000 --> 00:04:19,000
+the same Kubernetes cluster as a secure communication.
+
+54
+00:04:19,000 --> 00:04:24,000
+Like you can see here, whenever we are using service mesh along with the actual container, there will
+
+55
+00:04:24,000 --> 00:04:27,000
+be a sidecar container deployed inside the pod.
+
+56
+00:04:27,000 --> 00:04:34,000
+So when my accounts microservice want to communicate with the loans microservice, it simply forwards
+
+57
+00:04:34,000 --> 00:04:40,000
+the request to the loans microservice. But my sidecar proxy is going to intercept that traffic.
+
+58
+00:04:40,000 --> 00:04:48,000
+Like you can see here, my accounts initiate the request using plain Http only, but my sidecar proxy,
+
+59
+00:04:48,000 --> 00:04:54,000
+which is going to sit between the loans and accounts, is going to accept that Http traffic.
+
+60
+00:04:54,000 --> 00:05:00,000
+And by accepting that http request first my sidecar proxy of
+
+61
+00:05:00,000 --> 00:05:07,000
+accounts microservice is going to send a hello message to the sidecar proxy of loans microservice.
+
+62
+00:05:07,000 --> 00:05:13,000
+So here inside the step two, the two sidecar proxies in the two parts who are trying to communicate
+
+63
+00:05:13,000 --> 00:05:17,000
+with each other, they are going to perform a TLS handshake.
+
+64
+00:05:17,000 --> 00:05:23,000
+So as part of this TLS handshake, the sidecar proxy of accounts microservice is going to ask sidecar
+
+65
+00:05:23,000 --> 00:05:27,000
+proxy of loans microservice to prove its identity.
+
+66
+00:05:27,000 --> 00:05:28,000
+So to prove its identity,
+
+67
+00:05:28,000 --> 00:05:35,000
+my sidecar proxy of loans microservice is going to respond with a certificate details. Once this certificate
+
+68
+00:05:35,000 --> 00:05:41,000
+is received by the accounts microservice sidecar proxy, it is going to validate the same with the certificate
+
+69
+00:05:41,000 --> 00:05:42,000
+authority.
+
+70
+00:05:42,000 --> 00:05:46,000
+So inside the Kubernetes cluster, who is going to be the certificate authority?
+
+71
+00:05:46,000 --> 00:05:52,000
+It is the service mesh control plane because while creating the sidecar proxy containers, it will create
+
+72
+00:05:52,000 --> 00:05:55,000
+a certificate and assign the same to the respective microservice.
+
+73
+00:05:55,000 --> 00:06:02,000
+Once the service mesh control plane confirms that a particular certificate is valid, then my sidecar
+
+74
+00:06:02,000 --> 00:06:10,000
+proxy of accounts microservice is going to forward the the initial request that it has intercepted from
+
+75
+00:06:10,000 --> 00:06:15,000
+the accounts microservice to the loans microservice side proxy.
+
+76
+00:06:15,000 --> 00:06:21,000
+So while it is forwarding this request, it is going to send the communication using encrypted data
+
+77
+00:06:21,000 --> 00:06:22,000
+format.
+
+78
+00:06:22,000 --> 00:06:27,000
+Once this encrypted data received by the sidecar proxy of loans microservice, it is going to decrypt
+
+79
+00:06:27,000 --> 00:06:32,000
+the data and forward the same to the actual loans container.
+
+80
+00:06:32,000 --> 00:06:38,000
+So here you can see in the entire process nowhere my accounts and loans they are aware about
+
+81
+00:06:38,000 --> 00:06:40,000
+all this is happening behind the scenes.
+
+82
+00:06:40,000 --> 00:06:46,000
+They simply always assume that they are communicating with each other using Http protocol.
+
+83
+00:06:46,000 --> 00:06:50,000
+But the sidecar proxies are following all the steps that we have discussed.
+
+84
+00:06:50,000 --> 00:06:56,000
+So in this scenario, my accounts microservice trying to start a communication with the loans microservice
+
+85
+00:06:56,000 --> 00:07:00,000
+That's why it asks the loans microservice to prove its identity.
+
+86
+00:07:00,000 --> 00:07:07,000
+But think like in some other scenario the loans microservice is going to act as a client by sending
+
+87
+00:07:07,000 --> 00:07:09,000
+the request to the accounts
+
+88
+00:07:09,000 --> 00:07:12,000
+microservice. In such scenarios, definitely my loans
+
+89
+00:07:12,000 --> 00:07:18,000
+microservice is going to ask the accounts microservice to prove its identity. Since this is going to
+
+90
+00:07:18,000 --> 00:07:20,000
+happen at the both sides.
+
+91
+00:07:20,000 --> 00:07:24,000
+We call this as mTLS, which is mutual TLS.
+
+92
+00:07:25,000 --> 00:07:31,000
+I know this is a very complex to understand, but I'm assuming you are clear with all the detailed
+
+93
+00:07:31,000 --> 00:07:33,000
+discussion that we have done so far.
+
+94
+00:07:33,000 --> 00:07:40,000
+So your service mesh is capable of establishing these mTLS inside your microservices deployed within
+
+95
+00:07:40,000 --> 00:07:42,000
+a Kubernetes cluster.
+
+96
+00:07:42,000 --> 00:07:45,000
+The service mesh is capable of issuing certificates if needed
+
+97
+00:07:45,000 --> 00:07:52,000
+you can also configure how soon the certificates can expire and how soon the certificates has to be
+
+98
+00:07:52,000 --> 00:07:52,000
+renewed.
+
+99
+00:07:52,000 --> 00:07:56,000
+So all such configurations we can do with the help of service mesh.
+
+100
+00:07:56,000 --> 00:08:03,000
+But we as a developer don't have to know how to implement these mTLS inside the microservice communication
+
+101
+00:08:03,000 --> 00:08:08,000
+with the help of service mesh. We should only be aware about this concept.
+
+102
+00:08:08,000 --> 00:08:13,000
+I hope this is clear before we try to close this lecture, let's try to quickly understand why we should
+
+103
+00:08:13,000 --> 00:08:14,000
+use mTLS,
+
+104
+00:08:14,000 --> 00:08:19,000
+what are the advantages that it provides whenever we implement these inside a microservice network.
+
+105
+00:08:19,000 --> 00:08:23,000
+The very first advantage is you're going to have mutual authentication.
+
+106
+00:08:23,000 --> 00:08:25,000
+That means both the client and server,
+
+107
+00:08:25,000 --> 00:08:28,000
+they are going to make sure they both verify themselves.
+
+108
+00:08:28,000 --> 00:08:33,000
+And when they follow mutual authentication, then definitely the next advantage that we have is protection
+
+109
+00:08:33,000 --> 00:08:38,000
+against impersonation, which means no other microservice
+
+110
+00:08:38,000 --> 00:08:41,000
+or no other component inside your Kubernetes cluster.
+
+111
+00:08:41,000 --> 00:08:48,000
+They cannot steal your data by acting themselves as a lone microservice or any other microservice with
+
+112
+00:08:48,000 --> 00:08:53,000
+whom you are trying to communicate. Because they should have their valid digital certificate to prove
+
+113
+00:08:53,000 --> 00:08:56,000
+themselves inside the microservice network.
+
+114
+00:08:56,000 --> 00:09:00,000
+And the next advantage that we have here is granular access control.
+
+115
+00:09:00,000 --> 00:09:06,000
+With the help of mTLS, we can enforce fine grained access control, allowing organizations to specify
+
+116
+00:09:06,000 --> 00:09:11,000
+which microservices are permitted to communicate with which microservices.
+
+117
+00:09:11,000 --> 00:09:13,000
+Moving on to the next advantage.
+
+118
+00:09:13,000 --> 00:09:18,000
+With the help of mTLS, we are going to have resistance to credential compromise.
+
+119
+00:09:18,000 --> 00:09:23,000
+We all know the basic approach of establishing communication between two applications is by using some
+
+120
+00:09:23,000 --> 00:09:29,000
+service accounts, just like how we humans have username and password, we can give some service account
+
+121
+00:09:29,000 --> 00:09:34,000
+details to each application. But for some reason, if those credentials are compromised, still mTLS
+
+122
+00:09:35,000 --> 00:09:41,000
+is going to act as a second layer because without digital certificate the communication will never establish.
+
+123
+00:09:41,000 --> 00:09:45,000
+And with that we can easily avoid credential theft or brute force attacks.
+
+124
+00:09:45,000 --> 00:09:52,000
+The next advantage that we have with the mTLS is, simplified key management. Because inside mTLS the trusted
+
+125
+00:09:52,000 --> 00:09:56,000
+certified authority is going to be your service mesh only.
+
+126
+00:09:56,000 --> 00:09:59,000
+So issuing a new certificate or renewing an existing certificate
+
+127
+00:10:00,000 --> 00:10:06,000
+is going to be super easy and does not involve any money. Because you're not using any third
+
+128
+00:10:06,000 --> 00:10:09,000
+party certificate authority. And using these mTLS,
+
+129
+00:10:09,000 --> 00:10:14,000
+we can also issue certificates to any number of microservices.
+
+130
+00:10:14,000 --> 00:10:20,000
+That means there won't be any scalability issues regardless of how many microservices you have.
+
+131
+00:10:20,000 --> 00:10:22,000
+You can issue the new certificates if needed,
+
+132
+00:10:22,000 --> 00:10:24,000
+you can rotate the existing certificates.
+
+133
+00:10:24,000 --> 00:10:31,000
+So especially these mTLS is going to simplify the operations inside large scale deployments.
+
+134
+00:10:31,000 --> 00:10:38,000
+And whenever an organization uses mTLS, it is going to be compliant with the many compliances like
+
+135
+00:10:38,000 --> 00:10:41,000
+GDPR, HIPAA, DSS.
+
+136
+00:10:41,000 --> 00:10:46,000
+So these are all the industry standards that every organization has to follow to make sure that they
+
+137
+00:10:46,000 --> 00:10:52,000
+are securing the sensitive data and providing privacy between the applications communication.
+
+138
+00:10:52,000 --> 00:10:58,000
+And at last, when we use mTLS, we are going to follow zero trust security framework.
+
+139
+00:10:58,000 --> 00:11:04,000
+That means without a proper digital certificate, you're not going to establish a communication with
+
+140
+00:11:04,000 --> 00:11:09,000
+other components, even if they are present inside your own organization network.
+
+141
+00:11:09,000 --> 00:11:14,000
+I'm assuming your super, super clear about mTLS and you have some valuable information.
+
+142
+00:11:14,000 --> 00:11:20,000
+So as an advanced microservice developer, you should aware about all these advanced topics.
+
+143
+00:11:20,000 --> 00:11:23,000
+Having a theory knowledge about them is good enough.
+
+144
+00:11:23,000 --> 00:11:29,000
+You don't have to be expert because someone who has years of experience around setting up service mesh,
+
+145
+00:11:29,000 --> 00:11:31,000
+they can only perform this job.
+
+146
+00:11:31,000 --> 00:11:32,000
+I hope this is all clear to you.
+
+147
+00:11:32,000 --> 00:11:35,000
+Thank you and I'll catch you in the next lecture bye.
+

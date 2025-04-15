@@ -1,0 +1,548 @@
+1
+00:00:00,000 --> 00:00:05,000
+After five minutes my Kubernetes cluster is successfully created inside Google Cloud.
+
+2
+00:00:05,000 --> 00:00:09,000
+You should be able to see the status here with a green tick.
+
+3
+00:00:09,000 --> 00:00:12,000
+That means the Kubernetes cluster is successfully created.
+
+4
+00:00:12,000 --> 00:00:18,000
+To know more details about our Kubernetes cluster, we can click on this hyperlink, which will open
+
+5
+00:00:18,000 --> 00:00:19,000
+a new page.
+
+6
+00:00:19,000 --> 00:00:25,000
+In this page, we'll have additional information about our Kubernetes cluster, like where the Kubernetes
+
+7
+00:00:25,000 --> 00:00:28,000
+cluster is created, under which zone, under which country.
+
+8
+00:00:28,000 --> 00:00:30,000
+So all those details we can see here.
+
+9
+00:00:30,000 --> 00:00:36,000
+Similarly, if we can click on this nodes, you'll be able to see the list of nodes available inside
+
+10
+00:00:36,000 --> 00:00:38,000
+your Kubernetes cluster.
+
+11
+00:00:38,000 --> 00:00:43,000
+As of now, you can see my Kubernetes cluster created with the three nodes, the same nodes I'm able
+
+12
+00:00:43,000 --> 00:00:46,000
+to see here. Inside this nodes table only,
+
+13
+00:00:46,000 --> 00:00:52,000
+you should be able to see all the CPU and memory related information that is assigned to your nodes.
+
+14
+00:00:52,000 --> 00:00:57,000
+To understand more details about a particular node, you can click on the hyperlink and that will take
+
+15
+00:00:57,000 --> 00:01:03,000
+you to the another page where you can see the CPU utilization, memory utilization, disk utilization
+
+16
+00:01:03,000 --> 00:01:04,000
+of your node.
+
+17
+00:01:04,000 --> 00:01:07,000
+And you can scroll down on this page.
+
+18
+00:01:07,000 --> 00:01:12,000
+You'll be able to see the list of pods that are executed inside your particular node.
+
+19
+00:01:12,000 --> 00:01:17,000
+As of now, you can see there are good amount of pods are installed by the Google Cloud for maintaining
+
+20
+00:01:17,000 --> 00:01:19,000
+my Kubernetes cluster behind the scenes.
+
+21
+00:01:19,000 --> 00:01:24,000
+Like you can see here, we are able to see the CPU information, memory information, disk information.
+
+22
+00:01:24,000 --> 00:01:31,000
+So how we are able to see this, my Google Cloud behind the scenes, it installed a pod which is responsible
+
+23
+00:01:31,000 --> 00:01:32,000
+to collect all the metrics.
+
+24
+00:01:33,000 --> 00:01:36,000
+You can see the same here, like gke-metrics-agent.
+
+25
+00:01:36,000 --> 00:01:42,000
+Similarly, all the parts that is required to manage your Kubernetes cluster is going to be installed
+
+26
+00:01:42,000 --> 00:01:43,000
+by default.
+
+27
+00:01:43,000 --> 00:01:48,000
+Once you validated everything on this page, you can navigate back to the previous page.
+
+28
+00:01:48,000 --> 00:01:54,000
+And for some reason, if you want to add more number of nodes to your Kubernetes cluster, you can use
+
+29
+00:01:54,000 --> 00:01:56,000
+this option, which is add node pool.
+
+30
+00:01:56,000 --> 00:02:02,000
+So once you validated all this information, you can go back to the main page where you can see the
+
+31
+00:02:02,000 --> 00:02:05,000
+cluster that is created inside the Google Cloud.
+
+32
+00:02:05,000 --> 00:02:11,000
+Here as a next step, we need to connect with these Google Cloud Kubernetes cluster from our local system.
+
+33
+00:02:11,000 --> 00:02:15,000
+For the same, you can click on this three dots and here there will be an option connect.
+
+34
+00:02:15,000 --> 00:02:21,000
+You can click on the same post that you will get a command which you need to copy and execute the same
+
+35
+00:02:21,000 --> 00:02:24,000
+inside your local with the help of Google Cloud cli.
+
+36
+00:02:24,000 --> 00:02:26,000
+So let me click on this
+
+37
+00:02:26,000 --> 00:02:31,000
+okay. Post that inside my terminal, I'm going to paste the same command and execute the same here.
+
+38
+00:02:31,000 --> 00:02:38,000
+And this will establish a connection with my Kubernetes cluster that I have created inside the Google
+
+39
+00:02:38,000 --> 00:02:38,000
+Cloud.
+
+40
+00:02:38,000 --> 00:02:45,000
+And you can see I also have an output saying that Kubeconfig entry generated for the cluster hyphen
+
+41
+00:02:45,000 --> 00:02:47,000
+one inside my local system.
+
+42
+00:02:47,000 --> 00:02:54,000
+So to validate if the connection is really working or not, I can run the command which is kubectl get
+
+43
+00:02:54,000 --> 00:02:58,000
+nodes and this will give the output as like you can see on the screen.
+
+44
+00:02:58,000 --> 00:03:03,000
+Since I have three nodes, I'm able to see the three nodes inside my output.
+
+45
+00:03:03,000 --> 00:03:09,000
+And here you may have a question like previously we connected to the local Kubernetes cluster.
+
+46
+00:03:09,000 --> 00:03:15,000
+Now all of a sudden we are able to connect to the Kubernetes cluster present inside my Google Cloud.
+
+47
+00:03:15,000 --> 00:03:16,000
+So how is this possible?
+
+48
+00:03:16,000 --> 00:03:20,000
+What happened to my previous connection with my local Kubernetes cluster?
+
+49
+00:03:20,000 --> 00:03:24,000
+Because we didn't even delete the local Kubernetes cluster. For the same,
+
+50
+00:03:24,000 --> 00:03:27,000
+let's go to the Docker desktop icon.
+
+51
+00:03:27,000 --> 00:03:33,000
+Here there is an option, kubernetes and you should be able to see all the connection details. Since right
+
+52
+00:03:33,000 --> 00:03:38,000
+now I connected to a new cluster that is marked as a default context.
+
+53
+00:03:38,000 --> 00:03:44,000
+If I change the context to the Docker desktop and run the same command, which is kubectl get nodes,
+
+54
+00:03:44,000 --> 00:03:50,000
+I'll get only one node because inside my local Kubernetes cluster I have only single node.
+
+55
+00:03:50,000 --> 00:03:57,000
+So using the context inside Kubernetes, you can connect to any number of Kubernetes cluster and whenever
+
+56
+00:03:57,000 --> 00:04:02,000
+you want to interact with the particular Kubernetes cluster, you need to make sure you are changing
+
+57
+00:04:02,000 --> 00:04:05,000
+the context to the corresponding Kubernetes cluster.
+
+58
+00:04:05,000 --> 00:04:11,000
+So I'm changing the context here and I'll go and run the command, which is kubectl get nodes.
+
+59
+00:04:11,000 --> 00:04:14,000
+This time I'll get the output as three nodes.
+
+60
+00:04:14,000 --> 00:04:19,000
+I hope you are clear as a next step, we need to start applying our helm charts and Kubernetes manifest
+
+61
+00:04:19,000 --> 00:04:24,000
+files on top of the Kubernetes cluster that we have created in the Google Cloud.
+
+62
+00:04:24,000 --> 00:04:26,000
+So let me do the same. For the same,
+
+63
+00:04:26,000 --> 00:04:31,000
+let me navigate into the section_17 folder inside my workspace.
+
+64
+00:04:31,000 --> 00:04:33,000
+Thoughwe are right now in the section 18.
+
+65
+00:04:33,000 --> 00:04:39,000
+Since we are not going to make any code changes, I'm going to use the same helm charts, same code,
+
+66
+00:04:39,000 --> 00:04:43,000
+same Kubernetes manifest files that we have inside the section 17.
+
+67
+00:04:43,000 --> 00:04:50,000
+So first, we need to make sure we are setting up the Discovery server inside the Kubernetes cluster.
+
+68
+00:04:50,000 --> 00:04:54,000
+So to install the same let me go into the Kubernetes folder.
+
+69
+00:04:54,000 --> 00:04:59,000
+And from this folder I'm going to run the command, which is kubectl apply -f
+
+70
+00:04:59,000 --> 00:05:04,000
+and followed by what is the Kubernetes manifest file.
+
+71
+00:05:04,000 --> 00:05:10,000
+The Kubernetes manifest file is kubernetes-discoveryserver.yaml.
+
+72
+00:05:10,000 --> 00:05:12,000
+So let me execute this command.
+
+73
+00:05:12,000 --> 00:05:14,000
+I'm getting a connection timeout error.
+
+74
+00:05:14,000 --> 00:05:21,000
+Let me try to connect to my Kubernetes cluster one more time with the Gcloud command that we have executed
+
+75
+00:05:21,000 --> 00:05:21,000
+previously.
+
+76
+00:05:21,000 --> 00:05:24,000
+So I'm trying to execute this command again.
+
+77
+00:05:24,000 --> 00:05:29,000
+This will connect to my cluster one more time and this time I'm going to run the same command, which
+
+78
+00:05:29,000 --> 00:05:31,000
+is kubectl apply.
+
+79
+00:05:31,000 --> 00:05:37,000
+Finally, I'm able to apply this Kubernetes Discovery server dot yaml file after two three times attempt.
+
+80
+00:05:37,000 --> 00:05:44,000
+Since there is a network issue inside my local system due to which I'm not able to connect very quickly
+
+81
+00:05:44,000 --> 00:05:46,000
+with my remote Kubernetes cluster.
+
+82
+00:05:46,000 --> 00:05:50,000
+So now we have installed the Kubernetes Discovery server. As a next step,
+
+83
+00:05:50,000 --> 00:05:53,000
+I can try to run the command, which is helm ls.
+
+84
+00:05:53,000 --> 00:06:00,000
+As of now, we don't have any installations done inside our remote kubernetes cluster with the help
+
+85
+00:06:00,000 --> 00:06:01,000
+of Helm.
+
+86
+00:06:01,000 --> 00:06:07,000
+So to get started with the helm installations, first let me clean the console and the very first helm
+
+87
+00:06:07,000 --> 00:06:09,000
+installation that I'm going to do is, kick log.
+
+88
+00:06:09,000 --> 00:06:15,000
+So let me run the command, which is helm install keycloak with the help of Keycloak chart.
+
+89
+00:06:15,000 --> 00:06:20,000
+So if I try to run this, I'm getting an output because I'm not in the right folder location.
+
+90
+00:06:20,000 --> 00:06:28,000
+Let me go back to the parent folder and here post that I will navigate into the helm folder. From the
+
+91
+00:06:28,000 --> 00:06:28,000
+helm folder,
+
+92
+00:06:28,000 --> 00:06:34,000
+I'm going to run the same command which is helm install keycloak keycloak. As a response to my helm
+
+93
+00:06:34,000 --> 00:06:41,000
+installation command, I got an output saying that that the keycloak installation is going on and I
+
+94
+00:06:41,000 --> 00:06:44,000
+can follow these steps to connect with my keycloak server.
+
+95
+00:06:44,000 --> 00:06:51,000
+We can try to connect to our keycloak later, but let me try to continue with the remaining helm installations.
+
+96
+00:06:51,000 --> 00:06:57,000
+The next installation that I want to do is related to the Kafka, so let me try to run the command,
+
+97
+00:06:57,000 --> 00:06:59,000
+which is helm install kafka
+
+98
+00:06:59,000 --> 00:07:06,000
+kafka. And this will install Kafka cluster inside my Kubernetes cluster.
+
+99
+00:07:06,000 --> 00:07:09,000
+Now my Kafka installation also is completed.
+
+100
+00:07:09,000 --> 00:07:15,000
+Let me clean the console, followed by I'm going to run the helm install prometheus.
+
+101
+00:07:15,000 --> 00:07:19,000
+So this time I'm going to install prometheus helm chart.
+
+102
+00:07:19,000 --> 00:07:23,000
+The Prometheus Helm chart is available with the name kube-prometheus.
+
+103
+00:07:23,000 --> 00:07:30,000
+So I'm trying to install this and this will install Prometheus inside my remote Kubernetes cluster once
+
+104
+00:07:30,000 --> 00:07:33,000
+the installation of Prometheus is completed.
+
+105
+00:07:33,000 --> 00:07:38,000
+As a next step, I can try to run the Loki related helm chart. For the same,
+
+106
+00:07:38,000 --> 00:07:45,000
+I'm going to run the helm install loki followed by Loki Helm Chart Name. The Loki Helm chart name is
+
+107
+00:07:45,000 --> 00:07:46,000
+grafana-loki.
+
+108
+00:07:46,000 --> 00:07:52,000
+So this will initiate the installation of Loki inside my remote Kubernetes cluster.
+
+109
+00:07:52,000 --> 00:07:54,000
+So let's wait for a few seconds here.
+
+110
+00:07:54,000 --> 00:07:59,000
+After the Loki is installed, we can try to install tempo as well for the same
+
+111
+00:07:59,000 --> 00:08:06,000
+let me run the command, which is helm install tempo, Grafana hyphen tempo, which is a helm chart of
+
+112
+00:08:06,000 --> 00:08:06,000
+tempo.
+
+113
+00:08:06,000 --> 00:08:12,000
+So let me try to execute this command and this will install tempo as well into the Kubernetes cluster.
+
+114
+00:08:12,000 --> 00:08:17,000
+As a next step, we can try to install Grafana into our Kubernetes cluster.
+
+115
+00:08:17,000 --> 00:08:23,000
+So now my tempo also installed, let me clean the console and run the command, which is helm install
+
+116
+00:08:23,000 --> 00:08:27,000
+Grafana followed by what is our helm chart name of Grafana.
+
+117
+00:08:27,000 --> 00:08:30,000
+The helm chart name is Grafana itself.
+
+118
+00:08:30,000 --> 00:08:36,000
+I'm trying to execute the same command and this will install Grafana inside my Kubernetes cluster post
+
+119
+00:08:36,000 --> 00:08:41,000
+this we can try to install our easy bank helm chart. For the same,
+
+120
+00:08:41,000 --> 00:08:45,000
+let me clean the console and go back to the parent folder.
+
+121
+00:08:45,000 --> 00:08:51,000
+Now from this helm folder, I need to navigate into the environments folder.
+
+122
+00:08:51,000 --> 00:08:58,000
+So from this environments folder I'm going to run the command which is helm install easybank which
+
+123
+00:08:58,000 --> 00:09:01,000
+is the release name and what is the helm chart that I want to consider.
+
+124
+00:09:01,000 --> 00:09:05,000
+So here I'm going to consider prod env helm chart.
+
+125
+00:09:05,000 --> 00:09:12,000
+So let me try to execute this command and this will initiate the deploying of all our microservices
+
+126
+00:09:12,000 --> 00:09:14,000
+into the remote Kubernetes cluster.
+
+127
+00:09:14,000 --> 00:09:18,000
+So the deployment of our microservice started behind the scenes.
+
+128
+00:09:18,000 --> 00:09:23,000
+I assume you are already familiar with all these steps because the same steps are the same process we
+
+129
+00:09:23,000 --> 00:09:28,000
+followed even with the local Kubernetes cluster as well, nothing is going to be different.
+
+130
+00:09:28,000 --> 00:09:34,000
+It's just that your production Kubernetes cluster or the Cloud Kubernetes cluster is going to have some
+
+131
+00:09:34,000 --> 00:09:38,000
+more capacity compared to your local Kubernetes cluster.
+
+132
+00:09:38,000 --> 00:09:41,000
+I hope this all clear to you. In the next lecture,
+
+133
+00:09:41,000 --> 00:09:45,000
+we can try to validate if all our deployments are successful or not.
+
+134
+00:09:45,000 --> 00:09:50,000
+So behind the scenes, I'm going to wait for 5 to 10 minutes for all the deployments to complete. Post
+
+135
+00:09:50,000 --> 00:09:50,000
+that,
+
+136
+00:09:50,000 --> 00:09:53,000
+I'm going to continue the discussion in the next lecture.
+
+137
+00:09:53,000 --> 00:09:56,000
+Thank you and I'll catch you in the next lecture bye.
+

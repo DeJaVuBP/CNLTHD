@@ -1,0 +1,632 @@
+1
+00:00:00,000 --> 00:00:08,000
+In the previous lecture, we learned that Ingres is capable of handling all the ingress and egress traffic.
+
+2
+00:00:08,000 --> 00:00:12,000
+Or in other words, it is capable of handling all the north south traffic.
+
+3
+00:00:12,000 --> 00:00:20,000
+But how about the traffic that is going to happen within the Kubernetes cluster between multiple microservices?
+
+4
+00:00:20,000 --> 00:00:23,000
+So who is going to handle this service to service traffic. Before that,
+
+5
+00:00:23,000 --> 00:00:29,000
+first, let me try to explain more details about what is service to service traffic. Any traffic that
+
+6
+00:00:29,000 --> 00:00:35,000
+is moving among services within a Kubernetes cluster, we call it, as a service to service traffic.
+
+7
+00:00:35,000 --> 00:00:40,000
+In other words, we call this kind of traffic as east-west traffic.
+
+8
+00:00:40,000 --> 00:00:47,000
+So you will hear a lot of jargons as a microservice developer like north-south traffic, east-west traffic.
+
+9
+00:00:47,000 --> 00:00:51,000
+That's why you need to be familiar with these jargons for that reason
+
+10
+00:00:51,000 --> 00:00:56,000
+only inside this course, I'm trying to give details about these jargons to make your life easy.
+
+11
+00:00:56,000 --> 00:01:02,000
+With that, let's move on to the next question, which is who is going to handle the east-west traffic?
+
+12
+00:01:02,000 --> 00:01:07,000
+The answer is service mesh can handle the east-west traffic efficiently.
+
+13
+00:01:07,000 --> 00:01:11,000
+So here again, we have a new jargon which is service mesh.
+
+14
+00:01:11,000 --> 00:01:14,000
+So let's try to understand what is service mesh.
+
+15
+00:01:14,000 --> 00:01:21,000
+A service mesh is a dedicated infrastructure layer for managing all the communication between your microservices
+
+16
+00:01:21,000 --> 00:01:28,000
+in a containerized applications like Kubernetes cluster. This service mesh is going to provide a lot
+
+17
+00:01:28,000 --> 00:01:34,000
+of capabilities like making east-west traffic secure, reliable and observable.
+
+18
+00:01:34,000 --> 00:01:40,000
+So with the help of service mesh, we can also make our internal traffic between microservices secure.
+
+19
+00:01:40,000 --> 00:01:46,000
+When we are discussing about the spring security, Oauth2 protocol during the same section, I told you
+
+20
+00:01:46,000 --> 00:01:52,000
+that we don't have to secure our internal microservices with the help of spring security.
+
+21
+00:01:52,000 --> 00:01:58,000
+Only the edge server like Spring Cloud Gateway server has to be protected with the help of Oauth2,
+
+22
+00:01:58,000 --> 00:02:00,000
+OpenID and the Spring Security Framework.
+
+23
+00:02:00,000 --> 00:02:03,000
+The reason is all the internal services
+
+24
+00:02:03,000 --> 00:02:05,000
+they are going to have two layers of security.
+
+25
+00:02:05,000 --> 00:02:08,000
+One is they are not going to be exposed to the outside world.
+
+26
+00:02:08,000 --> 00:02:13,000
+Only they can be accessed by the internal applications or by the edge server.
+
+27
+00:02:13,000 --> 00:02:20,000
+That means you are going to build a firewall around all your microservices where no hacker can reach
+
+28
+00:02:20,000 --> 00:02:21,000
+out them directly.
+
+29
+00:02:21,000 --> 00:02:23,000
+That's a very first layer of security.
+
+30
+00:02:23,000 --> 00:02:27,000
+The second layer security is going to be provided by the service mesh.
+
+31
+00:02:27,000 --> 00:02:31,000
+We are going to discuss more details about this in the coming lectures.
+
+32
+00:02:31,000 --> 00:02:38,000
+Apart from securing the east-west traffic service mesh is also capable of monitoring all your traffic,
+
+33
+00:02:38,000 --> 00:02:40,000
+observe them and provide the metrics.
+
+34
+00:02:40,000 --> 00:02:46,000
+So if you ask me here, what are the list of capabilities of service mesh is, I would give this list
+
+35
+00:02:46,000 --> 00:02:51,000
+which is your service mesh is going to provide you a variety of features like service discovery,
+
+36
+00:02:52,000 --> 00:02:57,000
+load balancing, circuit breaking, fault tolerance, metrics and tracing and security.
+
+37
+00:02:57,000 --> 00:03:04,000
+If you see all of them, we implemented with various components like for metrics and tracing, we leverage
+
+38
+00:03:04,000 --> 00:03:09,000
+Prometheus, Grafana and similarly for fault tolerance, secure breaking, we leverage resiliency4j.
+
+39
+00:03:09,000 --> 00:03:11,000
+Service discovery,
+
+40
+00:03:11,000 --> 00:03:15,000
+we follow client side service discovery with the help of Eureka Server and service side Discovery with
+
+41
+00:03:15,000 --> 00:03:18,000
+the help of Kubernetes Discovery Server.
+
+42
+00:03:18,000 --> 00:03:23,000
+The same kind of capabilities is also going to be provided by the service mesh.
+
+43
+00:03:23,000 --> 00:03:29,000
+With that, you may have a very big question which is if service mesh is capable of providing all this,
+
+44
+00:03:29,000 --> 00:03:34,000
+then why should I learn all the concepts that we discussed previously
+
+45
+00:03:34,000 --> 00:03:37,000
+as a developer. The answer is very similar.
+
+46
+00:03:37,000 --> 00:03:39,000
+Not all organizations
+
+47
+00:03:39,000 --> 00:03:44,000
+they are going to use service mesh because maintaining a service mesh and setting up a service mesh
+
+48
+00:03:44,000 --> 00:03:48,000
+need a lot of technical skills from the DevOps team perspective.
+
+49
+00:03:48,000 --> 00:03:52,000
+And apart from that, setting up service mesh requires a lot of budget.
+
+50
+00:03:52,000 --> 00:03:58,000
+So if an organization can afford setting up a service mesh, then they will go with that option.
+
+51
+00:03:58,000 --> 00:04:04,000
+Otherwise they may ask the developers to handle all these like service discovery, load balancing,
+
+52
+00:04:04,000 --> 00:04:08,000
+circuit breaker, fault tolerance, metrics tracing, security.
+
+53
+00:04:08,000 --> 00:04:12,000
+So that's why you need to be ready for any kind of scenarios.
+
+54
+00:04:12,000 --> 00:04:17,000
+If someone is asking you, don't bother about all these non-business logic because we are going to use
+
+55
+00:04:17,000 --> 00:04:23,000
+service mesh you as a developer simply focus on business logic, then it's a very happy scenario for
+
+56
+00:04:23,000 --> 00:04:29,000
+you because you simply going to focus on business logic, but you may end up in some organizations where
+
+57
+00:04:29,000 --> 00:04:35,000
+they don't want to maintain these service mesh because they are super complex for them or they are not
+
+58
+00:04:35,000 --> 00:04:36,000
+affordable to them.
+
+59
+00:04:36,000 --> 00:04:42,000
+Or you might be building some microservices which are of low severity, which may not require the service
+
+60
+00:04:42,000 --> 00:04:43,000
+mesh setup.
+
+61
+00:04:43,000 --> 00:04:49,000
+So for all such scenarios, that's why you should be familiar with all the techniques and components
+
+62
+00:04:49,000 --> 00:04:51,000
+that we discussed throughout this course.
+
+63
+00:04:51,000 --> 00:04:57,000
+So I said service mesh has a lot of capabilities and features, so let me try to explain you on how
+
+64
+00:04:57,000 --> 00:04:59,000
+service mesh is going to provide all these capabilities.
+
+65
+00:05:00,000 --> 00:05:03,000
+You may want to know more details about service mesh, that's why
+
+66
+00:05:03,000 --> 00:05:05,000
+let me try to provide those more details here.
+
+67
+00:05:05,000 --> 00:05:08,000
+So like you can see here, we have a Kubernetes cluster.
+
+68
+00:05:08,000 --> 00:05:11,000
+And inside this Kubernetes cluster, we have three parts.
+
+69
+00:05:11,000 --> 00:05:17,000
+Inside these three parts, we are going to deploy accounts, loans and cards microservice containers.
+
+70
+00:05:17,000 --> 00:05:22,000
+So if you don't have service mesh as a developer, you need to write business logic.
+
+71
+00:05:22,000 --> 00:05:28,000
+You need to write non-functional logic like metrics, tracing, resiliency, security.
+
+72
+00:05:28,000 --> 00:05:32,000
+As of now, we didn't write security inside accounts, loans and cards.
+
+73
+00:05:32,000 --> 00:05:36,000
+But some organizations, they may ask you to write some security logic as well.
+
+74
+00:05:36,000 --> 00:05:42,000
+So if you see here, it is very clear that all the business logic is clubbed in the same container or
+
+75
+00:05:42,000 --> 00:05:49,000
+in the same microservice project, along with the supporting logics like security metrics, tracing
+
+76
+00:05:49,000 --> 00:05:49,000
+resilience.
+
+77
+00:05:49,000 --> 00:05:56,000
+So we added some dependencies related to Prometheus, we added some configurations related to Grafana,
+
+78
+00:05:56,000 --> 00:06:02,000
+we added some annotations or configurations related to resiliency for patterns like circuit breaker,
+
+79
+00:06:02,000 --> 00:06:05,000
+rate limiter, time limiter, retry pattern.
+
+80
+00:06:05,000 --> 00:06:12,000
+So all these kind of non business logics are also available right now inside our microservice container.
+
+81
+00:06:12,000 --> 00:06:18,000
+That means my developer has to worry about the business logic along with the non business logic components.
+
+82
+00:06:18,000 --> 00:06:25,000
+So this approach has some drawbacks, which is each microservice has lots of code and configurations
+
+83
+00:06:25,000 --> 00:06:28,000
+related to other components that we discussed.
+
+84
+00:06:28,000 --> 00:06:34,000
+So in future, if you want to make some changes related to security or tracing or resiliency or metrics,
+
+85
+00:06:34,000 --> 00:06:39,000
+you may have to make some changes in all your microservices projects.
+
+86
+00:06:39,000 --> 00:06:42,000
+So handling such scenarios will become complex.
+
+87
+00:06:42,000 --> 00:06:48,000
+And apart from this, the other disadvantage, like I said is, developers need to manage these changes
+
+88
+00:06:48,000 --> 00:06:55,000
+consistently in all the microservices, which deviates from their main focus of building the business
+
+89
+00:06:55,000 --> 00:06:55,000
+logic.
+
+90
+00:06:55,000 --> 00:06:56,000
+So who are we ?
+
+91
+00:06:56,000 --> 00:06:57,000
+We are humans.
+
+92
+00:06:57,000 --> 00:06:59,000
+We are intelligent fellows.
+
+93
+00:06:59,000 --> 00:07:06,000
+Our job should be identifying the client requirements and implement them by writing some business logic.
+
+94
+00:07:06,000 --> 00:07:11,000
+But if you are forced to implement other non-functional requirements, then definitely your focus will
+
+95
+00:07:11,000 --> 00:07:18,000
+be shifted from the business logic and you need to put some effort on the non business logic as well.
+
+96
+00:07:18,000 --> 00:07:21,000
+So this is where service mesh is going to come into picture.
+
+97
+00:07:21,000 --> 00:07:26,000
+Suppose if your organization is going to use a service mesh, let's try to understand how the picture
+
+98
+00:07:26,000 --> 00:07:27,000
+is going to change.
+
+99
+00:07:27,000 --> 00:07:33,000
+Like you can see, we have three parts and inside these parts, first, we are going to deploy accounts,
+
+100
+00:07:33,000 --> 00:07:39,000
+loans and cards microservice running containers and they are going to have simply business logic
+
+101
+00:07:39,000 --> 00:07:39,000
+only.
+
+102
+00:07:39,000 --> 00:07:45,000
+They are not going to have non business logic related to security, metrics, resiliency.
+
+103
+00:07:45,000 --> 00:07:49,000
+So now you may have question like then where that logic is going to present.
+
+104
+00:07:49,000 --> 00:07:56,000
+So all those non business logic is going to present inside a proxy container, inside the same pod.
+
+105
+00:07:56,000 --> 00:08:03,000
+So this proxy container is going to be generated and injected into the same pod by the service mesh
+
+106
+00:08:03,000 --> 00:08:04,000
+component.
+
+107
+00:08:04,000 --> 00:08:11,000
+So your service mesh is a capable of providing all these non-functional components by providing a sidecar
+
+108
+00:08:11,000 --> 00:08:12,000
+proxy container.
+
+109
+00:08:12,000 --> 00:08:18,000
+So whenever your service mesh is trying to set up a accounts microservice container or cards or loans
+
+110
+00:08:18,000 --> 00:08:25,000
+microservice container along with them, it is also going to create a small container in the same pod,
+
+111
+00:08:25,000 --> 00:08:28,000
+which is going to act as a sidecar proxy container.
+
+112
+00:08:28,000 --> 00:08:32,000
+So with that you may have question like what is this sidecar container?
+
+113
+00:08:32,000 --> 00:08:35,000
+How this is different from my actual container.
+
+114
+00:08:35,000 --> 00:08:39,000
+So for the same first you need to understand what is sidecar pattern.
+
+115
+00:08:39,000 --> 00:08:46,000
+The sidecar pattern is inspired from the sidecar available inside the bikes.
+
+116
+00:08:46,000 --> 00:08:48,000
+Like you can see here, this bike has a sidecar.
+
+117
+00:08:48,000 --> 00:08:53,000
+So inside this sidecar, more people can sit like old people or small children
+
+118
+00:08:53,000 --> 00:08:54,000
+they can sit.
+
+119
+00:08:54,000 --> 00:09:01,000
+So with the help of this sidecar, the main bike is trying to get some help and it is trying to get
+
+120
+00:09:01,000 --> 00:09:02,000
+some more functionality.
+
+121
+00:09:02,000 --> 00:09:06,000
+So from the same analogy, the sidecar pattern is derived.
+
+122
+00:09:06,000 --> 00:09:12,000
+So think like the bike is the main container, like my accounts, loans and cards, which has the actual
+
+123
+00:09:12,000 --> 00:09:16,000
+business logic because the bike is a driving factor here.
+
+124
+00:09:16,000 --> 00:09:19,000
+The bike has the actual engine, which is like a business logic.
+
+125
+00:09:19,000 --> 00:09:21,000
+Without bike there is no sense for the sidecar.
+
+126
+00:09:21,000 --> 00:09:27,000
+Very similarly, without actual container there is no meaning for the sidecar container.
+
+127
+00:09:27,000 --> 00:09:28,000
+I hope this is clear.
+
+128
+00:09:28,000 --> 00:09:31,000
+Now if we can go to the slides here
+
+129
+00:09:31,000 --> 00:09:35,000
+I have mentioned some details about what is a sidecar pattern. In this pattern,
+
+130
+00:09:35,000 --> 00:09:41,000
+the sidecar container is going to be attached to the parent container or parent application.
+
+131
+00:09:41,000 --> 00:09:41,000
+Why
+
+132
+00:09:41,000 --> 00:09:47,000
+we are going to add that sidecar container because it is going to provide some supporting features for
+
+133
+00:09:47,000 --> 00:09:53,000
+the applications like security, metrics, tracing, resiliency or any other kind of support. Since they
+
+134
+00:09:53,000 --> 00:09:55,000
+both needs to work together.
+
+135
+00:09:55,000 --> 00:10:00,000
+The Sidecar also shares the same life cycle as a parent container or the
+
+136
+00:10:00,000 --> 00:10:05,000
+parent application. Which means whenever your main container is being created or destroyed.
+
+137
+00:10:05,000 --> 00:10:11,000
+At the same time, the sidecar container is also going to be created or destroyed.
+
+138
+00:10:11,000 --> 00:10:17,000
+And one more advantage with the sidecar container is it is going to be independent from its primary
+
+139
+00:10:17,000 --> 00:10:23,000
+application In terms of runtime environment and programming language. For example, you might have
+
+140
+00:10:23,000 --> 00:10:27,000
+developed your accounts, loans and cards microservice with the help of Java language.
+
+141
+00:10:27,000 --> 00:10:33,000
+So to run the Java, you may need JDK or JRE whereas inside the sidecar pattern, you don't need to follow
+
+142
+00:10:33,000 --> 00:10:34,000
+the same language.
+
+143
+00:10:34,000 --> 00:10:38,000
+You can use any language or any runtime environments.
+
+144
+00:10:38,000 --> 00:10:40,000
+So that's a one more advantage.
+
+145
+00:10:40,000 --> 00:10:46,000
+I hope you are clear on what is the approach that Service Mesh is taking to make developer life easy.
+
+146
+00:10:46,000 --> 00:10:51,000
+With this approach, the developers, they can simply focus on business logic.
+
+147
+00:10:51,000 --> 00:10:54,000
+The service mesh is going to take care of non business logic.
+
+148
+00:10:54,000 --> 00:11:01,000
+And when I say service mesh some experts about the service mesh they have to set up all these configurations
+
+149
+00:11:01,000 --> 00:11:03,000
+inside your Kubernetes cluster.
+
+150
+00:11:03,000 --> 00:11:04,000
+Then only it is going to work.
+
+151
+00:11:04,000 --> 00:11:07,000
+It's not going to be a super, super simple task.
+
+152
+00:11:07,000 --> 00:11:13,000
+Someone has to have this expertise to set up the service mesh inside the Kubernetes cluster.
+
+153
+00:11:13,000 --> 00:11:19,000
+But we as a developer, we don't have to worry about how to set up service mesh because it is the responsibility
+
+154
+00:11:19,000 --> 00:11:22,000
+of the DevOps team to set up the service mesh.
+
+155
+00:11:22,000 --> 00:11:25,000
+So this is a high level introduction about the service mesh.
+
+156
+00:11:25,000 --> 00:11:31,000
+Inside the next lecture, let's try to understand more technical components of service mesh. So that
+
+157
+00:11:31,000 --> 00:11:37,000
+it is going to be super clear for you on how the service mesh is going to do all this magic.
+
+158
+00:11:37,000 --> 00:11:39,000
+Thank you and I'll catch you in the next lecture bye.
+

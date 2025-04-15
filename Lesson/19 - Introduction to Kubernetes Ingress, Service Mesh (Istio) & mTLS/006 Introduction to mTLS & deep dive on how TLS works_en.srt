@@ -1,0 +1,764 @@
+1
+00:00:00,000 --> 00:00:01,000
+Inside this lecture,
+
+2
+00:00:01,000 --> 00:00:04,000
+let's try to understand what is mTLS.
+
+3
+00:00:04,000 --> 00:00:09,000
+Mutual LTS or mTLS is a variant of TLS.
+
+4
+00:00:09,000 --> 00:00:11,000
+So what is TLS?
+
+5
+00:00:11,000 --> 00:00:13,000
+Transport Layer Security.
+
+6
+00:00:13,000 --> 00:00:22,000
+So this TLS, which succeeded deprecated security socket layer is right now being used in Https communication.
+
+7
+00:00:22,000 --> 00:00:28,000
+So to understand more about mTLS first we need to understand TLS and how it works.
+
+8
+00:00:28,000 --> 00:00:33,000
+So that's why I'm going to put some efforts explaining you about TLS as well in case if you are not
+
+9
+00:00:33,000 --> 00:00:35,000
+aware about TLS.
+
+10
+00:00:35,000 --> 00:00:36,000
+So what is a TLS?
+
+11
+00:00:36,000 --> 00:00:40,000
+Like I said, we are going to use inside Https protocol.
+
+12
+00:00:40,000 --> 00:00:46,000
+So whenever a client like a browser want to communicate with a backend server, they need to communicate
+
+13
+00:00:46,000 --> 00:00:52,000
+with each other in a secured environment or using a encrypted format.
+
+14
+00:00:52,000 --> 00:00:58,000
+Otherwise anyone who is sitting and listening to the traffic in the network, they can easily see the
+
+15
+00:00:58,000 --> 00:01:01,000
+plain text travelling from your browser to the backend server.
+
+16
+00:01:01,000 --> 00:01:06,000
+Think like you are trying to submit your credit card details in one of the website.
+
+17
+00:01:06,000 --> 00:01:12,000
+If they don't have this https protocol while your credit card details are traveling from browser to
+
+18
+00:01:12,000 --> 00:01:17,000
+the backend in a plain text, anyone can steal your credit card details.
+
+19
+00:01:17,000 --> 00:01:23,000
+That's why, to overcome those kind of challenges, every website will use Https protocol.
+
+20
+00:01:23,000 --> 00:01:31,000
+However, by simply using TLS, we cannot secure our internal microservices present inside the Kubernetes
+
+21
+00:01:31,000 --> 00:01:38,000
+cluster. Because in the TLS scenario, the backend server who owns the domain name, they have to prove
+
+22
+00:01:38,000 --> 00:01:41,000
+their identity with the help of the certificate.
+
+23
+00:01:41,000 --> 00:01:48,000
+As long as my browser identifies it's a valid certificate, the communication is going to work, whereas
+
+24
+00:01:48,000 --> 00:01:53,000
+in a microservice environment we're not going to use any browser for communication.
+
+25
+00:01:53,000 --> 00:01:59,000
+Both the applications are going to communicate with each other using API communication.
+
+26
+00:01:59,000 --> 00:02:04,000
+So in these kind of scenarios, the two microservices has to prove their identity.
+
+27
+00:02:04,000 --> 00:02:10,000
+That's why TLS will not work for securing microservice communication.
+
+28
+00:02:10,000 --> 00:02:17,000
+So to overcome this challenge, mTLS came into picture where both parties are both applications
+
+29
+00:02:17,000 --> 00:02:20,000
+they have to mutually authenticate themselves.
+
+30
+00:02:20,000 --> 00:02:24,000
+Then only the communication between them is going to happen.
+
+31
+00:02:24,000 --> 00:02:30,000
+Most of the scenarios these mTLS is followed in an zero trust environment.
+
+32
+00:02:30,000 --> 00:02:32,000
+So what is a zero trust environment?
+
+33
+00:02:32,000 --> 00:02:39,000
+I might have deployed all my microservices in my own Kubernetes cluster and no one can access my Kubernetes
+
+34
+00:02:39,000 --> 00:02:40,000
+cluster.
+
+35
+00:02:40,000 --> 00:02:43,000
+Only the communication is going to come through the edge server.
+
+36
+00:02:43,000 --> 00:02:49,000
+And with that, I should not assume that all the internal communication does not require any security.
+
+37
+00:02:49,000 --> 00:02:50,000
+We never know
+
+38
+00:02:50,000 --> 00:02:56,000
+one of the third party library that we may use inside our containers or inside our microservices may
+
+39
+00:02:56,000 --> 00:03:01,000
+have a security vulnerability using which that library might be listening
+
+40
+00:03:01,000 --> 00:03:06,000
+all the plane traffic coming towards your microservice container within your Kubernetes cluster.
+
+41
+00:03:06,000 --> 00:03:12,000
+Or there might be some scenario where one of the microservice container is trying to communicate with
+
+42
+00:03:12,000 --> 00:03:16,000
+other microservice container with which it is not supposed to communicate.
+
+43
+00:03:16,000 --> 00:03:18,000
+So how do you overcome all these challenges?
+
+44
+00:03:18,000 --> 00:03:23,000
+To overcome all these challenges, we have to follow that zero trust security framework, which means,
+
+45
+00:03:23,000 --> 00:03:30,000
+though it is an internal traffic inside the Kubernetes cluster, we are not going to trust any user
+
+46
+00:03:30,000 --> 00:03:32,000
+or any device or any traffic.
+
+47
+00:03:32,000 --> 00:03:37,000
+We should always make sure all the components inside the Kubernetes cluster, they are communicating
+
+48
+00:03:37,000 --> 00:03:41,000
+with each other only after proving their identity.
+
+49
+00:03:41,000 --> 00:03:44,000
+So that's where mTLS will come into picture.
+
+50
+00:03:44,000 --> 00:03:51,000
+But before we try to understand how mTLS works, first we need to understand what is TLS and how it
+
+51
+00:03:51,000 --> 00:03:52,000
+is going to work.
+
+52
+00:03:52,000 --> 00:03:59,000
+Like I said before, TLS is a encryption protocol which is being used widely on the internet.
+
+53
+00:03:59,000 --> 00:04:02,000
+You may hear SSL also in the place of TLS.
+
+54
+00:04:02,000 --> 00:04:09,000
+So SSL, which is a secure socket layer, is deprecated because due to the advancements happened in
+
+55
+00:04:09,000 --> 00:04:11,000
+the web, SSL is no more secure.
+
+56
+00:04:11,000 --> 00:04:19,000
+That's why we have a next advanced version of SSL, which is TLS, but you may still find people referring
+
+57
+00:04:19,000 --> 00:04:22,000
+TLS and SSL interchangeably.
+
+58
+00:04:22,000 --> 00:04:30,000
+So regardless if someone is saying SSL or TLS, they are referring to TLS, which is the latest version,
+
+59
+00:04:30,000 --> 00:04:32,000
+which is right now being used in the industry.
+
+60
+00:04:32,000 --> 00:04:39,000
+So to understand how this is going to secure the traffic between a browser and a backend server, let's
+
+61
+00:04:39,000 --> 00:04:40,000
+take a scenario.
+
+62
+00:04:40,000 --> 00:04:48,000
+Suppose think like a browser is trying to establish a connection with a backend server where the amazon.com
+
+63
+00:04:48,000 --> 00:04:49,000
+is deployed.
+
+64
+00:04:49,000 --> 00:04:56,000
+So whenever inside a browser we are trying to access a website like amazon.com, my browser is going
+
+65
+00:04:56,000 --> 00:04:59,000
+to ask the backend server Prove me your identity.
+
+66
+00:04:59,000 --> 00:04:59,000
+Are you
+
+67
+00:04:59,000 --> 00:05:04,000
+the real backend server where the amazon.com code is deployed.
+
+68
+00:05:04,000 --> 00:05:11,000
+So to prove the identity, my backend server is going to give some certificate details to the browser,
+
+69
+00:05:11,000 --> 00:05:17,000
+but here browser will not blindly believe all kind of certificates provided by any backend server.
+
+70
+00:05:17,000 --> 00:05:23,000
+So any certificate that is shared to the browser by the backend server, my browser is going to validate
+
+71
+00:05:23,000 --> 00:05:26,000
+that with the certificate authorities.
+
+72
+00:05:26,000 --> 00:05:31,000
+So there are certificate authorities in the industry who are going to issue the certificates to the
+
+73
+00:05:31,000 --> 00:05:35,000
+organizations after verifying their domain ownership.
+
+74
+00:05:35,000 --> 00:05:42,000
+So if I go and ask the certificate authority to give a certificate with the domain name amazon.com,
+
+75
+00:05:42,000 --> 00:05:43,000
+they simply will not give it.
+
+76
+00:05:43,000 --> 00:05:46,000
+They will ask me to prove my domain ownership.
+
+77
+00:05:46,000 --> 00:05:53,000
+Once I proved my domain ownership, they are going to issue a TLS certificate and the same TLS certificate
+
+78
+00:05:53,000 --> 00:06:00,000
+I can provide to the browser and the browser is going to validate the same with the certificate authorities.
+
+79
+00:06:00,000 --> 00:06:05,000
+If all looks good, then only browser will start communicating with the backend server.
+
+80
+00:06:05,000 --> 00:06:11,000
+So if you try to visualize the same first, there will be a web server where I have deployed my amazon.com
+
+81
+00:06:11,000 --> 00:06:12,000
+backend code.
+
+82
+00:06:12,000 --> 00:06:18,000
+So inside this web server only we have write all the logic to store all the information inside a database.
+
+83
+00:06:18,000 --> 00:06:24,000
+So whenever we are trying to deploy our backend code inside a web server as an organization, it's my
+
+84
+00:06:24,000 --> 00:06:31,000
+responsibility to get a valid certificate from the certificate authority by proving my domain ownership.
+
+85
+00:06:31,000 --> 00:06:36,000
+So the certificate authority is going to issue a certificate to me the same I need to configure inside
+
+86
+00:06:36,000 --> 00:06:38,000
+the backend web server.
+
+87
+00:06:38,000 --> 00:06:43,000
+So as a next step, whenever my web browser is trying to communicate with the web server, first it
+
+88
+00:06:43,000 --> 00:06:46,000
+will ask the web server to prove its identity.
+
+89
+00:06:46,000 --> 00:06:52,000
+So think like my web server gave a certificate to the browser post that the browser is going to validate
+
+90
+00:06:52,000 --> 00:06:54,000
+the same with the certificate authority.
+
+91
+00:06:54,000 --> 00:07:00,000
+Once the certificate authority confirms that that this is a valid certificate, then only the communication
+
+92
+00:07:01,000 --> 00:07:07,000
+between the web browser and web server is going to happen in an encrypted format.
+
+93
+00:07:07,000 --> 00:07:12,000
+So let me try to show you more information around this by going to the amazon.com.
+
+94
+00:07:12,000 --> 00:07:19,000
+Here I came to the amazon.com website and as soon as you try to access any website inside the browser, the
+
+95
+00:07:19,000 --> 00:07:26,000
+browser behind the scenes will make sure that it validated the certificate of this website and the backend
+
+96
+00:07:26,000 --> 00:07:26,000
+server.
+
+97
+00:07:26,000 --> 00:07:31,000
+When this validation is completed by the browser, it is going to show you this lock symbol.
+
+98
+00:07:31,000 --> 00:07:37,000
+If you can click on that, you will be able to see some information like connection is secure.
+
+99
+00:07:37,000 --> 00:07:42,000
+If the connection is not secured, the browser is going to show you a warning to the end user.
+
+100
+00:07:42,000 --> 00:07:46,000
+Since the connection is not secure, please don't enter any sensitive information.
+
+101
+00:07:46,000 --> 00:07:51,000
+So that's how it is going to give a warning to the end user, whoever is trying to access a website.
+
+102
+00:07:51,000 --> 00:07:57,000
+So if you try to click on this connection is secure, you will get more details where there is information
+
+103
+00:07:57,000 --> 00:07:58,000
+available around certificate.
+
+104
+00:07:58,000 --> 00:08:02,000
+So here you can see there is a message saying that certificate is valid.
+
+105
+00:08:02,000 --> 00:08:04,000
+So let me click on that.
+
+106
+00:08:04,000 --> 00:08:09,000
+So here you can see these are the certificate details issued to the amazon.com.
+
+107
+00:08:09,000 --> 00:08:13,000
+So the same certificate details verified by my browser.
+
+108
+00:08:13,000 --> 00:08:18,000
+So once this verification happened by the browser, then only the communication between the browser
+
+109
+00:08:18,000 --> 00:08:22,000
+and the backend is going to start in an encrypted format.
+
+110
+00:08:22,000 --> 00:08:28,000
+But to achieve that, encryption communication between the web browser and the web server behind the
+
+111
+00:08:28,000 --> 00:08:31,000
+scenes, lot of steps will happen.
+
+112
+00:08:31,000 --> 00:08:33,000
+So let's try to understand what are those steps.
+
+113
+00:08:33,000 --> 00:08:39,000
+Like you can see here, first I have my browser and a web server of Amazon or any other website.
+
+114
+00:08:39,000 --> 00:08:46,000
+In the very first step, the browser and the web server is going to have an TCP handshake.
+
+115
+00:08:46,000 --> 00:08:53,000
+So inside this TCP handshake they are going to establish connection between the client and server.
+
+116
+00:08:53,000 --> 00:08:59,000
+Once the connection is established and they both confirm there are no network problems, my browser
+
+117
+00:08:59,000 --> 00:09:02,000
+is going to send a hello message to the backend server.
+
+118
+00:09:02,000 --> 00:09:09,000
+So with this hello message my browser is trying to ask Prove your identity. As a next step,
+
+119
+00:09:09,000 --> 00:09:11,000
+my web server has to prove its identity.
+
+120
+00:09:11,000 --> 00:09:14,000
+So how it is going to prove its identity.
+
+121
+00:09:14,000 --> 00:09:16,000
+Let's try to understand in details here.
+
+122
+00:09:16,000 --> 00:09:22,000
+Whenever a organization like amazon, they receive a certificate from the Certificate Authority, the
+
+123
+00:09:22,000 --> 00:09:27,000
+certificate is going to have two types of keys public key and private key.
+
+124
+00:09:27,000 --> 00:09:34,000
+So to prove its identity, my backend server is going to share the public key to the browser.
+
+125
+00:09:34,000 --> 00:09:37,000
+So there is a purpose of private key and public key.
+
+126
+00:09:37,000 --> 00:09:45,000
+So using public key, anyone can send the encrypted data to backend server, but only my backend server
+
+127
+00:09:45,000 --> 00:09:52,000
+which has a private key corresponding to the public key, can only decrypt the data. Since here the browser
+
+128
+00:09:52,000 --> 00:09:59,000
+is using public key and the backend server is going to use private key for the encryption and decryption,
+
+129
+00:09:59,000 --> 00:09:59,000
+we call
+
+130
+00:09:59,000 --> 00:10:07,000
+this kind of encryption as asymmetric encryption. Because they are using two different components for encryption
+
+131
+00:10:07,000 --> 00:10:08,000
+and decryption.
+
+132
+00:10:08,000 --> 00:10:16,000
+So now think like my browser received a public key and with that it can send any data to the backend
+
+133
+00:10:16,000 --> 00:10:23,000
+server in an encrypted format, and my backend server only can decrypt it with the help of private key.
+
+134
+00:10:23,000 --> 00:10:29,000
+But the story is not going to end here because both my browser and web server, they are not going to
+
+135
+00:10:29,000 --> 00:10:34,000
+use this asymmetric encryption for the actual communication.
+
+136
+00:10:34,000 --> 00:10:41,000
+The reason is with these asymmetric encryption, only my browser can send the encrypted data to the
+
+137
+00:10:41,000 --> 00:10:42,000
+backend server.
+
+138
+00:10:42,000 --> 00:10:47,000
+What if my backend server want to send a response to to the browser in an encrypted format?
+
+139
+00:10:47,000 --> 00:10:52,000
+So in such scenarios there is no private key for the browser to decrypt the response.
+
+140
+00:10:52,000 --> 00:10:53,000
+That's one problem.
+
+141
+00:10:53,000 --> 00:10:59,000
+And the second problem is when we use these asymmetric encryption for the actual communication between
+
+142
+00:10:59,000 --> 00:11:05,000
+the browser and web server, it is going to create some performance problems because asymmetric encryption
+
+143
+00:11:05,000 --> 00:11:07,000
+comes with some performance cost.
+
+144
+00:11:07,000 --> 00:11:14,000
+That's why to establish a symmetric communication between the browser and web server, what my web browser
+
+145
+00:11:14,000 --> 00:11:20,000
+is going to do is, with the help of public key it has received, it is going to generate a session key,
+
+146
+00:11:20,000 --> 00:11:25,000
+and this session key is going to encrypt with the help of Public Key.
+
+147
+00:11:25,000 --> 00:11:28,000
+It has received the same encrypted session key
+
+148
+00:11:28,000 --> 00:11:31,000
+is going to be sent to the web server.
+
+149
+00:11:31,000 --> 00:11:37,000
+Even if someone in the network is trying to steal my encrypted session key, it is not going to make
+
+150
+00:11:37,000 --> 00:11:40,000
+any sense for them because they don't have private key.
+
+151
+00:11:40,000 --> 00:11:46,000
+Now think like my backend web server receives the encrypted session key. So as a next step it is going
+
+152
+00:11:46,000 --> 00:11:52,000
+to decrypt the encrypted session key into the actual plaintext value, which is session key with the
+
+153
+00:11:52,000 --> 00:11:59,000
+help of private key. Post that once this decryption is completed on the web server side, it is going
+
+154
+00:11:59,000 --> 00:12:01,000
+to acknowledge the same to the browser.
+
+155
+00:12:01,000 --> 00:12:09,000
+So now both my browser and web server, they have a session key which they are going to use as a secret
+
+156
+00:12:09,000 --> 00:12:11,000
+to encryption and decryption.
+
+157
+00:12:11,000 --> 00:12:19,000
+So this is where the actual data communication between them is going to happen in an encrypted format.
+
+158
+00:12:19,000 --> 00:12:25,000
+So from the sixth step, the browser is going to send a data to the backend server and the backend server
+
+159
+00:12:25,000 --> 00:12:28,000
+also can send the response to the browser.
+
+160
+00:12:28,000 --> 00:12:33,000
+So think like if my browser wants to send some credit card details information, so it is not going
+
+161
+00:12:33,000 --> 00:12:35,000
+to send in a plain text format.
+
+162
+00:12:35,000 --> 00:12:42,000
+Instead it is going to encrypt that with the help of session key, which is only known to the browser
+
+163
+00:12:42,000 --> 00:12:43,000
+and the web server.
+
+164
+00:12:43,000 --> 00:12:48,000
+Even if someone in between steal that encrypted data, they cannot decrypt it because they don't have
+
+165
+00:12:48,000 --> 00:12:50,000
+the original secret at the session
+
+166
+00:12:50,000 --> 00:12:57,000
+key that my browser is used to encrypt the data. But my web server can decrypt it and see the plain
+
+167
+00:12:57,000 --> 00:13:00,000
+text value because it has the actual session key.
+
+168
+00:13:00,000 --> 00:13:06,000
+So similarly, whenever my web server wants to send a response to the browser, the same will happen.
+
+169
+00:13:06,000 --> 00:13:12,000
+You can see here in the step six, they both are going to use a same value, which is session key for
+
+170
+00:13:12,000 --> 00:13:14,000
+the encryption and decryption.
+
+171
+00:13:14,000 --> 00:13:18,000
+That's why we call this kind of encryption as symmetric encryption.
+
+172
+00:13:18,000 --> 00:13:24,000
+And the symmetric encryption has some advantages compared to asymmetric encryption, which is it can
+
+173
+00:13:24,000 --> 00:13:27,000
+perform better compared to asymmetric encryption.
+
+174
+00:13:27,000 --> 00:13:28,000
+On top of that,
+
+175
+00:13:28,000 --> 00:13:35,000
+now my browser also is capable of decrypting the data that it is receiving from the web server.
+
+176
+00:13:35,000 --> 00:13:38,000
+So these are all the steps that will happen behind the scenes.
+
+177
+00:13:38,000 --> 00:13:40,000
+Did you see how complex it is?
+
+178
+00:13:40,000 --> 00:13:46,000
+That's why our lives are super easy whenever we are trying to send some sensitive information in any
+
+179
+00:13:46,000 --> 00:13:46,000
+website.
+
+180
+00:13:46,000 --> 00:13:53,000
+If you see here in this approach, always the browser which is a client, is asking the backend server,
+
+181
+00:13:53,000 --> 00:13:57,000
+which is the server to prove its identity, but never ever
+
+182
+00:13:57,000 --> 00:14:02,000
+my backend server is going to ask the browser to prove its identity because there can be millions or
+
+183
+00:14:02,000 --> 00:14:08,000
+billions of browsers in millions of computers used by millions of customers.
+
+184
+00:14:08,000 --> 00:14:12,000
+We cannot issue separate, separate certificates for all users.
+
+185
+00:14:12,000 --> 00:14:19,000
+That's why every backend server will ask the user to prove its identity by providing his username password.
+
+186
+00:14:19,000 --> 00:14:24,000
+Then only it is going to show some sensitive information to the end user.
+
+187
+00:14:24,000 --> 00:14:29,000
+But this approach may not work if two applications are going to interact with each other.
+
+188
+00:14:29,000 --> 00:14:36,000
+That's why we are going to use mTLS approach in the microservice service to service communication.
+
+189
+00:14:36,000 --> 00:14:43,000
+So I hope you are clear with the TLS as a next step, let's try to understand how mTLS is going to work
+
+190
+00:14:43,000 --> 00:14:45,000
+with the help of service mesh.
+
+191
+00:14:45,000 --> 00:14:47,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,260 @@
+1
+00:00:00,000 --> 00:00:06,000
+Inside this lecture, let's try to validate the grafana components, whether they are working properly
+
+2
+00:00:06,000 --> 00:00:09,000
+or not inside the Google Cloud Kubernetes cluster.
+
+3
+00:00:09,000 --> 00:00:14,000
+As of now, our Grafana is deployed as a cluster IP service.
+
+4
+00:00:14,000 --> 00:00:17,000
+You can confirm the same on this page against the Grafana
+
+5
+00:00:17,000 --> 00:00:22,000
+we have the type as cluster IP. And there is no public IP for us to access the Grafana.
+
+6
+00:00:22,000 --> 00:00:27,000
+So in this kind of scenarios, your Kubernetes admin is going to have two options.
+
+7
+00:00:27,000 --> 00:00:33,000
+Either he can update the helm chart to have the type as load balancer and run the helm upgrade command
+
+8
+00:00:33,000 --> 00:00:36,000
+and with that the developer should be able to access Grafana.
+
+9
+00:00:36,000 --> 00:00:41,000
+And the other option that your Kubernetes admin may recommend is, from your local system
+
+10
+00:00:41,000 --> 00:00:45,000
+you need to connect to the Kubernetes cluster with your own Kubernetes credentials.
+
+11
+00:00:45,000 --> 00:00:49,000
+As of now, we connected as an Kubernetes admin.
+
+12
+00:00:49,000 --> 00:00:54,000
+Regardless of your credentials type, you need to make sure you are connected to the Kubernetes cluster
+
+13
+00:00:54,000 --> 00:01:01,000
+from your local system with the help of Gcloud CLI. Post that you need to run a kubectl port forward
+
+14
+00:01:01,000 --> 00:01:01,000
+command.
+
+15
+00:01:01,000 --> 00:01:03,000
+So how do I know which command I need to run?
+
+16
+00:01:03,000 --> 00:01:09,000
+If you see the terminal, as soon as we run this command which is helm install grafana grafana
+
+17
+00:01:09,000 --> 00:01:15,000
+previously it gave an instructions which is to run this command which is kubectl port forward and with
+
+18
+00:01:15,000 --> 00:01:21,000
+this the grafana is going to be accessible inside our local system at the port 8080.
+
+19
+00:01:21,000 --> 00:01:26,000
+But before we try to run this command, we need to know what is the password of grafana admin credentials.
+
+20
+00:01:26,000 --> 00:01:31,000
+So for the same let me copy these two commands here and I'll open the new terminal.
+
+21
+00:01:31,000 --> 00:01:37,000
+Inside the new terminal, I'm going to run these echo commands and my username is going to be admin
+
+22
+00:01:37,000 --> 00:01:38,000
+and this is the password.
+
+23
+00:01:38,000 --> 00:01:41,000
+As a next step, we can go and try to run this command.
+
+24
+00:01:41,000 --> 00:01:47,000
+So let me copy this command and I'm running the same command inside the other terminal.
+
+25
+00:01:47,000 --> 00:01:55,000
+So as soon as I execute this command, the Grafana service is going to be exposed at the port 8080 inside
+
+26
+00:01:55,000 --> 00:01:56,000
+my local system.
+
+27
+00:01:56,000 --> 00:02:02,000
+So this way developer can access any production service which is exposed as a cluster IP.
+
+28
+00:02:02,000 --> 00:02:08,000
+So whoever has access to the Kubernetes cluster, they can easily access the cluster IP services as
+
+29
+00:02:08,000 --> 00:02:08,000
+well.
+
+30
+00:02:08,000 --> 00:02:15,000
+So inside the browser I need to access the URL, which is localhost 8080 and this will open the Grafana
+
+31
+00:02:15,000 --> 00:02:16,000
+login page.
+
+32
+00:02:16,000 --> 00:02:19,000
+So inside the login page I need to enter the username and password.
+
+33
+00:02:19,000 --> 00:02:20,000
+Let me get the password.
+
+34
+00:02:20,000 --> 00:02:21,000
+So this is the password.
+
+35
+00:02:21,000 --> 00:02:24,000
+Let me copy this value. Inside this login page,
+
+36
+00:02:24,000 --> 00:02:29,000
+we need to enter the username as admin and the password which we copied.
+
+37
+00:02:29,000 --> 00:02:36,000
+So let me click on this login button and with that you'll be able to see the dashboard of Grafana. Inside
+
+38
+00:02:36,000 --> 00:02:37,000
+this Explorer page,
+
+39
+00:02:37,000 --> 00:02:43,000
+we can open this dropdown to confirm whether the integrations between Grafana and Prometheus and tempo
+
+40
+00:02:43,000 --> 00:02:44,000
+is working.
+
+41
+00:02:44,000 --> 00:02:46,000
+So the integration is working.
+
+42
+00:02:46,000 --> 00:02:48,000
+That's why we are able to see those options here.
+
+43
+00:02:48,000 --> 00:02:50,000
+First, let me use the loki option.
+
+44
+00:02:50,000 --> 00:02:57,000
+Once I selected the loki option, I will select the label as container and the value as Gateway server.
+
+45
+00:02:57,000 --> 00:03:04,000
+Post that I'm going to click on this run query, which will give me all the logs of Gateway Server and
+
+46
+00:03:04,000 --> 00:03:08,000
+here I will click on any of the log and post that
+
+47
+00:03:08,000 --> 00:03:15,000
+after the trace ID, I will also have a button to navigate to the tempo using which I can see the distributed
+
+48
+00:03:15,000 --> 00:03:16,000
+tracing details.
+
+49
+00:03:16,000 --> 00:03:22,000
+So here the tempo details are being loaded, so please wait for a few seconds so you can see all the
+
+50
+00:03:22,000 --> 00:03:23,000
+distributed tracing
+
+51
+00:03:23,000 --> 00:03:29,000
+details are also populated, which you can validate whenever you have some performance problems.
+
+52
+00:03:29,000 --> 00:03:32,000
+So this confirms loki and tempo are working. As a next step,
+
+53
+00:03:32,000 --> 00:03:35,000
+let me go to prometheus inside Prometheus
+
+54
+00:03:35,000 --> 00:03:38,000
+let me select the metric as up.
+
+55
+00:03:38,000 --> 00:03:41,000
+So the up metric is going to be available at the end.
+
+56
+00:03:41,000 --> 00:03:46,000
+Let me select that and post that under the label filters I will select Container.
+
+57
+00:03:46,000 --> 00:03:52,000
+After that, I will select the duration as last 15 minutes, and with that I should be able to see a
+
+58
+00:03:52,000 --> 00:03:52,000
+graph.
+
+59
+00:03:52,000 --> 00:03:57,000
+So let me click on this tag lines so that our graph looks very beautiful.
+
+60
+00:03:57,000 --> 00:04:01,000
+So this confirms that Prometheus is also working fine.
+
+61
+00:04:01,000 --> 00:04:08,000
+So with this I'm super, super happy everything is working like we expected in the cloud Kubernetes
+
+62
+00:04:08,000 --> 00:04:09,000
+cluster as well.
+
+63
+00:04:09,000 --> 00:04:11,000
+I assume you're also super, super happy.
+
+64
+00:04:11,000 --> 00:04:12,000
+Thank you.
+
+65
+00:04:12,000 --> 00:04:14,000
+And I'll catch you in the next lecture bye.
+

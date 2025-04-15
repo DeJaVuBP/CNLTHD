@@ -1,0 +1,464 @@
+1
+00:00:00,000 --> 00:00:06,000
+In the previous lecture, we decided to create a Kubernetes cluster in the cloud with the help of Google
+
+2
+00:00:06,000 --> 00:00:07,000
+Cloud.
+
+3
+00:00:07,000 --> 00:00:12,000
+To get started on the same first, we need to visit cloud.google.com.
+
+4
+00:00:12,000 --> 00:00:18,000
+And here inside this website you can log in with your Gmail account. If you are logged in to this website
+
+5
+00:00:18,000 --> 00:00:26,000
+very first time, it is going to offer you $300 free credit that you can use within 90 days.
+
+6
+00:00:26,000 --> 00:00:32,000
+But if you have already used a Gmail account previously inside this website, I would recommend creating
+
+7
+00:00:32,000 --> 00:00:39,000
+a new Gmail account and log in again into this website so that you will be eligible to get a $300 free
+
+8
+00:00:39,000 --> 00:00:40,000
+credit.
+
+9
+00:00:40,000 --> 00:00:46,000
+I already logged in into this website using a gmail and since I'm a new user into this website with
+
+10
+00:00:46,000 --> 00:00:53,000
+my gmail, it is offering me to take the $300 free credit and explore more than 20 plus products with
+
+11
+00:00:53,000 --> 00:00:54,000
+this free credit.
+
+12
+00:00:54,000 --> 00:01:01,000
+So if you click on this banner, you will be taken to a website where you can see all the details about
+
+13
+00:01:01,000 --> 00:01:02,000
+your free credit.
+
+14
+00:01:02,000 --> 00:01:08,000
+If you can scroll down on this page, under this free tier products, you will be able to see a product
+
+15
+00:01:08,000 --> 00:01:11,000
+with the name Google Kubernetes Engine.
+
+16
+00:01:11,000 --> 00:01:17,000
+So this is the same product that we want to use to create a Kubernetes cluster inside the Google Cloud.
+
+17
+00:01:17,000 --> 00:01:24,000
+And since this is eligible under the free tier, I can use that $300 free credit that I'm going to get
+
+18
+00:01:24,000 --> 00:01:26,000
+whenever I create a new account.
+
+19
+00:01:26,000 --> 00:01:33,000
+So this is the main reason or a primary reason on why I choose Google Cloud compared to AWS and Azure.
+
+20
+00:01:33,000 --> 00:01:34,000
+I hope you are clear.
+
+21
+00:01:34,000 --> 00:01:35,000
+Let me close this tab.
+
+22
+00:01:35,000 --> 00:01:41,000
+Post that once you logged in into this website, you can click on this console button and if you are
+
+23
+00:01:41,000 --> 00:01:47,000
+landing on to this console page, very first time, it is going to offer you $300 free trial that you
+
+24
+00:01:47,000 --> 00:01:49,000
+need to use within 90 days.
+
+25
+00:01:49,000 --> 00:01:51,000
+You can click on this, try for free.
+
+26
+00:01:51,000 --> 00:01:58,000
+And with that it will ask you all your personal details to which country you belong and what best describes
+
+27
+00:01:58,000 --> 00:01:59,000
+about me.
+
+28
+00:01:59,000 --> 00:01:59,000
+Here
+
+29
+00:01:59,000 --> 00:02:06,000
+I'm going to select business idea slash startup idea was that I can select this checkbox under the terms
+
+30
+00:02:06,000 --> 00:02:09,000
+of services and click on this continue button.
+
+31
+00:02:09,000 --> 00:02:15,000
+Before that, you can also see here Google Cloud is going to give $300 in credit spend over the next
+
+32
+00:02:15,000 --> 00:02:20,000
+90 days and they are also assuring no auto charge after free trial ends.
+
+33
+00:02:20,000 --> 00:02:24,000
+Once you read all this information, you can click on this continue button.
+
+34
+00:02:24,000 --> 00:02:25,000
+Inside this page,
+
+35
+00:02:25,000 --> 00:02:28,000
+it is going to ask your credit card details.
+
+36
+00:02:28,000 --> 00:02:33,000
+All the cloud providers, they will ask your credit card details because after the free credit, if
+
+37
+00:02:33,000 --> 00:02:38,000
+you start using the other products, like creating a database or creating a server or creating a Kubernetes
+
+38
+00:02:38,000 --> 00:02:40,000
+cluster, they want you to charge.
+
+39
+00:02:40,000 --> 00:02:45,000
+That's why please, please make sure you are not creating unnecessary products inside the cloud and
+
+40
+00:02:45,000 --> 00:02:51,000
+always be cautious on what you create whenever you are done exploring about a product, please make
+
+41
+00:02:51,000 --> 00:02:58,000
+sure you are deleting the product so that you are not spending your $300 free credit within 1 or 2 days.
+
+42
+00:02:58,000 --> 00:03:03,000
+For some reason, if you are not comfortable providing your credit card details, please don't provide
+
+43
+00:03:03,000 --> 00:03:03,000
+them.
+
+44
+00:03:03,000 --> 00:03:09,000
+You can always see the steps that I'm following at the process that I'm following to understand the
+
+45
+00:03:09,000 --> 00:03:13,000
+steps that we need to follow to deploy our microservices into the cloud
+
+46
+00:03:13,000 --> 00:03:15,000
+kubernetes cluster.
+
+47
+00:03:15,000 --> 00:03:20,000
+Behind the scenes, I'm going to enter all my credit card details once the credit card details are entered
+
+48
+00:03:20,000 --> 00:03:26,000
+and validated by the Google Cloud, you can click on this button, which is Start my free trial.
+
+49
+00:03:26,000 --> 00:03:28,000
+Once you enter your credit card details
+
+50
+00:03:28,000 --> 00:03:33,000
+and the same is validated by the Google Cloud, it is going to show you a message something like this,
+
+51
+00:03:33,000 --> 00:03:35,000
+setting up your billing and in the down
+
+52
+00:03:35,000 --> 00:03:40,000
+also you should be able to see a confirmation saying that setting up your free trial.
+
+53
+00:03:40,000 --> 00:03:42,000
+So please give some time for this to complete.
+
+54
+00:03:42,000 --> 00:03:47,000
+After a few seconds you will be landed onto the Google Cloud Console homepage.
+
+55
+00:03:47,000 --> 00:03:52,000
+If not, you can visit the console.cloud.google.com.
+
+56
+00:03:52,000 --> 00:03:54,000
+And this is how it is going to look like.
+
+57
+00:03:54,000 --> 00:04:00,000
+By the time you logged in onto this page, the Google Cloud by default is going to create a project
+
+58
+00:04:00,000 --> 00:04:04,000
+with the name my first project, and this is the ID of your project.
+
+59
+00:04:04,000 --> 00:04:10,000
+Using this project, you can explore all the products with the help of $300 free credits.
+
+60
+00:04:10,000 --> 00:04:16,000
+So to get started around this, so now I can create a Kubernetes cluster inside the Google Cloud.
+
+61
+00:04:16,000 --> 00:04:21,000
+But before that we need to make sure we install the cloud SDK inside our local system.
+
+62
+00:04:21,000 --> 00:04:24,000
+Why should I install the Google Cloud SDK?
+
+63
+00:04:24,000 --> 00:04:30,000
+Because when we install this cloud SDK inside our local system, from our local system itself, we can
+
+64
+00:04:30,000 --> 00:04:35,000
+connect with the Kubernetes cluster that is created inside the Google Cloud and from our local system
+
+65
+00:04:35,000 --> 00:04:36,000
+itself
+
+66
+00:04:36,000 --> 00:04:41,000
+we can give some commands or we can also install our helm charts from our local system.
+
+67
+00:04:41,000 --> 00:04:46,000
+So to communicate with the products available inside the Google Cloud from your local system, we need
+
+68
+00:04:46,000 --> 00:04:49,000
+to make sure we install this cloud SDK.
+
+69
+00:04:49,000 --> 00:04:54,000
+So please visit this website, which is cloud.google.com/sdk.
+
+70
+00:04:54,000 --> 00:04:59,000
+On this page you can click on this, Get started in this page you will be having all the steps that
+
+71
+00:04:59,000 --> 00:05:00,000
+you need to
+
+72
+00:05:00,000 --> 00:05:02,000
+followed to install the Google Cloud CLI.
+
+73
+00:05:02,000 --> 00:05:06,000
+So before we try to begin, we need to make sure we completed these two steps.
+
+74
+00:05:06,000 --> 00:05:13,000
+One is creating a Google Cloud project which we already created previously because as of now I'm able
+
+75
+00:05:13,000 --> 00:05:15,000
+to see my project, which is my first project.
+
+76
+00:05:15,000 --> 00:05:20,000
+After that, we should also make sure the building is enabled for our Google Cloud project.
+
+77
+00:05:20,000 --> 00:05:24,000
+We did that in the previous steps by providing a credit card details.
+
+78
+00:05:24,000 --> 00:05:29,000
+If you can scroll down on this page based upon your operating system, you will be having the list of
+
+79
+00:05:29,000 --> 00:05:32,000
+steps that you need to follow to install the Google Cloud cli.
+
+80
+00:05:32,000 --> 00:05:37,000
+So please make sure you are following these steps based upon your operating system.
+
+81
+00:05:37,000 --> 00:05:43,000
+Since I'm using Mac OS, I already followed all these steps and installed the Google cloud CLI inside
+
+82
+00:05:43,000 --> 00:05:49,000
+my local system. So to confirm if your installation is successful or not, you can run a command which
+
+83
+00:05:49,000 --> 00:05:52,000
+is gcloud - -version.
+
+84
+00:05:52,000 --> 00:05:56,000
+So you can run this command inside your terminal from any location.
+
+85
+00:05:56,000 --> 00:05:59,000
+If the installation is successful, you're going to get an output
+
+86
+00:05:59,000 --> 00:06:00,000
+something like this.
+
+87
+00:06:00,000 --> 00:06:07,000
+And once you validate the installation, you need to run a command which is gcloud init. Using this gcloud
+
+88
+00:06:07,000 --> 00:06:07,000
+init,
+
+89
+00:06:07,000 --> 00:06:15,000
+we are going to login into our Google cloud account from our local system with the help of Google Cloud.
+
+90
+00:06:15,000 --> 00:06:17,000
+So let me run this command.
+
+91
+00:06:17,000 --> 00:06:19,000
+This will give some options to me.
+
+92
+00:06:19,000 --> 00:06:24,000
+I will go with the third option, which is it is going to reinitialize my existing configuration with
+
+93
+00:06:24,000 --> 00:06:25,000
+the name default.
+
+94
+00:06:25,000 --> 00:06:31,000
+So let me choose this third option and post that it is going to perform some network connection.
+
+95
+00:06:31,000 --> 00:06:37,000
+Once the network connection is successful, it is going to ask you whether I want to log in into my
+
+96
+00:06:37,000 --> 00:06:38,000
+Google Cloud account.
+
+97
+00:06:38,000 --> 00:06:44,000
+So here, please make sure you are giving the answer as Y, which means yes and post that it will open
+
+98
+00:06:44,000 --> 00:06:50,000
+your browser where you need to select your gmail account using which you want to log in into the Google
+
+99
+00:06:50,000 --> 00:06:51,000
+cloud.
+
+100
+00:06:51,000 --> 00:06:53,000
+So I'm selecting the Gmail account.
+
+101
+00:06:53,000 --> 00:06:58,000
+After you select your Gmail account, it will also ask you for your permission whether I want to provide
+
+102
+00:06:58,000 --> 00:07:03,000
+some privileges to the Google Cloud SDK to access my Google account details.
+
+103
+00:07:03,000 --> 00:07:09,000
+So I am going to click on this allow button and with that you will see this page which is your now authenticated
+
+104
+00:07:09,000 --> 00:07:10,000
+with the Google Cloud CLI.
+
+105
+00:07:10,000 --> 00:07:12,000
+You can also confirm inside the terminal.
+
+106
+00:07:12,000 --> 00:07:18,000
+Inside the terminal you can see I got an output saying that pick one of the Google cloud project to
+
+107
+00:07:18,000 --> 00:07:18,000
+use.
+
+108
+00:07:18,000 --> 00:07:25,000
+So the project that just now we created is liquid-muse-397814.
+
+109
+00:07:25,000 --> 00:07:31,000
+So that's why I'm going to give the input as one and post that I'll press enter and with that you will
+
+110
+00:07:31,000 --> 00:07:37,000
+get an output saying that your Google Cloud SDK is configured and ready to use.
+
+111
+00:07:37,000 --> 00:07:43,000
+It will also show you the email account and the project that you are connected with the help of Google
+
+112
+00:07:43,000 --> 00:07:44,000
+Cloud SDK.
+
+113
+00:07:44,000 --> 00:07:49,000
+I hope you are clear on how to set up a free account inside the Google Cloud and how to connect to the
+
+114
+00:07:49,000 --> 00:07:52,000
+same with the help of Google Cloud CLI.
+
+115
+00:07:53,000 --> 00:07:58,000
+As a next step, we can start creating a Kubernetes cluster inside the Google Cloud.
+
+116
+00:07:58,000 --> 00:08:01,000
+Thank you and I'll catch you in the next lecture bye.
+

@@ -1,0 +1,196 @@
+1
+00:00:00,000 --> 00:00:05,000
+I'm going to teach you a best practice that every microservice developer has to follow.
+
+2
+00:00:05,000 --> 00:00:12,000
+Using these best practice microservice developers, they can optimize or streamline the process of maintaining
+
+3
+00:00:12,000 --> 00:00:15,000
+the dependencies inside their microservices.
+
+4
+00:00:15,000 --> 00:00:21,000
+Before I try to show you these best practices, first let me explain you the pain points or the problems
+
+5
+00:00:21,000 --> 00:00:26,000
+that microservice developers they will face while building the microservices.
+
+6
+00:00:26,000 --> 00:00:33,000
+So since we are into the new section, which is section 20, what I have done is, I have copied the code
+
+7
+00:00:33,000 --> 00:00:35,000
+from the section 14.
+
+8
+00:00:35,000 --> 00:00:41,000
+Inside the section 14, we implemented the event driven microservices using Kafka, the same code I
+
+9
+00:00:41,000 --> 00:00:43,000
+have copied into the section 20.
+
+10
+00:00:43,000 --> 00:00:50,000
+Basically, I want to avoid the Kubernetes related concept while I'm trying to explain these best practices.
+
+11
+00:00:50,000 --> 00:00:53,000
+That's why I have taken the code from the section 14.
+
+12
+00:00:53,000 --> 00:01:00,000
+Inside my project I have various microservices like accounts, cards, config server, Eureka server,
+
+13
+00:01:00,000 --> 00:01:02,000
+gateway server, loans and message.
+
+14
+00:01:02,000 --> 00:01:08,000
+Each of these microservice will have its own pom.xml or build.gradle.
+
+15
+00:01:08,000 --> 00:01:15,000
+So regardless whether you are using Maven or Gradle, you need to define the dependencies that are required
+
+16
+00:01:15,000 --> 00:01:17,000
+by your microservice.
+
+17
+00:01:17,000 --> 00:01:23,000
+For example, in my case, I'm using Maven to declare the dependencies inside my services.
+
+18
+00:01:23,000 --> 00:01:27,000
+So let me show you the pom.xml of all the services.
+
+19
+00:01:27,000 --> 00:01:32,000
+This is the pom.xml of the config server where I have defined my dependencies.
+
+20
+00:01:32,000 --> 00:01:35,000
+So this is the spring boot version and this is the Java version,
+
+21
+00:01:35,000 --> 00:01:39,000
+this is the spring cloud version and this is the Opentelemetry version.
+
+22
+00:01:39,000 --> 00:01:45,000
+If you can scroll down, you'll be able to see all the other dependencies that my microservice is using
+
+23
+00:01:45,000 --> 00:01:46,000
+towards the end
+
+24
+00:01:46,000 --> 00:01:54,000
+I also define the Google Jib Maven plugin, using which I can generate the Docker image of my service.
+
+25
+00:01:54,000 --> 00:02:02,000
+The same kind of setup you'll be able to see inside the Eureka server, gateway server, loans, message,
+
+26
+00:02:02,000 --> 00:02:04,000
+and other microservices.
+
+27
+00:02:04,000 --> 00:02:11,000
+The problem with this setup is, we are trying to hard code the spring boot versions and other properties
+
+28
+00:02:11,000 --> 00:02:18,000
+like Java version, Spring cloud version, or any third party libraries version inside the microservice
+
+29
+00:02:18,000 --> 00:02:19,000
+itself.
+
+30
+00:02:19,000 --> 00:02:26,000
+Let's imagine your organization is having more than 30 microservices in future if you try to migrate
+
+31
+00:02:26,000 --> 00:02:33,000
+your microservice from one version of the spring boot to the other version, you need to visit all the
+
+32
+00:02:33,000 --> 00:02:37,000
+pom.xml of the microservices and make the version number changes.
+
+33
+00:02:38,000 --> 00:02:39,000
+Do you think this is a best practice ?
+
+34
+00:02:39,000 --> 00:02:40,000
+Off course not.
+
+35
+00:02:40,000 --> 00:02:41,000
+The developer
+
+36
+00:02:41,000 --> 00:02:48,000
+they will be forced to visit all the microservices to update a simple version number.
+
+37
+00:02:48,000 --> 00:02:52,000
+This is the problem that we are going to solve by adopting BOM.
+
+38
+00:02:52,000 --> 00:02:53,000
+So what is a BOM?
+
+39
+00:02:53,000 --> 00:03:02,000
+BOM is a special kind of Project Object Model or pom file that is going to help us to manage the versions
+
+40
+00:03:02,000 --> 00:03:09,000
+of a set of related dependencies, just like how we have interfaces concept inside Java, where we are
+
+41
+00:03:09,000 --> 00:03:15,000
+going to define all the common contracts that needs to be followed by the subclasses or the child classes.
+
+42
+00:03:15,000 --> 00:03:22,000
+Very similarly, using these Bom concept, we can define all the common properties or the common dependencies
+
+43
+00:03:22,000 --> 00:03:26,000
+that are required by our microservices.
+
+44
+00:03:26,000 --> 00:03:29,000
+So the change is always going to be in a single place.
+
+45
+00:03:29,000 --> 00:03:34,000
+If you adopt these Bom inside your microservices development.
+
+46
+00:03:34,000 --> 00:03:36,000
+I hope you are clear what problem we are trying to solve here.
+
+47
+00:03:36,000 --> 00:03:40,000
+Let's continue this discussion in the next lecture.
+
+48
+00:03:40,000 --> 00:03:40,000
+Thank you,
+
+49
+00:03:40,000 --> 00:03:41,000
+bye.
+

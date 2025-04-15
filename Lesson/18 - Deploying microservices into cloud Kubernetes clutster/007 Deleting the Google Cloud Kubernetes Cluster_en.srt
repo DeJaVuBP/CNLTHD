@@ -1,0 +1,276 @@
+1
+00:00:00,000 --> 00:00:07,000
+We deployed all our microservices into the Google Cloud Kubernetes cluster and we validated all of them.
+
+2
+00:00:07,000 --> 00:00:12,000
+And all the microservices and the supporting components are working like expected.
+
+3
+00:00:12,000 --> 00:00:18,000
+If you want to validate the event driven scenarios that we have built with the help of Kafka, please
+
+4
+00:00:18,000 --> 00:00:21,000
+go and check the logs of accounts and message microservice.
+
+5
+00:00:21,000 --> 00:00:27,000
+I validated the same behind the scenes, and the event driven scenario also is working fine. Now as the
+
+6
+00:00:27,000 --> 00:00:28,000
+last step
+
+7
+00:00:28,000 --> 00:00:35,000
+we need to make sure we are uninstalling all the components from our Kubernetes cluster post that we
+
+8
+00:00:35,000 --> 00:00:39,000
+should also delete the Kubernetes cluster inside the Google Cloud.
+
+9
+00:00:39,000 --> 00:00:44,000
+Otherwise, like I said, you're going to get a surprise credit card bill.
+
+10
+00:00:44,000 --> 00:00:50,000
+So that's why my humble request is please follow all the instructions that I'm giving inside this lecture
+
+11
+00:00:50,000 --> 00:00:53,000
+and make sure you are deleting your cluster.
+
+12
+00:00:53,000 --> 00:00:59,000
+So to uninstall all the components from the Kubernetes cluster, we just need to run the helm, uninstall
+
+13
+00:01:00,000 --> 00:01:01,000
+commands.
+
+14
+00:01:01,000 --> 00:01:07,000
+First I'll try to run the command, which is Helm Uninstall easybank, which is the release name that we
+
+15
+00:01:07,000 --> 00:01:10,000
+have given for all our microservices deployment.
+
+16
+00:01:10,000 --> 00:01:13,000
+So this is going to uninstall easybank release.
+
+17
+00:01:13,000 --> 00:01:21,000
+So similarly I'm going to uninstall Grafana once the Grafana is uninstalled as a next step, I will
+
+18
+00:01:21,000 --> 00:01:26,000
+uninstall tempo after tempo I'm going to uninstall loki.
+
+19
+00:01:26,000 --> 00:01:31,000
+Once the loki is uninstalled, I'm going to uninstall Prometheus.
+
+20
+00:01:31,000 --> 00:01:34,000
+So right now my Prometheus is trying to uninstall.
+
+21
+00:01:34,000 --> 00:01:36,000
+Let's wait for a few seconds here.
+
+22
+00:01:36,000 --> 00:01:40,000
+After Prometheus, I'm going to uninstall Kafka.
+
+23
+00:01:40,000 --> 00:01:45,000
+Once the Kafka is uninstalled, I'm going to uninstall Kecloak as well.
+
+24
+00:01:45,000 --> 00:01:50,000
+With this, we should have uninstall all the releases that we have installed with the help of Helm.
+
+25
+00:01:50,000 --> 00:01:53,000
+So let me confirm the same by running the helm ls.
+
+26
+00:01:53,000 --> 00:02:00,000
+As of now you can see there are no releases and this confirms all the uninstallation is completed.
+
+27
+00:02:00,000 --> 00:02:05,000
+The last uninstall action that we need to do is discovery server related installation.
+
+28
+00:02:05,000 --> 00:02:11,000
+For the same, I need to go to the location where my Kubernetes manifest file is present, so it is
+
+29
+00:02:11,000 --> 00:02:13,000
+present inside the Kubernetes folder.
+
+30
+00:02:13,000 --> 00:02:20,000
+So here I'm going to run the command, which is Kubectl delete -f and what is the file name?
+
+31
+00:02:20,000 --> 00:02:26,000
+So as soon as I tried to run this command, the Uninstallation of Discovery server also will get completed.
+
+32
+00:02:26,000 --> 00:02:30,000
+Let me validate if all the installations are completed.
+
+33
+00:02:30,000 --> 00:02:33,000
+So here first I will check the workloads under the workloads
+
+34
+00:02:33,000 --> 00:02:34,000
+everything is empty.
+
+35
+00:02:34,000 --> 00:02:36,000
+Next I'll go to services.
+
+36
+00:02:36,000 --> 00:02:38,000
+Here also everything is empty.
+
+37
+00:02:38,000 --> 00:02:40,000
+I'll go to secrets and config maps.
+
+38
+00:02:40,000 --> 00:02:44,000
+Here also all the config maps related to our deployments are deleted.
+
+39
+00:02:44,000 --> 00:02:47,000
+So now my cluster is empty.
+
+40
+00:02:47,000 --> 00:02:53,000
+As a next step, I need to delete my cluster from my cloud environment. For the same,
+
+41
+00:02:53,000 --> 00:02:56,000
+let me click on this clusters here on this page,
+
+42
+00:02:56,000 --> 00:03:02,000
+please make sure you are selecting your cluster post that you will have an option to delete your cluster.
+
+43
+00:03:02,000 --> 00:03:06,000
+So this is going to ask a confirmation. Inside the confirmation,
+
+44
+00:03:06,000 --> 00:03:09,000
+please enter your cluster name, which is cluster-one.
+
+45
+00:03:09,000 --> 00:03:15,000
+Once you enter these details, please make sure you are clicking on this delete button. So as soon as
+
+46
+00:03:15,000 --> 00:03:22,000
+you click on the delete button, the delete operation of your Kubernetes cluster will get initiated
+
+47
+00:03:22,000 --> 00:03:23,000
+behind the scenes.
+
+48
+00:03:23,000 --> 00:03:27,000
+With this, our Kubernetes cluster will be permanently deleted.
+
+49
+00:03:27,000 --> 00:03:33,000
+And like I promised, we only used Kubernetes cluster for a maximum of one hour.
+
+50
+00:03:33,000 --> 00:03:40,000
+Regardless if you have a free account or a paid account, it is going to charge only $0.3 or $0.5,
+
+51
+00:03:40,000 --> 00:03:45,000
+which I think it's a bearable amount because it's a very small amount.
+
+52
+00:03:45,000 --> 00:03:50,000
+But like I said, please, please, please make sure you are deleting your cluster.
+
+53
+00:03:50,000 --> 00:03:56,000
+Once you delete your cluster, please make sure this entire cluster is disappeared and this page is
+
+54
+00:03:56,000 --> 00:03:58,000
+not showing any cluster information.
+
+55
+00:03:58,000 --> 00:04:00,000
+So this is going to take 2 to 3 minutes time.
+
+56
+00:04:00,000 --> 00:04:06,000
+So let me wait for the same behind the scenes because I want to show you how the page is going to look
+
+57
+00:04:06,000 --> 00:04:09,000
+like when you delete all your clusters.
+
+58
+00:04:09,000 --> 00:04:15,000
+Finally, after three minutes, my Kubernetes cluster is deleted and this is how it is going to look
+
+59
+00:04:15,000 --> 00:04:15,000
+like.
+
+60
+00:04:15,000 --> 00:04:21,000
+So please make sure you also deleted your Kubernetes cluster by following the same steps that I have
+
+61
+00:04:21,000 --> 00:04:23,000
+mentioned inside this lecture.
+
+62
+00:04:23,000 --> 00:04:30,000
+With this, I'm assuming your super, super clear and how to deploy your microservices into any cloud
+
+63
+00:04:30,000 --> 00:04:32,000
+provided Kubernetes cluster.
+
+64
+00:04:32,000 --> 00:04:38,000
+The process between your local Kubernetes cluster and the cloud provided Kubernetes cluster is going
+
+65
+00:04:38,000 --> 00:04:39,000
+to be the same.
+
+66
+00:04:39,000 --> 00:04:41,000
+The commands are going to be also the same.
+
+67
+00:04:41,000 --> 00:04:44,000
+With this, we can conclude this section.
+
+68
+00:04:44,000 --> 00:04:46,000
+Thank you and I'll catch you in the next section.
+
+69
+00:04:46,000 --> 00:04:47,000
+Bye.
+

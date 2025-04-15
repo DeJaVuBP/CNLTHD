@@ -1,0 +1,752 @@
+1
+00:00:00,000 --> 00:00:02,000
+Are you excited to see the magic?
+
+2
+00:00:02,000 --> 00:00:04,000
+I know you're super excited.
+
+3
+00:00:04,000 --> 00:00:11,000
+First, what I'm going to do is, in order to adopt these easybom, I'll go to one of the microservice
+
+4
+00:00:11,000 --> 00:00:16,000
+maybe we can go to the pom.xml of the accounts microservice.
+
+5
+00:00:16,000 --> 00:00:22,000
+As of now here the accounts microservice, it is trying to have the spring boot starter parent as a
+
+6
+00:00:22,000 --> 00:00:24,000
+parent with so and so version.
+
+7
+00:00:24,000 --> 00:00:25,000
+But we don't want this.
+
+8
+00:00:25,000 --> 00:00:30,000
+Instead, we want our easybom as a parent.
+
+9
+00:00:30,000 --> 00:00:35,000
+That's why what I'm going to do is, I'll try to paste this parent details, which are going to have easybom
+
+10
+00:00:35,000 --> 00:00:36,000
+details.
+
+11
+00:00:36,000 --> 00:00:41,000
+So the artifactID you can see I have mentioned easy-bom, which is same as a value that we
+
+12
+00:00:41,000 --> 00:00:46,000
+have mentioned inside the pom.xml of the eazy-bom project.
+
+13
+00:00:46,000 --> 00:00:54,000
+So here we have the artifactID, the same group ID, artifact Id  we have to mention inside the accounts
+
+14
+00:00:54,000 --> 00:00:56,000
+pom.xml. 
+
+15
+00:00:56,000 --> 00:01:02,000
+Version also, you need to mention the same version that you have defined inside your eazybom, pom.xml.
+
+16
+00:01:02,000 --> 00:01:04,000
+So this is the version that I have defined here.
+
+17
+00:01:04,000 --> 00:01:06,000
+The same thing I have defined here.
+
+18
+00:01:06,000 --> 00:01:13,000
+Now coming to the relative path, you need to mention what is the relative path to the bom file that
+
+19
+00:01:13,000 --> 00:01:14,000
+we have created.
+
+20
+00:01:14,000 --> 00:01:20,000
+It is present inside the eazybom project with the name as pom.xml.
+
+21
+00:01:20,000 --> 00:01:25,000
+That's why we need to mention since these pom.xml is present outside of this accounts microservice,
+
+22
+00:01:26,000 --> 00:01:28,000
+we need to mention these two dots.
+
+23
+00:01:28,000 --> 00:01:34,000
+Once it goes to the outside folder, which is the section_20, and at the section_20 we have a project
+
+24
+00:01:34,000 --> 00:01:39,000
+with the name eazy-bom, followed by the file name, which is pom.xml.
+
+25
+00:01:39,000 --> 00:01:41,000
+The same we are trying to mention here.
+
+26
+00:01:41,000 --> 00:01:47,000
+It may work without mentioning these relative path inside your local system, because your IDE will
+
+27
+00:01:47,000 --> 00:01:49,000
+do all the magic for you.
+
+28
+00:01:49,000 --> 00:01:56,000
+But if you try to use some CI/CD tools inside your microservices deployments, then definitely those
+
+29
+00:01:56,000 --> 00:02:00,000
+tools they need exact position of your pom.xml.
+
+30
+00:02:00,000 --> 00:02:04,000
+That's why it is mandatory to mention these relative path as well.
+
+31
+00:02:04,000 --> 00:02:11,000
+Now coming to the group ID, artifact ID and the version and packaging name and description, we don't
+
+32
+00:02:11,000 --> 00:02:15,000
+have to change anything because these are specific to the accounts microservice.
+
+33
+00:02:15,000 --> 00:02:21,000
+Next, we don't have to define these properties inside the individual microservice because we already
+
+34
+00:02:21,000 --> 00:02:26,000
+defined them inside the parent bom file or pom file.
+
+35
+00:02:26,000 --> 00:02:28,000
+So that's why I'm trying to delete these properties.
+
+36
+00:02:28,000 --> 00:02:31,000
+Now let's see the magic. Under the dependencies,
+
+37
+00:02:31,000 --> 00:02:35,000
+my microservice already defined list of dependencies that it requires.
+
+38
+00:02:35,000 --> 00:02:43,000
+Like it needs actuator, it needs opentelemetry micrometer related dependency along with the Data JPA,
+
+39
+00:02:43,000 --> 00:02:46,000
+starter validation, starter web.
+
+40
+00:02:46,000 --> 00:02:51,000
+So all these dependencies it already defined, we don't have to touch all these dependencies.
+
+41
+00:02:51,000 --> 00:02:57,000
+But the beauty here is, in future whenever you are looking for an option to change the spring boot version.
+
+42
+00:02:57,000 --> 00:03:04,000
+You don't have to change anything inside the accounts microservice, you just have to go to the pom.xml
+
+43
+00:03:04,000 --> 00:03:05,000
+of eazybom.
+
+44
+00:03:05,000 --> 00:03:10,000
+And here under the properties for the spring boot to version, you need to change this value.
+
+45
+00:03:10,000 --> 00:03:13,000
+So that's an advantage we have here.
+
+46
+00:03:13,000 --> 00:03:19,000
+Similarly the same applies for Java version Maven compiler source maven compiler target spring cloud
+
+47
+00:03:19,000 --> 00:03:20,000
+version.
+
+48
+00:03:20,000 --> 00:03:26,000
+For all the dependencies, the control of the version number will be always present inside the easy
+
+49
+00:03:26,000 --> 00:03:30,000
+eazybom pom.xml, but not inside the individual microservices.
+
+50
+00:03:30,000 --> 00:03:33,000
+So let me go to the accounts microservice.
+
+51
+00:03:33,000 --> 00:03:39,000
+So here you may have a question which is why my accounts microservice needs to define these individual
+
+52
+00:03:39,000 --> 00:03:43,000
+dependencies like actuator Data JPA, starter validation.
+
+53
+00:03:43,000 --> 00:03:50,000
+Because we already imported the entire spring boot related dependencies under the dependency management
+
+54
+00:03:50,000 --> 00:03:51,000
+of eazybom.
+
+55
+00:03:51,000 --> 00:03:55,000
+So here we have imported the entire spring boot dependency pom.
+
+56
+00:03:55,000 --> 00:03:57,000
+It's a great and valid question.
+
+57
+00:03:57,000 --> 00:03:58,000
+Let me clarify the same.
+
+58
+00:03:58,000 --> 00:04:02,000
+If you go to the accounts microservice, you will be able to observe that account
+
+59
+00:04:02,000 --> 00:04:07,000
+microservice need only set of dependencies from the spring boot library.
+
+60
+00:04:07,000 --> 00:04:10,000
+There are hundreds of libraries or dependencies inside the spring boot.
+
+61
+00:04:10,000 --> 00:04:15,000
+My account microservice does not need all of them, it only need 4 to 5 dependencies.
+
+62
+00:04:15,000 --> 00:04:17,000
+That's why spring boot bom
+
+63
+00:04:17,000 --> 00:04:21,000
+it will not try to give all the dependencies to the child microservices.
+
+64
+00:04:21,000 --> 00:04:28,000
+Instead, the child microservice has to let the parent to bom which specific spring boot dependency
+
+65
+00:04:28,000 --> 00:04:35,000
+it want to use, so that the same dependency related libraries will be downloaded under these accounts
+
+66
+00:04:35,000 --> 00:04:36,000
+microservice.
+
+67
+00:04:36,000 --> 00:04:41,000
+I hope you are clear for any spring boot related dependencies, we don't have to mention the version
+
+68
+00:04:41,000 --> 00:04:47,000
+number specifically because we already defined the spring boot version inside the parent pom file.
+
+69
+00:04:47,000 --> 00:04:53,000
+Now coming to that telemetry and micrometer, since these are the third party libraries.
+
+70
+00:04:53,000 --> 00:04:59,000
+I would always recommend you to mention the specific version that you want to use, so that it is going
+
+71
+00:04:59,000 --> 00:05:04,000
+to give control to you in future, instead of you relying on the Spring boot to choose one of the latest
+
+72
+00:05:04,000 --> 00:05:11,000
+dependency you as a developer, you are always going to have a control on which version of the third
+
+73
+00:05:11,000 --> 00:05:12,000
+party library you want to use.
+
+74
+00:05:12,000 --> 00:05:20,000
+So here I'll try to refer to the hotel dot version property that I have defined inside the parent pom.xml.
+
+75
+00:05:20,000 --> 00:05:26,000
+So let me reload this since I'm getting an error after the reload happens, you can see the error is
+
+76
+00:05:26,000 --> 00:05:28,000
+resolved. Next under the micro meter
+
+77
+00:05:28,000 --> 00:05:34,000
+also, I'll try to mention the version with the property defined inside the parent pom file.
+
+78
+00:05:34,000 --> 00:05:38,000
+So first let me copy this version tag that I have under that telemetry.
+
+79
+00:05:38,000 --> 00:05:41,000
+And I'm going to paste the same under the micrometer.
+
+80
+00:05:41,000 --> 00:05:47,000
+So here what I'll do is, I'll try to import the property which is micrometer dot version followed by
+
+81
+00:05:47,000 --> 00:05:49,000
+for spring boot starter data JPA.
+
+82
+00:05:49,000 --> 00:05:54,000
+We don't have to define the version because it belongs to the Spring Boot library.
+
+83
+00:05:54,000 --> 00:05:57,000
+The same applies for the starter validation starter web.
+
+84
+00:05:57,000 --> 00:06:00,000
+Now we have spring cloud related dependencies.
+
+85
+00:06:00,000 --> 00:06:01,000
+So first spring cloud
+
+86
+00:06:01,000 --> 00:06:05,000
+also we have imported the Pom file here
+
+87
+00:06:05,000 --> 00:06:08,000
+under the dependencies management you will be able to see here
+
+88
+00:06:08,000 --> 00:06:13,000
+we have imported the pom file of the spring cloud dependencies with so and so version.
+
+89
+00:06:13,000 --> 00:06:19,000
+Since the spring cloud also is going to have lot many subprojects and dependencies, by default, all
+
+90
+00:06:19,000 --> 00:06:26,000
+those dependencies will not be imported into the child project or child microservice.
+
+91
+00:06:26,000 --> 00:06:32,000
+Instead the child microservice, it needs to define which specific dependencies of spring cloud it want
+
+92
+00:06:32,000 --> 00:06:33,000
+to use.
+
+93
+00:06:33,000 --> 00:06:38,000
+Here we are trying to use the Eureka related and config related dependencies.
+
+94
+00:06:38,000 --> 00:06:45,000
+We are also trying to use the resiliency, OpenVINO related dependencies and coming to the H2 database
+
+95
+00:06:45,000 --> 00:06:51,000
+since it is a third party dependency, I will try to mention the version details with the property name
+
+96
+00:06:52,000 --> 00:06:53,000
+as h2.version.
+
+97
+00:06:54,000 --> 00:06:56,000
+The same applies for the Lombok so under the Lombok
+
+98
+00:06:56,000 --> 00:07:03,000
+also, I'll try to mention the version number by referring to the property which is Lombok.version.
+
+99
+00:07:03,000 --> 00:07:04,000
+Under the spring doc
+
+100
+00:07:04,000 --> 00:07:09,000
+also, as of now, you can see inside each of the individual microservices we have hardcoded the version
+
+101
+00:07:09,000 --> 00:07:10,000
+number.
+
+102
+00:07:10,000 --> 00:07:14,000
+We are going to get rid of these by removing these hardcoded value.
+
+103
+00:07:14,000 --> 00:07:20,000
+Instead, we are going to mention the property name which is defined inside the parent file.
+
+104
+00:07:20,000 --> 00:07:23,000
+The property name is spring-doc.version.
+
+105
+00:07:23,000 --> 00:07:29,000
+Next we have spring cloud, stream dependency, Kafka related dependency, and spring boot starter test
+
+106
+00:07:29,000 --> 00:07:30,000
+related dependency.
+
+107
+00:07:30,000 --> 00:07:34,000
+We don't have to make any changes to them under the dependency management
+
+108
+00:07:34,000 --> 00:07:40,000
+we are trying to import the spring cloud, pom file with no more needed.
+
+109
+00:07:40,000 --> 00:07:43,000
+This because we are already doing this inside the parent bom file.
+
+110
+00:07:43,000 --> 00:07:48,000
+Next, if you try to observe under the build, we're trying to refer to a jib version.
+
+111
+00:07:48,000 --> 00:07:53,000
+This jib version also as of now we have hard coded inside each of the microservices.
+
+112
+00:07:53,000 --> 00:07:54,000
+Instead
+
+113
+00:07:54,000 --> 00:08:01,000
+what we can do right now we can try to refer to the property defined inside the parent pom file, which
+
+114
+00:08:01,000 --> 00:08:03,000
+is jib.version.
+
+115
+00:08:03,000 --> 00:08:10,000
+Next, under the image name we are trying to hard code these S14 or whatever image tag in all the individual
+
+116
+00:08:10,000 --> 00:08:12,000
+microservices.
+
+117
+00:08:12,000 --> 00:08:15,000
+Instead I want to maintain it in a single place.
+
+118
+00:08:15,000 --> 00:08:21,000
+That's why I already defined a property inside the parent pom file with the property name as image.tag
+
+119
+00:08:21,000 --> 00:08:24,000
+and with the value as S20, why S20,
+
+120
+00:08:24,000 --> 00:08:29,000
+because I am right now into the section_20 project, I hope it is clear.
+
+121
+00:08:29,000 --> 00:08:33,000
+Let me try to go to the accounts microservice pom.xml.
+
+122
+00:08:33,000 --> 00:08:39,000
+And here, instead of mentioning the S14 hardcoded value, I'll try to refer to the property which
+
+123
+00:08:39,000 --> 00:08:42,000
+is image.tag.
+
+124
+00:08:42,000 --> 00:08:45,000
+So let me reload these maven changes.
+
+125
+00:08:45,000 --> 00:08:52,000
+And with this, if I try to do the build for accounts microservice, you should not have any compilation
+
+126
+00:08:52,000 --> 00:08:53,000
+errors.
+
+127
+00:08:53,000 --> 00:08:54,000
+Did you see the beauty?
+
+128
+00:08:54,000 --> 00:09:03,000
+Right now the entire control of the version numbers are present inside the parent pom file or bom file.
+
+129
+00:09:03,000 --> 00:09:03,000
+No
+
+130
+00:09:03,000 --> 00:09:09,000
+where we have hardcoded the spring boot version or third party library versions, or the Google jib
+
+131
+00:09:09,000 --> 00:09:10,000
+version.
+
+132
+00:09:10,000 --> 00:09:15,000
+In future, if you want to change the version, you just have to make the change inside a single file,
+
+133
+00:09:15,000 --> 00:09:19,000
+which is the easybom, pom.xml file.
+
+134
+00:09:19,000 --> 00:09:21,000
+I hope you are clear with the process.
+
+135
+00:09:21,000 --> 00:09:25,000
+Let's try to repeat the same process for one more microservice this time.
+
+136
+00:09:25,000 --> 00:09:29,000
+Maybe I'll open the pom.xml of the cards microservice.
+
+137
+00:09:29,000 --> 00:09:33,000
+I'm going to repeat the same steps so that it is going to be clear for you.
+
+138
+00:09:33,000 --> 00:09:41,000
+First, we need to remove the existing spring boot related parent and replace it with the easybom pom.xml
+
+139
+00:09:41,000 --> 00:09:46,000
+followed by we need to delete all these properties and under the dependencies.
+
+140
+00:09:46,000 --> 00:09:51,000
+We need to mention the correct total version property name.
+
+141
+00:09:51,000 --> 00:09:55,000
+So let me load the maven changes to resolve this error, followed by
+
+142
+00:09:55,000 --> 00:09:59,000
+I'm going to mention the same for micrometer as well.
+
+143
+00:09:59,000 --> 00:10:05,000
+For the micrometer, the property name is micrometer.version.
+
+144
+00:10:05,000 --> 00:10:06,000
+Let me scroll down further.
+
+145
+00:10:06,000 --> 00:10:11,000
+Here we have a h2 dependency which is a third party library.
+
+146
+00:10:11,000 --> 00:10:17,000
+I need to mention the exact version number by mentioning h2.version.
+
+147
+00:10:17,000 --> 00:10:20,000
+The same applies for the Lombok.
+
+148
+00:10:20,000 --> 00:10:24,000
+For the Lombok the property name is Lombok.version.
+
+149
+00:10:24,000 --> 00:10:32,000
+After mentioning the Lombok version, I'm going to mention the version number for the spring doc.
+
+150
+00:10:32,000 --> 00:10:37,000
+For the spring doc the property name is spring-doc.version.
+
+151
+00:10:37,000 --> 00:10:44,000
+Next I'm going to delete these spring cloud related dependency management and under the build, I'm
+
+152
+00:10:44,000 --> 00:10:49,000
+going to refer to the Google jib Group property which is jib.dot version.
+
+153
+00:10:49,000 --> 00:10:56,000
+I will also try to change the tag name by referring to the property which is image.tag.
+
+154
+00:10:56,000 --> 00:10:57,000
+I hope you are clear.
+
+155
+00:10:57,000 --> 00:11:04,000
+What we can do here is please try to pause the video and try to make the similar changes inside remaining
+
+156
+00:11:04,000 --> 00:11:05,000
+microservices.
+
+157
+00:11:05,000 --> 00:11:09,000
+I will also try to make these changes behind the scenes so that we can save some time here.
+
+158
+00:11:09,000 --> 00:11:17,000
+Okay, I hope you are successful in doing all the similar changes inside the remaining microservices
+
+159
+00:11:17,000 --> 00:11:17,000
+behind the scenes
+
+160
+00:11:17,000 --> 00:11:22,000
+I have also done the changes in all the microservices.
+
+161
+00:11:22,000 --> 00:11:30,000
+Now I can do a complete reload of all the Maven projects so that there are no compilation errors.
+
+162
+00:11:30,000 --> 00:11:37,000
+So since my entire build is successful, I'll try to start one of the microservices also just to make
+
+163
+00:11:37,000 --> 00:11:39,000
+sure everything is working.
+
+164
+00:11:39,000 --> 00:11:44,000
+So let me go to the config server which is the simplest microservice that I have.
+
+165
+00:11:44,000 --> 00:11:51,000
+So here I'll go to the main class, in case if you are wondering how I'm getting all these icons inside
+
+166
+00:11:51,000 --> 00:11:53,000
+my IDE, it's very easy
+
+167
+00:11:53,000 --> 00:11:58,000
+you just have to go to the plugins and you need to make sure that you are installing this plugin, which
+
+168
+00:11:58,000 --> 00:12:00,000
+is auto material icons.
+
+169
+00:12:00,000 --> 00:12:04,000
+Now let me try to start my config server service.
+
+170
+00:12:04,000 --> 00:12:10,000
+If you try to look at these logs of the config server, my service started successfully and it is right
+
+171
+00:12:10,000 --> 00:12:14,000
+now using a spring boot version 3.3.3.
+
+172
+00:12:14,000 --> 00:12:16,000
+So let me stop my config server.
+
+173
+00:12:16,000 --> 00:12:23,000
+What I'll do is, I'll try to test a small change to make sure everything is working fine.
+
+174
+00:12:23,000 --> 00:12:31,000
+I'll go to the pom.xml of the eazybom, and here I'll try to change the spring boot version to 3.3.2.
+
+175
+00:12:31,000 --> 00:12:33,000
+So let me save these changes.
+
+176
+00:12:33,000 --> 00:12:40,000
+Once I save this file, I'll go to the config server and I'll try to delete all these entire target
+
+177
+00:12:40,000 --> 00:12:46,000
+folder content so that I can reinitiate the maven loading process.
+
+178
+00:12:46,000 --> 00:12:51,000
+So let me click on this reload all Maven projects incrementally.
+
+179
+00:12:51,000 --> 00:12:58,000
+So with that the build is going to complete with the new spring boot version which is 3.3.2.
+
+180
+00:12:58,000 --> 00:13:02,000
+Let me try to start my config server application this time
+
+181
+00:13:02,000 --> 00:13:06,000
+you can see the microservice started with the version 3.3.2.
+
+182
+00:13:07,000 --> 00:13:12,000
+If this is not happening inside your local system, that might be due to the maven cache.
+
+183
+00:13:12,000 --> 00:13:17,000
+So please make sure you are doing the Maven reload multiple times.
+
+184
+00:13:17,000 --> 00:13:23,000
+Or please try to restart your IDE so that your Maven cache is going to be invalidated.
+
+185
+00:13:23,000 --> 00:13:28,000
+With this, I'm assuming you are clear on what we have done so far.
+
+186
+00:13:28,000 --> 00:13:34,000
+With the help of Bill of materials or with the help of bom, we are able to streamline the development
+
+187
+00:13:34,000 --> 00:13:36,000
+of the microservices.
+
+188
+00:13:36,000 --> 00:13:39,000
+Thank you and I'll catch you in the next lecture, bye.
+

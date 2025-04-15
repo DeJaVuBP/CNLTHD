@@ -1,0 +1,184 @@
+1
+00:00:00,000 --> 00:00:03,000
+Welcome back to the new section.
+
+2
+00:00:03,000 --> 00:00:09,000
+Inside this section, I'm going to focus on few advanced concepts of DevOps, the advanced topics that
+
+3
+00:00:09,000 --> 00:00:16,000
+we are going to discuss inside this section are usually practiced by many organizations in the real
+
+4
+00:00:16,000 --> 00:00:18,000
+production microservices environments.
+
+5
+00:00:18,000 --> 00:00:25,000
+As a developer, you don't have to learn in detail about these advanced concepts, but knowing them
+
+6
+00:00:25,000 --> 00:00:32,000
+on a high level will give you an advantage or edge inside your microservices interviews or in your own
+
+7
+00:00:32,000 --> 00:00:35,000
+day to day microservices work as well.
+
+8
+00:00:35,000 --> 00:00:39,000
+For example, think like you are attending an microservice interview.
+
+9
+00:00:39,000 --> 00:00:45,000
+If there is a question about a particular topic, usually you will try to tell the answer based upon
+
+10
+00:00:45,000 --> 00:00:49,000
+the developer perspective because you are a microservices developer.
+
+11
+00:00:49,000 --> 00:00:55,000
+On top of that, if you also add more details on what usually happened inside the production environment
+
+12
+00:00:55,000 --> 00:01:02,000
+by using various DevOps concepts, then definitely the person, whoever is interviewing you, will definitely
+
+13
+00:01:02,000 --> 00:01:06,000
+impressed by looking at your knowledge, even at that DevOps Advanced Concepts.
+
+14
+00:01:06,000 --> 00:01:13,000
+So one such advanced concept that I want to discuss inside this lecture is Kubernetes Ingress.
+
+15
+00:01:13,000 --> 00:01:20,000
+As of now, we learned how to expose our microservices with the help of Kubernetes Service object.
+
+16
+00:01:20,000 --> 00:01:25,000
+Like you can see here, this is the official documentation of Service object inside Kubernetes.
+
+17
+00:01:25,000 --> 00:01:31,000
+If you can scroll down, you will be able to see how to do the port definitions, how to map an application.
+
+18
+00:01:31,000 --> 00:01:34,000
+So all this information we already discussed.
+
+19
+00:01:34,000 --> 00:01:39,000
+But the new information that I want to show you here is if you can scroll down under the service type,
+
+20
+00:01:39,000 --> 00:01:42,000
+we have ClusterIP, NodePort and LoadBalancer.
+
+21
+00:01:42,000 --> 00:01:46,000
+We discuss about these three service types already inside this course.
+
+22
+00:01:46,000 --> 00:01:51,000
+But apart from these three, we also have one more service type, which is external name.
+
+23
+00:01:51,000 --> 00:01:58,000
+So if you try to click on this external name hyperlink, you will be navigated to that detailed documentation
+
+24
+00:01:58,000 --> 00:01:59,000
+of external name.
+
+25
+00:01:59,000 --> 00:02:02,000
+So under which scenarios we have to use the external name.
+
+26
+00:02:02,000 --> 00:02:09,000
+Whenever you want to map your service to one of the DNS name or domain name that your organization owns,
+
+27
+00:02:09,000 --> 00:02:14,000
+then in such scenarios we are going to use a service type as external name.
+
+28
+00:02:14,000 --> 00:02:21,000
+This will give flexibility to your Kubernetes admins to map your services to a specific domain name
+
+29
+00:02:21,000 --> 00:02:23,000
+that your organization owns.
+
+30
+00:02:23,000 --> 00:02:29,000
+This way, any client application who want to consume your microservices, they can simply forward the
+
+31
+00:02:29,000 --> 00:02:35,000
+request to the domain name that you have given to them and behind the scenes, this external name service
+
+32
+00:02:35,000 --> 00:02:40,000
+type available inside the Kubernetes cluster is going to take care of forwarding the request to the
+
+33
+00:02:40,000 --> 00:02:44,000
+corresponding pod or container inside your Kubernetes cluster.
+
+34
+00:02:44,000 --> 00:02:50,000
+This is one of the new information that I want to share about the service types inside Kubernetes.
+
+35
+00:02:50,000 --> 00:02:57,000
+As a next step, let me click on this ingress option that I have just below the service. Using Ingress
+
+36
+00:02:57,000 --> 00:03:04,000
+also, we can expose all our microservices to the outside of the cluster, but here you may have a question
+
+37
+00:03:04,000 --> 00:03:12,000
+like how load balancer is different from the ingress because you can clearly see Ingress is not available
+
+38
+00:03:12,000 --> 00:03:13,000
+inside the service.
+
+39
+00:03:13,000 --> 00:03:19,000
+Ingress itself is a separate topic or separate concept inside Kubernetes, so there has to be a difference
+
+40
+00:03:19,000 --> 00:03:22,000
+between service type load balancer and ingress.
+
+41
+00:03:22,000 --> 00:03:29,000
+So they are doing the same job, which is exposing the microservices to the outside of the Kubernetes
+
+42
+00:03:29,000 --> 00:03:29,000
+cluster.
+
+43
+00:03:29,000 --> 00:03:32,000
+So I know you may have many, many questions.
+
+44
+00:03:32,000 --> 00:03:37,000
+That's why let's try to focus on more details about Ingress in the next lecture.
+
+45
+00:03:37,000 --> 00:03:40,000
+I hope you are clear about the agenda of this section.
+
+46
+00:03:40,000 --> 00:03:43,000
+Thank you and I'll catch you in the next lecture bye.
+
