@@ -1,39 +1,24 @@
 package com.sagroup.teacherservice;
 
-import com.sagroup.teacherservice.Domain.*;
-import com.sagroup.teacherservice.Repository.TeacherRepository;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 import com.sagroup.teacherservice.config.ConfigFileExternalizationConfig;
-import org.springframework.data.rest.core.config.EnumTranslationConfiguration;
-import org.springframework.data.rest.core.config.MetadataConfiguration;
-import org.springframework.data.rest.core.config.ProjectionDefinitionConfiguration;
-import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+
 
 @SpringBootApplication
 @EnableDiscoveryClient
 @OpenAPIDefinition
 public class TeacherServiceApplication {
 
-	@Autowired
-	private TeacherRepository teacherRepository;
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(TeacherServiceApplication.class);
-
 
 	public static void main(String[] args) {
 		if (ConfigFileExternalizationConfig.createConfigFiles()
