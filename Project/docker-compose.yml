@@ -39,7 +39,7 @@ services:
       - mysql
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/school_db
-      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 123456
     ports:
       - "8084:8084"
@@ -54,7 +54,7 @@ services:
       - mysql
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/school_db
-      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 123456
     ports:
       - "8089:8089"

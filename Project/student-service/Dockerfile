@@ -1,4 +1,10 @@
-FROM openjdk:17-jdk-alpine
+FROM maven:3.8.5-openjdk-11 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+FROM openjdk:11-jdk-slim
 VOLUME /tmp
-COPY target/*.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"] 
