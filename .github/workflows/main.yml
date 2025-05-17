@@ -37,16 +37,15 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
+        cache-dependency-path: 'Project/frontend/package-lock.json'
     
     - name: Install Frontend Dependencies
-      run: |
-        cd Project/frontend
-        npm install
+      working-directory: Project/frontend
+      run: npm install
     
     - name: Build Frontend
-      run: |
-        cd Project/frontend
-        npm run build
+      working-directory: Project/frontend
+      run: npm run build
     
     - name: Run Tests
       run: |
