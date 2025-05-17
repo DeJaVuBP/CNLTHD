@@ -22,7 +22,7 @@ jobs:
     
     - name: Build Backend Services
       run: |
-        cd student-service && ./mvnw clean package -DskipTests
+        cd Project/student-service && ./mvnw clean package -DskipTests
         cd ../teacher-service && ./mvnw clean package -DskipTests
         cd ../user-service && ./mvnw clean package -DskipTests
     
@@ -34,16 +34,16 @@ jobs:
     
     - name: Install Frontend Dependencies
       run: |
-        cd frontend
+        cd Project/frontend
         npm install
     
     - name: Build Frontend
       run: |
-        cd frontend
+        cd Project/frontend
         npm run build
     
     - name: Run Tests
       run: |
-        cd student-service && ./mvnw test
+        cd Project/student-service && ./mvnw test
         cd ../teacher-service && ./mvnw test
         cd ../user-service && ./mvnw test 
