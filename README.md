@@ -23,6 +23,9 @@
 ## IV. Chọn công nghệ Java SpringBoot
 - Các thành viên trong nhóm tìm hiểu về **Java SpringBoot**.
 
+## Source code project: Branch Main
+## Udemy: Branch BinhPhuoc, ThanhNhan, VanKiet
+
 ## Bảng phân công
 - Vũ Bình Phước - Build Student Service và Frontend StudentManagement, HomeStudent, AddStudent, EditStudent, ViewScore. Khóa học Udemy.
 - Phạm Thanh Nhân - Build Teacher Service và Frontend TeacherManagement, HomeTeacher, AddTeacher, EditTeacher, EditScore. Khóa học Udemy.
