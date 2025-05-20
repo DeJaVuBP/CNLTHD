@@ -24,6 +24,6 @@
 - Các thành viên trong nhóm tìm hiểu về **Java SpringBoot**.
 
 ## Bảng phân công
-Vũ Bình Phước - Build Student Service và Frontend StudentManagement, HomeStudent, AddStudent, EditStudent, ViewScore. Khóa học Udemy.
-Phạm Thanh Nhân - Build Teacher Service và Frontend TeacherManagement, HomeTeacher, AddTeacher, EditTeacher, EditScore. Khóa học Udemy.
-Nguyễn Văn Kiệt - Build User Service (Xử lý phân quyền, tạo account, check email, xử lý JWT token) và Frontend Login, ResetPassword, ChangePassword, InfoTeacher, InfoStudent. Khóa học Udemy.
+- Vũ Bình Phước - Build Student Service và Frontend StudentManagement, HomeStudent, AddStudent, EditStudent, ViewScore. Khóa học Udemy.
+- Phạm Thanh Nhân - Build Teacher Service và Frontend TeacherManagement, HomeTeacher, AddTeacher, EditTeacher, EditScore. Khóa học Udemy.
+- Nguyễn Văn Kiệt - Build User Service (Xử lý phân quyền, tạo account, check email, xử lý JWT token) và Frontend Login, ResetPassword, ChangePassword, InfoTeacher, InfoStudent. Khóa học Udemy.
